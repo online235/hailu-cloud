@@ -7,11 +7,12 @@
         <artifactId>cloud</artifactId>
         <version>v1.0.0</version>
     </parent>
-    <groupId>com.hailu.cloud</groupId>
-    <artifactId>api-auth</artifactId>
+    <groupId>com.hailu.api</groupId>
+    <artifactId>api-notify</artifactId>
     <version>v1.0.0</version>
-    <name>api-auth</name>
-    <description>登录认证授权服务</description>
+    <name>api-notify</name>
+    <packaging>jar</packaging>
+    <description>通知服务</description>
 
     <dependencies>
         <dependency>
@@ -33,6 +34,15 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hailu.cloud</groupId>
+            <artifactId>common</artifactId>
+            <version>v1.0.0</version>
         </dependency>
     </dependencies>
 

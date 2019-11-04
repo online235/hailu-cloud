@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.mall;
+package com.hailu.cloud.api.notify;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author zhijie
  */
 @SpringBootApplication(scanBasePackages = {"com.hailu.cloud"})
-public class ApiMallApplication {
+public class NotifyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApiMallApplication.class, args);
+        SpringApplication.run(NotifyApplication.class, args);
     }
 
 }

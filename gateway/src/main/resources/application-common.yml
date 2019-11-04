@@ -16,3 +16,4 @@ mapping:
     service-api-auth: 海露认证服务-接口文档
     service-api-admin: 海露后台管理系统-接口文档
     service-api-mall: 海露商城-接口文档
+    service-api-notify: 海露通知服务-接口文档

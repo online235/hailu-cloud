@@ -6,7 +6,6 @@
         <groupId>com.hailu</groupId>
         <artifactId>cloud</artifactId>
         <version>v1.0.0</version>
-        <relativePath/>
     </parent>
     <groupId>com.hailu.cloud</groupId>
     <artifactId>api-mall</artifactId>

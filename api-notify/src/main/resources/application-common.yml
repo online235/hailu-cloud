@@ -1,0 +1,24 @@
+server:
+  port: 34000
+  servlet:
+    context-path: /api/v1/notify
+spring:
+  application:
+    name: service-api-notify
+  cloud:
+    consul:
+      discovery:
+        register: true
+        heartbeat:
+          enabled: true
+        tags: desc=海露通知接口
+  mail:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+mail:
+  sender: 默认邮件发送人

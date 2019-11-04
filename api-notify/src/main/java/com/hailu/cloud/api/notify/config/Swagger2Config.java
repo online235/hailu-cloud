@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.mall.config;
+package com.hailu.cloud.api.notify.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,7 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         Contact contact = new Contact("海露", "https://www.hailu1688.com", "zhijie_94@163.com");
         return new ApiInfoBuilder()
-                .title("海露商城")
+                .title("海露通知服务")
                 .description("接口文档")
                 .contact(contact)
                 .version("v1.0.0")

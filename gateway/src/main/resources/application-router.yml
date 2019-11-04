@@ -20,3 +20,9 @@ spring:
             - Path=/api/v1/mall/**
           filters:
             - SwaggerHeaderFilter
+        - id: service-api-notify
+          uri: lb://service-api-notify
+          predicates:
+            - Path=/api/v1/notify/**
+          filters:
+            - SwaggerHeaderFilter
