@@ -12,3 +12,9 @@ spring:
         heartbeat:
           enabled: true
         tags: desc=后台管理接口
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 6000

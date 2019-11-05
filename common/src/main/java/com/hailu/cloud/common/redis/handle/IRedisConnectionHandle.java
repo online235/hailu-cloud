@@ -2,6 +2,8 @@ package com.hailu.cloud.common.redis.handle;
 
 /**
  * redis获取连接后处理相关逻辑
+ *
+ * @author zhijie
  */
 public interface IRedisConnectionHandle<T> {
 

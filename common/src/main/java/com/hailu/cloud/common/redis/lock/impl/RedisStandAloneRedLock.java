@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * redis锁-单机版
+ *
+ * @author zhijie
  */
 @Slf4j
 public class RedisStandAloneRedLock implements IRedisRedLock {
@@ -21,7 +23,7 @@ public class RedisStandAloneRedLock implements IRedisRedLock {
     /**
      * 分布式锁前缀
      */
-    private String lockNamePrefix = "DISTRIBUTED_RED_LOCK_";
+    private static final String LOCK_NAME_PREFIX = "STAND_ALONE_RED_LOCK_";
 
     /**
      * redis host
@@ -43,6 +45,7 @@ public class RedisStandAloneRedLock implements IRedisRedLock {
 
     private RedissonClient redissonClient;
 
+    @Override
     public void initConfigure() throws Exception {
         if (StringUtils.isBlank(hostname)) {
             throw new Exception("redis hostname is null");
@@ -65,8 +68,9 @@ public class RedisStandAloneRedLock implements IRedisRedLock {
      * @param callback 成功获取锁后回调
      * @return true 执行成功、 false执行失败
      */
+    @Override
     public boolean lock(String lockName, Runnable callback) {
-        RLock redLock = redissonClient.getLock(this.lockNamePrefix + lockName);
+        RLock redLock = redissonClient.getLock(LOCK_NAME_PREFIX + lockName);
         boolean isLock = false;
         try {
             // 500ms拿不到锁, 就认为获取锁失败。10000ms即10s是锁失效时间。

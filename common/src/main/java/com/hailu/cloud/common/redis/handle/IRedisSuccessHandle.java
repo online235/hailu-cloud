@@ -1,9 +1,9 @@
 package com.hailu.cloud.common.redis.handle;
 
-import redis.clients.jedis.Jedis;
-
 /**
  * redis成功后处理相关逻辑
+ *
+ * @author zhijie
  */
 public interface IRedisSuccessHandle<T> {
 

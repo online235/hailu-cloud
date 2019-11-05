@@ -1,0 +1,10 @@
+sms:
+  free:
+    server:
+      sname: dlhqin00
+      spwd: Ha999999
+      scorpid:
+      sprdid: 1012888
+      sms-prefix: 【海露物联】
+      # 免费短信接口地址
+      address: http://api.51welink.com

@@ -9,7 +9,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=海露商城接口
+        tags: desc=网关
 
 mapping:
   swaggerDocs:
@@ -17,3 +17,9 @@ mapping:
     service-api-admin: 海露后台管理系统-接口文档
     service-api-mall: 海露商城-接口文档
     service-api-notify: 海露通知服务-接口文档
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 6000

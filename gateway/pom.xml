@@ -14,10 +14,10 @@
     <description>网关</description>
 
     <dependencies>
-        <!-- 容器 -->
+        <!-- 网关 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
         <!-- 服务注册与发现 -->
         <dependency>

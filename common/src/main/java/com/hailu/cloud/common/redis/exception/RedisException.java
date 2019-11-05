@@ -2,6 +2,8 @@ package com.hailu.cloud.common.redis.exception;
 
 /**
  * redis异常
+ *
+ * @author zhijie
  */
 public class RedisException extends Exception {
 

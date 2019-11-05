@@ -1,9 +1,16 @@
 package com.hailu.cloud.common.redis.lock;
 
+/**
+ * redis 锁
+ *
+ * @author zhijie
+ */
 public interface IRedisRedLock {
 
     /**
      * 初始化配置
+     *
+     * @throws Exception
      */
     void initConfigure() throws Exception;
 
