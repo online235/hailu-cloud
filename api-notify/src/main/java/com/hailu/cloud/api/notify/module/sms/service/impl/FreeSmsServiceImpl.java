@@ -1,8 +1,9 @@
-package com.hailu.cloud.api.notify.module.sms.service;
+package com.hailu.cloud.api.notify.module.sms.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.hailu.cloud.api.notify.module.sms.client.SmsFeignClient;
 import com.hailu.cloud.api.notify.module.sms.model.SmsModel;
+import com.hailu.cloud.api.notify.module.sms.service.ISmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

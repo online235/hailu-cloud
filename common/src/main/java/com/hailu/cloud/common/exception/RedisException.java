@@ -1,4 +1,4 @@
-package com.hailu.cloud.common.redis.exception;
+package com.hailu.cloud.common.exception;
 
 /**
  * redis异常

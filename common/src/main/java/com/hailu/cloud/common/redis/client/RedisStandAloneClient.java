@@ -1,7 +1,7 @@
 package com.hailu.cloud.common.redis.client;
 
 import com.hailu.cloud.common.redis.enums.RedisEnum;
-import com.hailu.cloud.common.redis.exception.RedisException;
+import com.hailu.cloud.common.exception.RedisException;
 import com.hailu.cloud.common.redis.handle.IRedisConnectionHandle;
 import com.hailu.cloud.common.redis.handle.IRedisSuccessHandle;
 import com.hailu.cloud.common.redis.handle.IRedisSuccessResultHandle;
@@ -27,13 +27,13 @@ public class RedisStandAloneClient {
      * 主机
      **/
     @Setter
-    private String hostname;
+    private String hostname = "localhost";
 
     /**
      * 端口
      **/
     @Setter
-    private int port;
+    private int port = 6379;
 
     /**
      * 密码
@@ -45,31 +45,31 @@ public class RedisStandAloneClient {
      * 最大闲置连接数
      */
     @Setter
-    private int maxIdle;
+    private int maxIdle = 10;
 
     /**
      * 资源池确保最少空闲的连接数
      */
     @Setter
-    private int minIdle;
+    private int minIdle = 5;
 
     /**
      * 连接超时时间
      */
     @Setter
-    private int connTimeout;
+    private int connTimeout = 2000;
 
     /**
      * 资源池中最大连接数
      */
     @Setter
-    private int maxTotal;
+    private int maxTotal = 20;
 
     /**
      * 当资源池连接用尽后，调用者的最大等待时间(单位为毫秒)
      */
     @Setter
-    private int maxWaitMillis;
+    private int maxWaitMillis = 2000;
 
     /**
      * redis连接池
@@ -93,6 +93,7 @@ public class RedisStandAloneClient {
         config = new JedisPoolConfig();
         // 空闲的jedis实例, 默认值是5.
         config.setMaxIdle(this.maxIdle);
+        config.setMinIdle(this.minIdle);
         // 可用连接实例的最大数目, 默认为8
         config.setMaxTotal(this.maxTotal);
         // 当资源池用尽后，调用者是否要等待。只有当为true时，下面的maxWaitMillis才会生效
@@ -186,26 +187,13 @@ public class RedisStandAloneClient {
     private Jedis getConn() {
         Jedis jedis = null;
         // 最大尝试三次连接
-        int maxTry = 3;
         int tryNum = 0;
         while (true) {
             try {
-                if (tryNum > maxTry) {
-                    log.error("获取redis连接失败！");
-                    break;
-                }
                 if (this.jedisPool == null) {
                     // 如果为空则初始化
                     initPool();
                 }
-                if (this.jedisPool == null) {
-                    // 经过初始化还是为空，一秒后重试
-                    tryNum++;
-                    log.warn("redis无法连接，1秒后重试。{}/" + maxTry, tryNum);
-                    ThreadTool.sleep(1000);
-                    continue;
-                }
-
                 jedis = this.jedisPool.getResource();
                 if (jedis == null || !jedis.isConnected()) {
                     log.error("获取redis连接失败！");
@@ -216,9 +204,14 @@ public class RedisStandAloneClient {
                 return jedis;
             } catch (Exception e) {
                 // 休眠1秒后重试
+                tryNum++;
+                if (tryNum > maxTry) {
+                    log.error("获取redis连接失败！");
+                    break;
+                }
+                log.error("redis无法连接[{}:{}]，1秒后重试。{}/" + maxTry, this.hostname, this.port, tryNum);
                 ThreadTool.sleep(1000);
             }
-            tryNum++;
         }
         return jedis;
     }
