@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.notify.module.sms.controller;
 
-import com.hailu.cloud.api.notify.module.sms.model.SmsModel;
 import com.hailu.cloud.api.notify.module.sms.service.ISmsService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.response.ApiResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * @author zhijie
@@ -37,16 +38,17 @@ public class SmsController {
             "}" +
             "</pre>")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "phone", value = "手机号码", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "message", value = "短信内容", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "phone", required = true, value = "手机号码", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "message", required = true, value = "短信内容", paramType = "query", dataType = "String"),
     })
     @GetMapping("/send/free")
     public ApiResponse send(
-            @NotBlank(message = "手机号码不能为空") String phone,
-            @NotBlank(message = "短信内容不能为空") String message) {
+            @NotBlank(message = "手机号码不能为空")
+            @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
+            @NotBlank(message = "短信内容不能为空") String message) throws BusinessException {
 
-        SmsModel smsModel = freeSmsService.send(phone, message);
-        return smsModel.getState() == 0 ? ApiResponse.result() : ApiResponse.abnormalParameter(smsModel.getMsgState());
+        freeSmsService.send(phone, message);
+        return ApiResponse.result();
     }
 
 }

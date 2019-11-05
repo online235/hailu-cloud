@@ -2,10 +2,10 @@ package com.hailu.cloud.api.notify.module.mail.service.impl;
 
 import com.hailu.cloud.api.notify.module.mail.model.MailModel;
 import com.hailu.cloud.api.notify.module.mail.service.IMailService;
+import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 
 /**
  * @author zhijie
@@ -34,7 +33,7 @@ public class MailServiceImpl implements IMailService {
      * @param mailModel
      */
     @Override
-    public boolean sendSimpleMail(MailModel mailModel) {
+    public void sendSimpleMail(MailModel mailModel) throws BusinessException {
         try {
             SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
             //邮件发送人
@@ -53,11 +52,9 @@ public class MailServiceImpl implements IMailService {
                 simpleMailMessage.setBcc(mailModel.getBcc());
             }
             javaMailSender.send(simpleMailMessage);
-            return true;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            throw new BusinessException("邮件发送失败", e);
         }
-        return false;
     }
 
     /**
@@ -66,7 +63,7 @@ public class MailServiceImpl implements IMailService {
      * @param mailModel
      */
     @Override
-    public boolean sendHtmlMail(MailModel mailModel) {
+    public void sendHtmlMail(MailModel mailModel) throws BusinessException {
         try {
             MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage, true);
@@ -83,11 +80,9 @@ public class MailServiceImpl implements IMailService {
                 mimeMessageHelper.setBcc(mailModel.getBcc());
             }
             javaMailSender.send(mimeMailMessage);
-            return true;
         } catch (Exception e) {
-            log.error("邮件发送失败", e.getMessage());
+            throw new BusinessException("邮件发送失败", e);
         }
-        return false;
     }
 
 }

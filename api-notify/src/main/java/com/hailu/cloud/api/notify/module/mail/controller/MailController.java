@@ -2,6 +2,7 @@ package com.hailu.cloud.api.notify.module.mail.controller;
 
 import com.hailu.cloud.api.notify.module.mail.model.MailModel;
 import com.hailu.cloud.api.notify.module.mail.service.IMailService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.response.ApiResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,9 +36,9 @@ public class MailController {
             "}" +
             "</pre>")
     @PostMapping("/send/simple")
-    public ApiResponse sendSimpleMail(@Valid MailModel mailModel) {
-        boolean success = mailService.sendSimpleMail(mailModel);
-        return success ? ApiResponse.result() : ApiResponse.abnormalParameter("邮件发送失败");
+    public ApiResponse sendSimpleMail(@Valid MailModel mailModel) throws BusinessException {
+        mailService.sendSimpleMail(mailModel);
+        return ApiResponse.result();
     }
 
     @ApiOperation(value = "发送HTML格式邮件", notes = "<pre>" +
@@ -48,9 +49,9 @@ public class MailController {
             "}" +
             "</pre>")
     @PostMapping("/send/html")
-    public ApiResponse sendHtmlMail(@Valid MailModel mailModel) {
-        boolean success = mailService.sendHtmlMail(mailModel);
-        return success ? ApiResponse.result() : ApiResponse.abnormalParameter("邮件发送失败");
+    public ApiResponse sendHtmlMail(@Valid MailModel mailModel) throws BusinessException {
+        mailService.sendHtmlMail(mailModel);
+        return ApiResponse.result();
     }
 
 }

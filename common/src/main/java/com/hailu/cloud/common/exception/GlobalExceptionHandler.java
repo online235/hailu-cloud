@@ -102,4 +102,15 @@ public class GlobalExceptionHandler {
         return ApiResponse.abnormalParameter(ex.getMessage());
     }
 
+    /**
+     * 业务异常
+     */
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ApiResponse handleBusinessException(BusinessException ex) {
+        log.error(ex.getMessage(), ex);
+        return ApiResponse.abnormalParameter(ex.getMessage());
+    }
+
 }
