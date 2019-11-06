@@ -1,10 +1,13 @@
 package com.hailu.cloud.api.auth.config;
 
+import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -25,7 +28,10 @@ public class Swagger2Config {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.hailu.cloud"))
                 .paths(PathSelectors.any())
-                .build();
+                .build()
+                .globalOperationParameters(Lists.newArrayList(
+                        new ParameterBuilder().name("Access-token").modelRef(new ModelRef("string")).parameterType("header").required(false).build()
+                ));
     }
 
     private ApiInfo apiInfo() {

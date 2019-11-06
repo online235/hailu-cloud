@@ -1,5 +1,6 @@
-package com.hailu.cloud.gateway.config;
+package com.hailu.cloud.gateway.filter;
 
+import com.hailu.cloud.gateway.config.SwaggerProvider;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;

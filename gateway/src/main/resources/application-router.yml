@@ -6,23 +6,17 @@ spring:
           uri: lb://service-api-auth
           predicates:
             - Path=/api/v1/auth/**
-          filters:
-            - SwaggerHeaderFilter
         - id: service-api-admin
           uri: lb://service-api-admin
           predicates:
             - Path=/api/v1/admin/**
-          filters:
-            - SwaggerHeaderFilter
         - id: service-api-mall
           uri: lb://service-api-mall
           predicates:
             - Path=/api/v1/mall/**
-          filters:
-            - SwaggerHeaderFilter
         - id: service-api-notify
           uri: lb://service-api-notify
           predicates:
             - Path=/api/v1/notify/**
-          filters:
-            - SwaggerHeaderFilter
+      default-filters:
+        - SwaggerHeaderFilter

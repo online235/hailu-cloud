@@ -34,7 +34,8 @@ public final class Constant {
      * TOKEN_STORE:5775b772b5cb4206bdc74f3cb74eaaf3
      * TOKEN_STORE:5f3b4d496062443b83feccb67d7733ac
      */
-    public static final String REFRESH_TOKEN_STORE = "TOKEN_STORE:";
+    public static final String REDIS_KEY_REFRESH_TOKEN_STORE = "TOKEN_STORE:";
 
     // endregion
+
 }

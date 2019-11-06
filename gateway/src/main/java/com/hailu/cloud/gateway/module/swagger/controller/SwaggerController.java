@@ -1,4 +1,4 @@
-package com.hailu.cloud.gateway.module.controller;
+package com.hailu.cloud.gateway.module.swagger.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/swagger-resources")
-public class SwaggerHandler {
+public class SwaggerController {
 
     @Autowired(required = false)
     private SecurityConfiguration securityConfiguration;

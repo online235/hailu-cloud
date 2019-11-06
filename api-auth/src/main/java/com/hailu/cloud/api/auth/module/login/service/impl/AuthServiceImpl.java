@@ -42,7 +42,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public String refreshAccessToken(String refreshToken) throws BusinessException {
-        String refreshTokenRedisKey = Constant.REFRESH_TOKEN_STORE + refreshToken;
+        String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + refreshToken;
         // 获取存储于redis中的用户信息
         String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {
@@ -86,7 +86,7 @@ public class AuthServiceImpl implements IAuthService {
         authInfo.setRefreshToken(IdUtil.simpleUUID());
         authInfo.setRefreshTokenExpire(refreshTokenExpire.getTime());
         // 保存到redis
-        String refreshTokenRedisKey = Constant.REFRESH_TOKEN_STORE + authInfo.getRefreshToken();
+        String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + authInfo.getRefreshToken();
         String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + authInfo.getAccessToken();
         String authJson = JSON.toJSONString(authInfo);
         redisClient.stringSet(accessTokenRedisKey, authJson);
@@ -96,7 +96,7 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void logout(String refreshToken) {
-        String refreshTokenRedisKey = Constant.REFRESH_TOKEN_STORE + refreshToken;
+        String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + refreshToken;
         String accessToken = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(accessToken)) {
             // 不存在refresh直接返回
