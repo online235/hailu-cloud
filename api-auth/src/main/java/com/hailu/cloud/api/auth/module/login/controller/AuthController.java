@@ -28,14 +28,16 @@ public class AuthController {
     @Autowired
     private IAuthService authService;
 
-    @ApiOperation(value = "刷新Token", notes = "<pre>" +
+    @ApiOperation(value = "刷新accessToken", notes = "<pre>" +
             "{\n" +
             "  'code': 200,\n" +
             "  'message': null,\n" +
             "  'data': null\n" +
             "}" +
             "</pre>")
-    @ApiImplicitParam(name = "refreshToken", required = true, paramType = "path", dataType = "String")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "refreshToken", required = true, paramType = "path", dataType = "String")
+    })
     @GetMapping("/token/refresh/{refreshToken}")
     public ApiResponse refreshToken(
             @PathVariable("refreshToken")
@@ -44,7 +46,7 @@ public class AuthController {
         return ApiResponse.result(authService.refreshAccessToken(refreshToken));
     }
 
-    @ApiOperation(value = "验证码登录", notes = "<pre>" +
+    @ApiOperation(value = "验证码登录-心安&商城会员使用", notes = "<pre>" +
             "{\n" +
             "  'code': 200,\n" +
             "  'message': null,\n" +
@@ -72,13 +74,13 @@ public class AuthController {
             "  'data': null\n" +
             "}" +
             "</pre>")
-    @ApiImplicitParam(name = "accessToken", required = true, paramType = "path", dataType = "String")
-    @GetMapping("/logout/{accessToken}")
+    @ApiImplicitParam(name = "refreshToken", required = true, paramType = "path", dataType = "String")
+    @GetMapping("/logout/{refreshToken}")
     public ApiResponse logout(
-            @PathVariable("accessToken")
-            @NotBlank(message = "accessToken不能为空") String accessToken) {
+            @PathVariable("refreshToken")
+            @NotBlank(message = "refreshToken不能为空") String refreshToken) {
 
-        authService.logout(accessToken);
+        authService.logout(refreshToken);
         return ApiResponse.result();
     }
 

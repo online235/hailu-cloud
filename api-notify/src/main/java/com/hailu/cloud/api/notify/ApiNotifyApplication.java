@@ -11,10 +11,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = {"com.hailu.cloud"})
-public class NotifyApplication {
+public class ApiNotifyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NotifyApplication.class, args);
+        SpringApplication.run(ApiNotifyApplication.class, args);
     }
 
 }

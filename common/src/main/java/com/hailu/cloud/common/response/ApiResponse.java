@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import javax.validation.ConstraintViolation;
 import java.util.HashMap;
@@ -18,15 +17,15 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ApiResponse {
+public class ApiResponse<T> {
 
     private int code;
 
     private String message;
 
-    private Object data;
+    private T data;
 
-    public ApiResponse(ApiResponseEnum responseEnum, Object data) {
+    public ApiResponse(ApiResponseEnum responseEnum, T data) {
         this.code = responseEnum.getResponseCode();
         this.data = data;
     }

@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.auth.config;
+package com.hailu.cloud.api.notify.config;
 
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import org.apache.commons.lang3.StringUtils;

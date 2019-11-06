@@ -1,7 +1,7 @@
 package com.hailu.cloud.common.redis.client;
 
-import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.exception.RedisException;
+import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.redis.handle.IRedisConnectionHandle;
 import com.hailu.cloud.common.redis.handle.IRedisSuccessHandle;
 import com.hailu.cloud.common.redis.handle.IRedisSuccessResultHandle;
@@ -225,7 +225,7 @@ public class RedisStandAloneClient {
      *
      * @param jedis redis连接
      * @param key   redis key
-     * @param time  过期时间
+     * @param time  过期时间 单位:秒
      * @return
      */
     public boolean expire(Jedis jedis, String key, int time) {
@@ -242,7 +242,7 @@ public class RedisStandAloneClient {
      * 设置redis过期时间
      *
      * @param key  redis key
-     * @param time 过期时间
+     * @param time 过期时间 单位:秒
      * @return
      */
     public boolean expire(String key, int time) {
@@ -254,7 +254,7 @@ public class RedisStandAloneClient {
      *
      * @param db   db
      * @param key  redis key
-     * @param time 过期时间
+     * @param time 过期时间 单位:秒
      * @return
      */
     public boolean expire(int db, String key, int time) {
@@ -321,7 +321,7 @@ public class RedisStandAloneClient {
      * @param db    redis db
      * @param key   redis key
      * @param value redis value
-     * @param time  过期时间
+     * @param time  过期时间 单位:秒
      * @return
      */
     public Boolean stringSet(int db, String key, String value, int time) {
@@ -384,7 +384,7 @@ public class RedisStandAloneClient {
      * @param key   redis key
      * @param field hash field
      * @param value value
-     * @param time  过期时间
+     * @param time  过期时间 单位:秒
      * @return
      */
     public Boolean hashSet(String key, String field, String value, int time) {
@@ -398,7 +398,7 @@ public class RedisStandAloneClient {
      * @param key   redis key
      * @param field hash field
      * @param value value
-     * @param time  过期时间
+     * @param time  过期时间 单位:秒
      * @return
      */
     public Boolean hashSet(int db, String key, String field, String value, int time) {

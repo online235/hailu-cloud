@@ -12,6 +12,24 @@ spring:
         heartbeat:
           enabled: true
         tags: desc=登录授权认证接口
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      validation-query: select 1
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      use-global-data-source-stat: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filter: stat,wall,log4j
+      initial-size: 10
 redis:
-  hostname: localhost
+  hostname: 192.168.10.243
   port: 6379
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.hailu.cloud.api.*.module.*.entity
+  mapper-locations: classpath*:/com/hailu/cloud/api/**/*Mapper.xml

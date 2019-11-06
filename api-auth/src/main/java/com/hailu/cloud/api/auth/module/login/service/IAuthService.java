@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.auth.module.login.service;
 
+import com.hailu.cloud.api.auth.module.login.model.MemberModel;
 import com.hailu.cloud.common.exception.BusinessException;
 
 /**
@@ -24,14 +25,14 @@ public interface IAuthService {
      * @return
      * @throws BusinessException
      */
-    String login(String phone, String code) throws BusinessException;
+    MemberModel login(String phone, String code) throws BusinessException;
 
     /**
      * 退出登录
      *
-     * @param accessToken
+     * @param refreshToken
      * @return
      */
-    void logout(String accessToken);
+    void logout(String refreshToken);
 
 }

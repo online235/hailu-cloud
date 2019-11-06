@@ -20,6 +20,9 @@ spring:
           starttls:
             enable: true
             required: true
+redis:
+  hostname: 192.168.10.243
+  port: 6379
 
 feign:
   hystrix:
