@@ -3,7 +3,7 @@ package com.hailu.cloud.api.auth.module.login.controller;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
-import com.hailu.cloud.common.response.ApiResponse;
+import com.hailu.cloud.common.model.MemberModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -40,11 +40,11 @@ public class AuthController {
             @ApiImplicitParam(name = "refreshToken", required = true, paramType = "path", dataType = "String")
     })
     @GetMapping("/token/refresh/{refreshToken}")
-    public ApiResponse refreshToken(
+    public String refreshToken(
             @PathVariable("refreshToken")
             @NotBlank(message = "refreshToken不能为空") String refreshToken) throws RefreshTokenExpiredException {
 
-        return ApiResponse.result(authService.refreshAccessToken(refreshToken));
+        return authService.refreshAccessToken(refreshToken);
     }
 
     @ApiOperation(value = "验证码登录-心安&商城会员使用", notes = "<pre>" +
@@ -59,13 +59,13 @@ public class AuthController {
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query", dataType = "String")
     })
     @PostMapping("/login")
-    public ApiResponse login(
+    public MemberModel login(
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
             @NotBlank(message = "验证码不能为空")
             @Pattern(regexp = "^\\d{6}$", message = "验证码格式不正确") String code) throws BusinessException {
 
-        return ApiResponse.result(authService.login(phone, code));
+        return authService.login(phone, code);
     }
 
     @ApiOperation(value = "退出登录", notes = "<pre>" +
@@ -77,12 +77,11 @@ public class AuthController {
             "</pre>")
     @ApiImplicitParam(name = "refreshToken", required = true, paramType = "path", dataType = "String")
     @GetMapping("/logout/{refreshToken}")
-    public ApiResponse logout(
+    public void logout(
             @PathVariable("refreshToken")
             @NotBlank(message = "refreshToken不能为空") String refreshToken) {
 
         authService.logout(refreshToken);
-        return ApiResponse.result();
     }
 
 }

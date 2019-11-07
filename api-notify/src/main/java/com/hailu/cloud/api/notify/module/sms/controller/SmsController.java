@@ -4,7 +4,6 @@ import com.hailu.cloud.api.notify.module.sms.service.ISmsService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.response.ApiResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -55,13 +54,12 @@ public class SmsController {
             @ApiImplicitParam(name = "message", required = true, value = "短信内容", paramType = "query", dataType = "String"),
     })
     @GetMapping("/send/free")
-    public ApiResponse send(
+    public void send(
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
             @NotBlank(message = "短信内容不能为空") String message) throws BusinessException {
 
         freeSmsService.send(phone, message);
-        return ApiResponse.result();
     }
 
     @ApiOperation(value = "发送短信验证码", notes = "<pre>" +
@@ -76,7 +74,7 @@ public class SmsController {
             @ApiImplicitParam(name = "vericode", required = true, value = "验证码", paramType = "query", dataType = "String"),
     })
     @GetMapping("/send/free/vericode")
-    public ApiResponse sendVeriCode(
+    public void sendVeriCode(
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
             @NotBlank(message = "验证码不能为空")
@@ -84,7 +82,6 @@ public class SmsController {
 
         freeSmsService.send(phone, this.vericodeTemplate.replace("{0}", vericode));
         redisStandAloneClient.stringSet(Constant.REDIS_KEY_VERIFICATION_CODE + phone, vericode, this.vericodeExpire);
-        return ApiResponse.result();
     }
 
 }

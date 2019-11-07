@@ -12,7 +12,7 @@ public class RedisStandAloneClientTest {
 
     @Test
     @DisplayName("字符串保存与获取")
-    public void getAndSetStringTest(){
+    public void getAndSetStringTest() {
         RedisStandAloneClient client = new RedisStandAloneClient();
         client.initConfigure();
 

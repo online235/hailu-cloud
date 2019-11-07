@@ -1,6 +1,7 @@
 package com.hailu.cloud.gateway;
 
 import com.hailu.cloud.common.exception.GlobalExceptionHandler;
+import com.hailu.cloud.common.wrap.ApiResponseWrapConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,7 +19,8 @@ import org.springframework.context.annotation.FilterType;
         basePackages = {"com.hailu.cloud"},
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-                        GlobalExceptionHandler.class
+                        GlobalExceptionHandler.class,
+                        ApiResponseWrapConfig.class
                 })
         }
 )
