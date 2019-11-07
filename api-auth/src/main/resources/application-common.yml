@@ -24,9 +24,6 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
       filter: stat,wall,log4j
       initial-size: 10
-redis:
-  hostname: 192.168.10.243
-  port: 6379
 
 mybatis:
   configuration:

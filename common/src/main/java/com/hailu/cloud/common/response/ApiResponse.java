@@ -68,12 +68,20 @@ public class ApiResponse<T> {
         return response;
     }
 
+    public static ApiResponse accessTokenExpired() {
+        return new ApiResponse(ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
+    }
+
+    public static ApiResponse refreshTokenExpired() {
+        return new ApiResponse(ApiResponseEnum.REFRESH_TOKEN_EXPIRED);
+    }
+
     public static ApiResponse requestError(BindingResult bindingResult) {
         Map<String, String> errorMap = new HashMap<>(bindingResult.getErrorCount());
         bindingResult.getFieldErrors().forEach(error -> {
             errorMap.put(error.getField(), error.getDefaultMessage());
         });
-        ApiResponse response = new ApiResponse(ApiResponseEnum.REQUEST_ERROR);
+        ApiResponse response = new ApiResponse(ApiResponseEnum.PARAMETER_CONSTRAINT_VIOLATION_ERROR);
         response.setMessage(JSON.toJSONString(errorMap));
         return response;
     }
@@ -83,7 +91,7 @@ public class ApiResponse<T> {
         for (ConstraintViolation violation : constraintViolations) {
             builder.append(violation.getMessage()).append(",").append(violation.getInvalidValue()).append(";");
         }
-        ApiResponse response = new ApiResponse(ApiResponseEnum.REQUEST_ERROR);
+        ApiResponse response = new ApiResponse(ApiResponseEnum.PARAMETER_CONSTRAINT_VIOLATION_ERROR);
         response.setMessage(builder.toString());
         return response;
     }

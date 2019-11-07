@@ -7,14 +7,16 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hailu.cloud.api.auth.module.login.dao.MemberMapper;
-import com.hailu.cloud.api.auth.module.login.model.MemberModel;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
 import com.hailu.cloud.common.model.AuthInfo;
+import com.hailu.cloud.common.model.MemberModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -40,36 +42,56 @@ public class AuthServiceImpl implements IAuthService {
     @Resource
     private MemberMapper memberMapper;
 
+    /**
+     * 是否启用全局万能验证码
+     */
+    @Value("${dev.enable.global-veri-code:false}")
+    private boolean enableGlobalVeriCode;
+
     @Override
-    public String refreshAccessToken(String refreshToken) throws BusinessException {
+    public String refreshAccessToken(String refreshToken) throws RefreshTokenExpiredException {
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + refreshToken;
         // 获取存储于redis中的用户信息
         String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {
-            // 如果accessToken已过期
-            throw new BusinessException("RefreshToken已失效，请重新登录");
+            // 如果refreshToken已过期
+            throw new RefreshTokenExpiredException("RefreshToken已失效，请重新登录");
         }
         AuthInfo<MemberModel> authInfo = new Gson().fromJson(redisUserInfoJsonValue, memberModelType);
-        // 更新accessToken
+        // 如果不为空，判断refreshToken有效期
         Date current = new Date();
+        Date expire = DateUtil.date(authInfo.getRefreshTokenExpire());
+        if (DateUtil.compare(expire, current) < 0) {
+            // 如果refreshToken已过期
+            throw new RefreshTokenExpiredException("RefreshToken已失效，请重新登录");
+        }
+
+        // 更新accessToken
         Date accessTokenExpire = DateUtil.offset(current, DateField.HOUR_OF_DAY, 2);
+        // 删除旧的token数据
+        redisClient.deleteKey(Constant.REDIS_KEY_AUTH_INFO + authInfo.getAccessToken());
+        // 重新生成新的token和过期时间
         authInfo.setAccessToken(IdUtil.simpleUUID());
         authInfo.setAccessTokenExpire(accessTokenExpire.getTime());
         authInfo.getUserInfo().setAccessToken(authInfo.getAccessToken());
-        // 重新保存回redis
+        // 存储到redis,并设置有效期
         String authJson = JSON.toJSONString(authInfo);
         String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + authInfo.getAccessToken();
-        redisClient.stringSet(refreshTokenRedisKey, authJson);
-        redisClient.stringSet(accessTokenRedisKey, authJson);
+        redisClient.stringSet(accessTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_TWO_HOUR);
+        redisClient.stringSet(refreshTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
         return authInfo.getAccessToken();
     }
 
     @Override
     public MemberModel login(String phone, String code) throws BusinessException {
-        String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone;
-        String redisCode = redisClient.stringGet(vericodeRedisKey);
-        if (!code.equals(redisCode)) {
-            throw new BusinessException("验证码不正确或已过期");
+        if (!enableGlobalVeriCode) {
+            String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone;
+            String redisCode = redisClient.stringGet(vericodeRedisKey);
+            if (!code.equals(redisCode)) {
+                throw new BusinessException("验证码不正确或已过期");
+            }
+            // 删除redis里的验证码
+            redisClient.deleteKey(vericodeRedisKey);
         }
         MemberModel memberModel = memberMapper.findMember(phone);
         if (memberModel == null) {
@@ -85,24 +107,29 @@ public class AuthServiceImpl implements IAuthService {
         authInfo.setAccessTokenExpire(accessTokenExpire.getTime());
         authInfo.setRefreshToken(IdUtil.simpleUUID());
         authInfo.setRefreshTokenExpire(refreshTokenExpire.getTime());
-        // 保存到redis
+        authInfo.setUserInfo(memberModel);
+        memberModel.setAccessToken(authInfo.getAccessToken());
+        memberModel.setRefreshToken(authInfo.getRefreshToken());
+        // 存储到redis,并设置有效期
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + authInfo.getRefreshToken();
         String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + authInfo.getAccessToken();
         String authJson = JSON.toJSONString(authInfo);
-        redisClient.stringSet(accessTokenRedisKey, authJson);
-        redisClient.stringSet(refreshTokenRedisKey, authJson);
+        redisClient.stringSet(accessTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_TWO_HOUR);
+        redisClient.stringSet(refreshTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
         return memberModel;
     }
 
     @Override
     public void logout(String refreshToken) {
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + refreshToken;
-        String accessToken = redisClient.stringGet(refreshTokenRedisKey);
-        if (StringUtils.isBlank(accessToken)) {
+        String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
+        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
             // 不存在refresh直接返回
             return;
         }
-        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + accessToken;
+        // 清理redis缓存
+        AuthInfo<MemberModel> authInfo = new Gson().fromJson(redisUserInfoJsonValue, memberModelType);
+        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + authInfo.getAccessToken();
         redisClient.deleteKey(accessTokenRedisKey, refreshTokenRedisKey);
     }
 

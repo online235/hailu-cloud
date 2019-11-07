@@ -4,3 +4,6 @@ spring:
       host: 127.0.0.1
       port: 8500
 
+redis:
+  hostname: 192.168.10.243
+  port: 6379

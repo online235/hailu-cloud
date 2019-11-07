@@ -113,4 +113,26 @@ public class GlobalExceptionHandler {
         return ApiResponse.abnormalParameter(ex.getMessage());
     }
 
+    /**
+     * accessToken失效
+     */
+    @ExceptionHandler(AccessTokenExpiredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ApiResponse handleAccessTokenExpiredException(AccessTokenExpiredException ex) {
+        log.error(ex.getMessage(), ex);
+        return ApiResponse.accessTokenExpired();
+    }
+
+    /**
+     * refreshToken失效
+     */
+    @ExceptionHandler(RefreshTokenExpiredException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ApiResponse handleRefreshTokenExpiredException(RefreshTokenExpiredException ex) {
+        log.error(ex.getMessage(), ex);
+        return ApiResponse.refreshTokenExpired();
+    }
+
 }

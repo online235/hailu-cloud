@@ -1,8 +1,16 @@
 package com.hailu.cloud.gateway.filter;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.model.AuthInfo;
+import com.hailu.cloud.common.model.MemberModel;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.response.ApiResponseEnum;
+import jodd.util.Base64;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +29,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
+import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -66,6 +77,20 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
 
     // endregion
 
+    // region client
+
+    @Resource
+    private RedisStandAloneClient redisClient;
+
+    // endregion
+
+    // region gson
+
+    private Type memberModelType = new TypeToken<AuthInfo<MemberModel>>() {
+    }.getType();
+
+    // endregion
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -82,17 +107,21 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         // 检查是否携带Access-token请求头
         String accessToken = getAccessTokenFromRequestHeader(request);
         if (StringUtils.isBlank(accessToken)) {
-            DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.REQUEST_ERROR, "请求头缺失Access-token认证信息");
+            DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.UN_AUTHORIZED);
             return response.writeWith(Mono.just(dataBuffer));
         }
 
         // 校验token是否有效
-        if (!verifyToken(accessToken)) {
-            DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.REQUEST_ERROR, "无效的Access-token");
+        AuthInfo<MemberModel> authInfo = verifyToken(accessToken);
+        if (authInfo == null) {
+            DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
             return response.writeWith(Mono.just(dataBuffer));
         }
 
-        return chain.filter(exchange);
+        // 添加到request中
+        ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate().header(Constant.HEADER_GATEWAY_USER_INFO, Base64.encodeToString(JSON.toJSONString(authInfo))).build();
+        ServerWebExchange build = exchange.mutate().request(serverHttpRequest).build();
+        return chain.filter(build);
     }
 
     // region response
@@ -122,8 +151,7 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         ApiResponse apiResponse = new ApiResponse(responseEnum);
         apiResponse.setMessage(message);
         response.setStatusCode(HttpStatus.BAD_REQUEST);
-        DataBuffer bodyDataBuffer = response.bufferFactory().wrap(JSON.toJSONString(apiResponse).getBytes());
-        return bodyDataBuffer;
+        return response.bufferFactory().wrap(JSON.toJSONString(apiResponse).getBytes());
     }
 
     // endregion
@@ -183,10 +211,19 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
      * @param accessToken
      * @return
      */
-    private boolean verifyToken(String accessToken) {
-
-
-        return false;
+    private AuthInfo<MemberModel> verifyToken(String accessToken) {
+        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + accessToken;
+        String redisUserInfoJsonValue = redisClient.stringGet(accessTokenRedisKey);
+        if (StringUtils.isNotBlank(redisUserInfoJsonValue)) {
+            AuthInfo<MemberModel> authInfo = new Gson().fromJson(redisUserInfoJsonValue, memberModelType);
+            // 判断accessToken有效期
+            Date current = new Date();
+            Date expire = DateUtil.date(authInfo.getAccessTokenExpire());
+            if (DateUtil.compare(expire, current) > 0) {
+                return authInfo;
+            }
+        }
+        return null;
     }
 
     // endregion

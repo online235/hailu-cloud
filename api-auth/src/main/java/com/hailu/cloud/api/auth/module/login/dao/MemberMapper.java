@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.auth.module.login.dao;
 
-import com.hailu.cloud.api.auth.module.login.model.MemberModel;
+import com.hailu.cloud.common.model.MemberModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -2,16 +2,17 @@ package com.hailu.cloud.api.auth.module.login.controller;
 
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
 import com.hailu.cloud.common.response.ApiResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -25,7 +26,7 @@ import javax.validation.constraints.Pattern;
 @RequestMapping("/")
 public class AuthController {
 
-    @Autowired
+    @Resource
     private IAuthService authService;
 
     @ApiOperation(value = "刷新accessToken", notes = "<pre>" +
@@ -41,7 +42,7 @@ public class AuthController {
     @GetMapping("/token/refresh/{refreshToken}")
     public ApiResponse refreshToken(
             @PathVariable("refreshToken")
-            @NotBlank(message = "refreshToken不能为空") String refreshToken) throws BusinessException {
+            @NotBlank(message = "refreshToken不能为空") String refreshToken) throws RefreshTokenExpiredException {
 
         return ApiResponse.result(authService.refreshAccessToken(refreshToken));
     }

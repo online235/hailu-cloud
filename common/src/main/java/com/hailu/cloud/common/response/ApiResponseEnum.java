@@ -38,9 +38,17 @@ public enum ApiResponseEnum {
      */
     ABNORMAL_PARAMETER(1000, "业务异常"),
     /**
-     * 请求异常
+     * Access-token已过期
      */
-    REQUEST_ERROR(2000, "请求异常"),
+    ACCESS_TOKEN_EXPIRED(1001, "Access-token已过期"),
+    /**
+     * Refresh-token已过期
+     */
+    REFRESH_TOKEN_EXPIRED(1002, "Refresh-token已过期"),
+    /**
+     * 参数校验异常
+     */
+    PARAMETER_CONSTRAINT_VIOLATION_ERROR(2000, "参数校验异常"),
     ;
 
     @Getter

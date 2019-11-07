@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.auth.module.login.model;
+package com.hailu.cloud.common.model;
 
 import lombok.Getter;
 import lombok.Setter;
