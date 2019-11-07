@@ -14,7 +14,7 @@ public interface IAuthService {
      *
      * @param refreshToken
      * @return
-     * @throws BusinessException
+     * @throws RefreshTokenExpiredException
      */
     String refreshAccessToken(String refreshToken) throws RefreshTokenExpiredException;
 
