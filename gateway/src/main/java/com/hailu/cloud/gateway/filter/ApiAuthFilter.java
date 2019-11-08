@@ -2,14 +2,14 @@ package com.hailu.cloud.gateway.filter;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.model.AuthInfo;
-import com.hailu.cloud.common.model.MemberModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.response.ApiResponseEnum;
+import com.hailu.cloud.common.security.AuthInfoParseTool;
+import com.hailu.cloud.common.security.JwtUtil;
 import jodd.util.Base64;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
@@ -43,13 +42,6 @@ import java.util.List;
 @Component
 @ConfigurationProperties(value = "mapping.auth.exclude")
 public class ApiAuthFilter implements GlobalFilter, Ordered {
-
-    /**
-     * Route Key
-     **/
-    private static final String ROUTE_KEY = "org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayRoute";
-
-    private static final String HEADER_ACCESS_TOKEN = "Access-token";
 
     // region 排除对以下url的拦截
 
@@ -84,19 +76,12 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
 
     // endregion
 
-    // region gson
-
-    private Type memberModelType = new TypeToken<AuthInfo<MemberModel>>() {
-    }.getType();
-
-    // endregion
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
-        Route route = (Route) exchange.getAttributes().get(ROUTE_KEY);
+        Route route = (Route) exchange.getAttributes().get(Constant.GATEWAY_ROUTER_KEY);
         String serviceName = route.getId();
         String url = request.getURI().getPath();
         log.info("服务名:{}, 请求路径:{}", serviceName, url);
@@ -112,15 +97,24 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         }
 
         // 校验token是否有效
-        AuthInfo<MemberModel> authInfo = verifyToken(accessToken);
+        AuthInfo authInfo = verifyToken(accessToken);
         if (authInfo == null) {
             DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
             return response.writeWith(Mono.just(dataBuffer));
         }
 
         // 添加到request中
-        ServerHttpRequest serverHttpRequest = exchange.getRequest().mutate().header(Constant.HEADER_GATEWAY_USER_INFO, Base64.encodeToString(JSON.toJSONString(authInfo))).build();
-        ServerWebExchange build = exchange.mutate().request(serverHttpRequest).build();
+        ServerHttpRequest serverHttpRequest = exchange
+                .getRequest()
+                .mutate()
+                .header(Constant.REQUEST_HEADER_GATEWAY_USER_INFO, Base64.encodeToString(JSON.toJSONString(authInfo)))
+                .header(Constant.JWT_LOGIN_TYPE, String.valueOf(authInfo.getLoginType()))
+                .build();
+
+        ServerWebExchange build = exchange
+                .mutate()
+                .request(serverHttpRequest)
+                .build();
         return chain.filter(build);
     }
 
@@ -129,8 +123,8 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
     /**
      * 生成DataBuffer
      *
-     * @param response
-     * @param responseEnum
+     * @param response     http response
+     * @param responseEnum response enum
      * @return
      */
     private DataBuffer getDataBuffer(ServerHttpResponse response, ApiResponseEnum responseEnum) {
@@ -140,14 +134,14 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
     /**
      * 生成DataBuffer
      *
-     * @param response
-     * @param responseEnum
+     * @param response     http response
+     * @param responseEnum response enum
      * @return
      */
     private DataBuffer getDataBuffer(ServerHttpResponse response, ApiResponseEnum responseEnum, String message) {
         //设置headers
         HttpHeaders httpHeaders = response.getHeaders();
-        httpHeaders.add("Content-Type", "application/json; charset=UTF-8");
+        httpHeaders.add(Constant.REQUEST_HEADER_CONTENT_TYPE, "application/json; charset=UTF-8");
         ApiResponse apiResponse = new ApiResponse(responseEnum);
         apiResponse.setMessage(message);
         response.setStatusCode(HttpStatus.BAD_REQUEST);
@@ -191,14 +185,14 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
     /**
      * 检查请求头中是否包含Access-token
      *
-     * @param request
+     * @param request http request
      * @return
      */
     private String getAccessTokenFromRequestHeader(ServerHttpRequest request) {
-        if (!request.getHeaders().containsKey(HEADER_ACCESS_TOKEN)) {
+        if (!request.getHeaders().containsKey(Constant.REQUEST_HEADER_ACCESS_TOKEN)) {
             return null;
         }
-        List<String> tokens = request.getHeaders().get(HEADER_ACCESS_TOKEN);
+        List<String> tokens = request.getHeaders().get(Constant.REQUEST_HEADER_ACCESS_TOKEN);
         if (tokens == null) {
             return null;
         }
@@ -208,22 +202,33 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
     /**
      * 验证token是否有效
      *
-     * @param accessToken
+     * @param accessToken jwt token
      * @return
      */
-    private AuthInfo<MemberModel> verifyToken(String accessToken) {
-        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + accessToken;
-        String redisUserInfoJsonValue = redisClient.stringGet(accessTokenRedisKey);
-        if (StringUtils.isNotBlank(redisUserInfoJsonValue)) {
-            AuthInfo<MemberModel> authInfo = new Gson().fromJson(redisUserInfoJsonValue, memberModelType);
-            // 判断accessToken有效期
-            Date current = new Date();
-            Date expire = DateUtil.date(authInfo.getAccessTokenExpire());
-            if (DateUtil.compare(expire, current) > 0) {
-                return authInfo;
-            }
+    private AuthInfo verifyToken(String accessToken) {
+        // 1. 验证token
+        DecodedJWT tokenDecode = JwtUtil.verifierToken(accessToken);
+        if (tokenDecode == null) {
+            // 验证token失败
+            return null;
         }
-        return null;
+        // 2. 根据token获取授权信息
+        String token = tokenDecode.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + token;
+        String redisUserInfoJsonValue = redisClient.stringGet(accessTokenRedisKey);
+        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
+            // redis缓存已过期，说明token已失效
+            return null;
+        }
+        // 转换成对应用户实体
+        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, tokenDecode);
+        // 判断accessToken有效期
+        Date current = new Date();
+        Date expire = DateUtil.date(authInfo.getAccessTokenExpire());
+        if (DateUtil.compare(expire, current) > 0) {
+            return authInfo;
+        }
+        return authInfo;
     }
 
     // endregion

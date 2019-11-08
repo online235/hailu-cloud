@@ -42,7 +42,7 @@ public class AuthController {
     @GetMapping("/token/refresh/{refreshToken}")
     public String refreshToken(
             @PathVariable("refreshToken")
-            @NotBlank(message = "refreshToken不能为空") String refreshToken) throws RefreshTokenExpiredException {
+            @NotBlank(message = "refreshToken不能为空") String refreshToken) throws RefreshTokenExpiredException, BusinessException {
 
         return authService.refreshAccessToken(refreshToken);
     }
@@ -79,7 +79,7 @@ public class AuthController {
     @GetMapping("/logout/{refreshToken}")
     public void logout(
             @PathVariable("refreshToken")
-            @NotBlank(message = "refreshToken不能为空") String refreshToken) {
+            @NotBlank(message = "refreshToken不能为空") String refreshToken) throws BusinessException {
 
         authService.logout(refreshToken);
     }

@@ -19,6 +19,13 @@ public class AuthInfo<E> {
     private String userId;
 
     /**
+     * 登录类型
+     * 0 心安/商城用户登录
+     * 1 商户登录
+     */
+    private int loginType;
+
+    /**
      * access token
      */
     private String accessToken;

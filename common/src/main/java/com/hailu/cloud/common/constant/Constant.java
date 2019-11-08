@@ -48,12 +48,22 @@ public final class Constant {
 
     // endregion
 
-    // region header
+    // region request header
 
     /**
      * 网关设置到请求头里面
      */
-    public static final String HEADER_GATEWAY_USER_INFO = "GATEWAY_USER_INFO";
+    public static final String REQUEST_HEADER_GATEWAY_USER_INFO = "GATEWAY_USER_INFO";
+
+    /**
+     * 请求头里的Access-token
+     */
+    public static final String REQUEST_HEADER_ACCESS_TOKEN = "Access-token";
+
+    /**
+     * 请求头里的Content-Type
+     */
+    public static final String REQUEST_HEADER_CONTENT_TYPE = "Content-Type";
 
     // endregion
 
@@ -63,6 +73,30 @@ public final class Constant {
      * 网关设置到请求头里面
      */
     public static final String REQUEST_ATTRIBUTE_CURRENT_USER = "ATTRIBUTE_CURRENT_USER";
+
+    // endregion
+
+    // region jwt const
+
+    /**
+     * jwt 用户登录类型
+     */
+    public static final String JWT_LOGIN_TYPE = "LOGIN_USER_TYPE";
+
+    /**
+     * jwt 用户token
+     */
+    public static final String JWT_ACCESS_TOKEN = "ACCESS_TOKEN";
+
+    // endregion
+
+    // region gateway
+
+    /**
+     * gateway router key
+     */
+    public static final String GATEWAY_ROUTER_KEY = "org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayRoute";
+
 
     // endregion
 

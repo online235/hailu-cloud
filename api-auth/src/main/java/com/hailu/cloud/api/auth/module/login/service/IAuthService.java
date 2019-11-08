@@ -15,8 +15,9 @@ public interface IAuthService {
      * @param refreshToken
      * @return
      * @throws RefreshTokenExpiredException
+     * @throws BusinessException
      */
-    String refreshAccessToken(String refreshToken) throws RefreshTokenExpiredException;
+    String refreshAccessToken(String refreshToken) throws RefreshTokenExpiredException, BusinessException;
 
     /**
      * 验证码登录
@@ -34,6 +35,6 @@ public interface IAuthService {
      * @param refreshToken
      * @return
      */
-    void logout(String refreshToken);
+    void logout(String refreshToken) throws BusinessException;
 
 }
