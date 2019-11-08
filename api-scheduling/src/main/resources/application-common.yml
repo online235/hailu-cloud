@@ -1,0 +1,20 @@
+server:
+  port: 35000
+  servlet:
+    context-path: /api/v1/scheduling
+spring:
+  application:
+    name: service-api-scheduling
+  cloud:
+    consul:
+      discovery:
+        register: true
+        heartbeat:
+          enabled: true
+        tags: desc=海露任务调度
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 6000
