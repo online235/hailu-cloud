@@ -128,7 +128,7 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
      * @return
      */
     private DataBuffer getDataBuffer(ServerHttpResponse response, ApiResponseEnum responseEnum) {
-        return getDataBuffer(response, responseEnum, null);
+        return getDataBuffer(response, responseEnum, responseEnum.getResultMsg());
     }
 
     /**

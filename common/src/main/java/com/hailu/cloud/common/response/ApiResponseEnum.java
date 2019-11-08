@@ -20,7 +20,7 @@ public enum ApiResponseEnum {
     /**
      * 请求数据不存在
      */
-    NOT_FOUND(404, "请求数据不存在"),
+    NOT_FOUND(404, "请求数据或资源不存在"),
     /**
      * 请求方式不允许，请检查API支持的Method：GET,POST,PUT,DELETE,HEAD,OPTIONS
      */
@@ -40,11 +40,11 @@ public enum ApiResponseEnum {
     /**
      * Access-token已过期
      */
-    ACCESS_TOKEN_EXPIRED(1001, "Access-token已过期"),
+    ACCESS_TOKEN_EXPIRED(1001, "Access-token不存在或已过期"),
     /**
      * Refresh-token已过期
      */
-    REFRESH_TOKEN_EXPIRED(1002, "Refresh-token已过期"),
+    REFRESH_TOKEN_EXPIRED(1002, "Refresh-token不存在或已过期"),
     /**
      * 参数校验异常
      */

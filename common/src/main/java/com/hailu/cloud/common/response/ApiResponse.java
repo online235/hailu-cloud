@@ -32,6 +32,7 @@ public class ApiResponse<T> {
 
     public ApiResponse(ApiResponseEnum responseEnum) {
         this(responseEnum, null);
+        this.message = responseEnum.getResultMsg();
     }
 
     public static ApiResponse result(Object data) {

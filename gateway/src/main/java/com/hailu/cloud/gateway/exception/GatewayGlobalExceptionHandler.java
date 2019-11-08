@@ -16,6 +16,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import org.springframework.web.reactive.result.view.ViewResolver;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -61,6 +62,25 @@ public class GatewayGlobalExceptionHandler implements ErrorWebExceptionHandler {
         ApiResponse apiResponse;
         if (ex instanceof NotFoundException) {
             apiResponse = ApiResponse.notFound();
+        } else if (ex instanceof ResponseStatusException) {
+            HttpStatus httpStatus = ((ResponseStatusException) ex).getStatus();
+            switch (httpStatus) {
+                case NOT_FOUND:
+                    apiResponse = ApiResponse.notFound();
+                    break;
+                case INTERNAL_SERVER_ERROR:
+                    apiResponse = ApiResponse.serverError();
+                    break;
+                case UNAUTHORIZED:
+                    apiResponse = ApiResponse.unAuthorized();
+                    break;
+                case METHOD_NOT_ALLOWED:
+                    apiResponse = ApiResponse.methodNotAllowed();
+                    break;
+                default:
+                    apiResponse = ApiResponse.requestTimeout();
+                    break;
+            }
         } else if (ex instanceof ConnectException) {
             apiResponse = ApiResponse.requestTimeout();
         } else {

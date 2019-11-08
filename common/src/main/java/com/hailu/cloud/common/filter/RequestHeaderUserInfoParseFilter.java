@@ -31,7 +31,7 @@ public class RequestHeaderUserInfoParseFilter implements Filter {
                 request.setAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER, authInfo);
             }
         } catch (Exception e) {
-            log.error("解析请求头[" + Constant.REQUEST_ATTRIBUTE_CURRENT_USER + "]", e);
+            log.error("解析请求头异常[" + Constant.REQUEST_ATTRIBUTE_CURRENT_USER + "]", e);
         }
         chain.doFilter(request, response);
     }
