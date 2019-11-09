@@ -72,8 +72,8 @@ public final class JwtUtil {
      * @return
      */
     public static String extractToken(String jwtToken, String key) {
-        DecodedJWT decodedJWT = verifierToken(jwtToken);
-        return decodedJWT == null ? null : decodedJWT.getClaim(key).asString();
+        DecodedJWT decodedJwt = verifierToken(jwtToken);
+        return decodedJwt == null ? null : decodedJwt.getClaim(key).asString();
     }
 
 }

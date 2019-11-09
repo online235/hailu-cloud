@@ -11,13 +11,12 @@ import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
 import com.hailu.cloud.common.model.AuthInfo;
-import com.hailu.cloud.common.model.MemberModel;
+import com.hailu.cloud.common.model.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -49,19 +48,19 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public String refreshAccessToken(String refreshToken) throws RefreshTokenExpiredException, BusinessException {
         // 验证token是否有效
-        DecodedJWT decodedJWT = JwtUtil.verifierToken(refreshToken);
-        if (decodedJWT == null) {
+        DecodedJWT decodedJwt = JwtUtil.verifierToken(refreshToken);
+        if (decodedJwt == null) {
             throw new BusinessException("无效的refreshToken");
         }
         // 根据token获取redis value
-        String token = decodedJWT.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String token = decodedJwt.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + token;
         String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {
             throw new RefreshTokenExpiredException("RefreshToken已失效，请重新登录");
         }
         // 判断token是否过期
-        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJWT);
+        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJwt);
         Date current = new Date();
         Date expire = DateUtil.date(authInfo.getRefreshTokenExpire());
         if (DateUtil.compare(expire, current) < 0) {
@@ -84,7 +83,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public MemberModel login(String phone, String code) throws BusinessException {
+    public MemberLoginInfoModel login(String phone, String code) throws BusinessException {
         if (!enableGlobalVeriCode) {
             String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone;
             String redisCode = redisClient.stringGet(vericodeRedisKey);
@@ -94,13 +93,13 @@ public class AuthServiceImpl implements IAuthService {
             // 删除redis里的验证码
             redisClient.deleteKey(vericodeRedisKey);
         }
-        MemberModel memberModel = memberMapper.findMember(phone);
+        MemberLoginInfoModel memberModel = memberMapper.findMember(phone);
         if (memberModel == null) {
             throw new BusinessException("该手机号码尚未注册");
         }
         // 生成认证信息存储于redis, accessToken有效期2小时， refreshToken有效期7天
         Date current = new Date();
-        AuthInfo<MemberModel> authInfo = new AuthInfo<>();
+        AuthInfo<MemberLoginInfoModel> authInfo = new AuthInfo<>();
         authInfo.setUserId(memberModel.getUserId());
 
         String accessToken = IdUtil.simpleUUID();
@@ -128,18 +127,18 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public void logout(String refreshToken) throws BusinessException {
-        DecodedJWT decodedJWT = JwtUtil.verifierToken(refreshToken);
-        if (decodedJWT == null) {
+        DecodedJWT decodedJwt = JwtUtil.verifierToken(refreshToken);
+        if (decodedJwt == null) {
             throw new BusinessException("无效的refreshToken");
         }
-        String token = decodedJWT.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String token = decodedJwt.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + token;
         String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {
             return;
         }
 
-        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJWT);
+        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJwt);
         if (authInfo == null) {
             return;
         }

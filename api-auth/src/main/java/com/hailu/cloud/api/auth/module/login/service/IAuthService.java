@@ -2,7 +2,7 @@ package com.hailu.cloud.api.auth.module.login.service;
 
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
-import com.hailu.cloud.common.model.MemberModel;
+import com.hailu.cloud.common.model.MemberLoginInfoModel;
 
 /**
  * @author zhijie
@@ -27,13 +27,14 @@ public interface IAuthService {
      * @return
      * @throws BusinessException
      */
-    MemberModel login(String phone, String code) throws BusinessException;
+    MemberLoginInfoModel login(String phone, String code) throws BusinessException;
 
     /**
      * 退出登录
      *
      * @param refreshToken
      * @return
+     * @throws BusinessException
      */
     void logout(String refreshToken) throws BusinessException;
 

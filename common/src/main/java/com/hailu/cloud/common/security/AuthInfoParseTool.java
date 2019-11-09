@@ -6,8 +6,8 @@ import com.google.gson.reflect.TypeToken;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
 import com.hailu.cloud.common.model.AuthInfo;
-import com.hailu.cloud.common.model.McUserModel;
-import com.hailu.cloud.common.model.MemberModel;
+import com.hailu.cloud.common.model.McUserLoginInfoModel;
+import com.hailu.cloud.common.model.MemberLoginInfoModel;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,21 +25,21 @@ import java.lang.reflect.Type;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AuthInfoParseTool {
 
-    private static final Type MEMBER_MODEL_TYPE = new TypeToken<AuthInfo<MemberModel>>() {
+    private static final Type MEMBER_MODEL_TYPE = new TypeToken<AuthInfo<MemberLoginInfoModel>>() {
     }.getType();
 
-    private static final Type MC_USER_MODEL_TYPE = new TypeToken<AuthInfo<McUserModel>>() {
+    private static final Type MC_USER_MODEL_TYPE = new TypeToken<AuthInfo<McUserLoginInfoModel>>() {
     }.getType();
 
     /**
      * json 转 AuthInfo
      *
      * @param authInfoJsonValue
-     * @param decodedJWT
+     * @param decodedJwt
      * @return
      */
-    public static AuthInfo parse(String authInfoJsonValue, DecodedJWT decodedJWT) {
-        return parse(authInfoJsonValue, decodedJWT.getClaim(Constant.JWT_LOGIN_TYPE).asInt());
+    public static AuthInfo parse(String authInfoJsonValue, DecodedJWT decodedJwt) {
+        return parse(authInfoJsonValue, decodedJwt.getClaim(Constant.JWT_LOGIN_TYPE).asInt());
     }
 
     public static AuthInfo parse(String authInfoJsonValue, int loginType) {
@@ -72,18 +72,18 @@ public final class AuthInfoParseTool {
         switch (loginType) {
             case XINAN_AND_MALL:
                 if (StringUtils.isNotBlank(accessToken)) {
-                    ((MemberModel) authInfo.getUserInfo()).setAccessToken(accessToken);
+                    ((MemberLoginInfoModel) authInfo.getUserInfo()).setAccessToken(accessToken);
                 }
                 if (StringUtils.isNotBlank(refreshToken)) {
-                    ((MemberModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
+                    ((MemberLoginInfoModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
                 }
                 break;
             case MERCHANT:
                 if (StringUtils.isNotBlank(accessToken)) {
-                    ((McUserModel) authInfo.getUserInfo()).setAccessToken(accessToken);
+                    ((McUserLoginInfoModel) authInfo.getUserInfo()).setAccessToken(accessToken);
                 }
                 if (StringUtils.isNotBlank(refreshToken)) {
-                    ((McUserModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
+                    ((McUserLoginInfoModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
                 }
                 break;
             default:

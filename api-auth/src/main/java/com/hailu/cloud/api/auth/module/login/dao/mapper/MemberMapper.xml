@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.auth.module.login.dao.MemberMapper">
 
-    <select id="findMember" resultType="com.hailu.cloud.common.model.MemberModel">
+    <select id="findMember" resultType="com.hailu.cloud.common.model.MemberLoginInfoModel">
         SELECT
             user_id,
             member_name,

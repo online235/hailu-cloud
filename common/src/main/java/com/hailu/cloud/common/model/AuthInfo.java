@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 授权信息
+ * 认证授权信息
  *
  * @Author xuzhijie
  * @Date 2019/11/6 10:24

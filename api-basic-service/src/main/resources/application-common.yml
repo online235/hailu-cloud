@@ -1,0 +1,49 @@
+server:
+  port: 34000
+  servlet:
+    context-path: /api/v1/basic
+spring:
+  application:
+    name: service-api-basic
+  cloud:
+    consul:
+      discovery:
+        register: true
+        heartbeat:
+          enabled: true
+        tags: desc=海露基础服务
+  mail:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  mvc:
+    static-path-pattern: /**
+  resources:
+    # 外部文件存储目录
+    static-locations: file:${file.store.path}
+
+redis:
+  hostname: 192.168.10.243
+  port: 6379
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 6000
+
+mail:
+  sender: 默认邮件发送人
+
+static:
+  # 编辑器图片、文件、视频访问前缀
+  server:
+    prefix: http://localhost:8082/api/v1/basic
+
+file:
+  store:
+    path: /opt/filestore

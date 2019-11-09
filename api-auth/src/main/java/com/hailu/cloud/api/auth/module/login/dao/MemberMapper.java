@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.auth.module.login.dao;
 
-import com.hailu.cloud.common.model.MemberModel;
+import com.hailu.cloud.common.model.MemberLoginInfoModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,6 +17,6 @@ public interface MemberMapper {
      * @param phone 手机号码
      * @return
      */
-    MemberModel findMember(@Param("phone") String phone);
+    MemberLoginInfoModel findMember(@Param("phone") String phone);
 
 }

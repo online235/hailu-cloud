@@ -72,7 +72,7 @@ public final class Constant {
     /**
      * 网关设置到请求头里面
      */
-    public static final String REQUEST_ATTRIBUTE_CURRENT_USER = "ATTRIBUTE_CURRENT_USER";
+    public static final String REQUEST_ATTRIBUTE_CURRENT_USER = "CURRENT_USER";
 
     // endregion
 

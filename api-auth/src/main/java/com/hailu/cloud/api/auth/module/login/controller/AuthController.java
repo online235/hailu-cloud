@@ -3,7 +3,7 @@ package com.hailu.cloud.api.auth.module.login.controller;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
-import com.hailu.cloud.common.model.MemberModel;
+import com.hailu.cloud.common.model.MemberLoginInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -59,7 +59,7 @@ public class AuthController {
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query", dataType = "String")
     })
     @PostMapping("/login")
-    public MemberModel login(
+    public MemberLoginInfoModel login(
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
             @NotBlank(message = "验证码不能为空")

@@ -14,9 +14,9 @@ spring:
           uri: lb://service-api-mall
           predicates:
             - Path=/api/v1/mall/**
-        - id: service-api-notify
-          uri: lb://service-api-notify
+        - id: service-api-basic
+          uri: lb://service-api-basic
           predicates:
-            - Path=/api/v1/notify/**
+            - Path=/api/v1/basic/**
       default-filters:
         - SwaggerHeaderFilter
