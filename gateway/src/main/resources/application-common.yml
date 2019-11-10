@@ -24,6 +24,8 @@ mapping:
         - api-docs
       startsWith:
         - /api/v1/auth
+        - /api/v1/basic/upload
+        - /api/v1/basic/sms
 
 # 用于签名的公私密钥
 signature:

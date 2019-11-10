@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.ConstraintViolation;
 import java.util.HashMap;
@@ -55,6 +56,12 @@ public class ApiResponse<T> {
         return new ApiResponse(ApiResponseEnum.SERVER_ERROR);
     }
 
+    public static ApiResponse serverError(String errorMsg) {
+        ApiResponse response = new ApiResponse(ApiResponseEnum.SERVER_ERROR);
+        response.setMessage(errorMsg);
+        return response;
+    }
+
     public static ApiResponse unAuthorized() {
         return new ApiResponse(ApiResponseEnum.UN_AUTHORIZED);
     }
@@ -90,7 +97,16 @@ public class ApiResponse<T> {
     public static ApiResponse requestError(Set<? extends ConstraintViolation> constraintViolations) {
         StringBuilder builder = new StringBuilder();
         for (ConstraintViolation violation : constraintViolations) {
-            builder.append(violation.getMessage()).append(",").append(violation.getInvalidValue()).append(";");
+            Object invalidValue = violation.getInvalidValue();
+            if (invalidValue instanceof MultipartFile[] || invalidValue instanceof MultipartFile) {
+                builder.append(violation.getMessage()).append(";");
+            } else {
+                String path = violation.getPropertyPath().toString();
+                builder.append(path.substring(path.lastIndexOf(".") + 1))
+                        .append(":")
+                        .append(violation.getMessage())
+                        .append(";");
+            }
         }
         ApiResponse response = new ApiResponse(ApiResponseEnum.PARAMETER_CONSTRAINT_VIOLATION_ERROR);
         response.setMessage(builder.toString());

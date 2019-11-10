@@ -25,6 +25,10 @@ spring:
   resources:
     # 外部文件存储目录
     static-locations: file:${file.store.path}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
 
 redis:
   hostname: 192.168.10.243

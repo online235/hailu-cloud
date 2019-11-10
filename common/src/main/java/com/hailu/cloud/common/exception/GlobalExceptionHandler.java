@@ -2,6 +2,7 @@ package com.hailu.cloud.common.exception;
 
 import com.hailu.cloud.common.response.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -24,6 +26,12 @@ import javax.validation.ConstraintViolationException;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @Value("${spring.servlet.multipart.max-file-size}")
+    private String singleMaxSize;
+
+    @Value("${spring.servlet.multipart.max-request-size}")
+    private String requestMaxSize;
 
     /**
      * 处理所有未识别的异常
@@ -45,6 +53,17 @@ public class GlobalExceptionHandler {
     public ApiResponse handleHttp404Exception(NoHandlerFoundException ex) {
         log.error(ex.getMessage(), ex);
         return ApiResponse.notFound();
+    }
+
+    /**
+     * 处理文件上传异常
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ApiResponse handleMaxUploadSizeExceeded(MaxUploadSizeExceededException ex) {
+        log.error(ex.getMessage(), ex);
+        return ApiResponse.serverError("超过文件上传最大限制[单个文件最大限制：" + singleMaxSize + ", 多文件最大限制：" + requestMaxSize + "]");
     }
 
     /**
