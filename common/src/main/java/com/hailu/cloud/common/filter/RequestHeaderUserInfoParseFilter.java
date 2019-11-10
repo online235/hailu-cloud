@@ -1,7 +1,7 @@
 package com.hailu.cloud.common.filter;
 
 import com.hailu.cloud.common.constant.Constant;
-import com.hailu.cloud.common.model.AuthInfo;
+import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import jodd.util.Base64;
 import lombok.extern.slf4j.Slf4j;

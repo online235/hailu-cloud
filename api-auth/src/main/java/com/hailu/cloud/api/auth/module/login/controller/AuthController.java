@@ -3,7 +3,7 @@ package com.hailu.cloud.api.auth.module.login.controller;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
-import com.hailu.cloud.common.model.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

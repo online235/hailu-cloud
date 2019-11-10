@@ -2,12 +2,13 @@
 
 ```
  could
-  ├── api-admin      后台管理系统接口
-  ├── api-auth       认证接口
-  ├── api-mall       商城接口
-  ├── api-notify     通知接口
-  ├── common         通用模块
-  ├── gateway        网关
+  ├── api-admin             后台管理系统接口
+  ├── api-auth              认证接口
+  ├── api-mall              商城接口
+  ├── api-basic-service     基础服务(短信，邮件，文件上传，百度编辑器等)
+  ├── api-scheduling        定时任务相关
+  ├── common                通用模块
+  ├── gateway               网关
 ```
 
 ## redis库使用说明

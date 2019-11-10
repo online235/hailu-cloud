@@ -2,7 +2,7 @@ package com.hailu.cloud.api.auth.module.login.service;
 
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
-import com.hailu.cloud.common.model.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 
 /**
  * @author zhijie
