@@ -31,9 +31,9 @@ public class AuthController {
 
     @ApiOperation(value = "刷新accessToken", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @ApiImplicitParams({
@@ -49,9 +49,9 @@ public class AuthController {
 
     @ApiOperation(value = "验证码登录-心安&商城会员使用", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @ApiImplicitParams({
@@ -70,9 +70,9 @@ public class AuthController {
 
     @ApiOperation(value = "退出登录", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @ApiImplicitParam(name = "refreshToken", required = true, paramType = "path", dataType = "String")

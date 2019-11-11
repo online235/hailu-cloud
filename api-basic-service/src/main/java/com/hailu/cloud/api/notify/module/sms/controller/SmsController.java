@@ -44,9 +44,9 @@ public class SmsController {
 
     @ApiOperation(value = "第三方免费短信接口-超过免费次数会限制发送", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @ApiImplicitParams({
@@ -64,9 +64,9 @@ public class SmsController {
 
     @ApiOperation(value = "发送短信验证码", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @ApiImplicitParams({

@@ -128,13 +128,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- 验证码 依赖包 -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-captcha</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-
             <!-- 加密解密 依赖包 -->
             <dependency>
                 <groupId>cn.hutool</groupId>

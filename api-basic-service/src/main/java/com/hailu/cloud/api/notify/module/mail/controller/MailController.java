@@ -29,9 +29,9 @@ public class MailController {
 
     @ApiOperation(value = "发送纯文本邮件", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @PostMapping("/send/simple")
@@ -41,9 +41,9 @@ public class MailController {
 
     @ApiOperation(value = "发送HTML格式邮件", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': null\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
             "}" +
             "</pre>")
     @PostMapping("/send/html")

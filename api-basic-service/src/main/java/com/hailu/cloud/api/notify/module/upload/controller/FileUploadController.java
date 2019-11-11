@@ -31,11 +31,11 @@ public class FileUploadController {
 
     @ApiOperation(value = "多文件上传", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': [\n" +
-            "       '/业务编码/年月日/xxxx-时分秒.png',\n" +
-            "       '/业务编码/年月日/xxxx-时分秒.png'\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': [\n" +
+            "        '/业务编码/年月日/xxxx-时分秒.png',\n" +
+            "        '/业务编码/年月日/xxxx-时分秒.png'\n" +
             "   ]\n" +
             "}" +
             "</pre>")
@@ -53,9 +53,9 @@ public class FileUploadController {
 
     @ApiOperation(value = "单文件上传", notes = "<pre>" +
             "{\n" +
-            "  'code': 200,\n" +
-            "  'message': null,\n" +
-            "  'data': '/业务编码/年月日/xxxx-时分秒.png'\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': '/业务编码/年月日/xxxx-时分秒.png'\n" +
             "}" +
             "</pre>")
     @PostMapping(value = "/single/{businessCode}")

@@ -26,9 +26,9 @@
 ```java
 @ApiOperation(value = "刷新accessToken", notes = "<pre>" +
         "{\n" +
-        "  'code': 200,\n" +
-        "  'message': null,\n" +
-        "  'data': null\n" +
+        "    'code': 200,\n" +
+        "    'message': null,\n" +
+        "    'data': null\n" +
         "}" +
         "</pre>")
 @ApiImplicitParams({
@@ -63,9 +63,9 @@ public MemberModel login(String phone, String code) throws BusinessException {
 ```java
 @ApiOperation(value = "验证码登录-心安&商城会员使用", notes = "<pre>" +
         "{\n" +
-        "  'code': 200,\n" +
-        "  'message': null,\n" +
-        "  'data': null\n" +
+        "    'code': 200,\n" +
+        "    'message': null,\n" +
+        "    'data': null\n" +
         "}" +
         "</pre>")
 @ApiImplicitParams({
@@ -88,9 +88,9 @@ public MemberModel login(
 ```java
 @ApiOperation(value = "第三方免费短信接口-超过免费次数会限制发送", notes = "<pre>" +
         "{\n" +
-        "  'code': 200,\n" +
-        "  'message': null,\n" +
-        "  'data': null\n" +
+        "    'code': 200,\n" +
+        "    'message': null,\n" +
+        "    'data': null\n" +
         "}" +
         "</pre>")
 @ApiImplicitParams({
@@ -126,3 +126,32 @@ public void send(
 | diskPersistent                  | 是否在VM重启时存储硬盘的缓存数据。默认值是false                                                                                                                                                                                                                                                                                                                                   |
 | diskExpiryThreadIntervalSeconds | 磁盘失效线程运行时间间隔，默认是120秒                                                                                                                                                                                                                                                                                                                                          |
 | maxEntriesLocalHeap             | 是用来限制当前缓存在堆内存上所能保存的最大元素数量的。Ehcache规定如果在CacheManager上没有指定maxBytesLocalHeap时必须在各个Cache上指定maxBytesLocalHeap或者maxEntriesLocalHeap，但maxEntriesLocalHeap和maxBytesLocalHeap不能同时出现。也就是说我们不能在一个Cache上同时指定maxBytesLocalHeap和maxEntriesLocalHeap，当然我们也不能在Cache上指定maxEntriesLocalHeap的同时在CacheManager上指定maxBytesLocalHeap。但同时在CacheManager和Cache上指定maxBytesLocalHeap则是允许的 |
+
+## 分布式ID
+
+> 表
+
+```sql
+CREATE TABLE `global_worker_node` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'auto increment id',
+  `hostname` varchar(64) NOT NULL COMMENT '主机',
+  `port` varchar(64) NOT NULL COMMENT '端口',
+  `type` int(11) NOT NULL COMMENT '节点类型: 1容器, 2物理机',
+  `launch_date` date NOT NULL COMMENT '启动日期',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COMMENT='全局UID生成机器列表';
+```
+
+> 分布式ID构成
+
+```
+该配置可支持28个节点以整体并发量14400 UID/s的速度持续运行68年
+```
+
+| 标识位 | 当前时间 | 机器ID | 自增序列号 |
+|:---:|:----:|:----:|:-----:|
+| 1位  | 31位  | 23位  | 9位    |
+
+
