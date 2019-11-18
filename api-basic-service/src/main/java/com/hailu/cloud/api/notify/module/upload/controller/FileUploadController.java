@@ -3,6 +3,8 @@ package com.hailu.cloud.api.notify.module.upload.controller;
 import com.hailu.cloud.api.notify.module.upload.service.IFileUploadService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,11 @@ public class FileUploadController {
             "   ]\n" +
             "}" +
             "</pre>")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "businessCode", required = true, value = "业务标识", paramType = "path", dataType = "String"),
+            @ApiImplicitParam(name = "imageCompress", value = "是否启用图片压缩", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "compressQuality", value = "图片输出质量，只有启用图片压缩后该参数才生效", paramType = "query", dataType = "Double")
+    })
     @PostMapping(value = "/multi/{businessCode}")
     public List<String> multiFileUpload(
             @RequestParam("files")
@@ -46,9 +53,11 @@ public class FileUploadController {
             @Size(min = 1, message = "请选择文件") MultipartFile[] files,
             @Pattern(regexp = "^[a-zA-Z\\-]{5,20}$", message = "业务编码只允许大小写字母和“-”,5-20位")
             @NotBlank(message = "业务标识不能为空")
-            @PathVariable("businessCode") String businessCode) throws BusinessException {
+            @PathVariable("businessCode") String businessCode,
+            @RequestParam(value = "imageCompress", required = false, defaultValue = "false") Boolean imageCompress,
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "false") Double compressQuality) throws BusinessException {
 
-        return fileUploadService.multi(businessCode, files);
+        return fileUploadService.multi(businessCode, imageCompress, compressQuality, files);
     }
 
     @ApiOperation(value = "单文件上传", notes = "<pre>" +
@@ -58,15 +67,22 @@ public class FileUploadController {
             "    'data': '/业务编码/年月日/xxxx-时分秒.png'\n" +
             "}" +
             "</pre>")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "businessCode", required = true, value = "业务标识", paramType = "path", dataType = "String"),
+            @ApiImplicitParam(name = "imageCompress", value = "是否启用图片压缩", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "compressQuality", value = "图片输出质量，只有启用图片压缩后该参数才生效", paramType = "query", dataType = "Double")
+    })
     @PostMapping(value = "/single/{businessCode}")
     public String singleFileUpload(
             @RequestParam("file")
             @NotNull(message = "请选择文件") MultipartFile file,
             @Pattern(regexp = "^[a-zA-Z\\-]{5,20}$", message = "业务编码只允许大小写字母和“-”,5-20位")
             @NotBlank(message = "业务标识不能为空")
-            @PathVariable("businessCode") String businessCode) throws BusinessException {
+            @PathVariable("businessCode") String businessCode,
+            @RequestParam(value = "imageCompress", required = false, defaultValue = "false") Boolean imageCompress,
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "false") Double compressQuality) throws BusinessException {
 
-        return fileUploadService.single(businessCode, file);
+        return fileUploadService.single(businessCode, imageCompress, compressQuality, file);
     }
 
 }

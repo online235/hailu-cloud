@@ -1,6 +1,8 @@
 package com.hailu.cloud.api.notify.module.upload.service.impl;
 
+import cn.hutool.core.img.Img;
 import com.hailu.cloud.api.notify.module.upload.service.IFileStoreService;
+import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -34,26 +36,65 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
      * @return
      */
     @Override
-    public String saveFile(InputStream is, String path, String picName) throws IOException {
-        // 目录检查
-        FileUtils.forceMkdir(new File(getStorePath(path)));
-        // 保存文件
-        return save(is, path, picName);
+    public String saveFile(
+            InputStream is,
+            Boolean imageCompress,
+            Double compressQuality,
+            String path,
+            String picName) throws BusinessException {
+
+        try {
+            // 目录检查
+            FileUtils.forceMkdir(new File(getStorePath(path)));
+            // 保存文件
+            return save(is, imageCompress, compressQuality, path, picName);
+        } catch (IOException e) {
+            throw new BusinessException("图片上传失败", e);
+        }
     }
 
-    private String save(InputStream in, String path, String picName) {
+    private String save(
+            InputStream in,
+            Boolean imageCompress,
+            Double compressQuality,
+            String path,
+            String picName) throws BusinessException {
 
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(getStoreFilePath(path, picName));
-            IOUtils.copy(in, outputStream);
+            if (isCompressImage(imageCompress, compressQuality, picName)) {
+                // 压缩图片存储
+                Img.from(in).setQuality(compressQuality).write(outputStream);
+            } else {
+                IOUtils.copy(in, outputStream);
+            }
             return getStoreFileRelativePath(path, picName);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new BusinessException("图片上传失败", e);
         } finally {
             closeStream(in, outputStream);
         }
-        return null;
+    }
+
+    private boolean isCompressImage(
+            Boolean imageCompress,
+            Double compressQuality,
+            String picName) throws BusinessException {
+
+        String jpgSuffix = ".jpg";
+        String jpegSuffix = ".jpeg";
+        if (!picName.endsWith(jpgSuffix) && !picName.endsWith(jpegSuffix)) {
+            // 如果非jpg， jpeg则不压缩
+            return false;
+        }
+        if (imageCompress == null || imageCompress == false) {
+            return false;
+        }
+        if (compressQuality == null || compressQuality <= 0 || compressQuality >= 1) {
+            throw new BusinessException("图片输出质量只能在0~1之间，但是不包括0和1");
+        }
+        return true;
     }
 
     private void closeStream(Closeable... closeables) {

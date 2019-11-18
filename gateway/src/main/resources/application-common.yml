@@ -22,6 +22,13 @@ mapping:
       endsWith:
         - swagger-ui.html
         - api-docs
+        - .jpg
+        - .jpeg
+        - .png
+        - .zip
+        - .tar
+        - .mp4
+        - .pdf
       startsWith:
         - /api/v1/auth
         - /api/v1/basic/upload

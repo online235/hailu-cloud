@@ -27,7 +27,11 @@ public class FileUploadServiceImpl implements IFileUploadService {
     private String separator = "/";
 
     @Override
-    public String single(String businessCode, MultipartFile file) throws BusinessException {
+    public String single(
+            String businessCode,
+            Boolean imageCompress,
+            Double compressQuality,
+            MultipartFile file) throws BusinessException {
         try {
             // 获取文件后缀
             String fileSuffix = "";
@@ -51,17 +55,22 @@ public class FileUploadServiceImpl implements IFileUploadService {
                     .append(separator)
                     .append(DateUtil.today())
                     .toString();
-            return fileStoreService.saveFile(file.getInputStream(), storePath, storeFileName);
+            return fileStoreService.saveFile(file.getInputStream(), imageCompress, compressQuality, storePath, storeFileName);
         } catch (IOException e) {
             throw new BusinessException("文件上传失败");
         }
     }
 
     @Override
-    public List<String> multi(String businessCode, MultipartFile... files) throws BusinessException {
+    public List<String> multi(
+            String businessCode,
+            Boolean imageCompress,
+            Double compressQuality,
+            MultipartFile... files) throws BusinessException {
+
         List<String> result = new ArrayList<>(files.length);
         for (MultipartFile file : files) {
-            result.add(single(businessCode, file));
+            result.add(single(businessCode, imageCompress, compressQuality, file));
         }
         return result;
     }

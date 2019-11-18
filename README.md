@@ -141,7 +141,7 @@ CREATE TABLE `global_worker_node` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COMMENT='全局UID生成机器列表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='全局UID生成机器列表';
 ```
 
 > 分布式ID构成

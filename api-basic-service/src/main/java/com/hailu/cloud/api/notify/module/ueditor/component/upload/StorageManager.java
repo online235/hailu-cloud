@@ -63,7 +63,7 @@ public class StorageManager {
 
         try {
             // TODO 此处调用文件上传服务，并获取返回结果返回
-            String savePath = storeService.saveFile(is, path, picName);
+            String savePath = storeService.saveFile(is, false, null, path, picName);
 
             //如果上传成功
             if (StringUtils.isNotBlank(savePath)) {

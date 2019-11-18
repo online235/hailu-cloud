@@ -1,7 +1,7 @@
 spring:
   cloud:
     consul:
-      host: 127.0.0.1
+      host: 192.168.10.243
       port: 8500
   mail:
     host: smtp.qq.com
