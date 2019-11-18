@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.basic.module.uid.dao.GlobalWorkerNodeMapper">
+    <resultMap id="workerNodeRes"
+               type="com.hailu.cloud.api.basic.module.uid.entity.GlobalWorkerNodeEntity">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="hostname" jdbcType="VARCHAR" property="hostname"/>
+        <result column="port" jdbcType="VARCHAR" property="port"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="launch_date" jdbcType="DATE" property="launchDate"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <insert id="addWorkerNode" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.hailu.cloud.api.basic.module.uid.entity.GlobalWorkerNodeEntity">
+		insert into global_worker_node (hostname, port, type, launch_date, create_time, update_time)
+		values (#{hostname}, #{port}, #{type}, #{launchDate}, now(), now())
+	</insert>
+
+    <select id="getWorkerNodeByHostPort" resultMap="workerNodeRes">
+		select
+			id,
+			hostname,
+			port,
+			type,
+			launch_date,
+			create_time,
+			update_time
+		from
+			global_worker_node
+		where
+			hostname = #{host} and port = #{port}
+	</select>
+</mapper>

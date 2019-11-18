@@ -2,7 +2,7 @@
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
 
     <!-- 磁盘缓存位置 -->
-    <diskStore path="java.io.tmpdir/ehcache-mall"/>
+    <diskStore path="java.io.tmpdir/ehcache-basic-service"/>
 
     <!-- defaultCache:echcache的默认缓存策略 -->
     <defaultCache
@@ -16,14 +16,14 @@
     </defaultCache>
 
     <!-- 字典缓存 -->
-<!--    <cache name="dict"-->
-<!--           maxElementsInMemory="2000"-->
-<!--           eternal="false"-->
-<!--           timeToIdleSeconds="1800"-->
-<!--           timeToLiveSeconds="1800"-->
-<!--           maxElementsOnDisk="10000"-->
-<!--           diskExpiryThreadIntervalSeconds="120"-->
-<!--           overflowToDisk="true"-->
-<!--           memoryStoreEvictionPolicy="LRU">-->
-<!--    </cache>-->
+    <cache name="dict"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800"
+           maxElementsOnDisk="10000"
+           diskExpiryThreadIntervalSeconds="120"
+           overflowToDisk="true"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
 </ehcache>

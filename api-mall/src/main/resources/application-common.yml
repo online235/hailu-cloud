@@ -12,6 +12,10 @@ spring:
         heartbeat:
           enabled: true
         tags: desc=海露商城接口
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+    type: ehcache
 
 feign:
   hystrix:

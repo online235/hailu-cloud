@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.basic.module.dict.dao.SysDictMapper">
+
+	<select id="find" resultType="com.hailu.cloud.api.basic.module.dict.model.SysDictModel">
+		select
+			id,
+			`code`,
+			`desc`,
+			`name`,
+			`value`
+		from
+			sys_dict
+		where `code` = #{code}
+		and `value` = #{value}
+	</select>
+
+	<insert id="addDict">
+		insert into sys_dict(id, `code`, `desc`, `name`, `value`)
+		values(#{id}, #{code}, #{desc}, #{name}, #{value})
+	</insert>
+
+</mapper>
