@@ -1,5 +1,5 @@
 server:
-  port: 32000
+  port: 30200
   servlet:
     context-path: /api/v1/mall
 spring:
