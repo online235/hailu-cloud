@@ -17,6 +17,7 @@ mapping:
     service-api-admin: 海露后台管理系统-接口文档
     service-api-mall: 海露商城-接口文档
     service-api-basic: 海露基础服务-接口文档
+    service-api-xinan: 心安接口-接口文档
   auth:
     exclude:
       endsWith:

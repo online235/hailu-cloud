@@ -1,0 +1,20 @@
+server:
+  port: 30600
+  servlet:
+    context-path: /api/v1/xinan
+spring:
+  application:
+    name: service-api-xinan
+  cloud:
+    consul:
+      discovery:
+        register: true
+        heartbeat:
+          enabled: true
+        tags: desc=心安接口
+
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 6000

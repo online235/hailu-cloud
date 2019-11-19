@@ -8,6 +8,8 @@
   ├── api-auth              认证接口（端口：30300）
   ├── api-basic-service     基础服务（端口：30400）
   ├── api-scheduling        定时任务相关（端口：30500）
+  ├── api-xinan             心安接口（端口：30600）
+  ├── api-payment           支付接口（端口：30700）
   ├── common                通用模块
 ```
 

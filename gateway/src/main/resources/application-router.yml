@@ -18,5 +18,9 @@ spring:
           uri: lb://service-api-basic
           predicates:
             - Path=/api/v1/basic/**
+        - id: service-api-xinan
+          uri: lb://service-api-xinan
+          predicates:
+            - Path=/api/v1/xinan/**
       default-filters:
         - SwaggerHeaderFilter
