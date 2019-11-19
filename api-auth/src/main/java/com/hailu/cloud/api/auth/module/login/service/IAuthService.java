@@ -22,12 +22,13 @@ public interface IAuthService {
     /**
      * 验证码登录
      *
+     * @param loginType 登录类型(0:心安&商城; 1:商户)
      * @param phone
      * @param code
      * @return
      * @throws BusinessException
      */
-    MemberLoginInfoModel login(String phone, String code) throws BusinessException;
+    Object vericodeLogin(Integer loginType, String phone, String code) throws BusinessException;
 
     /**
      * 退出登录

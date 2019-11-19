@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
 import com.hailu.cloud.common.model.auth.AuthInfo;
-import com.hailu.cloud.common.model.auth.McUserLoginInfoModel;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -28,7 +28,7 @@ public final class AuthInfoParseTool {
     private static final Type MEMBER_MODEL_TYPE = new TypeToken<AuthInfo<MemberLoginInfoModel>>() {
     }.getType();
 
-    private static final Type MC_USER_MODEL_TYPE = new TypeToken<AuthInfo<McUserLoginInfoModel>>() {
+    private static final Type MC_USER_MODEL_TYPE = new TypeToken<AuthInfo<MerchantUserLoginInfoModel>>() {
     }.getType();
 
     /**
@@ -80,10 +80,10 @@ public final class AuthInfoParseTool {
                 break;
             case MERCHANT:
                 if (StringUtils.isNotBlank(accessToken)) {
-                    ((McUserLoginInfoModel) authInfo.getUserInfo()).setAccessToken(accessToken);
+                    ((MerchantUserLoginInfoModel) authInfo.getUserInfo()).setAccessToken(accessToken);
                 }
                 if (StringUtils.isNotBlank(refreshToken)) {
-                    ((McUserLoginInfoModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
+                    ((MerchantUserLoginInfoModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
                 }
                 break;
             default:

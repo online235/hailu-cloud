@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 商城账号/心安账号共用一个账号体系，用于登录时返回给客户端的登录信息
+ * 商户账号共用一个账号体系，用于登录时返回给客户端的登录信息
  *
  * @Author xuzhijie
  * @Date 2019/11/6 10:50
  */
 @Getter
 @Setter
-public class McUserLoginInfoModel {
+public class MerchantUserLoginInfoModel {
 
     /**
      * 编号

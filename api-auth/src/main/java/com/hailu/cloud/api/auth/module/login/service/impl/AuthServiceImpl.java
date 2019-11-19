@@ -6,12 +6,14 @@ import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.api.auth.module.login.dao.MemberMapper;
+import com.hailu.cloud.api.auth.module.login.dao.MerchantMapper;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
@@ -38,6 +40,12 @@ public class AuthServiceImpl implements IAuthService {
      */
     @Resource
     private MemberMapper memberMapper;
+
+    /**
+     * 商户账号
+     */
+    @Resource
+    private MerchantMapper merchantMapper;
 
     /**
      * 是否启用全局万能验证码
@@ -83,7 +91,60 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public MemberLoginInfoModel login(String phone, String code) throws BusinessException {
+    public Object vericodeLogin(Integer loginType, String phone, String code) throws BusinessException {
+        if (0 == loginType) {
+            // 心安&商城用户验证码登录
+            return vericodeLoginHandle(phone, code, new IAccountCallback() {
+
+                private MemberLoginInfoModel userInfo;
+
+                @Override
+                public String queryAccountUserId(String phone) {
+                    userInfo = memberMapper.findMember(phone);
+                    return userInfo == null ? null : userInfo.getUserId();
+                }
+
+                @Override
+                public Object handle(String accessToken, String refreshToken) {
+                    userInfo.setAccessToken(accessToken);
+                    userInfo.setRefreshToken(refreshToken);
+                    return userInfo;
+                }
+            });
+        }
+        if (1 == loginType) {
+            // 商户用户验证码登录
+            return vericodeLoginHandle(phone, code, new IAccountCallback() {
+
+                private MerchantUserLoginInfoModel userInfo;
+
+                @Override
+                public String queryAccountUserId(String phone) {
+                    userInfo = merchantMapper.findUser(phone);
+                    return userInfo == null ? null : userInfo.getNumberid();
+                }
+
+                @Override
+                public Object handle(String accessToken, String refreshToken) {
+                    userInfo.setAccessToken(accessToken);
+                    userInfo.setRefreshToken(refreshToken);
+                    return userInfo;
+                }
+            });
+        }
+        throw new BusinessException("不允许该用户登录");
+    }
+
+    /**
+     * 验证码登录
+     *
+     * @param phone    手机号
+     * @param code     验证码
+     * @param callback 账号数据查询接口
+     * @return
+     * @throws BusinessException
+     */
+    private Object vericodeLoginHandle(String phone, String code, IAccountCallback callback) throws BusinessException {
         if (!enableGlobalVeriCode) {
             String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone;
             String redisCode = redisClient.stringGet(vericodeRedisKey);
@@ -93,14 +154,14 @@ public class AuthServiceImpl implements IAuthService {
             // 删除redis里的验证码
             redisClient.deleteKey(vericodeRedisKey);
         }
-        MemberLoginInfoModel memberModel = memberMapper.findMember(phone);
-        if (memberModel == null) {
+        String userId = callback.queryAccountUserId(phone);
+        if (StringUtils.isBlank(userId)) {
             throw new BusinessException("该手机号码尚未注册");
         }
         // 生成认证信息存储于redis, accessToken有效期2小时， refreshToken有效期7天
         Date current = new Date();
-        AuthInfo<MemberLoginInfoModel> authInfo = new AuthInfo<>();
-        authInfo.setUserId(memberModel.getUserId());
+        AuthInfo authInfo = new AuthInfo();
+        authInfo.setUserId(userId);
 
         String accessToken = IdUtil.simpleUUID();
         Date accessTokenExpire = DateUtil.offset(current, DateField.HOUR_OF_DAY, 2);
@@ -112,9 +173,8 @@ public class AuthServiceImpl implements IAuthService {
         authInfo.setRefreshToken(JwtUtil.createToken(refreshToken, 0));
         authInfo.setRefreshTokenExpire(refreshTokenExpire.getTime());
 
-        authInfo.setUserInfo(memberModel);
-        memberModel.setAccessToken(authInfo.getAccessToken());
-        memberModel.setRefreshToken(authInfo.getRefreshToken());
+        Object userInfo = callback.handle(authInfo.getAccessToken(), authInfo.getRefreshToken());
+        authInfo.setUserInfo(userInfo);
 
         // 存储到redis,并设置有效期
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + refreshToken;
@@ -122,7 +182,7 @@ public class AuthServiceImpl implements IAuthService {
         String authJson = JSON.toJSONString(authInfo);
         redisClient.stringSet(accessTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_TWO_HOUR);
         redisClient.stringSet(refreshTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
-        return memberModel;
+        return userInfo;
     }
 
     @Override
@@ -144,11 +204,32 @@ public class AuthServiceImpl implements IAuthService {
         }
         // 清理redis缓存
         String redisToken = JwtUtil.extractToken(authInfo.getAccessToken(), Constant.JWT_ACCESS_TOKEN);
-        if( redisToken == null ){
+        if (redisToken == null) {
             return;
         }
         String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + redisToken;
         redisClient.deleteKey(accessTokenRedisKey, refreshTokenRedisKey);
+    }
+
+    interface IAccountCallback {
+
+        /**
+         * 查询用户ID
+         *
+         * @param phone
+         * @return
+         */
+        String queryAccountUserId(String phone);
+
+        /**
+         * 将生成的token保存到用户信息返回给客户端
+         *
+         * @param accessToken
+         * @param refreshToken
+         * @return
+         */
+        Object handle(String accessToken, String refreshToken);
+
     }
 
 }

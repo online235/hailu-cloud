@@ -27,10 +27,10 @@ import javax.validation.ConstraintViolationException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @Value("${spring.servlet.multipart.max-file-size}")
+    @Value("${spring.servlet.multipart.max-file-size:10MB}")
     private String singleMaxSize;
 
-    @Value("${spring.servlet.multipart.max-request-size}")
+    @Value("${spring.servlet.multipart.max-request-size:50MB}")
     private String requestMaxSize;
 
     /**
