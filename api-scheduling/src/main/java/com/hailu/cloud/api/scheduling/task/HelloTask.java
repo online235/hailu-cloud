@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Administrator
+ * @author xuzhijie
  */
 @Slf4j
 @Component

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.admin.module.system.dao.AdminMapper">
+
+    <!-- 添加账号 -->
+    <insert id="addAccount">
+		insert into sys_admin(id, nick_name, account, avatar, pwd, STATUS, create_by, create_time)
+		values (#{id}, #{nickName}, #{account}, #{avatar}, #{pwd}, #{status}, #{createBy}, NOW())
+	</insert>
+
+    <!-- 变更账号启用状态 -->
+    <update id="changeStatus">
+		update from sys_admin set status=#{status}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
+    </update>
+
+    <!-- 关联角色 -->
+    <update id="linkRoles">
+        insert into lk_admin_role(admin_id, role_id)
+        values
+        <foreach collection="roleIds" item="item" separator=",">
+            (#{id}, #{item})
+        </foreach>
+    </update>
+
+    <!-- 关联角色 -->
+    <update id="changePwd">
+		update sys_admin set pwd = #{pwd}, update_by = #{updateBy} where id = #{id}
+    </update>
+
+    <!-- 修改自己的密码 -->
+    <delete id="unlinkRoles">
+		delete from lk_admin_role where admin_id = #{id}
+    </delete>
+
+    <!-- 查询账号列表 -->
+    <select id="accountList">
+        SELECT id, nick_name, account, avatar, STATUS
+        FROM sys_admin
+        <where>
+            <if test="nickName != null and nickName != ''">
+                and nick_name like concat('%', #{nickName}, '%')
+            </if>
+            <if test="account != null and account != ''">
+                and account like concat('%', #{account}, '%')
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        WHERE STATUS = 0
+        AND account = #{account}
+    </select>
+
+    <!-- 根据账号查询 -->
+    <select id="searchAccount" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
+		SELECT id, nick_name, account, avatar, pwd, STATUS
+		FROM sys_admin
+		WHERE STATUS = 0
+		  AND account = #{account}
+	</select>
+</mapper>

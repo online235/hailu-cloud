@@ -135,8 +135,55 @@ public class AuthServiceImpl implements IAuthService {
         throw new BusinessException("不允许该用户登录");
     }
 
+    @Override
+    public void logout(String refreshToken) throws BusinessException {
+        DecodedJWT decodedJwt = JwtUtil.verifierToken(refreshToken);
+        if (decodedJwt == null) {
+            throw new BusinessException("无效的refreshToken");
+        }
+        String token = decodedJwt.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + token;
+        String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
+        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
+            return;
+        }
+
+        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJwt);
+        if (authInfo == null) {
+            return;
+        }
+        // 清理redis缓存
+        String redisToken = JwtUtil.extractToken(authInfo.getAccessToken(), Constant.JWT_ACCESS_TOKEN);
+        if (redisToken == null) {
+            return;
+        }
+        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + redisToken;
+        redisClient.deleteKey(accessTokenRedisKey, refreshTokenRedisKey);
+    }
+
+    interface IAccountCallback {
+
+        /**
+         * 查询用户ID
+         *
+         * @param phone
+         * @return
+         */
+        String queryAccountUserId(String phone);
+
+        /**
+         * 将生成的token保存到用户信息返回给客户端
+         *
+         * @param accessToken
+         * @param refreshToken
+         * @return
+         */
+        Object handle(String accessToken, String refreshToken);
+
+    }
+
     /**
-     * 验证码登录
+     * 验证码登录处理
      *
      * @param phone    手机号
      * @param code     验证码
@@ -183,53 +230,6 @@ public class AuthServiceImpl implements IAuthService {
         redisClient.stringSet(accessTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_TWO_HOUR);
         redisClient.stringSet(refreshTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
         return userInfo;
-    }
-
-    @Override
-    public void logout(String refreshToken) throws BusinessException {
-        DecodedJWT decodedJwt = JwtUtil.verifierToken(refreshToken);
-        if (decodedJwt == null) {
-            throw new BusinessException("无效的refreshToken");
-        }
-        String token = decodedJwt.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
-        String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + token;
-        String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
-        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
-            return;
-        }
-
-        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJwt);
-        if (authInfo == null) {
-            return;
-        }
-        // 清理redis缓存
-        String redisToken = JwtUtil.extractToken(authInfo.getAccessToken(), Constant.JWT_ACCESS_TOKEN);
-        if (redisToken == null) {
-            return;
-        }
-        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + redisToken;
-        redisClient.deleteKey(accessTokenRedisKey, refreshTokenRedisKey);
-    }
-
-    interface IAccountCallback {
-
-        /**
-         * 查询用户ID
-         *
-         * @param phone
-         * @return
-         */
-        String queryAccountUserId(String phone);
-
-        /**
-         * 将生成的token保存到用户信息返回给客户端
-         *
-         * @param accessToken
-         * @param refreshToken
-         * @return
-         */
-        Object handle(String accessToken, String refreshToken);
-
     }
 
 }

@@ -38,7 +38,6 @@ public final class JwtUtil {
                     .withClaim(Constant.JWT_LOGIN_TYPE, loginType)
                     .withClaim(Constant.JWT_ACCESS_TOKEN, realToken)
                     .sign(algorithm);
-            log.info(token);
             return Base64.encode(token);
         } catch (Exception exception) {
             throw new BusinessException("生成Token异常");

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
+import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -31,6 +32,9 @@ public final class AuthInfoParseTool {
     private static final Type MC_USER_MODEL_TYPE = new TypeToken<AuthInfo<MerchantUserLoginInfoModel>>() {
     }.getType();
 
+    private static final Type ADMIN_USER_MODEL_TYPE = new TypeToken<AuthInfo<AdminLoginInfoModel>>() {
+    }.getType();
+
     /**
      * json 转 AuthInfo
      *
@@ -53,6 +57,10 @@ public final class AuthInfoParseTool {
             case MERCHANT:
                 // 解析authInfo
                 authInfo = new Gson().fromJson(authInfoJsonValue, MC_USER_MODEL_TYPE);
+                break;
+            case ADMIN:
+                // 解析authInfo
+                authInfo = new Gson().fromJson(authInfoJsonValue, ADMIN_USER_MODEL_TYPE);
                 break;
             default:
                 break;
@@ -84,6 +92,14 @@ public final class AuthInfoParseTool {
                 }
                 if (StringUtils.isNotBlank(refreshToken)) {
                     ((MerchantUserLoginInfoModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
+                }
+                break;
+            case ADMIN:
+                if (StringUtils.isNotBlank(accessToken)) {
+                    ((AdminLoginInfoModel) authInfo.getUserInfo()).setAccessToken(accessToken);
+                }
+                if (StringUtils.isNotBlank(refreshToken)) {
+                    ((AdminLoginInfoModel) authInfo.getUserInfo()).setRefreshToken(accessToken);
                 }
                 break;
             default:

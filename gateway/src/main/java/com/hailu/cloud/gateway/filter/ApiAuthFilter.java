@@ -6,14 +6,16 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.response.ApiResponseEnum;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
+import com.hailu.cloud.common.utils.RequestUtils;
+import com.hailu.cloud.gateway.config.RequestRangeCheck;
 import jodd.util.Base64;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -21,8 +23,6 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.route.Route;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -35,6 +35,8 @@ import java.util.List;
 
 /**
  * 接口认证拦截
+ * 过滤拦截优先级如下：
+ * 【mapping.auth.exclude.(startsWith|endsWith)】 -> 【token校验】 -> 【mapping.login-type.notAllow】
  *
  * @author zhijie
  */
@@ -56,6 +58,12 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
      */
     @Setter
     private List<String> endsWith;
+
+    @Autowired
+    private RequestRangeCheck requestRangeCheck;
+
+    @Value("${mapping.login-type.debug:false}")
+    private boolean debug;
 
     // endregion
 
@@ -85,6 +93,7 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         String serviceName = route.getId();
         String url = request.getURI().getPath();
         log.info("服务名:{}, 请求路径:{}", serviceName, url);
+
         if (ignore(url)) {
             return chain.filter(exchange);
         }
@@ -92,15 +101,27 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         // 检查是否携带Access-token请求头
         String accessToken = getAccessTokenFromRequestHeader(request);
         if (StringUtils.isBlank(accessToken)) {
-            DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.UN_AUTHORIZED);
+            DataBuffer dataBuffer = RequestUtils.getDataBuffer(response, ApiResponseEnum.UN_AUTHORIZED);
             return response.writeWith(Mono.just(dataBuffer));
         }
 
         // 校验token是否有效
         AuthInfo authInfo = verifyToken(accessToken);
         if (authInfo == null) {
-            DataBuffer dataBuffer = getDataBuffer(response, ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
+            DataBuffer dataBuffer = RequestUtils.getDataBuffer(response, ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
             return response.writeWith(Mono.just(dataBuffer));
+        }
+
+        if (!debug) {
+            // 判断当前登录用户是否允许访问该资源
+            DataBuffer dataBuffer = requestRangeCheck.checkUrlAllow(authInfo, url, response);
+            if (dataBuffer != null) {
+                return response.writeWith(Mono.just(dataBuffer));
+            }
+            dataBuffer = requestRangeCheck.checkUrlPermission(authInfo, url, response);
+            if (dataBuffer != null) {
+                return response.writeWith(Mono.just(dataBuffer));
+            }
         }
 
         // 添加到request中
@@ -117,38 +138,6 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
                 .build();
         return chain.filter(build);
     }
-
-    // region response
-
-    /**
-     * 生成DataBuffer
-     *
-     * @param response     http response
-     * @param responseEnum response enum
-     * @return
-     */
-    private DataBuffer getDataBuffer(ServerHttpResponse response, ApiResponseEnum responseEnum) {
-        return getDataBuffer(response, responseEnum, responseEnum.getResultMsg());
-    }
-
-    /**
-     * 生成DataBuffer
-     *
-     * @param response     http response
-     * @param responseEnum response enum
-     * @return
-     */
-    private DataBuffer getDataBuffer(ServerHttpResponse response, ApiResponseEnum responseEnum, String message) {
-        //设置headers
-        HttpHeaders httpHeaders = response.getHeaders();
-        httpHeaders.add(Constant.REQUEST_HEADER_CONTENT_TYPE, "application/json; charset=UTF-8");
-        ApiResponse apiResponse = new ApiResponse(responseEnum);
-        apiResponse.setMessage(message);
-        response.setStatusCode(HttpStatus.BAD_REQUEST);
-        return response.bufferFactory().wrap(JSON.toJSONString(apiResponse).getBytes());
-    }
-
-    // endregion
 
     // region 内部处理方法
 

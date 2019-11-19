@@ -14,12 +14,18 @@ public enum LoginTypeEnum {
     /**
      * 商户
      */
-    MERCHANT;
+    MERCHANT,
+    /**
+     * 管理员
+     */
+    ADMIN;
 
     public static LoginTypeEnum of(int type) {
         switch (type) {
             case 1:
                 return MERCHANT;
+            case 2:
+                return ADMIN;
             default:
                 return XINAN_AND_MALL;
         }

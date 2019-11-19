@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.basic.module.ueditor.component;
 
 /**
- * @author Administrator
+ * @author xuzhijie
  */
 public class Encoder {
 

@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * 针对请头头里面的UserInfo进行解析
  *
- * @author Administrator
+ * @author xuzhijie
  */
 @Slf4j
 public class RequestHeaderUserInfoParseFilter implements Filter {

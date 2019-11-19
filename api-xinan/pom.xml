@@ -8,7 +8,7 @@
         <version>v1.0.0</version>
     </parent>
     <groupId>com.hailu.cloud.api</groupId>
-    <artifactId>xinan</artifactId>
+    <artifactId>api-xinan</artifactId>
     <version>v1.0.0</version>
     <name>api-xinan</name>
     <description>心安接口</description>

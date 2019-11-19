@@ -36,7 +36,15 @@ mapping:
         - /api/v1/basic/upload
         - /api/v1/basic/sms
         - /api/v1/basic/uuid
-        - /api/v1/payment/payment/gateway
+  login-type:
+    # 开启debug后, notAllow将不对登录类型做请求限制
+    debug: true
+    # 不允许访问的路径 【0，1】具体看 LoginTypeEnum
+    notAllow:
+      0:
+        - /api/v1/admin
+      1:
+        - /api/v1/admin
 
 # 用于签名的公私密钥
 signature:

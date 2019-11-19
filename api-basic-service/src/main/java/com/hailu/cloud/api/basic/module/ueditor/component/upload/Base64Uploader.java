@@ -12,7 +12,7 @@ import org.apache.commons.codec.binary.StringUtils;
 import java.util.Map;
 
 /**
- * @author Administrator
+ * @author xuzhijie
  */
 @Slf4j
 public final class Base64Uploader {

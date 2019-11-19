@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 /**
- * @author Administrator
+ * @author xuzhijie
  */
 public class Uploader {
     private HttpServletRequest request;

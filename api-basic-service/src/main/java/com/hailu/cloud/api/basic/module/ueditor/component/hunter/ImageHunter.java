@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * 图片抓取器
  *
- * @author Administrator
+ * @author xuzhijie
  */
 public class ImageHunter {
 
