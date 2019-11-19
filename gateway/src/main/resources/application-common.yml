@@ -18,6 +18,7 @@ mapping:
     service-api-mall: 海露商城-接口文档
     service-api-basic: 海露基础服务-接口文档
     service-api-xinan: 心安接口-接口文档
+    service-api-payment: 海露支付服务-接口文档
   auth:
     exclude:
       endsWith:
@@ -35,6 +36,7 @@ mapping:
         - /api/v1/basic/upload
         - /api/v1/basic/sms
         - /api/v1/basic/uuid
+        - /api/v1/payment/payment/gateway
 
 # 用于签名的公私密钥
 signature:
