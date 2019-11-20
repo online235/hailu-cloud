@@ -16,6 +16,8 @@ spring:
     ehcache:
       config: classpath:ehcache.xml
     type: ehcache
+  jackson:
+    default-property-inclusion: non_null
 
 feign:
   hystrix:

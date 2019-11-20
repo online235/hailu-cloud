@@ -1,8 +1,10 @@
 package com.hailu.cloud.api.basic.module.dict.controller;
 
-import com.hailu.cloud.common.model.dict.SysDictModel;
 import com.hailu.cloud.api.basic.module.dict.service.ISysDictService;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.dict.SysDictModel;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,7 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
- * 获取分布式ID
+ * 字典管理
  *
  * @author zhijie
  */
@@ -32,6 +34,9 @@ public class SysDictController {
 
     @Autowired
     private ISysDictService sysDictService;
+
+    @Autowired
+    private RedisStandAloneClient redisClient;
 
     @ApiOperation(value = "根据code,value查询字典项", notes = "<pre>" +
             "{\n" +
@@ -73,6 +78,21 @@ public class SysDictController {
     @PostMapping("/dicts")
     public SysDictModel find(@Valid SysDictModel dictModel) throws BusinessException {
         return sysDictService.addDict(dictModel);
+    }
+
+    @ApiOperation(value = "把所有字典数据重新加载到Redis", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': ''\n" +
+            "}\n" +
+            "</pre>")
+    @PostMapping("/dicts/re-cache-redis")
+    public void reCacheToRedis() {
+        sysDictService.findAll().forEach(item -> {
+            String dictKey = Constant.REDIS_KEY_DICT_CACHE + item.getCode();
+            redisClient.hashSet(dictKey, item.getValue(), item.getName());
+        });
     }
 
 }

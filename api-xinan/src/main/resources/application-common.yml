@@ -24,6 +24,9 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
       filter: stat,wall,log4j
       initial-size: 10
+  jackson:
+    default-property-inclusion: non_null
+
 feign:
   hystrix:
     enabled: true
