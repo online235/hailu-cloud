@@ -1,5 +1,6 @@
 package com.hailu.cloud.common.wrap;
 
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,9 @@ public class ApiResponseWrapConfig implements InitializingBean {
     @Autowired
     private RequestMappingHandlerAdapter handlerAdapter;
 
+    @Autowired
+    private RedisStandAloneClient redisStandAloneClient;
+
     @Override
     public void afterPropertiesSet() {
         List<HandlerMethodReturnValueHandler> list = handlerAdapter.getReturnValueHandlers();
@@ -29,7 +33,7 @@ public class ApiResponseWrapConfig implements InitializingBean {
         if (null != list) {
             for (HandlerMethodReturnValueHandler valueHandler : list) {
                 if (valueHandler instanceof RequestResponseBodyMethodProcessor) {
-                    GlobalApiResponseHandler proxy = new GlobalApiResponseHandler(valueHandler);
+                    GlobalApiResponseHandler proxy = new GlobalApiResponseHandler(valueHandler, redisStandAloneClient);
                     newList.add(proxy);
                 } else {
                     newList.add(valueHandler);

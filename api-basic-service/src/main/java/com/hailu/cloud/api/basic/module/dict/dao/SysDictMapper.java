@@ -1,8 +1,10 @@
 package com.hailu.cloud.api.basic.module.dict.dao;
 
-import com.hailu.cloud.api.basic.module.dict.model.SysDictModel;
+import com.hailu.cloud.common.model.dict.SysDictModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author xuzhijie
@@ -19,6 +21,13 @@ public interface SysDictMapper {
      * @return
      */
     SysDictModel find(@Param("code") String code, @Param("value") String value);
+
+    /**
+     * 返回所有字典
+     *
+     * @return
+     */
+    List<SysDictModel> findAll();
 
     /**
      * 添加字典项

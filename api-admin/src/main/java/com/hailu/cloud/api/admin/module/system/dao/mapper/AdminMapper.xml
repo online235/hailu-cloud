@@ -33,7 +33,7 @@
     </delete>
 
     <!-- 查询账号列表 -->
-    <select id="accountList">
+    <select id="accountList" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
         SELECT id, nick_name, account, avatar, STATUS
         FROM sys_admin
         <where>
@@ -47,8 +47,6 @@
                 and status = #{status}
             </if>
         </where>
-        WHERE STATUS = 0
-        AND account = #{account}
     </select>
 
     <!-- 根据账号查询 -->

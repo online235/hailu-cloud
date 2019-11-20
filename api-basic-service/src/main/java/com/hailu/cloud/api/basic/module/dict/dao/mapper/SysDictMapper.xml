@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hailu.cloud.api.basic.module.dict.dao.SysDictMapper">
 
-	<select id="find" resultType="com.hailu.cloud.api.basic.module.dict.model.SysDictModel">
+	<!-- 根据code和value查询字典项 -->
+	<select id="find" resultType="com.hailu.cloud.common.model.dict.SysDictModel">
 		select
 			id,
 			`code`,
@@ -15,6 +16,16 @@
 		and `value` = #{value}
 	</select>
 
+	<!-- 返回所有字典 -->
+	<select id="findAll" resultType="com.hailu.cloud.common.model.dict.SysDictModel">
+		select
+			`code`,
+			`name`,
+			`value`
+		from sys_dict
+	</select>
+
+	<!-- 添加字典项 -->
 	<insert id="addDict">
 		insert into sys_dict(id, `code`, `desc`, `name`, `value`)
 		values(#{id}, #{code}, #{desc}, #{name}, #{value})

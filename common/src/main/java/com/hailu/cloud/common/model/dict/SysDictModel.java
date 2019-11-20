@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.basic.module.dict.model;
+package com.hailu.cloud.common.model.dict;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

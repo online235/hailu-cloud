@@ -12,6 +12,11 @@ spring:
     username: root
     password: 123456
 
+#mybatis 在控制台打印sql
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 redis:
   hostname: 192.168.10.243
   port: 6379

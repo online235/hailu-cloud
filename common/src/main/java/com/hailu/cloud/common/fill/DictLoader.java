@@ -2,6 +2,7 @@ package com.hailu.cloud.common.fill;
 
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
@@ -28,12 +29,21 @@ public class DictLoader {
         if (loadTarget == null || dataCollection == null) {
             return;
         }
-        if (loadTarget instanceof Map) {
-            ((Map) loadTarget).forEach((key, value) -> fillDictionary(value));
-        } else if (loadTarget instanceof List) {
-            ((List) loadTarget).forEach(item -> fillDictionary(item));
+        Object injectObject;
+        if( loadTarget instanceof PageInfoModel){
+            injectObject = ((PageInfoModel)loadTarget).getDatas();
+        }else{
+            injectObject = loadTarget;
+        }
+        if( injectObject == null ){
+            return;
+        }
+        if (injectObject instanceof Map) {
+            ((Map) injectObject).forEach((key, value) -> fillDictionary(value));
+        } else if (injectObject instanceof List) {
+            ((List) injectObject).forEach(item -> fillDictionary(item));
         } else {
-            fillDictionary(loadTarget);
+            fillDictionary(injectObject);
         }
     }
 
@@ -47,16 +57,17 @@ public class DictLoader {
             if (dictName == null) {
                 continue;
             }
-            Map<String, String> cache = dataCollection.dictMapping(dictName.code());
-            if (cache == null) {
+            // 获取关联的值
+            String dictValue = getValue(model, dictName.joinField());
+            if (StringUtils.isBlank(dictValue)) {
                 continue;
             }
-            // 获取关联的值
-            String dictCode = getValue(model, dictName.joinField());
-            if (StringUtils.isNoneBlank(dictCode)) {
-                // 设置字典项
-                setValue(model, field, cache.get(dictCode));
+            String displayName = dataCollection.dictMapping(dictName.code(), dictValue);
+            if (StringUtils.isBlank(displayName)) {
+                continue;
             }
+            // 设置字典项
+            setValue(model, field, displayName);
         }
     }
 
@@ -106,7 +117,7 @@ public class DictLoader {
          * @param code
          * @return
          */
-        Map<String, String> dictMapping(String code);
+        String dictMapping(String code, String value);
 
     }
 

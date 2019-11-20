@@ -32,7 +32,7 @@ public class DictLoaderTest {
             }});
         }};
 
-        DictLoader loader = new DictLoader(code -> cache.get(code));
+        DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
 
         PersonModel model = new PersonModel();
         model.setCategoryId("1001");
@@ -64,7 +64,7 @@ public class DictLoaderTest {
             }});
         }};
 
-        DictLoader loader = new DictLoader(code -> cache.get(code));
+        DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
         List<PersonModel> datas = new ArrayList<>(10);
         PersonModel model = new PersonModel();
         model.setCategoryId("1001");
@@ -97,7 +97,7 @@ public class DictLoaderTest {
             }});
         }};
 
-        DictLoader loader = new DictLoader(code -> cache.get(code));
+        DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
         Map<String, PersonModel> datas = new HashMap<>(10);
         PersonModel model = new PersonModel();
         model.setCategoryId("1001");

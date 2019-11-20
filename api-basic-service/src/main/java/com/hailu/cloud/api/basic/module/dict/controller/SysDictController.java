@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.basic.module.dict.controller;
 
-import com.hailu.cloud.api.basic.module.dict.model.SysDictModel;
+import com.hailu.cloud.common.model.dict.SysDictModel;
 import com.hailu.cloud.api.basic.module.dict.service.ISysDictService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;

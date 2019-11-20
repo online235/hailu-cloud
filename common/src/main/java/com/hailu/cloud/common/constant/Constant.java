@@ -46,6 +46,14 @@ public final class Constant {
      */
     public static final String REDIS_KEY_REFRESH_TOKEN_STORE = "TOKEN_STORE:";
 
+    /**
+     * 字典存储
+     * 如：
+     * DICT_CACHE:ORDER_STATUS
+     * DICT_CACHE:TO_EXAMINE
+     */
+    public static final String REDIS_KEY_DICT_CACHE = "DICT_CACHE:";
+
     // endregion
 
     // region request header
@@ -96,7 +104,6 @@ public final class Constant {
      * gateway router key
      */
     public static final String GATEWAY_ROUTER_KEY = "org.springframework.cloud.gateway.support.ServerWebExchangeUtils.gatewayRoute";
-
 
     // endregion
 

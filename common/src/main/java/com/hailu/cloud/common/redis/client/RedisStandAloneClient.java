@@ -165,7 +165,11 @@ public class RedisStandAloneClient {
      * @param handle 获取连接回调
      */
     public <R> R handle(IRedisSuccessResultHandle<Jedis, R> handle) {
-        Jedis jedis = getConn();
+        return handle(false, handle);
+    }
+
+    public <R> R handle(boolean fastFail, IRedisSuccessResultHandle<Jedis, R> handle) {
+        Jedis jedis = getConn(fastFail);
         if (jedis == null) {
             return null;
         }
@@ -185,6 +189,16 @@ public class RedisStandAloneClient {
      * @return
      */
     private Jedis getConn() {
+        return getConn(false);
+    }
+
+    /**
+     * 获取redis连接
+     *
+     * @param fastFail 快速失败
+     * @return
+     */
+    private Jedis getConn(boolean fastFail) {
         Jedis jedis = null;
         // 最大尝试三次连接
         int tryNum = 0;
@@ -203,6 +217,9 @@ public class RedisStandAloneClient {
                 jedis.select(RedisEnum.DB_0.ordinal());
                 return jedis;
             } catch (Exception e) {
+                if (fastFail) {
+                    break;
+                }
                 // 休眠1秒后重试
                 tryNum++;
                 if (tryNum > maxTry) {

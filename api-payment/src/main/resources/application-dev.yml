@@ -1,12 +1,17 @@
 spring:
   cloud:
     consul:
-      host: 127.0.0.1
+      host: 192.168.10.243
       port: 8500
   datasource:
     url: jdbc:mysql://192.168.10.243:3306/ddkjdb?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useAffectedRows=true&serverTimezone=UTC
     username: root
     password: 123456
+
+#mybatis 在控制台打印sql
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 redis:
   hostname: 192.168.10.243

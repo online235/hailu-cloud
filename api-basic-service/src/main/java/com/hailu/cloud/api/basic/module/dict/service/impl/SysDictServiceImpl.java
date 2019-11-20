@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.basic.module.dict.service.impl;
 
 import com.hailu.cloud.api.basic.module.dict.dao.SysDictMapper;
-import com.hailu.cloud.api.basic.module.dict.model.SysDictModel;
+import com.hailu.cloud.common.model.dict.SysDictModel;
 import com.hailu.cloud.api.basic.module.dict.service.ISysDictService;
 import com.hailu.cloud.api.basic.module.uid.component.UidGenerator;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author xuzhijie
@@ -30,6 +31,11 @@ public class SysDictServiceImpl implements ISysDictService {
     @Override
     public SysDictModel find(String code, String value) {
         return dictMapper.find(code, value);
+    }
+
+    @Override
+    public List<SysDictModel> findAll() {
+        return dictMapper.findAll();
     }
 
     @Override
