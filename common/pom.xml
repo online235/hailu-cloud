@@ -70,6 +70,13 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.showapi.javasdk</groupId>
+            <artifactId>com.showapi.javasdk</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>
