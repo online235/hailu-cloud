@@ -17,7 +17,7 @@ public interface IAdminService {
      *
      * @param model
      */
-    void addAccount(SysAdminModel model);
+    void addAccount(SysAdminModel model) throws BusinessException;
 
     /**
      * 修改自己的密码
@@ -42,34 +42,35 @@ public interface IAdminService {
      * 根据账号查询
      *
      * @param account
+     * @param enableStatus
      * @return
      */
-    SysAdminModel searchAccount(String account);
+    SysAdminModel searchAccount(String account, int enableStatus);
 
     /**
      * 查询账号列表
      *
-     * @param nickName 昵称
-     * @param account  账号
-     * @param status   启用状态
-     * @param pageNum  当前页
-     * @param pageSize 每页显示数量
+     * @param nickName     昵称
+     * @param account      账号
+     * @param enableStatus 启用状态
+     * @param pageNum      当前页
+     * @param pageSize     每页显示数量
      * @return
      */
     PageInfoModel<List<SysAdminModel>> accountList(
             String nickName,
             String account,
-            Integer status,
+            Integer enableStatus,
             int pageNum,
             int pageSize);
 
     /**
      * 变更账号启用状态
      *
-     * @param id     账号ID
-     * @param status 启用状态
+     * @param id           账号ID
+     * @param enableStatus 启用状态
      */
-    void changeStatus(Long id, int status);
+    void changeStatus(Long id, int enableStatus) throws BusinessException;
 
     /**
      * 变更角色

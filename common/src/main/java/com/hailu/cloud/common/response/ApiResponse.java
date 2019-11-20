@@ -30,6 +30,7 @@ public class ApiResponse<T> {
 
     public ApiResponse(ApiResponseEnum responseEnum, T data) {
         this.code = responseEnum.getResponseCode();
+        this.message = responseEnum.getResultMsg();
         this.data = data;
     }
 

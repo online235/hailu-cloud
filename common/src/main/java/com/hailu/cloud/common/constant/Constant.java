@@ -107,4 +107,11 @@ public final class Constant {
 
     // endregion
 
+    // region 版本&服务名称
+
+    public static final String API_VERSION_V1 = "/api/v1";
+    public static final String API_NAME_BASIC = "/basic";
+
+    // endregion
+
 }

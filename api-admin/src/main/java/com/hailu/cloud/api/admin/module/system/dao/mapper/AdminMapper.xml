@@ -4,13 +4,13 @@
 
     <!-- 添加账号 -->
     <insert id="addAccount">
-		insert into sys_admin(id, nick_name, account, avatar, pwd, STATUS, create_by, create_time)
-		values (#{id}, #{nickName}, #{account}, #{avatar}, #{pwd}, #{status}, #{createBy}, NOW())
+		insert into sys_admin(id, nick_name, account, avatar, pwd, enable_status, create_by, create_time)
+		values (#{id}, #{nickName}, #{account}, #{avatar}, #{pwd}, #{enableStatus}, #{createBy}, NOW())
 	</insert>
 
     <!-- 变更账号启用状态 -->
     <update id="changeStatus">
-		update from sys_admin set status=#{status}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
+		update from sys_admin set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
     </update>
 
     <!-- 关联角色 -->
@@ -34,7 +34,7 @@
 
     <!-- 查询账号列表 -->
     <select id="accountList" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
-        SELECT id, nick_name, account, avatar, STATUS
+        SELECT id, nick_name, account, avatar, enable_status
         FROM sys_admin
         <where>
             <if test="nickName != null and nickName != ''">
@@ -43,17 +43,25 @@
             <if test="account != null and account != ''">
                 and account like concat('%', #{account}, '%')
             </if>
-            <if test="status != null">
-                and status = #{status}
+            <if test="enableStatus != null">
+                and enable_status = #{enableStatus}
             </if>
         </where>
     </select>
 
     <!-- 根据账号查询 -->
     <select id="searchAccount" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
-		SELECT id, nick_name, account, avatar, pwd, STATUS
+		SELECT id, nick_name, account, avatar, pwd, enable_status
 		FROM sys_admin
-		WHERE STATUS = 0
+		WHERE enable_status = #{enableStatus}
 		  AND account = #{account}
+	</select>
+
+    <!-- 根据账号查询 -->
+    <select id="checkAccountIsRepeat" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
+		SELECT id, account
+		FROM sys_admin
+		WHERE account = (select account from sys_admin where id = #{id} and enable_status = 1)
+		and enable_status = 0
 	</select>
 </mapper>

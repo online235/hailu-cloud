@@ -34,29 +34,29 @@ public interface AdminMapper {
      * @param account 账号
      * @return
      */
-    SysAdminModel searchAccount(@Param("account") String account);
+    SysAdminModel searchAccount(@Param("account") String account, @Param("enableStatus") int enableStatus);
 
     /**
      * 查询账号列表
      *
-     * @param nickName 昵称
-     * @param account  账号
-     * @param status   启用状态
+     * @param nickName     昵称
+     * @param account      账号
+     * @param enableStatus 启用状态
      * @return
      */
     List<SysAdminModel> accountList(
             @Param("nickName") String nickName,
             @Param("account") String account,
-            @Param("status") Integer status);
+            @Param("enableStatus") Integer enableStatus);
 
     /**
      * 变更账号启用状态
      *
-     * @param id       账号ID
-     * @param status   启用状态
-     * @param updateBy 修改人
+     * @param id           账号ID
+     * @param enableStatus 启用状态
+     * @param updateBy     修改人
      */
-    void changeStatus(@Param("id") Long id, @Param("status") int status, @Param("updateBy") String updateBy);
+    void changeStatus(@Param("id") Long id, @Param("enableStatus") int enableStatus, @Param("updateBy") String updateBy);
 
     /**
      * 变更角色
@@ -72,5 +72,13 @@ public interface AdminMapper {
      * @param id 账号ID
      */
     void unlinkRoles(@Param("id") Long id);
+
+    /**
+     * 检查帐户是否重复
+     *
+     * @param id 账号ID
+     * @return
+     */
+    SysAdminModel checkAccountIsRepeat(@Param("id") Long id);
 
 }

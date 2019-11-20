@@ -22,20 +22,20 @@ public class SysAdminModel {
      * 主键ID
      */
     @ApiModelProperty("主键ID")
-    private Integer id;
+    private Long id;
 
     /**
      * 账号昵称
      */
     @NotBlank(message = "账号昵称不能为空")
-    @ApiModelProperty("账号昵称")
+    @ApiModelProperty(value = "账号昵称", required = true)
     private String nickName;
 
     /**
      * 账号
      */
     @NotBlank(message = "账号不能为空")
-    @ApiModelProperty("账号")
+    @ApiModelProperty(value = "账号", required = true)
     private String account;
 
     /**
@@ -48,18 +48,18 @@ public class SysAdminModel {
      * 密码
      */
     @NotBlank(message = "密码不能为空")
+    @ApiModelProperty(value = "密码", required = true)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[\\s\\S]{8,20}$", message = "密码强度不够，请输入大小写字母数字组合，长度8~20位，如：a123456780.A!@=+")
-    @ApiModelProperty("密码")
     private String pwd;
 
     /**
      * 启用状态
      */
     @ApiModelProperty("启用状态")
-    private Integer status;
+    private Integer enableStatus;
 
-    @DictName(code = "ENABLE_STATUS", joinField = "status")
-    private String statusDisplay;
+    @DictName(code = "ENABLE_STATUS", joinField = "enableStatus")
+    private String enableStatusDisplay;
 
     /**
      * 创建人

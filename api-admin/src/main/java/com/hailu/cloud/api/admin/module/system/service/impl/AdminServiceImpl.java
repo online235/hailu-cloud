@@ -6,10 +6,12 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.system.dao.AdminMapper;
 import com.hailu.cloud.api.admin.module.system.service.IAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.feigns.UuidFeignClient;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysAdminModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,9 +26,18 @@ public class AdminServiceImpl implements IAdminService {
     @Resource
     private AdminMapper adminMapper;
 
+    @Autowired
+    private UuidFeignClient uuidFeignClient;
+
     @Override
-    public void addAccount(SysAdminModel model) {
+    public void addAccount(SysAdminModel model) throws BusinessException {
+        SysAdminModel existAccount = searchAccount(model.getAccount(), 1);
+        if( existAccount != null ){
+            throw new BusinessException("账号已存在");
+        }
+        model.setId(uuidFeignClient.uuid().getData());
         model.setPwd(SecureUtil.md5(model.getPwd()));
+        model.setEnableStatus(1);
         adminMapper.addAccount(model);
     }
 
@@ -49,27 +60,36 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public SysAdminModel searchAccount(String account) {
-        return adminMapper.searchAccount(account);
+    public SysAdminModel searchAccount(String account, int enableStatus) {
+        return adminMapper.searchAccount(account, enableStatus);
     }
 
     @Override
     public PageInfoModel<List<SysAdminModel>> accountList(
             String nickName,
             String account,
-            Integer status,
+            Integer enableStatus,
             int pageNum,
             int pageSize) {
 
         Page page = PageHelper.startPage(pageNum, pageSize);
-        List<SysAdminModel> datas = adminMapper.accountList(nickName, account, status);
+        List<SysAdminModel> datas = adminMapper.accountList(nickName, account, enableStatus);
         return new PageInfoModel<>(page.getPages(), datas);
     }
 
     @Override
-    public void changeStatus(Long id, int status) {
+    public void changeStatus(Long id, int enableStatus) throws BusinessException {
+        if( enableStatus == 1 ){
+            SysAdminModel existsAccount = adminMapper.checkAccountIsRepeat(id);
+            if( existsAccount != null ){
+                if( existsAccount.getId().compareTo(id) == 0 ){
+                    return;
+                }
+                throw new BusinessException("系统中已存在一个相同的账号，并且该账号目前为启用状态");
+            }
+        }
         AdminLoginInfoModel infoModel = RequestUtils.getAdminLoginInfo();
-        adminMapper.changeStatus(id, status, infoModel.getAccount());
+        adminMapper.changeStatus(id, enableStatus, infoModel.getAccount());
     }
 
     @Override

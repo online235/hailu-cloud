@@ -56,10 +56,10 @@ public class SysMenuModel {
      * 启用状态
      */
     @ApiModelProperty("启用状态")
-    private Integer status;
+    private Integer enableStatus;
 
-    @DictName(code = "ENABLE_STATUS", joinField = "status")
-    private String statusDisplay;
+    @DictName(code = "ENABLE_STATUS", joinField = "enableStatus")
+    private String enableStatusDisplay;
 
     /**
      * 创建人
