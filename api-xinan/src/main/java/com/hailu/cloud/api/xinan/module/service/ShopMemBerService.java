@@ -6,7 +6,6 @@ import com.hailu.cloud.api.xinan.module.dao.ShopMemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 
 /**
  * @Author: QiuFeng:WANG

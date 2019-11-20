@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.dao.McManagementTypeDao">
+
+
+    <select id="findListByParam"  resultType="com.hailu.cloud.api.merchant.module.entity.McManagementType">
+        SELECT
+        management_id,
+        parent_id,
+        management_name,
+        createdat,
+        updatedat
+        FROM mc_management_type
+        WHERE 1=1
+        <if test="managementName != null" >
+            and management_name = #{managementName}
+        </if>
+        <if test="parentId != null" >
+            and parent_id = #{parentId}
+        </if>
+    </select>
+
+    <select id="findObjectByParentName"  resultType="com.hailu.cloud.api.merchant.module.entity.McManagementType">
+        SELECT
+        management_id,
+        parent_id,
+        management_name,
+        createdat,
+        updatedat
+        FROM mc_management_type
+        WHERE 1=1
+        <if test="parentName != null" >
+            and management_name = #{parentName}
+        </if>
+    </select>
+
+
+</mapper>

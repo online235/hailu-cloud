@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -83,6 +84,19 @@ public class FileUploadController {
             @RequestParam(value = "compressQuality", required = false, defaultValue = "false") Double compressQuality) throws BusinessException {
 
         return fileUploadService.single(businessCode, imageCompress, compressQuality, file);
+    }
+
+    /**
+     * 删除服务上的文件
+     * @param filePath 路径
+     * @return
+     */
+    @ApiOperation( value = "删除图片")
+    @ResponseBody
+    @PostMapping(value = "deleteQictures")
+    @ApiImplicitParam(name = "filePath", value = "图片路径" ,required = true)
+    public void deleteServerFile(String filePath){
+        fileUploadService.deleteSFile(filePath);
     }
 
 }

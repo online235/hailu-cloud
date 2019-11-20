@@ -74,4 +74,9 @@ public class FileUploadServiceImpl implements IFileUploadService {
         }
         return result;
     }
+
+    @Override
+    public void deleteSFile(String filePath) {
+        fileStoreService.deleteSFile(filePath);
+    }
 }

@@ -11,3 +11,6 @@ spring:
     url: jdbc:mysql://192.168.10.243:3306/ddkjdb?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useAffectedRows=true&serverTimezone=UTC
     username: root
     password: 123456
+redis:
+  hostname: 192.168.10.243
+  port: 6379

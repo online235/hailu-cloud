@@ -28,4 +28,11 @@ public interface IFileStoreService {
             String filePath,
             String picName) throws BusinessException;
 
+    /**
+     * 删除文件
+     * @param filePath
+     * @throws BusinessException
+     */
+    void deleteSFile(
+            String filePath);
 }

@@ -42,4 +42,10 @@ public interface IFileUploadService {
             Double compressQuality,
             MultipartFile... files) throws BusinessException;
 
+    /**
+     * 删除文件
+     * @param filePath
+     */
+    void deleteSFile(String filePath);
+
 }

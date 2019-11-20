@@ -53,6 +53,14 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
         }
     }
 
+    @Override
+    public void deleteSFile(String filePath) {
+        File file = new File(fileStorePath+filePath);
+        file.exists();
+        file.isFile();
+        file.delete();
+    }
+
     private String save(
             InputStream in,
             Boolean imageCompress,
