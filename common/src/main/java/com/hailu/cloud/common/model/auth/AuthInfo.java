@@ -22,6 +22,7 @@ public class AuthInfo<E> {
      * 登录类型
      * 0 心安/商城用户登录
      * 1 商户登录
+     * 2 管理员登录
      */
     private int loginType;
 
@@ -46,7 +47,7 @@ public class AuthInfo<E> {
     private long refreshTokenExpire;
 
     /**
-     * 登录用户信息
+     * 登录用户详细信息
      */
     private E userInfo;
 

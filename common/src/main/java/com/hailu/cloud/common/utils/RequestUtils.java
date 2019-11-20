@@ -2,12 +2,10 @@ package com.hailu.cloud.common.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.hailu.cloud.common.constant.Constant;
-import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
-import com.hailu.cloud.common.model.system.SysMenuModel;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.response.ApiResponseEnum;
 import lombok.AccessLevel;
@@ -39,6 +37,17 @@ public final class RequestUtils {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         return servletRequestAttributes.getRequest();
+    }
+
+    /**
+     * 获取认证信息
+     *
+     * @return
+     */
+    public static AuthInfo getAuthInfo() {
+        HttpServletRequest request = getRequest();
+        AuthInfo authInfo = (AuthInfo) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        return authInfo;
     }
 
     /**
