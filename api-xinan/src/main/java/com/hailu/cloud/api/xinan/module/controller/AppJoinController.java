@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.service.XinAnInsuredService;
-import com.hailu.cloud.api.xinan.module.service.XinAnOrderService;
+import com.hailu.cloud.api.xinan.module.service.InsuredService;
+import com.hailu.cloud.api.xinan.module.service.OrderService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -37,11 +37,11 @@ import javax.validation.constraints.NotBlank;
 public class AppJoinController {
 
     @Autowired
-    private XinAnInsuredService xinAnInsuredService;
+    private InsuredService insuredService;
 
 
     @Autowired
-    private XinAnOrderService xinAnOrderService;
+    private OrderService orderService;
 
     @Autowired
     private IDCardCheck idCardCheck;
@@ -99,7 +99,7 @@ public class AppJoinController {
             throw new BusinessException("身份证与姓名不匹配");
         }
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        return xinAnInsuredService.addOrEditInsured(name, idCard, loginInfo.getUserId(), memberRelation, type, isYearEnjoy, photoUrl);
+        return insuredService.addOrEditInsured(name, idCard, loginInfo.getUserId(), memberRelation, type, isYearEnjoy, photoUrl);
     }
 
 
@@ -137,7 +137,7 @@ public class AppJoinController {
     public Object findNoPayList(HttpServletRequest request) {
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
         log.info("获取参保人列表");
-        return xinAnOrderService.findListByMemberIdAndMemberStatus(loginInfo.getUserId());
+        return orderService.findListByMemberIdAndMemberStatus(loginInfo.getUserId());
     }
 
 
@@ -161,7 +161,7 @@ public class AppJoinController {
     })
     public void deleteById(@NotBlank(message = "ID不能为空") String id) {
         log.info("删除参保人  id:" + id);
-        xinAnOrderService.deleteById(id);
+        orderService.deleteById(id);
     }
 
 
@@ -193,7 +193,7 @@ public class AppJoinController {
     })
     public Object findDetailById(@NotBlank(message = "ID不能为空") String id) {
         log.info("查询参保人明细  id:{}", id);
-        return xinAnInsuredService.findDetailById(id);
+        return insuredService.findDetailById(id);
     }
 
     /**
@@ -239,7 +239,7 @@ public class AppJoinController {
             //校验身份合法性
             throw new BusinessException("身份证与姓名不匹配");
         }
-        return xinAnInsuredService.editInsurd(name, idCard, id, memberRelation, type, isYearEnjoy, photoUrl);
+        return insuredService.editInsurd(name, idCard, id, memberRelation, type, isYearEnjoy, photoUrl);
     }
 
     /**
@@ -292,7 +292,7 @@ public class AppJoinController {
 
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
         log.debug("查询参保人列表:{}", loginInfo.getUserId());
-        return xinAnInsuredService.findListByMemberId(loginInfo.getUserId());
+        return insuredService.findListByMemberId(loginInfo.getUserId());
     }
 
 }

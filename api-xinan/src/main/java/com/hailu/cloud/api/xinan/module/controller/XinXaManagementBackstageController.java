@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.service.XaManagementBackstageService;
+import com.hailu.cloud.api.xinan.module.service.ManagementBackstageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class XinXaManagementBackstageController {
 
     @Autowired
-    private XaManagementBackstageService xaManagementBackstageService;
+    private ManagementBackstageService managementBackstageService;
 
 
     @ApiOperation(value = "登录", notes = "<pre>" +
@@ -40,6 +40,6 @@ public class XinXaManagementBackstageController {
             @ApiImplicitParam(name = "userName", value = "密码", required = true, paramType = "query", dataType = "String")
     })
     public Object findLogin(String userName, String passWord){
-        return xaManagementBackstageService.findLogin(userName, passWord);
+        return managementBackstageService.findLogin(userName, passWord);
     }
 }

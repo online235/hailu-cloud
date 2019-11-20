@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.service.XinAnShopMemBerService;
+import com.hailu.cloud.api.xinan.module.service.ShopMemBerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,7 +25,7 @@ import javax.validation.constraints.NotBlank;
 public class PcShopMemberController {
 
     @Autowired
-    private XinAnShopMemBerService xinAnShopMemBerService;
+    private ShopMemBerService shopMemBerService;
 
     @ApiOperation(value = "用户列表", notes = "<pre>" +
             "{\n" +
@@ -140,14 +140,14 @@ public class PcShopMemberController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer limit) {
 
-        return xinAnShopMemBerService.selectFindShopMember(membername, membermobile,page,limit);
+        return shopMemBerService.selectFindShopMember(membername, membermobile,page,limit);
     }
 
     @ApiOperation(value = "用户详情")
     @PostMapping("shopdetails")
     @ResponseBody
     public Object selectByPrimaryKey(@NotBlank(message = "编号不能为空") String memberid) {
-        return xinAnShopMemBerService.selectByPrimaryKey(memberid);
+        return shopMemBerService.selectByPrimaryKey(memberid);
     }
 
 }

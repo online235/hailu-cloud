@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.service.XinAnRescueInfoService;
-import com.hailu.cloud.api.xinan.module.service.XinAnRescueService;
+import com.hailu.cloud.api.xinan.module.service.RescueInfoService;
+import com.hailu.cloud.api.xinan.module.service.RescueService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,10 +19,10 @@ import javax.validation.constraints.NotBlank;
 public class RescueContorller {
 
     @Autowired
-    private XinAnRescueInfoService xinAnRescueInfoService;
+    private RescueInfoService rescueInfoService;
 
     @Autowired
-    private XinAnRescueService xinAnRescueService;
+    private RescueService rescueService;
 
 
     @ApiOperation(value = "救助详情", notes = "<pre>"+
@@ -60,7 +60,7 @@ public class RescueContorller {
             @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query",dataType = "String")
     })
     public Object findRescue(String numberId){
-        return xinAnRescueInfoService.findRescue(numberId);
+        return rescueInfoService.findRescue(numberId);
     }
 
     @ApiOperation(notes = "<pre>" +
@@ -108,7 +108,7 @@ public class RescueContorller {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "20") Integer size){
 
-        return xinAnRescueService.findXaRescueListAll(page,size);
+        return rescueService.findXaRescueListAll(page,size);
     }
 
     @ApiOperation(value = "更改救助审核状态", notes = "<pre>" +
@@ -126,7 +126,7 @@ public class RescueContorller {
             @NotBlank(message = "编号不能为空") String numberId,
             @NotBlank(message = "审核状态不能为空") String examine){
 
-        xinAnRescueService.updateByPrimaryKeySelective(numberId,examine);
+        rescueService.updateByPrimaryKeySelective(numberId,examine);
     }
 
 }

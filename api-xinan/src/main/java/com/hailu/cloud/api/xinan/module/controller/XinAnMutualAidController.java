@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.entity.XaMutualaid;
-import com.hailu.cloud.api.xinan.module.service.XinAnXaMutualAidInfoService;
+import com.hailu.cloud.api.xinan.module.entity.Mutualaid;
+import com.hailu.cloud.api.xinan.module.service.MutualAidInfoService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -33,7 +33,7 @@ public class XinAnMutualAidController {
 
 
     @Autowired
-    private XinAnXaMutualAidInfoService xinAnXaMutualAidInfoService;
+    private MutualAidInfoService mutualAidInfoService;
 
 
 
@@ -51,10 +51,10 @@ public class XinAnMutualAidController {
             @ApiImplicitParam(name="picture", value = "图片路径" , required = true, paramType = "query", allowMultiple=true, dataType = "String")
 
     })
-    public void insHelpANDMtualAid(XaMutualaid xaMutualAid, String[] picture, HttpServletRequest request) throws BusinessException {
+    public void insHelpANDMtualAid(Mutualaid mutualAid, String[] picture, HttpServletRequest request) throws BusinessException {
 
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        xaMutualAid.setMemberId(loginInfo.getUserId());
-        xinAnXaMutualAidInfoService.insHelpANDMtualAid(xaMutualAid,picture);
+        mutualAid.setMemberId(loginInfo.getUserId());
+        mutualAidInfoService.insHelpANDMtualAid(mutualAid,picture);
     }
 }

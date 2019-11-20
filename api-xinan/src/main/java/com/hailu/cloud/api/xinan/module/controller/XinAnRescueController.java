@@ -1,8 +1,8 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.entity.XaRescue;
-import com.hailu.cloud.api.xinan.module.service.XinAnRescueInfoService;
-import com.hailu.cloud.api.xinan.module.service.XinAnRescueService;
+import com.hailu.cloud.api.xinan.module.entity.Rescue;
+import com.hailu.cloud.api.xinan.module.service.RescueInfoService;
+import com.hailu.cloud.api.xinan.module.service.RescueService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 public class XinAnRescueController {
 
     @Autowired
-    private XinAnRescueInfoService xinAnRescueInfoService;
+    private RescueInfoService rescueInfoService;
 
     @Autowired
-    private XinAnRescueService xinAnRescueService;
+    private RescueService rescueService;
 
 
     @ApiOperation(notes = "", value = "上传救助信息")
@@ -42,10 +42,10 @@ public class XinAnRescueController {
             @ApiImplicitParam(name="picture", value = "图片路径" , required = true, paramType = "query", allowMultiple=true, dataType = "String")
 
     })
-    public void insHelpANDMtualAid(XaRescue xaRescue, String[] picture, HttpServletRequest request) throws BusinessException {
+    public void insHelpANDMtualAid(Rescue rescue, String[] picture, HttpServletRequest request) throws BusinessException {
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        xaRescue.setMemberId(loginInfo.getUserId());
-        xinAnRescueInfoService.insRescueAndRictures(xaRescue,picture);
+        rescue.setMemberId(loginInfo.getUserId());
+        rescueInfoService.insRescueAndRictures(rescue,picture);
     }
 
     @ApiOperation(notes = "<pre>" +
@@ -89,7 +89,7 @@ public class XinAnRescueController {
     public Object findXaRescueList(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "20") Integer size) throws BusinessException {
-        return xinAnRescueService.findXaRescueList(page,size);
+        return rescueService.findXaRescueList(page,size);
     }
 
     @ApiOperation(notes = "<pre>"+
@@ -126,6 +126,6 @@ public class XinAnRescueController {
     @PostMapping("/rescueDetails")
     @ResponseBody
     public Object findXaRescue(String numberId){
-        return xinAnRescueInfoService.findRescue(numberId);
+        return rescueInfoService.findRescue(numberId);
     }
 }

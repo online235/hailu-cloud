@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.entity.XaSalvageOrder;
-import com.hailu.cloud.api.xinan.module.service.XinAnXaSalvageOrderService;
+import com.hailu.cloud.api.xinan.module.entity.SalvageOrder;
+import com.hailu.cloud.api.xinan.module.service.SalvageOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 public class XinAnSalvageOrderController {
 
     @Autowired
-    private XinAnXaSalvageOrderService xinAnXaSalvageOrderService;
+    private SalvageOrderService salvageOrderService;
 
     @ApiOperation(value = "捐助时下单", notes = "<pre>" +
             "{\n" +
@@ -44,7 +44,7 @@ public class XinAnSalvageOrderController {
             @ApiImplicitParam(name = "invitationMember", value = "分享者编号", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "rescueId", value = "救助编号", required = true, paramType = "query", dataType = "String")
     })
-    public void insSalvageOrder(XaSalvageOrder xaSalvageOrder, HttpServletRequest request){
-        xinAnXaSalvageOrderService.buildOrder(xaSalvageOrder,request);
+    public void insSalvageOrder(SalvageOrder salvageOrder, HttpServletRequest request){
+        salvageOrderService.buildOrder(salvageOrder,request);
     }
 }

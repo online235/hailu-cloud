@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.xinan.module.controller;
 
-import com.hailu.cloud.api.xinan.module.service.XinAnInsuredService;
+import com.hailu.cloud.api.xinan.module.service.InsuredService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,7 +32,7 @@ import javax.validation.constraints.NotBlank;
 public class JoinController {
 
     @Autowired
-    private XinAnInsuredService xinAnInsuredService;
+    private InsuredService insuredService;
 
     @PostMapping("findList")
     @ApiOperation(notes = "", value = "获取参保人列表信息")
@@ -46,14 +46,14 @@ public class JoinController {
             @RequestParam(value = "size", defaultValue = "20", required = false) Integer size){
         //LoginInfo loginInfo = (LoginInfo) request.getAttribute(Constant.USER_INFORMATION);
         log.info("获取参保人信息");
-        return xinAnInsuredService.findList(page,size);
+        return insuredService.findList(page,size);
     }
 
     @PostMapping("findInsured")
     @ApiOperation(value = "获取参保人详细信息")
     @ApiImplicitParam(name = "id", value = "编号", required = true, paramType = "query", dataType = "String")
     public Object findInsuredById(@NotBlank(message = "编号不能为空") String id) throws BusinessException {
-        return xinAnInsuredService.findInsuredById(id);
+        return insuredService.findInsuredById(id);
     }
 
 
@@ -67,7 +67,7 @@ public class JoinController {
             @NotBlank(message = "编号不能为空") Integer memberStatus,
             @NotBlank(message = "修改状态不能为空") String id) throws BusinessException {
 
-        xinAnInsuredService.updInsureByMemberStatus(memberStatus,id);
+        insuredService.updInsureByMemberStatus(memberStatus,id);
     }
 
 }

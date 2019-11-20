@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.api.shoppingmall.module.xinan.dao.XaRescueMapper" >
+  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.entity.Rescue" >
+    <id column="number_id" property="numberId" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="target_amount" property="targetAmount" jdbcType="DECIMAL" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="help_times" property="helpTimes" jdbcType="BIGINT" />
+    <result column="cash" property="cash" jdbcType="DECIMAL" />
+    <result column="rescue_type" property="rescueType" jdbcType="CHAR" />
+    <result column="province_id" property="provinceId" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="examine" property="examine" jdbcType="CHAR" />
+    <result column="createdat" property="createdat" jdbcType="TIMESTAMP" />
+    <result column="updatedat" property="updatedat" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hailu.api.shoppingmall.module.xinan.vo.XaRescue" extends="BaseResultMap" >
+    <result column="Instructions" property="instructions" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    number_id, member_id, target_amount, title, help_times, cash, rescue_type, province_id, 
+    city_id, examine, createdat, updatedat
+  </sql>
+  <sql id="Blob_Column_List" >
+    Instructions
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xa_rescue
+    where number_id = #{numberId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from xa_rescue
+    where number_id = #{numberId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.api.shoppingmall.module.xinan.vo.XaRescue" useGeneratedKeys="true" keyProperty="numberId" >
+    insert into xa_rescue (member_id, target_amount, title, 
+      help_times, cash, rescue_type, 
+      province_id, city_id, createdat,examine,
+      updatedat, Instructions)
+    values (#{memberId,jdbcType=VARCHAR}, #{targetAmount,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, 
+      #{helpTimes,jdbcType=BIGINT}, #{cash,jdbcType=DECIMAL}, #{rescueType,jdbcType=CHAR}, 
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{createdat,jdbcType=TIMESTAMP},#{examine,jdbcType=CHAR},
+      #{updatedat,jdbcType=TIMESTAMP}, #{instructions,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hailu.api.shoppingmall.module.xinan.vo.XaRescue" useGeneratedKeys="true" keyProperty="numberId" >
+    insert into xa_rescue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="numberId != null" >
+        number_id,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="targetAmount != null" >
+        target_amount,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="helpTimes != null" >
+        help_times,
+      </if>
+      <if test="cash != null" >
+        cash,
+      </if>
+      <if test="rescueType != null" >
+        rescue_type,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="examine != null" >
+        examine,
+      </if>
+      <if test="createdat != null" >
+        createdat,
+      </if>
+      <if test="updatedat != null" >
+        updatedat,
+      </if>
+      <if test="instructions != null" >
+        Instructions,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="numberId != null" >
+        #{numberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="targetAmount != null" >
+        #{targetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="helpTimes != null" >
+        #{helpTimes,jdbcType=BIGINT},
+      </if>
+      <if test="cash != null" >
+        #{cash,jdbcType=DECIMAL},
+      </if>
+      <if test="rescueType != null" >
+        #{rescueType,jdbcType=CHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="examine != null" >
+        #{examine,jdbcType=CHAR},
+      </if>
+      <if test="createdat != null" >
+        #{createdat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedat != null" >
+        #{updatedat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="instructions != null" >
+        #{instructions,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.api.shoppingmall.module.xinan.vo.XaRescue" >
+    update xa_rescue
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="targetAmount != null" >
+        target_amount = #{targetAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="helpTimes != null" >
+        help_times = #{helpTimes,jdbcType=BIGINT},
+      </if>
+      <if test="cash != null" >
+        cash = #{cash,jdbcType=DECIMAL},
+      </if>
+      <if test="rescueType != null" >
+        rescue_type = #{rescueType,jdbcType=CHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="examine != null" >
+        examine = #{examine,jdbcType=CHAR},
+      </if>
+      <if test="createdat != null" >
+        createdat = #{createdat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedat != null" >
+        updatedat = #{updatedat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="instructions != null" >
+        Instructions = #{instructions,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where number_id = #{numberId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.api.shoppingmall.module.xinan.vo.XaRescue" >
+    update xa_rescue
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      target_amount = #{targetAmount,jdbcType=DECIMAL},
+      title = #{title,jdbcType=VARCHAR},
+      help_times = #{helpTimes,jdbcType=BIGINT},
+      cash = #{cash,jdbcType=DECIMAL},
+      rescue_type = #{rescueType,jdbcType=CHAR},
+      province_id = #{provinceId,jdbcType=BIGINT},
+      city_id = #{cityId,jdbcType=BIGINT},
+      examine = #{examine,jdbcType=CHAR},
+      createdat = #{createdat,jdbcType=TIMESTAMP},
+      updatedat = #{updatedat,jdbcType=TIMESTAMP},
+      Instructions = #{instructions,jdbcType=LONGVARCHAR}
+    where number_id = #{numberId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hailu.api.shoppingmall.module.xinan.vo.XaRescue" >
+    update xa_rescue
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      target_amount = #{targetAmount,jdbcType=DECIMAL},
+      title = #{title,jdbcType=VARCHAR},
+      help_times = #{helpTimes,jdbcType=BIGINT},
+      cash = #{cash,jdbcType=DECIMAL},
+      rescue_type = #{rescueType,jdbcType=CHAR},
+      province_id = #{provinceId,jdbcType=BIGINT},
+      city_id = #{cityId,jdbcType=BIGINT},
+      examine = #{examine,jdbcType=CHAR},
+      createdat = #{createdat,jdbcType=TIMESTAMP},
+      updatedat = #{updatedat,jdbcType=TIMESTAMP}
+    where number_id = #{numberId,jdbcType=VARCHAR}
+  </update>
+  <select id="findXaRescueVo" resultType="com.hailu.api.shoppingmall.module.xinan.vo.vm.XaRescueVo">
+    select DISTINCT xr.number_id as numberId,xr.title as title ,xr.rescue_type as rescueType,xr.help_times as helpTimes,xr.member_id as memberId,xrp.picture as picture
+    from xa_rescue xr INNER JOIN xa_rescue_pictures xrp ON xr.number_id = xrp.mutuala_id
+    where xr.examine = 1
+    group by xr.number_id
+  </select>
+  <select id="findXaRescueList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>,
+    <include refid="Blob_Column_List"/>
+    from xa_rescue
+  </select>
+
+</mapper>
