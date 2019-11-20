@@ -1,7 +1,5 @@
 package com.hailu.cloud.api.merchant.module.entity;
 
-import com.hailu.cloud.common.utils.DateHUtils;
-import com.hailu.cloud.common.utils.DateUtils;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -50,35 +48,6 @@ public class BaseEntity {
     private String createName;
 
     private String updateName;
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-        if (null != createTime) {
-            createTimeStr = DateUtils.getTimestampByLong(createTime);
-            createTimeSt = DateHUtils.longToString(createTime);
-        }
-    }
-
-    public void setUpdateTime(Long updateTime) {
-        this.updateTime = updateTime;
-        if (null != updateTime) {
-            updateTimeStr = DateUtils.getTimestampByLong(updateTime);
-        }
-    }
-
-    public void setStartTime(Long startTime) {
-        this.startTime = startTime;
-        if (null != startTime) {
-            this.startTimeStr = DateUtils.getTimestampByLong(startTime);
-        }
-    }
-
-    public void setEndTime(Long endTime) {
-        this.endTime = endTime;
-        if (null != endTime) {
-            this.endTimeStr = DateUtils.getTimestampByLong(endTime);
-        }
-    }
 
     /* 删除标记（0：正常；1：删除；2：审核；） */
     /**

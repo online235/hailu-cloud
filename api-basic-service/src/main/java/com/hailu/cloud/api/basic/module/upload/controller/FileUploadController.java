@@ -16,7 +16,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.File;
 import java.util.List;
 
 /**
@@ -96,7 +95,7 @@ public class FileUploadController {
     @PostMapping(value = "deleteQictures")
     @ApiImplicitParam(name = "filePath", value = "图片路径" ,required = true)
     public void deleteServerFile(String filePath){
-        fileUploadService.deleteSFile(filePath);
+        fileUploadService.deleteFile(filePath);
     }
 
 }

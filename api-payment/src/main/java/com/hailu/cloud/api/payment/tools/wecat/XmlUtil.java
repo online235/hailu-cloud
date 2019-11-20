@@ -12,13 +12,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.*;
 
 /**
  * Created by somebody on 2016/7/7.
  */
-public class XMLUtil {
+public class XmlUtil {
     /**
      * map 生成xml 使用TreeMap  保证顺序
      *
@@ -43,12 +44,12 @@ public class XMLUtil {
      */
     public static Map<String, String> xmlToMap(String strXML) throws Exception {
         try {
-            Map<String, String> data = new HashMap<String, String>();
             DocumentBuilder documentBuilder = newDocumentBuilder();
-            InputStream stream = new ByteArrayInputStream(strXML.getBytes("UTF-8"));
+            InputStream stream = new ByteArrayInputStream(strXML.getBytes(StandardCharsets.UTF_8));
             Document doc = documentBuilder.parse(stream);
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getDocumentElement().getChildNodes();
+            Map<String, String> data = new HashMap<>(nodeList.getLength());
             for (int idx = 0; idx < nodeList.getLength(); ++idx) {
                 Node node = nodeList.item(idx);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -99,11 +100,11 @@ public class XMLUtil {
      * @return 签名是否正确
      * @throws Exception
      */
-    public static boolean isSignatureValid(Map<String, String> data, String key, WXPayConstants.SignType signType) throws Exception {
-        if (!data.containsKey(WXPayConstants.FIELD_SIGN)) {
+    public static boolean isSignatureValid(Map<String, String> data, String key, WeiXinPayConstant.SignType signType) throws Exception {
+        if (!data.containsKey(WeiXinPayConstant.FIELD_SIGN)) {
             return false;
         }
-        String sign = data.get(WXPayConstants.FIELD_SIGN);
+        String sign = data.get(WeiXinPayConstant.FIELD_SIGN);
         return generateSignature(data, key, signType).equals(sign);
     }
 
@@ -115,13 +116,13 @@ public class XMLUtil {
      * @param signType 签名方式
      * @return 签名
      */
-    public static String generateSignature(final Map<String, String> data, String key, WXPayConstants.SignType signType) throws Exception {
+    public static String generateSignature(final Map<String, String> data, String key, WeiXinPayConstant.SignType signType) throws Exception {
         Set<String> keySet = data.keySet();
         String[] keyArray = keySet.toArray(new String[keySet.size()]);
         Arrays.sort(keyArray);
         StringBuilder sb = new StringBuilder();
         for (String k : keyArray) {
-            if (k.equals(WXPayConstants.FIELD_SIGN)) {
+            if (k.equals(WeiXinPayConstant.FIELD_SIGN)) {
                 continue;
             }
             // 参数值为空，则不参与签名
@@ -130,9 +131,9 @@ public class XMLUtil {
             }
         }
         sb.append("key=").append(key);
-        if (WXPayConstants.SignType.MD5.equals(signType)) {
+        if (WeiXinPayConstant.SignType.MD5.equals(signType)) {
             return MD5(sb.toString()).toUpperCase();
-        } else if (WXPayConstants.SignType.HMACSHA256.equals(signType)) {
+        } else if (WeiXinPayConstant.SignType.HMACSHA256.equals(signType)) {
             return HMACSHA256(sb.toString(), key);
         } else {
             throw new Exception(String.format("Invalid sign_type: %s", signType));

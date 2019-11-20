@@ -45,11 +45,15 @@ public class InsuredService {
     @Resource
     private OrderMapper xaOrderMapper;
 
-    //首次充值
+    /**
+     * 首次充值
+     */
     private final double FIRSTMONEY = 0.01;
-    //续费
-    private final double NEXTMONEY = 26;
 
+    /**
+     * 续费
+     */
+    private final double NEXTMONEY = 26;
 
     public Object addOrEditInsured(String name, String idCard, String memberId, Integer memberRelation, Integer type, Integer isYearEnjoy, String photoUrl) {
 

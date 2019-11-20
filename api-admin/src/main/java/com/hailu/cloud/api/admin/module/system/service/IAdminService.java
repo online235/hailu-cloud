@@ -24,6 +24,7 @@ public interface IAdminService {
      *
      * @param oldPwd 旧密码
      * @param newPwd 新密码
+     * @throws BusinessException
      */
     void changePwd(String oldPwd, String newPwd) throws BusinessException;
 
@@ -41,6 +42,7 @@ public interface IAdminService {
      * 根据账号查询
      *
      * @param account
+     * @return
      */
     SysAdminModel searchAccount(String account);
 

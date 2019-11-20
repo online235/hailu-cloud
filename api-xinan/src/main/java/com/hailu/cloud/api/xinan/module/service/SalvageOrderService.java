@@ -1,17 +1,15 @@
 package com.hailu.cloud.api.xinan.module.service;
 
 import cn.hutool.core.util.IdUtil;
-import com.hailu.cloud.api.xinan.clients.UuidFeign;
 import com.hailu.cloud.api.xinan.module.dao.SalvageOrderMapper;
 import com.hailu.cloud.api.xinan.module.entity.SalvageOrder;
+import com.hailu.cloud.common.feigns.UuidFeignClient;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.util.XinAnLoginAuthInfoUtil;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Service
@@ -20,17 +18,17 @@ public class SalvageOrderService {
     @Resource
     private SalvageOrderMapper salvageOrderMapper;
 
-    @Autowired
-    private UuidFeign uuidFeign;
+    @Resource
+    private UuidFeignClient uuidFeign;
 
     /**
      * 保存救助支付订单
+     *
      * @param salvageOrder
-     * @param request
      * @return
      */
-    public void buildOrder(SalvageOrder salvageOrder, HttpServletRequest request){
-        MemberLoginInfoModel loginInfo = XinAnLoginAuthInfoUtil.LoginInfo(request);
+    public void buildOrder(SalvageOrder salvageOrder) {
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         //捐助人编号
         salvageOrder.setMemberId(loginInfo.getUserId());
         //创建人
@@ -50,24 +48,26 @@ public class SalvageOrderService {
 
     /**
      * 根据编号查询支付订单
+     *
      * @param memberId
      * @param orderNo
      * @return
      */
-    public SalvageOrder findSalvageOrder(String memberId, String orderNo){
-        if(StringUtils.isBlank(memberId) || StringUtils.isBlank(orderNo)){
+    public SalvageOrder findSalvageOrder(String memberId, String orderNo) {
+        if (StringUtils.isBlank(memberId) || StringUtils.isBlank(orderNo)) {
             return null;
         }
-        return salvageOrderMapper.findSalvageOrder(memberId,orderNo);
+        return salvageOrderMapper.findSalvageOrder(memberId, orderNo);
     }
 
     /**
      * 根据订单号查询
+     *
      * @param orderNo
      * @return
      */
-    public SalvageOrder findSalvageOrderByOrderNo(String orderNo){
-        if(StringUtils.isBlank(orderNo)){
+    public SalvageOrder findSalvageOrderByOrderNo(String orderNo) {
+        if (StringUtils.isBlank(orderNo)) {
             return null;
         }
         return salvageOrderMapper.findSalvageOrderByOrderNO(orderNo);
@@ -75,11 +75,12 @@ public class SalvageOrderService {
 
     /**
      * 更新订单
+     *
      * @param salvageOrder
      * @return
      */
-    public int updateSalvageOrder(SalvageOrder salvageOrder){
-        if (salvageOrder != null){
+    public int updateSalvageOrder(SalvageOrder salvageOrder) {
+        if (salvageOrder != null) {
             return 0;
         }
         return salvageOrderMapper.UpdateSalvageOrder(salvageOrder);

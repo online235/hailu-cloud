@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.basic.module.sms.client;
+package com.hailu.cloud.api.basic.module.sms.feigns;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

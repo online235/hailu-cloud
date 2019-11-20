@@ -95,12 +95,23 @@ public class GoodsSpec {
 
 	private String str;
 
-	//商品重量(kg)
+	/**
+	 * 商品重量(kg)
+	 */
 	private BigDecimal weight;
-	//商品体积
+
+	/**
+	 * 商品体积
+	 */
 	private BigDecimal volume;
-	//提成
+
+	/**
+	 * 提成
+	 */
 	private BigDecimal commission;
-	//进货价
+
+	/**
+	 * 进货价
+	 */
 	private BigDecimal specGoodsPurchasePrice;
 }

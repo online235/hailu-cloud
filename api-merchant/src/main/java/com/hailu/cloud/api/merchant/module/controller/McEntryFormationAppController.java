@@ -90,7 +90,7 @@ public class McEntryFormationAppController {
         if(StringUtil.isNotEmpty(shopInformation.getSmallType())){
             mcEntryinFormation.setManagementId(mcManagementType.getManagementId());
         }
-        Map map = new HashMap();
+        Map map = new HashMap(2);
         //查找经营表id
         map.put("managementName", shopInformation.getSmallType());
         map.put("parentId",mcManagementType.getManagementId());

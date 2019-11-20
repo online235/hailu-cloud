@@ -1,10 +1,9 @@
 package com.hailu.cloud.api.xinan.module.service;
 
-import com.hailu.cloud.api.xinan.clients.UuidFeign;
 import com.hailu.cloud.api.xinan.module.dao.PayExpandMapper;
 import com.hailu.cloud.api.xinan.module.entity.PayExpand;
+import com.hailu.cloud.common.feigns.UuidFeignClient;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,8 +22,8 @@ public class PayExpandService {
     @Resource
     private PayExpandMapper payExpandMapper;
 
-    @Autowired
-    private UuidFeign uuidFeign;
+    @Resource
+    private UuidFeignClient uuidFeign;
     /**
      * 保存或编辑
      * @param pay

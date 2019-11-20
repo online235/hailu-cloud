@@ -30,12 +30,12 @@ public class DictLoader {
             return;
         }
         Object injectObject;
-        if( loadTarget instanceof PageInfoModel){
-            injectObject = ((PageInfoModel)loadTarget).getDatas();
-        }else{
+        if (loadTarget instanceof PageInfoModel) {
+            injectObject = ((PageInfoModel) loadTarget).getDatas();
+        } else {
             injectObject = loadTarget;
         }
-        if( injectObject == null ){
+        if (injectObject == null) {
             return;
         }
         if (injectObject instanceof Map) {
@@ -115,6 +115,7 @@ public class DictLoader {
          * 根据code获取字典项,实现类应该对该接口做缓存
          *
          * @param code
+         * @param value
          * @return
          */
         String dictMapping(String code, String value);

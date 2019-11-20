@@ -12,37 +12,37 @@ public class GoodsClass implements Serializable {
 
     private static final long serialVersionUID = 6210315253221632717L;
     /**
-     *主键
+     * 主键
      */
     private Integer gcId;
 
     /**
-     *分类名称
+     * 分类名称
      */
     private String gcName;
 
     /**
-     *分类图标
+     * 分类图标
      */
     private String gcPic;
 
     /**
-     *类型ID
+     * 类型ID
      */
     private Integer typeId;
 
     /**
-     *类型名称
+     * 类型名称
      */
     private String typeName;
 
     /**
-     *父ID
+     * 父ID
      */
     private Integer gcParentId;
 
     /**
-     *排序
+     * 排序
      */
     private Integer gcSort;
 
@@ -52,22 +52,22 @@ public class GoodsClass implements Serializable {
     private Integer gcShow;
 
     /**
-     *名称
+     * 名称
      */
     private String gcTitle;
 
     /**
-     *关键词
+     * 关键词
      */
     private String gcKeywords;
 
     /**
-     *描述
+     * 描述
      */
     private String gcDescription;
 
     /**
-     *层级path
+     * 层级path
      */
     private String gcIdpath;
 
@@ -93,26 +93,40 @@ public class GoodsClass implements Serializable {
      * 最后一级所有的第一个分类名称(手机客户端使用)
      */
     private String gcLastChild;
-    //富文本
+
+    /**
+     * 富文本
+     */
     private String content;
 
-    //pc图标
+    /**
+     * pc图标
+     */
     private String classIconPc;
-    private Integer isRecommend;//是否推荐 1是 0否
-    
-   //PC一级分类图标地址
+
+    /**
+     * 是否推荐 1是 0否
+     */
+    private Integer isRecommend;
+
+    /**
+     * PC一级分类图标地址
+     */
     private String classification;
-    
-    
-    //PC一级分类图标地址 选中状态
+
+    /**
+     * PC一级分类图标地址 选中状态
+     */
     private String classificationNo;
-    			   
-    
-    //PC售后图片
+
+    /**
+     * PC售后图片
+     */
     private String afterSalesImg;
 
-    //删除状态
+    /**
+     * 删除状态
+     */
     private String isDel;
-    
 
 }

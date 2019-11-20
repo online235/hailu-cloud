@@ -38,7 +38,7 @@ public class McEntryinFormationController {
     /**
      * 外部存储的绝对路径
      */
-    @Value("${file.store.path}")
+    @Value("${file.store.path:/opt/filestore}")
     private String fileStorePath;
 
     @ApiOperation(value = "添加商家入驻信息", notes = "<pre>" +

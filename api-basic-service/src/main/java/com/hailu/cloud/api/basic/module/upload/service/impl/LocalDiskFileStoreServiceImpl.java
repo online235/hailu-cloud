@@ -26,7 +26,7 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
     /**
      * 外部存储的绝对路径
      */
-    @Value("${file.store.path}")
+    @Value("${file.store.path:/opt/filestore}")
     private String fileStorePath;
 
     /**
@@ -54,11 +54,9 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
     }
 
     @Override
-    public void deleteSFile(String filePath) {
+    public void deleteFile(String filePath) {
         File file = new File(fileStorePath+filePath);
-        file.exists();
-        file.isFile();
-        file.delete();
+        file.deleteOnExit();
     }
 
     private String save(
@@ -96,7 +94,7 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
             // 如果非jpg， jpeg则不压缩
             return false;
         }
-        if (imageCompress == null || imageCompress == false) {
+        if (imageCompress == null || !imageCompress) {
             return false;
         }
         if (compressQuality == null || compressQuality <= 0 || compressQuality >= 1) {

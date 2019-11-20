@@ -18,12 +18,19 @@ public class TransportExtend {
 	private String areaId;
 	private String topAreaId;
 	private String areaName;
-	//寄件类型,1_重量,2_体积
+	/**
+	 * 寄件类型,1_重量,2_体积
+	 */
 	private String shippingType;
-	//首件(重量/体积)
+
+	/**
+	 * 首件(重量/体积)
+	 */
 	private Double snum;
 	private Double sprice;
-	//续件(重量/体积)
+	/**
+	 * 续件(重量/体积)
+	 */
 	private Double xnum;
 	private Double xprice;
 	private String volumeUnit;

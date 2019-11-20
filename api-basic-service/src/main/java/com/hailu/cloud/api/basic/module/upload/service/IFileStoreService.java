@@ -30,9 +30,8 @@ public interface IFileStoreService {
 
     /**
      * 删除文件
+     *
      * @param filePath
-     * @throws BusinessException
      */
-    void deleteSFile(
-            String filePath);
+    void deleteFile(String filePath);
 }

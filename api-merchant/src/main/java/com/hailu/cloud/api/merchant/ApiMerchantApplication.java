@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.hailu.cloud.**.feigns")
 @MapperScan(basePackages = {"com.hailu.cloud.**.dao"})
 @SpringBootApplication(scanBasePackages = {"com.hailu.cloud"})
 public class ApiMerchantApplication {

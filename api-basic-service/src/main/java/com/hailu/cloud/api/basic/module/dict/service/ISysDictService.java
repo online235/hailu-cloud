@@ -31,6 +31,8 @@ public interface ISysDictService {
      * 添加字典项
      *
      * @param dictModel
+     * @return
+     * @throws BusinessException
      */
     SysDictModel addDict(SysDictModel dictModel) throws BusinessException;
 

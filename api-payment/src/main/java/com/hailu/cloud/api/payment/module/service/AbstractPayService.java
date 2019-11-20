@@ -9,7 +9,9 @@ import java.util.Map;
  */
 public abstract class AbstractPayService implements IPayService {
 
-    //微信预付款订单地址
+    /**
+     * 微信预付款订单地址
+     */
     public static final String WEIXIN_UNIFIEDORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
     public static final String ALI_GATEWAY_URL = "https://openapi.alipay.com/gateway.do";
 

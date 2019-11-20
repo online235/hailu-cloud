@@ -44,7 +44,7 @@ public class XinAnSalvageOrderController {
             @ApiImplicitParam(name = "invitationMember", value = "分享者编号", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "rescueId", value = "救助编号", required = true, paramType = "query", dataType = "String")
     })
-    public void insSalvageOrder(SalvageOrder salvageOrder, HttpServletRequest request){
-        salvageOrderService.buildOrder(salvageOrder,request);
+    public void insSalvageOrder(SalvageOrder salvageOrder){
+        salvageOrderService.buildOrder(salvageOrder);
     }
 }

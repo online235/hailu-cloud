@@ -7,7 +7,7 @@ package com.hailu.cloud.api.payment.tools.wecat;
  * @Date create in 10:25 2018-10-24
  * @Modefy By:
  */
-public class WXPayConstants {
+public class WeiXinPayConstant {
 
     public enum SignType {
         MD5, HMACSHA256

@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.basic.module.sms.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.hailu.cloud.api.basic.module.sms.client.SmsFeignClient;
+import com.hailu.cloud.api.basic.module.sms.feigns.SmsFeignClient;
 import com.hailu.cloud.api.basic.module.sms.model.SmsModel;
 import com.hailu.cloud.api.basic.module.sms.service.ISmsService;
 import com.hailu.cloud.common.exception.BusinessException;

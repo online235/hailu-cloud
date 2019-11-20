@@ -11,7 +11,13 @@ import lombok.Data;
 public class PackagingVo {
 	private int id;
 	private int goodsId;
-	private String name;//名称
-	private String context;//内容
+	/**
+	 * 名称
+	 */
+	private String name;
+	/**
+	 * 内容
+	 */
+	private String context;
 
 }

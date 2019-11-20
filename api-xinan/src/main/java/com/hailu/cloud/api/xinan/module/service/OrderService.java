@@ -156,7 +156,6 @@ public class OrderService {
             String value = orderVo.getInsuredValue();
             jsonObject.put("value",value.substring(0,3)+"********"+value.substring(value.length()-3,value.length()));
             //是否为首年 1-首年2-续费3-免费
-//            BigDecimal orderMoney = NumberUtil.bigDecimalScale(i.getMoney());
             jsonObject.put("isType",orderVo.getMoney().compareTo(new BigDecimal("0.01")) == 0 ? 1 : orderVo.getMoney().compareTo(new BigDecimal("26")) == 0 ? 2 : 3);
             money = money.add(orderVo.getMoney());
             //金额

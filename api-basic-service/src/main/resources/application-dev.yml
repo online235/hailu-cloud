@@ -12,7 +12,7 @@ spring:
     username: root
     password: 123456
 
-#mybatis 在控制台打印sql
+#mybatis 鍦ㄦ帶鍒跺彴鎵撳嵃sql
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

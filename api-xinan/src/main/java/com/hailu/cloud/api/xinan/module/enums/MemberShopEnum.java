@@ -16,12 +16,12 @@ public enum MemberShopEnum {
 
     private final Integer key;
     private final String desc;
-    private static final LinkedHashMap<Integer, String> map;
+    private static final LinkedHashMap<Integer, String> MAP;
 
     static {
-        map = new LinkedHashMap<>();
+        MAP = new LinkedHashMap<>();
         for (MemberShopEnum bannerColumnEnum : MemberShopEnum.values()) {
-            map.put(bannerColumnEnum.getKey(), bannerColumnEnum.getDesc());
+            MAP.put(bannerColumnEnum.getKey(), bannerColumnEnum.getDesc());
         }
     }
 
@@ -39,6 +39,6 @@ public enum MemberShopEnum {
     }
 
     public static LinkedHashMap<Integer, String> getMap() {
-        return map;
+        return MAP;
     }
 }

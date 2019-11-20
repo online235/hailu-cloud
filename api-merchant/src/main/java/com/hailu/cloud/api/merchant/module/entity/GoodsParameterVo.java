@@ -11,6 +11,12 @@ import lombok.Data;
 public class GoodsParameterVo {
 	private int id;
 	private int goodsId;
-	private String parameterName;//参数名称
-	private String parameterValue;//参数值
+	/**
+	 * 参数名称
+	 */
+	private String parameterName;
+	/**
+	 * 参数值
+	 */
+	private String parameterValue;
 }

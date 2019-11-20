@@ -9,8 +9,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
  * @author zhijie
  */
-@EnableFeignClients
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.hailu.cloud.**.feigns")
 @MapperScan(basePackages = {"com.hailu.cloud.**.dao"})
 @SpringBootApplication(scanBasePackages = {"com.hailu.cloud"})
 public class ApiAdminApplication {

@@ -36,7 +36,7 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
     /**
      * 外部文件存储目录
      */
-    @Value("${file.store.path:}")
+    @Value("${file.store.path:/opt/filestore}")
     private String fileStorePath;
 
     @Override

@@ -10,8 +10,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author zhijie
  */
 @EnableCaching
-@EnableFeignClients
 @EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.hailu.cloud.**.feigns")
 @SpringBootApplication(scanBasePackages = {"com.hailu.cloud"})
 public class ApiMallApplication {
 

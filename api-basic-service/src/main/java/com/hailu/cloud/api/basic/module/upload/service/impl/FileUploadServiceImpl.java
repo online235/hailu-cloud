@@ -76,7 +76,7 @@ public class FileUploadServiceImpl implements IFileUploadService {
     }
 
     @Override
-    public void deleteSFile(String filePath) {
-        fileStoreService.deleteSFile(filePath);
+    public void deleteFile(String filePath) {
+        fileStoreService.deleteFile(filePath);
     }
 }

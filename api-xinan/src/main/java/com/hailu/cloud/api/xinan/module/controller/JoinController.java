@@ -44,7 +44,6 @@ public class JoinController {
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false) Integer size){
-        //LoginInfo loginInfo = (LoginInfo) request.getAttribute(Constant.USER_INFORMATION);
         log.info("获取参保人信息");
         return insuredService.findList(page,size);
     }

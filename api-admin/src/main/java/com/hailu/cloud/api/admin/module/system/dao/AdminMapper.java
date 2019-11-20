@@ -22,8 +22,9 @@ public interface AdminMapper {
     /**
      * 修改自己的密码
      *
-     * @param id  账号ID
-     * @param pwd 密码
+     * @param id       账号ID
+     * @param pwd      密码
+     * @param updateBy 修改人
      */
     void changePwd(@Param("id") Long id, @Param("pwd") String pwd, @Param("updateBy") String updateBy);
 
@@ -31,6 +32,7 @@ public interface AdminMapper {
      * 根据账号查询
      *
      * @param account 账号
+     * @return
      */
     SysAdminModel searchAccount(@Param("account") String account);
 
@@ -50,8 +52,9 @@ public interface AdminMapper {
     /**
      * 变更账号启用状态
      *
-     * @param id     账号ID
-     * @param status 启用状态
+     * @param id       账号ID
+     * @param status   启用状态
+     * @param updateBy 修改人
      */
     void changeStatus(@Param("id") Long id, @Param("status") int status, @Param("updateBy") String updateBy);
 
