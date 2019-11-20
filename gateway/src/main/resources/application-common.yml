@@ -19,6 +19,7 @@ mapping:
     service-api-basic: 海露基础服务-接口文档
     service-api-xinan: 心安接口-接口文档
     service-api-payment: 海露支付服务-接口文档
+    service-api-merchant: 海露商户服务-接口文档
   auth:
     exclude:
       endsWith:

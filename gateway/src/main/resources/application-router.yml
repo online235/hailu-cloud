@@ -26,5 +26,9 @@ spring:
           uri: lb://service-api-payment
           predicates:
             - Path=/api/v1/payment/**
+        - id: service-api-merchant
+          uri: lb://service-api-merchant
+          predicates:
+            - Path=/api/v1/merchant/**
       default-filters:
         - SwaggerHeaderFilter

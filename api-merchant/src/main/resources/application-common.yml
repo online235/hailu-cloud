@@ -1,0 +1,35 @@
+server:
+  port: 30800
+  servlet:
+    context-path: /api/v1/merchant
+spring:
+  application:
+    name: service-api-merchant
+  cloud:
+    consul:
+      discovery:
+        register: true
+        heartbeat:
+          enabled: true
+        tags: desc=商户管理接口
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      validation-query: select 1
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      use-global-data-source-stat: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filter: stat,wall,log4j
+      initial-size: 10
+feign:
+  hystrix:
+    enabled: true
+  httpclient:
+    connection-timeout: 6000
+pagehelper:
+  row-bounds-with-count: true
+  offset-as-page-num: true
+  reasonable: true
