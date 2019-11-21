@@ -72,14 +72,14 @@ public class McQualifications {
     /**
      * 开户行
      */
-    @ApiParam(name = "bank", value = "营业执照正面照", required = true)
+    @ApiParam(name = "bank", value = "开户行", required = true)
     private String bank;
 
 
     /**
      * 银行卡号
      */
-    @ApiParam(name = "bankNumber", value = "营业执照正面照", required = true)
+    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
     private String bankNumber;
 
 
