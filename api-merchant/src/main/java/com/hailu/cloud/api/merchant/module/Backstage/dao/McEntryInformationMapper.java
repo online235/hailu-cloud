@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.merchant.module.Backstage.dao;
 
-import com.hailu.cloud.api.merchant.module.pc.entity.McEntryInformation;
+import com.hailu.cloud.api.merchant.module.Backstage.entity.McEntryInformation;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
