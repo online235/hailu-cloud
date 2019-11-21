@@ -27,10 +27,9 @@ public class ShopInformation {
     @NotEmpty
     private Integer largeTypeId;
 
-    /**
-     * 有可能只有一级经营类型id
-     */
-    @ApiParam(name = "smallTypeId", value = "二级经营类型id", required = false)
+
+
+    @ApiParam(name = "smallTypeId", value = "二级经营类型id", required = true)
     private Integer smallTypeId;
 
 

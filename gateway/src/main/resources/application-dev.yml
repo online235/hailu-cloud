@@ -1,7 +1,8 @@
 spring:
   cloud:
     consul:
-      host: 192.168.10.243
+      #      host: 192.168.10.243
+      host: 127.0.0.1
       port: 8500
 
 redis:

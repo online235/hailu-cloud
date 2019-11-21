@@ -1,6 +1,7 @@
 spring:
   cloud:
     consul:
+#      host: 192.168.10.243
       host: 127.0.0.1
       port: 8500
   datasource:
@@ -8,7 +9,7 @@ spring:
     username: root
     password: 123456
 
-#mybatis 鍦ㄦ帶鍒跺彴鎵撳嵃sql
+#mybatis 在控制台打印sql
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
