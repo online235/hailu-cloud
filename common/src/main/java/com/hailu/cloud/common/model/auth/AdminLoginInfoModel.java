@@ -34,6 +34,16 @@ public class AdminLoginInfoModel {
     private String account;
 
     /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
+     * 启用状态
+     */
+    private Integer enableStatus;
+
+    /**
      * 头像，预留
      */
     private String avatar;

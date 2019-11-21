@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.system.entity;
+
 import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -24,6 +26,11 @@ public class SysAdmin {
      * 账号
      */
     private String account;
+
+    /**
+     * 手机号
+     */
+    private String phone;
 
     /**
      * 头像，预留

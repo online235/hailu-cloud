@@ -39,6 +39,13 @@ public class SysAdminModel {
     private String account;
 
     /**
+     * 手机号
+     */
+    @NotBlank(message = "手机号不能为空")
+    @ApiModelProperty(value = "手机号", required = true)
+    private String phone;
+
+    /**
      * 头像，预留
      */
     @ApiModelProperty("头像，预留")

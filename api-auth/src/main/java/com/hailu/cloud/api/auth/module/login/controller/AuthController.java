@@ -47,6 +47,7 @@ public class AuthController {
     }
 
     @ApiOperation(value = "验证码登录", notes = "<pre>" +
+            "心安&商城登录返回\n" +
             "{\n" +
             "    'code': 200,\n" +
             "    'message': null,\n" +
@@ -59,8 +60,21 @@ public class AuthController {
             "        'memberMobile': '13954647894',                         // 手机号\n" +
             "        'userIcon': null,                                      // 用户头像\n" +
             "        'loginName': '13954647894',                            // 登录名称\n" +
-            "        'accessToken': 'ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5Sk1UMGRKVGw5VlUwVlNYMVJaVUVVaU9qQXNJa0ZEUTBWVFUxOVVUMHRGVGlJNklqRXhORE14WTJNd1pUZzFORFJoTnpsaE1EazVNelV6Tm1ReU56RmtNbVUxSWl3aWFYTnpJam9pYUdGcGJIVWlmUS45MzhkTUV5T0NjMHBSZ1lhaTJTSFZnWFZNZ2pxM1lzNUpJX1M0aXVPT1ZZ',\n" +
-            "        'refreshToken': 'ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6STFOaUo5LmV5Sk1UMGRKVGw5VlUwVlNYMVJaVUVVaU9qQXNJa0ZEUTBWVFUxOVVUMHRGVGlJNklqZGxPVE00WkdNMk5XUTNZalF4TmpSaFkyWTVNRGMyTW1ReE56a3dPV0UzSWl3aWFYTnpJam9pYUdGcGJIVWlmUS5ESHBEYzdnM1pfQVFhQ1ptTnl3c21PaS1vVFIxeGVDekhaSGRoaDA5N3RR'\n" +
+            "        'accessToken': 'xxx',\n" +
+            "        'refreshToken': 'xxx'\n" +
+            "    }\n" +
+            "}\n" +
+            "商户登录返回\n" +
+            "管理员登录返回\n" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': {\n" +
+            "        'id': 3742338149005824,\n" +
+            "        'nickName': '智杰',                              // 昵称\n" +
+            "        'account': '13825693085',                        // 账号\n" +
+            "        'accessToken': 'xxx',\n" +
+            "        'refreshToken': 'xxx'\n" +
             "    }\n" +
             "}\n" +
             "</pre>")
@@ -72,7 +86,7 @@ public class AuthController {
     @GetMapping("/login/vericode/{loginType}")
     public Object vericodeLogin(
             @NotBlank(message = "登录类型不能为空")
-            @Pattern(regexp = "^(0|1)$", message = "不支持的登录类型")
+            @Pattern(regexp = "^[012]$", message = "不支持的登录类型")
             @PathVariable("loginType") String loginType,
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
@@ -80,6 +94,54 @@ public class AuthController {
             @Pattern(regexp = "^\\d{6}$", message = "验证码格式不正确") String code) throws BusinessException {
 
         return authService.vericodeLogin(Integer.valueOf(loginType), phone, code);
+    }
+
+    @ApiOperation(value = "验证码登录", notes = "<pre>" +
+            "心安&商城登录返回\n" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': {\n" +
+            "        'userId': '512c0da4-988c-4519-b7ad-da9da1cac309',      // 会员ID\n" +
+            "        'memberName': '胖墨',                                  // 会员名称\n" +
+            "        'merchantType': 2,                                     // 会员类型 0_无，1_区域代理，2_服务商\n" +
+            "        'superiorMember': null,                                // 该会员归属于哪个区域代理商\n" +
+            "        'hlMember': 0,                                         // 是否为海露会员（0-否、1-是）\n" +
+            "        'memberMobile': '13954647894',                         // 手机号\n" +
+            "        'userIcon': null,                                      // 用户头像\n" +
+            "        'loginName': '13954647894',                            // 登录名称\n" +
+            "        'accessToken': 'xxx',\n" +
+            "        'refreshToken': 'xxx'\n" +
+            "    }\n" +
+            "}\n" +
+            "商户登录返回\n" +
+            "管理员登录返回\n" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': {\n" +
+            "        'id': 3742338149005824,\n" +
+            "        'nickName': '智杰',                              // 昵称\n" +
+            "        'account': '13825693085',                        // 账号\n" +
+            "        'accessToken': 'xxx',\n" +
+            "        'refreshToken': 'xxx'\n" +
+            "    }\n" +
+            "}\n" +
+            "</pre>")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "loginType", value = "登录类型(0:心安&商城; 1:商户, 2:管理员)", required = true, paramType = "path", dataType = "String"),
+            @ApiImplicitParam(name = "account", value = "登录账号不能为空", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "pwd", value = "密码不能为空", required = true, paramType = "query", dataType = "String")
+    })
+    @GetMapping("/login/{loginType}")
+    public Object login(
+            @NotBlank(message = "登录类型不能为空")
+            @Pattern(regexp = "^[012]$", message = "不支持的登录类型")
+            @PathVariable("loginType") String loginType,
+            @NotBlank(message = "登录账号不能为空") String account,
+            @NotBlank(message = "密码不能为空") String pwd) throws BusinessException {
+
+        return authService.login(Integer.valueOf(loginType), account, pwd);
     }
 
     @ApiOperation(value = "退出登录", notes = "<pre>" +

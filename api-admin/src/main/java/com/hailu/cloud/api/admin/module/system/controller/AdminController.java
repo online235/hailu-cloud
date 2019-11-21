@@ -39,13 +39,13 @@ public class AdminController {
             "    'data': {\n" +
             "        'totalPage': 1,\n" +
             "        'datas': [{\n" +
-            "                'id': 1,\n" +
-            "                'nickName': 'zhijie',      // 账号昵称\n" +
-            "                'account': '13825693085',  // 账号\n" +
-            "                'enableStatus': 0,               // 状态\n" +
-            "                'enableStatusDisplay': '启用'     // 状态中文描述\n" +
-            "            }\n" +
-            "        ]\n" +
+            "            'id': 1,\n" +
+            "            'nickName': 'zhijie',              // 账号昵称\n" +
+            "            'account': '13825693085',          // 账号\n" +
+            "            'enableStatus': 0,                 // 状态\n" +
+            "            'enableStatusDisplay': '启用',     // 状态中文描述\n" +
+            "            'phone': '13825693085'             // 手机号\n" +
+            "        }]\n" +
             "    }\n" +
             "}\n" +
             "</pre>")
