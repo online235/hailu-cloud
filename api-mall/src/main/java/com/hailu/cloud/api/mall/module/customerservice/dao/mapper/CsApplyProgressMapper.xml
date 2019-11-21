@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.customerservice.dao.CsApplyProressDao">
+
+    <sql id="csApplyProressSql">
+		cs_apply_progress_id  AS csApplyProgressId,
+		cs_apply_id       AS csApplyId,
+		audit_content     AS auditContent,  
+		delete_status     AS deleteStatus,
+		create_date       AS  createDate,
+		create_name       AS createName,
+		update_date       AS updateDate,
+		update_name       AS updateName ,
+		tp_state          AS tpState
+	</sql>
+    <select id="findByApplyProgressId" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyProgressVo">
+        SELECT
+        <include refid="csApplyProressSql"></include>
+        FROM shop_cs_apply_progress
+        WHERE
+        cs_apply_id = #{csApplyId} ORDER BY create_date DESC
+    </select>
+    <!-- 用户取消-->
+    <select id="findByApplyProgressId2" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyProgressVo">
+        SELECT
+        <include refid="csApplyProressSql"></include>
+        FROM shop_cs_apply_progress
+        WHERE
+        cs_apply_id = #{csApplyId} AND tp_state IN (0,5) ORDER BY create_date DESC
+    </select>
+
+    <!-- 平台拒绝-->
+    <select id="findByApplyProgressId3" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyProgressVo">
+        SELECT
+        <include refid="csApplyProressSql"></include>
+        FROM shop_cs_apply_progress
+        WHERE
+        cs_apply_id = #{csApplyId} AND tp_state IN (0,6) ORDER BY create_date DESC
+    </select>
+
+
+    <select id="findApplyStatusProgress" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyProgressVo">
+        SELECT
+        <include refid="csApplyProressSql"></include>
+        FROM shop_cs_apply_progress
+        WHERE
+        cs_apply_id = #{csApplyId} AND tp_state = #{tpState}
+    </select>
+
+
+    <insert id="addApplyProgress"
+            parameterType="com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyProgressVo">
+		insert into shop_cs_apply_progress(
+			audit_content,
+			cs_apply_id,
+			delete_status,
+			create_date,
+			create_name,
+			update_date,
+			update_name,
+			tp_state
+			)
+		values(
+			#{auditContent},
+			#{csApplyId},
+			#{deleteStatus},
+			#{createDate},
+			#{createName},
+			#{updateDate},
+			#{updateName} ,
+			#{tpState}
+		)
+	</insert>
+
+
+</mapper>

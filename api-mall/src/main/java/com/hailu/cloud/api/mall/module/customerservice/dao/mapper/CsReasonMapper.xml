@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.customerservice.dao.CsReasonDao">
+
+    <sql id="csReasonSql">
+		cs_reason_id      AS csReasonId,
+		reason_type       AS reasonType,
+		reason            AS reason,
+		delete_status     AS deleteStatus,
+		create_date       AS  createDate,
+		create_name       AS createName,
+		update_date       AS updateDate,
+		update_name       AS updateName
+	</sql>
+    <select id="findByCsReasonType" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsReasonVo">
+        SELECT
+        <include refid="csReasonSql"></include>
+        FROM shop_cs_reason
+        WHERE
+        reason_type = #{reasonType}
+    </select>
+    <select id="findCsReason" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsReasonVo">
+        SELECT
+        <include refid="csReasonSql"></include>
+        FROM shop_cs_reason
+        WHERE
+        cs_reason_id = #{csReasonId}
+    </select>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.ledger.dao.IncomeDetailLogMapper" >
+  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="edit_id" property="editId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="froms" property="froms" jdbcType="VARCHAR" />
+    <result column="account_status" property="accountStatus" jdbcType="INTEGER" />
+    <result column="before_money" property="beforeMoney" jdbcType="DECIMAL" />
+    <result column="after_money" property="afterMoney" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="BIGINT" />
+    <result column="update_date" property="updateDate" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, money, edit_id, user_id, froms, account_status, before_money, after_money, status,
+    create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from hl_income_detail_log
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hl_income_detail_log
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog" useGeneratedKeys="true" keyProperty="id" >
+    insert into hl_income_detail_log (id,money, edit_id, user_id,
+      froms, account_status, before_money,
+      after_money, status, create_date,
+      update_date)
+    values (#{id,jdbcType=BIGINT},#{money,jdbcType=DECIMAL}, #{editId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+      #{froms,jdbcType=VARCHAR}, #{accountStatus,jdbcType=INTEGER}, #{beforeMoney,jdbcType=DECIMAL},
+      #{afterMoney,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{createDate,jdbcType=BIGINT},
+      #{updateDate,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog" useGeneratedKeys="true" keyProperty="id" >
+    insert into hl_income_detail_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="editId != null" >
+        edit_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="froms != null" >
+        froms,
+      </if>
+      <if test="accountStatus != null" >
+        account_status,
+      </if>
+      <if test="beforeMoney != null" >
+        before_money,
+      </if>
+      <if test="afterMoney != null" >
+        after_money,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="editId != null" >
+        #{editId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="froms != null" >
+        #{froms,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null" >
+        #{accountStatus,jdbcType=INTEGER},
+      </if>
+      <if test="beforeMoney != null" >
+        #{beforeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="afterMoney != null" >
+        #{afterMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog" >
+    update hl_income_detail_log
+    <set >
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="editId != null" >
+        edit_id = #{editId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="froms != null" >
+        from = #{froms,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null" >
+        account_status = #{accountStatus,jdbcType=INTEGER},
+      </if>
+      <if test="beforeMoney != null" >
+        before_money = #{beforeMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="afterMoney != null" >
+        after_money = #{afterMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=BIGINT},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog" >
+    update hl_income_detail_log
+    set money = #{money,jdbcType=DECIMAL},
+      edit_id = #{editId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      froms = #{froms,jdbcType=VARCHAR},
+      account_status = #{accountStatus,jdbcType=INTEGER},
+      before_money = #{beforeMoney,jdbcType=DECIMAL},
+      after_money = #{afterMoney,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=BIGINT},
+      update_date = #{updateDate,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findListByMemberId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from hl_income_detail_log
+    where user_id = #{userId,jdbcType=VARCHAR} and status = 1 order by create_date desc
+  </select>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.goods.dao.SerialNumberMapper">
+    <resultMap id="BaseResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.SerialNumber">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="verifySerialNumber" resultMap="BaseResultMap">
+        UPDATE shop_serial_number SET  serial = serial +#{serial} WHERE TYPE=#{code};
+        SELECT * FROM shop_serial_number WHERE  type =#{code};
+    </select>
+
+    <update id="updateSerialNumber">
+        UPDATE shop_serial_number SET  serial = serial -#{serial}
+        ,serial_number=#{serialNumber}
+        WHERE TYPE=#{type};
+    </update>
+
+</mapper>

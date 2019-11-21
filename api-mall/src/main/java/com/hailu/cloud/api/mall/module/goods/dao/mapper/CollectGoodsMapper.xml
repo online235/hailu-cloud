@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.goods.dao.CollectGoodsMapper">
+
+    <select id="collectGoodsList" resultType="com.hailu.cloud.api.mall.module.goods.vo.CollectGoodsVo">
+		SELECT 
+			gc.collect_id AS id,
+			gc.goods_id as goodsId,
+			gc.spec_id as goodsRuleId,
+			gc.member_id as userId,
+			gc.collect_price as collectPrice,
+			gc.spec_name AS typeName ,
+			gs.goods_store_price AS price 
+		FROM shop_goods_collect gc 
+		INNER JOIN shop_goods gs 
+		ON gc.goods_id=gs.goods_id and is_del=0
+		WHERE member_id=#{userId}  ORDER BY gc.create_time DESC
+		LIMIT #{page},#{rows} 
+	</select>
+
+    <insert id="addCollectGoods" parameterType="com.hailu.cloud.api.mall.module.goods.vo.CollectGoodsVo">
+		INSERT INTO 
+			shop_goods_collect(
+			goods_id,
+			member_id,
+			collect_price,
+			spec_id,
+			spec_name ,
+			create_time 
+		) VALUE(
+			#{goodsId},
+			#{userId},
+			#{collectPrice},
+			#{goodsRuleId},
+			#{typeName} ,
+			#{createTime} 
+		)
+	</insert>
+
+    <delete id="delCollectGoods" parameterType="Integer">
+	DELETE 
+	FROM 
+	shop_goods_collect 
+	WHERE collect_id=#{id}
+	</delete>
+    <!-- 验证是否收藏 -->
+    <select id="verificationIsCollect" parameterType="map"
+            resultType="com.hailu.cloud.api.mall.module.goods.vo.CollectGoodsVo">
+	 	SELECT 
+			collect_id AS id,
+			goods_id as goodsId,
+			spec_id as goodsRuleId,
+			member_id as userId,
+			collect_price as collectPrice,
+			spec_name AS typeName 
+		FROM shop_goods_collect 
+		WHERE member_id=#{userId} AND goods_id=#{goodsId}  
+	 
+	 </select>
+    <!-- @authod huangl取消收藏 -->
+    <delete id="deleteCollectByGid" parameterType="map">
+	 	DELETE FROM 
+			shop_goods_collect 
+		WHERE member_id=#{userId} AND goods_id=#{goodsId} 
+	 </delete>
+</mapper>

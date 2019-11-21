@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.user.dao.UserFeedbackMapper">
+
+    <insert id="addFeedback" parameterType="com.hailu.cloud.api.mall.module.user.vo.UserFeedbackVO">
+        INSERT INTO shop_feedback(
+           user_id ,
+           content ,
+           create_time,
+           phone 
+        )VALUES(
+            #{userId} ,
+            #{content} ,
+            #{createTime} ,
+            #{email}
+        )
+    </insert>
+
+</mapper>

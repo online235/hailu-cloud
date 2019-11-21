@@ -1,0 +1,1219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.goods.dao.OrderMapper">
+
+    <!-- 添加购物车 -->
+    <insert id="addShoppingCart" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
+		INSERT INTO shop_cart(
+				goods_id,
+				user_id,
+				goods_name,
+				spec_id,
+				spec_info,
+				goods_store_price,
+				goods_num,
+				goods_images,
+				first_gc_id,
+				first_gcbig_id,
+				g_type ,
+				create_time ,
+				is_activity ,
+				is_compl ,
+				is_selected 
+		) VALUE(
+				#{goodsId},
+				#{userId},
+				#{goodsName},
+				#{specId},
+				#{specName},
+				#{price},
+				#{goodsNum},
+				#{goodsImages},
+				#{firstGcId},
+				#{firstGcbigId},
+				#{type},
+				#{createTime} ,
+				#{isActivity} ,
+				#{isCompl} ,
+				#{isSelected} 
+		)
+	</insert>
+    <resultMap id="ShoppingResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
+        <id column="cart_id" jdbcType="INTEGER" property="cartId"/>
+        <collection property="complList" column="crat_id" select="getGoodsCompl"/>
+    </resultMap>
+    <!-- 得到购物车列表 -->
+    <select id="shoppingList" parameterType="String" resultMap="ShoppingResultMap">
+		SELECT
+			cart_id ,
+			goods_id AS goodsId,
+			user_id AS userId,
+			goods_name AS goodsName,
+			spec_id AS specId,
+			spec_info AS specName,
+			goods_store_price AS price,
+			goods_num AS goodsNum,
+			goods_images AS goodsImages,
+			first_gc_id AS firstGcId,
+			first_gcbig_id AS firstGcbigId,
+			g_type  AS type  ,
+			is_activity AS isActivity ,
+			is_selected AS isSelected   ,
+			state  AS state
+		FROM shop_cart
+		WHERE user_id=#{userId} ORDER BY create_time
+	</select>
+    <!-- 查找购物车商品价格 -->
+    <select id="shoppingListPrice" resultType="com.hailu.cloud.api.mall.module.goods.vo.GoodsSpec">
+		SELECT
+			sgs.goods_spec_id,
+			sgs.goods_id,
+			sgs.spec_goods_price,
+			sgs.spec_goods_vip_price,
+			sgs.spec_goods_purchase_price,
+			sgs.commission,
+			sg.is_popularize
+		FROM shop_goods_spec sgs
+		left join shop_goods sg on sgs.goods_id = sg.goods_id
+		WHERE sgs.goods_spec_id IN
+		<foreach collection="specIds" open="(" separator="," close=")" item="gid">
+			#{gid}
+		</foreach>
+		AND sgs.goods_id IN
+		<foreach collection="goodsIds" open="(" separator="," close=")" item="sid">
+			#{sid}
+		</foreach>
+	</select>
+    <!--  -->
+    <select id="getShoppingCartById" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
+		SELECT 
+			c.cart_id AS cartId,
+			c.goods_id AS goodsId,
+			c.user_id AS userId,
+			c.goods_name AS goodsName,
+			c.spec_id AS specId,
+			c.spec_info AS specName,
+			c.goods_store_price AS price,
+			c.goods_num AS goodsNum,
+			c.goods_images AS goodsImages,
+			c.first_gc_id AS firstGcId,
+			c.first_gcbig_id AS firstGcbigId,
+			c.g_type  AS type ,
+			c.is_activity AS isActivity,
+			g.full_free_mail AS fullFreeMail,
+    		g.transport_id AS transportId,
+    		g.is_share as isShare,
+			gs.weight,
+			gs.volume
+		FROM shop_cart c
+		LEFT JOIN shop_goods g ON c.goods_id=g.goods_id
+		LEFT JOIN shop_goods_spec gs ON c.spec_id=gs.goods_spec_id
+		WHERE cart_id=#{cartId}
+	</select>
+
+    <!-- 得到是否在购物车中已有该商品 -->
+    <select id="getShoppingCartByVo" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
+	SELECT 
+		cart_id AS cartId,
+		goods_id AS goodsId,         
+		user_id AS userId,        
+		goods_name AS goodsName,       
+		spec_id AS specId,          
+		spec_info AS specName,        
+		goods_store_price AS price,
+		goods_num AS goodsNum,        
+		goods_images AS goodsImages,     
+		first_gc_id AS firstGcId,      
+		first_gcbig_id AS firstGcbigId,   
+		g_type  AS type          
+	FROM shop_cart  
+	WHERE user_id=#{userId} and  goods_id=#{goodsId} and spec_id=#{specId} AND state = 0 AND 
+	is_activity = 0 AND is_compl = 0 AND g_type = 0 
+	</select>
+
+    <select id="getShoppingCartCount" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo"
+            resultType="Integer">
+	SELECT 
+	COUNT(*) 
+	FROM 
+	t_s_order o 
+	INNER JOIN 
+	t_s_order_details od 
+	ON o.order_number=od.order_number 
+	WHERE 
+	o.user_Id=#{userId} 
+	AND od.good_id=#{goodsId}
+	</select>
+    <!-- 修改购物车 -->
+    <update id="updateShoppingCart" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
+        UPDATE shop_cart SET
+        <trim suffixOverrides=",">
+            <if test="goodsNum!=null"></if>
+            goods_num = #{goodsNum},
+            <if test="specId!=null"></if>
+            spec_id = #{specId} ,
+            <if test="updateTime!=null"></if>
+            update_time = #{updateTime} ,
+            <if test="isSelected!=null">
+                is_selected =#{isSelected}
+            </if>
+        </trim>
+        WHERE cart_id=#{cartId}
+    </update>
+    <!-- 删除购物车 -->
+    <delete id="delShoppingCart" parameterType="Integer">
+		DELETE FROM shop_cart 
+		WHERE cart_id=#{cartId}
+	</delete>
+    <!-- 清除失效宝贝 -->
+    <delete id="deleteFailureUId" parameterType="String">
+        DELETE FROM shop_cart WHERE user_id=#{userId} and state=1
+    </delete>
+    <!-- 添加收货地 -->
+    <insert id="addShoppingAddress"
+            parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo">
+		INSERT INTO shop_address(
+		member_id,
+		true_name,
+		mob_phone,
+		area,
+		address,
+		is_default,
+		zip_code,
+		province_id,
+		city_id,
+		area_id
+		) VALUE(
+		#{userId},
+		#{person},
+		#{phone},
+		#{area},
+		#{address},
+		#{status},
+		#{postcode},
+		#{provinceId},
+		#{cityId},
+		#{areaId}
+		)
+	</insert>
+    <!-- 加载收货地址列表 -->
+    <select id="shoppingAddressVoList" parameterType="String"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo">
+	SELECT 
+		sa.address_id addressId,
+		sa.member_id as userId,
+		sa.true_name person,
+		sa.mob_phone phone,
+		sa.area,
+		sa.address,
+		sa.is_default status,
+		sa.zip_code postcode,
+		sa.province_id as provinceId,
+		sa.area_id AS areaId,
+		sa.city_id AS cityId ,
+		a.areaname AS  provinceName 
+	FROM shop_address sa
+	LEFT JOIN shop_region a 
+	ON sa.province_id=a.id
+	WHERE member_id=#{userId} AND delete_status=1
+	</select>
+    <!-- 得到地址详情 -->
+    <select id="findAddressInfoById" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo">
+	SELECT 
+		a.address_id addressId,
+		a.member_id as userId,
+		a.true_name person,
+		a.mob_phone phone,
+		a.area,
+		a.address,
+		a.is_default status,
+		a.zip_code postcode,
+		a.province_id as provinceId,
+		a.area_id AS areaId,
+		a.city_id AS cityId ,
+	    m.member_name as userName
+	FROM shop_address a
+	join shop_member m on a.member_id=m.user_id
+	WHERE address_id=#{addressId}
+	AND delete_status=1
+	
+	</select>
+
+    <update id="updataShoppingAddress"
+            parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo">
+        UPDATE
+        shop_address
+        <set>
+            <if test="person != null">
+                true_name=#{person},
+            </if>
+            <if test="phone != null">
+                mob_phone=#{phone},
+            </if>
+            <if test="area != null">
+                area=#{area},
+            </if>
+            <if test="address != null">
+                address=#{address},
+            </if>
+            <if test="status != null">
+                is_default=#{status},
+            </if>
+            <if test="postcode != null">
+                zip_code=#{postcode},
+            </if>
+            <if test="provinceId != null">
+                province_id=#{provinceId},
+            </if>
+            <if test="cityId != null">
+                city_id=#{cityId},
+            </if>
+            <if test="areaId != null">
+                area_id=#{areaId}
+            </if>
+
+        </set>
+
+        WHERE
+        address_id=#{addressId}
+    </update>
+
+    <!-- 更改收货地址 -->
+    <update id="delShoppingAddress" parameterType="Integer">
+		UPDATE 
+		shop_address
+		SET 
+		delete_status=0 
+		WHERE 
+		address_id=#{id}
+	</update>
+
+    <select id="shoppingAddressVo" parameterType="String"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo">
+	SELECT
+	address_id addressId,
+	member_id as userId,
+	true_name person,
+	mob_phone phone,
+	area,
+	address,
+	is_default status,
+	zip_code postcode
+	FROM shop_address
+	WHERE
+	member_id=#{userId}
+	AND
+	is_default=0
+	</select>
+    <select id="shoppingAddressVoById" parameterType="Integer"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo">
+	SELECT 
+	address_id id,
+	member_id as userId,
+	true_name person,
+	mob_phone phone,
+	area,
+	address,
+	is_default status,
+	zip_code postcode
+	FROM shop_address
+	WHERE 
+	address_id=#{id}
+	</select>
+    <update id="updateOrderStatus" parameterType="map">
+        UPDATE shop_order SET
+        <trim suffixOverrides=",">
+            order_state = #{orderStatus},
+            <if test="orderStatus==4">
+                accomplish_time=#{time} ,
+            </if>
+            <if test="time!=null">
+                finnshed_time=#{time} ,
+            </if>
+            <if test="integral!=null and integral!=0">
+                order_pointscount=#{integral},
+            </if>
+
+        </trim>
+        WHERE order_id=#{orderId}
+    </update>
+    <!-- 添加订单 -->
+    <insert id="addOrder" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderToVo"
+            useGeneratedKeys="true" keyProperty="orderId">
+        INSERT INTO shop_order(
+        buyer_id,
+        buyer_name,
+        order_sn,
+        create_time,
+        address_id,
+        pay_message,
+        shipping_fee,
+        goods_amount,
+        order_amount,
+        discount,
+        coupon_price,
+        order_state,
+        coupon_id ,
+        reserve_one_amount ,
+        reserve_id ,
+        is_reserve,
+        one_is_pay,
+        two_is_pay,
+        reserve_two_amount ,
+        refund_state ,
+        return_state ,
+        evaluation_status ,
+        payment_state ,
+        is_recour ,
+        reserve_discounts ,
+        is_limit,
+        red_envelope
+        ) VALUE(
+        #{userId},
+        #{userName},
+        #{orderSn},
+        #{createTime},
+        #{addressId},
+        #{remark},
+        #{freight},
+        #{goodsAmount},
+        #{orderAmount},
+        #{discount},
+        #{couponPrice},
+        #{orderState},
+        #{couponId},
+        #{reserveOneAmount},
+        #{reserveId} ,
+        #{isReserve},
+        #{oneIsPay},
+        #{twoIsPay},
+        #{reserveTwoAmount},
+        1,
+        1,
+        0,
+        0,
+        #{isRecour} ,
+        #{reserveDiscounts},
+        #{isLimit},
+        #{redEnvelope}
+
+        )
+    </insert>
+    <!-- 添加订单商品 -->
+    <insert id="addOrderGoods" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods"
+            useGeneratedKeys="true" keyProperty="recId">
+		INSERT INTO shop_order_goods(
+			order_id,
+			goods_id,
+			goods_name,
+			spec_id,
+			spec_info,
+			goods_price,
+			goods_num,
+			goods_image,
+			evaluation_status,
+			evaluation_time,
+			buyer_id,
+			gc_id ,
+			order_good_type ,
+			parent_id ,
+			act_price_id
+		)VALUES(
+			#{orderId},
+			#{goodsId},
+			#{goodsName},
+			#{specId},
+			#{specName},
+			#{goodsPrice},
+			#{goodsNum},
+			#{goodsImage},
+			#{evaluationStatus},
+			#{evaluationTime},
+			#{buyerId},
+			#{gcId} ,
+			#{type} ,
+			#{parentId} ,
+			#{actPriceId}
+		)
+	
+	</insert>
+
+    <select id="orderVo" parameterType="String"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderVo">
+	SELECT 
+	id,
+	order_number as orderNumber,
+	price,
+	gou_time as gouTime,
+	user_Id as userId,
+	pay_time as payTime,
+	pay_method as payMethod,
+	shopping_address_id as shoppingAddressId,
+	remark,
+	is_send as isSend,
+	pay_status as payStatus,
+	status as orderStatus,
+	freight,
+	the_awb as theAwb,
+	shipper_code as shipperCode,
+	pay_number as payNumber,
+	is_yd as isYd 
+	FROM t_s_order
+	where order_number=#{orderNumber}
+	</select>
+
+    <insert id="addOrderDetail" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderDetailVo">
+	INSERT INTO 
+	t_s_order_details(
+	order_id,
+	price,
+	good_id,
+	number,
+	order_number,
+	is_comment,
+	is_activity,
+	activity_type,
+	activity_amount,
+	preferential_amount,
+	real_amount,
+	amount,
+	goods_rule_id,
+	remark,
+	review_status
+	) VALUE(
+	#{orderId},
+	#{price},
+	#{goodsId},
+	#{number},
+	#{orderNumber},
+	#{isComment},
+	#{isActivity},
+	#{activityType},
+	#{activityAmount},
+	#{preferentialAmount},
+	#{realAmount},
+	#{amount},
+	#{goodsRuleId},
+	#{remark},
+	#{reviewStatus}
+	)
+	</insert>
+
+    <insert id="addOrderStatus" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderStatusVo">
+	INSERT INTO 
+	t_s_order_status(
+	order_id,
+	order_number,
+	good_id,
+	member_id,
+	state,
+	remark
+	) VALUE(
+	#{orderId},
+	#{orderNumber},
+	#{goodsId},
+	#{userId},
+	#{state},
+	#{remark}
+	)
+	</insert>
+
+    <select id="regionList" parameterType="Integer" resultType="com.hailu.cloud.api.mall.module.goods.vo.RegionVo">
+	SELECT 
+	id id,
+	areaname AS cityName,
+	parentid AS pid 
+	FROM 
+	shop_region 
+	where 
+	parentid=#{pid}
+	</select>
+
+    <!-- 得到订单列表-->
+    <select id="getOrdersList" parameterType="map"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderListVo">
+        SELECT
+        order_id AS orderId,
+        create_time AS createTime,
+        order_sn AS orderSn,
+        order_state AS orderStatus,
+        goods_amount AS goodsAmount ,
+        order_amount AS orderAmount,
+        is_reserve AS isReserve ,
+        evaluation_status AS evaluateState ,
+        one_is_pay AS oneIsPay,
+        reserve_one_amount AS reserveOneAmount,
+        reserve_two_amount AS reserveTwoAmount ,
+        reserve_id AS reserveId
+        FROM shop_order
+        WHERE buyer_id=#{userId} AND delete_status=1
+        <if test="orderStatus==1 or orderStatus==2 or orderStatus==3">
+            AND order_state=#{orderStatus}
+        </if>
+        <if test="evaluateState==1">
+            <if test="orderStatus==4">
+                AND order_state=4 AND evaluation_status =0
+            </if>
+        </if>
+        ORDER BY create_time DESC LIMIT #{page},#{row}
+    </select>
+    <!-- 根据订单id得到这个订单下的商品列表 -->
+    <select id="findByOrderId" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods">
+		SELECT 
+			rec_id AS recId,
+			goods_id AS goodsId,
+			goods_name AS 	goodsName,
+			spec_id AS specId,
+			spec_info AS specName,
+			goods_price AS goodsPrice,
+			goods_num AS goodsNum,
+			goods_image AS goodsImage,
+			gc_id AS gcId ,
+			order_good_type AS type ,
+			parent_id AS parentId ,
+			goods_integral AS goodsIntegral ,
+			buyer_id AS buyerId 
+			FROM shop_order_goods
+			WHERE order_id=#{orderId} AND order_good_type!=4
+	</select>
+    <!-- 根据订单id得到订单详情 -->
+    <select id="getOrderInfo" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderInfo">
+		SELECT 
+			order_id AS orderId,
+			order_sn AS orderSn,
+			create_time AS createTime,
+			address_id AS addressId,
+			pay_message AS remark,
+			shipping_fee AS freight,
+			goods_amount AS goodsAmount,
+			order_amount AS orderAmount,
+			discount AS discount,
+			coupon_price AS couponPrice,
+			order_state AS orderState,
+			poin_price AS poinPrice,
+			refund_state  AS refundState,
+			return_state AS returnState,
+			evaluation_status AS evaluateState,
+			is_reserve AS isReserve,
+			reserve_one_amount AS reserveOneAmount,
+			reserve_two_amount AS reserveTwoAmount,
+			reserve_id AS reserveId ,
+			one_is_pay AS oneIsPay,
+			two_is_pay AS twoIsPay ,
+			buyer_id AS userId ,
+			coupon_id AS couponId,
+			is_recour AS isRecour ,
+			refund_state AS refundState,
+			return_state AS returnState ,
+			reserve_discounts as reserveDiscounts ,
+			payment_name as paymentName ,
+			is_limit as isLimit,
+			red_envelope
+		FROM shop_order
+		WHERE order_id=#{orderId}
+	</select>
+    <!-- 根据订单id得到订单发票 -->
+    <select id="getOrderInvoiceH" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderInvoiceHVo">
+		SELECT 
+			inv_title AS  invTitle,
+			inv_company AS invCompany,
+			inv_code AS invCode 
+		FROM shop_order_invoice 
+		WHERE order_id=#{orderId} AND inv_state=1
+	</select>
+    <!-- 根据收货地址id得到收货详情 -->
+    <select id="getAddressById" parameterType="int" resultType="com.hailu.cloud.api.mall.module.goods.vo.AddressVo">
+		SELECT
+			true_name AS person,
+			mob_phone AS phone,
+			area_info AS area,
+			address AS address 
+	FROM shop_order_address  
+	WHERE address_id=#{addressId}
+	</select>
+
+    <select id="getOrderDetails" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderDetailVo"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderDetailVo">
+        SELECT
+        od.id,
+        od.order_id AS orderId,
+        od.price,
+        od.good_id AS goodsId,
+        od.number,
+        od.order_number AS orderNumber,
+        od.is_comment AS isComment,
+        od.is_applyfor AS isApplyFor,
+        od.is_activity AS isActivity,
+        od.activity_type AS activityType,
+        od.activity_amount AS activityAmount,
+        od.preferential_amount AS preferentialAmount,
+        od.real_amount AS realAmount,
+        od.amount,
+        od.goods_rule_id AS goodsRuleId,
+        od.remark,
+        od.review_status AS reviewStatus,
+        g.name as goodsName,
+        g.small_picture as smallImg
+        FROM
+        t_s_order_details od
+        INNER JOIN t_s_goods g
+        ON od.good_id=g.id
+        WHERE
+        od.order_number=#{orderNumber}
+        <if test="isComment==0">
+            and od.is_comment=0
+        </if>
+        <if test="isComment==1">
+            and od.is_comment=1
+        </if>
+
+        <if test="isApplyFor==0">
+            and od.is_applyfor=0
+        </if>
+        <if test="isApplyFor==1">
+            and od.is_applyfor=1
+        </if>
+    </select>
+
+    <select id="getOrderDetailById" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderDetailVo"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderDetailVo">
+	SELECT 		
+		od.id,
+		od.order_id AS orderId,
+		od.price,
+		od.good_id AS goodsId,
+		od.number,
+		od.order_number AS orderNumber,
+		od.is_comment AS isComment,
+		od.is_applyfor AS isApplyFor,
+		od.is_activity AS isActivity,
+		od.activity_type AS activityType,
+		od.activity_amount AS activityAmount,
+		od.preferential_amount AS preferentialAmount,
+		od.real_amount AS realAmount,
+		od.amount,
+		od.goods_rule_id AS goodsRuleId,
+		od.remark,
+		od.review_status AS reviewStatus 
+		FROM t_s_order o 
+		INNER JOIN t_s_order_details od 
+		ON o.order_number=od.order_number 
+		WHERE od.is_comment=0 AND  o.id=#{id} AND od.good_id=#{goodsId} LIMIT 0,1
+	
+	</select>
+    <select id="getOrderDetailsCount" parameterType="Integer" resultType="Integer">
+	SELECT 
+		count(*)
+	FROM 
+	t_s_order_details 
+	where good_id=#{goodsId}
+	</select>
+
+    <select id="getRuleStr" parameterType="Integer" resultType="com.hailu.cloud.api.mall.module.goods.vo.RuleStrVo">
+	SELECT 
+	gr.rule_name as ruleName,
+	gp.labelling,
+	gp.level,
+	gp.pid 
+	FROM 
+	t_s_goods_price gp 
+	INNER JOIN 
+	t_s_goods_rule gr 
+	ON 
+	gp.goods_rule_id=gr.id 
+	WHERE 
+	gp.id=#{id}
+	</select>
+    <!-- 删除订单 -->
+    <update id="deleteOrder" parameterType="Integer">
+	   update shop_order set delete_status=0 where order_id=#{orderId}
+	</update>
+
+    <select id="getOrderServices" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderServiceVo"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderServiceVo">
+        SELECT
+        os.id,
+        os.resultremark,
+        os.create_date AS applyForTime,
+        os.picture AS picture,
+        os.reason,
+        os.state,
+        os.service_type AS serviceType,
+        os.service_number AS serviceNumber,
+        os.order_detail_id AS orderDetailId,
+        os.address_id AS addressId,
+        os.progress_time as time,
+        od.price,
+        od.number,
+        od.order_number AS orderNumber,
+        g.small_picture AS smallImg,
+        g.name AS goodsName
+        FROM
+        t_s_order_service os INNER JOIN t_s_order_details od ON
+        os.order_detail_id=od.id INNER JOIN t_s_goods g ON od.good_id=g.id
+        WHERE 1=1
+        <if test="userId!=null">
+            and os.member_id=#{userId}
+        </if>
+        <if test="id!=0">
+            and os.id=#{id}
+        </if>
+
+    </select>
+
+    <insert id="addOrderService" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderServiceVo">
+	INSERT INTO 
+	t_s_order_service
+	(
+	create_date,
+	order_number,
+	picture,
+	reason,
+	state,
+	member_id,
+	service_type,
+	service_number,
+	address_id,
+	order_detail_id,
+	progress_time) 
+	VALUE(
+	#{applyForTime},
+	#{orderNumber},
+	#{picture},
+	#{reason},
+	#{state},
+	#{userId},
+	#{serviceType},
+	#{serviceNumber},
+	#{addressId},
+	#{orderDetailId},
+	#{time}
+	)
+	</insert>
+
+    <update id="updateOrderService" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderServiceVo">
+		update
+		t_s_order_service
+		set
+		state=#{state},
+		resultremark=#{resultremark},
+		progress_time=#{time}
+		where
+		id=#{id}
+	</update>
+
+    <update id="upOrderDetail" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderDetailVo">
+        UPDATE
+        t_s_order_details
+        SET is_applyfor=#{isApplyFor}
+        <if test="isComment!=0">
+            ,is_comment=#{isComment}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getFreight" parameterType="com.hailu.cloud.api.mall.module.goods.vo.FreightVo"
+            resultType="com.hailu.cloud.api.mall.module.goods.vo.FreightVo">
+	SELECT 
+	id,
+	NAME AS freighName,
+	billing,
+	freight 
+	FROM 
+	t_s_freight_template 
+	WHERE 
+	city LIKE concat('%',#{freighName},'%')
+	</select>
+
+
+    <select id="getGooodsByCount" parameterType="Integer" resultType="Integer">
+	SELECT COUNT(*) FROM t_s_order_details WHERE order_number IN (SELECT order_number FROM t_s_order WHERE pay_status=1) AND good_id=66
+	</select>
+
+    <!-- 更新所有的地址为不默认 -->
+    <update id="updateAddress" parameterType="String">
+		UPDATE shop_address SET
+			is_default=0
+		WHERE uset_id=#{userId} 
+	</update>
+    <!-- 添加订单发票 -->
+    <insert id="addOrderInvoiceH" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderInvoiceHVo">
+		INSERT INTO shop_order_invoice(
+			member_id,
+			order_id,
+			inv_state,
+			inv_title,
+			inv_company,
+			inv_code,
+			is_kai ,
+			create_time
+		)VALUES(
+			#{memberId},
+			#{orderId},
+			#{invState},
+			#{invTitle},
+			#{invCompany},
+			#{invCode},
+			1 ,
+			#{createTime}
+		)
+	
+	</insert>
+    <!-- 得到订单中的商品数量 -->
+    <select id="getBuyNum" resultType="int">
+        SELECT IFNULL(SUM(goods_num),0) as goodsNum
+        FROM shop_order_goods
+        WHERE goods_id=#{goodsId} AND spec_id=#{specId} AND order_id IN
+        (SELECT order_id FROM shop_order WHERE
+        <if test="actId!=0">reserve_id=#{actId}</if>
+        AND buyer_id=#{userId} AND create_time>#{startTime} AND create_time &lt; #{endTime})
+
+    </select>
+    <!-- @AUTHOR HUANGL 根據訂單編號得到訂單詳情 -->
+    <select id="findByOrderSn" parameterType="String"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderToVo">
+		SELECT 
+			order_id AS orderId,
+			order_sn AS orderSn,
+			buyer_id AS userId,
+			order_amount AS orderAmount,
+			payment_state AS paymentState,
+			is_reserve AS isReserve ,
+			one_is_pay AS oneIsPay, 
+			reserve_one_amount AS reserveOneAmount,
+			reserve_two_amount AS reserveTwoAmount,
+			two_is_pay AS twoIsPay ,
+			order_state AS orderState
+		FROM shop_order
+		WHERE order_sn =#{orderSn,jdbcType=VARCHAR} AND order_state =1 AND payment_state=0
+	</select>
+    <!-- @AUTHOR HUANGL 添加訂單支付詳情 -->
+    <insert id="addOrderPay" parameterType="com.hailu.cloud.api.mall.module.sys.vo.OrderPay" useGeneratedKeys="true"
+            keyProperty="payId">
+	INSERT INTO shop_order_pay(
+		pay_sn,
+		buyer_id,
+		api_pay_state,
+		pay_type  ,
+		order_sn ,
+		pay_time  ,
+		pay_amount ,
+		wechat_source 
+	)VALUES(
+		#{paySn},
+		#{buyerId},
+		#{apiPayState} ,
+		#{payType} ,
+		#{orderSn},
+		#{payTime} ,
+		#{payAmount} ,
+		#{wechatSource} 
+	)
+	
+	</insert>
+    <!-- @AUTHOR HUANGL 更改訂單支付狀態 -->
+    <update id="updateOrderByPay" parameterType="com.hailu.cloud.api.mall.module.sys.vo.OrderToPay">
+        UPDATE shop_order
+        SET
+        payment_name=#{paymentName},
+        payment_state=#{paymentState},
+
+        <if test="orderState!=null">
+            order_state=#{orderState},
+        </if>
+        <if test="oneIsPay!=null">
+            one_is_pay=#{oneIsPay},
+        </if>
+        <if test="twoIsPay!=null">
+            two_is_pay=#{twoIsPay},
+        </if>
+        payment_time=#{paymentTime}
+        WHERE order_id=#{orderId}
+    </update>
+    <!-- @AUTHOR HUANGL 根据订单商品id得到该商品下的所有赠品 -->
+    <select id="getGoodsCompl" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsCompl">
+		SELECT 
+			goods_num AS  complNumber,
+			goods_name AS complName,
+			spec_info AS complSpecName,
+			goods_id AS complGoodsId,
+			spec_id AS complSpecId 
+		FROM shop_order_goods 
+		WHERE parent_id=#{recId} AND order_good_type=3
+	</select>
+    <!-- @AUTHOR HUANGL 根据用户id和对应订单状态得到该状态的条数 -->
+    <select id="findByUserIdAndOs" parameterType="map" resultType="java.lang.Integer">
+		SELECT count(order_id) FROM shop_order WHERE buyer_id= #{userId}  AND order_state= #{os}  AND delete_status=1
+	</select>
+    <!-- 根据用户id和订单状态得到对应的条数 -->
+    <select id="findByUserIdAndEvaluate" parameterType="map" resultType="java.lang.Integer">
+		SELECT count(order_id) FROM shop_order WHERE buyer_id=#{userId} AND order_state=#{os} AND evaluation_status=0 AND delete_status=1
+	</select>
+    <!-- @AUTHOR HUANGL 根据订单id改变订单状态 -->
+    <update id="updateOrderState" parameterType="int">
+		UPDATE shop_order SET order_state=0 WHERE order_id=#{orderId}
+	</update>
+    <!-- @AUTHOR HUANGL 更新订单评价状态 -->
+    <update id="updatEvaluate" parameterType="int">
+		UPDATE shop_order SET evaluation_status=1   WHERE order_id=#{orderId}
+	</update>
+
+    <!-- @AUTHOR HUANGL 更新订单优惠金额 -->
+    <update id="updateOrderAmount" parameterType="map">
+		UPDATE shop_order SET
+			discount = #{newDisAmount},
+			order_amount = #{newOrderAmount},
+			coupon_price = #{couponPrice},
+			coupon_id = #{couponId}
+		WHERE order_id = #{orderId}
+	</update>
+    <!-- @AUTHOR HUANGL 更新订单活动金额 -->
+    <update id="updateActOrderAmount" parameterType="map">
+		UPDATE shop_order SET  
+			order_amount=#{newOrderAmount} 
+		WHERE order_id=#{orderId} 
+	</update>
+
+
+    <!-- 2018年1月24日20:15:10 List<CSOrderListVo> 王必林 根据用户 获得完成订单列表 订单状态：0:已取消;1:待付款;2:待发货;3:待收货;4:交易完成;5:已提交;6:已确认; -->
+    <select id="getCSOrdersList" parameterType="map"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CSOrderListVo">
+	SELECT 
+		order_id AS orderId,
+		create_time AS createTime,
+		order_sn AS orderSn,
+		order_state AS orderStatus,
+		goods_amount AS goodsAmount ,
+		is_reserve AS isReserve ,
+		evaluation_status AS evaluateState 
+	FROM shop_order 
+	WHERE buyer_id=#{userId} AND delete_status=1
+		 AND order_state  = 4  AND order_id IN (
+		  
+			SELECT  orderId FROM 
+			(
+			SELECT a.order_id AS orderId,a.rec_id ,b.order_id AS orderId2, IFNULL(b.cs_type,9) AS csType, IFNULL(b.tp_state,9) AS tpState,b.cs_apply_id 
+				FROM shop_order_goods AS a  LEFT JOIN (
+	  				SELECT * FROM shop_cs_apply WHERE    user_id = #{userId} AND delete_status = 0 AND tp_state  != 5 AND tp_state  != 6 
+	  				) AS b 
+					ON a.rec_id = b.order_goods_id  WHERE a.buyer_id = #{userId}  
+					) AS a2 WHERE    csType != 3 AND  tpState not IN  (4)
+			)
+		ORDER BY create_time DESC LIMIT #{page} , #{row}
+	</select>
+
+    <!-- 根据订单id得到这个订单下的商品列表 -->
+    <select id="findByOrderIdCS" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CSOrderGoods">
+		SELECT 
+			rec_id AS recId,
+			goods_id AS goodsId,
+			goods_name AS 	goodsName,
+			spec_id AS specId,
+			spec_info AS specName,
+			goods_price AS goodsPrice,
+			goods_num AS goodsNum,
+			goods_image AS goodsImage,
+			gc_id AS gcId ,
+			order_good_type AS type ,
+			parent_id AS parentId 
+			FROM shop_order_goods
+			WHERE order_id=#{orderId} AND order_good_type!=3 AND rec_id IN (
+	 
+			SELECT  recId FROM 
+			(
+			SELECT a.order_id AS orderId,a.rec_id AS recId,b.order_id AS orderId2, IFNULL(b.cs_type,9) AS csType, IFNULL(b.tp_state,9) AS tpState,b.cs_apply_id FROM shop_order_goods AS a  
+			LEFT JOIN (
+	  			SELECT * FROM shop_cs_apply WHERE    order_id = #{orderId} AND delete_status = 0 AND tp_state  != 5 AND tp_state  != 6
+	  			) AS b ON a.rec_id = b.order_goods_id 
+	  			 WHERE a.order_id = #{orderId}  
+	  			 ) AS a2 WHERE    csType != 3 AND  tpState not IN  (4)
+	)
+	</select>
+
+    <!--  得到运费 -->
+    <select id="getExpress" parameterType="String" resultType="map">
+		SELECT 
+			so.shipping_code AS shippingCode, 
+			so.shipping_express_id AS shippingExpressId, 
+			se.e_code AS eCode ,
+			se.e_name AS eName ,
+			se.e_mobile AS eMobile 
+		FROM shop_order so 
+		INNER JOIN shop_express se 
+		ON so.shipping_express_id=se.id 
+		WHERE order_sn=#{orderNumber}  
+	</select>
+
+    <!-- 添加訂單收貨地址 -->
+    <insert id="addOrderAddress" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingAddressVo"
+            useGeneratedKeys="true" keyProperty="addressId">
+	INSERT INTO shop_order_address(
+		member_id,
+		true_name,
+		mob_phone,
+		area_info,
+		address,
+		is_default,
+		zip_code,
+		province_id,
+		city_id,
+		area_id
+		)
+		SELECT
+			a.member_id,
+			a.true_name,
+			a.mob_phone,
+			a.area,
+			a.address,
+			a.is_default,
+			a.zip_code ,
+			a.province_id,
+			a.city_id ,
+			a.area_id
+		FROM shop_address a
+		WHERE address_id=#{object} AND delete_status=1
+	</insert>
+    <!-- 得到订单完成时间 -->
+    <select id="getOrderAccomplishTime" parameterType="int" resultType="long">
+		SELECT 
+			accomplish_time
+		FROM shop_order
+		WHERE order_id=#{orderId}
+	</select>
+    <!-- 得到訂單支付條數 -->
+    <select id="getOrderPayCount" parameterType="String" resultType="int">
+		SELECT COUNT(pay_id) FROM shop_order_pay WHERE order_sn=#{out_trade_no}
+	</select>
+    <!-- 得到订单支付list -->
+    <select id="findOrderPayByOrderSn" parameterType="String"
+            resultType="com.hailu.cloud.api.mall.module.sys.vo.OrderPay">
+		SELECT 
+			pay_sn AS paySn,
+			buyer_id as buyerId,
+			api_pay_state as apiPayState,
+			pay_type as payType,
+			pay_time as payTime,
+			pay_amount as payAmount
+		FROM shop_order_pay
+		where order_sn=#{orderSn} 
+	
+	</select>
+    <!-- @authod huangl 得到购物车的角标 -->
+    <select id="getCartGoodsNum" parameterType="String" resultType="map">
+		SELECT count(cart_id) AS cartNum FROM  shop_cart WHERE user_id=#{userId}
+	</select>
+    <!-- @authod huangl批量添加购物车 -->
+    <insert id="addListToCart">
+        INSERT INTO shop_cart(
+        goods_id,
+        user_id,
+        goods_name,
+        spec_id,
+        spec_info,
+        goods_store_price,
+        goods_num,
+        goods_images,
+        first_gc_id,
+        first_gcbig_id,
+        g_type ,
+        create_time ,
+        is_activity ,
+        is_selected ,
+        is_compl
+        ) VALUES
+        <foreach collection="list" item="rc" index="index" separator=",">
+            (
+            #{rc.goodsId},
+            #{rc.buyerId},
+            #{rc.goodsName},
+            #{rc.specId},
+            #{rc.specName},
+            #{rc.goodsPrice},
+            #{rc.goodsNum},
+            #{rc.goodsImage},
+            #{rc.gcId},
+            #{rc.gcBigId},
+            #{rc.type},
+            #{rc.createTime},
+            1 ,
+            1 ,
+            0
+            )
+
+        </foreach>
+
+    </insert>
+
+    <!-- @authod qinmy更新取消订单 -->
+
+
+    <!--根据订单编号得到对应的免费/耗配优惠券-->
+
+    <select id="getShoppingCartByIds" resultType="com.hailu.cloud.api.mall.module.goods.entity.order.CartVo">
+        SELECT
+        c.cart_id AS cartId,
+        c.goods_id AS goodsId,
+        c.user_id AS userId,
+        c.goods_name AS goodsName,
+        c.spec_id AS specId,
+        c.spec_info AS specName,
+        c.goods_store_price AS price,
+        c.goods_num AS goodsNum,
+        c.goods_images AS goodsImages,
+        c.first_gc_id AS firstGcId,
+        c.first_gcbig_id AS firstGcbigId,
+        c.g_type AS type ,
+        c.is_activity AS isActivity,
+        g.full_free_mail AS fullFreeMail,
+        g.transport_id AS transportId,
+        g.is_share as isShare,
+        gs.weight,
+        gs.volume
+        FROM shop_cart c
+        LEFT JOIN shop_goods g ON c.goods_id=g.goods_id
+        LEFT JOIN shop_goods_spec gs ON c.spec_id=gs.goods_spec_id
+        WHERE cart_id in(
+        <foreach collection="array" item="f" separator=",">
+            #{f}
+        </foreach>
+        )
+    </select>
+    <!--批量删除购物车-->
+    <delete id="deleteShoppingCarts" parameterType="java.util.Map">
+        delete from shop_cart WHERE cart_id in(
+        <foreach collection="split" item="f" separator=",">
+            #{f}
+        </foreach>
+        )
+    </delete>
+
+	<select id="findOrderVmByOrderId" resultType="com.hailu.cloud.api.mall.module.goods.vo.vm.OrderGoodsVm">
+		SELECT
+			sog.rec_id AS recId,
+			sog.goods_id AS goodsId,
+			sog.goods_name AS 	goodsName,
+			sog.spec_id AS specId,
+			sog.spec_info AS specName,
+			sog.goods_price AS goodsPrice,
+			sog.goods_num AS goodsNum,
+			sog.goods_image AS goodsImage,
+			sog.gc_id AS gcId ,
+			sog.order_good_type AS type ,
+			sog.parent_id AS parentId ,
+			sog.goods_integral AS goodsIntegral ,
+			sog.buyer_id AS buyerId ,
+			sg.regional_agent_commission AS regionalAgentCommission,
+			sg.service_provider_commission AS serviceProviderCommission,
+			sg.is_popularize AS isPopularize
+			FROM shop_order_goods sog left join shop_goods sg on sog.goods_id = sg.goods_id
+			WHERE order_id=#{orderId} AND order_good_type!=4
+	</select>
+</mapper>

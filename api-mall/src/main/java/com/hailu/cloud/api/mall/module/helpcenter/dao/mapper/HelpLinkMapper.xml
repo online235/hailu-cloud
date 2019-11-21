@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.helpcenter.dao.HelpLinkMapper">
+    <resultMap id="BaseResultMap" type="com.hailu.cloud.api.mall.module.helpcenter.vo.HelpLink" autoMapping="true">
+        <id column="help_link_id" property="helpLinkId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="com.hailu.cloud.api.mall.module.helpcenter.vo.QuestionHelp"
+               autoMapping="true">
+        <id column="question_help_id" property="questionHelpId" jdbcType="INTEGER"/>
+        <result column="help_link_id" property="helpLinkId"></result>
+    </resultMap>
+    <select id="getHelpLinkList" resultMap="BaseResultMap">
+		SELECT * FROM shop_help_link   WHERE help_parent_id = 15
+	</select>
+
+    <select id="getQuestionHelpList" resultMap="BaseResultMap1">
+        SELECT
+        *
+        FROM shop_question_help WHERE help_link_id =#{2} limit #{0},#{1}
+    </select>
+
+    <select id="getQuestionHelpInfo" resultMap="BaseResultMap1">
+        SELECT * FROM shop_question_help WHERE question_help_id=#{0}
+    </select>
+
+    <select id="getQuestionHelpInfoList1" resultMap="BaseResultMap1">
+        SELECT
+        *
+        FROM shop_question_help WHERE help_link_id =#{2} AND question_help_id!=#{3} limit #{0},#{1}
+    </select>
+</mapper>

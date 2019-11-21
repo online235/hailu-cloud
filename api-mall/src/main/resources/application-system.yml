@@ -1,0 +1,215 @@
+# 系统自定义配置
+
+sys:
+  task:
+    thread:
+      pool:
+        # 任务调度最大线程池
+        maxsize: 30
+  url: ${static.server.prefix}
+user:
+  passwd:
+    sign:
+      # 密码加密的key
+      key: 79AA9270FD5D4B28A02E616C61B7D7AB
+  base:
+  maxIntegral:
+    # 最大连续签到天数
+    day: 7
+weixin:
+  # 微信开放平台审核通过的应用APPID
+  appid:
+  # 微信分配的支付密钥
+  key:
+  # 微信商户号
+  mchid:
+  # 终端设备号 默认请传[web]
+  deviceinfo: WEB
+alipay:
+  # 支付宝平台审核通过的APPID
+  appid:
+  # 支付宝分配pid
+  pid:
+  seller:
+    # 支付宝seller_id
+    id:
+  public:
+    # 支付宝公钥
+    key:
+  rsa:
+    private:
+      # RSA(SHA1)密钥
+      key:
+  aes:
+    private:
+      # AES密钥
+      key:
+kdniao:
+  # 快递鸟用户id
+  userId: 1302929
+  # 快递鸟apikey
+  apiKey: 2dfb7aec-5211-47d5-ab00-d3c8973d421f
+app:
+  banner:
+    ap:
+      # app广告分类Id值(轮播图)
+      value: 16
+  headernews:
+    # app文章分类id值(商城头条)
+    value: 20
+order:
+  cancel:
+    # 订单取消时间 (小时)
+    time: 24
+# 短信
+lanz:
+  sms:
+    userid: 864108
+    account: wang
+    password: 7C4A8D
+    # 短信签名
+    sign: 【】
+    smstype:
+      # 用户注册短信验证
+      verify: 1
+netease:
+  sms:
+    # 网易短信发送平台配置
+    service-url: https://api.netease.im/sms/sendtemplate.action
+    verifycode-url: https://api.netease.im/sms/verifycode.action
+    templateid: 3097014
+    app-key: 853d19b4dcadf6f4cfa46650d3e24711
+    app-secret: 8b9b1dd13348
+qiniu:
+  access-key: test
+  secret-key: test
+  bucketname: test
+redis:
+  key:
+    user:
+      login:
+        # 用户token
+        token: zyj_server_user_login_token_
+        # 用户token过期时间（小时）
+        token-times: 720
+      registerSmsCode:
+        token:
+          # 用户短信验证码过期时间（分钟）
+          times: 5
+
+#身份证调用信息
+id-card:
+  url: http://route.showapi.com/1072-1
+  showapi-sign: d6e4d493cce6431fb5dfa51b6266d0bd
+  showapi-appid: 96312
+
+#心安支付信息
+xinan:
+  weixin:
+    # 微信开放平台审核通过的应用APPID
+    appid: wx28a66e8b774bd3f2
+    # 微信分配的支付密钥
+    key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
+    # 微信商户号
+    mchid: 1520607751
+    # 终端设备号 默认请传[web]
+    deviceinfo: WEB
+
+  alipay:
+    # 支付宝平台审核通过的APPID
+    appid: 2018102261770433
+    # 支付宝分配pid
+    pid: 2088231306500862
+    seller:
+      # 支付宝seller_id
+      id: dedashch@163.com
+    public:
+      # 支付宝公钥
+      key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAldc9k+B4VUVwZ0ZzHiT0iV81RdNGa4UXwT6IE1F5mGGlH21l1jJ2/2GHTyecSJ0gh5aDJNShSucB8yeNit9Paw1zdAsdMwS/M6kcUVpT6wPDw6PnkQIJFb4GXSH9FcmGeHgV9hazGwKaAekXMHZDC3FFLe41jVQN5ue/7qkCBEaaK0HnkKdpDsSFxJYhHn2w3WuXvm7Reb2CnXr4kPgY0mxwPdA9F62XaGMszpGnL5i7l397FT/i0yyFoM+cNAkhgmf1KV8JzuSOD7huO+0c75ip/7bREbyspwQUDs2HRj16nqVNSaw4zem2eCXld8vfCPA+GPykrudMdQzayVDXzQIDAQAB
+    rsa:
+      private:
+        # RSA(SHA1)密钥
+        key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCV1z2T4HhVRXBnRnMeJPSJXzVF00ZrhRfBPogTUXmYYaUfbWXWMnb/YYdPJ5xInSCHloMk1KFK5wHzJ42K309rDXN0Cx0zBL8zqRxRWlPrA8PDo+eRAgkVvgZdIf0VyYZ4eBX2FrMbApoB6RcwdkMLcUUt7jWNVA3m57/uqQIERporQeeQp2kOxIXEliEefbDda5e+btF5vYKdeviQ+BjSbHA90D0XrZdoYyzOkacvmLuXf3sVP+LTLIWgz5w0CSGCZ/UpXwnO5I4PuG477RzvmKn/ttERvKynBBQOzYdGPXqepU1JrDjN6bZ4JeV3y98I8D4Y/KSu50x1DNrJUNfNAgMBAAECggEAEJEhv83bwCHTUbfaVoTjfKTIMRYw/QZUIAuX4/roJM73AMiJr+sYeRgBa+EHSIgG5rbffRz9UFjGQGopHieekkmEcFoiOlfWBBI4jU4dZSifZmwi2EePVZYTAg0V/Gixs3QjiXftCZl6CagJ5lPNCeDWM0PZK+0VNGh/MhYBoRM5/FFj+ftRB4/VdSmSR1zCB8SWDQrYI1+X57WrGzTOyvcXvXbAEgWuKG3X9jlKs/GQ03k0Dd5Vo0ih2kd0M+t5fmVimjcKsoEC5o67/tWl+BCKWGZZ2bpACUiK24lQx7Qsr/66Gnx5zspkXa6FegS6+TxSJzek/u2mFXbJRYwGQQKBgQDGZeDHNoLAhddf9fSivm0StflLu3hq83FopnBF1v3IL9e81EgXasSW2zfxjgW1rdZcgzKBPLpYI662NOWaKKlO665lSwWLapj76zyYihieuOsbCT7u5Sh8gwp0AsoWSwnhNoz+xzCLBQIW5aMjfXDKFnklinVlo6InzTvQZd5RGQKBgQDBWE2LEgZPQrsVqVtZLN7lE+ww9khlCHY9dfYtkp+WhohzqFS5L3+AOseWZpaCdPXa6LPfhcPzoO0PH9aPPp0tCag3ED91bx3N75KRT7JD7fN/PjvidDlmEgHRFPspuGT5/g4y6Nk4zFwrwiy5VqFIUWLWk7GQWmLa6w3IKygO1QKBgFpvwkDM9lkwKXcStMsiprGqxdLhyAhopD+h7vfHArQoKt1mnt4dyzNBBoVTygKBFX/iRjlnJ0JaMZ/ZCPh2pIbXJA4EXqiolMfw+RRHjuV7QaB3XHqldwka6r7rLpdu6TgCF89jmRsl00gAsZbR7YIRMHQOY2lLZ/Vgtm1OokKxAoGBALKF92ue5AaRhi9VJgysGs+IWsFG1se7TXoojnu78/FIHXw1hK1NRzw+igW8ieLBXjWYQmX0nF87S0h4zGONnBF25kSZkw6639lECaB05xREBV6LNz48tLcjj1vgNJ1sLoiKZc/qIpCIWd7ptuQXMmqVA19AFmdEnhynhx05hA5VAoGBAMATURmskQCE2wC41nLy6G6sfebnfBUz6MXqtKEsgoH5cjok3ogsNfIHbmC8ce4ftIy4A8w7/ckMlj+hv5unN4AhseDL7G/3wuqgaHPVOGhrEystR7U92QiEz6IcNDNMVPukcCWcpLfT5iYn3AeJTvWMHIVsITwPkVwEM2fUozjN
+    aes:
+      private:
+        # AES密钥
+        key: pa3++t5SUdpCAOpQ8jtOUA==
+
+#海露支付信息
+hailu:
+#  weixin:
+#    # 微信开放平台审核通过的应用APPID
+#    appid: wx7200335f627f9ef8
+#    # 微信分配的支付密钥
+#    key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
+#    # 微信商户号
+#    mchid: 1536452051
+#    # 终端设备号 默认请传[web]
+#    deviceinfo: WEB
+#    #微信公众号获取openId秘钥
+#    openIdKey: 75553dce6344826d06c11e373a10b2db
+  weixin:
+    app:
+      # 微信开放平台审核通过的应用APPID
+      appid: wx28a66e8b774bd3f2
+      # 微信分配的支付密钥
+      key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
+      # 微信商户号
+      mchid: 1536452051
+      # 终端设备号 默认请传[web]
+      deviceinfo: WEB
+    #微信公众号
+    jsapi:
+      # 微信开放平台审核通过的应用APPID
+      appid: wx7200335f627f9ef8
+      # 微信分配的支付密钥
+      key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
+      # 微信商户号
+      mchid: 1536452051
+      # 终端设备号 默认请传[web]
+      deviceinfo: WEB
+      #微信公众号获取openId秘钥
+      openIdKey:  75553dce6344826d06c11e373a10b2db
+
+  alipay:
+    # 支付宝平台审核通过的APPID
+    appid: 2018102261770433
+    # 支付宝分配pid
+    pid: 2088231306500862
+    seller:
+      # 支付宝seller_id
+      id: dedashch@163.com
+    public:
+      # 支付宝公钥
+      key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAldc9k+B4VUVwZ0ZzHiT0iV81RdNGa4UXwT6IE1F5mGGlH21l1jJ2/2GHTyecSJ0gh5aDJNShSucB8yeNit9Paw1zdAsdMwS/M6kcUVpT6wPDw6PnkQIJFb4GXSH9FcmGeHgV9hazGwKaAekXMHZDC3FFLe41jVQN5ue/7qkCBEaaK0HnkKdpDsSFxJYhHn2w3WuXvm7Reb2CnXr4kPgY0mxwPdA9F62XaGMszpGnL5i7l397FT/i0yyFoM+cNAkhgmf1KV8JzuSOD7huO+0c75ip/7bREbyspwQUDs2HRj16nqVNSaw4zem2eCXld8vfCPA+GPykrudMdQzayVDXzQIDAQAB
+    rsa:
+      private:
+        # RSA(SHA1)密钥
+        key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCV1z2T4HhVRXBnRnMeJPSJXzVF00ZrhRfBPogTUXmYYaUfbWXWMnb/YYdPJ5xInSCHloMk1KFK5wHzJ42K309rDXN0Cx0zBL8zqRxRWlPrA8PDo+eRAgkVvgZdIf0VyYZ4eBX2FrMbApoB6RcwdkMLcUUt7jWNVA3m57/uqQIERporQeeQp2kOxIXEliEefbDda5e+btF5vYKdeviQ+BjSbHA90D0XrZdoYyzOkacvmLuXf3sVP+LTLIWgz5w0CSGCZ/UpXwnO5I4PuG477RzvmKn/ttERvKynBBQOzYdGPXqepU1JrDjN6bZ4JeV3y98I8D4Y/KSu50x1DNrJUNfNAgMBAAECggEAEJEhv83bwCHTUbfaVoTjfKTIMRYw/QZUIAuX4/roJM73AMiJr+sYeRgBa+EHSIgG5rbffRz9UFjGQGopHieekkmEcFoiOlfWBBI4jU4dZSifZmwi2EePVZYTAg0V/Gixs3QjiXftCZl6CagJ5lPNCeDWM0PZK+0VNGh/MhYBoRM5/FFj+ftRB4/VdSmSR1zCB8SWDQrYI1+X57WrGzTOyvcXvXbAEgWuKG3X9jlKs/GQ03k0Dd5Vo0ih2kd0M+t5fmVimjcKsoEC5o67/tWl+BCKWGZZ2bpACUiK24lQx7Qsr/66Gnx5zspkXa6FegS6+TxSJzek/u2mFXbJRYwGQQKBgQDGZeDHNoLAhddf9fSivm0StflLu3hq83FopnBF1v3IL9e81EgXasSW2zfxjgW1rdZcgzKBPLpYI662NOWaKKlO665lSwWLapj76zyYihieuOsbCT7u5Sh8gwp0AsoWSwnhNoz+xzCLBQIW5aMjfXDKFnklinVlo6InzTvQZd5RGQKBgQDBWE2LEgZPQrsVqVtZLN7lE+ww9khlCHY9dfYtkp+WhohzqFS5L3+AOseWZpaCdPXa6LPfhcPzoO0PH9aPPp0tCag3ED91bx3N75KRT7JD7fN/PjvidDlmEgHRFPspuGT5/g4y6Nk4zFwrwiy5VqFIUWLWk7GQWmLa6w3IKygO1QKBgFpvwkDM9lkwKXcStMsiprGqxdLhyAhopD+h7vfHArQoKt1mnt4dyzNBBoVTygKBFX/iRjlnJ0JaMZ/ZCPh2pIbXJA4EXqiolMfw+RRHjuV7QaB3XHqldwka6r7rLpdu6TgCF89jmRsl00gAsZbR7YIRMHQOY2lLZ/Vgtm1OokKxAoGBALKF92ue5AaRhi9VJgysGs+IWsFG1se7TXoojnu78/FIHXw1hK1NRzw+igW8ieLBXjWYQmX0nF87S0h4zGONnBF25kSZkw6639lECaB05xREBV6LNz48tLcjj1vgNJ1sLoiKZc/qIpCIWd7ptuQXMmqVA19AFmdEnhynhx05hA5VAoGBAMATURmskQCE2wC41nLy6G6sfebnfBUz6MXqtKEsgoH5cjok3ogsNfIHbmC8ce4ftIy4A8w7/ckMlj+hv5unN4AhseDL7G/3wuqgaHPVOGhrEystR7U92QiEz6IcNDNMVPukcCWcpLfT5iYn3AeJTvWMHIVsITwPkVwEM2fUozjN
+    aes:
+      private:
+        # AES密钥
+        key: pa3++t5SUdpCAOpQ8jtOUA==
+
+# 商品后台管理开放出来的共享接口
+remote:
+  server:
+    address: http://192.168.10.243:8080/admin/api
+
+# 提现阀值(元)
+income:
+  transferout:
+    threshold: 100
+
+static:
+  # 编辑器图片、文件、视频访问前缀
+  server:
+    prefix: https://jphailus.utools.club/api/v1/
+
+merchant:
+  commission:
+    rate:
+      # 区域代理提成
+      regional-agent: 0.15
+      # 服务商提成
+      service-agent: 0.85

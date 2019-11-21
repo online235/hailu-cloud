@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.customerservice.dao.CsApplyDao">
+
+    <sql id="csApplyDate">
+	 	cs_apply_id                AS    csApplyId          ,
+		goods_id                   AS    goodsId            ,
+		order_id                   AS    orderId            ,
+		order_goods_id             AS    orderGoodsId        ,
+		goods_num                  AS    goodsNum           ,
+		cs_reason_id               AS    csReasonId              ,
+		cs_reason as csReason,
+		remarks                   AS    remarks            ,
+		photo                      AS    photo               ,
+		return_mode                AS    returnMode         ,
+		cs_type                    AS    csType             ,
+		refund_amount              AS    refundAmount       ,
+		consignee                  AS    consignee           ,
+		addressee_phn              AS    addresseePhn       ,
+		receiving_address          AS    receivingAddress   ,
+		review_message             AS    reviewMessage      ,
+		tp_state                   AS    tpState            ,
+		delete_status              AS    deleteStatus       ,
+		create_date                AS    createDate         ,
+		create_name                AS    createName         ,
+		update_date                AS    updateDate         ,
+		update_name                AS    updateName         ,
+		cs_number                  AS    csNumber           ,
+		cause_difference		   AS	causeDifference
+	 </sql>
+    <!-- 查询该订单明细有没有怎在运行的订单明细 -->
+    <!--  提交申请(0)，商城审核(1)，收货(2)，退款(3)，完成(4) ，（5）取消申请，（6）商城拒绝）   查出 0,1,2,3,4,6 订单明细-->
+    <select id="getCsApply" resultType="com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity">
+        SELECT <include refid="csApplyDate"></include>  FROM shop_cs_apply WHERE
+        order_id = #{orderId}
+        AND delete_status = 0
+        AND order_goods_id = #{orderGoodsId}
+        AND cs_type IN (0,1,2)
+        ORDER BY create_date DESC LIMIT 0 , 1
+    </select>
+    <select id="getCsApplyList" resultType="com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity">
+        SELECT <include refid="csApplyDate"></include>  FROM shop_cs_apply WHERE
+        user_id = #{userId}
+        AND delete_status = 0 AND cs_type IN (0,1,2) ORDER BY create_date DESC LIMIT #{page},#{row}
+    </select>
+    <!-- 提交售后申请 -->
+    <insert id="addCsApply" parameterType="com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity"
+            useGeneratedKeys="true" keyProperty="csApplyId">
+ 	 INSERT INTO shop_cs_apply(
+ 	 goods_id             ,
+ 	 order_id             ,
+ 	 order_goods_id       ,
+ 	 goods_num            ,
+ 	 cs_reason_id               ,
+ 	 remarks             ,
+ 	 photo                ,
+ 	 return_mode          ,
+ 	 cs_type              ,
+ 	 consignee            ,
+ 	 addressee_phn        ,
+ 	 receiving_address    ,
+ 	 review_message       ,
+ 	 tp_state             ,
+ 	 delete_status        ,
+ 	 create_date          ,
+ 	 create_name          ,
+ 	 update_date          ,
+ 	 update_name          ,
+ 	 cs_number            ,
+ 	 cs_reason               ,
+ 	 user_id				,
+ 	 user_amount
+ 	 )VALUES(                 
+ 	  #{  goodsId          }  ,
+ 	  #{  orderId          }  ,
+ 	  #{  orderGoodsId     } ,
+ 	  #{  goodsNum         }  ,
+ 	  #{  csReasonId           }   ,
+ 	  #{  remarks         }   ,
+ 	  #{  photo            }   ,
+ 	  #{  returnMode       }  ,
+ 	  #{  csType          }   ,
+ 	  #{  consignee        }   ,
+ 	  #{  addresseePhn     }  ,
+ 	  #{  receivingAddress }  ,
+ 	  #{  reviewMessage    }  ,
+ 	  #{  tpState          }  ,
+ 	  0  ,
+ 	  #{ createDate},
+ 	  #{  createName       }  ,
+ 	  #{  updateDate},
+ 	  #{  updateName       }  ,
+ 	  #{  csNumber         }  ,
+ 	  #{  csReason           }   ,
+ 	  #{userId},
+ 	  #{userAmount}
+ 	 )                   
+ 	</insert>
+    <!-- 获取最大服务单号 -->
+    <select id="getCsApplyNumber" resultType="String">
+			SELECT MAX(cs_number) FROM shop_cs_apply 
+	</select>
+    <!-- 获取订单明细对象 -->
+    <select id="getCSOrderGoods" resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CSOrderGoods">
+			SELECT  
+			rec_id AS recId,
+			goods_id AS goodsId,
+			order_id AS orderId,
+			goods_name AS 	goodsName,
+			spec_id AS specId,
+			spec_info AS specName,
+			goods_price AS goodsPrice,
+			goods_num AS goodsNum,
+			goods_image AS goodsImage,
+			gc_id AS gcId ,
+			order_good_type AS type ,
+			parent_id AS parentId 
+			FROM shop_order_goods 
+			WHERE rec_id = #{recId}  
+	</select>
+
+    <!-- 获取订单对象 -->
+    <select id="findByOrderId" resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderToVo">
+		SELECT 
+			order_id AS orderId,
+			order_sn AS orderSn,
+			buyer_id AS userId,
+			order_amount AS orderAmount,
+			payment_state AS paymentState,
+			payment_time AS paymentTime,
+			create_time AS createTime,
+			is_reserve AS isReserve ,
+			one_is_pay AS oneIsPay,
+			reserve_one_amount AS reserveOneAmount,
+			reserve_two_amount AS reserveTwoAmount,
+			two_is_pay AS twoIsPay  ,
+			out_sn AS orderSn  ,
+			address_id AS addressId,
+			accomplish_time AS accomplishTime,
+			shipping_fee AS freight ,
+			order_Amount AS orderAmount 
+		FROM shop_order 
+		WHERE order_id =#{orderId}
+	</select>
+    <!--
+  通过key 获取 值
+   -->
+    <select id="getAttributeValue" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT attribute_value FROM t_s_sys_attribute WHERE attribute_key = #{key}
+	</select>
+    <!-- 通过Id获取 申请记录 -->
+    <select id="csApplyById" resultType="com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity">
+        SELECT <include refid="csApplyDate"></include>  FROM shop_cs_apply WHERE
+        cs_apply_id = #{csApplyId}
+    </select>
+    <!-- 修改审核记录 -->
+    <update id="cancelCsApply">
+        UPDATE shop_cs_apply
+        <set>
+            tp_State = 5
+        </set>
+        WHERE
+        cs_apply_id = #{csApplyId}
+    </update>
+    <!-- 修改快递单号 -->
+    <update id="udpateCsApplyCourierNumber">
+        UPDATE shop_cs_apply
+        <set>
+            courier_number = #{courierNumber} ,
+            courier_company = #{courierCompany} ,
+            courier_code = #{courierCode} ,
+            is_courier = 1
+        </set>
+        WHERE
+        cs_apply_id = #{csApplyId}
+    </update>
+    <!-- 订单退款 -->
+    <update id="updateOrderRefund">
+        UPDATE shop_order
+        <set>
+            refund_state = #{refundState} ,
+            return_state = #{returnState}
+        </set>
+        WHERE order_id = #{orderId}
+    </update>
+    <!--  提交申请(0)，商城审核(1)，收货(2)，退款(3)，完成(4) ，（5）取消申请，（6）商城拒绝）   查出 0,1,2,3,4,6 订单明细-->
+    <select id="csApplyByOrderId" resultType="com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity">
+        SELECT <include refid="csApplyDate"></include>  FROM shop_cs_apply WHERE
+        user_id = #{userId}
+        AND order_id = #{orderId}
+        AND tp_state IN (0, 1, 2, 3, 4)
+        ORDER BY
+        create_date DESC
+        LIMIT 0,
+        1
+    </select>
+
+    <select id="shopOrderPayType" resultType="java.lang.Integer" parameterType="java.lang.String">
+  		SELECT pay_type FROM shop_order_pay WHERE order_sn =  #{orderSn} LIMIT 0,1
+  	</select>
+
+    <select id="getCouriers" resultType="com.hailu.cloud.api.mall.module.customerservice.vo.ExpressVo">
+  	
+  		SELECT e_code , e_name  FROM  shop_express WHERE is_del = 0
+  	
+  	</select>
+
+    <select id="getCsApplyCourierNumber"
+            resultType="com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyExpressVo">
+  		SELECT courier_number ,
+  			  courier_company ,
+  			  courier_code    ,
+  				is_courier
+  		 FROM shop_cs_apply WHERE  cs_apply_id = #{csApplyId} 
+  	</select>
+
+</mapper>

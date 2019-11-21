@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper">
+
+    <!-- 新增提问或者回复 该用户提出的问题以及对应的商品名称，商品图片，商品id -->
+    <insert id="addAskReply" parameterType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyAnswerVo">
+		insert into shop_ask_reply(
+		user_id,
+		user_name,
+		user_img,
+		goods_id,
+		goods_name,
+		goods_img,
+		context,
+		pid,
+		create_time
+		)
+		values(
+		#{userId},
+		#{userName},
+		#{userImg},
+		#{goodsId},
+		#{goodsName},
+		#{goodsImg},
+		#{context},
+		#{pid},
+		#{createTime}
+		)
+	</insert>
+
+    <!-- @huangl 我的提问 该用户提出的问题以及对应的商品名称，商品图片，商品id -->
+    <select id="myQuestion" parameterType="map"
+            resultType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo">
+		SELECT
+			ask_reply_id AS askReplyId,
+			context,
+			goods_name As goodsName,
+			goods_img AS goodsImg,
+			goods_id AS goodsId,
+			create_time AS createTime,
+			(SELECT COUNT(ask_reply_id) FROM shop_ask_reply s WHERE s.pid =
+			shop_ask_reply.ask_reply_id) AS COUNT
+		FROM
+			shop_ask_reply
+		WHERE
+			pid=0 AND user_id = #{userId}
+		ORDER BY create_time DESC 
+		LIMIT #{page},#{rows}
+
+	</select>
+    <!-- 先根据时间和用户id筛选订单 ,在用订单号得到改购买的商品id , 根据商品id跟提问进行匹配 , 最后进行倒序排序  -->
+    <select id="allQuestionBymyAnswer" parameterType="map"
+            resultType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo">
+		SELECT
+			ask_reply_id AS askReplyId,
+			context,
+			goods_name AS goodsName,
+			goods_img AS goodsImg,
+			goods_id AS goodsId,
+			create_time AS createTime ,
+			(SELECT COUNT(ask_reply_id) FROM shop_ask_reply s WHERE s.pid =
+			shop_ask_reply.ask_reply_id) AS COUNT 
+		FROM shop_ask_reply 
+		WHERE (goods_id IN (
+		SELECT goods_id FROM shop_order_goods WHERE order_id IN(
+		SELECT order_id FROM shop_order WHERE order_state>3 AND buyer_id =#{userId} AND create_time > #{time} ))
+		AND pid=0 ) OR ask_reply_id IN (SELECT pid FROM shop_ask_reply WHERE user_id=#{userId})
+		ORDER BY create_time DESC 
+		LIMIT #{page},#{rows} 
+	</select>
+    <!--  @huangl 根据问题id得到回答的list -->
+    <select id="myQuestAllAnswers" parameterType="map"
+            resultType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyVo">
+		SELECT
+			user_id AS userId,
+			user_name AS userName,
+			context,
+			user_img AS userImg,
+			create_time AS createTime 
+		FROM 
+			shop_ask_reply
+		WHERE 
+			pid = #{askReplyId} 
+		ORDER BY create_time DESC 
+		LIMIT #{page},#{rows} 
+	</select>
+    <!-- 问大家 -->
+    <select id="askEveryone" parameterType="int"
+            resultType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo">
+		SELECT ask_reply_id AS askReplyId ,
+			user_id AS userId,
+			goods_id AS goodsId,
+			pid,
+			context,
+			user_name AS userName,
+			user_img AS
+			userImg,
+			goods_name AS goodsName,
+			goods_img AS goodsImg
+		FROM
+			shop_ask_reply
+		WHERE goods_id = #{goodsId}
+	</select>
+    <!-- @huangl 是否买过 -->
+    <select id="isBought" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods"
+            resultType="int">
+		SELECT COUNT(rec_id)
+		FROM shop_order_goods
+		WHERE buyer_id=#{buyerId}
+		AND goods_id=#{ goodsId}
+	</select>
+
+    <!-- @huangl 商品的评论-->
+    <select id="goodsAllEevaluate" resultType="com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsEvaluateTO">
+	SELECT
+		geval_content AS gevalContent,
+		geval_isanonymous AS gevalIsanonymous,
+		create_time AS createTime, 
+		geval_frommemberid AS gevalFrommemberid,
+		geval_frommembername AS gevalFrommembername ,
+		geval_image AS gevalImage,
+		comment,
+		geval_frommemberimg AS gevalFrommemberimg ,
+		geval_scores AS gevalScores 
+	FROM shop_evaluate_goods  
+	WHERE geval_goodsid = #{goodsId} and geval_scores>3 and 
+	service_score>3 and logistics_score>3
+	ORDER BY create_time DESC
+	LIMIT #{page},#{rows}
+	</select>
+    <!--  @huangl根据商品id得到对应的问题 -->
+    <select id="getIssue" parameterType="map" resultType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo">
+		SELECT 
+		ask_reply_id AS askReplyId,
+			context,
+			goods_name As goodsName,
+			user_img as userImg,
+			goods_img AS goodsImg,
+			create_time AS createTime,
+			(SELECT COUNT(ask_reply_id) FROM shop_ask_reply s WHERE s.pid =
+			shop_ask_reply.ask_reply_id) AS COUNT 
+		FROM
+			shop_ask_reply
+		WHERE goods_id=#{goodsId} AND pid=0 ORDER BY create_time DESC 
+		LIMIT #{page},#{rows}
+	
+	</select>
+    <!-- @authod huangl 得到商品评价数 -->
+    <select id="getCountEvaluate" parameterType="int" resultType="int">
+		SELECT COUNT(1) FROM shop_evaluate_goods  
+		WHERE geval_goodsid = #{goodsId} 
+	</select>
+    <select id="findNavigationList" resultType="com.hailu.cloud.api.mall.module.goods.entity.Navigation">
+		SELECT * FROM shop_navigation where is_del='1' order by sort
+	</select>
+    <!--首页有推荐 begin-->
+    <resultMap id="HRResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.HomeRecommend">
+        <id column="hr_id" property="hrId" jdbcType="INTEGER"/>
+        <collection property="homeRecommendGoods" column="hr_id" select="findHomeRecommendGoods"/>
+    </resultMap>
+    <select id="findHomeRecommend" resultMap="HRResultMap">
+		SELECT * FROM shop_home_recommend ORDER BY hr_sort LIMIT #{page},#{rows}
+	</select>
+    <!--end -->
+    <select id="findModuleSettings" resultType="com.hailu.cloud.api.mall.module.goods.entity.ModuleSettings">
+		SELECT * FROM shop_module_settings WHERE ms_show_site=#{show} and ms_state='1' order by ms_sort
+	</select>
+    <!--会员特惠-->
+    <resultMap id="SpecialResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOffer">
+        <id column="so_id" property="soId" jdbcType="INTEGER"/>
+        <collection property="offerSettingList" column="so_id" select="findSpecialSetting"/>
+    </resultMap>
+    <resultMap id="SpecialSettingResultMap"
+               type="com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOfferSetting">
+        <id column="sos_id" property="sosId" jdbcType="INTEGER"/>
+        <collection property="offerGoodsList" column="sos_id" select="findSpecialOfferGoods2"/>
+    </resultMap>
+    <select id="findSpecialOfferGoods" resultMap="SpecialResultMap">
+		SELECT so.* FROM shop_special_offer so
+		WHERE so.so_state='2' and so.is_del='1'
+	</select>
+    <!--每周精选-->
+    <resultMap id="WeekFeaturedResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.goods.WeekFeatured">
+        <id column="wfs_id" property="wfsId" jdbcType="INTEGER"/>
+        <collection property="list" column="wfs_id"
+                    ofType="com.hailu.cloud.api.mall.module.goods.entity.goods.WeekFeaturedGoods"
+                    select="findWeekFeaturedGoods"/>
+    </resultMap>
+
+    <update id="updatePointsMarket">
+		UPDATE shop_points_market SET pm_storage=#{storage},pm_salenum=#{salenum} WHERE pm_id=#{pmId}
+	</update>
+    <!--健康豆商城 end-->
+    <!-- 商品搜索 bigint -->
+    <select id="findSearchGoods" parameterType="com.hailu.cloud.api.mall.module.goods.entity.goods.SearchGoodsParam"
+            resultType="com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo">
+        SELECT
+        g.goods_id AS goodsId,
+        g.goods_name AS goodsName,
+        g.goods_subtitle AS goodsSubtitle,
+        g.goods_image AS goodsImage,
+        g.goods_description AS goodsDescription,
+        g.store_id AS storeId,
+        g.store_name AS storeName,
+        g.spec_id AS specId ,
+        g.gc_id AS gcId,
+        g.gc_big_id AS gcBigId,
+        FROM shop_goods g
+        INNER JOIN shop_goods_spec gs ON g.goods_id=gs.goods_id AND gs.spec_isopen=1
+        WHERE goods_show=1 and g.is_del=0
+        <if test="name !=null and name!=''">
+            AND g.goods_name LIKE concat('%',#{name},'%')
+        </if>
+        <if test="classId!=null">
+            AND (gc_id=#{classId} OR gc_big_id=#{classId})
+        </if>
+        <if test="brandId!=null">
+            AND g.brand_id=#{brandId}
+        </if>
+        <if test="specId !=null">
+            AND FIND_IN_SET(#{specId},gs.spec_goods_spec)
+        </if>
+        <if test="conditions==1">
+            ORDER BY g.salenum
+        </if>
+        <if test="conditions==2">
+            ORDER BY g.create_time
+        </if>
+        <if test="conditions==3">
+            ORDER BY gs.spec_goods_price
+        </if>
+        <choose>
+            <when test="order!=null and order=='desc'">
+                desc
+            </when>
+            <otherwise>
+                asc
+            </otherwise>
+        </choose>
+        limit #{page},#{rows}
+    </select>
+
+    <select id="findGroupGcId" resultType="java.lang.Integer">
+        SELECT
+        g.gc_id
+        FROM shop_goods g
+        INNER JOIN shop_goods_spec gs ON g.goods_id=gs.goods_id AND gs.spec_isopen=1
+        WHERE goods_show=1 and g.is_del=0
+        <if test="name !=null and name!=''">
+            AND g.goods_name LIKE concat('%',#{name},'%')
+        </if>
+        <if test="classId!=null">
+            AND (gc_id=#{classId} OR gc_big_id=#{classId})
+        </if>
+        <if test="brandId!=null">
+            AND g.brand_id=#{brandId}
+        </if>
+        <if test="specId !=null">
+            AND FIND_IN_SET(#{specId},gs.spec_goods_spec)
+        </if>
+        GROUP BY g.gc_id
+    </select>
+    <select id="findBrandByGcIds" resultType="com.hailu.cloud.api.mall.module.goods.entity.Brand">
+        SELECT sb.brand_id,sb.brand_name,sb.brand_pic FROM shop_type_brand stb ,shop_brand sb,shop_goods_class sgc
+        WHERE sgc.type_id=stb.type_id and sgc.gc_id IN (
+        <foreach collection="list" item="o" separator=",">
+            #{o}
+        </foreach>
+        ) and stb.brand_id=sb.brand_id and sb.brand_apply=1
+        group by sb.brand_id,sb.brand_name,sb.brand_pic
+    </select>
+    <resultMap id="SpecResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.Spec">
+        <collection property="specValueList" column="sp_id"
+                    ofType="com.hailu.cloud.api.mall.module.goods.entity.SpecValue" select="findSpecValue"/>
+    </resultMap>
+    <select id="findSpecByGcIds" resultMap="SpecResultMap">
+        SELECT ss.sp_name,ss.sp_id FROM shop_spec ss ,shop_type_spec sts,shop_goods_class sgc
+        WHERE sgc.type_id=sts.type_id and ss.sp_id=sts.sp_id and sgc.gc_id IN (
+        <foreach collection="list" item="o" separator=",">
+            #{o}
+        </foreach>
+        ) group by ss.sp_name,ss.sp_id
+        limit 10;
+    </select>
+    <!-- 商品搜索 end -->
+
+	<select id="findById" resultType="com.hailu.cloud.api.mall.module.goods.vo.Goods">
+		select	regional_agent_commission AS regionalAgentCommission,service_provider_commission AS serviceProviderCommission,is_popularize AS isPopularize,store_id as storeId
+		from shop_goods where goods_id = #{id}
+	</select>
+	<select id="findGoodsList" resultType="com.hailu.cloud.api.mall.module.goods.vo.GoodsAndGoodsSpecVo">
+		SELECT DISTINCT g.goods_id as goodsId,g.goods_image as goodsImage,g.goods_name as goodsName,gs.spec_goods_purchase_price as specGoodsPurchasePrice,gs.commission as commission
+		FROM shop_goods g INNER JOIN shop_goods_spec gs ON g.goods_id=gs.goods_id
+		where g.is_popularize = 1 AND g.is_del = 0 AND g.goods_show = 1 AND g.goods_state = 30 group by gs.goods_id
+	</select>
+</mapper>

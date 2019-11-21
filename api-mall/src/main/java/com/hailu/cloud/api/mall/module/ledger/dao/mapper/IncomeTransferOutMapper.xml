@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper">
+
+    <insert id="transferOut">
+		insert into hl_income_transfer_out(id, member_id, price, bank_card, cardholder, create_time)
+		values(#{id}, #{userId}, #{price}, #{bankCard}, #{cardholder}, NOW())
+	</insert>
+
+    <select id="list" resultType="com.hailu.cloud.api.mall.module.ledger.vo.IncomeTransferOutVo">
+        SELECT
+            ito.id,
+            sm.member_name,
+            ito.price,
+            ito.bank_card,
+            ito.cardholder,
+            ito.state,
+            ito.remark,
+            ito.create_time
+        FROM hl_income_transfer_out ito
+        LEFT JOIN shop_member sm ON ito.member_id = sm.user_id
+        <where>
+            <if test="transferOut.state != null">
+                and ito.state = #{transferOut.state}
+            </if>
+            <if test="transferOut.bankCard != null and transferOut.bankCard != ''">
+                and ito.bank_card = #{transferOut.bankCard}
+            </if>
+            <if test="transferOut.cardholder != null and transferOut.cardholder != ''">
+                and ito.cardholder = #{transferOut.cardholder}
+            </if>
+            <if test="beginTime != null">
+                and ito.create_time >= #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and ito.create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <update id="audit">
+        update hl_income_transfer_out set update_by=#{memberId}, update_time = NOW(), state = #{state}  where id = #{id}
+    </update>
+</mapper>

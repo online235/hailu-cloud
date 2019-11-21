@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.ledger.dao.IncomeMapper">
+
+    <select id="findIncome" resultType="com.hailu.cloud.api.mall.module.ledger.vo.Income">
+		select id, price, total_price,freeze_price,update_time,in_freeze_price,version from hl_income where member_id = #{userId} and status = 1
+	</select>
+
+
+	<insert id="insert" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.Income" useGeneratedKeys="true" keyProperty="id" >
+    insert into hl_income (id,member_id, freeze_price, price,
+      total_price, update_time, status,in_freeze_price
+      )
+    values (#{id,jdbcType=BIGINT},#{memberId,jdbcType=VARCHAR}, #{freezePrice,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL},
+      #{totalPrice,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{inFreezePrice,jdbcType=DECIMAL}
+      )
+  </insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.Income" >
+		update hl_income
+		<set >
+			<if test="memberId != null" >
+				member_id = #{memberId,jdbcType=VARCHAR},
+			</if>
+			<if test="freezePrice != null" >
+				freeze_price = #{freezePrice,jdbcType=DECIMAL},
+			</if>
+			<if test="price != null" >
+				price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="totalPrice != null" >
+				total_price = #{totalPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="updateTime != null" >
+				update_time = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null" >
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="inFreezePrice != null" >
+				in_freeze_price = #{inFreezePrice,jdbcType=INTEGER},
+			</if>
+				version = #{version,jdbcType=INTEGER} +1
+		</set>
+		where id = #{id,jdbcType=VARCHAR} and version = #{version,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.sys.dao.SysAttributeMapper">
+
+    <sql id="attributeData">
+        id,
+        attribute_key AS attributeKey,
+        attribute_value AS attributeValue,
+        attribute_note AS attributeNote,
+        type
+    </sql>
+
+    <select id="getAttributeByKey" parameterType="com.hailu.cloud.api.mall.module.sys.vo.SysAttributeVO"
+            resultType="com.hailu.cloud.api.mall.module.sys.vo.SysAttributeVO">
+        SELECT
+        <include refid="attributeData"/>
+        FROM t_s_sys_attribute
+        WHERE attribute_key = #{attributeKey}
+    </select>
+
+    <select id="getDocoumentByCode" parameterType="String" resultType="String">
+        SELECT doc_content FROM shop_document WHERE doc_code=#{code}
+    </select>
+
+    <select id="findAttributeValue" parameterType="String"
+            resultType="com.hailu.cloud.api.mall.module.sys.vo.SysAttributeVO">
+    	select * from t_s_sys_attribute where attribute_key =#{attributeKey}
+    </select>
+    <select id="findAttributes" resultType="com.hailu.cloud.api.mall.module.sys.entiy.SysAttribute">
+        SELECT * FROM t_s_sys_attribute where attribute_key IN (
+        <foreach collection="array" separator="," item="o">
+            #{o}
+        </foreach>)
+    </select>
+
+</mapper>
