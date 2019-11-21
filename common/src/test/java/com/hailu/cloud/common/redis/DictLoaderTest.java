@@ -77,6 +77,14 @@ public class DictLoaderTest {
         loader.load(datas);
         log.info("注入：{}", JSON.toJSONString(datas));
 
+        PersonModel root = new PersonModel();
+        root.setCategoryId("1003");
+        root.setPersonModels(datas);
+
+
+        loader.load(root);
+        log.info("注入：{}", JSON.toJSONString(root));
+
     }
 
     @DisplayName("测试Map")
@@ -110,6 +118,97 @@ public class DictLoaderTest {
         loader.load(datas);
         log.info("注入：{}", JSON.toJSONString(datas));
 
+    }
+
+    @DisplayName("测试深度")
+    @Test
+    public void testDepth() {
+
+        // 模拟数据库字典
+        Map<String, Map<String, String>> cache = new HashMap() {{
+            put("CATEGORY", new HashMap() {{
+                put("1001", "分类1");
+                put("1002", "分类2");
+                put("1003", "分类3");
+                put("1004", "分类4");
+                put("1005", "分类5");
+                put("1006", "分类6");
+            }});
+            put("STATUS", new HashMap() {{
+                put("2001", "状态1");
+                put("2002", "状态2");
+                put("2003", "状态3");
+            }});
+        }};
+
+        PersonModel root = new PersonModel();
+        root.setCategoryId("1001");
+
+        PersonModel level2 = new PersonModel();
+        level2.setCategoryId("1002");
+
+        PersonModel level3 = new PersonModel();
+        level3.setCategoryId("1003");
+
+        PersonModel level4 = new PersonModel();
+        level4.setCategoryId("1004");
+
+        root.setNext(level2);
+        level2.setNext(level3);
+        level3.setNext(level4);
+
+        DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
+
+        log.info("原始：{}", JSON.toJSONString(root));
+        loader.load(root);
+        log.info("注入：{}", JSON.toJSONString(root));
+
+    }
+
+    @DisplayName("测试30000数据注入")
+    @Test
+    public void test30000Row() {
+
+        // 模拟数据库字典
+        Map<String, Map<String, String>> cache = new HashMap() {{
+            put("CATEGORY", new HashMap() {{
+                put("1001", "分类1");
+                put("1002", "分类2");
+                put("1003", "分类3");
+                put("1004", "分类4");
+                put("1005", "分类5");
+                put("1006", "分类6");
+            }});
+            put("STATUS", new HashMap() {{
+                put("2001", "状态1");
+                put("2002", "状态2");
+                put("2003", "状态3");
+            }});
+        }};
+
+        List<PersonModel> test = new ArrayList<>();
+        for(int i=0; i<2000; i++){
+            PersonModel root = new PersonModel();
+            root.setCategoryId("1001");
+
+            PersonModel level2 = new PersonModel();
+            level2.setCategoryId("1002");
+
+            PersonModel level3 = new PersonModel();
+            level3.setCategoryId("1003");
+
+            PersonModel level4 = new PersonModel();
+            level4.setCategoryId("1004");
+
+            root.setNext(level2);
+            level2.setNext(level3);
+            level3.setNext(level4);
+            test.add(root);
+        }
+
+        DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
+        loader.load(test);
+        log.debug("测试完毕");
     }
 
 }
