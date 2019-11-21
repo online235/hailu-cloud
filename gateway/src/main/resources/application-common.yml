@@ -56,5 +56,13 @@ signature:
 feign:
   hystrix:
     enabled: false
-  httpclient:
-    connection-timeout: 6000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
