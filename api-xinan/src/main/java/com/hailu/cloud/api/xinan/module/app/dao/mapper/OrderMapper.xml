@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.Order" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_type" property="itemType" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="froms" property="froms" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="insured_name" property="insuredName" jdbcType="VARCHAR" />
+    <result column="insured_value" property="insuredValue" jdbcType="VARCHAR" />
+    <result column="province_Id" property="provinceId" jdbcType="BIGINT" />
+    <result column="choose_city_id" property="chooseCityId" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="area_id" property="areaId" jdbcType="BIGINT" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, member_id, item_name, item_type, order_no, status, froms, pay_type, insured_name,province_Id,city_id,area_id,address,
+    insured_value, money, create_date, create_by, update_date, update_by, order_status,invitation_member,choose_city_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from xa_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from xa_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" useGeneratedKeys="true" keyProperty="id" >
+    insert into xa_order (id,member_id, item_name, item_type,
+      order_no, status, froms,
+      pay_type, insured_name, insured_value,
+      money, create_date, create_by,
+      update_date, update_by, order_status,province_Id,city_id,area_id,address,choose_city_id,invitation_member
+      )
+    values (#{id,jdbcType=VARCHAR},#{memberId,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR},
+      #{orderNo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{froms,jdbcType=VARCHAR},
+      #{payType,jdbcType=INTEGER}, #{insuredName,jdbcType=VARCHAR}, #{insuredValue,jdbcType=VARCHAR},
+      #{money,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER},
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR},#{chooseCityId,jdbcType=BIGINT},#{invitationMember,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" useGeneratedKeys="true" keyProperty="id" >
+    insert into xa_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="itemType != null" >
+        item_type,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="froms != null" >
+        froms,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="insuredName != null" >
+        insured_name,
+      </if>
+      <if test="insuredValue != null" >
+        insured_value,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="orderStatus != null" >
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="froms != null" >
+        #{froms,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="insuredName != null" >
+        #{insuredName,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredValue != null" >
+        #{insuredValue,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" >
+    update xa_order
+    <set >
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="froms != null" >
+        froms = #{froms,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="insuredName != null" >
+        insured_name = #{insuredName,jdbcType=VARCHAR},
+      </if>
+      <if test="insuredValue != null" >
+        insured_value = #{insuredValue,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null" >
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" >
+    update xa_order
+    set member_id = #{memberId,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      froms = #{froms,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=INTEGER},
+      insured_name = #{insuredName,jdbcType=VARCHAR},
+      insured_value = #{insuredValue,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DECIMAL},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="sumMoneyByMemberIdAndOrderStatus" resultType="java.math.BigDecimal">
+    select sum(money)
+    from xa_order
+    where member_id = #{memberId,jdbcType=VARCHAR} and order_status = #{orderStatus,jdbcType=INTEGER} and status = 1
+  </select>
+
+  <resultMap id="BaseResultMapVo" type="com.hailu.cloud.api.xinan.module.app.model.OrderVo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_type" property="itemType" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="insured_name" property="insuredName" jdbcType="VARCHAR" />
+    <result column="insured_value" property="insuredValue" jdbcType="VARCHAR" />
+    <result column="invitation_member" property="invitationMember" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="insuredId" property="insuredId" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
+    <result column="member_relation" property="memberRelation" jdbcType="INTEGER" />
+  </resultMap>
+
+  <select id="findByMemberIdAndOrderStatus" resultMap="BaseResultMapVo">
+    select i.member_relation,o.insured_name,o.insured_value,o.money,o.id,o.invitation_member,i.id as insuredId
+    from xa_order o left join xa_insured i on o.insured_value = i.value and o.insured_name = i.name
+    where o.member_id = #{memberId,jdbcType=VARCHAR} and order_status = #{orderStatus,jdbcType=INTEGER}  and o.status = 1
+    <if test="itemName != null">
+      and item_name = #{itemName,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="findByOrderNo" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xa_order
+    where order_no = #{orderNo,jdbcType=VARCHAR} and status = 1 limit 0,1
+  </select>
+
+  <select id="findByNameAndValue" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from xa_order
+    where  insured_name = #{insuredName,jdbcType=VARCHAR} and insured_value = #{insuredValue,jdbcType=VARCHAR} and status =1 limit 1
+  </select>
+</mapper>

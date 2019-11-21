@@ -26,7 +26,10 @@ spring:
       initial-size: 10
   jackson:
     default-property-inclusion: non_null
-
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+    type: ehcache
 feign:
   hystrix:
     enabled: true
@@ -38,3 +41,9 @@ id-card:
   url: http://route.showapi.com/1072-1
   showapi-sign: d6e4d493cce6431fb5dfa51b6266d0bd
   showapi-appid: 96312
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.hailu.cloud.api.*.module.*.entity
+  mapper-locations: classpath*:/com/hailu/cloud/api/**/*Mapper.xml

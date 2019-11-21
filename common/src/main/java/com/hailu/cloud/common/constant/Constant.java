@@ -82,6 +82,13 @@ public final class Constant {
      */
     public static final String REQUEST_ATTRIBUTE_CURRENT_USER = "CURRENT_USER";
 
+
+    /**
+     * 省市区缓存
+     */
+    public static final String REDIS_NATION_CACHE = "redis:cache:nation:";
+
+
     // endregion
 
     // region jwt const

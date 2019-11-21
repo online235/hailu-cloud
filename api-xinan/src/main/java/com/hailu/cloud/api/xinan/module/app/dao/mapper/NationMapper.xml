@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.NationMapper">
+    <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.Nation">
+        <id column="ID" property="id" jdbcType="BIGINT"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="PROVINCE" property="province" jdbcType="VARCHAR"/>
+        <result column="CITY" property="city" jdbcType="VARCHAR"/>
+        <result column="PARENT_ID" property="parentId" jdbcType="BIGINT"/>
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="DISTRICT" property="district" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATE_TIME" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
+        <result column="OPERATOR" property="operator" jdbcType="BIGINT"/>
+        <result column="OPERATOR_IP" property="operatorIp" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CODE, PROVINCE, CITY, PARENT_ID, CREATE_TIME, DISTRICT, LAST_UPDATE_TIME, OPERATOR, 
+    OPERATOR_IP
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_nation
+        where ID = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_nation
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into sys_nation (CODE, PROVINCE, CITY, 
+      PARENT_ID, CREATE_TIME, DISTRICT, 
+      LAST_UPDATE_TIME, OPERATOR, OPERATOR_IP
+      )
+    values (#{code,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{district,jdbcType=VARCHAR}, 
+      #{lastUpdateTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=BIGINT}, #{operatorIp,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into sys_nation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                CODE,
+            </if>
+            <if test="province != null">
+                PROVINCE,
+            </if>
+            <if test="city != null">
+                CITY,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="district != null">
+                DISTRICT,
+            </if>
+            <if test="lastUpdateTime != null">
+                LAST_UPDATE_TIME,
+            </if>
+            <if test="operator != null">
+                OPERATOR,
+            </if>
+            <if test="operatorIp != null">
+                OPERATOR_IP,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="district != null">
+                #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=BIGINT},
+            </if>
+            <if test="operatorIp != null">
+                #{operatorIp,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation">
+        update sys_nation
+        <set>
+            <if test="code != null">
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                PROVINCE = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                CITY = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="district != null">
+                DISTRICT = #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateTime != null">
+                LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                OPERATOR = #{operator,jdbcType=BIGINT},
+            </if>
+            <if test="operatorIp != null">
+                OPERATOR_IP = #{operatorIp,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation">
+    update sys_nation
+    set CODE = #{code,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=BIGINT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      DISTRICT = #{district,jdbcType=VARCHAR},
+      LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{operator,jdbcType=BIGINT},
+      OPERATOR_IP = #{operatorIp,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="findByParentId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_nation
+        where
+        <if test="parentId != null">
+            PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="parentId == null">
+            PARENT_ID = 1
+        </if>
+    </select>
+
+
+    <select id="findNationByProvince" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_nation
+        where 1=1
+        <if test="provinceName != null">
+            AND procedure = #{provinceName}
+        </if>
+    </select>
+
+
+    <select id="findNationByCityName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_nation
+        where 1=1
+        <if test="cityName != null">
+            AND city = #{cityName}
+        </if>
+    </select>
+
+
+    <select id="findNationByDistrict" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_nation
+        where 1=1
+        <if test="district != null">
+            AND district = #{district}
+        </if>
+    </select>
+
+
+    <select id="findListByCodeArray" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_nation
+        where 1=1
+        <if test="codeList != null  and codeList.size > 0  ">
+            AND CODE IN
+            <foreach item="code" index="index" collection="codeList" open="("
+                     separator="," close=")">
+                ${code}
+            </foreach>
+        </if>
+    </select>
+
+
+</mapper>
