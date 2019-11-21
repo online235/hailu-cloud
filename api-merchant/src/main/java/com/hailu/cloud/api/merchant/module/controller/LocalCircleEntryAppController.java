@@ -1,13 +1,13 @@
 package com.hailu.cloud.api.merchant.module.controller;
 
 
+import com.hailu.cloud.api.merchant.module.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.entity.McEntryInformation;
-import com.hailu.cloud.api.merchant.module.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.parameter.McQualifications;
 import com.hailu.cloud.api.merchant.module.parameter.ShopInformation;
 import com.hailu.cloud.api.merchant.module.service.GoodsClassSrevice;
+import com.hailu.cloud.api.merchant.module.service.LocalCircleEntryService;
 import com.hailu.cloud.api.merchant.module.service.McEntryinFormationService;
-import com.hailu.cloud.api.merchant.module.service.McManagementTypeService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -17,7 +17,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,37 +28,30 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: Zhangmugui
- * @Description: 商家入驻app接口
+ * @Description: 本地生活圈入驻app接口
  * @Date: 09:32 2019/11/19
  */
 @RestController
 @RequestMapping("/app/merchantsettledinApp")
 @Validated
-@Api(tags = "商户-商家入驻接口-APP")
+@Api(tags = "商户-本地生活圈-APP")
 @Slf4j
-public class McEntryFormationAppController {
+public class LocalCircleEntryAppController {
 
 
     @Resource
-    private McEntryinFormationService mcEntryinFormationService;
-
-
-    @Resource
-    private McManagementTypeService mcManagementTypeService;
-
-
+    private LocalCircleEntryService localCircleEntryService;
 
     @Autowired
     private GoodsClassSrevice goodsClassSrevice;
 
     @Autowired
     private RedisStandAloneClient redis;
+
+
 
 
     @ApiOperation(value = "本地生活圈——店铺信息保存", notes = "<pre>\n" +
@@ -81,22 +73,15 @@ public class McEntryFormationAppController {
         if (result.hasErrors()) {
             throw new BusinessException("信息不能为空");
         }
-        McEntryInformation mcEntryinFormation = new McEntryInformation();
-        BeanUtils.copyProperties(shopInformation, mcEntryinFormation);
-        mcEntryinFormation.setMcNumberId(loginInfo.getUserId());
-        //查经营父类id
-        McManagementType mcManagementType = mcManagementTypeService.findObjectByParentName(shopInformation.getLargeType());
+        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
+        BeanUtils.copyProperties(shopInformation, localCircleEntry);
+        localCircleEntry.setMcNumberId(loginInfo.getUserId());
+        localCircleEntry.setShopGoodsClassId(shopInformation.getLargeTypeId());
         //判断二级名称在不在
-        if(StringUtil.isNotEmpty(shopInformation.getSmallType())){
-            mcEntryinFormation.setManagementId(mcManagementType.getManagementId());
+        if(shopInformation.getSmallTypeId() != null){
+            localCircleEntry.setShopGoodsClassId(shopInformation.getSmallTypeId());
         }
-        Map map = new HashMap(2);
-        //查找经营表id
-        map.put("managementName", shopInformation.getSmallType());
-        map.put("parentId",mcManagementType.getManagementId());
-        List<McManagementType> managementTypes = mcManagementTypeService.findListByParam(map);
-        mcEntryinFormation.setManagementId(managementTypes.get(0).getManagementId());
-        return mcEntryinFormationService.insertSelective(mcEntryinFormation);
+        return localCircleEntryService.insertSelective(localCircleEntry);
 
 
     }
@@ -118,9 +103,9 @@ public class McEntryFormationAppController {
             throw new BusinessException("信息不能为空");
         }
 
-        McEntryInformation mcEntryinFormation = new McEntryInformation();
-        BeanUtils.copyProperties(mcQualifications, mcEntryinFormation);
-        mcEntryinFormationService.updateSelective(mcEntryinFormation);
+        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
+        BeanUtils.copyProperties(mcQualifications, localCircleEntry);
+        localCircleEntryService.updateSelective(localCircleEntry);
 
 
     }

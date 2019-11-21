@@ -23,15 +23,15 @@ public class ShopInformation {
     @NotEmpty
     private String phone;
 
-    @ApiParam(name = "largeType", value = "一级经营名称", required = true)
+    @ApiParam(name = "largeTypeId", value = "一级经营类型id", required = true)
     @NotEmpty
-    private String largeType;
+    private Integer largeTypeId;
 
     /**
-     * 有可能只有一级经营名称
+     * 有可能只有一级经营类型id
      */
-    @ApiParam(name = "smallType", value = "二级经营名称", required = false)
-    private String smallType;
+    @ApiParam(name = "smallTypeId", value = "二级经营类型id", required = false)
+    private Integer smallTypeId;
 
 
     @ApiParam(name = "provinceCode", value = "省的code值", required = true)
@@ -52,6 +52,8 @@ public class ShopInformation {
     @ApiParam(name = "detailAddress", value = "详细地址", required = true)
     @NotEmpty
     private String detailAddress;
+
+
 
 
 }

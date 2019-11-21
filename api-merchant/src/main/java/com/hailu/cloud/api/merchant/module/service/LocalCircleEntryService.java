@@ -1,9 +1,10 @@
 package com.hailu.cloud.api.merchant.module.service;
 
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hailu.cloud.api.merchant.module.dao.McEntryInformationMapper;
-import com.hailu.cloud.api.merchant.module.entity.McEntryInformation;
+import com.hailu.cloud.api.merchant.module.dao.LocalCircleEntryMapper;
+import com.hailu.cloud.api.merchant.module.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.eunms.Mceunm;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.UuidFeignClient;
@@ -14,30 +15,33 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 /**
- * @Author: QiuFeng:WANG
- * @Description: 商户入驻模块
- * @Date: 16:32 2019/11/2 0002
+ * @author zhangmugui
+ * @Description: 本地生活圈入驻模块
+ *
  */
 @Service
-public class McEntryinFormationService {
+public class LocalCircleEntryService {
+
 
     @Resource
-    private McEntryInformationMapper mcEntryinFormationMapper;
+    private LocalCircleEntryMapper localCircleEntryMapper;
 
     @Autowired
     private UuidFeignClient uuidFeign;
 
     /**
      * 添加入驻信息
-     * @param mcEntryinFormation
+     * @param localCircleEntry
      * @return
      */
-    public Object insertSelective(McEntryInformation mcEntryinFormation) throws BusinessException {
-        if (mcEntryinFormation == null) {
+    public Object insertSelective(LocalCircleEntry localCircleEntry) throws BusinessException {
+        if (localCircleEntry == null) {
             throw new BusinessException("入驻信息为空");
         }
-        boolean boo = selectMcEntryinFormationById(mcEntryinFormation.getMcNumberId());
+        boolean boo = selectMcEntryinFormationById(localCircleEntry.getMcNumberId());
         if (boo){
             throw new BusinessException("入驻信息以填写");
         }
@@ -45,11 +49,11 @@ public class McEntryinFormationService {
         long time = System.currentTimeMillis();
         //生成随机ID
         String numberid = String.valueOf(uuidFeign.uuid());
-        mcEntryinFormation.setNumberId(numberid);
-        mcEntryinFormation.setCreatedat(time);
-        mcEntryinFormation.setUpdatedat(time);
-        mcEntryinFormation.setToExamine(String.valueOf(Mceunm.IN_AUDIT.getKey()));
-        int result = mcEntryinFormationMapper.insertSelective(mcEntryinFormation);
+        localCircleEntry.setNumberId(numberid);
+        localCircleEntry.setCreatedat(time);
+        localCircleEntry.setUpdatedat(time);
+        localCircleEntry.setToExamine(String.valueOf(Mceunm.IN_AUDIT.getKey()));
+        int result = localCircleEntryMapper.insertSelective(localCircleEntry);
         if (result > 0) {
             Map<String, Object> stringObjectMap = new HashMap<>(1);
             stringObjectMap.put("numberId",numberid);
@@ -69,7 +73,7 @@ public class McEntryinFormationService {
             return -1;
         }
         for (int i = 1; i <= 3; i++) {
-            int result = mcEntryinFormationMapper.selectByMcnumberidAndToexamine(memberid,i);
+            int result = localCircleEntryMapper.selectByMcnumberidAndToexamine(memberid,i);
             if (i == 1 && result > 0 ){
                 return 1;
             }else if(i == 2 && result > 0){
@@ -85,9 +89,9 @@ public class McEntryinFormationService {
      * 商家后台审核列表
      * @return
      */
-    public Object selectMcEntryinFormationList(String shopname, String phone,Integer page, Integer szie){
+    public Object localCircleEntryList(String shopname, String phone,Integer page, Integer szie){
         PageHelper.startPage(page, szie);
-        PageInfo pageInfo = new PageInfo(mcEntryinFormationMapper.selectMcEntryinFormationList(shopname,phone));
+        PageInfo pageInfo = new PageInfo(localCircleEntryMapper.selectMcEntryinFormationList(shopname,phone));
         return pageInfo;
     }
 
@@ -97,7 +101,7 @@ public class McEntryinFormationService {
      * @return
      */
     public Object selectByPrimaryKey(String numberId){
-        return mcEntryinFormationMapper.selectByPrimaryKey(numberId);
+        return localCircleEntryMapper.selectByPrimaryKey(numberId);
     }
 
     /**
@@ -107,24 +111,24 @@ public class McEntryinFormationService {
      * @return
      */
     public void updateToExamineByNumberId(String numberId, String toExamine){
-        McEntryInformation mcEntryinFormation = new McEntryInformation();
-        mcEntryinFormation.setNumberId(numberId);
-        mcEntryinFormation.setToExamine(toExamine);
-        mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
-        mcEntryinFormation.setMcNumberId(null);
-        mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);
+        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
+        localCircleEntry.setNumberId(numberId);
+        localCircleEntry.setToExamine(toExamine);
+        localCircleEntry.setUpdatedat(System.currentTimeMillis());
+        localCircleEntry.setMcNumberId(null);
+        localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
     }
 
     /**
      * 更改审核信息
-     * @param mcEntryinFormation
+     * @param localCircleEntry
      * @return
      */
-    public void updateMcEntryInformation(@org.jetbrains.annotations.NotNull McEntryInformation mcEntryinFormation){
-        mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
-        mcEntryinFormation.setToExamine("1");
-        mcEntryinFormation.setNumberId(null);
-        mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);
+    public void updateMcEntryInformation(LocalCircleEntry localCircleEntry){
+        localCircleEntry.setUpdatedat(System.currentTimeMillis());
+        localCircleEntry.setToExamine("1");
+        localCircleEntry.setNumberId(null);
+        localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
     }
 
 
@@ -135,7 +139,7 @@ public class McEntryinFormationService {
      * @return
      */
     public void deleteByPrimaryKey(String numberId){
-        int result = mcEntryinFormationMapper.deleteByPrimaryKey(numberId);
+        int result = localCircleEntryMapper.deleteByPrimaryKey(numberId);
     }
 
     /**
@@ -147,7 +151,7 @@ public class McEntryinFormationService {
         if (mcnumberid.isEmpty()){
             return true;
         }
-        int result = mcEntryinFormationMapper.selectMcEntryinFormationById(mcnumberid);
+        int result = localCircleEntryMapper.selectMcEntryinFormationById(mcnumberid);
         if (result == 0) {
             return false;
         }
@@ -158,11 +162,11 @@ public class McEntryinFormationService {
     /**
      * 更新店铺入驻资质
      */
-    public void updateSelective(McEntryInformation mcEntryinFormation) throws BusinessException {
-        if (mcEntryinFormation == null) {
+    public void updateSelective(LocalCircleEntry localCircleEntry) throws BusinessException {
+        if (localCircleEntry == null) {
             throw new BusinessException("信息为空");
         }
-        mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);
+        localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
     }
 
 

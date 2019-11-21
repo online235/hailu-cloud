@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class McEntryInformation implements Serializable {
+public class LocalCircleEntry implements Serializable {
     /**
      * 编号
      */
@@ -15,11 +15,6 @@ public class McEntryInformation implements Serializable {
      * 商家编号
      */
     private String mcNumberId;
-
-    /**
-     * 商户类型 1、个体店 ； 2、个体工商店
-     */
-    private Integer mcType;
 
     /**
      * 店铺名称
@@ -156,7 +151,6 @@ public class McEntryInformation implements Serializable {
      */
     private Long updatedat;
 
-
     /**
      * 开户行
      */
@@ -167,7 +161,6 @@ public class McEntryInformation implements Serializable {
      * 银行卡号
      */
     private String bankNumber;
-
 
 
     /**

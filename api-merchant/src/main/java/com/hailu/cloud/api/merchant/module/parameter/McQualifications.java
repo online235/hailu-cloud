@@ -69,5 +69,18 @@ public class McQualifications {
     private String thirdPartyLinks;
 
 
+    /**
+     * 开户行
+     */
+    @ApiParam(name = "bank", value = "营业执照正面照", required = true)
+    private String bank;
+
+
+    /**
+     * 银行卡号
+     */
+    @ApiParam(name = "bankNumber", value = "营业执照正面照", required = true)
+    private String bankNumber;
+
 
 }
