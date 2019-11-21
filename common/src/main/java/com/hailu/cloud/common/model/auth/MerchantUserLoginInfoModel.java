@@ -24,6 +24,11 @@ public class MerchantUserLoginInfoModel {
     private String landingaccount;
 
     /**
+     * 登陆账号
+     */
+    private String landingpassword;
+
+    /**
      * 网络名称
      */
     private String networkname;

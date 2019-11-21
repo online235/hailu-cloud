@@ -22,12 +22,12 @@
         </foreach>
     </update>
 
-    <!-- 关联角色 -->
+    <!-- 修改自己的密码 -->
     <update id="changePwd">
 		update sys_admin set pwd = #{pwd}, update_by = #{updateBy} where id = #{id}
     </update>
 
-    <!-- 修改自己的密码 -->
+    <!-- 变更角色 -->
     <delete id="unlinkRoles">
 		delete from lk_admin_role where admin_id = #{id}
     </delete>
@@ -60,7 +60,7 @@
 		  AND account = #{account}
 	</select>
 
-    <!-- 根据账号查询 -->
+    <!-- 检查帐户是否重复 -->
     <select id="checkAccountIsRepeat" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
 		SELECT id, account
 		FROM sys_admin

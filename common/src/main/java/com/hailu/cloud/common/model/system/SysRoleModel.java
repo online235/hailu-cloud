@@ -5,6 +5,7 @@ import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -25,7 +26,8 @@ public class SysRoleModel {
     /**
      * 角色名称
      */
-    @ApiModelProperty("角色名称")
+    @NotBlank(message = "角色名称不能为空")
+    @ApiModelProperty(value = "角色名称", required = true)
     private String roleName;
 
     /**

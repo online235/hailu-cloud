@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.admin.module.system.dao.MenuMapper">
+
+    <!-- 添加菜单 -->
+    <insert id="addMenu">
+		insert into sys_menu(id, menu_name, parent_id, url, menu_type, enable_status, permission_code, create_by, create_time)
+		values (#{id}, #{menuName}, #{parentId}, #{url}, #{menuType}, #{enableStatus}, #{permissionCode}, #{createBy}, NOW())
+	</insert>
+
+    <!-- 变更账号启用状态 -->
+    <update id="changeStatus">
+		update from sys_menu set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
+    </update>
+
+    <!-- 查询菜单列表 -->
+    <select id="menuList" resultType="com.hailu.cloud.common.model.system.SysMenuModel">
+        SELECT id, menu_name, parent_id, url, menu_type, enable_status, permission_code
+        FROM sys_menu
+        <where>
+            <if test="menuName != null and menuName != ''">
+                and menu_name like concat('%', #{menuName}, '%')
+            </if>
+            <if test="enableStatus != null">
+                and enable_status = #{enableStatus}
+            </if>
+            <if test="menuType != null and menuType != ''">
+                and menu_type = #{menuType}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -5,6 +5,7 @@ import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -31,26 +32,33 @@ public class SysMenuModel {
     /**
      * 菜单名称
      */
-    @ApiModelProperty("菜单名称")
+    @NotBlank(message = "菜单名称不能为空")
+    @ApiModelProperty(value = "菜单名称", required = true)
     private String menuName;
 
     /**
      * 菜单URL路径
      */
-    @ApiModelProperty("菜单URL路径")
+    @NotBlank(message = "菜单URL路径不能为空")
+    @ApiModelProperty(value = "菜单URL路径", required = true)
     private String url;
 
     /**
      * 菜单权限编码
      */
-    @ApiModelProperty("菜单权限编码")
+    @NotBlank(message = "菜单权限编码不能为空")
+    @ApiModelProperty(value = "菜单权限编码", required = true)
     private String permissionCode;
 
     /**
      * 菜单类型
      */
-    @ApiModelProperty("菜单类型")
+    @NotBlank(message = "菜单类型不能为空")
+    @ApiModelProperty(value = "菜单类型：0菜单，1按钮", required = true)
     private Integer menuType;
+
+    @DictName(code = "MENU_TYPE", joinField = "menuType")
+    private String menuTypeDisplay;
 
     /**
      * 启用状态

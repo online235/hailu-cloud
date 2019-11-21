@@ -17,6 +17,14 @@ public interface MerchantMapper {
      * @param phone 手机号码
      * @return
      */
-    MerchantUserLoginInfoModel findUser(@Param("phone") String phone);
+    MerchantUserLoginInfoModel findUserByPhone(@Param("phone") String phone);
+
+    /**
+     * 根据手机号查找账号
+     *
+     * @param account 账号
+     * @return
+     */
+    MerchantUserLoginInfoModel findUserByAccount(@Param("account") String account);
 
 }

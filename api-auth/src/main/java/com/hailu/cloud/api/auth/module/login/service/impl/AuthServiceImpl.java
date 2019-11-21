@@ -107,47 +107,47 @@ public class AuthServiceImpl implements IAuthService {
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(loginType);
         switch (loginTypeEnum) {
             case ADMIN:
-                throw new BusinessException("该账号暂时不支持手机号码登录");
+                throw new BusinessException("该账号 " + phone + " 暂时不支持验证码登录, 登录类型为：" + loginType);
             case MERCHANT:
-                return vericodeLoginHandle(phone, code, new IVericodeLoginCallback() {
+                return vericodeLoginHandle(loginType, phone, code, new IVericodeLoginCallback() {
 
-                    private MerchantUserLoginInfoModel userInfo;
+                    private MerchantUserLoginInfoModel loginInfoModel;
 
                     @Override
                     public String queryAccountUserId(String phone) {
-                        userInfo = merchantMapper.findUser(phone);
-                        return userInfo == null ? null : userInfo.getNumberid();
+                        loginInfoModel = merchantMapper.findUserByPhone(phone);
+                        return loginInfoModel == null ? null : loginInfoModel.getNumberid();
                     }
 
                     @Override
                     public Object handle(String accessToken, String refreshToken) {
-                        userInfo.setAccessToken(accessToken);
-                        userInfo.setRefreshToken(refreshToken);
-                        return userInfo;
+                        loginInfoModel.setAccessToken(accessToken);
+                        loginInfoModel.setRefreshToken(refreshToken);
+                        return loginInfoModel;
                     }
                 });
             case XINAN_AND_MALL:
-                return vericodeLoginHandle(phone, code, new IVericodeLoginCallback() {
+                return vericodeLoginHandle(loginType, phone, code, new IVericodeLoginCallback() {
 
-                    private MemberLoginInfoModel userInfo;
+                    private MemberLoginInfoModel loginInfoModel;
 
                     @Override
                     public String queryAccountUserId(String phone) {
-                        userInfo = memberMapper.findMember(phone);
-                        return userInfo == null ? null : userInfo.getUserId();
+                        loginInfoModel = memberMapper.findMember(phone);
+                        return loginInfoModel == null ? null : loginInfoModel.getUserId();
                     }
 
                     @Override
                     public Object handle(String accessToken, String refreshToken) {
-                        userInfo.setAccessToken(accessToken);
-                        userInfo.setRefreshToken(refreshToken);
-                        return userInfo;
+                        loginInfoModel.setAccessToken(accessToken);
+                        loginInfoModel.setRefreshToken(refreshToken);
+                        return loginInfoModel;
                     }
                 });
             default:
                 break;
         }
-        throw new BusinessException("该用户被禁止登录");
+        throw new BusinessException("该用户 " + phone + " 被禁止登录, 登录类型为：" + loginType);
     }
 
     @Override
@@ -157,46 +157,78 @@ public class AuthServiceImpl implements IAuthService {
             case ADMIN:
                 return loginHandle(account, pwd, new ILoginCallback() {
 
-                    private AdminLoginInfoModel adminModel;
+                    private AdminLoginInfoModel loginInfoModel;
 
                     @Override
                     public String getUserId() {
-                        return adminModel.getId().toString();
+                        return loginInfoModel.getId().toString();
                     }
 
                     @Override
                     public String getPwd() {
-                        return adminModel.getPwd();
+                        return loginInfoModel.getPwd();
                     }
 
                     @Override
                     public boolean exists(String account) {
-                        adminModel = adminAccountFeignClient.searchAccount(account).getData();
-                        return adminModel != null;
+                        loginInfoModel = adminAccountFeignClient.searchAccount(account).getData();
+                        return loginInfoModel != null;
                     }
 
                     @Override
                     public boolean isEnable() {
-                        return adminModel.getEnableStatus() == 1;
+                        return loginInfoModel.getEnableStatus() == 1;
                     }
 
                     @Override
                     public Object handle(String accessToken, String refreshToken) {
-                        adminModel.setAccessToken(accessToken);
-                        adminModel.setRefreshToken(refreshToken);
-                        adminModel.setPwd(null);
-                        adminModel.setEnableStatus(null);
-                        return adminModel;
+                        loginInfoModel.setAccessToken(accessToken);
+                        loginInfoModel.setRefreshToken(refreshToken);
+                        loginInfoModel.setPwd(null);
+                        loginInfoModel.setEnableStatus(null);
+                        return loginInfoModel;
                     }
                 });
             case MERCHANT:
-                throw new BusinessException("该账号暂时不支持密码登录");
+                return loginHandle(account, pwd, new ILoginCallback() {
+
+                    private MerchantUserLoginInfoModel loginInfoModel;
+
+                    @Override
+                    public String getUserId() {
+                        return loginInfoModel.getNumberid();
+                    }
+
+                    @Override
+                    public String getPwd() {
+                        return loginInfoModel.getLandingpassword();
+                    }
+
+                    @Override
+                    public boolean exists(String account) {
+                        loginInfoModel = merchantMapper.findUserByAccount(account);
+                        return loginInfoModel != null;
+                    }
+
+                    @Override
+                    public boolean isEnable() {
+                        return true;
+                    }
+
+                    @Override
+                    public Object handle(String accessToken, String refreshToken) {
+                        loginInfoModel.setAccessToken(accessToken);
+                        loginInfoModel.setRefreshToken(refreshToken);
+                        loginInfoModel.setLandingpassword(null);
+                        return loginInfoModel;
+                    }
+                });
             case XINAN_AND_MALL:
-                throw new BusinessException("该账号暂时不支持密码登录");
+                throw new BusinessException("该账号 " + account + " 暂时不支持密码登录, 登录类型为：" + loginType);
             default:
                 break;
         }
-        throw new BusinessException("该用户被禁止登录");
+        throw new BusinessException("该用户 " + account + " 被禁止登录, 登录类型为：" + loginType);
     }
 
     @Override
@@ -297,9 +329,9 @@ public class AuthServiceImpl implements IAuthService {
      * @return
      * @throws BusinessException
      */
-    private Object vericodeLoginHandle(String phone, String code, IVericodeLoginCallback callback) throws BusinessException {
+    private Object vericodeLoginHandle(Integer loginType, String phone, String code, IVericodeLoginCallback callback) throws BusinessException {
         if (!enableGlobalVeriCode) {
-            String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone;
+            String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType;
             String redisCode = redisClient.stringGet(vericodeRedisKey);
             if (!code.equals(redisCode)) {
                 throw new BusinessException("验证码不正确或已过期");

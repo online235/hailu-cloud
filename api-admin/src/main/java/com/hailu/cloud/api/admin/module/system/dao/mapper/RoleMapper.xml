@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.admin.module.system.dao.RoleMapper">
+
+    <!-- 添加角色 -->
+    <insert id="addRole">
+		insert into sys_role(id, role_name, enable_status, create_by, create_time)
+		values (#{id}, #{roleName}, #{enableStatus}, #{createBy}, NOW())
+	</insert>
+
+    <!-- 变更角色启用状态 -->
+    <update id="changeStatus">
+		update from sys_role set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
+    </update>
+
+    <!-- 关联菜单 -->
+    <update id="linkMenus">
+        insert into lk_role_menu(role_id, menu_id)
+        values
+        <foreach collection="roleIds" item="item" separator=",">
+            (#{id}, #{item})
+        </foreach>
+    </update>
+
+    <!-- 变更菜单 -->
+    <delete id="unlinkMenus">
+		delete from lk_role_menu where role_id = #{id}
+    </delete>
+
+    <!-- 查询角色列表 -->
+    <select id="roleList" resultType="com.hailu.cloud.common.model.system.SysRoleModel">
+        SELECT id, role_name, enable_status
+        FROM sys_role
+        <where>
+            <if test="roleName != null and roleName != ''">
+                and role_name like concat('%', #{roleName}, '%')
+            </if>
+            <if test="enableStatus != null">
+                and enable_status = #{enableStatus}
+            </if>
+        </where>
+    </select>
+</mapper>

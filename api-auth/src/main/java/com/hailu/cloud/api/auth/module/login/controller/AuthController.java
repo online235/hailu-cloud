@@ -21,7 +21,7 @@ import javax.validation.constraints.Pattern;
 @Slf4j
 @Validated
 @RestController
-@Api(tags = "认证")
+@Api(tags = "海露平台认证")
 @RequestMapping("/")
 public class AuthController {
 
