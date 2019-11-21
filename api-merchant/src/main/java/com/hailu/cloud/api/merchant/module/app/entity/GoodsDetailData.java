@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.merchant.module.app.entity;
 
+import com.hailu.cloud.api.merchant.module.app.model.*;
 import lombok.Data;
 
 import java.util.List;

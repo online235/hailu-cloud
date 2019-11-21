@@ -310,7 +310,7 @@
       is_del = #{isDel,jdbcType=VARCHAR}
     where gc_id = #{gcId,jdbcType=INTEGER}
   </update>
-  <select id="findGoodsClassList" resultType="com.hailu.cloud.api.merchant.module.app.entity.GoodsClassVo" parameterType="java.lang.String">
+  <select id="findGoodsClassList" resultType="com.hailu.cloud.api.merchant.module.app.model.GoodsClassVo" parameterType="java.lang.String">
     select
     gc_id as gcId, gc_parent_id as gcParentId, gc_name as gcName
     from shop_goods_class

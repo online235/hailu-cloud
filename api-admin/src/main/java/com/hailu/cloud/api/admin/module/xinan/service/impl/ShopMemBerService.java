@@ -1,10 +1,9 @@
-package com.hailu.cloud.api.xinan.module.app.service.impl;
+package com.hailu.cloud.api.admin.module.xinan.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
-import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hailu.cloud.api.admin.module.xinan.dao.ShopMemberMapper;
+import com.hailu.cloud.api.admin.module.xinan.entity.ShopMember;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

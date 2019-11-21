@@ -94,20 +94,6 @@ public class RescueService {
         return jsonObject;
     }
     /**
-     * 查询救助列表
-     * @return
-     */
-    public Object findXaRescueListAll(Integer page, Integer size){
-        PageHelper.startPage(page, size);
-
-        List<Rescue> rescue = rescueMapper.findXaRescueList();
-        PageInfo pageInfo = new PageInfo(rescue);
-        JSONArray jsonArray = rescueInfoService.rescueJson(rescue);
-        JSONObject jsonObject = rescueInfoService.PageAndRescueJson(pageInfo, jsonArray);
-        return jsonObject;
-    }
-
-    /**
      * 修改救助审核
      * @param numberId
      * @return

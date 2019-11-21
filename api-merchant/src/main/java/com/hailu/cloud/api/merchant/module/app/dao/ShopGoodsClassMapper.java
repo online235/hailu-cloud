@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.merchant.module.app.dao;
 
 import com.hailu.cloud.api.merchant.module.app.entity.GoodsClass;
-import com.hailu.cloud.api.merchant.module.app.entity.GoodsClassVo;
+import com.hailu.cloud.api.merchant.module.app.model.GoodsClassVo;
 
 import java.util.List;
 

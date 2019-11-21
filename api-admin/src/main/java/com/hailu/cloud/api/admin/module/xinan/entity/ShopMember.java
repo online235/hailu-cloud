@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.xinan.module.app.entity;
+package com.hailu.cloud.api.admin.module.xinan.entity;
 
 import lombok.Data;
 
@@ -21,53 +21,53 @@ public class ShopMember implements Serializable {
     /**
      * 主键ID
      */
-    private java.lang.Integer id;
+    private Integer id;
 
     /**
      * 用户ID(外键关联)
      */
-    private java.lang.String userId;
+    private String userId;
 
     /**
      * 登录名称
      */
-    private java.lang.String loginName;
+    private String loginName;
 
     /**
      * 登录密码
      */
-    private java.lang.String loginPasswd;
+    private String loginPasswd;
 
     /**
      * 用户头像
      */
-    private java.lang.String userIcon;
+    private String userIcon;
 
     /**
      * 用户名称
      */
-    private java.lang.String userName;
+    private String userName;
 
     /**
      * 用户昵称
      */
-    private java.lang.String nickName;
+    private String nickName;
 
 
     /**
      * QQ
      */
-    private java.lang.String qq;
+    private String qq;
 
     /**
      * 微信
      */
-    private java.lang.String wechat;
+    private String wechat;
 
     /**
      * 邮箱
      */
-    private java.lang.String email;
+    private String email;
 
     /**
      * 会员名称
@@ -87,7 +87,7 @@ public class ShopMember implements Serializable {
     /**
      * 职业
      */
-    private java.lang.String profession;
+    private String profession;
 
     /**
      * 创建时间
@@ -97,7 +97,7 @@ public class ShopMember implements Serializable {
     /**
      * 用户积分
      */
-    private java.lang.Integer integral;
+    private Integer integral;
 
     /**
      * 用户未读消息数
@@ -106,20 +106,20 @@ public class ShopMember implements Serializable {
     /**
      * 邀请码
      */
-    private java.lang.String inviteCode;
+    private String inviteCode;
     /**
      * 被邀请码
      */
-    private java.lang.String beInviteUser;
+    private String beInviteUser;
 
-    private java.lang.String unionid;
-    private java.lang.String openId;
+    private String unionid;
+    private String openId;
 
     private Long createDate;
 
-    private java.lang.String memberSex;
+    private String memberSex;
 
-    private java.lang.String sourceRegistration;
+    private String sourceRegistration;
 
     private String cid;//设备唯一id
     private Integer systemType;//0Android 1IOS
