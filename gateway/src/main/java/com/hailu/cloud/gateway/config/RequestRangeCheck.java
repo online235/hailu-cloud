@@ -3,6 +3,7 @@ package com.hailu.cloud.gateway.config;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.system.SysMenuModel;
 import com.hailu.cloud.common.response.ApiResponseEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
@@ -38,7 +39,7 @@ public class RequestRangeCheck {
         }
         for (String notAllowRequestPrefix : notAllow.get(loginType)) {
             if (requestPath.startsWith(notAllowRequestPrefix)) {
-                return RequestUtils.getDataBuffer(response, ApiResponseEnum.ABNORMAL_PARAMETER, "您没有访问该接口的权限");
+                return RequestUtils.getDataBuffer(response, ApiResponseEnum.PERMISSION_DENIED);
             }
         }
         return null;
@@ -47,6 +48,8 @@ public class RequestRangeCheck {
     /**
      * 检查当前登录用户是否有权限访问该URL
      */
+    private static final String MERCHANT_PC_PATH = "/api/v1/merchant/merchant";
+
     public DataBuffer checkUrlPermission(AuthInfo authInfo, String requestPath, ServerHttpResponse response) {
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(authInfo.getLoginType());
         switch (loginTypeEnum) {
@@ -54,12 +57,18 @@ public class RequestRangeCheck {
                 // nothing to do
                 break;
             case MERCHANT:
-                // nothing to do
+                MerchantUserLoginInfoModel merchantLoginInfoModel = (MerchantUserLoginInfoModel) authInfo.getUserInfo();
+                if (merchantLoginInfoModel.getAccounttype() != 2) {
+                    if (requestPath.startsWith(MERCHANT_PC_PATH)) {
+                        // 如果商户类型不是百货，但是却访问百货商户的接口数据，直接拒绝
+                        return RequestUtils.getDataBuffer(response, ApiResponseEnum.PERMISSION_DENIED);
+                    }
+                }
                 break;
             case ADMIN:
                 AdminLoginInfoModel adminLoginInfoModel = (AdminLoginInfoModel) authInfo.getUserInfo();
                 if (adminLoginInfoModel.getMenus() == null || adminLoginInfoModel.getMenus().isEmpty()) {
-                    return RequestUtils.getDataBuffer(response, ApiResponseEnum.ABNORMAL_PARAMETER, "您没有访问该接口的权限");
+                    return RequestUtils.getDataBuffer(response, ApiResponseEnum.PERMISSION_DENIED);
                 }
                 boolean allow = false;
                 for (SysMenuModel menu : adminLoginInfoModel.getMenus()) {
@@ -69,7 +78,7 @@ public class RequestRangeCheck {
                     }
                 }
                 if (!allow) {
-                    return RequestUtils.getDataBuffer(response, ApiResponseEnum.ABNORMAL_PARAMETER, "您没有访问该接口的权限");
+                    return RequestUtils.getDataBuffer(response, ApiResponseEnum.PERMISSION_DENIED);
                 }
                 break;
             default:

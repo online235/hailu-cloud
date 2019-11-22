@@ -34,9 +34,9 @@ public class MerchantUserLoginInfoModel {
     private String networkname;
 
     /**
-     * 账号类型
+     * 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
      */
-    private String accounttype;
+    private int accounttype;
 
     /**
      * 手机号码

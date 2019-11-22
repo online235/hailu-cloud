@@ -46,6 +46,10 @@ public enum ApiResponseEnum {
      */
     REFRESH_TOKEN_EXPIRED(1002, "Refresh-token不存在或已过期"),
     /**
+     * 无访问权限
+     */
+    PERMISSION_DENIED(1003, "您没有访问该接口的权限"),
+    /**
      * 参数校验异常
      */
     PARAMETER_CONSTRAINT_VIOLATION_ERROR(2000, "参数校验异常"),
