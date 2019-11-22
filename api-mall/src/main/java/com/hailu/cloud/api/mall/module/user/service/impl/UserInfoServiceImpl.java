@@ -13,7 +13,7 @@ import com.hailu.cloud.api.mall.module.user.vo.RealNameVo;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
@@ -57,7 +57,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
     public static final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 
     @Resource
-    private UuidFeignClient smsFeightClient;
+    private BasicFeignClient smsFeightClient;
 
 
     @Override

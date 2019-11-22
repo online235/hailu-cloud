@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.system.dao.AdminMapper;
 import com.hailu.cloud.api.admin.module.system.service.IAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysAdminModel;
@@ -28,7 +28,7 @@ public class AdminServiceImpl implements IAdminService {
     private AdminMapper adminMapper;
 
     @Autowired
-    private UuidFeignClient uuidFeignClient;
+    private BasicFeignClient basicFeignClient;
 
     /**
      * 密码加密的key
@@ -42,7 +42,7 @@ public class AdminServiceImpl implements IAdminService {
         if( existAccount != null ){
             throw new BusinessException("账号已存在");
         }
-        model.setId(uuidFeignClient.uuid().getData());
+        model.setId(basicFeignClient.uuid().getData());
         model.setPwd(SecureUtil.sha256(model.getPwd() + "&key=" + signKey));
         model.setEnableStatus(1);
         adminMapper.addAccount(model);

@@ -6,7 +6,7 @@ import com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper;
 import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
 import com.hailu.cloud.api.mall.module.ledger.vo.Income;
 import com.hailu.cloud.api.mall.util.Const;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class IncomeServiceImpl implements IIncomeService {
     private IncomeDetailLogService incomeDetailLogService;
 
     @Resource
-    UuidFeignClient uuidFeignClient;
+    BasicFeignClient basicFeignClient;
 
     @Override
     public boolean transferOut(String memberId, BigDecimal price, String bankCard, String cardholder) {
@@ -62,7 +62,7 @@ public class IncomeServiceImpl implements IIncomeService {
             return transferOut(memberId, price, bankCard, cardholder);
         }
         //生成提现记录
-        Long id = uuidFeignClient.uuid().getData();
+        Long id = basicFeignClient.uuid().getData();
         incomeTransferOutMapper.transferOut(
                 id,
                 memberId,
@@ -256,7 +256,7 @@ public class IncomeServiceImpl implements IIncomeService {
     public int saveEntity(Income income) {
         income.setUpdateTime(new Date());
         if (income.getId() == null) {
-            income.setId(uuidFeignClient.uuid().getData());
+            income.setId(basicFeignClient.uuid().getData());
             income.setStatus(1);
             return incomeMapper.insert(income);
         }

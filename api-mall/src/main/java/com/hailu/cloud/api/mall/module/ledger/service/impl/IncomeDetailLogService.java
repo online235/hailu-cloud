@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.constant.DateFormat;
 import com.hailu.cloud.api.mall.module.ledger.dao.IncomeDetailLogMapper;
 import com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -31,7 +31,7 @@ public class IncomeDetailLogService {
     private IncomeDetailLogMapper incomeDetailLogMapper;
 
     @Resource
-    UuidFeignClient uuidFeignClient;
+    BasicFeignClient basicFeignClient;
     /**
      * 根据ID查找信息
      * @param id
@@ -54,7 +54,7 @@ public class IncomeDetailLogService {
         long dataNow = System.currentTimeMillis();
         incomeDetailLog.setUpdateDate(dataNow);
         if(incomeDetailLog.getId() == null){
-            incomeDetailLog.setId(uuidFeignClient.uuid().getData());
+            incomeDetailLog.setId(basicFeignClient.uuid().getData());
             incomeDetailLog.setCreateDate(dataNow);
             incomeDetailLog.setStatus(1);
             incomeDetailLogMapper.insert(incomeDetailLog);

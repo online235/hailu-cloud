@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author xuzhijie
  */
 @FeignClient(name = "service-api-basic")
-public interface UuidFeignClient {
+public interface BasicFeignClient {
 
     @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_BASIC + "/uuid/create")
     ApiResponse<Long> uuid();

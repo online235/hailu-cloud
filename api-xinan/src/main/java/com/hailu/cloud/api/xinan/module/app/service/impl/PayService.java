@@ -2,7 +2,7 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 import com.hailu.cloud.api.xinan.module.app.dao.PayMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.Pay;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class PayService {
     private PayMapper payMapper;
 
     @Resource
-    private UuidFeignClient uuidFeign;
+    private BasicFeignClient uuidFeign;
 
     /**
      * 保存或编辑

@@ -3,7 +3,7 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 import cn.hutool.core.util.IdUtil;
 import com.hailu.cloud.api.xinan.module.app.dao.SalvageOrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.SalvageOrder;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ public class SalvageOrderService {
     private SalvageOrderMapper salvageOrderMapper;
 
     @Resource
-    private UuidFeignClient uuidFeign;
+    private BasicFeignClient uuidFeign;
 
     /**
      * 保存救助支付订单
