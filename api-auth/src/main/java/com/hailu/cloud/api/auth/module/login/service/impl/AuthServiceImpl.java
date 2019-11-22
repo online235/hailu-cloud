@@ -65,6 +65,12 @@ public class AuthServiceImpl implements IAuthService {
     @Value("${dev.enable.global-veri-code:false}")
     private boolean enableGlobalVeriCode;
 
+    /**
+     * 密码加密的key
+     */
+    @Value("${user.passwd.sign.key}")
+    private String signKey;
+
     @Override
     public String refreshAccessToken(String refreshToken) throws RefreshTokenExpiredException, BusinessException {
         // 验证token是否有效
@@ -347,7 +353,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     private Object loginHandle(String account, String pwd, ILoginCallback callback) throws BusinessException {
-        String pwdMd5 = SecureUtil.md5(pwd);
+        String pwdMd5 = SecureUtil.md5(SecureUtil.sha1("passwd=" + pwd + "&key=" + signKey));
         boolean exists = callback.exists(account);
         if (!exists) {
             throw new BusinessException("账号不存在");
