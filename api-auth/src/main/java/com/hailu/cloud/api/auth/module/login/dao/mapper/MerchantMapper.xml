@@ -15,7 +15,7 @@
             mc_user mu
             LEFT JOIN mc_entry_information mei ON mu.number_id = mei.mc_number_id
         WHERE
-            phone = #{phone}
+            mu.phone = #{phone}
     </select>
 
     <select id="findUserByAccount" resultType="com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel">
@@ -31,7 +31,7 @@
             mc_user mu
             LEFT JOIN mc_entry_information mei ON mu.number_id = mei.mc_number_id
         WHERE
-            landingaccount = #{account}
+            mu.landing_account = #{account}
     </select>
 
 </mapper>

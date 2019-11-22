@@ -10,6 +10,7 @@ import com.hailu.cloud.api.auth.module.login.dao.MemberMapper;
 import com.hailu.cloud.api.auth.module.login.dao.MerchantMapper;
 import com.hailu.cloud.api.auth.module.login.feigns.AdminAccountFeignClient;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
+import com.hailu.cloud.api.auth.module.login.service.ILoginCallback;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -110,46 +111,23 @@ public class AuthServiceImpl implements IAuthService {
 
     @Override
     public Object vericodeLogin(Integer loginType, String phone, String code) throws BusinessException {
+        if (!enableGlobalVeriCode) {
+            String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType;
+            String redisCode = redisClient.stringGet(vericodeRedisKey);
+            if (!code.equals(redisCode)) {
+                throw new BusinessException("验证码不正确或已过期");
+            }
+            // 删除redis里的验证码
+            redisClient.deleteKey(vericodeRedisKey);
+        }
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(loginType);
         switch (loginTypeEnum) {
             case ADMIN:
                 throw new BusinessException("该账号 " + phone + " 暂时不支持验证码登录, 登录类型为：" + loginType);
             case MERCHANT:
-                return vericodeLoginHandle(loginType, phone, code, new IVericodeLoginCallback() {
-
-                    private MerchantUserLoginInfoModel loginInfoModel;
-
-                    @Override
-                    public String queryAccountUserId(String phone) {
-                        loginInfoModel = merchantMapper.findUserByPhone(phone);
-                        return loginInfoModel == null ? null : loginInfoModel.getNumberid();
-                    }
-
-                    @Override
-                    public Object handle(String accessToken, String refreshToken) {
-                        loginInfoModel.setAccessToken(accessToken);
-                        loginInfoModel.setRefreshToken(refreshToken);
-                        return loginInfoModel;
-                    }
-                });
+                return loginHandle(phone, merchantUserVericodeLoginCallback());
             case XINAN_AND_MALL:
-                return vericodeLoginHandle(loginType, phone, code, new IVericodeLoginCallback() {
-
-                    private MemberLoginInfoModel loginInfoModel;
-
-                    @Override
-                    public String queryAccountUserId(String phone) {
-                        loginInfoModel = memberMapper.findMember(phone);
-                        return loginInfoModel == null ? null : loginInfoModel.getUserId();
-                    }
-
-                    @Override
-                    public Object handle(String accessToken, String refreshToken) {
-                        loginInfoModel.setAccessToken(accessToken);
-                        loginInfoModel.setRefreshToken(refreshToken);
-                        return loginInfoModel;
-                    }
-                });
+                return loginHandle(phone, memberVericodeLoginCallback());
             default:
                 break;
         }
@@ -161,74 +139,9 @@ public class AuthServiceImpl implements IAuthService {
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(loginType);
         switch (loginTypeEnum) {
             case ADMIN:
-                return loginHandle(account, pwd, new ILoginCallback() {
-
-                    private AdminLoginInfoModel loginInfoModel;
-
-                    @Override
-                    public String getUserId() {
-                        return loginInfoModel.getId().toString();
-                    }
-
-                    @Override
-                    public String getPwd() {
-                        return loginInfoModel.getPwd();
-                    }
-
-                    @Override
-                    public boolean exists(String account) {
-                        loginInfoModel = adminAccountFeignClient.searchAccount(account).getData();
-                        return loginInfoModel != null;
-                    }
-
-                    @Override
-                    public boolean isEnable() {
-                        return loginInfoModel.getEnableStatus() == 1;
-                    }
-
-                    @Override
-                    public Object handle(String accessToken, String refreshToken) {
-                        loginInfoModel.setAccessToken(accessToken);
-                        loginInfoModel.setRefreshToken(refreshToken);
-                        loginInfoModel.setPwd(null);
-                        loginInfoModel.setEnableStatus(null);
-                        return loginInfoModel;
-                    }
-                });
+                return loginHandle(account, adminLoginCallback(pwd));
             case MERCHANT:
-                return loginHandle(account, pwd, new ILoginCallback() {
-
-                    private MerchantUserLoginInfoModel loginInfoModel;
-
-                    @Override
-                    public String getUserId() {
-                        return loginInfoModel.getNumberid();
-                    }
-
-                    @Override
-                    public String getPwd() {
-                        return loginInfoModel.getLandingpassword();
-                    }
-
-                    @Override
-                    public boolean exists(String account) {
-                        loginInfoModel = merchantMapper.findUserByAccount(account);
-                        return loginInfoModel != null;
-                    }
-
-                    @Override
-                    public boolean isEnable() {
-                        return true;
-                    }
-
-                    @Override
-                    public Object handle(String accessToken, String refreshToken) {
-                        loginInfoModel.setAccessToken(accessToken);
-                        loginInfoModel.setRefreshToken(refreshToken);
-                        loginInfoModel.setLandingpassword(null);
-                        return loginInfoModel;
-                    }
-                });
+                return loginHandle(account, merchantLoginCallback(pwd));
             case XINAN_AND_MALL:
                 throw new BusinessException("该账号 " + account + " 暂时不支持密码登录, 登录类型为：" + loginType);
             default:
@@ -263,112 +176,21 @@ public class AuthServiceImpl implements IAuthService {
         redisClient.deleteKey(accessTokenRedisKey, refreshTokenRedisKey);
     }
 
-    interface IVericodeLoginCallback {
-
-        /**
-         * 查询用户ID
-         *
-         * @param phone
-         * @return
-         */
-        String queryAccountUserId(String phone);
-
-        /**
-         * 将生成的token保存到用户信息返回给客户端
-         *
-         * @param accessToken
-         * @param refreshToken
-         * @return
-         */
-        Object handle(String accessToken, String refreshToken);
-
-    }
-
-    interface ILoginCallback {
-
-        /**
-         * 获取用户ID
-         *
-         * @return
-         */
-        String getUserId();
-
-        /**
-         * 获取账号密码
-         *
-         * @return
-         */
-        String getPwd();
-
-        /**
-         * 该账号是否存在
-         *
-         * @param account
-         * @return
-         */
-        boolean exists(String account);
-
-        /**
-         * 该账号是否启用
-         *
-         * @return
-         */
-        boolean isEnable();
-
-        /**
-         * 将生成的token保存到用户信息返回给客户端
-         *
-         * @param accessToken
-         * @param refreshToken
-         * @return
-         */
-        Object handle(String accessToken, String refreshToken);
-
-    }
-
-    /**
-     * 验证码登录处理
-     *
-     * @param phone    手机号
-     * @param code     验证码
-     * @param callback 账号数据查询接口
-     * @return
-     * @throws BusinessException
-     */
-    private Object vericodeLoginHandle(Integer loginType, String phone, String code, IVericodeLoginCallback callback) throws BusinessException {
-        if (!enableGlobalVeriCode) {
-            String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType;
-            String redisCode = redisClient.stringGet(vericodeRedisKey);
-            if (!code.equals(redisCode)) {
-                throw new BusinessException("验证码不正确或已过期");
-            }
-            // 删除redis里的验证码
-            redisClient.deleteKey(vericodeRedisKey);
-        }
-        String userId = callback.queryAccountUserId(phone);
-        if (StringUtils.isBlank(userId)) {
-            throw new BusinessException("该手机号码尚未注册");
-        }
-        return generateAuthInfo(userId, callback::handle);
-    }
-
-    private Object loginHandle(String account, String pwd, ILoginCallback callback) throws BusinessException {
-        String pwdMd5 = SecureUtil.sha256(pwd + "&key=" + signKey);
+    private Object loginHandle(String account, ILoginCallback callback) throws BusinessException {
         boolean exists = callback.exists(account);
         if (!exists) {
             throw new BusinessException("账号不存在");
         }
-        String accountPwd = callback.getPwd();
-        if (!pwdMd5.equals(accountPwd)) {
-            throw new BusinessException("登录密码不正确");
-        }
         if (!callback.isEnable()) {
             throw new BusinessException("该账号已被注销");
         }
-
+        // 添加一些其他校验
+        callback.extendValidate();
         String userId = callback.getUserId();
         return generateAuthInfo(userId, callback::handle);
     }
+
+    // region 登录处理
 
     /**
      * 生成token相关信息
@@ -405,5 +227,139 @@ public class AuthServiceImpl implements IAuthService {
         redisClient.stringSet(refreshTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
         return userInfo;
     }
+
+    // region 验证码登录回调处理
+
+    private ILoginCallback merchantUserVericodeLoginCallback() {
+        return new AbstractLoginCallback() {
+
+            private MerchantUserLoginInfoModel loginInfoModel;
+
+            @Override
+            public boolean exists(String account) {
+                loginInfoModel = merchantMapper.findUserByPhone(account);
+                return loginInfoModel != null;
+            }
+
+            @Override
+            public String getUserId() {
+                return loginInfoModel.getNumberid();
+            }
+
+            @Override
+            public Object handle(String accessToken, String refreshToken) {
+                loginInfoModel.setAccessToken(accessToken);
+                loginInfoModel.setRefreshToken(refreshToken);
+                return loginInfoModel;
+            }
+        };
+    }
+
+    private ILoginCallback memberVericodeLoginCallback() {
+        return new AbstractLoginCallback() {
+
+            private MemberLoginInfoModel loginInfoModel;
+
+            @Override
+            public boolean exists(String account) {
+                loginInfoModel = memberMapper.findMember(account);
+                return loginInfoModel != null;
+            }
+
+            @Override
+            public String getUserId() {
+                return loginInfoModel.getUserId();
+            }
+
+            @Override
+            public Object handle(String accessToken, String refreshToken) {
+                loginInfoModel.setAccessToken(accessToken);
+                loginInfoModel.setRefreshToken(refreshToken);
+                return loginInfoModel;
+            }
+        };
+    }
+
+    // endregion
+
+    // region 账号密码登录回调处理
+
+    private ILoginCallback adminLoginCallback(String pwd) {
+        return new AbstractLoginCallback() {
+
+            private AdminLoginInfoModel loginInfoModel;
+
+            @Override
+            public boolean exists(String account) {
+                loginInfoModel = adminAccountFeignClient.searchAccount(account).getData();
+                return loginInfoModel != null;
+            }
+
+            @Override
+            public String getUserId() {
+                return loginInfoModel.getId().toString();
+            }
+
+            @Override
+            public void extendValidate() throws BusinessException {
+                String pwdMd5 = SecureUtil.sha256(pwd + "&key=" + signKey);
+                if (!pwdMd5.equals(loginInfoModel.getPwd())) {
+                    throw new BusinessException("登录密码不正确");
+                }
+            }
+
+            @Override
+            public boolean isEnable() {
+                return loginInfoModel.getEnableStatus() == 1;
+            }
+
+            @Override
+            public Object handle(String accessToken, String refreshToken) {
+                loginInfoModel.setAccessToken(accessToken);
+                loginInfoModel.setRefreshToken(refreshToken);
+                loginInfoModel.setPwd(null);
+                loginInfoModel.setEnableStatus(null);
+                return loginInfoModel;
+            }
+        };
+    }
+
+    private ILoginCallback merchantLoginCallback(String pwd) {
+        return new AbstractLoginCallback() {
+
+            private MerchantUserLoginInfoModel loginInfoModel;
+
+            @Override
+            public boolean exists(String account) {
+                loginInfoModel = merchantMapper.findUserByAccount(account);
+                return loginInfoModel != null;
+            }
+
+            @Override
+            public String getUserId() {
+                return loginInfoModel.getNumberid();
+            }
+
+            @Override
+            public void extendValidate() throws BusinessException {
+                String pwdMd5 = SecureUtil.sha256(pwd + "&key=" + signKey);
+                if (!pwdMd5.equals(loginInfoModel.getLandingpassword())) {
+                    throw new BusinessException("登录密码不正确");
+                }
+            }
+
+            @Override
+            public Object handle(String accessToken, String refreshToken) {
+                loginInfoModel.setAccessToken(accessToken);
+                loginInfoModel.setRefreshToken(refreshToken);
+                loginInfoModel.setLandingpassword(null);
+                return loginInfoModel;
+            }
+        };
+    }
+
+    // endregion
+
+    // endregion
 
 }

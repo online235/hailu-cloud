@@ -96,7 +96,7 @@ public class AuthController {
         return authService.vericodeLogin(Integer.valueOf(loginType), phone, code);
     }
 
-    @ApiOperation(value = "验证码登录", notes = "<pre>" +
+    @ApiOperation(value = "账号密码登录", notes = "<pre>" +
             "心安&商城登录返回\n" +
             "{\n" +
             "    'code': 200,\n" +
