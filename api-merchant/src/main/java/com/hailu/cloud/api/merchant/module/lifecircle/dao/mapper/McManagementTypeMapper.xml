@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.lifecircle.dao.McManagementTypeDao">
+
+
+    <resultMap id="mcManagementTypeListResultMap"
+               type="com.hailu.cloud.api.merchant.module.lifecircle.model.McManagementTypeVo">
+        <result property="managementId" column="management_id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="pictureUrl" column="picture_url"/>
+        <result property="managementName" column="management_name"/>
+        <collection property="mcManagementTypeList"
+                    ofType="com.hailu.cloud.api.merchant.module.lifecircle.model.ManagementChildrenVo"
+                    javaType="java.util.ArrayList">
+            <result property="managementId" column="management_id_a"/>
+            <result property="parentId" column="parent_id_a"/>
+            <result property="pictureUrl" column="picture_url_a"/>
+            <result property="managementName" column="management_name_a"/>
+        </collection>
+    </resultMap>
+
+
+
+    <select id="findListByParam"  resultType="com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType">
+        SELECT
+        management_id,
+        parent_id,
+        management_name,
+        createdat,
+        updatedat,
+        picture_url
+        FROM mc_management_type
+        WHERE 1=1
+        <if test="managementName != null" >
+            and management_name = #{managementName}
+        </if>
+        <if test="parentId != null" >
+            and parent_id = #{parentId}
+        </if>
+    </select>
+
+    <select id="findObjectByParentName"  resultType="com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType">
+        SELECT
+        management_id,
+        parent_id,
+        management_name,
+        createdat,
+        updatedat,
+        picture_url
+        FROM mc_management_type
+        WHERE 1=1
+        <if test="parentName != null" >
+            and management_name = #{parentName}
+        </if>
+    </select>
+
+
+    <select id="findManagementTypeListResult"  resultMap="mcManagementTypeListResultMap">
+        SELECT
+        management.management_id,
+        management.parent_id,
+        management.management_name,
+        management.picture_url,
+        management1.management_id as management_id_a,
+        management1.parent_id as parent_id_a,
+        management1.management_name as management_name_a,
+        management1.picture_url as aspicture_url_a
+        FROM mc_management_type management  left join mc_management_type management1 on management1.parent_id = management.management_id
+        WHERE 1=1 and management1.parent_id = management.management_id
+        <if test="managementName != null" >
+            and management.management_name = #{managementName}
+        </if>
+        <if test="managementId != null" >
+            and management.management_id = #{managementId}
+        </if>
+
+    </select>
+
+
+
+</mapper>

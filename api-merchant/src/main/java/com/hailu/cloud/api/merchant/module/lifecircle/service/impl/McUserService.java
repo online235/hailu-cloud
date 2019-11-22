@@ -32,8 +32,6 @@ public class McUserService {
     private McUserMapper mcUserMapper;
 
 
-    @Autowired
-    private McEntryinFormationService mcEntryinFormationService;
 
     @Autowired
     private AuthFeignClient authFeignClient;

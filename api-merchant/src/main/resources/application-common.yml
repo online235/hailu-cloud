@@ -43,6 +43,11 @@ pagehelper:
   row-bounds-with-count: true
   offset-as-page-num: true
   reasonable: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.hailu.cloud.api.*.module.*.entity
+  mapper-locations: classpath*:/com/hailu/cloud/api/**/*Mapper.xml
 
 user:
   passwd:

@@ -24,7 +24,7 @@ public class McEntryinFormationService {
     private McEntryInformationMapper mcEntryinFormationMapper;
 
     @Autowired
-    private BasicFeignClient uuidFeign;
+    private BasicFeignClient basicFeignClient;
 
     /**
      * 添加入驻信息
@@ -42,7 +42,7 @@ public class McEntryinFormationService {
         //生成时间戳
         long time = System.currentTimeMillis();
         //生成随机ID
-        String numberid = String.valueOf(uuidFeign.uuid());
+        String numberid = String.valueOf(basicFeignClient.uuid());
         mcEntryinFormation.setNumberId(numberid);
         mcEntryinFormation.setCreatedat(time);
         mcEntryinFormation.setUpdatedat(time);

@@ -4,6 +4,7 @@ package com.hailu.cloud.api.merchant.module.lifecircle.controller;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.McUser;
 import com.hailu.cloud.api.merchant.module.lifecircle.parameter.RegisterInformation;
+import com.hailu.cloud.api.merchant.module.lifecircle.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.GoodsClassSrevice;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.LocalCircleEntryService;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author: Zhangmugui
@@ -43,7 +46,7 @@ public class LocalCircleEntryAppController {
     private LocalCircleEntryService localCircleEntryService;
 
     @Autowired
-    private GoodsClassSrevice goodsClassSrevice;
+    private McManagementTypeService mcManagementTypeService;
 
     @Autowired
     private RedisStandAloneClient redis;
@@ -127,32 +130,17 @@ public class LocalCircleEntryAppController {
 
 
     @ApiOperation(value = "获取经营类型", notes = "<pre>\n" +
-            "{\n" +
-            "  'code': 0,\n" +
-            "  'msg': '成功',\n" +
-            "  'data': [\n" +
-            "    {\n" +
-            "      'gcId': 237,\n" +
-            "      'gcParentId': 0,\n" +
-            "      'gcName': '医疗器械'\n" +
-            "    },\n" +
-            "    {\n" +
-            "      'gcId': 238,\n" +
-            "      'gcParentId': 0,\n" +
-            "      'gcName': '百货购物'\n" +
-            "    }\n" +
-            "  ],\n" +
-            "  'serverTime': 1574234524345\n" +
-            "}" +
+            "" +
             "</pre>")
     @PostMapping("businessType")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "prentId", value = "类型编号", paramType = "query")
+//    })
     @ResponseBody
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "gcParentId", value = "类型编号", paramType = "query")
-    })
-    public Object findGoodsList(@NotBlank(message = "编号不能为空") String gcParentId) {
+    public Object findGoodsList() {
 
-        return goodsClassSrevice.findGoodsClassList(gcParentId);
+        Map map = new HashMap<>();
+        return mcManagementTypeService.findManagementTypeListResult(map);
     }
 
 

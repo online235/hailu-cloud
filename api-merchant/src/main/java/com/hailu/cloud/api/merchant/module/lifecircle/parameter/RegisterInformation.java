@@ -23,14 +23,15 @@ public class RegisterInformation {
     @NotEmpty
     private String phone;
 
-    @ApiParam(name = "largeTypeId", value = "一级经营类型id", required = true)
+    @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id", required = true)
     @NotEmpty
-    private Integer largeTypeId;
+    private Integer firstManagementTypeId;
 
 
 
-    @ApiParam(name = "smallTypeId", value = "二级经营类型id", required = true)
-    private Integer smallTypeId;
+
+    @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id", required = true)
+    private Integer secondManagementTypeId;
 
 
     @ApiParam(name = "provinceCode", value = "省的code值", required = true)
@@ -108,39 +109,39 @@ public class RegisterInformation {
     private String thirdPartyLinks;
 
 
-
-    /**
-     * (账号)开户类型（1、借记卡；2、信用卡 ）
-     */
-    @ApiParam(name = "bankType", value = "开户类型（1、借记卡；2、信用卡 ）", required = true)
-    private Integer bankType;
-
-    /**
-     * 开户支行
-     */
-    @ApiParam(name = "bankBranch", value = "开户支行", required = true)
-    private Integer bankBranch;
-
-
-    /**
-     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
-     */
-    @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）", required = true)
-    private Integer billingMethod;
+//
+//    /**
+//     * (账号)开户类型（1、借记卡；2、信用卡 ）
+//     */
+//    @ApiParam(name = "bankType", value = "开户类型（1、借记卡；2、信用卡 ）", required = true)
+//    private Integer bankType;
+//
+//    /**
+//     * 开户支行
+//     */
+//    @ApiParam(name = "bankBranch", value = "开户支行", required = true)
+//    private String bankBranch;
 
 
-    /**
-     * 开户行
-     */
-    @ApiParam(name = "bank", value = "开户行", required = true)
-    private String bank;
+//    /**
+//     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
+//     */
+//    @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）", required = true)
+//    private Integer billingMethod;
 
 
-    /**
-     * 银行卡号
-     */
-    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
-    private String bankNumber;
+//    /**
+//     * 开户行
+//     */
+//    @ApiParam(name = "bank", value = "开户行", required = true)
+//    private String bank;
+
+
+//    /**
+//     * 银行卡号
+//     */
+//    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
+//    private String bankNumber;
 
 
 

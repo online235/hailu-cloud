@@ -5,10 +5,10 @@
 
     <sql id="Base_Column_List">
     number_id, mc_number_id, shop_name, project_type, real_name, phone, id_card, idcard_imgx,
-    idcard_imgy, idcardtermof_validity, long_term_certificate, shop_goods_class_id, business_license_number,
+    idcard_imgy, idcardtermof_validity, long_term_certificate, first_management_type_id, business_license_number,
     business_name, name_of_legal_person, license_date, long_term_license, license_positive,
     third_party_links, invitation_code, service_provider_or_not, to_examine, city_code,
-    province_code, area_code, detail_address, remarks, createdat, updatedat ,bank,bank_number,bank_type,enclosures,bank_branch,billing_method
+    province_code, area_code, detail_address, remarks, createdat, updatedat ,enclosures,billing_method ,second_management_type_id
   </sql>
 
 
@@ -29,21 +29,21 @@
     insert into local_circle_entry (number_id, mc_number_id, shop_name, project_type,
       real_name, phone, id_card,
       idcard_imgx, idcard_imgy, idcardtermof_validity,
-      long_term_certificate, shop_goods_class_id, business_license_number,
+      long_term_certificate, first_management_type_id, business_license_number,
       business_name, name_of_legal_person, license_date,
       long_term_license, license_positive, third_party_links,
       invitation_code, service_provider_or_not, to_examine, city_code,
-      city_code, province_code, remarks, area_code, detail_address,bank,bank_number,bank_type,enclosures,bank_branch,billing_method,
+      city_code, province_code, remarks, area_code, detail_address,enclosures,billing_method,second_management_type_id
       createdat, updatedat)
     values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{projectType,jdbcType=CHAR},
       #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
       #{idcardImgx,jdbcType=VARCHAR}, #{idcardImgy,jdbcType=VARCHAR}, #{idcardtermofValidity,jdbcType=VARCHAR},
-      #{longTermCertificate,jdbcType=BIGINT}, #{shopGoodsClassId,jdbcType=BIGINT}, #{businessLicenseNumber,jdbcType=VARCHAR},
+      #{longTermCertificate,jdbcType=BIGINT}, #{firstManagementTypeId,jdbcType=BIGINT}, #{businessLicenseNumber,jdbcType=VARCHAR},
       #{businessName,jdbcType=VARCHAR}, #{nameOfLegalPerson,jdbcType=VARCHAR}, #{licenseDate,jdbcType=VARCHAR},
       #{longTermLicense,jdbcType=BIGINT}, #{licensePositive,jdbcType=VARCHAR}, #{thirdPartyLinks,jdbcType=VARCHAR},
       #{invitationCode,jdbcType=VARCHAR}, #{serviceProviderOrNot,jdbcType=BIGINT}, #{toExamine,jdbcType=VARCHAR}, #{cityCode},
-      #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{bank},#{bankNumber},#{bankType},#{enclosures},
-      #{bankBranch},#{billingMethod},#{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
+      #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{enclosures},#{secondManagementTypeId},
+      #{billingMethod},#{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
   </insert>
 
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry"
@@ -83,8 +83,8 @@
             <if test="longTermCertificate != null">
                 long_term_certificate,
             </if>
-            <if test="shopGoodsClassId != null">
-                shop_goods_class_id,
+            <if test="firstManagementTypeId != null">
+                first_management_type_id,
             </if>
             <if test="businessLicenseNumber != null">
                 business_license_number,
@@ -137,24 +137,16 @@
             <if test="updatedat != null">
                 updatedat,
             </if>
-            <if test="bank != null">
-                bank,
-            </if>
-            <if test="bankNumber != null">
-                bank_number,
-            </if>
-            <if test="bankType != null">
-                bank_type,
-            </if>
 
             <if test="enclosures != null">
                 enclosures,
             </if>
-            <if test="bankBranch != null">
-                bank_branch,
-            </if>
+
             <if test="billingMethod != null">
                 billing_method,
+            </if>
+            <if test="secondManagementTypeId != null">
+                second_management_type_id,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -191,8 +183,8 @@
             <if test="longTermCertificate != null">
                 #{longTermCertificate,jdbcType=BIGINT},
             </if>
-            <if test="shopGoodsClassId != null">
-                #{shopGoodsClassId,jdbcType=BIGINT},
+            <if test="firstManagementTypeId != null">
+                #{firstManagementTypeId,jdbcType=BIGINT},
             </if>
             <if test="businessLicenseNumber != null">
                 #{businessLicenseNumber,jdbcType=VARCHAR},
@@ -245,23 +237,16 @@
             <if test="updatedat != null">
                 #{updatedat,jdbcType=BIGINT},
             </if>
-            <if test="bank != null">
-                #{bank},
-            </if>
-            <if test="bankNumber != null">
-                #{bankNumber},
-            </if>
-            <if test="bankType != null">
-                #{bankType},
-            </if>
+
             <if test="enclosures != null">
                 #{enclosures},
             </if>
-            <if test="bankBranch != null">
-                #{bankBranch},
-            </if>
+
             <if test="billingMethod != null">
                 #{billingMethod},
+            </if>
+            <if test="secondManagementTypeId != null">
+                #{secondManagementTypeId},
             </if>
         </trim>
     </insert>
@@ -300,8 +285,8 @@
             <if test="longTermCertificate != null">
                 long_term_certificate = #{longTermCertificate,jdbcType=BIT},
             </if>
-            <if test="shopGoodsClassId != null">
-                shop_goods_class_id = #{shopGoodsClassId,jdbcType=BIGINT},
+            <if test="firstManagementTypeId != null">
+                first_management_type_id = #{firstManagementTypeId,jdbcType=BIGINT},
             </if>
             <if test="businessLicenseNumber != null">
                 business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
@@ -354,23 +339,16 @@
             <if test="updatedat != null">
                 updatedat = #{updatedat,jdbcType=BIGINT},
             </if>
-            <if test="bank != null">
-                bank = #{bank},
-            </if>
-            <if test="bankNumber != null">
-                bank_number = #{bankNumber},
-            </if>
-            <if test="bankType != null">
-                bank_type = #{bankType},
-            </if>
+
             <if test="enclosures != null">
                 enclosures = #{enclosures},
             </if>
-            <if test="bankBranch != null">
-                bank_branch = #{bankBranch},
-            </if>
+
             <if test="billingMethod != null">
                 billing_method = #{billingMethod},
+            </if>
+            <if test="secondManagementTypeId != null">
+                second_management_type_id = #{secondManagementTypeId},
             </if>
         </set>
         where number_id = #{numberId}
@@ -387,7 +365,7 @@
       idcard_imgy = #{idcardImgy,jdbcType=VARCHAR},
       idcardtermof_validity = #{idcardtermofValidity,jdbcType=VARCHAR},
       long_term_certificate = #{longTermCertificate,jdbcType=BIT},
-      shop_goods_class_id = #{shopGoodsClassId,jdbcType=BIGINT},
+      first_management_type_id = #{firstManagementTypeId,jdbcType=BIGINT},
       business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
       business_name = #{businessName,jdbcType=VARCHAR},
       name_of_legal_person = #{nameOfLegalPerson,jdbcType=VARCHAR},
@@ -405,12 +383,9 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       createdat = #{createdat,jdbcType=BIGINT},
       updatedat = #{updatedat,jdbcType=BIGINT},
-      bank = #{bank},
-      bank_number = #{bankNumber},
-       bank_type = #{bankType},
        enclosures = #{enclosures},
-       bank_branch = #{bankBranch},
-       billing_method = #{billingMethod}
+       billing_method = #{billingMethod},
+       second_management_type_id = #{secondManagementTypeId}
     where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
     <select id="selectByMcnumberidAndToexamine" resultType="int">

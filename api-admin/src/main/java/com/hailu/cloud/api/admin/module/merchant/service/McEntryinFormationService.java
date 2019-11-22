@@ -22,7 +22,7 @@ public class McEntryinFormationService {
     private McEntryInformationMapper mcEntryinFormationMapper;
 
     @Autowired
-    private BasicFeignClient uuidFeign;
+    private BasicFeignClient basicFeignClient;
 
 
     /**

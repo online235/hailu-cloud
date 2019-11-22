@@ -62,9 +62,17 @@ public class LocalCircleEntry implements Serializable {
     private Boolean longTermCertificate;
 
     /**
-     * 经营类型表id
+     * 一级经营类型表id
      */
-    private Integer shopGoodsClassId;
+    private Integer firstManagementTypeId;
+
+
+    /**
+     * 二级经营类型表id
+     */
+    private Integer secondManagementTypeId;
+
+
 
     /**
      * 营业执照注册号
@@ -151,32 +159,32 @@ public class LocalCircleEntry implements Serializable {
      */
     private Long updatedat;
 
-    /**
-     * 开户银行
-     */
-    private String bank;
+//    /**
+//     * 开户银行
+//     */
+//    private String bank;
 
-    /**
-     * 开户支行
-     */
-    private Integer bankBranch;
-
-
-    /**
-     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
-     */
-    private Integer billingMethod;
+//    /**
+//     * 开户支行
+//     */
+//    private Integer bankBranch;
 
 
-    /**
-     * 银行卡号
-     */
-    private String bankNumber;
+//    /**
+//     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
+//     */
+//    private Integer billingMethod;
 
-    /**
-     * 开户类型（1、借记卡；2、信用卡 ）
-     */
-    private Integer bankType;
+//
+//    /**
+//     * 银行卡号
+//     */
+//    private String bankNumber;
+
+//    /**
+//     * 开户类型（1、借记卡；2、信用卡 ）
+//     */
+//    private Integer bankType;
 
     /**
      * 附件数组字符串（用；隔开）
