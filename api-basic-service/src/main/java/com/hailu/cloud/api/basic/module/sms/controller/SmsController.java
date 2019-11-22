@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.basic.module.sms.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import com.hailu.cloud.api.basic.module.sms.service.ISmsService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -8,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,20 +74,22 @@ public class SmsController {
             "</pre>")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", required = true, value = "手机号码", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "vericode", required = true, value = "验证码", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "vericode",  value = "验证码", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "loginType", value = "登录/注册类型(0:心安&商城; 1:商户, 2:管理员)", required = true, paramType = "query", dataType = "String"),
     })
     @GetMapping("/send/free/vericode")
     public void sendVeriCode(
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
-            @NotBlank(message = "验证码不能为空")
-            @Pattern(regexp = "^\\d.*$", message = "验证码格式不正确") String vericode,
+            @Pattern(regexp = "^$|^\\d.*$", message = "验证码格式不正确") String vericode,
             @NotBlank(message = "登录/注册类型不能为空")
             @Pattern(regexp = "^[012]$", message = "不支持的登录/注册类型")
             String loginType) throws BusinessException {
 
         freeSmsService.send(phone, this.vericodeTemplate.replace("{0}", vericode));
+        if (StringUtil.isBlank(vericode)){
+            vericode = RandomUtil.randomNumbers(6);
+        }
         redisStandAloneClient.stringSet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType, vericode, this.vericodeExpire);
     }
 }
