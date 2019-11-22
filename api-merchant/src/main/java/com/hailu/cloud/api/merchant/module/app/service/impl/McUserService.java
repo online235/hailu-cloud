@@ -65,11 +65,11 @@ public class McUserService {
      */
     public Object insertSelective(String landingAccount, String landingPassword, String phone, String code) throws BusinessException {
         McUser mcUser = new McUser();
-        mcUser.setLandingpassword(landingPassword);
-        mcUser.setLandingaccount(landingAccount);
+        mcUser.setLandingPassword(landingPassword);
+        mcUser.setLandingAccount(landingAccount);
         boolean user = false;
         //判断账号是否存在
-        user = exists(mcUser.getLandingaccount());
+        user = exists(mcUser.getLandingAccount());
         if (user) {
             throw new BusinessException("用户已存在");
         }
@@ -85,11 +85,11 @@ public class McUserService {
         String numberId = String.valueOf(uuidFeignClient.uuid());
 //        request.setAttribute(Constant.MEMBERID,numberId);
         //密码加密
-        String password = SecureUtil.md5(SecureUtil.sha1("passwd=" + mcUser.getLandingpassword() + "&key=" + signKey));
-        mcUser.setNumberid(numberId);
-        mcUser.setLandingpassword(password);
-        mcUser.setNetworkname(mcUser.getLandingaccount());
-        mcUser.setAccounttype(String.valueOf(Mceunm.DEPARTMENT_STORE_SHOPPING.getKey()));
+        String password = SecureUtil.md5(SecureUtil.sha1("passwd=" + mcUser.getLandingPassword() + "&key=" + signKey));
+        mcUser.setNumberId(numberId);
+        mcUser.setLandingPassword(password);
+        mcUser.setNetworkName(mcUser.getLandingAccount());
+        mcUser.setAccountType(String.valueOf(Mceunm.DEPARTMENT_STORE_SHOPPING.getKey()));
         mcUser.setCreatedat(time);
         mcUser.setUpdatedat(time);
         //添加商户
@@ -111,8 +111,8 @@ public class McUserService {
      */
     public void updMcUserByPassWord(String PassWord, String numberId) {
         McUser mcUser = new McUser();
-        mcUser.setNumberid(numberId);
-        mcUser.setLandingpassword(SecureUtil.sha256(PassWord + "&key=" + signKey));
+        mcUser.setNumberId(numberId);
+        mcUser.setLandingPassword(SecureUtil.sha256(PassWord + "&key=" + signKey));
         mcUserMapper.updateByPrimaryKeySelective(mcUser);
     }
 

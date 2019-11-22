@@ -2,60 +2,60 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.merchant.module.app.dao.McUserMapper" >
   <resultMap id="BaseResultMap" type="com.hailu.cloud.api.merchant.module.app.entity.McUser" >
-    <id column="numberid" property="numberid" jdbcType="VARCHAR" />
-    <result column="landingaccount" property="landingaccount" jdbcType="VARCHAR" />
-    <result column="landingpassword" property="landingpassword" jdbcType="VARCHAR" />
-    <result column="networkname" property="networkname" jdbcType="VARCHAR" />
-    <result column="accounttype" property="accounttype" jdbcType="CHAR" />
+    <id column="number_id" property="numberId" jdbcType="VARCHAR" />
+    <result column="landing_account" property="landingAccount" jdbcType="VARCHAR" />
+    <result column="landing_password" property="landingPassword" jdbcType="VARCHAR" />
+    <result column="network_name" property="networkName" jdbcType="VARCHAR" />
+    <result column="account_type" property="accountType" jdbcType="CHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="createdat" property="createdat" jdbcType="BIGINT" />
     <result column="updatedat" property="updatedat" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    numberid, landingaccount, landingpassword, networkname, accounttype, phone, createdat,
+    number_id, landing_account, landing_password, network_name, account_type, phone, createdat,
     updatedat
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from mc_user
-    where landingaccount = #{landingaccount,jdbcType=VARCHAR}
+    where landing_account = #{landingAccount,jdbcType=VARCHAR}
   </select>
   <select id="selectByPrimarykeyid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from mc_user
-    where numberid = #{numberid,jdbcType=VARCHAR}
+    where number_id = #{numberId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from mc_user
-    where numberid = #{numberid,jdbcType=VARCHAR}
+    where number_id = #{numberId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.hailu.cloud.api.merchant.module.app.entity.McUser" useGeneratedKeys="true" keyProperty="numberid" >
-    insert into mc_user (landingaccount, landingpassword, 
+  <insert id="insert" parameterType="com.hailu.cloud.api.merchant.module.app.entity.McUser" useGeneratedKeys="true" keyProperty="numberId" >
+    insert into mc_user (landing_account, landing_password,
       phone, createdat, updatedat
       )
-    values (#{landingaccount,jdbcType=VARCHAR}, #{landingpassword,jdbcType=VARCHAR}, 
+    values (#{landingAccount,jdbcType=VARCHAR}, #{landingPassword,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.app.entity.McUser" useGeneratedKeys="true" keyProperty="numberid" >
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.app.entity.McUser" useGeneratedKeys="true" keyProperty="numberId" >
     insert into mc_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="numberid != null" >
-        numberid,
+      <if test="numberId != null" >
+        number_id,
       </if>
-      <if test="landingaccount != null" >
-        landingaccount,
+      <if test="landingAccount != null" >
+        landing_account,
       </if>
-      <if test="landingpassword != null" >
-        landingpassword,
+      <if test="landingPassword != null" >
+        landing_password,
       </if>
-      <if test="networkname != null" >
-        networkname,
+      <if test="networkName != null" >
+        network_name,
       </if>
-      <if test="accounttype != null" >
-        accounttype,
+      <if test="accountType != null" >
+        account_type,
       </if>
       <if test="phone != null" >
         phone,
@@ -68,20 +68,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="numberid != null" >
-        #{numberid,jdbcType=VARCHAR},
+      <if test="numberId != null" >
+        #{numberId,jdbcType=VARCHAR},
       </if>
-      <if test="landingaccount != null" >
-        #{landingaccount,jdbcType=VARCHAR},
+      <if test="landingAccount != null" >
+        #{landingAccount,jdbcType=VARCHAR},
       </if>
-      <if test="landingpassword != null" >
-        #{landingpassword,jdbcType=VARCHAR},
+      <if test="landingPassword != null" >
+        #{landingPassword,jdbcType=VARCHAR},
       </if>
-      <if test="networkname != null" >
-        #{networkname,jdbcType=VARCHAR},
+      <if test="networkName != null" >
+        #{networkName,jdbcType=VARCHAR},
       </if>
-      <if test="accounttype != null" >
-        #{accounttype,jdbcType=CHAR},
+      <if test="accountType != null" >
+        #{accountType,jdbcType=CHAR},
       </if>
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
@@ -97,14 +97,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.merchant.module.app.entity.McUser" >
     update mc_user
     <set >
-      <if test="landingaccount != null" >
-        landingaccount = #{landingaccount,jdbcType=VARCHAR},
+      <if test="landingAccount != null" >
+        landing_account = #{landingAccount,jdbcType=VARCHAR},
       </if>
-      <if test="landingpassword != null" >
-        landingpassword = #{landingpassword,jdbcType=VARCHAR},
+      <if test="landingPassword != null" >
+        landing_password = #{landingPassword,jdbcType=VARCHAR},
       </if>
-      <if test="networkname != null" >
-        networkname = #{networkname,jdbcType=VARCHAR},
+      <if test="networkName != null" >
+        network_name = #{networkName,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
@@ -116,28 +116,28 @@
         updatedat = #{updatedat,jdbcType=BIGINT},
       </if>
     </set>
-    where numberid = #{numberid,jdbcType=VARCHAR}
+    where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.app.entity.McUser" >
     update mc_user
-    set landingaccount = #{landingaccount,jdbcType=VARCHAR},
-      landingpassword = #{landingpassword,jdbcType=VARCHAR},
+    set landing_account = #{landingaccount,jdbcType=VARCHAR},
+      landing_password = #{landingPassword,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       createdat = #{createdat,jdbcType=BIGINT},
       updatedat = #{updatedat,jdbcType=BIGINT}
-    where numberid = #{numberid,jdbcType=VARCHAR}
+    where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
   <select id="selMcUserByPhone" parameterType="java.lang.String" resultType="int">
-    select count(numberid)
+    select count(number_id)
     from mc_user
     where phone = #{phone}
   </select>
   <select id="selMcUserByPhoneAndLandingAccount" resultType="string">
-        SELECT numberid
+        SELECT number_id
         FROM mc_user
-        WHERE landingaccount = #{random} or phone = #{random}
+        WHERE landingAccount = #{random} or phone = #{random}
         <if test="numberId != null">
-          AND numberid = #{numberId}
+          AND number_id = #{numberId}
         </if>
   </select>
 </mapper>
