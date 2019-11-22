@@ -2,7 +2,7 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class XinAnShopMemBerService {
     private ShopMemberMapper memberMapper;
 
     @Autowired
-    private UuidFeignClient uuidFeignClient;
+    private BasicFeignClient uuidFeignClient;
 
 
     public boolean exists(String phone) {

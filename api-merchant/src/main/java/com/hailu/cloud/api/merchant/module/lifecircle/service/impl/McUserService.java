@@ -6,7 +6,7 @@ import com.hailu.cloud.api.merchant.module.lifecircle.dao.McUserMapper;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.McUser;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponse;
@@ -39,7 +39,7 @@ public class McUserService {
     private AuthFeignClient authFeignClient;
 
     @Autowired
-    private UuidFeignClient uuidFeignClient;
+    private BasicFeignClient uuidFeignClient;
 
     @Autowired
     private RedisStandAloneClient redisClient;

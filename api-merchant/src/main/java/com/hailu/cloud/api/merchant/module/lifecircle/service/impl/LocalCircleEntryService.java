@@ -7,7 +7,7 @@ import com.hailu.cloud.api.merchant.module.lifecircle.dao.LocalCircleEntryMapper
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class LocalCircleEntryService {
     private LocalCircleEntryMapper localCircleEntryMapper;
 
     @Autowired
-    private UuidFeignClient uuidFeign;
+    private BasicFeignClient uuidFeign;
 
     /**
      * 添加入驻信息

@@ -9,7 +9,7 @@ import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.feigns.UuidFeignClient;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class McInfoService {
     private McEntryInformationMapper mcEntryinFormationMapper;
 
     @Autowired
-    private UuidFeignClient uuidFeignClient;
+    private BasicFeignClient uuidFeignClient;
 
     /**
      * 密码加密的key
