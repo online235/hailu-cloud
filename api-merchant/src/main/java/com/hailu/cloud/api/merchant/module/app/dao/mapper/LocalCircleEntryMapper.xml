@@ -8,7 +8,7 @@
     idcard_imgy, idcardtermof_validity, long_term_certificate, shop_goods_class_id, business_license_number,
     business_name, name_of_legal_person, license_date, long_term_license, license_positive,
     third_party_links, invitation_code, service_provider_or_not, to_examine, city_code,
-    province_code, area_code, detail_address, remarks, createdat, updatedat ,bank,bank_number
+    province_code, area_code, detail_address, remarks, createdat, updatedat ,bank,bank_number,bank_type,enclosures,bank_branch,billing_method
   </sql>
 
 
@@ -33,7 +33,7 @@
       business_name, name_of_legal_person, license_date,
       long_term_license, license_positive, third_party_links,
       invitation_code, service_provider_or_not, to_examine, city_code,
-      city_code, province_code, remarks, area_code, detail_address,bank,bank_number,
+      city_code, province_code, remarks, area_code, detail_address,bank,bank_number,bank_type,enclosures,bank_branch,billing_method,
       createdat, updatedat)
     values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{projectType,jdbcType=CHAR},
       #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
@@ -42,8 +42,8 @@
       #{businessName,jdbcType=VARCHAR}, #{nameOfLegalPerson,jdbcType=VARCHAR}, #{licenseDate,jdbcType=VARCHAR},
       #{longTermLicense,jdbcType=BIGINT}, #{licensePositive,jdbcType=VARCHAR}, #{thirdPartyLinks,jdbcType=VARCHAR},
       #{invitationCode,jdbcType=VARCHAR}, #{serviceProviderOrNot,jdbcType=BIGINT}, #{toExamine,jdbcType=VARCHAR}, #{cityCode},
-      #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{bank},#{bankNumber},
-      #{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
+      #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{bank},#{bankNumber},#{bankType},#{enclosures},
+      #{bankBranch},#{billingMethod},#{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
   </insert>
 
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.app.entity.LocalCircleEntry"
@@ -143,6 +143,19 @@
             <if test="bankNumber != null">
                 bank_number,
             </if>
+            <if test="bankType != null">
+                bank_type,
+            </if>
+
+            <if test="enclosures != null">
+                enclosures,
+            </if>
+            <if test="bankBranch != null">
+                bank_branch,
+            </if>
+            <if test="billingMethod != null">
+                billing_method,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="numberId != null">
@@ -237,6 +250,18 @@
             </if>
             <if test="bankNumber != null">
                 #{bankNumber},
+            </if>
+            <if test="bankType != null">
+                #{bankType},
+            </if>
+            <if test="enclosures != null">
+                #{enclosures},
+            </if>
+            <if test="bankBranch != null">
+                #{bankBranch},
+            </if>
+            <if test="billingMethod != null">
+                #{billingMethod},
             </if>
         </trim>
     </insert>
@@ -335,6 +360,18 @@
             <if test="bankNumber != null">
                 bank_number = #{bankNumber},
             </if>
+            <if test="bankType != null">
+                bank_type = #{bankType},
+            </if>
+            <if test="enclosures != null">
+                enclosures = #{enclosures},
+            </if>
+            <if test="bankBranch != null">
+                bank_branch = #{bankBranch},
+            </if>
+            <if test="billingMethod != null">
+                billing_method = #{billingMethod},
+            </if>
         </set>
         where number_id = #{numberId}
     </update>
@@ -369,7 +406,11 @@
       createdat = #{createdat,jdbcType=BIGINT},
       updatedat = #{updatedat,jdbcType=BIGINT},
       bank = #{bank},
-      bank_number = #{bankNumber}
+      bank_number = #{bankNumber},
+       bank_type = #{bankType},
+       enclosures = #{enclosures},
+       bank_branch = #{bankBranch},
+       billing_method = #{billingMethod}
     where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
     <select id="selectByMcnumberidAndToexamine" resultType="int">
@@ -378,7 +419,8 @@
     where mc_number_id = #{memberid} and to_examine = #{toexamine}
   </select>
 
-    <select id="selectMcEntryinFormationList" resultType="com.hailu.cloud.api.merchant.module.app.entity.LocalCircleEntry">
+    <select id="selectMcEntryinFormationList"
+            resultType="com.hailu.cloud.api.merchant.module.app.entity.LocalCircleEntry">
         select
         <include refid="Base_Column_List"></include>
         from local_circle_entry
