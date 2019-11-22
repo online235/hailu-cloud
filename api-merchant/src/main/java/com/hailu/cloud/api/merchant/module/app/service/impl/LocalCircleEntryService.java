@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.app.service;
+package com.hailu.cloud.api.merchant.module.app.service.impl;
 
 
 import com.github.pagehelper.PageHelper;

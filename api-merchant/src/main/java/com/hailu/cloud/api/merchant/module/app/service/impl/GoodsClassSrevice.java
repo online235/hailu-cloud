@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.app.service;
+package com.hailu.cloud.api.merchant.module.app.service.impl;
 
 import com.hailu.cloud.api.merchant.module.app.dao.ShopGoodsClassMapper;
 import org.springframework.stereotype.Service;

@@ -4,8 +4,8 @@ package com.hailu.cloud.api.merchant.module.app.controller;
 import com.hailu.cloud.api.merchant.module.app.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.app.parameter.McQualifications;
 import com.hailu.cloud.api.merchant.module.app.parameter.ShopInformation;
-import com.hailu.cloud.api.merchant.module.app.service.GoodsClassSrevice;
-import com.hailu.cloud.api.merchant.module.app.service.LocalCircleEntryService;
+import com.hailu.cloud.api.merchant.module.app.service.impl.GoodsClassSrevice;
+import com.hailu.cloud.api.merchant.module.app.service.impl.LocalCircleEntryService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -123,15 +123,16 @@ public class LocalCircleEntryAppController {
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "phone", value = "手机号码", required = true, paramType = "query")
+            @ApiImplicitParam(name = "phone", value = "手机号码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "loginType", value = "登录类型", required = true, paramType = "query"),
     })
-    public void submitAudit(HttpServletRequest request ,String code, @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone, BindingResult result) throws BusinessException {
+    public void submitAudit(HttpServletRequest request ,String code, @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone, String loginType, BindingResult result) throws BusinessException {
 
         if (result.hasErrors()) {
             throw new BusinessException("信息不能为空");
         }
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        String val = redis.stringGet(RedisEnum.DB_1.ordinal(), phone);
+        String val = redis.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType);
 
         if (!loginInfo.getMemberMobile().equals(phone)){
             throw new BusinessException("手机号码与注册时不匹配");

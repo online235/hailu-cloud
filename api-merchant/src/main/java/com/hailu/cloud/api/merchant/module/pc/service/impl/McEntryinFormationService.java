@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.pc.service;
+package com.hailu.cloud.api.merchant.module.pc.service.impl;
 
 import com.hailu.cloud.api.merchant.module.pc.dao.McEntryInformationMapper;
 import com.hailu.cloud.api.merchant.module.pc.entity.McEntryInformation;
