@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/app/shopMember")
 @Validated
-@Api(tags = "心安-用户信息操作")
+@Api(tags = "心安-用户操作")
 @Slf4j
 public class ShopMemberController {
 

@@ -116,14 +116,6 @@ public interface ShopMemberMapper {
     ShopMember LoginPhone(@Param("phone") String phone);
 
 
-    /**
-     * 手机号码登陆
-     * @param phone
-     * @param token
-     * @param time
-     * @return
-     */
-    int updTokenLitemallUser(@Param("phone") String phone, @Param("token") String token, @Param("time") long time);
 
     /**
      * 退出登录

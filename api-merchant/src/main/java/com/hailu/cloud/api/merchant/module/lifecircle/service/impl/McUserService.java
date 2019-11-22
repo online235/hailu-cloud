@@ -62,18 +62,16 @@ public class McUserService {
      * @throws NoSuchAlgorithmException
      */
     public MerchantUserLoginInfoModel insertSelective(String landingAccount, String landingPassword, String phone, String code) throws BusinessException {
-        McUser mcUser = new McUser();
-        mcUser.setLandingPassword(landingPassword);
-        mcUser.setLandingAccount(landingAccount);
+
         boolean user = false;
         //判断账号是否存在
-        user = exists(mcUser.getLandingAccount());
+        user = exists(landingAccount);
         if (user) {
             throw new BusinessException("用户已存在");
         }
 
         //判断手机号码是否绑定
-        user = isBind(mcUser.getPhone());
+        user = isBind(phone);
         if (user) {
             throw new BusinessException("手机号码以绑定");
         }
@@ -83,6 +81,8 @@ public class McUserService {
         String numberId = String.valueOf(uuidFeignClient.uuid());
 //        request.setAttribute(Constant.MEMBERID,numberId);
         //密码加密
+        McUser mcUser = new McUser();
+        mcUser.setLandingAccount(landingAccount);
         String password = SecureUtil.md5(SecureUtil.sha1("passwd=" + mcUser.getLandingPassword() + "&key=" + signKey));
         mcUser.setNumberId(numberId);
         mcUser.setLandingPassword(password);
@@ -93,7 +93,7 @@ public class McUserService {
         //添加商户
         mcUserMapper.insertSelective(mcUser);
 
-        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin(1, phone, code);
+        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.Login("1", landingAccount, landingPassword);
         if (loginInfo.getCode() == ApiResponseEnum.SUCCESS.getResponseCode()) {
             return loginInfo.getData();
         }
