@@ -42,4 +42,4 @@ user:
   passwd:
     sign:
       # 密码加密的key
-      key: 79AA9270FD5D4B28A02E616C61B7D7AB
+      key: hailu.com

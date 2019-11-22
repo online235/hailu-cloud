@@ -353,7 +353,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     private Object loginHandle(String account, String pwd, ILoginCallback callback) throws BusinessException {
-        String pwdMd5 = SecureUtil.md5(SecureUtil.sha1("passwd=" + pwd + "&key=" + signKey));
+        String pwdMd5 = SecureUtil.sha256(pwd + "&key=" + signKey);
         boolean exists = callback.exists(account);
         if (!exists) {
             throw new BusinessException("账号不存在");

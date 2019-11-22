@@ -51,3 +51,9 @@ pagehelper:
   row-bounds-with-count: true
   offset-as-page-num: true
   reasonable: true
+
+user:
+  passwd:
+    sign:
+      # 密码加密的key
+      key: hailu.com

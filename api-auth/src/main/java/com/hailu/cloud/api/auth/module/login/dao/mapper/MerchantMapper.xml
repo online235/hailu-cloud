@@ -4,28 +4,32 @@
 
     <select id="findUserByPhone" resultType="com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel">
         SELECT
-            numberid,
-            landingaccount,
-            landingpassword,
-            networkname,
-            accounttype,
-            phone
+            mu.number_id,
+            mu.landing_account,
+            mu.landing_password,
+            mu.networ_kname,
+            mu.account_type,
+            mu.phone,
+            mei.to_examine
         FROM
-            mc_user
+            mc_user mu
+            LEFT JOIN mc_entry_information mei ON mu.number_id = mei.mc_number_id
         WHERE
             phone = #{phone}
     </select>
 
     <select id="findUserByAccount" resultType="com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel">
         SELECT
-            numberid,
-            landingaccount,
-            landingpassword,
-            networkname,
-            accounttype,
-            phone
+            mu.number_id,
+            mu.landing_account,
+            mu.landing_password,
+            mu.networ_kname,
+            mu.account_type,
+            mu.phone,
+            mei.to_examine
         FROM
-            mc_user
+            mc_user mu
+            LEFT JOIN mc_entry_information mei ON mu.number_id = mei.mc_number_id
         WHERE
             landingaccount = #{account}
     </select>

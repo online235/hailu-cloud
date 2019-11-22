@@ -44,6 +44,11 @@ public class MerchantUserLoginInfoModel {
     private String phone;
 
     /**
+     * 审核
+     */
+    private String toExamine;
+
+    /**
      * access token
      */
     private String accessToken;

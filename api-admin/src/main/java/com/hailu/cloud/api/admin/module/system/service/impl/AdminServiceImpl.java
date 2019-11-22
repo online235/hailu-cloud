@@ -12,6 +12,7 @@ import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysAdminModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +30,12 @@ public class AdminServiceImpl implements IAdminService {
     @Autowired
     private UuidFeignClient uuidFeignClient;
 
+    /**
+     * 密码加密的key
+     */
+    @Value("${user.passwd.sign.key}")
+    private String signKey;
+
     @Override
     public void addAccount(SysAdminModel model) throws BusinessException {
         SysAdminModel existAccount = searchAccount(model.getAccount(), 1);
@@ -36,7 +43,7 @@ public class AdminServiceImpl implements IAdminService {
             throw new BusinessException("账号已存在");
         }
         model.setId(uuidFeignClient.uuid().getData());
-        model.setPwd(SecureUtil.md5(model.getPwd()));
+        model.setPwd(SecureUtil.sha256(model.getPwd() + "&key=" + signKey));
         model.setEnableStatus(1);
         adminMapper.addAccount(model);
     }
@@ -44,19 +51,24 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public void changePwd(String oldPwd, String newPwd) throws BusinessException {
         AdminLoginInfoModel infoModel = RequestUtils.getAdminLoginInfo();
-        String oldPwdMd5 = SecureUtil.md5(oldPwd);
+        String oldPwdMd5 = SecureUtil.sha256(oldPwd + "&key=" + signKey);
         if (infoModel.getPwd().equals(oldPwdMd5)) {
             throw new BusinessException("原密码不正确");
         }
-        String newPwdMd5 = SecureUtil.md5(newPwd);
+        String newPwdMd5 = SecureUtil.sha256(oldPwd + "&key=" + signKey);
         adminMapper.changePwd(infoModel.getId(), newPwdMd5, infoModel.getAccount());
     }
 
     @Override
     public void changePwdByAdmin(Long id, String newPwd) {
         AdminLoginInfoModel infoModel = RequestUtils.getAdminLoginInfo();
-        String newPwdMd5 = SecureUtil.md5(newPwd);
+        String newPwdMd5 = SecureUtil.sha256(newPwd + "&key=" + signKey);
         adminMapper.changePwd(id, newPwdMd5, infoModel.getAccount());
+    }
+
+    public static void main(String[] args) {
+        String pwd = SecureUtil.sha256("123456&key=hailu.com");
+        System.out.println(pwd);
     }
 
     @Override
