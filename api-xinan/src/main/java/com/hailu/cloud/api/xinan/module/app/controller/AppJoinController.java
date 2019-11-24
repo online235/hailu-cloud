@@ -5,7 +5,7 @@ import com.hailu.cloud.api.xinan.module.app.service.impl.OrderService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.util.IDCardCheck;
+import com.hailu.cloud.common.utils.IDCardCheck;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

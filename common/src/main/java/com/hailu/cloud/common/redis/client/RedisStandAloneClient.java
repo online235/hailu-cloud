@@ -5,7 +5,7 @@ import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.redis.handle.IRedisConnectionHandle;
 import com.hailu.cloud.common.redis.handle.IRedisSuccessHandle;
 import com.hailu.cloud.common.redis.handle.IRedisSuccessResultHandle;
-import com.hailu.cloud.common.thread.ThreadTool;
+import com.hailu.cloud.common.utils.ThreadTool;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

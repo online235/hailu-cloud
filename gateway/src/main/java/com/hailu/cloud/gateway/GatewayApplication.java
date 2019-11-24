@@ -1,7 +1,7 @@
 package com.hailu.cloud.gateway;
 
 import com.hailu.cloud.common.exception.GlobalExceptionHandler;
-import com.hailu.cloud.common.wrap.ApiResponseWrapConfig;
+import com.hailu.cloud.common.response.ApiResponseWrapConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

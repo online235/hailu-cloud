@@ -1,4 +1,4 @@
-package com.hailu.cloud.common.util;
+package com.hailu.cloud.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.show.api.ShowApiRequest;

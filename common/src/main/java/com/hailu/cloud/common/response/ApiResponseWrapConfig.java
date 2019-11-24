@@ -1,4 +1,4 @@
-package com.hailu.cloud.common.wrap;
+package com.hailu.cloud.common.response;
 
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import org.springframework.beans.factory.InitializingBean;

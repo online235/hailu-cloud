@@ -1,4 +1,4 @@
-package com.hailu.cloud.common.thread;
+package com.hailu.cloud.common.utils;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
