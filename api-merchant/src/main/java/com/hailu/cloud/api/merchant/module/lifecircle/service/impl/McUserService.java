@@ -11,7 +11,6 @@ import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.response.ApiResponseEnum;
-import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -85,7 +84,6 @@ public class McUserService {
         String password = SecureUtil.md5(SecureUtil.sha1("passwd=" + mcUser.getLandingPassword() + "&key=" + signKey));
         mcUser.setNumberId(numberId);
         mcUser.setLandingPassword(password);
-        mcUser.setPhone(phone);
         mcUser.setNetworkName(mcUser.getLandingAccount());
         mcUser.setAccountType(2);//默认保存为百货类型
         mcUser.setCreatedat(time);
@@ -93,7 +91,12 @@ public class McUserService {
         //添加商户
         mcUserMapper.insertSelective(mcUser);
 
-        return RequestUtils.getMerchantUserLoginInfo();
+        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin("1", landingAccount, code);
+        if (loginInfo.getCode() == ApiResponseEnum.SUCCESS.getResponseCode()) {
+            return loginInfo.getData();
+        }
+        throw new BusinessException(loginInfo.getMessage());
+
     }
 
     /**

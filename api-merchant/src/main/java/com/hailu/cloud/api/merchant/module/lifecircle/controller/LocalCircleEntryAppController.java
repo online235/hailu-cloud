@@ -121,6 +121,7 @@ public class LocalCircleEntryAppController {
         String userNumberId = merchantUserLoginInfoModel.getNumberid();
         McUser mcUser = new McUser();
         mcUser.setAccountType(1);
+        mcUser.setNumberId(userNumberId);
         mcUserService.updateByPrimaryKeySelective(mcUser);
         localCircleEntryService.setLocalCircleEntry(localCircleEntry, userNumberId);
 
