@@ -1,14 +1,16 @@
 package com.hailu.cloud.api.admin.module.merchant.service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.admin.module.merchant.dao.McEntryInformationMapper;
 import com.hailu.cloud.api.admin.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -27,30 +29,33 @@ public class McEntryinFormationService {
 
     /**
      * 商家后台审核列表
+     *
      * @return
      */
-    public Object selectMcEntryinFormationList(String shopname, String phone,Integer page, Integer szie){
-        PageHelper.startPage(page, szie);
-        PageInfo pageInfo = new PageInfo(mcEntryinFormationMapper.selectMcEntryinFormationList(shopname,phone));
-        return pageInfo;
+    public Object selectMcEntryinFormationList(String shopname, String phone, Integer page, Integer szie) {
+        Page pageData = PageHelper.startPage(page, szie);
+        List<McEntryInformation> datas = mcEntryinFormationMapper.selectMcEntryinFormationList(shopname, phone);
+        return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), datas);
     }
 
     /**
      * 入驻信息详情
+     *
      * @param numberId
      * @return
      */
-    public Object selectByPrimaryKey(String numberId){
+    public Object selectByPrimaryKey(String numberId) {
         return mcEntryinFormationMapper.selectByPrimaryKey(numberId);
     }
 
     /**
      * 更改审核状态
+     *
      * @param numberId
      * @param toExamine
      * @return
      */
-    public void updateToExamineByNumberId(String numberId, String toExamine){
+    public void updateToExamineByNumberId(String numberId, String toExamine) {
         McEntryInformation mcEntryinFormation = new McEntryInformation();
         mcEntryinFormation.setNumberId(numberId);
         mcEntryinFormation.setToExamine(toExamine);
@@ -61,10 +66,11 @@ public class McEntryinFormationService {
 
     /**
      * 更改审核信息
+     *
      * @param mcEntryinFormation
      * @return
      */
-    public void updateMcEntryInformation(McEntryInformation mcEntryinFormation){
+    public void updateMcEntryInformation(McEntryInformation mcEntryinFormation) {
         mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
         mcEntryinFormation.setToExamine("1");
         mcEntryinFormation.setNumberId(null);
@@ -72,13 +78,13 @@ public class McEntryinFormationService {
     }
 
 
-
     /**
      * 删除信息
+     *
      * @param numberId
      * @return
      */
-    public void deleteByPrimaryKey(String numberId){
+    public void deleteByPrimaryKey(String numberId) {
         mcEntryinFormationMapper.deleteByPrimaryKey(numberId);
     }
 

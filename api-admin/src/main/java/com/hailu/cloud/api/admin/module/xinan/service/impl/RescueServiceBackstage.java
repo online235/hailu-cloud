@@ -1,11 +1,10 @@
 package com.hailu.cloud.api.admin.module.xinan.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.admin.module.xinan.dao.RescueBackstageMapper;
 import com.hailu.cloud.api.admin.module.xinan.entity.Rescue;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,13 +54,10 @@ public class RescueServiceBackstage {
      * @return
      */
     public Object findXaRescueListAll(Integer page, Integer size){
-        PageHelper.startPage(page, size);
+        Page pageData = PageHelper.startPage(page, size);
 
         List<Rescue> rescue = rescueBackstageMapper.findXaRescueList();
-        PageInfo pageInfo = new PageInfo(rescue);
-        JSONArray jsonArray = rescueInfoServiceBackstage.rescueJson(rescue);
-        JSONObject jsonObject = rescueInfoServiceBackstage.PageAndRescueJson(pageInfo, jsonArray);
-        return jsonObject;
+        return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), rescue);
     }
 
     /**

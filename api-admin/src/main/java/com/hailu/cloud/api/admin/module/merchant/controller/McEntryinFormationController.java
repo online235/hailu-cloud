@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 /**
  * @Author: QiuFeng:WANG
@@ -31,7 +33,6 @@ import javax.validation.constraints.NotBlank;
 public class McEntryinFormationController {
 
 
-
     @Autowired
     private McEntryinFormationService mcEntryinFormationService;
 
@@ -42,55 +43,54 @@ public class McEntryinFormationController {
     private String fileStorePath;
 
 
-
-    @ApiOperation(value = "显示商家入驻信息" ,notes = "<pre>" +
+    @ApiOperation(value = "显示商家入驻信息", notes = "<pre>" +
             "{\n" +
-            "  \"code\": 0,\n" +
-            "  \"msg\": \"成功\",\n" +
-            "  \"data\": {\n" +
-            "    \"total\": 8,                  // 记录条数\n" +
-            "    \"pages\": 8,                  // 页数\n" +
-            "    \"data\": [\n" +
-            "      {\n" +
-            "        \"numberid\": \"123456789456465797\",              //编号\n" +
-            "        \"mcnumberid\": \"656911572318329926\",            //商家编号\n" +
-            "        \"shopname\": \"啊实打实的\",                       //店铺名称\n" +
-            "        \"realname\": \"啊我发\",                           //真实姓名\n" +
-            "        \"phone\": \"13927555292\",                         //手机号码\n" +
-            "        \"idcard\": \"123456789123456788\",                //身份证号码\n" +
-            "        \"idcardimgx\": null,                              //身份证正面\n" +
-            "        \"idcardimgy\": null,                              //身份证反面\n" +
-            "        \"idcardtermofvalidity\": \"2019-10-23\",          //身份证有效期\n" +
-            "        \"longtermcertificate\": false,                    //身份证是否为长期\n" +
-            "        \"businessname\": \"阿斯达\",                      //执照名称\n" +
-            "        \"nameoflegalperson\": \"发顺丰\",                 //法人姓名\n" +
-            "        \"licensedate\": \"2019-10-25\",                   //执照有效日期\n" +
-            "        \"longtermlicense\": false,                        //营业执照是否为长期\n" +
-            "        \"licensepositive\": null,                         //营业执照正面照\n" +
-            "        \"toexamine\": \"审核不通过\",                      //审核\n" +
-            "        \"createdat\": 1572318329926,                      //创建时间\n" +
-            "        \"updatedat\": 1572318329926,                      //跟新时间\n" +
-            "        \"businesslicensenumber\": null                    //营业执照注册号\n" +
-            "      }\n" +
-            "    ],\n" +
-            "    \"limit\": 1,                  //每页数量\n" +
-            "    \"page\": 1                    // 当前页号，外界传入\n" +
-            "  },\n" +
-            "  \"serverTime\": 1572333198217\n" +
-            "}")
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': {\n" +
+            "        'totalPage': 1,    // 总页数\n" +
+            "        'total': 4,        // 总记录数\n" +
+            "        'datas': [{\n" +
+            "                'numberId': '592028905',                                   // 编号\n" +
+            "                'mcNumberId': '1031302017',                                // 商家编号\n" +
+            "                'shopName': '好喝的奶茶',                                   // 店铺名称\n" +
+            "                'phone': '1312863894',                                     // 手机号码\n" +
+            "                'idCard': '123212343232454324',                            // 身份证号码\n" +
+            "                'idcardImgx': '/String',                                   // 身份证正面\n" +
+            "                'idcardImgy': '/String',                                   // 身份证反面\n" +
+            "                'businessLicenseNumber': '53446457567573524123232324232',  // 营业执照注册号\n" +
+            "                'nameOfLegalPerson': '/String',                            // 法人姓名\n" +
+            "                'licensePositive': '/String',                              // 营业执照正面照\n" +
+            "                'thirdPartyLinks': '/String',\n" +
+            "                'toExamine': '1',                                          // 审核状态\n" +
+            "                'cityCode': 37,\n" +
+            "                'provinceCode': 36,\n" +
+            "                'areaCode': 38,\n" +
+            "                'detailAddress': '龙街巷43号',\n" +
+            "                'createdat': 1574221332240,                                // 创建时间\n" +
+            "                'updatedat': 1574221332240                                 // 更新时间\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "}" +
+            "</pre>")
     @ResponseBody
     @PostMapping("entryInformationList")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "shopname", value = "店铺名称",paramType = "query"),
+            @ApiImplicitParam(name = "shopname", value = "店铺名称", paramType = "query"),
             @ApiImplicitParam(name = "phone", value = "手机号码", paramType = "query"),
-            @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "limit", value = "每页数量", required = true, paramType = "query")
+            @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示数量", defaultValue = "10", paramType = "query", dataType = "String"),
     })
-    public Object selectMcEntryinFormationList(String shopname, String phone ,
-                                               @RequestParam(defaultValue = "1") Integer page,
-                                               @RequestParam(defaultValue = "10") Integer limit){
+    public Object selectMcEntryinFormationList(
+            String shopname,
+            String phone,
+            @Pattern(regexp = "^\\d*$", message = "请输入数字")
+            @RequestParam(name = "pageNum", defaultValue = "1") String pageNum,
+            @Range(min = 10, max = 200, message = "每页显示数量只能在10~200之间")
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
-        return mcEntryinFormationService.selectMcEntryinFormationList(shopname,phone,page,limit);
+        return mcEntryinFormationService.selectMcEntryinFormationList(shopname, phone, Integer.parseInt(pageNum), pageSize);
     }
 
     @ApiOperation(notes = "", value = "商家入驻信息详情")
@@ -100,7 +100,7 @@ public class McEntryinFormationController {
             @ApiImplicitParam(name = "numberId", value = "信息编号", required = true, paramType = "query")
     })
     public Object selectByPrimaryKey(
-            @NotBlank(message = "编号不能为空") String numberId){
+            @NotBlank(message = "编号不能为空") String numberId) {
 
         return mcEntryinFormationService.selectByPrimaryKey(numberId);
     }
@@ -114,35 +114,35 @@ public class McEntryinFormationController {
     })
     public void updateToExamineByNumberId(
             @NotBlank(message = "编号不能为空") String numberId,
-            @NotBlank(message = "更改的状态不能为空") String toExamine){
+            @NotBlank(message = "更改的状态不能为空") String toExamine) {
 
-        mcEntryinFormationService.updateToExamineByNumberId(numberId,toExamine);
+        mcEntryinFormationService.updateToExamineByNumberId(numberId, toExamine);
     }
 
     @ApiOperation(value = "更改商家入驻信息")
     @PostMapping("updEntryInformation")
     @ResponseBody
     @ApiImplicitParams({
-            @ApiImplicitParam(name="shopname", value = "店铺名称" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="realname", value = "真实姓名" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="phone", value = "手机号码" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcard", value = "身份证号码" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcardtermofvalidity", value = "身份证有效期" ,  paramType = "query"),
-            @ApiImplicitParam(name="businessname", value = "执照名称" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="nameoflegalperson", value = "法人姓名" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="licensedate", value = "执照有效日期" ,  paramType = "query"),
-            @ApiImplicitParam(name="longtermlicense", value = "营业执照是否为长期" ,  paramType = "query"),
-            @ApiImplicitParam(name="longtermcertificate", value = "身份证是否为长期" ,  paramType = "query"),
-            @ApiImplicitParam(name="serviceProviderOrNot", value = "是否为服务商" , required = true,  paramType = "query"),
-            @ApiImplicitParam(name="remarks", value = "备注" ,  paramType = "query"),
+            @ApiImplicitParam(name = "shopname", value = "店铺名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "realname", value = "真实姓名", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "phone", value = "手机号码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "idcard", value = "身份证号码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "idcardtermofvalidity", value = "身份证有效期", paramType = "query"),
+            @ApiImplicitParam(name = "businessname", value = "执照名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "nameoflegalperson", value = "法人姓名", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "licensedate", value = "执照有效日期", paramType = "query"),
+            @ApiImplicitParam(name = "longtermlicense", value = "营业执照是否为长期", paramType = "query"),
+            @ApiImplicitParam(name = "longtermcertificate", value = "身份证是否为长期", paramType = "query"),
+            @ApiImplicitParam(name = "serviceProviderOrNot", value = "是否为服务商", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "remarks", value = "备注", paramType = "query"),
 
-            @ApiImplicitParam(name="licensepositivefile", value = "营业执照正面" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcardimgxfile", value = "证件照正面" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcardimgyfile", value = "证件照反面" , required = true, paramType = "query")
+            @ApiImplicitParam(name = "licensepositivefile", value = "营业执照正面", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "idcardimgxfile", value = "证件照正面", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "idcardimgyfile", value = "证件照反面", required = true, paramType = "query")
     })
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        if (mcEntryinFormation == null){
+        if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }
         mcEntryinFormation.setMcNumberId(loginInfo.getUserId());
@@ -154,44 +154,13 @@ public class McEntryinFormationController {
     @PostMapping("delEntryInformation")
     @ResponseBody
     @ApiImplicitParams({
-            @ApiImplicitParam(name="numberId", value = "编号" , required = true, paramType = "query")
+            @ApiImplicitParam(name = "numberId", value = "编号", required = true, paramType = "query")
     })
     public void deleteByPrimaryKey(
-            @NotBlank(message = "编号不能为空") String numberId){
+            @NotBlank(message = "编号不能为空") String numberId) {
 
         mcEntryinFormationService.deleteByPrimaryKey(numberId);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
