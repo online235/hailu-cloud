@@ -91,7 +91,6 @@ public class McUserAppContrller {
             "  \"serverTime\": 1572339258708\n" +
             "}")
     @PostMapping("register")
-    @ResponseBody
     public void register(@ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter, HttpServletRequest request, BindingResult result) throws Exception {
 
         String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + shopInformationEntryParameter.getMoli() + 0);

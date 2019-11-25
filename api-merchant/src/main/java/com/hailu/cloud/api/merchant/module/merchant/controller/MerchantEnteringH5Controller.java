@@ -47,7 +47,6 @@ public class MerchantEnteringH5Controller {
             "  \"serverTime\": 1572339471892\n" +
             "}")
     @PostMapping("entryInformation")
-    @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name="shopname", value = "店铺名称" , required = true, paramType = "query"),
             @ApiImplicitParam(name="realname", value = "真实姓名" , required = true, paramType = "query"),
@@ -90,7 +89,6 @@ public class MerchantEnteringH5Controller {
 
     @ApiOperation(value = "更改商家入驻信息")
     @PostMapping("updEntryInformation")
-    @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name="shopname", value = "店铺名称" , required = true, paramType = "query"),
             @ApiImplicitParam(name="realname", value = "真实姓名" , required = true, paramType = "query"),

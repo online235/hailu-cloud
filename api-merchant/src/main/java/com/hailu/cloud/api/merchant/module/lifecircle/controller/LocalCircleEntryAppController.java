@@ -105,7 +105,6 @@ public class LocalCircleEntryAppController {
             "  \"serverTime\": 1572339258708\n" +
             "}")
     @PostMapping("submitAudit")
-    @ResponseBody
     public void register(@ModelAttribute RegisterInformation registerInformation, HttpServletRequest request, BindingResult result) throws Exception {
 
 
