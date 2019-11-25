@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
@@ -86,6 +87,9 @@ public class SmsController {
             @Pattern(regexp = "^[012]$", message = "不支持的登录/注册类型")
             String loginType) throws BusinessException {
 
+        if(StringUtils.isBlank(vericode)){
+            vericode = RandomUtil.randomNumbers(6);
+        }
         freeSmsService.send(phone, this.vericodeTemplate.replace("{0}", vericode));
         if (StringUtil.isBlank(vericode)){
             vericode = RandomUtil.randomNumbers(6);

@@ -113,11 +113,11 @@ public class LocalCircleEntryAppController {
         }
         LocalCircleEntry localCircleEntry = new LocalCircleEntry();
         BeanUtils.copyProperties(registerInformation, localCircleEntry);
-        String val = redis.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getPhone() + "1");
+        String val = redis.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
         if (!registerInformation.getCode().equals(val)) {
             throw new BusinessException("验证码不正确或输入手机号码有误！");
         }
-        MerchantUserLoginInfoModel merchantUserLoginInfoModel = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getPhone(), registerInformation.getCode());
+        MerchantUserLoginInfoModel merchantUserLoginInfoModel = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), registerInformation.getCode());
         String userNumberId = merchantUserLoginInfoModel.getNumberid();
         McUser mcUser = new McUser();
         mcUser.setAccountType(1);
@@ -125,7 +125,6 @@ public class LocalCircleEntryAppController {
         localCircleEntryService.setLocalCircleEntry(localCircleEntry, userNumberId);
 
     }
-
 
 
     @ApiOperation(value = "获取经营类型", notes = "<pre>\n" +
@@ -150,13 +149,19 @@ public class LocalCircleEntryAppController {
             "}" +
             "</pre>")
     @PostMapping("businessType")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "prentId", value = "类型编号", paramType = "query")
-//    })
-    public Object findGoodsList() {
+    @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query",dataType = "Long")
+    public Object findGoodsList(Long parentId) {
 
-        Map map = new HashMap<>();
-        return mcManagementTypeService.findManagementTypeListResult(map);
+        Map<String, Object> map = new HashMap<>(4);
+        if (parentId == null) {
+            map.put("parentIdIsNull", 1);
+            return mcManagementTypeService.findListByParam(map);
+        } else {
+            map.clear();
+            map.put("parentId", parentId);
+            return mcManagementTypeService.findListByParam(map);
+        }
+
     }
 
 

@@ -26,10 +26,6 @@ public class McEntryInformation implements Serializable {
      */
     private String shopName;
 
-    /**
-     * 主营类目
-     */
-    private String projectType;
 
     /**
      * 真实姓名
@@ -67,9 +63,18 @@ public class McEntryInformation implements Serializable {
     private Boolean longTermCertificate;
 
     /**
-     * 经营类型表id
+     * 经营类型表一级编号id
      */
-    private Integer shopGoodsClassId;
+    private Integer firstManagementTypeId;
+
+
+
+    /**
+     * 经营类型表二级编号id
+     */
+    private Integer secondManagementTypeId;
+
+
 
     /**
      * 营业执照注册号
@@ -119,20 +124,20 @@ public class McEntryInformation implements Serializable {
     /**
      * 审核
      */
-    private String toExamine;
+    private Integer toExamine;
 
     /**
-     * 市Id
+     * 店铺市Id
      */
     private Long cityCode;
 
     /**
-     * 省Id
+     * 店铺省Id
      */
     private Long provinceCode;
 
     /**
-     * 区Id
+     * 店铺区Id
      */
     private Long areaCode;
 
@@ -156,6 +161,11 @@ public class McEntryInformation implements Serializable {
      */
     private Long updatedat;
 
+    /**
+     *开户类型（1、借记卡；2、信用卡 ）
+     */
+    private Integer bankType;
+
 
     /**
      * 开户行
@@ -168,7 +178,31 @@ public class McEntryInformation implements Serializable {
      */
     private String bankNumber;
 
+    /**
+     * 开户省份code
+     */
+    private String bankProvince;
 
+    /**
+     * 开户市区code
+     */
+    private String bankCity;
+
+    /**
+     * 附件数组（用；隔开）
+     */
+    private String enclosures;
+
+    /**
+     * 1、平台代发；2、商家发；3、各开各票
+     */
+    private Integer billingMethod;
+
+
+    /**
+     * 开户账号
+     */
+    private String accountNumber;
 
     /**
      * mc_entry_information

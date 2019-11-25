@@ -114,7 +114,7 @@ public class McEntryinFormationController {
     })
     public void updateToExamineByNumberId(
             @NotBlank(message = "编号不能为空") String numberId,
-            @NotBlank(message = "更改的状态不能为空") String toExamine) {
+            @NotBlank(message = "更改的状态不能为空") Integer toExamine){
 
         mcEntryinFormationService.updateToExamineByNumberId(numberId, toExamine);
     }

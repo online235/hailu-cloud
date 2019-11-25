@@ -54,9 +54,6 @@
       <if test="networkName != null" >
         network_name,
       </if>
-      <if test="accountType != null" >
-        account_type,
-      </if>
       <if test="phone != null" >
         phone,
       </if>
@@ -82,9 +79,6 @@
       </if>
       <if test="networkName != null" >
         #{networkName,jdbcType=VARCHAR},
-      </if>
-      <if test="accountType != null" >
-        #{accountType,jdbcType=CHAR},
       </if>
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},

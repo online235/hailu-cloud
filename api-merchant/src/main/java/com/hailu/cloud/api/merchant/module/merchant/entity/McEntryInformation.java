@@ -68,14 +68,14 @@ public class McEntryInformation implements Serializable {
     /**
      * 经营类型表一级编号id
      */
-    private Integer firstManagementTypeId;
+    private Long firstManagementTypeId;
 
 
 
     /**
      * 经营类型表二级编号id
      */
-    private Integer secondManagementTypeId;
+    private Long secondManagementTypeId;
 
 
 

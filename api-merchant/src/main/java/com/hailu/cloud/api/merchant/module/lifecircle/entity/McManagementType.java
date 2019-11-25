@@ -45,18 +45,5 @@ public class McManagementType implements Serializable {
     private String managementName;
 
 
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value = "创建时间",dataType = "Long")
-    private Long  createdat;
-
-
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty(value = "更新时间",dataType = "Long")
-    private Long updatedat;
-
 
 }

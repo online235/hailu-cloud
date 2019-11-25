@@ -29,7 +29,6 @@ public class McEntryinFormationService {
 
     /**
      * 商家后台审核列表
-     *
      * @return
      */
     public Object selectMcEntryinFormationList(String shopname, String phone, Integer page, Integer szie) {
@@ -40,7 +39,6 @@ public class McEntryinFormationService {
 
     /**
      * 入驻信息详情
-     *
      * @param numberId
      * @return
      */
@@ -50,12 +48,11 @@ public class McEntryinFormationService {
 
     /**
      * 更改审核状态
-     *
      * @param numberId
      * @param toExamine
      * @return
      */
-    public void updateToExamineByNumberId(String numberId, String toExamine) {
+    public void updateToExamineByNumberId(String numberId, Integer toExamine){
         McEntryInformation mcEntryinFormation = new McEntryInformation();
         mcEntryinFormation.setNumberId(numberId);
         mcEntryinFormation.setToExamine(toExamine);
@@ -66,21 +63,20 @@ public class McEntryinFormationService {
 
     /**
      * 更改审核信息
-     *
      * @param mcEntryinFormation
      * @return
      */
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation) {
         mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
-        mcEntryinFormation.setToExamine("1");
+        mcEntryinFormation.setToExamine(1);
         mcEntryinFormation.setNumberId(null);
         mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);
     }
 
 
+
     /**
      * 删除信息
-     *
      * @param numberId
      * @return
      */

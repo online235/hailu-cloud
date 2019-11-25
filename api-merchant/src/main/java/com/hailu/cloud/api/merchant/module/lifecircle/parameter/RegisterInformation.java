@@ -25,11 +25,11 @@ public class RegisterInformation {
 
     @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id", required = true)
     @NotEmpty
-    private Integer firstManagementTypeId;
+    private Long firstManagementTypeId;
 
 
     @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id", required = true)
-    private Integer secondManagementTypeId;
+    private Long secondManagementTypeId;
 
 
     @ApiParam(name = "provinceCode", value = "省的code值", required = true)
@@ -147,19 +147,22 @@ public class RegisterInformation {
      * 注册验证码
      */
     @ApiParam(name = "code", value = "注册验证码", required = true)
+    @NotEmpty
     private String code;
 
     /**
      * 注册登陆账号
      */
-    @ApiParam(name = "landingaccount", value = "注册登陆账号", required = true)
+    @ApiParam(name = "landingAccount", value = "注册登陆账号", required = true)
+    @NotEmpty
     private String landingAccount;
 
 
     /**
      * 注册登陆密码
      */
-    @ApiParam(name = "landingpassword", value = "注册登陆密码", required = true)
+    @ApiParam(name = "landingPassword", value = "注册登陆密码", required = true)
+    @NotEmpty
     private String landingPassword;
 
 
@@ -167,6 +170,7 @@ public class RegisterInformation {
      * 注册手机号码
      */
     @ApiParam(name = "moli", value = "注册手机号码", required = true)
+    @NotEmpty
     private String moli;
 
 

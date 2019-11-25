@@ -64,13 +64,13 @@ public class LocalCircleEntry implements Serializable {
     /**
      * 一级经营类型表id
      */
-    private Integer firstManagementTypeId;
+    private Long firstManagementTypeId;
 
 
     /**
      * 二级经营类型表id
      */
-    private Integer secondManagementTypeId;
+    private Long secondManagementTypeId;
 
 
 

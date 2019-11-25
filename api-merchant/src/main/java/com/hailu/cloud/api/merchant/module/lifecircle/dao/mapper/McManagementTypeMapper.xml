@@ -26,8 +26,6 @@
         management_id,
         parent_id,
         management_name,
-        createdat,
-        updatedat,
         picture_url
         FROM mc_management_type
         WHERE 1=1
@@ -37,6 +35,9 @@
         <if test="parentId != null" >
             and parent_id = #{parentId}
         </if>
+        <if test="parentIdIsNull != null" >
+            and (parent_id is null OR parent_id = 0)
+        </if>
     </select>
 
     <select id="findObjectByParentName"  resultType="com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType">
@@ -44,8 +45,6 @@
         management_id,
         parent_id,
         management_name,
-        createdat,
-        updatedat,
         picture_url
         FROM mc_management_type
         WHERE 1=1
