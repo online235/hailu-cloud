@@ -39,7 +39,7 @@ mapping:
         - /api/v1/basic/upload
         - /api/v1/basic/sms
         - /api/v1/basic/uuid
-        - /api/v1/merchant/life-circle
+        - /api/v1/merchant
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
     debug: true

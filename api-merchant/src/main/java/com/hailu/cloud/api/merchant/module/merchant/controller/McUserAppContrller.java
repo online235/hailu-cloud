@@ -93,6 +93,10 @@ public class McUserAppContrller {
     @PostMapping("register")
     public void register(@ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter, HttpServletRequest request, BindingResult result) throws Exception {
 
+
+        if (result.hasErrors()) {
+            throw new BusinessException("必填信息不能为空！");
+        }
         String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + shopInformationEntryParameter.getMoli() + 0);
         if (!shopInformationEntryParameter.getCode().equals(veriCode)) {
             // 验证码不存在
