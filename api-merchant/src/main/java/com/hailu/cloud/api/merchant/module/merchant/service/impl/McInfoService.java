@@ -7,9 +7,11 @@ import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McEntryinForm
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
+import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,9 @@ public class McInfoService {
 
     @Autowired
     private BasicFeignClient uuidFeignClient;
+
+    @Resource
+    private McStoreInformationService mcStoreInformationService;
 
     /**
      * 密码加密的key
@@ -97,12 +102,16 @@ public class McInfoService {
             mcEntryinFormation.setNumberId(mcnumberid);
             mcEntryinFormation.setCreatedat(time);
             mcEntryinFormation.setUpdatedat(time);
-            mcEntryinFormation.setToExamine(String.valueOf(Mceunm.IN_AUDIT.getKey()));
+            mcEntryinFormation.setToExamine(Mceunm.IN_AUDIT.getKey());
             mcEntryinFormation.setMcNumberId(numberId);
             int result = mcEntryinFormationMapper.insertSelective(mcEntryinFormation);
             if (result == 0) {
                 mcUserService.delUser(numberId);
             }
+            McStoreInformation mcStoreInformation = new McStoreInformation();
+            BeanUtils.copyProperties(mcEntryinFormation, mcStoreInformation);
+            mcStoreInformationService.insertSelective(mcStoreInformation);
+
         }
     }
 }

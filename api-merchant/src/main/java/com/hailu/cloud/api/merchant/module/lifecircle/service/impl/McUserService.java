@@ -91,7 +91,7 @@ public class McUserService {
         //添加商户
         mcUserMapper.insertSelective(mcUser);
 
-        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.Login("1", landingAccount, landingPassword);
+        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.login("1", landingAccount, landingPassword);
         if (loginInfo.getCode() == ApiResponseEnum.SUCCESS.getResponseCode()) {
             return loginInfo.getData();
         }

@@ -15,18 +15,29 @@ import javax.validation.constraints.Pattern;
 public interface AuthFeignClient {
 
     /**
+     * 验证码登录
+     * @param loginType
+     * @param phone
+     * @param code
+     * @return
+     */
+    @GetMapping("/login/vericode/{loginType}")
+    ApiResponse<MerchantUserLoginInfoModel> vericodeLogin(
+            @PathVariable("loginType") String loginType,
+            @RequestParam("phone") String phone,
+            @RequestParam("code") String code);
+
+    /**
      * 登录
      * @param loginType
-     * @param account
+     * @param phone
      * @param pwd
      * @return
      */
     @GetMapping("/login/{loginType}")
-    ApiResponse<MerchantUserLoginInfoModel> Login(
-            @NotBlank(message = "登录类型不能为空")
-            @Pattern(regexp = "^[012]$", message = "不支持的登录类型")
+    ApiResponse<MerchantUserLoginInfoModel> login(
             @PathVariable("loginType") String loginType,
-            @NotBlank(message = "登录账号不能为空") String account,
-            @NotBlank(message = "密码不能为空") String pwd);
+            @RequestParam("phone") String phone,
+            @RequestParam("pwd") String pwd);
 
 }

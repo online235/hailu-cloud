@@ -1,49 +1,377 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper">
-    <resultMap id="BaseResultMap" type="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation">
-        <id column="number_id" property="numberId" jdbcType="VARCHAR"/>
-        <result column="mc_number_id" property="mcNumberId" jdbcType="VARCHAR"/>
-        <result column="shop_name" property="shopName" jdbcType="VARCHAR"/>
-        <result column="project_type" property="projectType" jdbcType="VARCHAR"/>
-        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
-        <result column="phone" property="phone" jdbcType="VARCHAR"/>
-        <result column="id_card" property="idCard" jdbcType="VARCHAR"/>
-        <result column="idcard_imgx" property="idcardImgx" jdbcType="VARCHAR"/>
-        <result column="idcard_imgy" property="idcardImgy" jdbcType="VARCHAR"/>
-        <result column="idcardtermof_validity" property="idcardtermofValidity" jdbcType="VARCHAR"/>
-        <result column="long_term_certificate" property="longTermCertificate" jdbcType="BIT"/>
-        <result column="shop_goods_class_id" property="shopGoodsClassId" jdbcType="BIGINT"/>
-        <result column="business_license_number" property="businessLicenseNumber" jdbcType="VARCHAR"/>
-        <result column="business_name" property="businessName" jdbcType="VARCHAR"/>
-        <result column="name_of_legal_person" property="nameOfLegalPerson" jdbcType="VARCHAR"/>
-        <result column="license_date" property="licenseDate" jdbcType="VARCHAR"/>
-        <result column="long_term_license" property="longTermLicense" jdbcType="BIT"/>
-        <result column="license_positive" property="licensePositive" jdbcType="VARCHAR"/>
-        <result column="third_party_links" property="thirdPartyLinks" jdbcType="VARCHAR"/>
-        <result column="invitation_code" property="invitationCode" jdbcType="VARCHAR"/>
-        <result column="service_provider_or_not" property="serviceProviderOrNot" jdbcType="BIT"/>
-        <result column="to_examine" property="toExamine" jdbcType="CHAR"/>
-        <result column="city_code" property="cityCode" jdbcType="VARCHAR"/>
-        <result column="province_code" property="provinceCode" jdbcType="VARCHAR"/>
-        <result column="area_code" property="areaCode" jdbcType="VARCHAR"/>
-        <result column="detail_address" property="detailAddress" jdbcType="VARCHAR"/>
-        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
-        <result column="createdat" property="createdat" jdbcType="BIGINT"/>
-        <result column="updatedat" property="updatedat" jdbcType="BIGINT"/>
-        <result column="bank" property="bank"/>
-        <result column="bank_number" property="bankNumber"/>
-        <result column="mc_type" property="mcType"/>
 
-    </resultMap>
     <sql id="Base_Column_List">
-    number_id, mc_number_id, shop_name, project_type, real_name, phone, id_card, idcard_imgx,
-    idcard_imgy, idcardtermof_validity, long_term_certificate, shop_goods_class_id, business_license_number,
-    business_name, name_of_legal_person, license_date, long_term_license, license_positive,
-    third_party_links, invitation_code, service_provider_or_not, to_examine, city_code,bank,bank_number,mc_type,
-    province_code, area_code, detail_address, remarks, createdat, updatedat
+        number_id,mc_number_id,mc_type,bank_type,billing_method,shop_name,real_name,phone,id_card,
+        idcard_imgx,idcard_imgy,idcardtermof_validity,long_term_certificate,first_management_type_id,
+        second_management_type_id,business_license_number,business_name,name_of_legal_person,license_date,
+        long_term_license,license_positive,third_party_links,invitation_code,service_provider_or_not,
+        to_examine,province_code,city_code,area_code,detail_address,remarks,createdat,updatedat,
+        bank,bank_number,bank_city,bank_province,enclosures,account_number
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+
+    <sql id="Base_where_List">
+     #{numberId},#{mcNumberId},#{mcType},#{shopName},#{realName},#{phone},#{idCard},#{idcardImgx},
+     #{idcardImgy},#{idcardtermofValidity},#{longTermCertificate},#{firstManagementTypeId},#{secondManagementTypeId},
+    #{businessLicenseNumber},#{businessName},#{nameOfLegalPerson},#{licenseDate},#{longTermLicense},#{licensePositive},
+    #{thirdPartyLinks},#{invitationCode},#{serviceProviderOrNot},#{toExamine},#{cityCode},#{provinceCode},#{areaCode},
+    #{detailAddress},#{remarks},#{createdat},#{updatedat},#{bankType},#{bank},#{bankNumber},#{bankProvince},#{bankCity},
+    #{enclosures},#{billingMethod},#{accountNumber}
+  </sql>
+
+    <sql id="set_column">
+        <if test="numberId != null">
+            number_id,
+        </if>
+        <if test="mcNumberId != null">
+            mc_number_id,
+        </if>
+        <if test="shopName != null">
+            shop_name,
+        </if>
+        <if test="realName != null">
+            real_name,
+        </if>
+        <if test="phone != null">
+            phone,
+        </if>
+        <if test="idCard != null">
+            id_card,
+        </if>
+        <if test="idcardImgx != null">
+            idcard_imgx,
+        </if>
+        <if test="idcardImgy != null">
+            idcard_imgy,
+        </if>
+        <if test="idcardtermofValidity != null">
+            idcardtermof_validity,
+        </if>
+        <if test="longTermCertificate != null">
+            long_term_certificate,
+        </if>
+        <if test="firstManagementTypeId != null">
+            first_management_type_id,
+        </if>
+        <if test="secondManagementTypeId != null">
+            second_management_type_id,
+        </if>
+        <if test="businessLicenseNumber != null">
+            business_license_number,
+        </if>
+        <if test="businessName != null">
+            business_name,
+        </if>
+        <if test="nameOfLegalPerson != null">
+            name_of_legal_person,
+        </if>
+        <if test="licenseDate != null">
+            license_date,
+        </if>
+        <if test="longTermLicense != null">
+            long_term_license,
+        </if>
+        <if test="licensePositive != null">
+            license_positive,
+        </if>
+        <if test="thirdPartyLinks != null">
+            third_party_links,
+        </if>
+        <if test="invitationCode != null">
+            invitation_code,
+        </if>
+        <if test="serviceProviderOrNot != null">
+            service_provider_or_not,
+        </if>
+        <if test="toExamine != null">
+            to_examine,
+        </if>
+        <if test="cityCode != null">
+            city_code,
+        </if>
+        <if test="provinceCode != null">
+            province_code,
+        </if>
+        <if test="areaCode != null">
+            area_code,
+        </if>
+        <if test="detailAddress != null">
+            detail_address,
+        </if>
+        <if test="remarks != null">
+            remarks,
+        </if>
+        <if test="createdat != null">
+            createdat,
+        </if>
+        <if test="updatedat != null">
+            updatedat,
+        </if>
+        <if test="bank != null">
+            bank,
+        </if>
+        <if test="bankNumber != null">
+            bank_number,
+        </if>
+        <if test="mcType != null">
+            mc_type,
+        </if>
+        <if test="bankType != null">
+            bank_type,
+        </if>
+        <if test="bankProvince != null">
+            bank_province,
+         </if>
+        <if test="bankCity != null">
+            bank_city,
+         </if>
+        <if test="enclosures != null">
+            enclosures,
+        </if>
+        <if test="billingMethod != null">
+            billing_method,
+        </if>
+        <if test="accountNumber != null">
+            account_number,
+        </if>
+
+    </sql>
+
+
+    <sql id="set_where_column">
+        <if test="numberId != null">
+            #{numberId,jdbcType=VARCHAR},
+        </if>
+        <if test="mcNumberId != null">
+            #{mcNumberId,jdbcType=VARCHAR},
+        </if>
+        <if test="shopName != null">
+            #{shopName,jdbcType=VARCHAR},
+        </if>
+        <if test="realName != null">
+            #{realName,jdbcType=VARCHAR},
+        </if>
+        <if test="phone != null">
+            #{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="idCard != null">
+            #{idCard,jdbcType=VARCHAR},
+        </if>
+        <if test="idcardImgx != null">
+            #{idcardImgx,jdbcType=VARCHAR},
+        </if>
+        <if test="idcardImgy != null">
+            #{idcardImgy,jdbcType=VARCHAR},
+        </if>
+        <if test="idcardtermofValidity != null">
+            #{idcardtermofValidity,jdbcType=VARCHAR},
+        </if>
+        <if test="longTermCertificate != null">
+            #{longTermCertificate,jdbcType=BIT},
+        </if>
+        <if test="firstManagementTypeId != null">
+            #{firstManagementTypeId,jdbcType=BIGINT},
+        </if>
+        <if test="secondManagementTypeId != null">
+            #{secondManagementTypeId,jdbcType=BIGINT},
+        </if>
+        <if test="businessLicenseNumber != null">
+            #{businessLicenseNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="businessName != null">
+            #{businessName,jdbcType=VARCHAR},
+        </if>
+        <if test="nameOfLegalPerson != null">
+            #{nameOfLegalPerson,jdbcType=VARCHAR},
+        </if>
+        <if test="licenseDate != null">
+            #{licenseDate,jdbcType=VARCHAR},
+        </if>
+        <if test="longTermLicense != null">
+            #{longTermLicense,jdbcType=BIT},
+        </if>
+        <if test="licensePositive != null">
+            #{licensePositive,jdbcType=VARCHAR},
+        </if>
+        <if test="thirdPartyLinks != null">
+            #{thirdPartyLinks,jdbcType=VARCHAR},
+        </if>
+        <if test="invitationCode != null">
+            #{invitationCode,jdbcType=VARCHAR},
+        </if>
+        <if test="serviceProviderOrNot != null">
+            #{serviceProviderOrNot,jdbcType=BIT},
+        </if>
+        <if test="toExamine != null">
+            #{toExamine,jdbcType=CHAR},
+        </if>
+        <if test="cityCode != null">
+            #{cityCode,jdbcType=VARCHAR},
+        </if>
+        <if test="provinceCode != null">
+            #{provinceCode,jdbcType=VARCHAR},
+        </if>
+        <if test="areaCode != null">
+            #{areaCode,jdbcType=VARCHAR},
+        </if>
+        <if test="detailAddress != null">
+            #{detailAddress,jdbcType=BIGINT},
+        </if>
+        <if test="remarks != null">
+            #{remarks,jdbcType=VARCHAR},
+        </if>
+        <if test="createdat != null">
+            #{createdat,jdbcType=BIGINT},
+        </if>
+        <if test="updatedat != null">
+            #{updatedat,jdbcType=BIGINT},
+        </if>
+        <if test="bank != null">
+            #{bank},
+        </if>
+        <if test="bankNumber != null">
+            #{bankNumber},
+        </if>
+        <if test="mcType != null">
+            #{mcType},
+        </if>
+        <if test="bankType != null">
+            #{bankType},
+        </if>
+        <if test="bankProvince != null">
+            #{bankProvince},
+        </if>
+        <if test="bankCity != null">
+            #{bankCity},
+        </if>
+        <if test="enclosures != null">
+            #{enclosures},
+        </if>
+        <if test="billingMethod != null">
+            #{billingMethod},
+        </if>
+        <if test="accountNumber != null">
+            #{accountNumber},
+        </if>
+    </sql>
+
+    <sql id="update_where_column">
+        <if test="mcNumberId != null">
+            mc_number_id = #{mcNumberId,jdbcType=VARCHAR},
+        </if>
+        <if test="shopName != null">
+            shop_name = #{shopName,jdbcType=VARCHAR},
+        </if>
+        <if test="realName != null">
+            real_name = #{realName,jdbcType=VARCHAR},
+        </if>
+        <if test="phone != null">
+            phone = #{phone,jdbcType=VARCHAR},
+        </if>
+        <if test="idCard != null">
+            id_card = #{idCard,jdbcType=VARCHAR},
+        </if>
+        <if test="idcardImgx != null">
+            idcard_imgx = #{idcardImgx,jdbcType=VARCHAR},
+        </if>
+        <if test="idcardImgy != null">
+            idcard_imgy = #{idcardImgy,jdbcType=VARCHAR},
+        </if>
+        <if test="idcardtermofValidity != null">
+            idcardtermof_validity = #{idcardtermofValidity,jdbcType=VARCHAR},
+        </if>
+        <if test="longTermCertificate != null">
+            long_term_certificate = #{longTermCertificate,jdbcType=BIT},
+        </if>
+        <if test="firstManagementTypeId != null">
+            first_management_type_id = #{firstManagementTypeId,jdbcType=BIGINT},
+        </if>
+        <if test="secondManagementTypeId != null">
+            second_management_type_id = #{secondManagementTypeId,jdbcType=BIGINT},
+        </if>
+        <if test="businessLicenseNumber != null">
+            business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="businessName != null">
+            business_name = #{businessName,jdbcType=VARCHAR},
+        </if>
+        <if test="nameOfLegalPerson != null">
+            name_of_legal_person = #{nameOfLegalPerson,jdbcType=VARCHAR},
+        </if>
+        <if test="licenseDate != null">
+            license_date = #{licenseDate,jdbcType=VARCHAR},
+        </if>
+        <if test="longTermLicense != null">
+            long_term_license = #{longTermLicense,jdbcType=BIT},
+        </if>
+        <if test="licensePositive != null">
+            license_positive = #{licensePositive,jdbcType=VARCHAR},
+        </if>
+        <if test="thirdPartyLinks != null">
+            third_party_links = #{thirdPartyLinks,jdbcType=VARCHAR},
+        </if>
+        <if test="invitationCode != null">
+            invitation_code = #{invitationCode,jdbcType=VARCHAR},
+        </if>
+        <if test="serviceProviderOrNot != null">
+            service_provider_or_not = #{serviceProviderOrNot,jdbcType=BIT},
+        </if>
+        <if test="toExamine != null">
+            to_examine = #{toExamine,jdbcType=CHAR},
+        </if>
+        <if test="cityCode != null">
+            city_code = #{cityCode,jdbcType=VARCHAR},
+        </if>
+        <if test="provinceCode != null">
+            province_code = #{provinceCode,jdbcType=VARCHAR},
+        </if>
+        <if test="areaCode != null">
+            area_code = #{areaCode,jdbcType=VARCHAR},
+        </if>
+        <if test="detailAddress != null">
+            detail_address = #{detailAddress,jdbcType=BIGINT},
+        </if>
+        <if test="remarks != null">
+            remarks = #{remarks,jdbcType=VARCHAR},
+        </if>
+        <if test="createdat != null">
+            createdat = #{createdat,jdbcType=BIGINT},
+        </if>
+        <if test="updatedat != null">
+            updatedat = #{updatedat,jdbcType=BIGINT},
+        </if>
+        <if test="bank != null">
+            bank = #{bank},
+        </if>
+        <if test="bankNumber != null">
+            bank_number = #{bankNumber},
+        </if>
+        <if test="mcType != null">
+            mc_type = #{mcType},
+        </if>
+        <if test="bankType != null">
+            bank_type = #{bankType},
+        </if>
+        <if test="bankProvince != null">
+            bank_province = #{bankProvince},
+        </if>
+        <if test="bankCity != null">
+            bank_city = #{bankCity},
+        </if>
+        <if test="enclosures != null">
+            enclosures = #{enclosures},
+        </if>
+        <if test="billingMethod != null">
+            billing_method = #{billingMethod},
+        </if>
+        <if test="accountNumber != null">
+            account_number = #{accountNumber},
+        </if>
+    </sql>
+
+    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation"
+            parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from mc_entry_information
@@ -53,363 +381,45 @@
     delete from mc_entry_information
     where number_id = #{numberId,jdbcType=VARCHAR}
   </delete>
+
     <insert id="insert" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation"
             useGeneratedKeys="true" keyProperty="numberId">
-    insert into mc_entry_information (number_id, mc_number_id, shop_name, project_type,
-      real_name, phone, id_card,
-      idcard_imgx, idcard_imgy, idcardtermof_validity,
-      long_term_certificate, shop_goods_class_id, business_license_number,
-      business_name, name_of_legal_person, license_date,
-      long_term_license, license_positive, third_party_links,
-      invitation_code, service_provider_or_not, to_examine, city_code,
-      city_code, province_code, remarks, area_code, detail_address,bank,bank_number,mc_type
-      createdat, updatedat)
-    values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{projectType,jdbcType=CHAR},
-      #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
-      #{idcardImgx,jdbcType=VARCHAR}, #{idcardImgy,jdbcType=VARCHAR}, #{idcardtermofValidity,jdbcType=VARCHAR},
-      #{longTermCertificate,jdbcType=BIT}, #{shopGoodsClassId,jdbcType=BIGINT}, #{businessLicenseNumber,jdbcType=VARCHAR},
-      #{businessName,jdbcType=VARCHAR}, #{nameOfLegalPerson,jdbcType=VARCHAR}, #{licenseDate,jdbcType=VARCHAR},
-      #{longTermLicense,jdbcType=BIT}, #{licensePositive,jdbcType=VARCHAR}, #{thirdPartyLinks,jdbcType=VARCHAR},
-      #{invitationCode,jdbcType=VARCHAR}, #{serviceProviderOrNot,jdbcType=BIT}, #{toExamine,jdbcType=CHAR}, #{cityCode},
-      #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{bank},#{bankNumber},#{mcType},
-      #{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
-  </insert>
+        insert into mc_entry_information (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        <include refid="Base_where_List"/>
+        )
+    </insert>
+
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation"
             useGeneratedKeys="true" keyProperty="numberId">
         insert into mc_entry_information
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="numberId != null">
-                number_id,
-            </if>
-            <if test="mcNumberId != null">
-                mc_number_id,
-            </if>
-            <if test="shopName != null">
-                shop_name,
-            </if>
-            <if test="projectType != null">
-                project_type,
-            </if>
-            <if test="realName != null">
-                real_name,
-            </if>
-            <if test="phone != null">
-                phone,
-            </if>
-            <if test="idCard != null">
-                id_card,
-            </if>
-            <if test="idcardImgx != null">
-                idcard_imgx,
-            </if>
-            <if test="idcardImgy != null">
-                idcard_imgy,
-            </if>
-            <if test="idcardtermofValidity != null">
-                idcardtermof_validity,
-            </if>
-            <if test="longTermCertificate != null">
-                long_term_certificate,
-            </if>
-            <if test="shopGoodsClassId != null">
-                shop_goods_class_id,
-            </if>
-            <if test="businessLicenseNumber != null">
-                business_license_number,
-            </if>
-            <if test="businessName != null">
-                business_name,
-            </if>
-            <if test="nameOfLegalPerson != null">
-                name_of_legal_person,
-            </if>
-            <if test="licenseDate != null">
-                license_date,
-            </if>
-            <if test="longTermLicense != null">
-                long_term_license,
-            </if>
-            <if test="licensePositive != null">
-                license_positive,
-            </if>
-            <if test="thirdPartyLinks != null">
-                third_party_links,
-            </if>
-            <if test="invitationCode != null">
-                invitation_code,
-            </if>
-            <if test="serviceProviderOrNot != null">
-                service_provider_or_not,
-            </if>
-            <if test="toExamine != null">
-                to_examine,
-            </if>
-            <if test="cityCode != null">
-                city_code,
-            </if>
-            <if test="provinceCode != null">
-                province_code,
-            </if>
-            <if test="areaCode != null">
-                area_code,
-            </if>
-            <if test="detailAddress != null">
-                detail_address,
-            </if>
-            <if test="remarks != null">
-                remarks,
-            </if>
-            <if test="createdat != null">
-                createdat,
-            </if>
-            <if test="updatedat != null">
-                updatedat,
-            </if>
-            <if test="bank != null">
-                bank,
-            </if>
-            <if test="bankNumber != null">
-                bank_number,
-            </if>
-            <if test="mcType != null">
-                mc_type,
-            </if>
-
+            <include refid="set_column"/>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="numberId != null">
-                #{numberId,jdbcType=VARCHAR},
-            </if>
-            <if test="mcNumberId != null">
-                #{mcNumberId,jdbcType=VARCHAR},
-            </if>
-            <if test="shopName != null">
-                #{shopName,jdbcType=VARCHAR},
-            </if>
-            <if test="projectType != null">
-                #{projectType,jdbcType=CHAR},
-            </if>
-            <if test="realName != null">
-                #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="idCard != null">
-                #{idCard,jdbcType=VARCHAR},
-            </if>
-            <if test="idcardImgx != null">
-                #{idcardImgx,jdbcType=VARCHAR},
-            </if>
-            <if test="idcardImgy != null">
-                #{idcardImgy,jdbcType=VARCHAR},
-            </if>
-            <if test="idcardtermofValidity != null">
-                #{idcardtermofValidity,jdbcType=VARCHAR},
-            </if>
-            <if test="longTermCertificate != null">
-                #{longTermCertificate,jdbcType=BIT},
-            </if>
-            <if test="shopGoodsClassId != null">
-                #{shopGoodsClassId,jdbcType=BIGINT},
-            </if>
-            <if test="businessLicenseNumber != null">
-                #{businessLicenseNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="businessName != null">
-                #{businessName,jdbcType=VARCHAR},
-            </if>
-            <if test="nameOfLegalPerson != null">
-                #{nameOfLegalPerson,jdbcType=VARCHAR},
-            </if>
-            <if test="licenseDate != null">
-                #{licenseDate,jdbcType=VARCHAR},
-            </if>
-            <if test="longTermLicense != null">
-                #{longTermLicense,jdbcType=BIT},
-            </if>
-            <if test="licensePositive != null">
-                #{licensePositive,jdbcType=VARCHAR},
-            </if>
-            <if test="thirdPartyLinks != null">
-                #{thirdPartyLinks,jdbcType=VARCHAR},
-            </if>
-            <if test="invitationCode != null">
-                #{invitationCode,jdbcType=VARCHAR},
-            </if>
-            <if test="serviceProviderOrNot != null">
-                #{serviceProviderOrNot,jdbcType=BIT},
-            </if>
-            <if test="toExamine != null">
-                #{toExamine,jdbcType=CHAR},
-            </if>
-            <if test="cityCode != null">
-                #{cityCode,jdbcType=VARCHAR},
-            </if>
-            <if test="provinceCode != null">
-                #{provinceCode,jdbcType=VARCHAR},
-            </if>
-            <if test="areaCode != null">
-                #{areaCode,jdbcType=VARCHAR},
-            </if>
-            <if test="detailAddress != null">
-                #{detailAddress,jdbcType=BIGINT},
-            </if>
-            <if test="remarks != null">
-                #{remarks,jdbcType=VARCHAR},
-            </if>
-            <if test="createdat != null">
-                #{createdat,jdbcType=BIGINT},
-            </if>
-            <if test="updatedat != null">
-                #{updatedat,jdbcType=BIGINT},
-            </if>
-            <if test="bank != null">
-                bank = #{bank},
-            </if>
-            <if test="bankNumber != null">
-                bank_number =#{bankNumber},
-            </if>
-            <if test="mcType != null">
-                mc_type = #{mcType},
-            </if>
+            <include refid="set_where_column"/>
         </trim>
     </insert>
+
     <update id="updateByPrimaryKeySelective"
             parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation">
         update mc_entry_information
         <set>
-            <if test="mcNumberId != null">
-                mc_number_id = #{mcNumberId,jdbcType=VARCHAR},
-            </if>
-            <if test="shopName != null">
-                shop_name = #{shopName,jdbcType=VARCHAR},
-            </if>
-            <if test="projectType != null">
-                project_type = #{projectType,jdbcType=CHAR},
-            </if>
-            <if test="realName != null">
-                real_name = #{realName,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="idCard != null">
-                id_card = #{idCard,jdbcType=VARCHAR},
-            </if>
-            <if test="idcardImgx != null">
-                idcard_imgx = #{idcardImgx,jdbcType=VARCHAR},
-            </if>
-            <if test="idcardImgy != null">
-                idcard_imgy = #{idcardImgy,jdbcType=VARCHAR},
-            </if>
-            <if test="idcardtermofValidity != null">
-                idcardtermof_validity = #{idcardtermofValidity,jdbcType=VARCHAR},
-            </if>
-            <if test="longTermCertificate != null">
-                long_term_certificate = #{longTermCertificate,jdbcType=BIT},
-            </if>
-            <if test="shopGoodsClassId != null">
-                shop_goods_class_id = #{shopGoodsClassId,jdbcType=BIGINT},
-            </if>
-            <if test="businessLicenseNumber != null">
-                business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
-            </if>
-            <if test="businessName != null">
-                business_name = #{businessName,jdbcType=VARCHAR},
-            </if>
-            <if test="nameOfLegalPerson != null">
-                name_of_legal_person = #{nameOfLegalPerson,jdbcType=VARCHAR},
-            </if>
-            <if test="licenseDate != null">
-                license_date = #{licenseDate,jdbcType=VARCHAR},
-            </if>
-            <if test="longTermLicense != null">
-                long_term_license = #{longTermLicense,jdbcType=BIT},
-            </if>
-            <if test="licensePositive != null">
-                license_positive = #{licensePositive,jdbcType=VARCHAR},
-            </if>
-            <if test="thirdPartyLinks != null">
-                third_party_links = #{thirdPartyLinks,jdbcType=VARCHAR},
-            </if>
-            <if test="invitationCode != null">
-                invitation_code = #{invitationCode,jdbcType=VARCHAR},
-            </if>
-            <if test="serviceProviderOrNot != null">
-                service_provider_or_not = #{serviceProviderOrNot,jdbcType=BIT},
-            </if>
-            <if test="toExamine != null">
-                to_examine = #{toExamine,jdbcType=CHAR},
-            </if>
-            <if test="cityCode != null">
-                city_code = #{cityCode,jdbcType=VARCHAR},
-            </if>
-            <if test="provinceCode != null">
-                province_code = #{provinceCode,jdbcType=VARCHAR},
-            </if>
-            <if test="areaCode != null">
-                area_code = #{areaCode,jdbcType=VARCHAR},
-            </if>
-            <if test="detailAddress != null">
-                detail_address = #{detailAddress,jdbcType=BIGINT},
-            </if>
-            <if test="remarks != null">
-                remarks = #{remarks,jdbcType=VARCHAR},
-            </if>
-            <if test="createdat != null">
-                createdat = #{createdat,jdbcType=BIGINT},
-            </if>
-            <if test="updatedat != null">
-                updatedat = #{updatedat,jdbcType=BIGINT},
-            </if>
-            <if test="bank != null">
-                bank = #{bank},
-            </if>
-            <if test="bankNumber != null">
-                bank_number = #{bankNumber},
-            </if>
-            <if test="mcType != null">
-                mc_type = #{mcType},
-            </if>
+            <include refid="update_where_column"/>
         </set>
         where number_id = #{numberId,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation">
-    update mc_entry_information
-    set mc_number_id = #{mcNumberId,jdbcType=VARCHAR},
-      shop_name = #{shopName,jdbcType=VARCHAR},
-      project_type = #{projectType,jdbcType=CHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      id_card = #{idCard,jdbcType=VARCHAR},
-      idcard_imgx = #{idcardImgx,jdbcType=VARCHAR},
-      idcard_imgy = #{idcardImgy,jdbcType=VARCHAR},
-      idcardtermof_validity = #{idcardtermofValidity,jdbcType=VARCHAR},
-      long_term_certificate = #{longTermCertificate,jdbcType=BIT},
-      shop_goods_class_id = #{shopGoodsClassId,jdbcType=BIGINT},
-      business_license_number = #{businessLicenseNumber,jdbcType=VARCHAR},
-      business_name = #{businessName,jdbcType=VARCHAR},
-      name_of_legal_person = #{nameOfLegalPerson,jdbcType=VARCHAR},
-      license_date = #{licenseDate,jdbcType=VARCHAR},
-      long_term_license = #{longTermLicense,jdbcType=BIT},
-      license_positive = #{licensePositive,jdbcType=VARCHAR},
-      third_party_links = #{thirdPartyLinks,jdbcType=VARCHAR},
-      invitation_code = #{invitationCode,jdbcType=VARCHAR},
-      service_provider_or_not = #{serviceProviderOrNot,jdbcType=BIT},
-      to_examine = #{toExamine,jdbcType=CHAR},
-      city_code = #{cityCode,jdbcType=VARCHAR},
-      province_code = #{provinceCode,jdbcType=VARCHAR},
-      area_code = #{areaCode,jdbcType=VARCHAR},
-      detail_address = #{detailAddress,jdbcType=BIGINT},
-      remarks = #{remarks,jdbcType=VARCHAR},
-      createdat = #{createdat,jdbcType=BIGINT},
-      updatedat = #{updatedat,jdbcType=BIGINT},
-      bank = #{bank},
-      bank_number = #{bankNumber},
-      mc_type = #{mcType}
-    where number_id = #{numberId,jdbcType=VARCHAR}
-  </update>
+
+    <update id="updateByPrimaryKey"
+            parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation">
+        update mc_entry_information
+        set
+        <include refid="update_where_column"/>
+        where number_id = #{numberId,jdbcType=VARCHAR}
+    </update>
+
     <select id="selectByMcnumberidAndToexamine" resultType="int">
     select count(number_id)
     from mc_entry_information
@@ -419,4 +429,7 @@
     select count(mc_number_id) from mc_entry_information
     where mc_number_id = #{mcnumberid}
   </select>
+
+
+
 </mapper>

@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.lifecircle.parameter;
+package com.hailu.cloud.api.merchant.module.merchant.parameter;
 
 
 import io.swagger.annotations.ApiModel;
@@ -9,11 +9,10 @@ import javax.validation.constraints.NotEmpty;
 
 /**
  * @Author zhangmugui
- * @Date 2019.11.19
  */
 @Data
 @ApiModel
-public class RegisterInformation {
+public class ShopInformationEntryParameter {
 
     @ApiParam(name = "shopName", value = "店铺名称", required = true)
     @NotEmpty
@@ -50,7 +49,6 @@ public class RegisterInformation {
     @ApiParam(name = "detailAddress", value = "详细地址", required = true)
     @NotEmpty
     private String detailAddress;
-
 
 
     @ApiParam(name = "nameOfLegalPerson", value = "经营者姓名", required = true)
@@ -103,44 +101,60 @@ public class RegisterInformation {
     /**
      * 第三方链接
      */
-    @ApiParam(name = "thirdPartyLinks", value = "第三方链接",required = false)
+    @ApiParam(name = "thirdPartyLinks", value = "第三方链接", required = false)
     private String thirdPartyLinks;
 
 
-//
-//    /**
-//     * (账号)开户类型（1、借记卡；2、信用卡 ）
-//     */
-//    @ApiParam(name = "bankType", value = "开户类型（1、借记卡；2、信用卡 ）", required = true)
-//    private Integer bankType;
-//
-//    /**
-//     * 开户支行
-//     */
-//    @ApiParam(name = "bankBranch", value = "开户支行", required = true)
-//    private String bankBranch;
+    /**
+     * (账号)开户类型（1、借记卡；2、信用卡 ）
+     */
+    @ApiParam(name = "bankType", value = "开户类型（1、借记卡；2、信用卡 ）", required = true)
+    private Integer bankType;
+
+    /**
+     * 开户支行
+     */
+    @ApiParam(name = "bankBranch", value = "开户支行", required = true)
+    private String bankBranch;
 
 
-//    /**
-//     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
-//     */
-//    @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）", required = true)
-//    private Integer billingMethod;
+    /**
+     * 开户账号
+     */
+    @ApiParam(name = "accountNumber", value = "开户账号", required = true)
+    private String accountNumber;
+
+    /**
+     * 开户省份code
+     */
+    @ApiParam(name = "bankProvince", value = "开户省份code", required = true)
+    private String bankProvince;
+
+    /**
+     * 开户市区code
+     */
+    @ApiParam(name = "bankCity", value = "开户市区code", required = true)
+    private String bankCity;
+
+    /**
+     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
+     */
+    @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）", required = true)
+    private Integer billingMethod;
 
 
-//    /**
-//     * 开户行
-//     */
-//    @ApiParam(name = "bank", value = "开户行", required = true)
-//    private String bank;
+    /**
+     * 开户行
+     */
+    @ApiParam(name = "bank", value = "开户行", required = true)
+    private String bank;
 
 
-//    /**
-//     * 银行卡号
-//     */
-//    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
-//    private String bankNumber;
-
+    /**
+     * 银行卡号
+     */
+    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
+    private String bankNumber;
 
 
     /**

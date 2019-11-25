@@ -67,13 +67,13 @@ public class MerchantEnteringH5Controller {
             @ApiImplicitParam(name="idcardimgx", value = "证件照正面" , required = true, paramType = "query"),
             @ApiImplicitParam(name="idcardimgy", value = "证件照反面" , required = true, paramType = "query")
     })
-    public Object addMcEntryinFormation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
+    public void addMcEntryinFormation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
         if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }
         mcEntryinFormation.setMcNumberId(loginInfo.getUserId());
-        return merchantEnteringService.insertSelective(mcEntryinFormation);
+        merchantEnteringService.insertSelective(mcEntryinFormation);
     }
 
     @ApiOperation(notes = "", value = "商家入驻信息详情")

@@ -5,13 +5,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.merchant.module.lifecircle.dao.LocalCircleEntryMapper;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
+import com.hailu.cloud.api.merchant.module.merchant.dao.McStoreInformationMapper;
+import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
+import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +36,9 @@ public class LocalCircleEntryService {
 
     @Autowired
     private BasicFeignClient uuidFeign;
+
+    @Resource
+    private McStoreInformationService mcStoreInformationService;
 
     /**
      * 添加入驻信息
@@ -52,7 +60,7 @@ public class LocalCircleEntryService {
         localCircleEntry.setNumberId(numberid);
         localCircleEntry.setCreatedat(time);
         localCircleEntry.setUpdatedat(time);
-        localCircleEntry.setToExamine(String.valueOf(Mceunm.IN_AUDIT.getKey()));
+        localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
         int result = localCircleEntryMapper.insertSelective(localCircleEntry);
         if (result > 0) {
             Map<String, Object> stringObjectMap = new HashMap<>(1);
@@ -110,7 +118,7 @@ public class LocalCircleEntryService {
      * @param toExamine
      * @return
      */
-    public void updateToExamineByNumberId(String numberId, String toExamine){
+    public void updateToExamineByNumberId(String numberId, Integer toExamine){
         LocalCircleEntry localCircleEntry = new LocalCircleEntry();
         localCircleEntry.setNumberId(numberId);
         localCircleEntry.setToExamine(toExamine);
@@ -126,7 +134,7 @@ public class LocalCircleEntryService {
      */
     public void updateMcEntryInformation(LocalCircleEntry localCircleEntry){
         localCircleEntry.setUpdatedat(System.currentTimeMillis());
-        localCircleEntry.setToExamine("1");
+        localCircleEntry.setToExamine(1);
         localCircleEntry.setNumberId(null);
         localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
     }
@@ -179,6 +187,7 @@ public class LocalCircleEntryService {
      * @return
      */
     public void setLocalCircleEntry(LocalCircleEntry localCircleEntry,String userNumberId) throws BusinessException {
+
         if (localCircleEntry == null) {
             throw new BusinessException("入驻信息为空");
         }
@@ -194,11 +203,14 @@ public class LocalCircleEntryService {
         localCircleEntry.setNumberId(numberid);
         localCircleEntry.setCreatedat(time);
         localCircleEntry.setUpdatedat(time);
-        localCircleEntry.setToExamine(String.valueOf(Mceunm.IN_AUDIT.getKey()));
+        localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
         int result = localCircleEntryMapper.insertSelective(localCircleEntry);
-        if (result < 0) {
+        if (result <= 0) {
             throw new BusinessException("插入数据失败");
         }
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        BeanUtils.copyProperties(localCircleEntry, mcStoreInformation);
+        mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }
 

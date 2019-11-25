@@ -130,13 +130,30 @@ public class LocalCircleEntryAppController {
 
 
     @ApiOperation(value = "获取经营类型", notes = "<pre>\n" +
-            "" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': [{\n" +
+            "            'managementId': 1,\n" +
+            "            'managementName': '美食',\n" +
+            "            'mcManagementTypeList': [{\n" +
+            "                    'managementId': 2,\n" +
+            "                    'parentId': 1,\n" +
+            "                    'managementName': '烧烤'\n" +
+            "                }, {\n" +
+            "                    'managementId': 3,\n" +
+            "                    'parentId': 1,\n" +
+            "                    'managementName': '饮料'\n" +
+            "                }\n" +
+            "            ]\n" +
+            "        }\n" +
+            "    ]\n" +
+            "}" +
             "</pre>")
     @PostMapping("businessType")
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "prentId", value = "类型编号", paramType = "query")
 //    })
-    @ResponseBody
     public Object findGoodsList() {
 
         Map map = new HashMap<>();

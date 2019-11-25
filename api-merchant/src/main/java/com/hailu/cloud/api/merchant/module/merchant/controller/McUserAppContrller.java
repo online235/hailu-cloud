@@ -1,6 +1,9 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
+import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
+import com.hailu.cloud.api.merchant.module.lifecircle.parameter.RegisterInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
+import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -10,13 +13,13 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -89,47 +92,19 @@ public class McUserAppContrller {
             "}")
     @PostMapping("register")
     @ResponseBody
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "注册手机验证码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "landingaccount", value = "注册登陆账号", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "landingpassword", value = "注册登陆密码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "moli", value = "注册手机号码", required = true, paramType = "query"),
+    public void register(@ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter, HttpServletRequest request, BindingResult result) throws Exception {
 
-
-            @ApiImplicitParam(name="shopname", value = "店铺名称" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="realname", value = "真实姓名" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="phone", value = "手机号码" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcard", value = "身份证号码" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcardtermofvalidity", value = "身份证有效期" ,  paramType = "query"),
-            @ApiImplicitParam(name="businessname", value = "执照名称" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="nameoflegalperson", value = "法人姓名" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="licensedate", value = "执照有效日期" ,  paramType = "query"),
-            @ApiImplicitParam(name="longtermlicense", value = "营业执照是否为长期" ,  paramType = "query"),
-            @ApiImplicitParam(name="longtermcertificate", value = "身份证是否为长期" ,  paramType = "query"),
-            @ApiImplicitParam(name="businesslicensenumber", value = "注册号/新用代码" ,  paramType = "query"),
-            @ApiImplicitParam(name="serviceProviderOrNot", value = "是否为服务商" , required = true,  paramType = "query"),
-            @ApiImplicitParam(name="remarks", value = "备注" ,  paramType = "query"),
-
-            @ApiImplicitParam(name="licensepositive", value = "营业执照正面" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcardimgx", value = "证件照正面" , required = true, paramType = "query"),
-            @ApiImplicitParam(name="idcardimgy", value = "证件照反面" , required = true, paramType = "query")
-    })
-    public void register(
-            @NotBlank(message = "登陆账号不能为空") String landingaccount,
-            @NotBlank(message = "登陆密码不能为空") String landingpassword,
-            @NotBlank(message = "手机号码不能为空") String moli,
-            @NotBlank(message = "验证码不能为空") String code, McEntryInformation mcEntryinFormation) throws Exception {
-
-
-        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + moli + 0);
-        if (!code.equals(veriCode) && !code.equals("1111")) {
+        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + shopInformationEntryParameter.getMoli() + 0);
+        if (!shopInformationEntryParameter.getCode().equals(veriCode)) {
             // 验证码不存在
             throw new BusinessException("无效验证码");
         }
 
-        mcInfoService.addMcUserAndEntry(mcEntryinFormation,landingaccount,landingpassword,moli);
-
-
+        McEntryInformation mcEntryInformation = new McEntryInformation();
+        BeanUtils.copyProperties(shopInformationEntryParameter, mcEntryInformation);
+        mcInfoService.addMcUserAndEntry(mcEntryInformation,shopInformationEntryParameter.getLandingAccount(),shopInformationEntryParameter.getLandingPassword(),shopInformationEntryParameter.getMoli());
 
     }
+
+
 }

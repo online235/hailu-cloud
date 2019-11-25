@@ -122,7 +122,7 @@ public class LocalCircleEntry implements Serializable {
     /**
      * 审核
      */
-    private String toExamine;
+    private Integer toExamine;
 
     /**
      * 市Id

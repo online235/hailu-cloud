@@ -46,7 +46,7 @@ public class McEntryinFormationService {
         mcEntryinFormation.setNumberId(numberid);
         mcEntryinFormation.setCreatedat(time);
         mcEntryinFormation.setUpdatedat(time);
-        mcEntryinFormation.setToExamine(String.valueOf(Mceunm.IN_AUDIT.getKey()));
+        mcEntryinFormation.setToExamine(Mceunm.IN_AUDIT.getKey());
         int result = mcEntryinFormationMapper.insertSelective(mcEntryinFormation);
         if (result > 0) {
             Map<String, Object> stringObjectMap = new HashMap<>(1);
@@ -73,7 +73,7 @@ public class McEntryinFormationService {
      */
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation){
         mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
-        mcEntryinFormation.setToExamine("1");
+        mcEntryinFormation.setToExamine(1);
         mcEntryinFormation.setNumberId(null);
         mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);
     }
