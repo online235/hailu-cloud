@@ -86,7 +86,7 @@ public class AdminServiceImpl implements IAdminService {
 
         Page page = PageHelper.startPage(pageNum, pageSize);
         List<SysAdminModel> datas = adminMapper.accountList(nickName, account, enableStatus);
-        return new PageInfoModel<>(page.getPages(), datas);
+        return new PageInfoModel<>(page.getPages(), page.getTotal(), datas);
     }
 
     @Override

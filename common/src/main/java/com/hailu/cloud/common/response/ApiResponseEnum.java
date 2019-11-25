@@ -32,7 +32,7 @@ public enum ApiResponseEnum {
     /**
      * 服务器内部异常
      */
-    SERVER_ERROR(500, "服务器内部异常"),
+    SERVER_ERROR(500, "服务器出现了点小问题"),
     /**
      * 业务异常
      */

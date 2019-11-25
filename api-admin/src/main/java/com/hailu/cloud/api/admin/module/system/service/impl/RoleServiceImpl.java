@@ -37,7 +37,7 @@ public class RoleServiceImpl implements IRoleService {
 
         Page page = PageHelper.startPage(pageNum, pageSize);
         List<SysRoleModel> datas = roleMapper.roleList(roleName, enableStatus);
-        return new PageInfoModel<>(page.getPages(), datas);
+        return new PageInfoModel<>(page.getPages(), page.getTotal(), datas);
     }
 
     @Override

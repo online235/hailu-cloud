@@ -37,7 +37,7 @@ public class MenuServiceImpl implements IMenuService {
 
         Page page = PageHelper.startPage(pageNum, pageSize);
         List<SysMenuModel> datas = menuMapper.menuList(menuName, menuType, enableStatus);
-        return new PageInfoModel<>(page.getPages(), datas);
+        return new PageInfoModel<>(page.getPages(), page.getTotal(), datas);
     }
 
     @Override

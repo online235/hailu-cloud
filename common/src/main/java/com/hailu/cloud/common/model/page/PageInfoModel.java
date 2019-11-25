@@ -18,6 +18,11 @@ public class PageInfoModel<T> {
     private int totalPage;
 
     /**
+     * 总记录数
+     */
+    private long total;
+
+    /**
      * 分页数据
      */
     private T datas;
