@@ -112,5 +112,10 @@ public class McStoreInformation {
      */
     private Integer toExamine;
 
+    /**
+     * 每周营业日用，“；”隔开（例1；2；3；4:）
+     */
+    private String weekDay;
+
 
 }
