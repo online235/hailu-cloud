@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
  * @Author zhangmugui
  * @Date 2019.11.19
  */
-@Data
+
 @ApiModel
 public class RegisterInformation {
 

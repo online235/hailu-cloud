@@ -127,17 +127,17 @@ public class LocalCircleEntry implements Serializable {
     /**
      * 市Id
      */
-    private Long cityCode;
+    private String cityCode;
 
     /**
      * 省Id
      */
-    private Long provinceCode;
+    private String provinceCode;
 
     /**
      * 区Id
      */
-    private Long areaCode;
+    private String areaCode;
 
     /**
      * 详细地址

@@ -132,17 +132,17 @@ public class McEntryInformation implements Serializable {
     /**
      * 店铺市Id
      */
-    private Long cityCode;
+    private String cityCode;
 
     /**
      * 店铺省Id
      */
-    private Long provinceCode;
+    private String provinceCode;
 
     /**
      * 店铺区Id
      */
-    private Long areaCode;
+    private String areaCode;
 
     /**
      * 详细地址

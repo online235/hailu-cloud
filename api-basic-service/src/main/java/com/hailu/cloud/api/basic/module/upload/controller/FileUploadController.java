@@ -55,7 +55,7 @@ public class FileUploadController {
             @NotBlank(message = "业务标识不能为空")
             @PathVariable("businessCode") String businessCode,
             @RequestParam(value = "imageCompress", required = false, defaultValue = "false") Boolean imageCompress,
-            @RequestParam(value = "compressQuality", required = false, defaultValue = "false") Double compressQuality) throws BusinessException {
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") Double compressQuality) throws BusinessException {
 
         return fileUploadService.multi(businessCode, imageCompress, compressQuality, files);
     }
@@ -80,7 +80,7 @@ public class FileUploadController {
             @NotBlank(message = "业务标识不能为空")
             @PathVariable("businessCode") String businessCode,
             @RequestParam(value = "imageCompress", required = false, defaultValue = "false") Boolean imageCompress,
-            @RequestParam(value = "compressQuality", required = false, defaultValue = "false") Double compressQuality) throws BusinessException {
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") Double compressQuality) throws BusinessException {
 
         return fileUploadService.single(businessCode, imageCompress, compressQuality, file);
     }
