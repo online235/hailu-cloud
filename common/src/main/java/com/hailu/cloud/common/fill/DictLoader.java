@@ -87,7 +87,27 @@ public class DictLoader {
             if (StringUtils.isBlank(dictValue)) {
                 continue;
             }
-            String displayName = dataCollection.dictMapping(dictName.code(), dictValue);
+            String displayName;
+            if (dictValue.contains(",")) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String item : dictValue.split(",")) {
+                    item = item.trim();
+                    if( StringUtils.isBlank(item) ){
+                        continue;
+                    }
+                    String itemDisplayName = dataCollection.dictMapping(dictName.code(), item);
+                    if (StringUtils.isBlank(itemDisplayName)) {
+                        continue;
+                    }
+                    if (stringBuilder.length() > 0) {
+                        stringBuilder.append(",");
+                    }
+                    stringBuilder.append(itemDisplayName);
+                }
+                displayName = stringBuilder.toString();
+            } else {
+                displayName = dataCollection.dictMapping(dictName.code(), dictValue);
+            }
             if (StringUtils.isBlank(displayName)) {
                 continue;
             }

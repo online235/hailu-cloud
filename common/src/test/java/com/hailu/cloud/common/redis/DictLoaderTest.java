@@ -142,7 +142,7 @@ public class DictLoaderTest {
         }};
 
         PersonModel root = new PersonModel();
-        root.setCategoryId("1001");
+        root.setCategoryId("100,1001,200,1002");
 
         PersonModel level2 = new PersonModel();
         level2.setCategoryId("1002");
