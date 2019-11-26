@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
  */
 
 @ApiModel
+@Data
 public class RegisterInformation {
 
     @ApiParam(name = "shopName", value = "店铺名称", required = true)
