@@ -1,7 +1,7 @@
 spring:
   cloud:
     consul:
-      host: 192.168.10.243
+      host: 127.0.0.1
       port: 8500
   datasource:
     url: jdbc:mysql://192.168.10.243:3306/ddkjdb?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useAffectedRows=true&serverTimezone=UTC

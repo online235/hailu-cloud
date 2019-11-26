@@ -102,11 +102,11 @@ public class McUserAppContrller {
             // 验证码不存在
             throw new BusinessException("无效验证码");
         }
-        McEntryInformation mcEntryInformation = new McEntryInformation();
-        BeanUtils.copyProperties(shopInformationEntryParameter, mcEntryInformation);
-        mcInfoService.addMcUserAndEntry(mcEntryInformation,shopInformationEntryParameter.getLandingAccount(),shopInformationEntryParameter.getLandingPassword(),shopInformationEntryParameter.getMoli());
+        mcInfoService.addMcUserAndEntry(shopInformationEntryParameter,2);
 
     }
+
+
 
 
 }

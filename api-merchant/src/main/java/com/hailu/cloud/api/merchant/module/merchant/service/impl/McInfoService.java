@@ -9,6 +9,7 @@ import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
+import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.BeanUtils;
@@ -54,67 +55,37 @@ public class McInfoService {
 
     /**
      * 商家注册以及入驻
+     *
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public void addMcUserAndEntry(McEntryInformation mcEntryinFormation, String landingAccount, String landingPassword, String moli) throws BusinessException {
-        McUser mcUser = new McUser();
-        mcUser.setLandingAccount(landingPassword);
-        mcUser.setPhone(moli);
-        boolean user = false;
-        //判断账号是否存在
-        user = mcUserService.exists(mcUser.getLandingAccount());
-        if (user) {
-            throw new BusinessException("账号以存在");
-        }
+    public void addMcUserAndEntry(ShopInformationEntryParameter shopInformationEntryParameter, Integer accountType) throws BusinessException {
 
-        //判断手机号码是否绑定
-        user = mcUserService.isBind(mcUser.getPhone());
-        if (user) {
-            throw new BusinessException("手机号码以绑定");
+        String mcNumberId = mcUserService.insertSelective(shopInformationEntryParameter.getLandingAccount(), shopInformationEntryParameter.getLandingPassword(), shopInformationEntryParameter.getMoli(), shopInformationEntryParameter.getCode(), accountType);
+
+        McEntryInformation mcEntryInformation = new McEntryInformation();
+        BeanUtils.copyProperties(shopInformationEntryParameter, mcEntryInformation);
+        if (mcEntryInformation == null) {
+            throw new BusinessException("数据状态不正确");
         }
-        //生成时间戳
+        boolean boo = mcEntryinFormationService.selectMcEntryinFormationById(mcNumberId);
+        if (boo) {
+            throw new BusinessException("信息已存在");
+        }
         long time = System.currentTimeMillis();
-        //生成登陆token
-//        String accessToken = TokenProccessor.getInstance().makeToken();
-        //生成涮新token
-//        String refreshToken = TokenProccessor.getInstance().makeToken();
         //生成随机ID
-        String numberId = String.valueOf(uuidFeignClient.uuid().getData());
-        //密码加密
-        String password = SecureUtil.sha256(landingAccount + "&key=" + signKey);
-        mcUser.setNumberId(numberId);
-        mcUser.setLandingPassword(password);
-        mcUser.setNetworkName(landingPassword);
-        mcUser.setAccountType(Mceunm.DEPARTMENT_STORE_SHOPPING.getKey());
-        mcUser.setCreatedat(time);
-        mcUser.setUpdatedat(time);
-        //添加商户
-        int mcUserResult = mcUserMapper.insertSelective(mcUser);
-        if (mcUserResult > 0) {
-            if (mcEntryinFormation == null) {
-                throw new BusinessException("数据状态不正确");
-            }
-            boolean boo = mcEntryinFormationService.selectMcEntryinFormationById(numberId);
-            if (boo){
-                throw new BusinessException("信息已存在");
-            }
-            //生成随机ID
-            String mcnumberid = String.valueOf(uuidFeignClient.uuid());
-            mcEntryinFormation.setNumberId(mcnumberid);
-            mcEntryinFormation.setCreatedat(time);
-            mcEntryinFormation.setUpdatedat(time);
-            mcEntryinFormation.setToExamine(Mceunm.IN_AUDIT.getKey());
-            mcEntryinFormation.setMcNumberId(numberId);
-            int result = mcEntryinFormationMapper.insertSelective(mcEntryinFormation);
-            if (result == 0) {
-                mcUserService.delUser(numberId);
-            }
-            McStoreInformation mcStoreInformation = new McStoreInformation();
-            BeanUtils.copyProperties(mcEntryinFormation, mcStoreInformation);
-            mcStoreInformationService.insertSelective(mcStoreInformation);
-
-        }
+        String mcnumberid = String.valueOf(uuidFeignClient.uuid().getData());
+        mcEntryInformation.setNumberId(mcnumberid);
+        mcEntryInformation.setCreatedat(time);
+        mcEntryInformation.setUpdatedat(time);
+        mcEntryInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
+        mcEntryInformation.setMcNumberId(mcNumberId);
+        mcEntryinFormationMapper.insertSelective(mcEntryInformation);
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        BeanUtils.copyProperties(mcEntryInformation, mcStoreInformation);
+        mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }
+
+
 }

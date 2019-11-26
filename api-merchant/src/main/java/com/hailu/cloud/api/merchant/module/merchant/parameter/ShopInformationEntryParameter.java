@@ -24,11 +24,12 @@ public class ShopInformationEntryParameter {
 
     @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id", required = true)
     @NotEmpty
-    private Integer firstManagementTypeId;
+    private Long firstManagementTypeId;
 
 
     @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id", required = true)
-    private Integer secondManagementTypeId;
+    @NotEmpty
+    private Long secondManagementTypeId;
 
 
     @ApiParam(name = "provinceCode", value = "省的code值", required = true)
@@ -166,14 +167,14 @@ public class ShopInformationEntryParameter {
     /**
      * 注册登陆账号
      */
-    @ApiParam(name = "landingaccount", value = "注册登陆账号", required = true)
+    @ApiParam(name = "landingAccount", value = "注册登陆账号", required = true)
     private String landingAccount;
 
 
     /**
      * 注册登陆密码
      */
-    @ApiParam(name = "landingpassword", value = "注册登陆密码", required = true)
+    @ApiParam(name = "landingPassword", value = "注册登陆密码", required = true)
     private String landingPassword;
 
 

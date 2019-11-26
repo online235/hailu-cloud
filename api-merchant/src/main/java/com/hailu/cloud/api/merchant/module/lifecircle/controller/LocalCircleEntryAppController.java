@@ -49,7 +49,7 @@ public class LocalCircleEntryAppController {
     private McManagementTypeService mcManagementTypeService;
 
     @Autowired
-    private RedisStandAloneClient redis;
+    private RedisStandAloneClient redisStandAloneClient;
 
     @Resource
     private McUserService mcUserService;
@@ -111,11 +111,11 @@ public class LocalCircleEntryAppController {
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
         }
-        String val = redis.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
+        String val = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
         if (!registerInformation.getCode().equals(val) && !registerInformation.getCode().equals("111111") ) {
             throw new BusinessException("验证码不正确或输入手机号码有误！");
         }
-        localCircleEntryService.setLocalCircleEntry(registerInformation);
+        localCircleEntryService.setLocalCircleEntry(registerInformation,1);
 
     }
 
@@ -125,21 +125,20 @@ public class LocalCircleEntryAppController {
             "    'code': 200,\n" +
             "    'message': '请求成功',\n" +
             "    'data': [{\n" +
-            "            'managementId': 1,\n" +
-            "            'managementName': '美食',\n" +
-            "            'mcManagementTypeList': [{\n" +
-            "                    'managementId': 2,\n" +
-            "                    'parentId': 1,\n" +
-            "                    'managementName': '烧烤'\n" +
-            "                }, {\n" +
-            "                    'managementId': 3,\n" +
-            "                    'parentId': 1,\n" +
-            "                    'managementName': '饮料'\n" +
-            "                }\n" +
-            "            ]\n" +
+            "            'managementId': 5444781580777984,\n" +
+            "            'parentId': 0,\n" +
+            "            'managementName': '美食'\n" +
+            "        }, {\n" +
+            "            'managementId': 5455544768823811,\n" +
+            "            'parentId': 0,\n" +
+            "            'managementName': '酒店住宿'\n" +
+            "        }, {\n" +
+            "            'managementId': 5455544768823812,\n" +
+            "            'parentId': 0,\n" +
+            "            'managementName': '旅游景点'\n" +
             "        }\n" +
             "    ]\n" +
-            "}" +
+            "}\n" +
             "</pre>")
     @PostMapping("businessType")
     @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query",dataType = "Long")

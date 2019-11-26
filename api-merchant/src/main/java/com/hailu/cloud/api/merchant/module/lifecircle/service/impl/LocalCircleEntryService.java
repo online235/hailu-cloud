@@ -193,9 +193,9 @@ public class LocalCircleEntryService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public void setLocalCircleEntry(RegisterInformation registerInformation) throws BusinessException {
+    public void setLocalCircleEntry(RegisterInformation registerInformation,Integer accountType) throws BusinessException {
 
-        String  mcNumberId = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), registerInformation.getCode(),1);
+        String  mcNumberId = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), registerInformation.getCode(),accountType);
         LocalCircleEntry localCircleEntry = new LocalCircleEntry();
         BeanUtils.copyProperties(registerInformation, localCircleEntry);
         if (localCircleEntry == null) {
