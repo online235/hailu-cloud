@@ -1,5 +1,8 @@
+
 server:
   port: 30000
+  servlet:
+    context-path: /
 spring:
   application:
     name: service-gateway
