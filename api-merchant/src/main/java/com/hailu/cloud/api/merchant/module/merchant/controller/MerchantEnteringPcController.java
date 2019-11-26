@@ -89,7 +89,7 @@ public class MerchantEnteringPcController {
                 throw new BusinessException("无效验证码");
             }
         }
-        return mcUserService.insertSelective(landingaccount,landingpassword,phone, code);
+        return mcUserService.insertSelective(landingaccount,landingpassword,phone, code,2);
     }
 
 

@@ -246,8 +246,8 @@
     from mc_store_information
     where mc_number_id = #{mcNumberId} and to_examine = #{toExamine}
   </select>
-    <select id="selectMcEntryinFormationById" resultType="int">
-    select count(mc_number_id) from mc_store_information
+    <select id="selectMcEntryinFormationById" resultType="integer">
+    select IFNULL(count(mc_number_id),0) from mc_store_information
     where mc_number_id = #{mcNumberId}
   </select>
 

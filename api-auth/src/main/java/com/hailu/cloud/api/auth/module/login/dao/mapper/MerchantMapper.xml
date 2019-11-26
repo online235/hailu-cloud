@@ -7,7 +7,7 @@
             mu.number_id,
             mu.landing_account,
             mu.landing_password,
-            mu.networ_kname,
+            mu.network_name,
             mu.account_type,
             mu.phone,
             mei.to_examine
@@ -23,7 +23,7 @@
             mu.number_id,
             mu.landing_account,
             mu.landing_password,
-            mu.networ_kname,
+            mu.network_name,
             mu.account_type,
             mu.phone,
             mei.to_examine

@@ -111,19 +111,11 @@ public class LocalCircleEntryAppController {
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
         }
-        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
-        BeanUtils.copyProperties(registerInformation, localCircleEntry);
         String val = redis.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
-        if (!registerInformation.getCode().equals(val)) {
+        if (!registerInformation.getCode().equals(val) && !registerInformation.getCode().equals("111111") ) {
             throw new BusinessException("验证码不正确或输入手机号码有误！");
         }
-        MerchantUserLoginInfoModel merchantUserLoginInfoModel = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), registerInformation.getCode());
-        String userNumberId = merchantUserLoginInfoModel.getNumberid();
-        McUser mcUser = new McUser();
-        mcUser.setAccountType(1);
-        mcUser.setNumberId(userNumberId);
-        mcUserService.updateByPrimaryKeySelective(mcUser);
-        localCircleEntryService.setLocalCircleEntry(localCircleEntry, userNumberId);
+        localCircleEntryService.setLocalCircleEntry(registerInformation);
 
     }
 

@@ -8,7 +8,7 @@
     idcard_imgy, idcardtermof_validity, long_term_certificate, first_management_type_id, business_license_number,
     business_name, name_of_legal_person, license_date, long_term_license, license_positive,
     third_party_links, invitation_code, service_provider_or_not, to_examine, city_code,
-    province_code, area_code, detail_address, remarks, createdat, updatedat ,enclosures,billing_method ,second_management_type_id
+    province_code, area_code, detail_address, remarks, createdat, updatedat ,enclosures ,second_management_type_id
   </sql>
 
 
@@ -33,7 +33,7 @@
       business_name, name_of_legal_person, license_date,
       long_term_license, license_positive, third_party_links,
       invitation_code, service_provider_or_not, to_examine, city_code,
-      city_code, province_code, remarks, area_code, detail_address,enclosures,billing_method,second_management_type_id
+      city_code, province_code, remarks, area_code, detail_address,enclosures,second_management_type_id
       createdat, updatedat)
     values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{projectType,jdbcType=CHAR},
       #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
@@ -43,7 +43,7 @@
       #{longTermLicense,jdbcType=BIGINT}, #{licensePositive,jdbcType=VARCHAR}, #{thirdPartyLinks,jdbcType=VARCHAR},
       #{invitationCode,jdbcType=VARCHAR}, #{serviceProviderOrNot,jdbcType=BIGINT}, #{toExamine,jdbcType=VARCHAR}, #{cityCode},
       #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{enclosures},#{secondManagementTypeId},
-      #{billingMethod},#{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
+      #{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
   </insert>
 
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry"
@@ -142,9 +142,6 @@
                 enclosures,
             </if>
 
-            <if test="billingMethod != null">
-                billing_method,
-            </if>
             <if test="secondManagementTypeId != null">
                 second_management_type_id,
             </if>
@@ -242,9 +239,7 @@
                 #{enclosures},
             </if>
 
-            <if test="billingMethod != null">
-                #{billingMethod},
-            </if>
+
             <if test="secondManagementTypeId != null">
                 #{secondManagementTypeId},
             </if>
@@ -344,9 +339,6 @@
                 enclosures = #{enclosures},
             </if>
 
-            <if test="billingMethod != null">
-                billing_method = #{billingMethod},
-            </if>
             <if test="secondManagementTypeId != null">
                 second_management_type_id = #{secondManagementTypeId},
             </if>
@@ -384,7 +376,6 @@
       createdat = #{createdat,jdbcType=BIGINT},
       updatedat = #{updatedat,jdbcType=BIGINT},
        enclosures = #{enclosures},
-       billing_method = #{billingMethod},
        second_management_type_id = #{secondManagementTypeId}
     where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
@@ -408,8 +399,8 @@
         </if>
     </select>
 
-    <select id="selectMcEntryinFormationById" resultType="int">
-    select count(mc_number_id) from local_circle_entry
+    <select id="selectMcEntryinFormationById" resultType="integer">
+    select IFNULL(count(mc_number_id),0) from local_circle_entry
     where mc_number_id = #{mcnumberid}
   </select>
 

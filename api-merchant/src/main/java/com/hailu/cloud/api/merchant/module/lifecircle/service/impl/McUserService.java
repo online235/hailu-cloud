@@ -14,6 +14,7 @@ import com.hailu.cloud.common.response.ApiResponseEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
@@ -30,7 +31,6 @@ import java.util.Map;
 public class McUserService {
     @Resource
     private McUserMapper mcUserMapper;
-
 
 
     @Autowired
@@ -59,7 +59,7 @@ public class McUserService {
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
-    public MerchantUserLoginInfoModel insertSelective(String landingAccount, String landingPassword, String phone, String code) throws BusinessException {
+    public String insertSelective(String landingAccount, String landingPassword, String phone, String code, Integer accountType) throws BusinessException {
 
         boolean user = false;
         //判断账号是否存在
@@ -81,23 +81,22 @@ public class McUserService {
         //密码加密
         McUser mcUser = new McUser();
         mcUser.setLandingAccount(landingAccount);
-        String password = SecureUtil.md5(SecureUtil.sha1("passwd=" + mcUser.getLandingPassword() + "&key=" + signKey));
+        String password = SecureUtil.sha256(landingPassword + "&key=" + signKey);
         mcUser.setNumberId(numberId);
         mcUser.setLandingPassword(password);
         mcUser.setNetworkName(mcUser.getLandingAccount());
-        mcUser.setAccountType(2);//默认保存为百货类型
+        mcUser.setAccountType(accountType);
         mcUser.setCreatedat(time);
         mcUser.setUpdatedat(time);
         //添加商户
-        mcUserMapper.insertSelective(mcUser);
-
-        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin("1", landingAccount, code);
-        if (loginInfo.getCode() == ApiResponseEnum.SUCCESS.getResponseCode()) {
-            return loginInfo.getData();
+        Integer result = mcUserMapper.insertSelective(mcUser);
+        if (result > 0) {
+            return numberId;
         }
-        throw new BusinessException(loginInfo.getMessage());
+        throw new BusinessException("插入失败");
 
     }
+
 
     /**
      * 修改商家登陆密码
@@ -232,10 +231,10 @@ public class McUserService {
      * 更新商户数据
      */
     public void updateByPrimaryKeySelective(McUser mcUser) throws BusinessException {
-       int result = mcUserMapper.updateByPrimaryKeySelective(mcUser);
-       if(result < 0){
-           throw new BusinessException("更新数据失败");
-       }
+        int result = mcUserMapper.updateByPrimaryKeySelective(mcUser);
+        if (result < 0) {
+            throw new BusinessException("更新数据失败");
+        }
 
     }
 

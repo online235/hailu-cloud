@@ -60,6 +60,6 @@ public interface McStoreInformationMapper {
      * @param mcNumberId
      * @return
      */
-    int selectMcEntryinFormationById(@Param("mcNumberId") String mcNumberId);
+    Integer selectMcEntryinFormationById(@Param("mcNumberId") String mcNumberId);
 
 }

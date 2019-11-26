@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -55,6 +56,7 @@ public class McInfoService {
      * 商家注册以及入驻
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     public void addMcUserAndEntry(McEntryInformation mcEntryinFormation, String landingAccount, String landingPassword, String moli) throws BusinessException {
         McUser mcUser = new McUser();
         mcUser.setLandingAccount(landingPassword);
@@ -78,7 +80,7 @@ public class McInfoService {
         //生成涮新token
 //        String refreshToken = TokenProccessor.getInstance().makeToken();
         //生成随机ID
-        String numberId = String.valueOf(uuidFeignClient.uuid());
+        String numberId = String.valueOf(uuidFeignClient.uuid().getData());
         //密码加密
         String password = SecureUtil.sha256(landingAccount + "&key=" + signKey);
         mcUser.setNumberId(numberId);
@@ -113,5 +115,6 @@ public class McInfoService {
             mcStoreInformationService.insertSelective(mcStoreInformation);
 
         }
+
     }
 }

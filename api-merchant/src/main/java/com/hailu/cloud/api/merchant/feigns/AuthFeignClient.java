@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.merchant.feigns;
 
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.response.ApiResponse;
@@ -30,14 +31,14 @@ public interface AuthFeignClient {
     /**
      * 登录
      * @param loginType
-     * @param phone
+     * @param account
      * @param pwd
      * @return
      */
-    @GetMapping("/login/{loginType}")
+    @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_AUTH + "/login/{loginType}")
     ApiResponse<MerchantUserLoginInfoModel> login(
             @PathVariable("loginType") String loginType,
-            @RequestParam("phone") String phone,
+            @RequestParam("account") String account,
             @RequestParam("pwd") String pwd);
 
 }

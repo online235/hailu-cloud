@@ -5,15 +5,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.merchant.module.lifecircle.dao.LocalCircleEntryMapper;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
+import com.hailu.cloud.api.merchant.module.lifecircle.entity.McUser;
+import com.hailu.cloud.api.merchant.module.lifecircle.parameter.RegisterInformation;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McStoreInformationMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -39,6 +43,9 @@ public class LocalCircleEntryService {
 
     @Resource
     private McStoreInformationService mcStoreInformationService;
+
+    @Resource
+    private McUserService mcUserService;
 
     /**
      * 添加入驻信息
@@ -159,7 +166,7 @@ public class LocalCircleEntryService {
         if (mcnumberid.isEmpty()){
             return true;
         }
-        int result = localCircleEntryMapper.selectMcEntryinFormationById(mcnumberid);
+        Integer result = localCircleEntryMapper.selectMcEntryinFormationById(mcnumberid);
         if (result == 0) {
             return false;
         }
@@ -182,29 +189,32 @@ public class LocalCircleEntryService {
      */
     /**
      * 添加入驻信息
-     * @param localCircleEntry
-     * @param userNumberId
+     * @param registerInformation
      * @return
      */
-    public void setLocalCircleEntry(LocalCircleEntry localCircleEntry,String userNumberId) throws BusinessException {
+    @Transactional(rollbackFor = Exception.class)
+    public void setLocalCircleEntry(RegisterInformation registerInformation) throws BusinessException {
 
+        String  mcNumberId = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), registerInformation.getCode(),1);
+        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
+        BeanUtils.copyProperties(registerInformation, localCircleEntry);
         if (localCircleEntry == null) {
             throw new BusinessException("入驻信息为空");
         }
-        boolean boo = selectMcEntryinFormationById(localCircleEntry.getMcNumberId());
+        boolean boo = selectMcEntryinFormationById(mcNumberId);
         if (boo){
             throw new BusinessException("入驻信息以填写");
         }
         //生成时间戳
         long time = System.currentTimeMillis();
         //生成随机ID
-        String numberid = String.valueOf(uuidFeign.uuid());
-        localCircleEntry.setMcNumberId(userNumberId);
+        String numberid = String.valueOf(uuidFeign.uuid().getData());
+        localCircleEntry.setMcNumberId(mcNumberId);
         localCircleEntry.setNumberId(numberid);
         localCircleEntry.setCreatedat(time);
         localCircleEntry.setUpdatedat(time);
         localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
-        int result = localCircleEntryMapper.insertSelective(localCircleEntry);
+        Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
         if (result <= 0) {
             throw new BusinessException("插入数据失败");
         }
