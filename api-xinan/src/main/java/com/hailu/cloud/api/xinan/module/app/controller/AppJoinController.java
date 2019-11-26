@@ -6,6 +6,7 @@ import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.IDCardCheck;
+import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @BelongsProject: litemall
@@ -83,12 +85,11 @@ public class AppJoinController {
             @ApiImplicitParam(name = "photoUrl", value = "图片地址（享受年费的时候必须上传）", paramType = "query", dataType = "String"),
     })
     public Object saveInsourd(
-            HttpServletRequest request,
             @NotBlank(message = "名称不能为空") String name,
-            @NotBlank @Length(min = 18, max = 18, message = "身份证格式不正确") String idCard,
-            @NotBlank(message = "参保人关系不能为空") Integer memberRelation,
-            @NotBlank(message = "参保人证件类型不能为空") Integer type,
-            @NotBlank(message = "是否享受年费机制值不能为空") Integer isYearEnjoy,
+            @NotBlank(message = "身份证格式不正确！") String idCard,
+            @NotNull(message = "参保人关系不能为空") Integer memberRelation,
+            @NotNull(message = "参保人证件类型不能为空") Integer type,
+            @NotNull(message = "是否享受年费机制值不能为空") Integer isYearEnjoy,
             String photoUrl) throws BusinessException {
 
         log.info("保存参保人信息:姓名" + name + " 身份证号码：" + idCard + " 身份证号码：" + idCard + " 参保人关系：" + memberRelation + " 参保人证件类型：" + type + " 是否享受年费机制：" + isYearEnjoy + " 图片地址：" + photoUrl);
@@ -98,8 +99,7 @@ public class AppJoinController {
             //TODO:身份不合法
             throw new BusinessException("身份证与姓名不匹配");
         }
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        return insuredService.addOrEditInsured(name, idCard, loginInfo.getUserId(), memberRelation, type, isYearEnjoy, photoUrl);
+        return insuredService.addOrEditInsured(name, idCard, RequestUtils.getMemberLoginInfo().getUserId(), memberRelation, type, isYearEnjoy, photoUrl);
     }
 
 

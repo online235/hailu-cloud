@@ -16,14 +16,13 @@ import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(value = "api/user")
 public class UserController  {
 
@@ -45,7 +44,6 @@ public class UserController  {
      * @throws Exception
      */
     @RequestMapping(value = "upUserInfo", method = RequestMethod.POST)
-    @ResponseBody
     public Boolean updateUserInfo(@ModelAttribute UserInfoVo userInfoVo,
                                                 @ModelAttribute BaseRequest baseInfo) throws Exception {
         log.info("用户信息更新|userInfoVo={}|param={}", userInfoVo, baseInfo);
@@ -58,7 +56,6 @@ public class UserController  {
      * @return
      */
     @RequestMapping(value = "getUserInfoVo", method = RequestMethod.POST)
-    @ResponseBody
     public UserInfoVo login(
             @RequestParam(value = "userId", required = true) String userId
     ) throws Exception {
@@ -93,7 +90,6 @@ public class UserController  {
     }
 
     @RequestMapping(value = "realName", method = RequestMethod.POST)
-    @ResponseBody
     public void realName(@RequestParam(value = "userId", required = true) String userId,
                                                       @RequestParam(value = "userName", required = false) String userName,
                                                       @RequestParam(value = "idcard", required = false) String idcard,
@@ -123,7 +119,6 @@ public class UserController  {
     }
 
     @RequestMapping(value = "getRealName", method = RequestMethod.GET)
-    @ResponseBody
     public Map<String, Object> getRealName(@RequestParam(value = "userId", required = true) String userId
     ) throws Exception {
         log.info("用户实名认证信息|userId={}", userId);
@@ -144,7 +139,6 @@ public class UserController  {
      * @throws Exception
      */
     @RequestMapping(value = "updatePwd", method = RequestMethod.POST)
-    @ResponseBody
     public Boolean updatePwd(@RequestParam String userId,
                                            @RequestParam String loginName,
                                            @RequestParam String oldPwd,
@@ -163,7 +157,6 @@ public class UserController  {
      * @throws Exception
      */
     @RequestMapping(value = "addFeedback", method = RequestMethod.POST)
-    @ResponseBody
     public Boolean addFeedback(@ModelAttribute UserFeedbackVO userFeedbackVO,
                                              @ModelAttribute BaseRequest baseInfo) throws Exception {
 
@@ -185,7 +178,6 @@ public class UserController  {
      * @throws Exception
      */
     @RequestMapping(value = "sign", method = RequestMethod.POST)
-    @ResponseBody
     public Map<String, Object> sign(@ModelAttribute UserSignVO userSignVO,
                                                   @ModelAttribute BaseRequest baseInfo) throws Exception {
         log.info("签到|userSignVO|param={}", userSignVO, baseInfo);
@@ -203,7 +195,6 @@ public class UserController  {
     }
 
     @RequestMapping(value = "getSign", method = RequestMethod.GET)
-    @ResponseBody
     public UserSignVO getSign(@ModelAttribute UserSignVO userSignVO,
                                             @ModelAttribute BaseRequest baseInfo) throws Exception {
         log.info("签到|userSignVO|param={}", userSignVO, baseInfo);
@@ -227,7 +218,6 @@ public class UserController  {
      * @throws Exception
      */
     @RequestMapping(value = "isCanSign", method = RequestMethod.POST)
-    @ResponseBody
     public Boolean isCanSign(@ModelAttribute UserSignVO userSignVO,
                                            @ModelAttribute BaseRequest baseInfo) throws Exception {
         log.info("签到|userSignVO|param={}", userSignVO, baseInfo);
@@ -246,7 +236,6 @@ public class UserController  {
      * @return
      */
     @RequestMapping(value = "save/weChatUser", method = RequestMethod.POST)
-    @ResponseBody
     public UserInfo saveWeChatUser(@RequestParam(value = "userId", required = true) String userId) {
         return userInfoService.saveWeChatUset(userId);
     }
@@ -261,7 +250,6 @@ public class UserController  {
      * @Author huangl
      */
     @RequestMapping(value = "setPayPwd", method = RequestMethod.POST)
-    @ResponseBody
     public void setPayPwd(@RequestParam(value = "userId", required = true) String userId,
                                           @RequestParam(value = "payPwd", required = true) String payPwd, @RequestParam("type") int type) throws Exception {
         log.info("设置支付密码", "");
@@ -269,7 +257,6 @@ public class UserController  {
     }
 
     @RequestMapping(value = "verifyIsAlterPwd", method = RequestMethod.POST)
-    @ResponseBody
     public Boolean verifyIsAlterPwd(@RequestParam(value = "userId", required = true) String userId, //用户id
                                                   @RequestParam(value = "payPwd", required = true) String payPwd, //原密码
                                                   @RequestParam(value = "name", required = true) String name,  //姓名
@@ -288,7 +275,6 @@ public class UserController  {
      * @Author huangl
      */
     @RequestMapping(value = "updatePayPwd", method = RequestMethod.POST)
-    @ResponseBody
     public void updatePayPwd(@RequestParam(value = "userId", required = true) String userId,
                                              @RequestParam(value = "payPwd", required = true) String payPwd,
                                              @RequestParam(value = "newPayPwd", required = true) String newPayPwd) throws Exception {
@@ -305,7 +291,7 @@ public class UserController  {
      * 并不需要这个重复的接口 , 就注释掉了
      */
     /*@RequestMapping(value = "sendForgetPayPwdSmsCode", method = RequestMethod.POST)
-	@ResponseBody
+	 
 	public ResponseData<Boolean> sendForgetPayPwdSmsCode(@RequestParam(value="account",required=true) String account) throws Exception {
 		log.info("发送短信 |account={}", account);
 		return userInfoService.sendForgetPwdSmsCode(account);
@@ -320,7 +306,6 @@ public class UserController  {
      * @Author huangl
      */
     @RequestMapping(value = "verifyIsSetPwd", method = RequestMethod.POST)
-    @ResponseBody
     public Boolean verifyIsSetPwd(@RequestParam(value = "account", required = true) String account, //手机号码
                                                 @RequestParam(value = "smsCode", required = true) String smsCode, //短信验证码
                                                 @RequestParam(value = "name", required = true) String name,  //姓名
@@ -339,7 +324,7 @@ public class UserController  {
      * @param: TODO 说明:验证是否可以修改手机号码
      **/
     @RequestMapping(value = "/verifyAccountIfUpdate", method = RequestMethod.POST)
-    @ResponseBody
+     
     public Integer verifyAccountIfUpdate(@RequestParam String phone, @RequestParam String msg) {
         try {
             Integer state = userInfoService.verifyAccountIfUpdate(phone, msg);
@@ -356,9 +341,35 @@ public class UserController  {
      * @param: TODO 说明:修改用户手机号
      **/
     @RequestMapping(value = "/updateUserPhone", method = RequestMethod.POST)
-    @ResponseBody
     public Integer updateUserPhone(@RequestParam String phone, @RequestParam String msg, @RequestParam String userId) {
         return userInfoService.updateUserPhone(phone, msg, userId);
+    }
+
+    /**
+     * 根据UserId获取信息
+     * @param userId
+     * @return
+     */
+    @GetMapping("/findById")
+    public UserInfo findById(@RequestParam(value = "userId")String userId){
+        return userInfoService.findById(userId);
+    }
+
+    /**
+     * 将用户更改成服务商
+     * @param userId
+     * @param merchantType
+     * @param superiorMember
+     * @param cityId
+     */
+    @PostMapping("/editMerchantTypeAndSuperiorMember")
+    public void editMerchantTypeAndSuperiorMember(
+            @RequestParam("userId") String userId,
+            @RequestParam("merchantType") int merchantType,
+            @RequestParam("superiorMember")String superiorMember,
+            @RequestParam("cityId")Long cityId
+    ){
+        userInfoService.editMerchantTypeAndSuperiorMember(userId,merchantType,superiorMember,cityId);
     }
 
 }

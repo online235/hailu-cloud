@@ -1,23 +1,15 @@
 package com.hailu.cloud.api.mall.module.sys.controller;
 
 import com.hailu.cloud.api.mall.module.goods.service.IOSSOrderService;
-import com.hailu.cloud.api.mall.module.pay.service.Impl.BuyMemberServiceImpl;
-import com.hailu.cloud.api.mall.module.pay.service.Impl.MallPayServiceImpl;
-import com.hailu.cloud.api.mall.module.pay.service.Impl.XinanPayServiceImpl;
-import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 支付
@@ -26,19 +18,10 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "api/sys")
 public class SysPayController  {
-//    @Autowired
-//    private IBalanceDetailService balanceDetailService;
     @Autowired
     private IOSSOrderService ossOrderService;
 
-    @Autowired
-    private MallPayServiceImpl mallPayService;
 
-    @Autowired
-    private XinanPayServiceImpl xinanPayService;
-
-    @Autowired
-    private BuyMemberServiceImpl buyMemberService;
 
 
     /**
@@ -190,170 +173,13 @@ public class SysPayController  {
      * @returnN
      */
     @ResponseBody
-    @RequestMapping(value = "/weixinBack")
+    @RequestMapping(value = "/callbackweixin")
     public String weixinBack(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws Exception {
-        return null;
-//        log.info("微信回调开始");
-//        Map<String, String> map = WechatUtil.xmlToMap(httpRequest.getInputStream());
-//        log.info("微信返回数据：{}",map.toString());
-//       String attach =  map.get("attach");
-//       if(attach == null){
-//           return "<xml><return_code><![CDATA[FAIL]]></return_code></xml>";
-//       }
-//        JSONObject result = JSONObject.parseObject(attach);
-//       if(result.getString("payFrom").equals("XA")){
-//           return xinanPayService.weCatCallback(httpRequest,map);
-//       }else if(result.getString("payFrom").equals("HL")){
-//            return buyMemberService.weCatCallback(httpRequest,map);
-//       }
-//       else {
-//           return mallPayService.weCatCallback(httpRequest,map);
-//       }
+        log.info("微信回调开始");
+        ossOrderService.callback(com.hailu.cloud.common.util.wechat.WechatUtil.weCatCallback(com.hailu.cloud.common.util.wechat.WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
+        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
 
-//        String out_trade_no = "";
-//        String transaction_id = "";
-//        Map<String, String> map = WechatUtil.xmlToMap(httpRequest.getInputStream());
-//        Map<String, String> retMap = new HashMap<String, String>();
-//        String returnCode = map.get("return_code");
-//        if ("SUCCESS".equals(returnCode)) {
-//            String resultCode = map.get("result_code");
-//            if ("SUCCESS".equals(resultCode)) {
-//                out_trade_no = map.get("out_trade_no");
-//                transaction_id = map.get("transaction_id");
-//                // 下面为业务逻辑处理：如果支付成功，则修改该用户的付费状态，更新付费时间。
-//                if (out_trade_no.substring(0, 2).equals("CZ")) {
-//                    // 得到充值訂單
-//                    BalanceRechargeVo irVo = balanceDetailService.getBalanceRecharge(out_trade_no);
-//                    if (irVo != null) {
-//                        rechargeBalance(irVo, 2);
-//                    }
-//                } else {
-//                    if (out_trade_no.substring(out_trade_no.length() - 1, out_trade_no.length()).equals("s")) {
-//                        out_trade_no = out_trade_no.substring(0, out_trade_no.length() - 1);
-//                    }
-//                    if (out_trade_no.length() > 16) {
-//                        out_trade_no = out_trade_no.substring(0, 15);
-//                    }
-//                    OrderToVo ol = orderService.findByOrderSn(out_trade_no);
-//                    // 直接下單
-//                    if (ol != null) {
-//                        if (ol.getOrderState() == 1) {
-//                            DecimalFormat df = new DecimalFormat("######0.00");
-//                            String cash_fee = map.get("cash_fee");
-//                            double fee = Double.parseDouble(cash_fee) / 100;
-//                            fee = Double.parseDouble(df.format(fee));
-//                            if (ol.getPaymentState() == 0) {
-//                                OrderPay op = new OrderPay();
-//                                op.setApiPayState(1);
-//                                op.setBuyerId(ol.getUserId());
-//                                op.setPaySn(transaction_id);
-//                                op.setOrderSn(out_trade_no);
-//                                op.setPayTime(System.currentTimeMillis());
-//                                op.setPayType(2);
-//                                op.setWechatSource("APP");
-//
-//                                OrderToPay otp = new OrderToPay();
-//                                otp.setOrderId(ol.getOrderId());
-//                                otp.setPaymentName("微信");
-//                                otp.setPaymentState(1);
-//                                otp.setPaymentTime(System.currentTimeMillis());
-//                                // 是否預定
-//                                if (ol.getIsReserve() == 1) {
-//                                    // 第一階段是否支付
-//                                    if (ol.getOneIsPay() == 0 && fee == ol.getReserveOneAmount()) {
-//                                        // 根據訂單編號查詢訂單支付詳情如果有就不改變狀態
-//                                        int count = orderService.getOrderPayCount(out_trade_no);
-//                                        if (count == 0) {
-//                                            otp.setOneIsPay(1);
-//                                            otp.setPaymentState(0);// 是否支付
-//                                            op.setPayAmount(ol.getReserveOneAmount());
-//                                        } else {
-//                                            return null;
-//                                        }
-//                                    } else if (fee == ol.getReserveTwoAmount() && map.get("attach").equals("2")) {
-//                                        otp.setTwoIsPay(1);
-//                                        otp.setOrderState(2);
-//                                        op.setPayAmount(ol.getReserveTwoAmount());
-//                                    } else {
-//                                        return null;
-//                                    }
-//                                } else {
-//                                    otp.setOrderState(2);
-//                                    op.setPayAmount(ol.getOrderAmount());
-//                                }
-//                                orderService.updateOrderByPay(otp); // 更改訂單
-//                                orderService.addOrderPay(op); // 支付詳情
-//                                orderService.verifyCoupons(otp, ol);
-//                                if (otp.getOrderState() == 2) {
-//                                    ossOrderService.updateCommiss(ol);
-//                                }
-//                                System.out.println(
-//                                        "进入了支付回调，支付状态为:" + otp.getPaymentState() + "----订单状态为:" + otp.getOrderState());
-//                                log.info("支付成功！out_trade_no:" + out_trade_no + ", transaction_id:" + transaction_id);
-//                            }
-//                        }
-//                    }
-//                }
-//            } else {
-//                String errCode = map.get("err_code");
-//                log.error("支付失败！out_trade_no:" + ",result_code:" + resultCode + ", err_code:" + errCode);
-//                retMap.put("return_code", returnCode);
-//                retMap.put("return_msg", resultCode);
-//            }
-//        } else {
-//            String returnMsg = map.get("return_msg");
-//            retMap.put("return_code", returnCode);
-//            retMap.put("return_msg", returnMsg);
-//            log.error("支付通信失败！" + returnMsg);
-//        }
-//        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
     }
 
-//
-//    /**
-//     * @Author HuangL
-//     * @Description 充值余额
-//     * @Date 2018-10-25_15:10
-//     */
-//    private void rechargeBalance(BalanceRechargeVo irVo, int type) {
-//        if (irVo.getState() == 2) {
-//            irVo.setState(1);
-//            irVo.setPayTime(System.currentTimeMillis());
-//            irVo.setSource(type == 1 ? "支付宝" : "微信");
-//            balanceDetailService.updateBalanceRecharge(irVo);
-//            // 增加余额记录
-//            BalanceVo bdVo = new BalanceVo();
-//            bdVo.setAmount(irVo.getRechargeBalance());
-//            bdVo.setCreateTime(System.currentTimeMillis());
-//            bdVo.setType(1);
-//            bdVo.setUserId(irVo.getUserId());
-//            bdVo.setRemark(type == 1 ? "支付宝充值购买" : "微信充值购买");
-//            bdVo.setSerialNumber(balanceDetailService.getMaxSerialNumber());
-//            balanceDetailService.addBalanceRecord(bdVo);
-//
-//            log.info("支付成功");
-//        }
-//    }
 
-    /**
-     * @Author HuangL
-     * @Description 通过微信地址分享
-     * @Date 2018-10-30_09:14
-     */
-    @RequestMapping(value = "sendUrlWeChat", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> sendUrlWeChat(@RequestParam("url") String url) {
-        Map<String, Object> result = new HashMap<>();
-        try {
-            if (StringUtils.isNotEmpty(url)) {
-                Map<String, Object> map = ossOrderService.sendUrlWeChat(url);
-                return map;
-            } else {
-                throw new BusinessException("url is null");
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return result;
-    }
 }

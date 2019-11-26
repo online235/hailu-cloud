@@ -297,4 +297,13 @@ public interface IUserInfoService {
      * @return
      */
     int findPoviderPrice(Long merchantCityId);
+
+    /**
+     * 根据UserId获取信息
+     * @param userId
+     * @return
+     */
+    UserInfo findById(String userId);
+
+    void editMerchantTypeAndSuperiorMember(String userId,int merchantType,  String superiorMember,Long cityId);
 }

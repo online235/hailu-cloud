@@ -918,4 +918,19 @@ public class UserInfoServiceImpl implements IUserInfoService {
             return 8888;
         }
     }
+
+
+    @Override
+    public UserInfo findById(String userId) {
+        UserInfo userInfo = userInfoDao.byIdFindUser(userId);
+        if(userInfo != null){
+            return userInfo;
+        }
+        return null;
+    }
+
+    @Override
+    public void editMerchantTypeAndSuperiorMember(String userId,int merchantType,  String superiorMember,Long cityId) {
+        userInfoDao.editMerchantTypeAndSuperiorMember(userId,merchantType,superiorMember,cityId);
+    }
 }
