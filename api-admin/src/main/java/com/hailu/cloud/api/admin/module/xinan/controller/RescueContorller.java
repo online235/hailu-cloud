@@ -56,12 +56,12 @@ public class RescueContorller {
             "  ],\n" +
             "  'serverTime': 1573799041109\n" +
             "}</pre>")
-    @PostMapping("/rescueDetails")
+    @GetMapping("/rescueDetails")
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "String")
     })
-    public Object findRescue(String numberId) {
+    public Object findRescue(@NotBlank(message = "救助编号不能为空") String numberId) {
         return rescueInfoServiceBackstage.findRescue(numberId);
     }
 

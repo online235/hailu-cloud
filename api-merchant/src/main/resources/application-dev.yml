@@ -16,3 +16,8 @@ mybatis:
 redis:
   hostname: 192.168.10.243
   port: 6379
+
+# 商品后台管理开放出来的共享接口
+remote:
+  server:
+    address: http://127.0.0.1:8080/admin/api

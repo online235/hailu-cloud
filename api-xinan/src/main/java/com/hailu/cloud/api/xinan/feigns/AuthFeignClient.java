@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface AuthFeignClient {
 
     /**
-     * 登录
+     * 验证码登录
      * @param loginType
      * @param phone
      * @param code
@@ -21,6 +21,19 @@ public interface AuthFeignClient {
     ApiResponse<MerchantUserLoginInfoModel> vericodeLogin(
             @PathVariable("loginType") String loginType,
             @RequestParam("phone") String phone,
-            @RequestParam("code")String code);
+            @RequestParam("code") String code);
+
+    /**
+     * 登录
+     * @param loginType
+     * @param phone
+     * @param pwd
+     * @return
+     */
+    @GetMapping("/login/{loginType}")
+    ApiResponse<MerchantUserLoginInfoModel> login(
+            @PathVariable("loginType") String loginType,
+            @RequestParam("phone") String phone,
+            @RequestParam("pwd") String pwd);
 
 }
