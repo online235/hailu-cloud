@@ -46,8 +46,8 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
     @Autowired
     private PaymentFeignClient paymentFeignClient;
 
-    @Value("${static.server.prefix}")
-    private String serverPrefix;
+    @Value("${notify.server.url}")
+    private String serverUrl;
 
     @Autowired
     private LedgerFixedRatioServiceImpl ledgerFixedRatioService;
@@ -198,7 +198,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
             //IP地址
             payRequest.setIp(IPUtil.getRemoteHost(RequestUtils.getRequest()));
             //回调地址
-            payRequest.setNotifyUrl(serverPrefix+"/mall/api/sys/callbackweixin");
+            payRequest.setNotifyUrl(serverUrl+"/mall/api/sys/callbackweixin");
         } else {
             throw new BusinessException("不能重复支付");
         }
