@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/app/multiIndustry")
 @Validated
-@Api(tags = "商城-多行业-APP")
+@Api(tags = "商城-多行业-APP-店铺")
 @Slf4j
 public class StoreInformationController {
 
@@ -49,11 +49,11 @@ public class StoreInformationController {
 
     @ApiOperation(value = "店铺详细信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "店铺编号", required = true, dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "id", value = "店铺编号", required = true, paramType = "query")
     })
     @PostMapping("/shopDetails")
     public Object findStoreInformation(
-            @NotNull(message = "编号不能为空") Integer id){
+            @NotNull(message = "编号不能为空") Long id){
 
         return storeInformationService.findStoreInformation(id);
     }

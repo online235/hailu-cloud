@@ -23,7 +23,7 @@ public class PayService {
     private PayMapper payMapper;
 
     @Resource
-    private BasicFeignClient basicFeignClient;
+    private BasicFeignClient uuidFeign;
 
     /**
      * 保存或编辑

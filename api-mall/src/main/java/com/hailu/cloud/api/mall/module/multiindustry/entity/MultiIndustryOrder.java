@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class Order implements Serializable {
+public class MultiIndustryOrder implements Serializable {
     /**
      * 编号
      */
@@ -27,6 +27,11 @@ public class Order implements Serializable {
      * 用户ID
      */
     private String memberId;
+
+    /**
+     * 商品编号
+     */
+    private Long storeId;
 
     /**
      * 产品标题
@@ -66,7 +71,7 @@ public class Order implements Serializable {
     /**
      * 订单状态(未完成-1、已完成-2)
      */
-    private Long state;
+    private Integer state;
 
     /**
      * 下单时间

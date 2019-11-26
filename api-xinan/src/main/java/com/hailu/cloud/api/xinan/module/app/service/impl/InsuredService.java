@@ -350,42 +350,4 @@ public class InsuredService {
         }
         return resultJa;
     }
-
-    public Object findList(Integer page, Integer size) {
-        Page p = PageHelper.startPage(page, size);
-        List<Insured> insuredList = xaInsuredMapper.findListPage();
-        return new PageInfoModel<>(p.getPages(),p.getTotal(),insuredList);
-    }
-
-    /**
-     * 参保人详细信息
-     *
-     * @param id
-     * @return
-     */
-    public Object findInsuredById(String id) throws BusinessException {
-        Insured insured = xaInsuredMapper.selectByPrimaryKey(id);
-        if (insured == null) {
-            throw new BusinessException("未获取任何数据数据");
-        }
-        return insured;
-    }
-
-    /**
-     * 更改参保人状态
-     *
-     * @param memberStatus
-     * @param id
-     * @return
-     */
-    public void updInsureByMemberStatus(Integer memberStatus, String id) throws BusinessException {
-        if (memberStatus < 1 || memberStatus > 4 || id.isEmpty()) {
-            throw new BusinessException("状态或编号为空");
-        }
-        Insured insured = new Insured();
-        insured.setMemberStatus(memberStatus);
-        insured.setId(id);
-        xaInsuredMapper.updateByPrimaryKeySelective(insured);
-    }
-
 }

@@ -1,6 +1,6 @@
-package com.hailu.cloud.api.xinan.module.app.controller;
+package com.hailu.cloud.api.admin.module.xinan.controller;
 
-import com.hailu.cloud.api.xinan.module.app.service.impl.InsuredService;
+import com.hailu.cloud.api.admin.module.xinan.service.impl.InsuredService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

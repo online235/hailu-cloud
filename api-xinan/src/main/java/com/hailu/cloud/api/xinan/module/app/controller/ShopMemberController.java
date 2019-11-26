@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -41,8 +42,8 @@ public class ShopMemberController {
             @ApiImplicitParam(name="memberBirthday", value = "生日",  paramType="query", dataType = "Long"),
             @ApiImplicitParam(name="memberTruename", value = "真实姓名",  paramType="query", dataType = "String"),
     })
-    public void updateShopMemBer(@NotNull(message = "信息不能为空") ShopMember shopMember){
-        shopMemBerServicel.updateByPrimaryKeySelective(shopMember);
+    public void updateShopMemBer(@NotNull(message = "信息不能为空") ShopMember shopMember, HttpServletRequest request){
+        shopMemBerServicel.updateByPrimaryKeySelective(shopMember, request);
     }
 
 }

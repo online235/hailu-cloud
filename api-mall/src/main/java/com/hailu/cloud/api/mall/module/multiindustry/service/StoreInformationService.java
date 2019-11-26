@@ -19,5 +19,5 @@ public interface StoreInformationService {
      * @param id
      * @return
      */
-    StoreInformation findStoreInformation(Integer id);
+    StoreInformation findStoreInformation(Long id);
 }

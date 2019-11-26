@@ -25,7 +25,7 @@ public class StoreInformationImpl implements StoreInformationService {
     }
 
     @Override
-    public StoreInformation findStoreInformation(Integer id) {
+    public StoreInformation findStoreInformation(Long id) {
         return storeInformationMapper.findStoreInformation(id);
     }
 }

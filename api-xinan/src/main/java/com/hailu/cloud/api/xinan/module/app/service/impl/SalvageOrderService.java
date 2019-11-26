@@ -19,7 +19,7 @@ public class SalvageOrderService {
     private SalvageOrderMapper salvageOrderMapper;
 
     @Resource
-    private BasicFeignClient basicFeignClient;
+    private BasicFeignClient uuidFeign;
 
     /**
      * 保存救助支付订单

@@ -22,5 +22,5 @@ public interface StoreInformationMapper {
      * @param id
      * @return
      */
-    StoreInformation findStoreInformation(Integer id);
+    StoreInformation findStoreInformation(@Param("id") Long id);
 }
