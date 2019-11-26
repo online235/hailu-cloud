@@ -1,13 +1,14 @@
 package com.hailu.cloud.api.xinan.module.app.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -27,9 +28,9 @@ public class ShopMemBerService {
      * @return
      */
     public Object selectFindShopMember(String membername, String membermobile, Integer page,Integer limit) {
-        PageHelper.startPage(page,limit);
-        PageInfo pageInfo = new PageInfo(memberMapper.selectFindShopMember(membername, membermobile));
-        return pageInfo;
+        Page pageSize = PageHelper.startPage(page,limit);
+        List<ShopMember> datas = memberMapper.selectFindShopMember(membername, membermobile);
+        return new PageInfoModel<>(pageSize.getPages(), pageSize.getTotal(), datas);
     }
 
     /**

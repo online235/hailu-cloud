@@ -6,14 +6,15 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.xinan.module.app.dao.InsuredMapper;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.Insured;
 import com.hailu.cloud.api.xinan.module.app.entity.Order;
 import com.hailu.cloud.api.xinan.module.app.enums.MemberShopEnum;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -351,9 +352,9 @@ public class InsuredService {
     }
 
     public Object findList(Integer page, Integer size) {
-        PageHelper.startPage(page, size);
+        Page p = PageHelper.startPage(page, size);
         List<Insured> insuredList = xaInsuredMapper.findListPage();
-        return new PageInfo(insuredList);
+        return new PageInfoModel<>(p.getPages(),p.getTotal(),insuredList);
     }
 
     /**

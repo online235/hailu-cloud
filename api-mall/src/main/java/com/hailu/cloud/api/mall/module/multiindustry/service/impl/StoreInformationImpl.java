@@ -1,10 +1,11 @@
 package com.hailu.cloud.api.mall.module.multiindustry.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,9 +19,9 @@ public class StoreInformationImpl implements StoreInformationService {
 
     @Override
     public Object findStoreInformationList(Integer storeTotalType, Integer storeSonType, Integer size, Integer page) {
-        PageHelper.startPage(page, size);
-        PageInfo pageInfo = new PageInfo(storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType));
-        return pageInfo;
+        Page p = PageHelper.startPage(page, size);
+        List<StoreInformation> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType);
+        return new PageInfoModel<>(p.getPages(),p.getTotal(),datas);
     }
 
     @Override
