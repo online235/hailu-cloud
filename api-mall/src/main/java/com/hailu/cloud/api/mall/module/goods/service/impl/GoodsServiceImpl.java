@@ -1,7 +1,5 @@
 package com.hailu.cloud.api.mall.module.goods.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
@@ -17,12 +15,8 @@ import com.hailu.cloud.api.mall.module.goods.service.IGoodsService;
 import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
 import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
-import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.util.Const;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.http.ResponseUtil;
-import org.bouncycastle.asn1.ocsp.ResponseData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -103,94 +103,6 @@ id-card:
   showapi-sign: d6e4d493cce6431fb5dfa51b6266d0bd
   showapi-appid: 96312
 
-#心安支付信息
-xinan:
-  weixin:
-    # 微信开放平台审核通过的应用APPID
-    appid: wx28a66e8b774bd3f2
-    # 微信分配的支付密钥
-    key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
-    # 微信商户号
-    mchid: 1520607751
-    # 终端设备号 默认请传[web]
-    deviceinfo: WEB
-
-  alipay:
-    # 支付宝平台审核通过的APPID
-    appid: 2018102261770433
-    # 支付宝分配pid
-    pid: 2088231306500862
-    seller:
-      # 支付宝seller_id
-      id: dedashch@163.com
-    public:
-      # 支付宝公钥
-      key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAldc9k+B4VUVwZ0ZzHiT0iV81RdNGa4UXwT6IE1F5mGGlH21l1jJ2/2GHTyecSJ0gh5aDJNShSucB8yeNit9Paw1zdAsdMwS/M6kcUVpT6wPDw6PnkQIJFb4GXSH9FcmGeHgV9hazGwKaAekXMHZDC3FFLe41jVQN5ue/7qkCBEaaK0HnkKdpDsSFxJYhHn2w3WuXvm7Reb2CnXr4kPgY0mxwPdA9F62XaGMszpGnL5i7l397FT/i0yyFoM+cNAkhgmf1KV8JzuSOD7huO+0c75ip/7bREbyspwQUDs2HRj16nqVNSaw4zem2eCXld8vfCPA+GPykrudMdQzayVDXzQIDAQAB
-    rsa:
-      private:
-        # RSA(SHA1)密钥
-        key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCV1z2T4HhVRXBnRnMeJPSJXzVF00ZrhRfBPogTUXmYYaUfbWXWMnb/YYdPJ5xInSCHloMk1KFK5wHzJ42K309rDXN0Cx0zBL8zqRxRWlPrA8PDo+eRAgkVvgZdIf0VyYZ4eBX2FrMbApoB6RcwdkMLcUUt7jWNVA3m57/uqQIERporQeeQp2kOxIXEliEefbDda5e+btF5vYKdeviQ+BjSbHA90D0XrZdoYyzOkacvmLuXf3sVP+LTLIWgz5w0CSGCZ/UpXwnO5I4PuG477RzvmKn/ttERvKynBBQOzYdGPXqepU1JrDjN6bZ4JeV3y98I8D4Y/KSu50x1DNrJUNfNAgMBAAECggEAEJEhv83bwCHTUbfaVoTjfKTIMRYw/QZUIAuX4/roJM73AMiJr+sYeRgBa+EHSIgG5rbffRz9UFjGQGopHieekkmEcFoiOlfWBBI4jU4dZSifZmwi2EePVZYTAg0V/Gixs3QjiXftCZl6CagJ5lPNCeDWM0PZK+0VNGh/MhYBoRM5/FFj+ftRB4/VdSmSR1zCB8SWDQrYI1+X57WrGzTOyvcXvXbAEgWuKG3X9jlKs/GQ03k0Dd5Vo0ih2kd0M+t5fmVimjcKsoEC5o67/tWl+BCKWGZZ2bpACUiK24lQx7Qsr/66Gnx5zspkXa6FegS6+TxSJzek/u2mFXbJRYwGQQKBgQDGZeDHNoLAhddf9fSivm0StflLu3hq83FopnBF1v3IL9e81EgXasSW2zfxjgW1rdZcgzKBPLpYI662NOWaKKlO665lSwWLapj76zyYihieuOsbCT7u5Sh8gwp0AsoWSwnhNoz+xzCLBQIW5aMjfXDKFnklinVlo6InzTvQZd5RGQKBgQDBWE2LEgZPQrsVqVtZLN7lE+ww9khlCHY9dfYtkp+WhohzqFS5L3+AOseWZpaCdPXa6LPfhcPzoO0PH9aPPp0tCag3ED91bx3N75KRT7JD7fN/PjvidDlmEgHRFPspuGT5/g4y6Nk4zFwrwiy5VqFIUWLWk7GQWmLa6w3IKygO1QKBgFpvwkDM9lkwKXcStMsiprGqxdLhyAhopD+h7vfHArQoKt1mnt4dyzNBBoVTygKBFX/iRjlnJ0JaMZ/ZCPh2pIbXJA4EXqiolMfw+RRHjuV7QaB3XHqldwka6r7rLpdu6TgCF89jmRsl00gAsZbR7YIRMHQOY2lLZ/Vgtm1OokKxAoGBALKF92ue5AaRhi9VJgysGs+IWsFG1se7TXoojnu78/FIHXw1hK1NRzw+igW8ieLBXjWYQmX0nF87S0h4zGONnBF25kSZkw6639lECaB05xREBV6LNz48tLcjj1vgNJ1sLoiKZc/qIpCIWd7ptuQXMmqVA19AFmdEnhynhx05hA5VAoGBAMATURmskQCE2wC41nLy6G6sfebnfBUz6MXqtKEsgoH5cjok3ogsNfIHbmC8ce4ftIy4A8w7/ckMlj+hv5unN4AhseDL7G/3wuqgaHPVOGhrEystR7U92QiEz6IcNDNMVPukcCWcpLfT5iYn3AeJTvWMHIVsITwPkVwEM2fUozjN
-    aes:
-      private:
-        # AES密钥
-        key: pa3++t5SUdpCAOpQ8jtOUA==
-
-#海露支付信息
-hailu:
-#  weixin:
-#    # 微信开放平台审核通过的应用APPID
-#    appid: wx7200335f627f9ef8
-#    # 微信分配的支付密钥
-#    key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
-#    # 微信商户号
-#    mchid: 1536452051
-#    # 终端设备号 默认请传[web]
-#    deviceinfo: WEB
-#    #微信公众号获取openId秘钥
-#    openIdKey: 75553dce6344826d06c11e373a10b2db
-  weixin:
-    app:
-      # 微信开放平台审核通过的应用APPID
-      appid: wx28a66e8b774bd3f2
-      # 微信分配的支付密钥
-      key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
-      # 微信商户号
-      mchid: 1536452051
-      # 终端设备号 默认请传[web]
-      deviceinfo: WEB
-    #微信公众号
-    jsapi:
-      # 微信开放平台审核通过的应用APPID
-      appid: wx7200335f627f9ef8
-      # 微信分配的支付密钥
-      key: KXA2hBTvQze9GERCpPx3qUxA2B3nPfld
-      # 微信商户号
-      mchid: 1536452051
-      # 终端设备号 默认请传[web]
-      deviceinfo: WEB
-      #微信公众号获取openId秘钥
-      openIdKey:  75553dce6344826d06c11e373a10b2db
-
-  alipay:
-    # 支付宝平台审核通过的APPID
-    appid: 2018102261770433
-    # 支付宝分配pid
-    pid: 2088231306500862
-    seller:
-      # 支付宝seller_id
-      id: dedashch@163.com
-    public:
-      # 支付宝公钥
-      key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAldc9k+B4VUVwZ0ZzHiT0iV81RdNGa4UXwT6IE1F5mGGlH21l1jJ2/2GHTyecSJ0gh5aDJNShSucB8yeNit9Paw1zdAsdMwS/M6kcUVpT6wPDw6PnkQIJFb4GXSH9FcmGeHgV9hazGwKaAekXMHZDC3FFLe41jVQN5ue/7qkCBEaaK0HnkKdpDsSFxJYhHn2w3WuXvm7Reb2CnXr4kPgY0mxwPdA9F62XaGMszpGnL5i7l397FT/i0yyFoM+cNAkhgmf1KV8JzuSOD7huO+0c75ip/7bREbyspwQUDs2HRj16nqVNSaw4zem2eCXld8vfCPA+GPykrudMdQzayVDXzQIDAQAB
-    rsa:
-      private:
-        # RSA(SHA1)密钥
-        key: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCV1z2T4HhVRXBnRnMeJPSJXzVF00ZrhRfBPogTUXmYYaUfbWXWMnb/YYdPJ5xInSCHloMk1KFK5wHzJ42K309rDXN0Cx0zBL8zqRxRWlPrA8PDo+eRAgkVvgZdIf0VyYZ4eBX2FrMbApoB6RcwdkMLcUUt7jWNVA3m57/uqQIERporQeeQp2kOxIXEliEefbDda5e+btF5vYKdeviQ+BjSbHA90D0XrZdoYyzOkacvmLuXf3sVP+LTLIWgz5w0CSGCZ/UpXwnO5I4PuG477RzvmKn/ttERvKynBBQOzYdGPXqepU1JrDjN6bZ4JeV3y98I8D4Y/KSu50x1DNrJUNfNAgMBAAECggEAEJEhv83bwCHTUbfaVoTjfKTIMRYw/QZUIAuX4/roJM73AMiJr+sYeRgBa+EHSIgG5rbffRz9UFjGQGopHieekkmEcFoiOlfWBBI4jU4dZSifZmwi2EePVZYTAg0V/Gixs3QjiXftCZl6CagJ5lPNCeDWM0PZK+0VNGh/MhYBoRM5/FFj+ftRB4/VdSmSR1zCB8SWDQrYI1+X57WrGzTOyvcXvXbAEgWuKG3X9jlKs/GQ03k0Dd5Vo0ih2kd0M+t5fmVimjcKsoEC5o67/tWl+BCKWGZZ2bpACUiK24lQx7Qsr/66Gnx5zspkXa6FegS6+TxSJzek/u2mFXbJRYwGQQKBgQDGZeDHNoLAhddf9fSivm0StflLu3hq83FopnBF1v3IL9e81EgXasSW2zfxjgW1rdZcgzKBPLpYI662NOWaKKlO665lSwWLapj76zyYihieuOsbCT7u5Sh8gwp0AsoWSwnhNoz+xzCLBQIW5aMjfXDKFnklinVlo6InzTvQZd5RGQKBgQDBWE2LEgZPQrsVqVtZLN7lE+ww9khlCHY9dfYtkp+WhohzqFS5L3+AOseWZpaCdPXa6LPfhcPzoO0PH9aPPp0tCag3ED91bx3N75KRT7JD7fN/PjvidDlmEgHRFPspuGT5/g4y6Nk4zFwrwiy5VqFIUWLWk7GQWmLa6w3IKygO1QKBgFpvwkDM9lkwKXcStMsiprGqxdLhyAhopD+h7vfHArQoKt1mnt4dyzNBBoVTygKBFX/iRjlnJ0JaMZ/ZCPh2pIbXJA4EXqiolMfw+RRHjuV7QaB3XHqldwka6r7rLpdu6TgCF89jmRsl00gAsZbR7YIRMHQOY2lLZ/Vgtm1OokKxAoGBALKF92ue5AaRhi9VJgysGs+IWsFG1se7TXoojnu78/FIHXw1hK1NRzw+igW8ieLBXjWYQmX0nF87S0h4zGONnBF25kSZkw6639lECaB05xREBV6LNz48tLcjj1vgNJ1sLoiKZc/qIpCIWd7ptuQXMmqVA19AFmdEnhynhx05hA5VAoGBAMATURmskQCE2wC41nLy6G6sfebnfBUz6MXqtKEsgoH5cjok3ogsNfIHbmC8ce4ftIy4A8w7/ckMlj+hv5unN4AhseDL7G/3wuqgaHPVOGhrEystR7U92QiEz6IcNDNMVPukcCWcpLfT5iYn3AeJTvWMHIVsITwPkVwEM2fUozjN
-    aes:
-      private:
-        # AES密钥
-        key: pa3++t5SUdpCAOpQ8jtOUA==
-
 # 商品后台管理开放出来的共享接口
 remote:
   server:
@@ -205,6 +117,11 @@ static:
   # 编辑器图片、文件、视频访问前缀
   server:
     prefix: https://jphailus.utools.club/api/v1/
+
+notify:
+  # 编辑器图片、文件、视频访问前缀
+  server:
+    url: https://jphailus.utools.club/api/v1/
 
 merchant:
   commission:

@@ -6,14 +6,15 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.xinan.module.app.dao.InsuredMapper;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.Insured;
 import com.hailu.cloud.api.xinan.module.app.entity.Order;
 import com.hailu.cloud.api.xinan.module.app.enums.MemberShopEnum;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -349,42 +350,4 @@ public class InsuredService {
         }
         return resultJa;
     }
-
-    public Object findList(Integer page, Integer size) {
-        PageHelper.startPage(page, size);
-        List<Insured> insuredList = xaInsuredMapper.findListPage();
-        return new PageInfo(insuredList);
-    }
-
-    /**
-     * 参保人详细信息
-     *
-     * @param id
-     * @return
-     */
-    public Object findInsuredById(String id) throws BusinessException {
-        Insured insured = xaInsuredMapper.selectByPrimaryKey(id);
-        if (insured == null) {
-            throw new BusinessException("未获取任何数据数据");
-        }
-        return insured;
-    }
-
-    /**
-     * 更改参保人状态
-     *
-     * @param memberStatus
-     * @param id
-     * @return
-     */
-    public void updInsureByMemberStatus(Integer memberStatus, String id) throws BusinessException {
-        if (memberStatus < 1 || memberStatus > 4 || id.isEmpty()) {
-            throw new BusinessException("状态或编号为空");
-        }
-        Insured insured = new Insured();
-        insured.setMemberStatus(memberStatus);
-        insured.setId(id);
-        xaInsuredMapper.updateByPrimaryKeySelective(insured);
-    }
-
 }

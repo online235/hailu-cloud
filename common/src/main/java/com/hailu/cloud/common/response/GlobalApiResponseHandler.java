@@ -3,11 +3,12 @@ package com.hailu.cloud.common.response;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.fill.DictLoader;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import java.util.regex.Pattern;
 
 /**
  * 处理Controller返回结果
@@ -18,6 +19,8 @@ public class GlobalApiResponseHandler implements HandlerMethodReturnValueHandler
     private HandlerMethodReturnValueHandler proxyObject;
 
     private DictLoader dictLoader;
+
+    private static final Pattern WEIXIN_CALLBACK_PATTERN = Pattern.compile("^/api/v1/.*/callback");
 
     public GlobalApiResponseHandler(HandlerMethodReturnValueHandler proxyObject, RedisStandAloneClient redisClient) {
         this.proxyObject = proxyObject;
@@ -43,7 +46,12 @@ public class GlobalApiResponseHandler implements HandlerMethodReturnValueHandler
             // 注入字典
             dictLoader.load(returnValue);
         }
-        proxyObject.handleReturnValue(ApiResponse.result(returnValue), returnType, mavContainer, webRequest);
+        //回调不封装参数
+        if(!WEIXIN_CALLBACK_PATTERN.matcher(webRequest.getContextPath()).matches()){
+            proxyObject.handleReturnValue(ApiResponse.result(returnValue), returnType, mavContainer, webRequest);
+        }else {
+            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+        }
     }
 
 }

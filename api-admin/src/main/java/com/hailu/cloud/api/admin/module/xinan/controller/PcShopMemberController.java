@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
  * @Date: 16:33 2019/11/2 0002
  */
 @RestController
-@RequestMapping("/pc/xinanbackstage")
+@RequestMapping("/pc/xinAnBackstage")
 @Validated
 @Api(tags = "心安-会员模块-管理后台")
 @Slf4j
@@ -36,91 +36,13 @@ public class PcShopMemberController {
             "    {\n" +
             "      \"userId\": \"5075b82803bc4065975fbb545a89a91a\",\n" +
             "      \"loginName\": \"13927555292\",          //登陆名称\n" +
-           /* "      \"loginPasswd\": null,\n" +
-            "      \"userIcon\": null,\n" +
-            "      \"userName\": null,\n" +
-            "      \"nickName\": null,\n" +
-            "      \"userMobile\": null,\n" +
-            "      \"qq\": null,\n" +
-            "      \"wechat\": null,\n" +
-            "      \"email\": null,\n" +*/
             "      \"memberName\": \"13927555292\",         //会员名称\n" +
             "      \"registTime\": \"2019-10-26\",          //注册时间\n" +
             "      \"memberMobile\": \"13927555292\",       //手机号码\n" +
-           /* "      \"profession\": null,\n" +
-            "      \"birthday\": null,\n" +
-            "      \"createTime\": 0,\n" +
-            "      \"integral\": 0,\n" +
-            "      \"unReadMsgs\": 0,\n" +
-            "      \"inviteCode\": null,\n" +
-            "      \"beInviteUser\": null,\n" +
-            "      \"unionid\": null,\n" +
-            "      \"openId\": null,\n" +
-            "      \"createDate\": null,\n" +
-            "      \"memberSex\": \"1\",\n" +
-            "      \"sourceRegistration\": null,\n" +
-            "      \"cid\": null,\n" +
-            "      \"systemType\": 1,\n" +*/
             "      \"merchantType\": 0,                         //商户类型 0_无，1_区域代理，2_服务商\n" +
-            /*"      \"superiorMember\": null,\n" +
-            "      \"cumulativeMerchantsMoney\": null,\n" +
-            "      \"freezeWithdrawMerchants\": null,\n" +
-            "      \"availableWithdrawMerchants\": null,\n" +
-            "      \"totalMerchantsMoney\": null,\n" +*/
             "      \"hlMember\": 0,                             //是否为海露会员（0-否、1-是）\n" +
             "      \"memberId\": 114,                           //用户编号\n" +
-            /*"      \"memberTruename\": null,\n" +
-            "      \"memberAvatar\": null,\n" +
-            "      \"memberBirthday\": null,\n" +
-            "      \"memberPasswd\": null,\n" +
-            "      \"memberQq\": null,\n" +
-            "      \"memberWw\": null,\n" +*/
-            "      \"memberLoginNum\": 1,                        //登录次数\n" +/*
-            "      \"memberLoginTime\": null,\n" +
-            "      \"memberOldLoginTime\": null,\n" +
-            "      \"memberLoginIp\": null,\n" +
-            "      \"memberOldLoginIp\": null,\n" +
-            "      \"memberOpenid\": null,\n" +
-            "      \"memberConsumePoints\": null,\n" +
-            "      \"memberRankPoints\": null,\n" +
-            "      \"availablePredeposit\": 0,\n" +
-            "      \"freezePredeposit\": 0,\n" +
-            "      \"consumptionPredeposit\": 0,\n" +
-            "      \"withdrawPredeposit\": 0,\n" +
-            "      \"totalPredeposit\": 0,\n" +
-            "      \"redEnvelope\": 0,\n" +
-            "      \"informAllow\": 1,\n" +
-            "      \"isBuy\": 1,\n" +
-            "      \"isAllowtalk\": 1,\n" +
-            "      \"memberState\": 1,\n" +
-            "      \"memberCredit\": 0,\n" +
-            "      \"memberSnsvisitnum\": 0,\n" +
-            "      \"memberAreaid\": null,\n" +
-            "      \"memberCityid\": null,\n" +
-            "      \"memberProvinceid\": null,\n" +
-            "      \"memberAreainfo\": null,\n" +
-            "      \"isDel\": 0,\n" +
-            "      \"signCode\": null,\n" +
-            "      \"signCodeState\": null,\n" +
-            "      \"memberGradeid\": null,\n" +
-            "      \"memberGrow\": 0,\n" +
-            "      \"memberGrowGrade\": 0,\n" +
-            "      \"isUpgrade\": \"1\",\n" +
-            "      \"memberType\": null,\n" +
-            "      \"consumptionIntegral\": 0,\n" +
-            "      \"totalIntegral\": 0,\n" +
-            "      \"isLqlb\": 0,\n" +
-            "      \"growthVal\": null,\n" +
-            "      \"idcard\": null,\n" +
-            "      \"idcardImgx\": null,\n" +
-            "      \"idcardImgy\": null,\n" +
-            "      \"isSub\": 0,\n" +
-            "      \"auditState\": 0,\n" +
-            "      \"payPassword\": null,\n" +
-            "      \"auditTime\": null,\n" +
-            "      \"memberInfo\": null,\n" +
-            "      \"memberPrivacy\": null,\n" +
-            "      \"wxstate\": null\n" +*/
+            "      \"memberLoginNum\": 1,                        //登录次数\n" +
             "    }\n" +
             "  ],\n" +
             "  \"limit\": 1,            //每页数量\n" +

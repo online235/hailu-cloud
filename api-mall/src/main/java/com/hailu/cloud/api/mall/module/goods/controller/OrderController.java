@@ -11,9 +11,6 @@ import com.hailu.cloud.api.mall.module.goods.service.IOSSOrderService;
 import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.RegionVo;
-import com.hailu.cloud.api.mall.module.pay.service.Impl.BuyMemberServiceImpl;
-import com.hailu.cloud.api.mall.module.pay.service.Impl.MallPayServiceImpl;
-import com.hailu.cloud.api.mall.module.pay.service.Impl.XinanPayServiceImpl;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
 import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -30,8 +27,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -44,7 +41,7 @@ import java.util.*;
 @Slf4j
 @RestController
 @RequestMapping("api/mall")
-@Api(tags = "心安-订单")
+@Api(tags = "商城-订单")
 public class OrderController {
     @Autowired
     private IUserInfoService userInfoService;
@@ -54,12 +51,6 @@ public class OrderController {
     private IGoodsToService goodsToService;
     @Autowired
     private IOSSOrderService ossOrderService;
-    @Autowired
-    private MallPayServiceImpl mallPayService;
-    @Autowired
-    private XinanPayServiceImpl xinanPayService;
-    @Autowired
-    private BuyMemberServiceImpl buyMemberService;
     @Autowired
     private RedisStandAloneClient redisClient;
 
@@ -263,74 +254,7 @@ public class OrderController {
         return orderService.orderVerification(orderId);
     }
 
-    /**
-     * 海露订单支付
-     */
-    @ApiOperation(notes = "微信支付：{\n" +
-            "  \"code\": 0,\n" +
-            "  \"msg\": \"成功\",\n" +
-            "  \"data\": {\n" +
-            "    \"appid\": \"wx28a66e8b774bd3f2\",\n" +
-            "    \"noncestr\": \"w0krzHiS4I5wavgi\",\n" +
-            "    \"packageValue\": \"Sign=WXPay\",\n" +
-            "    \"partnerid\": \"1520607751\",\n" +
-            "    \"prepayid\": \"wx29103143274592adf0da736a1639062400\",\n" +
-            "    \"timestamp\": \"1572316303\",\n" +
-            "    \"sign\": \"D2A5F98AD2A6B0697AD76E0FC843503C\"\n" +
-            "  },\n" +
-            "  \"serverTime\": 1572316303756\n" +
-            "}", value = "海露订单支付")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name="payType", value = "支付类型（1-支付宝、2-微信、3-微信H5）", required = true, paramType="query",dataType = "int"),
-            @ApiImplicitParam(name="money", value = "金额", required = true, paramType="query",dataType = "double"),
-            @ApiImplicitParam(name="invitationMember", value = "邀请人(海露会员)", required = false, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="address", value = "详细地址", required = true, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="provinceId", value = "省ID", required = true, paramType="query",dataType = "Long"),
-            @ApiImplicitParam(name="cityId", value = "市ID", required = true, paramType="query",dataType = "Long"),
-            @ApiImplicitParam(name="areaId", value = "区县ID", required = true, paramType="query",dataType = "Long"),
-            @ApiImplicitParam(name="itemName", value = "商品名称", required = true, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="name", value = "名称", required = true, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="phone", value = "手机号码", required = true, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="itemType", value = "商品类型（1-购买海露会员、2-购买服务商）", required = true, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="chooseCityId", value = "服务商城市（购买服务商时必传）", required = false, paramType="query",dataType = "long"),
-            @ApiImplicitParam(name="openid", value = "openId(公众号支付)", required = false, paramType="query",dataType = "String")
-    })
-    @PostMapping("/hlOrderPay")
-    @ResponseBody
-    public Object hlOrderPay(HttpServletRequest httpRequest,
-                                   Integer payType,
-                                   Double money,
-                                   String invitationMember,
-                                   String address,
-                                   Long provinceId,
-                                   Long cityId,
-                                   Long areaId,
-                                   String itemName,
-                                   String name,
-                                   String phone,
-                                   Integer itemType,
-                                   Long chooseCityId,
-                                   String openid){
-        return null;
-//        PayVo payVo = new PayVo();
-//        payVo.setPayType(payType);
-//        payVo.setMoney(money);
-//        payVo.setInvitationMember(invitationMember);
-//        payVo.setProvinceId(provinceId);
-//        payVo.setCityId(cityId);
-//        payVo.setAreaId(areaId);
-//        payVo.setAddress(address);
-//        payVo.setItemName(itemName);
-//        payVo.setName(name);
-//        payVo.setPhone(phone);
-//        payVo.setItemType(itemType);
-//        payVo.setChooseCityId(chooseCityId);
-//        payVo.setMemberId(loginInfo.getId());
-//        payVo.setOpenId(openid);
-//        payVo.setPayFrom("HL");
-//        log.info("海露订单支付|参数:{}", payVo.toString());
-//        return buyMemberService.pay(payVo,httpRequest);
-    }
+
 
     /**
      * 订单支付
@@ -351,166 +275,25 @@ public class OrderController {
             "}", value = "支付接口")
     @ApiImplicitParams({
             @ApiImplicitParam(name="orderSn", value = "订单号(商城订单传)", required = false, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="payFrom", value = "支付来源（XA-心安、mall-商城）", required = true, paramType="query",dataType = "String"),
             @ApiImplicitParam(name="payType", value = "支付类型（1-支付宝、2-微信、3-微信H5）", required = true, paramType="query",dataType = "int"),
-            @ApiImplicitParam(name="money", value = "金额", required = false, paramType="query",dataType = "double"),
-            @ApiImplicitParam(name="insuredIds", value = "参保人(心安支付传)", required = false, paramType="query",dataType = "String"),
             @ApiImplicitParam(name="openid", value = "openId(公众号支付)", required = false, paramType="query",dataType = "String")
     })
     @RequestMapping(value = "/orderPay",method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> orderPay(
-            HttpServletRequest httpRequest,
-            String orderSn,
-            String payFrom,
-            Integer payType,
-            Double money,
-            String insuredIds,
-            String openid
-    ){
-        return null;
-//        PayVo payVo = new PayVo();
-//        payVo.setOrderNo(orderSn);
-//        payVo.setPayFrom(payFrom);
-//        payVo.setPayType(payType);
-//        payVo.setMoney(money);
-//        payVo.setInsuredIds(insuredIds);
-//        payVo.setOpenId(openid);
-//        log.info("订单支付|参数:{}", payVo.toString());
-//        LoginInfo loginInfo = (LoginInfo) httpRequest.getAttribute(Constant.USER_INFORMATION);
-//        payVo.setMemberId(loginInfo.getId());
-//        //判断是商城的支付订单还是心安的支付
-//        if(StringUtils.equals(payVo.getPayFrom(),"XA")){
-//            return xinanPayService.pay(payVo,httpRequest);
-//        }  else{
-//            return mallPayService.pay(payVo,httpRequest);
-//        }
-//        Map<String, Object> data = new HashMap<>();
-//        //获取根据订单编号得到订单的信息
-//        OrderToVo ol = orderService.findByOrderSn(orderSn);
-//        if (ol != null) {
-//            //订单取金额逻辑 , 如果是预定2
-//            double orderAmount;
-//            String isReserve = "0";
-//            if (ol.getIsReserve() == 1) {
-//                //第一阶段支付了,取第二阶段的金额
-//                if (ol.getOneIsPay() == 1) {
-//                    orderSn = orderSn + "s";
-//                    orderAmount = ol.getReserveTwoAmount();
-//                    isReserve = "2";
-//                } else {
-//                    orderAmount = ol.getReserveOneAmount();
-//                    isReserve = "1";
-//                }
-//            } else {
-//                orderAmount = ol.getOrderAmount();
-//            }
-//            if (orderAmount <= 0) {
-//                ossOrderService.addZeroPay(ol);
-//                return new ResponseData<Map<String, Object>>() {{
-//                    setCode(10);
-//                }};
-//            }
-//            if (payType == 1) {
-//                // 支付宝
-//                data.put("orderInfo", payForZhiFuBao(orderSn, httpRequest, ol, orderAmount));
-//            } else if (payType == 2) {
-//                // 微信
-//                data = payForWeiXin(orderSn, httpRequest, ol, orderAmount, isReserve);
-//            } else if (payType == 3) {
-//                // 微信h5
-//                data = payForH5(orderSn, httpRequest, orderAmount);
-//            }
-//        } else {
-//            data.put("msg", "不能重复支付");
-//        }
-//
-//        return new ResponseData<>(data);
+    public Map<String, Object> orderPay(@NotBlank(message = "订单号不能为空") String orderSn, Integer payType, String openid) throws BusinessException {
+        return ossOrderService.createOrder(orderSn, payType, openid);
     }
 
 //    /**
-//     * 支付宝支付
+//     * 余额下单
 //     */
-//    private String payForZhiFuBao(
-//            String orderSn,
-//            HttpServletRequest httpRequest,
-//            OrderToVo ol,
-//            double orderAmount) throws Exception {
+//    @PostMapping("/balancePay")
+//    public Boolean addBalancePay(
+//            @RequestParam("orderSn") String orderSn,
+//            @RequestParam("payPwd") String payPwd) throws Exception {
 //
-//        Map<String, String> parameterMap = new HashMap<>();
-//        // 订单号
-//        parameterMap.put("outTradeNo", orderSn);
-//        // 总金额
-//        parameterMap.put("totalFee", orderAmount + "");
-//        parameterMap.put("goodsName", "德达康健商品");
-//        parameterMap.put("backUrl", "/api/sys/alipayBack");
-//        parameterMap.put("userId", ol.getUserId());
-//        return ossOrderService.aliPayUnifiedorder(httpRequest, parameterMap);
+//        return ossOrderService.addBalancePay(orderSn, payPwd);
 //    }
-//
-//    /**
-//     * 微信支付
-//     */
-//    private Map<String, Object> payForWeiXin(
-//            String orderSn,
-//            HttpServletRequest httpRequest,
-//            OrderToVo ol,
-//            double orderAmount,
-//            String isReserve) throws Exception {
-//
-//        Map<String, Object> data;
-//        String openid = httpRequest.getParameter("openid");
-//        if (StringUtil.isNotEmpty(openid)) {
-//            UserInfoVo userinfo = userInfoService.userInfoQueryByUserId(ol.getUserId());
-//            data = WechatUtil.wxpay(userinfo, openid, orderSn, "JSAPI", orderAmount, httpRequest);
-//        } else {
-//            Map<String, String> parameterMap = new HashMap<>();
-//            parameterMap.put("body", java.net.URLDecoder.decode("德达康健商品", "UTF-8"));
-//            parameterMap.put("nonce_str", RandomUtil.captcha(10));
-//            parameterMap.put("out_trade_no", orderSn);
-//            // ip地址
-//            parameterMap.put("spbill_create_ip", IPUtil.getRemoteHost(httpRequest));
-//            // 本系统总金额单位为元，但是微信需要的单位为分
-//            parameterMap.put("total_fee", (int) (orderAmount * 100) + "");
-//            parameterMap.put("trade_type", "APP");
-//            parameterMap.put("isReserve", isReserve);
-//            // 生成预付信息
-//            data = ossOrderService.unifiedorder(parameterMap);
-//        }
-//        return data;
-//    }
-//
-//    /**
-//     * H5支付
-//     */
-//    private Map<String, Object> payForH5(
-//            String orderSn,
-//            HttpServletRequest httpRequest,
-//            double orderAmount) throws UnsupportedEncodingException {
-//
-//        Map<String, String> parameterMap = new HashMap<>();
-//        parameterMap.put("body", java.net.URLDecoder.decode("德达康健商品", "UTF-8"));
-//        parameterMap.put("nonce_str", RandomUtil.captcha(10));
-//        parameterMap.put("out_trade_no", orderSn);
-//        // ip地址
-//        parameterMap.put("spbill_create_ip", IPUtil.getRemoteHost(httpRequest));
-//        // 本系统总金额单位为元，但是微信需要的单位为分
-//        parameterMap.put("total_fee", (int) (orderAmount * 100) + "");
-//        parameterMap.put("trade_type", "MWEB");
-//        // 生成预付信息
-//        return ossOrderService.gzunifiedorder(parameterMap);
-//    }
-
-    /**
-     * 余额下单
-     */
-    @PostMapping("/balancePay")
-    public Boolean addBalancePay(
-            @RequestParam("orderSn") String orderSn,
-            @RequestParam("payPwd") String payPwd) throws Exception {
-
-        return ossOrderService.addBalancePay(orderSn, payPwd);
-    }
 
     /**
      * 查看所有订单   或查看相应状态订单 得到订单列表

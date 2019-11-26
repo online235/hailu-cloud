@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.payment.module.controller;
 
-import com.hailu.cloud.api.payment.module.model.PayDto;
 import com.hailu.cloud.api.payment.module.service.impl.PayServiceImpl;
 import com.hailu.cloud.common.model.payment.PayRequest;
 import io.swagger.annotations.Api;

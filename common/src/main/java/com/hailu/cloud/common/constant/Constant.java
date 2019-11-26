@@ -120,6 +120,8 @@ public final class Constant {
     public static final String API_NAME_BASIC = "/basic";
     public static final String API_NAME_ADMIN = "/admin";
     public static final String API_NAME_AUTH = "/auth";
+    public static final String API_NAME_PAYMENT = "/payment";
+    public static final String API_NAME_MALL = "/mall";
 
     // endregion
 

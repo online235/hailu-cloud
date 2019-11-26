@@ -1,7 +1,7 @@
 spring:
   cloud:
     consul:
-      host: 192.168.10.243
+      host: 127.0.0.1
       port: 8500
   mail:
     host: smtp.qq.com
@@ -20,3 +20,9 @@ mybatis:
 redis:
   hostname: 192.168.10.243
   port: 6379
+
+notify:
+  # 支付通知回调地址
+  server:
+    url: https://jphailus.utools.club/api/v1/
+

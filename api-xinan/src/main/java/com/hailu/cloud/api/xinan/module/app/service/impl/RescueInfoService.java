@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.xinan.module.app.entity.Rescue;
 import com.hailu.cloud.api.xinan.module.app.entity.RescuePictures;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -110,72 +109,6 @@ public class RescueInfoService {
         jsonObject.put("imageList", jsonArray);
         jsonArrayList.add(jsonObject);
         return jsonArrayList;
-    }
-
-    /**
-     * 转换Json列表
-     * @param rescues
-     * @return
-     */
-    public JSONArray rescueJson(List<Rescue> rescues){
-        JSONArray objects = new JSONArray();
-        for (Rescue rescue : rescues) {
-            JSONObject json = new JSONObject();
-            String createDat = DateUtil.formatDateTime(rescue.getCreatedat());
-            String updatedat = DateUtil.formatDateTime(rescue.getUpdatedat());
-            //救助编号
-            json.put("numberId", rescue.getNumberId());
-            //发起用户编号
-            json.put("memberId", rescue.getMemberId());
-            //目标金额
-            json.put("targetAmount", rescue.getTargetAmount());
-            //救助标题
-            json.put("title", rescue.getTitle());
-            //帮助次数
-            json.put("helpTimes", rescue.getHelpTimes());
-            //现金额
-            json.put("cash", rescue.getCash());
-            //救助类型
-            json.put("rescueType", rescue.getRescueType());
-            //省份Id
-            json.put("provinceId", rescue.getProvinceId());
-            //城市Id
-            json.put("cityId", rescue.getCityId());
-            //审核
-            json.put("examine", rescue.getExamine());
-            //救助详细说明
-            json.put("instructions", rescue.getInstructions());
-            //创建时间
-            json.put("createdat", createDat);
-            //更新时间
-            json.put("updatedat", updatedat);
-            objects.add(json);
-        }
-        return objects;
-    }
-
-    public JSONObject PageAndRescueJson(PageInfo pageInfo,JSONArray objects){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("data",objects);
-        //当前页
-        jsonObject.put("pageNum",pageInfo.getPageNum());
-        //每页数量
-        jsonObject.put("pageSize", pageInfo.getPageSize());
-        //当前页数量
-        jsonObject.put("size",pageInfo.getSize());
-        //总条数
-        jsonObject.put("total",pageInfo.getTotal());
-        //总页数
-        jsonObject.put("pages",pageInfo.getPages());
-        //前一页
-        jsonObject.put("prePage",pageInfo.getPrePage());
-        //第一页
-        jsonObject.put("nextPage", pageInfo.getNextPage());
-        //导航页码数
-        jsonObject.put("navigatePages",pageInfo.getNavigatePages());
-        //所有导航页号
-        jsonObject.put("navigatepageNums",pageInfo.getNavigatepageNums());
-        return jsonObject;
     }
 
 }

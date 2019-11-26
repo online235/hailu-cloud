@@ -43,7 +43,7 @@ public class PayServiceImpl extends AbstractPayService {
         sortedMap.put("appid", payParams.get(CredentFactory.APPID_FIELD));
         //内容
         sortedMap.put("body", payRequest.getGoodsName());
-        sortedMap.put("detail", payRequest.getBody());
+//        sortedMap.put("detail", payRequest.getBody());
         sortedMap.put("mch_id", payParams.get(CredentFactory.MCH_ID_FIELD));
         //随机字符串
         sortedMap.put("nonce_str", RandomUtil.randomNumbers(32));
@@ -53,6 +53,7 @@ public class PayServiceImpl extends AbstractPayService {
         sortedMap.put("out_trade_no", payRequest.getOrderNo());
         //ip地址
         sortedMap.put("spbill_create_ip", payRequest.getIp());
+        sortedMap.put("total_fee", String.valueOf(payRequest.getMoney().multiply(BigDecimal.valueOf(100)).intValue()));
         // 支付方式 1-APP、2-H5、3-JSAPI
         if (payRequest.getPayWay() == 1) {
             sortedMap.put("trade_type", "APP");
@@ -63,7 +64,6 @@ public class PayServiceImpl extends AbstractPayService {
             sortedMap.put("openid", payRequest.getOpenId());
         }
         //金额 //本系统总金额单位为元，但是微信需要的单位为分
-        sortedMap.put("total_fee", String.valueOf(payRequest.getMoney().multiply(BigDecimal.valueOf(100)).intValue()));
         String sign = SignUtil.createSign("UTF-8", sortedMap, payParams.get(CredentFactory.APP_SECRRECT_FIELD));
         sortedMap.put("sign", sign);
         log.info("微信下单参数：{}", sortedMap.toString());

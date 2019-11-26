@@ -23,7 +23,7 @@ public class PayExpandService {
     private PayExpandMapper payExpandMapper;
 
     @Resource
-    private BasicFeignClient basicFeignClient;
+    private BasicFeignClient uuidFeign;
     /**
      * 保存或编辑
      * @param pay
@@ -33,7 +33,7 @@ public class PayExpandService {
         long dateNow = System.currentTimeMillis();
         //如果ID为空，则新增
         if(StringUtils.isBlank(pay.getId())){
-            pay.setId(String.valueOf(uuidFeign.uuid()));
+            pay.setId(String.valueOf(basicFeignClient.uuid()));
             payExpandMapper.insert(pay);
             return pay;
         }
