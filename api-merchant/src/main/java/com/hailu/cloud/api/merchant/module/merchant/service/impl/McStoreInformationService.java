@@ -6,12 +6,17 @@ import com.hailu.cloud.api.merchant.module.merchant.dao.McStoreInformationMapper
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
+import com.hailu.cloud.api.merchant.module.merchant.model.bak.McStoreInformationModel;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -98,6 +103,36 @@ public class McStoreInformationService {
         return true;
     }
 
+    /**
+     * 更改店铺信息
+     * @param mcStoreInformation
+     */
+    public void updateBYMcEntryInformation(McStoreInformationModel mcStoreInformation, int[] weekDay){
+        String week = "";
+        if (weekDay != null) {
+            int t = 0;
+            for (int i : weekDay) {
+                week += String.valueOf(i);
+                t++;
+                if (weekDay.length > t) {
+                    week += ",";
+                }
+            }
+            mcStoreInformation.setWeekDay(week);
+        }
+        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
+        mcStoreInformation.setMcNumberId(merchantUserLoginInfoModel.getNumberid());
+        mcStoreInformationMapper.updateByPrimaryKey(mcStoreInformation);
+    }
+
+    /**
+     * 查看店铺信息
+     * @return
+     */
+    public McStoreInformation findMcStoreInformation(){
+        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
+        return mcStoreInformationMapper.findMcStoreInformation(merchantUserLoginInfoModel.getNumberid());
+    }
 
 
 }

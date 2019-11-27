@@ -6,7 +6,10 @@ import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
+import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

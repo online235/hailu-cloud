@@ -71,7 +71,7 @@
             to_examine,
         </if>
         <if test="weekDay != null">
-            week_day,
+            week_day
         </if>
     </sql>
 
@@ -133,17 +133,11 @@
             #{toExamine},
         </if>
         <if test="weekDay != null">
-            #{weekDay},
+            #{weekDay}
         </if>
     </sql>
 
     <sql id="update_where_column">
-        <if test="id != null">
-            id = #{id},
-        </if>
-        <if test="mcNumberId != null">
-            mc_number_id = #{mcNumberId},
-        </if>
         <if test="shopName != null">
             shop_name = #{shopName},
         </if>
@@ -183,9 +177,6 @@
         <if test="openingTime != null">
             opening_time = #{openingTime},
         </if>
-        <if test="createdat != null">
-            createdat = #{createdat},
-        </if>
         <if test="updatedat != null">
             updatedat = #{updatedat},
         </if>
@@ -193,9 +184,8 @@
             to_examine = #{toExamine},
         </if>
         <if test="weekDay != null">
-           week_day = #{weekDay},
+            week_day = #{weekDay},
         </if>
-
     </sql>
 
     <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation"
@@ -243,11 +233,12 @@
     </update>
 
     <update id="updateByPrimaryKey"
-            parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation">
+            parameterType="com.hailu.cloud.api.merchant.module.merchant.model.bak.McStoreInformationModel">
         update mc_store_information
-        set
-        <include refid="update_where_column"/>
-        where id = #{id,jdbcType=VARCHAR}
+        <set>
+            <include refid="update_where_column"/>
+        </set>
+        where id = #{id} and mc_number_id = #{mcNumberId}
     </update>
 
     <select id="selectByMcnumberidAndToexamine" resultType="int">
@@ -259,6 +250,12 @@
     select IFNULL(count(mc_number_id),0) from mc_store_information
     where mc_number_id = #{mcNumberId}
   </select>
+    <select id="findMcStoreInformation" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_store_information
+        where mc_number_id = #{mcNumberId}
+    </select>
 
 
 </mapper>

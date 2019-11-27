@@ -5,6 +5,7 @@ import com.hailu.cloud.api.admin.module.merchant.service.McEntryinFormationServi
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -147,7 +148,7 @@ public class McEntryinFormationController {
             @ApiImplicitParam(name = "idcardimgyfile", value = "证件照反面", required = true, paramType = "query")
     })
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();;
         if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }

@@ -66,7 +66,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
 
     @Override
     public PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId(HttpServletRequest request, Integer page , Integer size) {
-        MerchantUserLoginInfoModel loginInfo = (MerchantUserLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MerchantUserLoginInfoModel loginInfo = RequestUtils.getMerchantUserLoginInfo();
         Page pageData = PageHelper.startPage(page,size);
         List<MultiIndustryOrder> orders = multiIndustryOrderMapper.findOrderListByStoreId(Long.parseLong(loginInfo.getNumberid()));
         return new PageInfoModel(pageData.getPages(), pageData.getTotal(), orders);

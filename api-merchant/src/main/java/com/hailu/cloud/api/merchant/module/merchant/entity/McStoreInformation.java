@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.merchant.module.merchant.entity;
 
 
+import com.hailu.cloud.common.fill.annotation.DictName;
 import lombok.Data;
 
 @Data
@@ -83,6 +84,10 @@ public class McStoreInformation {
      */
     private Long businessState;
 
+
+    @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
+    private Long businessStateDisplay;
+
     /**
      * 关闭时间
      */
@@ -112,10 +117,17 @@ public class McStoreInformation {
      */
     private Integer toExamine;
 
+
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    private Integer toExamineDisplay;
+
     /**
      * 每周营业日用，“；”隔开（例1；2；3；4:）
      */
     private String weekDay;
+
+    @DictName(code = "BUSINESS_DAY" , joinField = "weekDay")
+    private String weekDayDisplay;
 
 
 }

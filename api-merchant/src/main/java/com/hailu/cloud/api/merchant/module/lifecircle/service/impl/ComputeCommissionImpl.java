@@ -3,6 +3,7 @@ package com.hailu.cloud.api.merchant.module.lifecircle.service.impl;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.IComputeCommission;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
@@ -32,7 +33,7 @@ public class ComputeCommissionImpl implements IComputeCommission {
             return BigDecimal.ZERO;
         }
         HttpServletRequest request = getRequest();
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();;
         Integer merchantType = null;
         if (loginInfo != null) {
             merchantType = ((MemberLoginInfoModel) loginInfo).getMerchantType();
