@@ -56,6 +56,8 @@ public interface ShopMemberMapper {
      */
     int updateByPrimaryKeyWithBLOBs(ShopMember record);
 
+    int updateMember(ShopMember shopMember);
+
     /**
      *
      * @mbggenerated 2019-10-19
@@ -63,22 +65,7 @@ public interface ShopMemberMapper {
     int updateByPrimaryKey(ShopMember record);
 
 
-    /**
-     * 根据用户名更新用户表token
-     * @param token
-     * @param time
-     * @param username
-     * @return
-     */
-    int addOrTokenLogin(@Param("token") String token, @Param("time") long time, @Param("username") String username);
 
-    /**
-     * 根据token跟新token是时间
-     * @param token
-     * @param time
-     * @return
-     */
-    int updTokenCreate(@Param("token") String token, @Param("time") long time);
 
     /**
      * 根据用户名查询个人信息
@@ -87,12 +74,6 @@ public interface ShopMemberMapper {
      */
     ShopMember selectLitemallLogin(@Param("username") String username);
 
-    /**
-     * 根据token查询个人信息
-     * @param token
-     * @return
-     */
-    ShopMember selectLitemallLoginToekn(@Param("token") String token);
 
     /**
      * 添加用户

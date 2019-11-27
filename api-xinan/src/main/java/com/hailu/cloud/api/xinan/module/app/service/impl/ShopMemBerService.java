@@ -10,7 +10,6 @@ import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -54,9 +53,9 @@ public class ShopMemBerService {
      * 更改用户信息
      * @param shopMember
      */
-    public void updateByPrimaryKeySelective(ShopMember shopMember , HttpServletRequest request){
+    public void updateByPrimaryKeySelective(ShopMember shopMember){
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         shopMember.setUserId(loginInfo.getUserId());
-        memberMapper.updateByPrimaryKeySelective(shopMember);
+        memberMapper.updateMember(shopMember);
     }
 }

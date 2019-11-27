@@ -79,8 +79,8 @@ public class FileUploadController {
             @Pattern(regexp = "^[a-zA-Z\\-]{5,20}$", message = "业务编码只允许大小写字母和“-”,5-20位")
             @NotBlank(message = "业务标识不能为空")
             @PathVariable("businessCode") String businessCode,
-            @RequestParam(value = "imageCompress", required = false, defaultValue = "false") Boolean imageCompress,
-            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") Double compressQuality) throws BusinessException {
+            @RequestParam(value = "imageCompress", required = false, defaultValue = "false") boolean imageCompress,
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") double compressQuality) throws BusinessException {
 
         return fileUploadService.single(businessCode, imageCompress, compressQuality, file);
     }

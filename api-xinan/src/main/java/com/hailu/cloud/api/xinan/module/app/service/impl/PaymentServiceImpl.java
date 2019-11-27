@@ -181,7 +181,7 @@ public class PaymentServiceImpl implements IPaymentService {
         payRequest.setIp(IPUtil.getRemoteHost(RequestUtils.getRequest()));
 
         //调用支付服务
-        return paymentFeignClient.gateway(payRequest);
+        return paymentFeignClient.gateway(payRequest).getData();
     }
 
     @Override
@@ -315,7 +315,7 @@ public class PaymentServiceImpl implements IPaymentService {
                 payRequest.setPayParams("HLAPPWECAT");
             }
         }
-        return paymentFeignClient.gateway(payRequest);
+        return paymentFeignClient.gateway(payRequest).getData();
     }
 
 

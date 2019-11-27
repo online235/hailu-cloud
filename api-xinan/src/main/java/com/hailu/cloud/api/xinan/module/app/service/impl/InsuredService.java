@@ -2,19 +2,17 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.xinan.module.app.dao.InsuredMapper;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.Insured;
 import com.hailu.cloud.api.xinan.module.app.entity.Order;
 import com.hailu.cloud.api.xinan.module.app.enums.MemberShopEnum;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.model.page.PageInfoModel;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -326,7 +324,7 @@ public class InsuredService {
             jsonObject.put("value", value.substring(0, 3) + "********" + value.substring(value.length() - 3, value.length()));
             //续费日期
             Date memberValidity = i.getMemberValidity();
-            jsonObject.put("memberValidity", memberValidity != null ? DateUtil.format(memberValidity, DatePattern.NORM_DATETIME_PATTERN) : "");
+            jsonObject.put("memberValidity", memberValidity != null ? DateUtil.format(memberValidity, DatePattern.CHINESE_DATE_PATTERN) : "");
             //会员ID
             jsonObject.put("insuredMemberId", i.getInsuredMemberId() == null ? "" : i.getInsuredMemberId());
             //状态
@@ -344,7 +342,7 @@ public class InsuredService {
                 jsonObject.put("memberRelation", i.getMemberRelation());
             } else if (i.getMemberStatus() == 3) {
                 //如果为观察期则显示剩余多少天 90 天
-                jsonObject.put("remainingDay", DateUtil.offset(new Date(), DateField.DAY_OF_MONTH, 90));
+                jsonObject.put("remainingDay", DateUtil.between(new Date(),DateUtil.offset(i.getFirstJoinInsured(), DateField.DAY_OF_MONTH, 90),DateUnit.DAY));
             }
             resultJa.add(jsonObject);
         }

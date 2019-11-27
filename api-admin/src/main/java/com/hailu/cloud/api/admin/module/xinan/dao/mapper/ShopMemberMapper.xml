@@ -146,7 +146,7 @@
       idcard_imgy, is_sub, audit_state, 
       pay_password, system_type, cid, 
       audit_time, source_registration, tokencode, 
-      tokencreate, member_info, member_privacy, 
+      member_info, member_privacy,
       user_icon)
     values (#{memberName,jdbcType=VARCHAR}, #{memberTruename,jdbcType=VARCHAR}, #{memberAvatar,jdbcType=VARCHAR}, 
       #{memberSex,jdbcType=VARCHAR}, #{memberBirthday,jdbcType=BIGINT}, #{memberPasswd,jdbcType=VARCHAR}, 
@@ -172,7 +172,7 @@
       #{idcardImgy,jdbcType=VARCHAR}, #{isSub,jdbcType=INTEGER}, #{auditState,jdbcType=INTEGER}, 
       #{payPassword,jdbcType=VARCHAR}, #{systemType,jdbcType=INTEGER}, #{cid,jdbcType=VARCHAR}, 
       #{auditTime,jdbcType=BIGINT}, #{sourceRegistration,jdbcType=VARCHAR}, #{tokencode,jdbcType=VARCHAR}, 
-      #{tokencreate,jdbcType=BIGINT}, #{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR}, 
+     #{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR},
       #{userIcon,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
@@ -388,9 +388,7 @@
       <if test="tokencode != null" >
         tokencode,
       </if>
-      <if test="tokencreate != null" >
-        tokencreate,
-      </if>
+
       <if test="memberInfo != null" >
         member_info,
       </if>
@@ -612,9 +610,7 @@
       <if test="tokencode != null" >
         #{tokencode,jdbcType=VARCHAR},
       </if>
-      <if test="tokencreate != null" >
-        #{tokencreate,jdbcType=BIGINT},
-      </if>
+
       <if test="memberInfo != null" >
         #{memberInfo,jdbcType=LONGVARCHAR},
       </if>
@@ -839,9 +835,7 @@
       <if test="tokencode != null" >
         tokencode = #{tokencode,jdbcType=VARCHAR},
       </if>
-      <if test="tokencreate != null" >
-        tokencreate = #{tokencreate,jdbcType=BIGINT},
-      </if>
+
       <if test="memberInfo != null" >
         member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       </if>
@@ -926,7 +920,6 @@
       audit_time = #{auditTime,jdbcType=BIGINT},
       source_registration = #{sourceRegistration,jdbcType=VARCHAR},
       tokencode = #{tokencode,jdbcType=VARCHAR},
-      tokencreate = #{tokencreate,jdbcType=BIGINT},
       member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       member_privacy = #{memberPrivacy,jdbcType=LONGVARCHAR},
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
@@ -1004,7 +997,7 @@
       audit_time = #{auditTime,jdbcType=BIGINT},
       source_registration = #{sourceRegistration,jdbcType=VARCHAR},
       tokencode = #{tokencode,jdbcType=VARCHAR},
-      tokencreate = #{tokencreate,jdbcType=BIGINT}
+
     where member_id = #{memberId,jdbcType=INTEGER}
   </update>
 

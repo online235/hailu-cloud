@@ -145,8 +145,8 @@
       un_read_msgs, idcard, idcard_imgx, 
       idcard_imgy, is_sub, audit_state, 
       pay_password, system_type, cid, 
-      audit_time, source_registration, tokencode, 
-      tokencreate, member_info, member_privacy, 
+      audit_time, source_registration,
+       member_info, member_privacy,
       user_icon)
     values (#{memberName,jdbcType=VARCHAR}, #{memberTruename,jdbcType=VARCHAR}, #{memberAvatar,jdbcType=VARCHAR}, 
       #{memberSex,jdbcType=VARCHAR}, #{memberBirthday,jdbcType=BIGINT}, #{memberPasswd,jdbcType=VARCHAR}, 
@@ -171,8 +171,8 @@
       #{unReadMsgs,jdbcType=INTEGER}, #{idcard,jdbcType=VARCHAR}, #{idcardImgx,jdbcType=VARCHAR}, 
       #{idcardImgy,jdbcType=VARCHAR}, #{isSub,jdbcType=INTEGER}, #{auditState,jdbcType=INTEGER}, 
       #{payPassword,jdbcType=VARCHAR}, #{systemType,jdbcType=INTEGER}, #{cid,jdbcType=VARCHAR}, 
-      #{auditTime,jdbcType=BIGINT}, #{sourceRegistration,jdbcType=VARCHAR}, #{tokencode,jdbcType=VARCHAR}, 
-      #{tokencreate,jdbcType=BIGINT}, #{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR}, 
+      #{auditTime,jdbcType=BIGINT}, #{sourceRegistration,jdbcType=VARCHAR},
+     #{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR},
       #{userIcon,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
@@ -385,12 +385,8 @@
       <if test="sourceRegistration != null" >
         source_registration,
       </if>
-      <if test="tokencode != null" >
-        tokencode,
-      </if>
-      <if test="tokencreate != null" >
-        tokencreate,
-      </if>
+
+
       <if test="memberInfo != null" >
         member_info,
       </if>
@@ -609,12 +605,8 @@
       <if test="sourceRegistration != null" >
         #{sourceRegistration,jdbcType=VARCHAR},
       </if>
-      <if test="tokencode != null" >
-        #{tokencode,jdbcType=VARCHAR},
-      </if>
-      <if test="tokencreate != null" >
-        #{tokencreate,jdbcType=BIGINT},
-      </if>
+
+
       <if test="memberInfo != null" >
         #{memberInfo,jdbcType=LONGVARCHAR},
       </if>
@@ -836,12 +828,8 @@
       <if test="sourceRegistration != null" >
         source_registration = #{sourceRegistration,jdbcType=VARCHAR},
       </if>
-      <if test="tokencode != null" >
-        tokencode = #{tokencode,jdbcType=VARCHAR},
-      </if>
-      <if test="tokencreate != null" >
-        tokencreate = #{tokencreate,jdbcType=BIGINT},
-      </if>
+
+
       <if test="memberInfo != null" >
         member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       </if>
@@ -854,6 +842,24 @@
     </set>
     where member_id = #{memberId,jdbcType=INTEGER}
   </update>
+
+
+  <update id="updateMember" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
+    update shop_member
+    <set >
+      <if test="userIcon != null" >
+        user_icon = #{userIcon,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="unReadMsgs != null" >
+          un_read_msgs = #{unReadMsgs,jdbcType=INTEGER},
+      </if>
+      <if test="memberName != null" >
+          member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
@@ -925,8 +931,7 @@
       cid = #{cid,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=BIGINT},
       source_registration = #{sourceRegistration,jdbcType=VARCHAR},
-      tokencode = #{tokencode,jdbcType=VARCHAR},
-      tokencreate = #{tokencreate,jdbcType=BIGINT},
+
       member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       member_privacy = #{memberPrivacy,jdbcType=LONGVARCHAR},
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
@@ -1003,8 +1008,7 @@
       cid = #{cid,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=BIGINT},
       source_registration = #{sourceRegistration,jdbcType=VARCHAR},
-      tokencode = #{tokencode,jdbcType=VARCHAR},
-      tokencreate = #{tokencreate,jdbcType=BIGINT}
+
     where member_id = #{memberId,jdbcType=INTEGER}
   </update>
 
@@ -1018,35 +1022,9 @@
       and LOGIN_NAME = #{username}
     </if>
   </select>
-  <update id="addOrTokenLogin">
-    update shop_member
-    set tokencode = #{token},
-    tokencreate = #{time}
-    where 1=1
-    <if test="username != null and username != ''">
-      and LOGIN_NAME = #{username}
-    </if>
-  </update>
-  <select id="selectLitemallLoginToekn" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from shop_member
-    where 1=1
-    <if test="token != null and token != ''">
-      and tokencode = #{token}
-    </if>
-  </select>
-  <update id="updTokenCreate">
-    update shop_member
-    <if test="time != null and time != ''">
-      set tokencreate = #{time},
-      member_login_time = #{time}
-    </if>
-    where 1=1
-    <if test="token != null and token != ''">
-      and tokencode = #{token}
-    </if>
-  </update>
+
+
+
   <insert id="AddLitemallUser" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     INSERT INTO `shop_member` (
         `member_id`,
@@ -1076,36 +1054,8 @@
     from shop_member
     where member_mobile = #{phone}
   </select>
-  <update id="updTokenLitemallUser">
-    update shop_member
-    set
-    <if test="phone != null and phone != ''">
-
-      <if test="time != null and time != ''">
-        tokencreate = #{time},
-        member_login_time = #{time},
-      </if>
-      <if test="token != null and token != ''">
-        tokencode = #{token}
-      </if>
 
 
-    </if>
-    where 1=1
-    <if test="phone != null and phone != ''">
-      and member_mobile = #{phone}
-    </if>
-  </update>
-  <update id="updOutLoginLitemallUser">
-    update shop_member
-    set
-    tokencreate = NULL,
-    tokencode = NULL
-    where 1=1
-    <if test="memberid != null and memberid != ''">
-      and member_id = #{memberid}
-    </if>
-  </update>
   <select id="selectFindShopMember" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

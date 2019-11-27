@@ -203,7 +203,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
             throw new BusinessException("不能重复支付");
         }
 
-        return paymentFeignClient.gateway(payRequest);
+        return paymentFeignClient.gateway(payRequest).getData();
     }
 
 
