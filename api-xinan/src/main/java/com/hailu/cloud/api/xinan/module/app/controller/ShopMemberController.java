@@ -42,8 +42,8 @@ public class ShopMemberController {
             @ApiImplicitParam(name="memberBirthday", value = "生日",  paramType="query", dataType = "Long"),
             @ApiImplicitParam(name="memberTruename", value = "真实姓名",  paramType="query", dataType = "String"),
     })
-    public void updateShopMemBer(@NotNull(message = "信息不能为空") ShopMember shopMember, HttpServletRequest request){
-        shopMemBerServicel.updateByPrimaryKeySelective(shopMember, request);
+    public void updateShopMemBer(@NotNull(message = "信息不能为空") ShopMember shopMember){
+        shopMemBerServicel.updateByPrimaryKeySelective(shopMember);
     }
 
 }
