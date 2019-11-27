@@ -95,7 +95,26 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         log.info("服务名:{}, 请求路径:{}", serviceName, url);
 
         if (ignore(url)) {
-            return chain.filter(exchange);
+            String accessToken = getAccessTokenFromRequestHeader(request);
+            if( StringUtils.isBlank(accessToken) ){
+                return chain.filter(exchange);
+            }
+            AuthInfo authInfo = verifyToken(accessToken);
+            if (authInfo == null) {
+                return chain.filter(exchange);
+            }
+            ServerHttpRequest serverHttpRequest = exchange
+                    .getRequest()
+                    .mutate()
+                    .header(Constant.REQUEST_HEADER_GATEWAY_USER_INFO, Base64.encodeToString(JSON.toJSONString(authInfo)))
+                    .header(Constant.JWT_LOGIN_TYPE, String.valueOf(authInfo.getLoginType()))
+                    .build();
+
+            ServerWebExchange build = exchange
+                    .mutate()
+                    .request(serverHttpRequest)
+                    .build();
+            return chain.filter(build);
         }
 
         // 检查是否携带Access-token请求头

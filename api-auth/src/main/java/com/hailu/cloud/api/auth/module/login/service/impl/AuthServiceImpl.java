@@ -125,9 +125,9 @@ public class AuthServiceImpl implements IAuthService {
             case ADMIN:
                 throw new BusinessException("该账号 " + phone + " 暂时不支持验证码登录, 登录类型为：" + loginType);
             case MERCHANT:
-                return loginHandle(phone, merchantUserVericodeLoginCallback());
+                return loginHandle(loginType, phone, merchantUserVericodeLoginCallback());
             case XINAN_AND_MALL:
-                return loginHandle(phone, memberVericodeLoginCallback());
+                return loginHandle(loginType, phone, memberVericodeLoginCallback());
             default:
                 break;
         }
@@ -139,9 +139,9 @@ public class AuthServiceImpl implements IAuthService {
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(loginType);
         switch (loginTypeEnum) {
             case ADMIN:
-                return loginHandle(account, adminLoginCallback(pwd));
+                return loginHandle(loginType, account, adminLoginCallback(pwd));
             case MERCHANT:
-                return loginHandle(account, merchantLoginCallback(pwd));
+                return loginHandle(loginType, account, merchantLoginCallback(pwd));
             case XINAN_AND_MALL:
                 throw new BusinessException("该账号 " + account + " 暂时不支持密码登录, 登录类型为：" + loginType);
             default:
@@ -176,7 +176,7 @@ public class AuthServiceImpl implements IAuthService {
         redisClient.deleteKey(accessTokenRedisKey, refreshTokenRedisKey);
     }
 
-    private Object loginHandle(String account, ILoginCallback callback) throws BusinessException {
+    private Object loginHandle(Integer loginType, String account, ILoginCallback callback) throws BusinessException {
         boolean exists = callback.exists(account);
         if (!exists) {
             throw new BusinessException("账号不存在");
@@ -187,7 +187,7 @@ public class AuthServiceImpl implements IAuthService {
         // 添加一些其他校验
         callback.extendValidate();
         String userId = callback.getUserId();
-        return generateAuthInfo(userId, callback::handle);
+        return generateAuthInfo(loginType, userId, callback::handle);
     }
 
     // region 登录处理
@@ -200,20 +200,21 @@ public class AuthServiceImpl implements IAuthService {
      * @return
      * @throws BusinessException
      */
-    private Object generateAuthInfo(String userId, BiFunction<String, String, Object> callback) throws BusinessException {
+    private Object generateAuthInfo(Integer loginType, String userId, BiFunction<String, String, Object> callback) throws BusinessException {
         // 生成认证信息存储于redis, accessToken有效期2小时， refreshToken有效期7天
         Date current = new Date();
         AuthInfo authInfo = new AuthInfo();
         authInfo.setUserId(userId);
+        authInfo.setLoginType(loginType);
 
         String accessToken = IdUtil.simpleUUID();
         Date accessTokenExpire = DateUtil.offset(current, DateField.HOUR_OF_DAY, 2);
-        authInfo.setAccessToken(JwtUtil.createToken(accessToken, 0));
+        authInfo.setAccessToken(JwtUtil.createToken(accessToken, loginType));
         authInfo.setAccessTokenExpire(accessTokenExpire.getTime());
 
         String refreshToken = IdUtil.simpleUUID();
         Date refreshTokenExpire = DateUtil.offset(current, DateField.DAY_OF_MONTH, 7);
-        authInfo.setRefreshToken(JwtUtil.createToken(refreshToken, 0));
+        authInfo.setRefreshToken(JwtUtil.createToken(refreshToken, loginType));
         authInfo.setRefreshTokenExpire(refreshTokenExpire.getTime());
 
         Object userInfo = callback.apply(authInfo.getAccessToken(), authInfo.getRefreshToken());
