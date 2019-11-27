@@ -6,9 +6,12 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @author zhangmugui
+ */
 @Data
 @InjectDict
-public class McEntryInformation implements Serializable {
+public class LocalCircleEntry implements Serializable {
     /**
      * 编号
      */
@@ -20,15 +23,14 @@ public class McEntryInformation implements Serializable {
     private String mcNumberId;
 
     /**
-     * 商户类型 1、个体店 ； 2、个体工商店
-     */
-    private Integer mcType;
-
-    /**
      * 店铺名称
      */
     private String shopName;
 
+    /**
+     * 主营类目
+     */
+    private String projectType;
 
     /**
      * 真实姓名
@@ -66,16 +68,15 @@ public class McEntryInformation implements Serializable {
     private Boolean longTermCertificate;
 
     /**
-     * 经营类型表一级编号id
+     * 一级经营类型表id
      */
-    private Integer firstManagementTypeId;
-
+    private Long firstManagementTypeId;
 
 
     /**
-     * 经营类型表二级编号id
+     * 二级经营类型表id
      */
-    private Integer secondManagementTypeId;
+    private Long secondManagementTypeId;
 
 
 
@@ -127,22 +128,23 @@ public class McEntryInformation implements Serializable {
     /**
      * 审核
      */
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
     private Integer toExamine;
 
     /**
-     * 店铺市Id
+     * 市Id
      */
-    private Long cityCode;
+    private String cityCode;
 
     /**
-     * 店铺省Id
+     * 省Id
      */
-    private Long provinceCode;
+    private String provinceCode;
 
     /**
-     * 店铺区Id
+     * 区Id
      */
-    private Long areaCode;
+    private String areaCode;
 
     /**
      * 详细地址
@@ -164,51 +166,38 @@ public class McEntryInformation implements Serializable {
      */
     private Long updatedat;
 
-    /**
-     *开户类型（1、借记卡；2、信用卡 ）
-     */
-    private Integer bankType;
+//    /**
+//     * 开户银行
+//     */
+//    private String bank;
 
-    @DictName(code = "BANK_TYPE", joinField = "bankType")
-    private String bankTypeDisplay;
-
-
-    /**
-     * 开户行
-     */
-    private String bank;
+//    /**
+//     * 开户支行
+//     */
+//    private Integer bankBranch;
 
 
-    /**
-     * 银行卡号
-     */
-    private String bankNumber;
+//    /**
+//     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
+//     */
+//    private Integer billingMethod;
 
-    /**
-     * 开户省份code
-     */
-    private String bankProvince;
+//
+//    /**
+//     * 银行卡号
+//     */
+//    private String bankNumber;
 
-    /**
-     * 开户市区code
-     */
-    private String bankCity;
+//    /**
+//     * 开户类型（1、借记卡；2、信用卡 ）
+//     */
+//    private Integer bankType;
 
     /**
-     * 附件数组（用；隔开）
+     * 附件数组字符串（用；隔开）
      */
     private String enclosures;
 
-    /**
-     * 1、平台代发；2、商家发；3、各开各票
-     */
-    private Integer billingMethod;
-
-
-    /**
-     * 开户账号
-     */
-    private String accountNumber;
 
     /**
      * mc_entry_information

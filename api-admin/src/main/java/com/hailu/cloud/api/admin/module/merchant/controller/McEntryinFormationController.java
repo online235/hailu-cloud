@@ -74,7 +74,6 @@ public class McEntryinFormationController {
             "    }\n" +
             "}" +
             "</pre>")
-    @ResponseBody
     @PostMapping("entryInformationList")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "shopname", value = "店铺名称", paramType = "query"),
@@ -93,8 +92,10 @@ public class McEntryinFormationController {
         return mcEntryinFormationService.selectMcEntryinFormationList(shopname, phone, Integer.parseInt(pageNum), pageSize);
     }
 
+
+
+
     @ApiOperation(notes = "", value = "商家入驻信息详情")
-    @ResponseBody
     @PostMapping("mcEntryInFormationDetails")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "信息编号", required = true, paramType = "query")
@@ -105,8 +106,10 @@ public class McEntryinFormationController {
         return mcEntryinFormationService.selectByPrimaryKey(numberId);
     }
 
+
+
+
     @ApiOperation(notes = "", value = "更改入驻审核状态")
-    @ResponseBody
     @PostMapping("changeState")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "信息编号", required = true, paramType = "query"),
@@ -119,9 +122,12 @@ public class McEntryinFormationController {
         mcEntryinFormationService.updateToExamineByNumberId(numberId, toExamine);
     }
 
+
+
+
+
     @ApiOperation(value = "更改商家入驻信息")
     @PostMapping("updEntryInformation")
-    @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "shopname", value = "店铺名称", required = true, paramType = "query"),
             @ApiImplicitParam(name = "realname", value = "真实姓名", required = true, paramType = "query"),
@@ -152,7 +158,6 @@ public class McEntryinFormationController {
 
     @ApiOperation(value = "删除商家入驻信息")
     @PostMapping("delEntryInformation")
-    @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "编号", required = true, paramType = "query")
     })

@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.merchant.module.lifecircle.service.impl;
 
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hailu.cloud.api.merchant.module.lifecircle.dao.LocalCircleEntryMapper;
@@ -14,6 +15,7 @@ import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformat
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -78,37 +81,8 @@ public class LocalCircleEntryService {
     }
 
 
-    /**
-     * 查询入驻审核是否通过
-     * @param memberid
-     * @return
-     */
-    public int selectByMcnumberidAndToexamine(String memberid){
-        if (memberid.isEmpty()){
-            return -1;
-        }
-        for (int i = 1; i <= 3; i++) {
-            int result = localCircleEntryMapper.selectByMcnumberidAndToexamine(memberid,i);
-            if (i == 1 && result > 0 ){
-                return 1;
-            }else if(i == 2 && result > 0){
-                return 0;
-            }else if (i == 3 && result > 0){
-                return 2;
-            }
-        }
-        return -1;
-    }
 
-    /**
-     * 商家后台审核列表
-     * @return
-     */
-    public Object localCircleEntryList(String shopname, String phone,Integer page, Integer szie){
-        PageHelper.startPage(page, szie);
-        PageInfo pageInfo = new PageInfo(localCircleEntryMapper.selectMcEntryinFormationList(shopname,phone));
-        return pageInfo;
-    }
+
 
     /**
      * 入驻信息详情
@@ -119,43 +93,7 @@ public class LocalCircleEntryService {
         return localCircleEntryMapper.selectByPrimaryKey(numberId);
     }
 
-    /**
-     * 更改审核状态
-     * @param numberId
-     * @param toExamine
-     * @return
-     */
-    public void updateToExamineByNumberId(String numberId, Integer toExamine){
-        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
-        localCircleEntry.setNumberId(numberId);
-        localCircleEntry.setToExamine(toExamine);
-        localCircleEntry.setUpdatedat(System.currentTimeMillis());
-        localCircleEntry.setMcNumberId(null);
-        localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
-    }
 
-    /**
-     * 更改审核信息
-     * @param localCircleEntry
-     * @return
-     */
-    public void updateMcEntryInformation(LocalCircleEntry localCircleEntry){
-        localCircleEntry.setUpdatedat(System.currentTimeMillis());
-        localCircleEntry.setToExamine(1);
-        localCircleEntry.setNumberId(null);
-        localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
-    }
-
-
-
-    /**
-     * 删除信息
-     * @param numberId
-     * @return
-     */
-    public void deleteByPrimaryKey(String numberId){
-        int result = localCircleEntryMapper.deleteByPrimaryKey(numberId);
-    }
 
     /**
      * 查询入驻信息是否存在
@@ -174,15 +112,6 @@ public class LocalCircleEntryService {
     }
 
 
-    /**
-     * 更新店铺入驻资质
-     */
-    public void updateSelective(LocalCircleEntry localCircleEntry) throws BusinessException {
-        if (localCircleEntry == null) {
-            throw new BusinessException("信息为空");
-        }
-        localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
-    }
 
     /**
      * 插入入驻信息
@@ -223,6 +152,7 @@ public class LocalCircleEntryService {
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }
+
 
 
 }
