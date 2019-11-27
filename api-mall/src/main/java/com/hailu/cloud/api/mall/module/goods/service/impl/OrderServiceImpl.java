@@ -23,10 +23,8 @@ import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.service.ISerialNumberService;
 import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
-import com.hailu.cloud.api.mall.module.sys.service.ISysAttributeService;
-import com.hailu.cloud.api.mall.module.sys.vo.OrderPay;
-import com.hailu.cloud.api.mall.module.sys.vo.OrderToPay;
-import com.hailu.cloud.api.mall.module.sys.vo.SysAttributeVO;
+import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
+import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.util.Const;
@@ -60,8 +58,6 @@ public class OrderServiceImpl implements IOrderService {
     private GoodsMapper goodsMapper;
     @Resource
     private UserInfoMapper userInfoDao;
-    @Resource
-    private ISysAttributeService sysAttributeService;
     @Autowired
     private ISerialNumberService serialNumberService;
     @Autowired
@@ -73,7 +69,7 @@ public class OrderServiceImpl implements IOrderService {
     private Gson gson = new Gson();
 
     @Override
-    public void addShoppingCart(ShoppingCartVo shoppingCartVo){
+    public void addShoppingCart(ShoppingCartVo shoppingCartVo) {
         orderDao.addShoppingCart(shoppingCartVo);
     }
 
@@ -171,10 +167,10 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public List<RegionVo> regionList(int pid) throws Exception {
-        String region = redisKit.stringGet(RedisEnum.DB_2.ordinal(),Constant.REDIS_NATION_CACHE_OLD + pid);
+        String region = redisKit.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_NATION_CACHE_OLD + pid);
         if (StringUtils.isBlank(region)) {
             List<RegionVo> list = orderDao.regionList(pid);
-            redisKit.stringSet(RedisEnum.DB_2.ordinal(), Constant.REDIS_NATION_CACHE_OLD + pid, JSONArray.toJSONString(list),0);
+            redisKit.stringSet(RedisEnum.DB_2.ordinal(), Constant.REDIS_NATION_CACHE_OLD + pid, JSONArray.toJSONString(list), 0);
             return list;
         }
         return JSON.parseArray(region, RegionVo.class);
@@ -197,19 +193,6 @@ public class OrderServiceImpl implements IOrderService {
                     }
                 }
                 ol.setOrderGoods(og);
-                if (ol.getOrderStatus() == 1) {
-                    //判断是否是预订 , 是预定的话就增加第二阶段开始时间,结束时间 , 现在的时间
-                    if (ol.getIsReserve() == 1) { //TODO 这个是为预订准备的
-                        //根据商品id商品规格id得到预订开始和时间结束时间
-                        //ActGoodsPriceVo actStartAndEndTime = goodsToDao.getActStartAndEndTime(3, og.get(0).getGoodsId(), og.get(0).getSpecId(), ol.getCreateTime());
-                        //根據活動ID得到預定開始時間結束時間
-                        if (ol.getReserveId() != null) {
-                            ActGoodsPriceVo actStartAndEndTime = goodsToDao.getReserveAct(ol.getReserveId());
-                            ol.setTwoPayStartTime(actStartAndEndTime.getTowStartTime());
-                            ol.setTwoPayEndTime(actStartAndEndTime.getTowEndTime());
-                        }
-                    }
-                }
             }
         }
         return orders;
@@ -306,7 +289,7 @@ public class OrderServiceImpl implements IOrderService {
      * @param dis      优惠
      */
     private void calculationAmount(ActPriceVo actp, List<OrderAmount> listMap, OrderAmount oa, Integer goodsNum, BigDecimal dis) {
-       //TODO
+        //TODO
         BigDecimal num = new BigDecimal(goodsNum);
         BigDecimal actPrice = new BigDecimal(actp.getActivityPrice());
         actPrice = actPrice.multiply(num);
@@ -322,7 +305,6 @@ public class OrderServiceImpl implements IOrderService {
         oa.setGoodsPrice(actPrice);
         calculationAmount(listMap, oa, actp);
     }
-
 
 
     /**
@@ -349,12 +331,12 @@ public class OrderServiceImpl implements IOrderService {
             //判断用户是否为服务商且改商品是否参与推销
             if (userInfo != null && goods != null && userInfo.getMerchantType() == 2 && goods.getIsPopularize() == 1) {
                 //如果是服务商且改商品参与推销，则以供货价下单
-                Map<String, Object> responseData = calculationAmount(goodsId, cartVo.getSpecId(), cartVo.getGoodsNum(),false);
+                Map<String, Object> responseData = calculationAmount(goodsId, cartVo.getSpecId(), cartVo.getGoodsNum(), false);
                 List<OrderAmount> orderAmounts = gson.fromJson(gson.toJson(responseData.get("listMap")), new TypeToken<List<OrderAmount>>() {
                 }.getType());
                 listMap.addAll(orderAmounts);
             } else {
-                Map<String, Object> responseData = calculationAmount(goodsId, cartVo.getSpecId(), cartVo.getGoodsNum(),true);
+                Map<String, Object> responseData = calculationAmount(goodsId, cartVo.getSpecId(), cartVo.getGoodsNum(), true);
                 List<OrderAmount> orderAmounts = gson.fromJson(gson.toJson(responseData.get("listMap")), new TypeToken<List<OrderAmount>>() {
                 }.getType());
                 listMap.addAll(orderAmounts);
@@ -377,7 +359,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> addBuyOrder(OrderParam orderParam) {
-       Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         try {
             Map<String, Object> calculationAmount = null;
 
@@ -386,9 +368,9 @@ public class OrderServiceImpl implements IOrderService {
             Goods goods = goodsMapper.findById(orderParam.getGoodsId());
             if (userInfo != null && goods != null && userInfo.getMerchantType() == 2 && goods.getIsPopularize() == 1) {
                 //如果是服务商且改商品参与推销，则以供货价下单
-                calculationAmount = calculationAmount(orderParam.getGoodsId(), orderParam.getGoodsSpecId(), orderParam.getGoodsNum(),false);
+                calculationAmount = calculationAmount(orderParam.getGoodsId(), orderParam.getGoodsSpecId(), orderParam.getGoodsNum(), false);
             } else {
-                calculationAmount = calculationAmount(orderParam.getGoodsId(), orderParam.getGoodsSpecId(), orderParam.getGoodsNum(),true);
+                calculationAmount = calculationAmount(orderParam.getGoodsId(), orderParam.getGoodsSpecId(), orderParam.getGoodsNum(), true);
             }
 
             OrderToVo order = new OrderToVo();
@@ -429,18 +411,18 @@ public class OrderServiceImpl implements IOrderService {
      *
      * @param goodsSpecId 商品规格ID
      */
-    public Map<String, Object> calculationAmount(int goodsId, int goodsSpecId, int goodsNum,boolean isMember) throws BusinessException {
+    public Map<String, Object> calculationAmount(int goodsId, int goodsSpecId, int goodsNum, boolean isMember) throws BusinessException {
         //TODO
-       Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         Map<String, Object> data = Maps.newHashMap();
         OrderAmount oa = new OrderAmount(goodsId, goodsSpecId, goodsNum);
         List<OrderAmount> listMap = new ArrayList<>();
         //获取到商品的库存
         ActPriceVo actp = goodsToDao.getGoodsNum(goodsId, goodsSpecId);
         //将价格进货价放到优惠价格中去
-        if(isMember){
+        if (isMember) {
             actp.setActivityPrice(actp.getSpecGoodsVipPrice().doubleValue());
-        }else {
+        } else {
             actp.setActivityPrice(actp.getSpecGoodsPurchasePrice().doubleValue());
         }
 
@@ -460,7 +442,7 @@ public class OrderServiceImpl implements IOrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    protected Map<String, Object> updateGoodsRepertory(Map<String, Object> result, List<OrderAmount> orderAmounts, OrderParam orderParam) throws BusinessException{
+    protected Map<String, Object> updateGoodsRepertory(Map<String, Object> result, List<OrderAmount> orderAmounts, OrderParam orderParam) throws BusinessException {
         for (OrderAmount oa : orderAmounts) {
             ActPriceVo actp = null;
 
@@ -480,7 +462,6 @@ public class OrderServiceImpl implements IOrderService {
         }
         return result;
     }
-
 
 
     /**
@@ -580,7 +561,6 @@ public class OrderServiceImpl implements IOrderService {
      * 添加订单商品
      *
      * @param orderParam
-
      * @param og
      */
     @Transactional(rollbackFor = Exception.class)
@@ -748,9 +728,9 @@ public class OrderServiceImpl implements IOrderService {
     /**
      * 添加购物车商品订单
      *
-     * @param order           订单
-     * @param cartVos         购物车vos
-     * @param orderAmounts    订单金额list
+     * @param order        订单
+     * @param cartVos      购物车vos
+     * @param orderAmounts 订单金额list
      */
     @Transactional(rollbackFor = Exception.class)
     protected void addCartOrderGoods(OrderToVo order, List<CartVo> cartVos, List<OrderAmount> orderAmounts) {
@@ -823,7 +803,7 @@ public class OrderServiceImpl implements IOrderService {
             }
             orderDao.updateOrderStatus(orderId, orderStatus, System.currentTimeMillis(), newIntegeal);
         } catch (Exception e) {
-            log.error("确认收货异常："+e.getMessage(),e);
+            log.error("确认收货异常：" + e.getMessage(), e);
             throw new RuntimeException(JSONObject.toJSONString(result));
         }
         return result;
@@ -858,7 +838,6 @@ public class OrderServiceImpl implements IOrderService {
     }
 
 
-
     /**
      * @author 黄亮
      * 根据订单id得到该订单下的所有商品
@@ -875,7 +854,6 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     public Map<String, Object> getOrderInfo(Integer orderId) throws BusinessException {
-        Map<String, Object> result = new HashMap<>();
         if (!StringUtil.isNotEmpty(orderId)) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
@@ -905,33 +883,18 @@ public class OrderServiceImpl implements IOrderService {
                 orderInfo.setOrderInvoice(oi);
                 //得到判断订单支付结束时间
                 if (orderInfo.getOrderState() == 1) {
-                    //ShareAttribute   shareGradeService
-                    //					List<AttrB> findAllAttributes = shareGradeService.findAllAttributes();
-                    SysAttributeVO sysAttributeVO = new SysAttributeVO();
+                    Long cancelTime;
                     if ("1".equals(orderInfo.getIsLimit())) {
-                        sysAttributeVO.setAttributeKey("limit_cancel_time");
+                        BigDecimal ft = new BigDecimal(String.valueOf(1000 * 60 * 60));
+                        cancelTime = ft.longValue();
                     } else {
-                        sysAttributeVO.setAttributeKey("cancel_order_time");
+                        BigDecimal ft = new BigDecimal(String.valueOf(24 * 1000 * 60 * 60));
+                        cancelTime = ft.longValue();
                     }
-                    SysAttributeVO attributeByKey = sysAttributeService.getAttributeByKey(sysAttributeVO);
-                    BigDecimal ft = new BigDecimal(attributeByKey.getAttributeValue());
-                    Long cancelTime = ft.multiply(new BigDecimal(1000 * 60 * 60)).longValue();
                     cancelTime = orderInfo.getCreateTime() + cancelTime;
                     long newTime = System.currentTimeMillis();
                     orderInfo.setCancelOrderTime(cancelTime - newTime);
                 }
-                //if(orderInfo.getOrderState()==1){
-                //判断是否是预订 , 是预定的话就增加第二阶段开始时间,结束时间 , 现在的时间,预计发货时间
-                if (orderInfo.getIsReserve() == 1 || orderInfo.getIsReserve() == 2) { //TODO 这个是为预订准备的
-                    //根据商品id商品规格id得到预订开始和时间结束时间
-                    if (orderInfo.getReserveId() != null) {
-                        ActGoodsPriceVo actStartAndEndTime = goodsToDao.getReserveAct(orderInfo.getReserveId());
-                        orderInfo.setTwoPayStartTime(actStartAndEndTime.getTowStartTime());
-                        orderInfo.setTwoPayEndTime(actStartAndEndTime.getTowEndTime());
-                        orderInfo.setPredictTime(actStartAndEndTime.getPredictTime());
-                    }
-                }
-                //}
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -1028,7 +991,7 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     public Map<String, Object> orderVerification(int orderId) {
-       Map<String, Object> result = Maps.newHashMap();
+        Map<String, Object> result = Maps.newHashMap();
         try {
             //先得到订单详情
             OrderInfo orderInfo = orderDao.getOrderInfo(orderId);
@@ -1243,14 +1206,13 @@ public class OrderServiceImpl implements IOrderService {
             Goods goods = goodsMapper.findById(goodsId);
             if (userInfo != null && goods != null && userInfo.getMerchantType() == 2 && goods.getIsPopularize() == 1) {
                 //如果是服务商且改商品参与推销，则以供货价下单
-                result = calculationAmount(goodsId, goodsSpecId, goodsNum,false);
+                result = calculationAmount(goodsId, goodsSpecId, goodsNum, false);
             } else {
-                result = calculationAmount(goodsId, goodsSpecId, goodsNum,true);
+                result = calculationAmount(goodsId, goodsSpecId, goodsNum, true);
             }
         }
         return result;
     }
-
 
 
     @Override

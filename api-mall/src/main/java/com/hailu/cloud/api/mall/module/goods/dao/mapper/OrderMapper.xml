@@ -894,7 +894,7 @@
 		WHERE order_sn =#{orderSn,jdbcType=VARCHAR} AND order_state =1 AND payment_state=0
 	</select>
     <!-- @AUTHOR HUANGL 添加訂單支付詳情 -->
-    <insert id="addOrderPay" parameterType="com.hailu.cloud.api.mall.module.sys.vo.OrderPay" useGeneratedKeys="true"
+    <insert id="addOrderPay" parameterType="com.hailu.cloud.api.mall.module.payment.vo.OrderPay" useGeneratedKeys="true"
             keyProperty="payId">
 	INSERT INTO shop_order_pay(
 		pay_sn,
@@ -918,7 +918,7 @@
 	
 	</insert>
     <!-- @AUTHOR HUANGL 更改訂單支付狀態 -->
-    <update id="updateOrderByPay" parameterType="com.hailu.cloud.api.mall.module.sys.vo.OrderToPay">
+    <update id="updateOrderByPay" parameterType="com.hailu.cloud.api.mall.module.payment.vo.OrderToPay">
         UPDATE shop_order
         SET
         payment_name=#{paymentName},
@@ -1094,7 +1094,7 @@
 	</select>
     <!-- 得到订单支付list -->
     <select id="findOrderPayByOrderSn" parameterType="String"
-            resultType="com.hailu.cloud.api.mall.module.sys.vo.OrderPay">
+            resultType="com.hailu.cloud.api.mall.module.payment.vo.OrderPay">
 		SELECT 
 			pay_sn AS paySn,
 			buyer_id as buyerId,

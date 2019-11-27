@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.mall.module.sys.vo;
+package com.hailu.cloud.api.mall.module.payment.vo;
 
 import lombok.Data;
 

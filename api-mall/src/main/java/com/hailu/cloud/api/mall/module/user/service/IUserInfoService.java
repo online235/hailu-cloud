@@ -17,26 +17,6 @@ import java.util.Date;
 public interface IUserInfoService {
 
     /**
-     * 验证是否登录
-     *
-     * @param userId
-     * @param token
-     * @return
-     * @throws Exception
-     */
-    boolean valiLogin(String userId, String token) throws Exception;
-
-    /**
-     * 用户登录
-     *
-     * @param account
-     * @param loginPwd
-     * @return
-     * @throws Exception
-     */
-    UserInfoVo userLogin(String account, String loginPwd, String cid, String source, int systemType) throws Exception;
-
-    /**
      * 验证帐号是否可注册
      *
      * @param account 账号
@@ -44,15 +24,6 @@ public interface IUserInfoService {
      * @throws Exception
      */
     Boolean verifyAccountState(String account) throws Exception;
-
-    /**
-     * 登出
-     *
-     * @param userId
-     * @param token
-     * @return
-     */
-    Boolean logout(String userId, String token) throws Exception;
 
     /**
      * 注册
@@ -76,14 +47,6 @@ public interface IUserInfoService {
      * @return
      */
     UserInfoVo verifySmsCode(String account, String smsCode) throws Exception;
-
-    /**
-     * 发送注册短信验证
-     *
-     * @param account
-     * @return
-     */
-    Boolean sendRegisterSmsCode(String account) throws Exception;
 
     /**
      * 修改个人信息
@@ -195,19 +158,6 @@ public interface IUserInfoService {
      */
     Boolean verifyIsAlterPwd(String userId, String payPwd, String name, String cardId) throws BusinessException;
 
-    /**
-     * 发送短信验证码
-     *
-     * @param account
-     * @return
-     */
-    Boolean sendForgetPwdSmsCode(String account) throws Exception;
-
-
-//
-//
-//    List<UserInfoVo> findCanGetQuarterGiftUser();
-
     Boolean WXunbundle(String phone);
 
     Integer verifyAccountIfUpdate(String phone, String msg);
@@ -232,23 +182,6 @@ public interface IUserInfoService {
      */
     Boolean updateWeCartBind(String unionid, String userId, String openId, String state) throws BusinessException;
 
-    /**
-     * @param userId
-     * @return
-     * @Author wangbl
-     */
-
-    Boolean loginCode(String loginCode, String userId) throws BusinessException;
-
-    /**
-     * 发送短信修改支付密码验证码
-     *
-     * @param account
-     * @param userId
-     * @return
-     * @Author huangl
-     */
-    Boolean sendAmendPwdSmsCode(String account, String userId, String name, String cardId) throws BusinessException;
 
     int findUnionid(String unionid);
 
@@ -274,15 +207,6 @@ public interface IUserInfoService {
      */
     UserInfoVo shareRegister(String account, String loginPwd, String QRcode, String unionid, String inviteCode,
                              String userIcon, String nickName, String memberSex, String cid, Integer systemType, String sourceRegistration) throws Exception;
-
-    /**
-     * 用户快速登录
-     *
-     * @param account
-     * @return
-     * @throws Exception
-     */
-    UserInfoVo userVqLogin(String account, String smsCode, String cid, Integer systemType) throws Exception;
 
     /**
      * 更改海露会员状态

@@ -4,8 +4,8 @@ import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsCompl;
 import com.hailu.cloud.api.mall.module.goods.entity.order.*;
 import com.hailu.cloud.api.mall.module.goods.vo.FreightVo;
 import com.hailu.cloud.api.mall.module.goods.vo.RegionVo;
-import com.hailu.cloud.api.mall.module.sys.vo.OrderPay;
-import com.hailu.cloud.api.mall.module.sys.vo.OrderToPay;
+import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
+import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.common.exception.BusinessException;
 
 import java.util.List;

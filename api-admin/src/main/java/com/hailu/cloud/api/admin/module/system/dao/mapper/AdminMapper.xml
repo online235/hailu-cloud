@@ -46,9 +46,6 @@
             <if test="enableStatus != null">
                 and enable_status = #{enableStatus}
             </if>
-            <if test="phone != null">
-                and phone = #{phone}
-            </if>
         </where>
     </select>
 

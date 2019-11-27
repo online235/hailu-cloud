@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
-import com.hailu.cloud.api.mall.module.goods.dao.CollectGoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
-import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
+import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsParameterVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.*;
 import com.hailu.cloud.api.mall.module.goods.entity.order.CartVo;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderAmount;
@@ -18,7 +17,6 @@ import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
 import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
-import com.hailu.cloud.api.mall.module.sys.service.ISysAttributeService;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -27,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsParameterVo;
+
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
@@ -42,16 +40,10 @@ public class GoodsToServiceImpl implements IGoodsToService {
 
     @Resource
     private GoodsToMapper goodsToDao;
-    @Resource
-    private OrderMapper orderDao;
     @Autowired
     private IOrderService orderService;
-    @Autowired
-    private ISysAttributeService sysAttributeService;
     @Resource
     private UserInfoMapper userInfoDao;
-    @Resource
-    private CollectGoodsMapper collectGoodsDao;
 
     @Autowired
     private IComputeCommission computeCommission;
@@ -310,10 +302,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
         }
 
         GoodsInfoVo goodsInfo = goodsToDao.getGoodsInfo(goodsId);
-        List<CollectGoodsVo> collectGoodsList = collectGoodsDao.verificationIsCollect(userId, goodsId);
-        if (collectGoodsList.size() > 0) {
-            goodsInfo.setIsCollect(1);
-        }
         //活动使用
         List<Map<String, Object>> maplist2 = new LinkedList<>();
         List<Map<String, Object>> maplist5 = new LinkedList<>();

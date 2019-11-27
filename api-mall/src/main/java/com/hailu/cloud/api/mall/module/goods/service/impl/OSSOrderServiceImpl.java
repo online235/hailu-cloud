@@ -8,8 +8,8 @@ import com.hailu.cloud.api.mall.module.goods.service.IOSSOrderService;
 import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.vo.vm.OrderGoodsVm;
 import com.hailu.cloud.api.mall.module.ledger.service.impl.LedgerFixedRatioServiceImpl;
-import com.hailu.cloud.api.mall.module.sys.vo.OrderPay;
-import com.hailu.cloud.api.mall.module.sys.vo.OrderToPay;
+import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
+import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
 import com.hailu.cloud.common.model.payment.PayRequest;
@@ -198,7 +198,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
             //IP地址
             payRequest.setIp(IPUtil.getRemoteHost(RequestUtils.getRequest()));
             //回调地址
-            payRequest.setNotifyUrl(serverUrl+"/mall/api/sys/callbackweixin");
+            payRequest.setNotifyUrl(serverUrl+"/mall/api/payment/callback/weixin");
         } else {
             throw new BusinessException("不能重复支付");
         }

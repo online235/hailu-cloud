@@ -1,17 +1,13 @@
 package com.hailu.cloud.api.mall.module.user.service.impl;
 
-import cn.hutool.core.util.RandomUtil;
 import com.hailu.cloud.api.mall.constant.Constant;
 import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
 import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
-import com.hailu.cloud.api.mall.module.sys.dao.SysAttributeMapper;
-import com.hailu.cloud.api.mall.module.sys.vo.SysAttributeVO;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
 import com.hailu.cloud.api.mall.module.user.vo.RealNameVo;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
@@ -52,25 +48,9 @@ public class UserInfoServiceImpl implements IUserInfoService {
     private UserInfoMapper userInfoDao;
     @Autowired
     private RedisStandAloneClient redisTemplate;
-    @Resource
-    private SysAttributeMapper sysAttributeDao;
-    public static final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 
     @Resource
     private BasicFeignClient smsFeightClient;
-
-
-    @Override
-    public boolean valiLogin(String userId, String token){
-        String key = tokenKey + userId;
-        String redisToken = redisTemplate.stringGet(key);
-        if (token.equals(redisToken)) {
-            redisTemplate.stringSet(key, token, tokenKeyTimes * Constant.HOUR);
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * 密码加密
@@ -82,83 +62,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
      */
     String passwdSign(String account, String loginPwd){
         return DigestUtils.md5Hex(DigestUtils.sha1("passwd=" + loginPwd + "&key=" + signKey));
-    }
-
-
-
-    // 登录
-    @Override
-    public UserInfoVo userLogin(String account, String loginPwd, String cid, String source, int systemType) throws Exception {
-        // 用户不存在
-        if (userInfoDao.verifyAccountState(account) == null) {
-            throw new BusinessException(BusinessCode.USER_NOT_EXISTS.getDescription());
-        }
-        UserInfoVo user = userInfoDao.userLoginQuery(account, passwdSign(account, loginPwd));
-        if (user != null) {
-            if (user.getNickName().matches(REGEX_MOBILE)) {
-                String str = user.getNickName();
-                user.setNickName(str.substring(0, 3) + "****" + str.substring(7, user.getNickName().length()));
-            }
-            if (user.getUserName().matches(REGEX_MOBILE)) {
-                String str = user.getUserName();
-                user.setUserName(str.substring(0, 3) + "****" + str.substring(7, user.getUserName().length()));
-            }
-            if (StringUtils.isNotBlank(cid)) {
-                user.setCid(cid);
-                if (systemType == 1) {
-                    systemType = 2;
-                }
-                user.setSystemType(systemType);
-                userInfoDao.updateUserCid(user);
-            }
-        }
-        if (user == null) {
-            throw new BusinessException(BusinessCode.LOGIN_PWD_ERROR.getDescription());
-        }
-        // 将邀请人id 转为名字
-        UserInfoVo u = userInfoDao.getUser(user.getBeInviteUser());
-        if (u != null) {
-            user.setBeInviteUser(u.getUserName());
-        }
-        // 先删除之前的token 如果没有就不删除 保存token到redis
-        redisTemplate.deleteKey(tokenKey + user.getUserId());
-        String token = UUID.randomUUID().toString();
-        redisTemplate.stringSet(tokenKey + user.getUserId(), token, tokenKeyTimes * Constant.HOUR);
-        user.setToken(token);
-        if (user != null) {
-            if (user.getUserIcon() != null) {
-                if (user.getUserIcon().indexOf("http") == -1) {
-                    user.setUserIcon(Const.PRO_URL + user.getUserIcon());
-                }
-            } else {
-                SysAttributeVO sysAttributeVO = new SysAttributeVO();
-                sysAttributeVO.setAttributeKey("userDefaultIcon");
-                user.setUserIcon(Const.PRO_URL + sysAttributeDao.getAttributeByKey(sysAttributeVO).getAttributeValue());
-            }
-        }
-        if (user.getPayPassword() == null) {//设置密码状态
-            user.setUpdatePwState(0);//设置
-        } else {
-            user.setUpdatePwState(1);//修改
-        }
-        if (StringUtils.isNotEmpty(user.getUnionid())) {
-            user.setIsBindWeChat(1);
-        } else {
-            user.setIsBindWeChat(0);
-        }
-        return user;
-    }
-
-    // 登出
-    @Override
-    public Boolean logout(String userId, String token) throws Exception {
-        String redisToken = redisTemplate.stringGet(tokenKey + userId);
-        // 是否存在token 该token 是否和前台传的相同
-        if (!token.equals(redisToken)) {
-            throw new BusinessException(BusinessCode.USER_NOT_LOGIN.getDescription());
-        }
-        redisTemplate.deleteKey(tokenKey + userId);
-        return true;
     }
 
     // 帐号是否可注册 true 表示可注册 (该用户不存在)
@@ -182,8 +85,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
 
         String userId = UUID.randomUUID().toString();
         loginPwd = passwdSign(account, loginPwd);
-        SysAttributeVO sysAttributeVO = new SysAttributeVO();
-        sysAttributeVO.setAttributeKey("userDefaultIcon");
         UserInfo userinfo = new UserInfo();
         userinfo.setUserId(userId);
         userinfo.setSourceRegistration(sourceRegistration);
@@ -266,39 +167,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
         // 验证成功，删除token
         redisTemplate.deleteKey(tokenKey + account);
         return result;
-    }
-
-    /**
-     * 发送注册短信
-     *
-     * @param account
-     * @return
-     */
-    @Override
-    public Boolean sendRegisterSmsCode(String account) throws Exception {
-        String smsCode = RandomUtil.randomNumbers(6);
-        smsFeightClient.send(account, smsCode);
-        return true;
-    }
-
-    /**
-     * 发送忘记密码短信验证
-     *
-     * @param account
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public Boolean sendForgetPwdSmsCode(String account) throws Exception {
-        // 判断是否已经注册
-        if (null == userInfoDao.verifyAccountState(account)) {
-            // 未注册
-            throw new BusinessException(BusinessCode.USER_NOT_EXISTS.getDescription());
-        }
-        String smsCode = RandomUtil.randomNumbers(6);
-        // 发送短信
-        smsFeightClient.send(account, smsCode);
-        return true;
     }
 
     /**
@@ -450,8 +318,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
             return byIdFindUser;
 
         } else {
-            SysAttributeVO sysAttributeVO = new SysAttributeVO();
-            sysAttributeVO.setAttributeKey("userDefaultIcon");
             UserInfo userinfo = new UserInfo();
             userinfo.setUserId(userId);
             userinfo.setCreateTime(System.currentTimeMillis());
@@ -724,52 +590,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
         }
     }
 
-
-    /*
-     * APP扫码登入
-     */
-    @Override
-    public Boolean loginCode(String loginCode, String userId) throws BusinessException {
-        String loginCodeVal = redisTemplate.stringGet("loginCode" + loginCode);
-        if (loginCodeVal == null) {
-            throw new BusinessException("二维码已失效");
-        } else {
-            loginCodeVal = "1," + userId;
-            redisTemplate.stringSet("loginCode" + loginCode, loginCodeVal, tokenKeyTimes * Constant.HOUR);
-        }
-        return true;
-    }
-
-    @Override
-    public Boolean sendAmendPwdSmsCode(String account, String userId, String name, String cardId) throws BusinessException {
-        Boolean result = false;
-
-        RealNameVo realNameVo;
-        try {
-            realNameVo = userInfoDao.getRealNameByAccount(account, userId);
-
-            if (realNameVo != null) {
-                if (!name.equals(realNameVo.getUserName())) {
-                    throw new BusinessException("姓名跟实名认证不一致");
-                } else if (!cardId.equals(realNameVo.getIdCard())) {
-                    throw new BusinessException("身份证号跟实名认证不一致");
-                }
-                String smsCode = RandomUtil.randomNumbers(6);
-                // 发送短信
-                smsFeightClient.send(account, smsCode);
-                // 成功
-                redisTemplate.stringSet(tokenKey + account, smsCode, registerSmsCodeTimes * Constant.MINUTES);
-                return true;
-            } else {
-                throw new BusinessException("未找到该用户信息");
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            log.error(e.getMessage(), e);
-            throw new BusinessException("未知错误请联系客服");
-        }
-    }
-
     @Override
     public UserInfo getUserInfoVo(String account) {
         return userInfoDao.getUserInfoVo(account);
@@ -787,8 +607,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
                                     String userIcon, String nickName, String memberSex, String cid, Integer systemType, String sourceRegistration) throws Exception {
         String userId = UUID.randomUUID().toString();
         loginPwd = passwdSign(account, loginPwd);
-        SysAttributeVO sysAttributeVO = new SysAttributeVO();
-        sysAttributeVO.setAttributeKey("userDefaultIcon");
         UserInfo userinfo = new UserInfo();
         userinfo.setUserId(userId);
         userinfo.setSourceRegistration(sourceRegistration);
@@ -850,58 +668,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
         vo.setToken(token);
         return vo;
     }
-
-    @Override
-    public UserInfoVo userVqLogin(String account, String smsCode, String cid, Integer systemType) throws Exception {
-        UserInfoVo result = new UserInfoVo();
-        // 用户不存在
-        if (userInfoDao.verifyAccountState(account) == null) {
-            throw new BusinessException(BusinessCode.USER_NOT_EXISTS.getDescription());
-        }
-        UserInfoVo user = userInfoDao.findByAccount(account);
-        if (user != null) {
-            if (StringUtils.isNotBlank(cid)) {
-                user.setCid(cid);
-                if (systemType == 1) {
-                    systemType = 2;
-                }
-                user.setSystemType(systemType);
-                userInfoDao.updateUserCid(user);
-            }
-        }
-        // 将邀请人id 转为名字
-		/*UserInfoVo u = userInfoDao.getUser(user.getBeInviteUser());
-		if (u != null) {
-			user.setBeInviteUser(u.getUserName());
-		}*/
-        // 先删除之前的token 如果没有就不删除 保存token到redis
-        redisTemplate.deleteKey(tokenKey + user.getUserId());
-        String token = UUID.randomUUID().toString();
-        redisTemplate.stringSet(tokenKey + user.getUserId(), token, tokenKeyTimes * Constant.HOUR);
-        user.setToken(token);
-        if (user != null) {
-            if (user.getUserIcon() != null && user.getUserIcon().indexOf("http") == -1) {
-                user.setUserIcon(Const.PRO_URL + user.getUserIcon());
-            } else {
-                SysAttributeVO sysAttributeVO = new SysAttributeVO();
-                sysAttributeVO.setAttributeKey("userDefaultIcon");
-                user.setUserIcon(Const.PRO_URL + sysAttributeDao.getAttributeByKey(sysAttributeVO).getAttributeValue());
-            }
-        }
-        if (user.getPayPassword() == null) {//设置密码状态
-            user.setUpdatePwState(0);//设置
-        } else {
-            user.setUpdatePwState(1);//修改
-        }
-        if (StringUtils.isNotEmpty(user.getUnionid())) {
-            user.setIsBindWeChat(1);
-        } else {
-            user.setIsBindWeChat(0);
-        }
-        return user;
-    }
-
-
 
     @Override
     public void editHlMember(String userId, int status, String memberCard, Date timeOut) {
