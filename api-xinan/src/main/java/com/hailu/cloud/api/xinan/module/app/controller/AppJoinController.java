@@ -2,7 +2,6 @@ package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.module.app.service.impl.InsuredService;
 import com.hailu.cloud.api.xinan.module.app.service.impl.OrderService;
-import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.IDCardCheck;
@@ -32,7 +31,7 @@ import javax.validation.constraints.NotNull;
  * @Description: 我要加入接口
  */
 @RestController
-@RequestMapping("xinan/app/join/")
+@RequestMapping("app/join/")
 @Validated
 @Api(tags = "心安-我要加入")
 @Slf4j
@@ -135,7 +134,7 @@ public class AppJoinController {
             "  \"serverTime\": 1571740676302\n" +
             "}", value = "获取参保人未支付的订单")
     public Object findNoPayList(HttpServletRequest request) {
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         log.info("获取参保人列表");
         return orderService.findListByMemberIdAndMemberStatus(loginInfo.getUserId());
     }
@@ -289,8 +288,7 @@ public class AppJoinController {
     @ResponseBody
     @PostMapping("/findInsurdList")
     public Object findInsurdList(HttpServletRequest request) {
-
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         log.debug("查询参保人列表:{}", loginInfo.getUserId());
         return insuredService.findListByMemberId(loginInfo.getUserId());
     }

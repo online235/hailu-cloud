@@ -3,9 +3,9 @@ package com.hailu.cloud.api.xinan.module.app.controller;
 import com.hailu.cloud.api.xinan.module.app.entity.Rescue;
 import com.hailu.cloud.api.xinan.module.app.service.impl.RescueInfoService;
 import com.hailu.cloud.api.xinan.module.app.service.impl.RescueService;
-import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,7 +43,7 @@ public class RescueController {
 
     })
     public void insHelpANDMtualAid(Rescue rescue, String[] picture, HttpServletRequest request) throws BusinessException {
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         rescue.setMemberId(loginInfo.getUserId());
         rescueInfoService.insRescueAndRictures(rescue,picture);
     }

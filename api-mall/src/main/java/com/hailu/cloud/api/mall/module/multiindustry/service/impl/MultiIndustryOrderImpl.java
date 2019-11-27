@@ -14,6 +14,7 @@ import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
     public void insertSelective(MultiIndustryOrder record, HttpServletRequest request) {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         String num = String.valueOf(basicFeignClient.uuid().getData());
         record.setMemberId(loginInfo.getUserId());
         record.setId(Long.parseLong(num));
@@ -57,7 +58,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
 
     @Override
     public PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(HttpServletRequest request , Integer page , Integer size) {
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         Page pageData = PageHelper.startPage(page,size);
         List<MultiIndustryOrder> orders = multiIndustryOrderMapper.findOrderListByMemberId(loginInfo.getUserId());
         return new PageInfoModel(pageData.getPages(), pageData.getTotal(), orders);

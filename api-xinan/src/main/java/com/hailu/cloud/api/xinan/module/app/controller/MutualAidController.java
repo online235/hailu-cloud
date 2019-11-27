@@ -2,9 +2,9 @@ package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.module.app.entity.Mutualaid;
 import com.hailu.cloud.api.xinan.module.app.service.impl.MutualAidInfoService;
-import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -53,7 +53,7 @@ public class MutualAidController {
     })
     public void insHelpANDMtualAid(Mutualaid mutualAid, String[] picture, HttpServletRequest request) throws BusinessException {
 
-        MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         mutualAid.setMemberId(loginInfo.getUserId());
         mutualAidInfoService.insHelpANDMtualAid(mutualAid,picture);
     }
