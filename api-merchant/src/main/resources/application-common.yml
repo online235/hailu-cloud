@@ -17,13 +17,13 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       validation-query: select 1
-      min-idle: 5
-      max-active: 20
+      min-idle: 1
+      max-active: 4
+      initial-size: 1
       max-wait: 60000
       use-global-data-source-stat: true
       max-pool-prepared-statement-per-connection-size: 20
       filter: stat,wall,log4j
-      initial-size: 10
   jackson:
     default-property-inclusion: non_null
 feign:
