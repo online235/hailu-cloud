@@ -42,7 +42,7 @@ public class McEntryinFormationService {
         //生成时间戳
         long time = System.currentTimeMillis();
         //生成随机ID
-        String numberid = String.valueOf(basicFeignClient.uuid());
+        String numberid = String.valueOf(basicFeignClient.uuid().getData());
         mcEntryinFormation.setNumberId(numberid);
         mcEntryinFormation.setCreatedat(time);
         mcEntryinFormation.setUpdatedat(time);

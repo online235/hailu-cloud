@@ -33,7 +33,7 @@ public class PayExpandService {
         long dateNow = System.currentTimeMillis();
         //如果ID为空，则新增
         if(StringUtils.isBlank(pay.getId())){
-            pay.setId(String.valueOf(basicFeignClient.uuid()));
+            pay.setId(String.valueOf(basicFeignClient.uuid().getData()));
             payExpandMapper.insert(pay);
             return pay;
         }

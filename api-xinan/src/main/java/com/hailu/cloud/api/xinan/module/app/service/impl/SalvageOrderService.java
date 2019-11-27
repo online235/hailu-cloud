@@ -34,7 +34,7 @@ public class SalvageOrderService {
         //创建人
         salvageOrder.setCreateBy(loginInfo.getUserId());
         //生成编号
-        salvageOrder.setNumberId(String.valueOf(basicFeignClient.uuid()));
+        salvageOrder.setNumberId(String.valueOf(basicFeignClient.uuid().getData()));
         //生成创建时间
         salvageOrder.setCreateDate(new Date());
         //状态

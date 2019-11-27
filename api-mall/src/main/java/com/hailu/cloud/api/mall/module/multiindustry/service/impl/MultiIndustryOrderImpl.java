@@ -39,7 +39,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
         MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
-        String num = String.valueOf(basicFeignClient.uuid());
+        String num = String.valueOf(basicFeignClient.uuid().getData());
         record.setMemberId(loginInfo.getUserId());
         record.setId(Long.parseLong(num));
         record.setOrderTime(new Date());

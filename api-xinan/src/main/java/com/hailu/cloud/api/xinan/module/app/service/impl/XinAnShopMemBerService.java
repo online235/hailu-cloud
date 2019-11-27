@@ -37,7 +37,7 @@ public class XinAnShopMemBerService {
      */
     public void AddLitemallUser(String phone, long addtime) {
         ShopMember userInfo = new ShopMember();
-        userInfo.setUserId(String.valueOf(uuidFeignClient.uuid()));
+        userInfo.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
         userInfo.setLoginName(phone);
         userInfo.setMemberName(phone);
         userInfo.setRegistTime(addtime);
