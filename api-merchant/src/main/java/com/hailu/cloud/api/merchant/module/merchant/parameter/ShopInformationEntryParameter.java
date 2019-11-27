@@ -81,7 +81,6 @@ public class ShopInformationEntryParameter {
      * 营业执照注册号
      */
     @ApiParam(name = "businessLicenseNumber", value = "营业执照注册号", required = true)
-    @NotEmpty
     private String businessLicenseNumber;
 
 
@@ -89,7 +88,6 @@ public class ShopInformationEntryParameter {
      * 营业执照正面照
      */
     @ApiParam(name = "licensePositive", value = "营业执照正面照", required = true)
-    @NotEmpty
     private String licensePositive;
 
     /**
@@ -107,15 +105,17 @@ public class ShopInformationEntryParameter {
 
 
     /**
-     * (账号)开户类型（1、借记卡；2、信用卡 ）
+     *开户类型（1、储蓄卡；2、借记卡 ）
      */
-    @ApiParam(name = "bankType", value = "开户类型（1、借记卡；2、信用卡 ）", required = true)
+    @ApiParam(name = "bankType", value = "开户类型（1、储蓄卡；2、借记卡 ）", required = true)
+    @NotEmpty
     private Integer bankType;
 
     /**
      * 开户支行
      */
     @ApiParam(name = "bankBranch", value = "开户支行", required = true)
+    @NotEmpty
     private String bankBranch;
 
 
@@ -123,24 +123,28 @@ public class ShopInformationEntryParameter {
      * 开户账号
      */
     @ApiParam(name = "accountNumber", value = "开户账号", required = true)
+    @NotEmpty
     private String accountNumber;
 
     /**
      * 开户省份code
      */
     @ApiParam(name = "bankProvince", value = "开户省份code", required = true)
+    @NotEmpty
     private String bankProvince;
 
     /**
      * 开户市区code
      */
     @ApiParam(name = "bankCity", value = "开户市区code", required = true)
+    @NotEmpty
     private String bankCity;
 
     /**
      * 开票方式（1、平台代开；2、商家代开；3、各开各票）
      */
     @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）", required = true)
+    @NotEmpty
     private Integer billingMethod;
 
 
@@ -155,6 +159,7 @@ public class ShopInformationEntryParameter {
      * 银行卡号
      */
     @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
+    @NotEmpty
     private String bankNumber;
 
 
@@ -162,12 +167,14 @@ public class ShopInformationEntryParameter {
      * 注册验证码
      */
     @ApiParam(name = "code", value = "注册验证码", required = true)
+    @NotEmpty
     private String code;
 
     /**
      * 注册登陆账号
      */
     @ApiParam(name = "landingAccount", value = "注册登陆账号", required = true)
+    @NotEmpty
     private String landingAccount;
 
 
@@ -175,6 +182,7 @@ public class ShopInformationEntryParameter {
      * 注册登陆密码
      */
     @ApiParam(name = "landingPassword", value = "注册登陆密码", required = true)
+    @NotEmpty
     private String landingPassword;
 
 
@@ -182,6 +190,7 @@ public class ShopInformationEntryParameter {
      * 注册手机号码
      */
     @ApiParam(name = "moli", value = "注册手机号码", required = true)
+    @NotEmpty
     private String moli;
 
 
