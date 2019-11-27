@@ -90,8 +90,7 @@ public class AuthController {
             @PathVariable("loginType") String loginType,
             @NotBlank(message = "手机号码不能为空")
             @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
-            @NotBlank(message = "验证码不能为空")
-            @Pattern(regexp = "^\\d{6}$", message = "验证码格式不正确") String code) throws BusinessException {
+            @NotBlank(message = "验证码不能为空") String code) throws BusinessException {
 
         return authService.vericodeLogin(Integer.valueOf(loginType), phone, code);
     }

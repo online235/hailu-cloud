@@ -35,7 +35,7 @@ public class PayService {
         Date dateNow = new Date();
         //如果ID为空，则新增
         if (StringUtils.isBlank(pay.getId())) {
-            pay.setId(String.valueOf(basicFeignClient.uuid()));
+            pay.setId(String.valueOf(basicFeignClient.uuid().getData()));
             pay.setCreateDate(dateNow);
             pay.setCreateBy(pay.getMemberId());
             pay.setStatus(1);

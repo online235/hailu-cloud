@@ -108,10 +108,10 @@ public class XinAnLoginController {
         boolean exists = memberService.exists(phone);
         if (exists) {
             // 账号已存在
-            throw new BusinessException("账号以存在");
+            throw new BusinessException("账号已存在");
         }
         // 万能验证码，前期测试时使用
-        if (!code.equals("1111")) {
+        if (!code.equals("111111")) {
             String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
 
             if (!code.equals(veriCode)) {
@@ -122,7 +122,7 @@ public class XinAnLoginController {
         // 注册账号
         memberService.AddLitemallUser(phone,System.currentTimeMillis());
 
-        return authFeignClient.vericodeLogin("0", phone, code);
+        return authFeignClient.vericodeLogin("0", phone, code).getData();
     }
 
 
