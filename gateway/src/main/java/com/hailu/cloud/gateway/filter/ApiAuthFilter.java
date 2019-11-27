@@ -236,7 +236,8 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         if (DateUtil.compare(expire, current) > 0) {
             return authInfo;
         }
-        return authInfo;
+        // token已过期
+        return null;
     }
 
     // endregion

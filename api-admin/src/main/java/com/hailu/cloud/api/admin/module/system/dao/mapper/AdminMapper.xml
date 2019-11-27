@@ -10,7 +10,7 @@
 
     <!-- 变更账号启用状态 -->
     <update id="changeStatus">
-		update from sys_admin set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
+		update sys_admin set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
     </update>
 
     <!-- 关联角色 -->

@@ -10,7 +10,7 @@
 
     <!-- 变更角色启用状态 -->
     <update id="changeStatus">
-		update from sys_role set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
+		update sys_role set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
     </update>
 
     <!-- 关联菜单 -->
