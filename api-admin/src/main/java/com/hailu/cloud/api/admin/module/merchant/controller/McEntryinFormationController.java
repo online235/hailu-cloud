@@ -2,7 +2,6 @@ package com.hailu.cloud.api.admin.module.merchant.controller;
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.admin.module.merchant.service.McEntryinFormationService;
-import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
@@ -95,8 +94,6 @@ public class McEntryinFormationController {
     }
 
 
-
-
     @ApiOperation(notes = "", value = "商家入驻信息详情")
     @PostMapping("mcEntryInFormationDetails")
     @ApiImplicitParams({
@@ -109,8 +106,6 @@ public class McEntryinFormationController {
     }
 
 
-
-
     @ApiOperation(notes = "", value = "更改入驻审核状态")
     @PostMapping("changeState")
     @ApiImplicitParams({
@@ -119,13 +114,10 @@ public class McEntryinFormationController {
     })
     public void updateToExamineByNumberId(
             @NotBlank(message = "编号不能为空") String numberId,
-            @NotNull(message = "更改的状态不能为空") Integer toExamine){
+            @NotNull(message = "更改的状态不能为空") Integer toExamine) {
 
         mcEntryinFormationService.updateToExamineByNumberId(numberId, toExamine);
     }
-
-
-
 
 
     @ApiOperation(value = "更改商家入驻信息")
@@ -151,7 +143,8 @@ public class McEntryinFormationController {
             @ApiImplicitParam(name = "idcardimgyfile", value = "证件照反面", required = true, paramType = "query")
     })
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
-        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();;
+        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
+        ;
         if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }

@@ -1,16 +1,10 @@
 package com.hailu.cloud.api.admin.module.merchant.controller;
 
-
-import com.hailu.cloud.api.admin.module.merchant.entity.LocalCircleEntry;
 import com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation;
-import com.hailu.cloud.api.admin.module.merchant.parmeter.LocalCircleListParameter;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McStoreInformationListParameter;
-import com.hailu.cloud.api.admin.module.merchant.parmeter.UpdateLocalCircleEntryParameter;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.UpdateMcStoreInformtionPaarameter;
 import com.hailu.cloud.api.admin.module.merchant.service.McStoreInformationAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -114,7 +108,7 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "显示店铺信息详情",notes = "<pre>"+
+    @ApiOperation(value = "显示店铺信息详情", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功',\n" +
@@ -133,7 +127,7 @@ public class McStoreInformationController {
             "        'toExamine': 1\n" +
             "    }\n" +
             "}\n"
-            +"<pre>")
+            + "<pre>")
     @PostMapping("mcStoreInformationDetails")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "编号ID", required = true, paramType = "query")
@@ -144,12 +138,12 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "更改店铺审核状态", notes =  "<pre>"+
+    @ApiOperation(value = "更改店铺审核状态", notes = "<pre>" +
             "{\n" +
             "  \"code\": 200,\n" +
             "  \"message\": \"请求成功\"\n" +
             "}"
-            +"pre")
+            + "pre")
     @PostMapping("changeMcStoreInformationState")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "店铺编号id", required = true, paramType = "query"),
@@ -162,12 +156,12 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "更改店铺商家信息",notes =  "<pre>"+
+    @ApiOperation(value = "更改店铺商家信息", notes = "<pre>" +
             "{\n" +
             "  \"code\": 200,\n" +
             "  \"message\": \"请求成功\"\n" +
             "}"
-            +"pre")
+            + "pre")
     @PostMapping("updLocalCircleEntry")
     public void updateMcEntryInformation(UpdateMcStoreInformtionPaarameter updateMcStoreInformtionPaarameter, BindingResult result, HttpServletRequest request) throws BusinessException {
 
@@ -182,12 +176,12 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "删除店铺信息",notes =  "<pre>"+
+    @ApiOperation(value = "删除店铺信息", notes = "<pre>" +
             "{\n" +
             "  \"code\": 200,\n" +
             "  \"message\": \"请求成功\"\n" +
             "}"
-            +"pre")
+            + "pre")
     @PostMapping("delMcEntryInformation")
     @ApiImplicitParam(name = "id", value = "编号", required = true, paramType = "query")
     public void deleteByPrimaryKey(@NotNull(message = "id编号不能为空") Long id) {
