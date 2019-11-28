@@ -164,11 +164,5 @@
     from mc_order
     where member_id = #{memberId}
   </select>
-  <select id="findOrderListByStoreId" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder">
-    select
-    <include refid="Base_Column_List"/>
-    from mc_order
-    where store_id = #{storeId}
-  </select>
 
 </mapper>

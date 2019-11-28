@@ -1,12 +1,9 @@
-package com.hailu.cloud.api.basic.module.mail.model;
+package com.hailu.cloud.api.mall.module.multiindustry.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter

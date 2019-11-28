@@ -29,11 +29,4 @@ public interface MultiIndustryOrderService {
      * @return
      */
     PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(HttpServletRequest request, Integer page , Integer size);
-
-    /**
-     * 更具商户查询多行业订单
-     * @param request
-     * @return
-     */
-    PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId(HttpServletRequest request, Integer page , Integer size);
 }

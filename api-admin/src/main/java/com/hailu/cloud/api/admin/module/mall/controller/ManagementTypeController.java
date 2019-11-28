@@ -1,7 +1,7 @@
-package com.hailu.cloud.api.basic.module.mail.controller;
+package com.hailu.cloud.api.admin.module.mall.controller;
 
-import com.hailu.cloud.api.basic.module.mail.model.ManagementTypeModel;
-import com.hailu.cloud.api.basic.module.mail.service.ManagementTypeService;
+import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
+import com.hailu.cloud.api.admin.module.mall.service.ManagementTypeService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Slf4j
 @Validated
@@ -87,7 +88,7 @@ public class ManagementTypeController {
         return managementTypeService.updeteManagementTypeModel(managementType);
     }
 
-    @ApiOperation(value = "查询经营类型", notes = "<pre>" +
+    @ApiOperation(value = "查询经营类型列表", notes = "<pre>" +
             "" +
             "</pre>")
     @GetMapping("/find/queryBusinessType")
@@ -97,5 +98,18 @@ public class ManagementTypeController {
     public Object find(@RequestParam(defaultValue = "0") long parentId) {
         return managementTypeService.findManagementTypeList(parentId);
     }
+
+    @ApiOperation(value = "查询经营类型详细", notes = "<pre>" +
+            "" +
+            "</pre>")
+    @GetMapping("/find/typeDetails")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "managementI", value = "编号", paramType = "query")
+    })
+    public Object find(@NotNull(message = "编号不能为空") Long managementI) {
+        return managementTypeService.findManagementTypeByManagementId(managementI);
+    }
+
+
 
 }

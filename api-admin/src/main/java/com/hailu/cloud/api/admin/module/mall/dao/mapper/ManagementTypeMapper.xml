@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.basic.module.mail.dao.ManagementTypeMapper" >
+<mapper namespace="com.hailu.cloud.api.admin.module.mall.dao.ManagementTypeMapper" >
   <sql id="Base_Column_List" >
     management_id, parent_id, picture_code, picture_Colour, management_name,sort
   </sql>
-  <insert id="insertSelective" parameterType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType" useGeneratedKeys="true" keyProperty="managementId" >
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType" useGeneratedKeys="true" keyProperty="managementId" >
     insert into mc_management_type
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="managementId != null" >
@@ -47,20 +47,28 @@
       </if>
     </trim>
   </insert>
-  <select id="findManagementType" resultType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType">
+  <select id="findManagementType" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
     select
     <include refid="Base_Column_List"/>
     from mc_management_type
     where management_name = #{managementName}
   </select>
-  <select id="findManagementTypeByparentId" resultType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType">
+
+  <select id="findManagementTypeByManagementId" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
+    select
+    <include refid="Base_Column_List"/>
+    from mc_management_type
+    where management_id = #{managementId}
+  </select>
+
+  <select id="findManagementTypeByparentId" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
     select
     <include refid="Base_Column_List"/>
     from mc_management_type
     where parent_id = #{parentId} And management_name = #{managementName}
   </select>
 
-  <select id="findManagementTypeList" resultType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType">
+  <select id="findManagementTypeList" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
     select
     <include refid="Base_Column_List"/>
     from mc_management_type
@@ -73,7 +81,7 @@
 
   </select>
 
-  <update id="updeteManagementTypeModel" parameterType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType">
+  <update id="updeteManagementTypeModel" parameterType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
     update mc_management_type
     <set>
       <if test="pictureCode != null" >

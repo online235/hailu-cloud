@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.basic.module.mail.entity;
+package com.hailu.cloud.api.admin.module.mall.entity;
 
 import lombok.Data;
 

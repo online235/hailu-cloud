@@ -1,11 +1,11 @@
-package com.hailu.cloud.api.basic.module.mail.service.impl;
+package com.hailu.cloud.api.admin.module.mall.service.impl;
 
-import com.hailu.cloud.api.basic.module.mail.dao.ManagementTypeMapper;
-import com.hailu.cloud.api.basic.module.mail.entity.ManagementType;
-import com.hailu.cloud.api.basic.module.mail.model.ManagementTypeModel;
-import com.hailu.cloud.api.basic.module.mail.service.ManagementTypeService;
-import com.hailu.cloud.api.basic.module.uid.component.UidGenerator;
+import com.hailu.cloud.api.admin.module.mall.dao.ManagementTypeMapper;
+import com.hailu.cloud.api.admin.module.mall.entity.ManagementType;
+import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
+import com.hailu.cloud.api.admin.module.mall.service.ManagementTypeService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +19,16 @@ public class ManagementTypeImpl implements ManagementTypeService {
     private ManagementTypeMapper managementTypeMapper;
 
     @Autowired
-    private UidGenerator uidGenerator;
+    private BasicFeignClient basicFeignClient;
 
     @Override
     public ManagementType findManagementType(String managementName) {
         return managementTypeMapper.findManagementType(managementName);
+    }
+
+    @Override
+    public ManagementType findManagementTypeByManagementId(Long managementId) {
+        return managementTypeMapper.findManagementTypeByManagementId(managementId);
     }
 
     @Override
@@ -57,7 +62,7 @@ public class ManagementTypeImpl implements ManagementTypeService {
             throw new BusinessException("行业已存在");
         }
 
-        record.setManagementId(uidGenerator.uuid());
+        record.setManagementId(Long.parseLong(String.valueOf(basicFeignClient.uuid())));
         managementTypeMapper.insertSelective(record);
         return record;
     }

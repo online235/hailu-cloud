@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.MultiIndustryOrderMapper" >
+  <sql id="Base_Column_List" >
+    id, order_number, total_type, store_id, member_id, product_title, brief_introduction, purchase_quantity,
+    price, member_name, phone, exchange_code, state, order_time
+  </sql>
+  <select id="findOrderListByStoreId" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.MultiIndustryOrder">
+    select
+    <include refid="Base_Column_List"/>
+    from mc_order
+    where store_id = #{storeId}
+  </select>
+
+</mapper>

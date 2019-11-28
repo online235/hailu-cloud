@@ -1,7 +1,7 @@
-package com.hailu.cloud.api.basic.module.mail.dao;
+package com.hailu.cloud.api.admin.module.mall.dao;
 
-import com.hailu.cloud.api.basic.module.mail.entity.ManagementType;
-import com.hailu.cloud.api.basic.module.mail.model.ManagementTypeModel;
+import com.hailu.cloud.api.admin.module.mall.entity.ManagementType;
+import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,12 +29,19 @@ public interface ManagementTypeMapper {
     ManagementType findManagementType(@Param("managementName") String managementName);
 
     /**
+     * 根据Id查询经营类型详细
+     * @param managementId
+     * @return
+     */
+    ManagementType findManagementTypeByManagementId(@Param("managementId") Long managementId);
+
+    /**
      * 查询子类型是否重复
      * @param parentId
      * @param managementName
      * @return
      */
-    ManagementType findManagementTypeByparentId(@Param("parentId")long parentId, @Param("managementName") String managementName);
+    ManagementType findManagementTypeByparentId(@Param("parentId") long parentId, @Param("managementName") String managementName);
 
     /**
      * 根据父级Id查询经营类型

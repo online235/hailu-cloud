@@ -49,14 +49,4 @@ public class MultiIndustryOrderController {
     public Object findOrderListByMemberId(HttpServletRequest request, Integer page ,Integer size){
         return orderService.findOrderListByMemberId(request, page, size);
     }
-
-    @ApiOperation(value = "商品查询多行业订单")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "第N页", required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "页面大小",  required = true,  paramType = "query")
-    })
-    @PostMapping("/commodityQueryOrder")
-    public Object findOrderListByStoreId(HttpServletRequest request, Integer page ,Integer size){
-        return orderService.findOrderListByStoreId(request, page, size);
-    }
 }

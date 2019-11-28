@@ -1,7 +1,7 @@
-package com.hailu.cloud.api.basic.module.mail.service;
+package com.hailu.cloud.api.admin.module.mall.service;
 
-import com.hailu.cloud.api.basic.module.mail.entity.ManagementType;
-import com.hailu.cloud.api.basic.module.mail.model.ManagementTypeModel;
+import com.hailu.cloud.api.admin.module.mall.entity.ManagementType;
+import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
 import com.hailu.cloud.common.exception.BusinessException;
 
 import java.util.List;
@@ -20,6 +20,13 @@ public interface ManagementTypeService {
      * @return
      */
     ManagementType findManagementType(String managementName);
+
+    /**
+     * 根据Id查询经营类型详细
+     * @param managementId
+     * @return
+     */
+    ManagementType findManagementTypeByManagementId(Long managementId);
 
     /**
      * 查询子类型是否重复

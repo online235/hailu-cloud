@@ -44,11 +44,4 @@ public interface MultiIndustryOrderMapper {
      * @return
      */
     List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId);
-
-    /**
-     * 更具商户查询多行业订单
-     * @param storeId
-     * @return
-     */
-    List<MultiIndustryOrder> findOrderListByStoreId(@Param("storeId") Long storeId);
 }
