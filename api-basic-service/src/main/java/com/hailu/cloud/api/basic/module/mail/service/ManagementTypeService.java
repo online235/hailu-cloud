@@ -35,4 +35,11 @@ public interface ManagementTypeService {
      * @return
      */
     List<ManagementType> findManagementTypeList(long parentId);
+
+    /**
+     * 更改经验类型
+     * @param managementTypeModel
+     * @return
+     */
+    ManagementTypeModel updeteManagementTypeModel(ManagementTypeModel managementTypeModel);
 }

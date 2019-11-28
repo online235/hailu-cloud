@@ -1,19 +1,19 @@
 package com.hailu.cloud.api.xinan.module.app.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.hailu.cloud.api.xinan.feigns.AuthFeignClient;
 import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
-import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 
 /**
@@ -27,16 +27,14 @@ public class ShopMemBerService {
     @Resource
     private ShopMemberMapper memberMapper;
 
-    /**
-     * 用户列表
-     *
-     * @return
-     */
-    public Object selectFindShopMember(String membername, String membermobile, Integer page,Integer limit) {
-        Page pageSize = PageHelper.startPage(page,limit);
-        List<ShopMember> datas = memberMapper.selectFindShopMember(membername, membermobile);
-        return new PageInfoModel<>(pageSize.getPages(), pageSize.getTotal(), datas);
-    }
+    @Autowired
+    private BasicFeignClient uuidFeignClient;
+
+    @Autowired
+    private RedisStandAloneClient redisStandAloneClient;
+
+    @Autowired
+    private AuthFeignClient authFeignClient;
 
     /**
      * 根据memberid拿到用户信息
@@ -59,6 +57,72 @@ public class ShopMemBerService {
     public void updateByPrimaryKeySelective(ShopMember shopMember){
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         shopMember.setUserId(loginInfo.getUserId());
-        memberMapper.updateMember(shopMember);
+        memberMapper.updateByPrimaryKeySelective(shopMember);
     }
+
+    public boolean exists(String phone) {
+        int result = memberMapper.selectLitemallByPhone(phone);
+        return result > 0 ? true : false;
+    }
+
+    /**
+     * 根据手机号注册用户
+     *
+     * @param phone
+     * @param addtime
+     * @return
+     */
+    public void AddLitemallUser(String phone, long addtime) {
+        ShopMember userInfo = new ShopMember();
+        userInfo.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
+        userInfo.setLoginName(phone);
+        userInfo.setMemberName(phone);
+        userInfo.setRegistTime(addtime);
+        userInfo.setMemberMobile(phone);
+        userInfo.setCreateTime(addtime);
+        memberMapper.AddLitemallUser(userInfo);
+    }
+
+
+    /**
+     * 查询是否加入海露
+     * @param userId
+     * @return
+     */
+    public int findShopMemberByUserIdAndMerchantType(String userId){
+        return memberMapper.findShopMemberByUserIdAndMerchantType(userId);
+    }
+
+    /**
+     * 心安注册
+     * @param phone
+     * @param code
+     * @param insuredIds
+     * @throws BusinessException
+     */
+    public void register(String phone,String code,String insuredIds) throws BusinessException {
+        boolean exists = exists(phone);
+        if (exists) {
+            // 账号已存在
+            throw new BusinessException("账号已存在");
+        }
+        // 万能验证码，前期测试时使用
+        if (!code.equals("111111")) {
+            String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
+
+            if (!code.equals(veriCode)) {
+                // 验证码不正确
+                throw new BusinessException("无效验证码");
+            }
+        }
+        int result = findShopMemberByUserIdAndMerchantType(insuredIds);
+        if (result > 0){
+            MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
+            redisStandAloneClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE+model.getUserId(),insuredIds,0);
+        }
+
+        // 注册账号
+        AddLitemallUser(phone,System.currentTimeMillis());
+    }
+
 }

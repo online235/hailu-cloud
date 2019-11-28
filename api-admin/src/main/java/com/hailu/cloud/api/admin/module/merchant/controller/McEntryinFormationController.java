@@ -30,7 +30,7 @@ import javax.validation.constraints.Pattern;
 @RestController
 @RequestMapping("/pc/merchantsettledin")
 @Validated
-@Api(tags = "商户-商家入驻-管理后台")
+@Api(tags = "商户-百货入驻-管理后台")
 @Slf4j
 public class McEntryinFormationController {
 

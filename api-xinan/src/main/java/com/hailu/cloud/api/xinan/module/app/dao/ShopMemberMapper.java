@@ -56,8 +56,6 @@ public interface ShopMemberMapper {
      */
     int updateByPrimaryKeyWithBLOBs(ShopMember record);
 
-    int updateMember(ShopMember shopMember);
-
     /**
      *
      * @mbggenerated 2019-10-19
@@ -88,13 +86,6 @@ public interface ShopMemberMapper {
      */
     int selectLitemallByPhone(@Param("phone") String phone);
 
-    /**
-     * 根据手机号码查询个人信息
-     * @param phone
-     * @return
-     */
-    ShopMember LoginPhone(@Param("phone") String phone);
 
-
-    List<ShopMember> selectFindShopMember(String membername, String membermobile);
+    int findShopMemberByUserIdAndMerchantType(String userId);
 }

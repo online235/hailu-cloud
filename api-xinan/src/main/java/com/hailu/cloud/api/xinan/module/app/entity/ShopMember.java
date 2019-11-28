@@ -25,141 +25,101 @@ public class ShopMember implements Serializable {
     /**
      * 主键ID
      */
-    @ApiParam(name = "id", value = "主键ID", required = true)
-    @NotEmpty
     private java.lang.Integer id;
 
     /**
      * 用户ID(外键关联)
      */
-    @ApiParam(name = "userId", value = " 用户ID(外键关联)", required = true)
-    @NotEmpty
     private java.lang.String userId;
 
     /**
      * 登录名称
      */
-    @ApiParam(name = "loginName", value = " 登录名称", required = true)
-    @NotEmpty
     private java.lang.String loginName;
 
     /**
      * 登录密码
      */
-    @ApiParam(name = "loginPasswd", value = " 登录密码", required = true)
-    @NotEmpty
     private java.lang.String loginPasswd;
 
     /**
      * 用户头像
      */
-    @ApiParam(name = "userIcon", value = " 用户头像", required = true)
-    @NotEmpty
     private java.lang.String userIcon;
 
     /**
      * 用户名称
      */
-    @ApiParam(name = "userName", value = " 用户名称", required = true)
-    @NotEmpty
     private java.lang.String userName;
 
     /**
      * 用户昵称
      */
-    @ApiParam(name = "nickName", value = " 用户昵称", required = true)
-    @NotEmpty
     private java.lang.String nickName;
 
 
     /**
      * QQ
      */
-    @ApiParam(name = "qq", value = " QQ", required = true)
-    @NotEmpty
     private java.lang.String qq;
 
     /**
      * 微信
      */
-    @ApiParam(name = "wechat", value = " 微信", required = true)
-    @NotEmpty
     private java.lang.String wechat;
 
     /**
      * 邮箱
      */
-    @ApiParam(name = "email", value = " 邮箱", required = true)
-    @NotEmpty
     private java.lang.String email;
 
     /**
      * 会员名称
      */
-    @ApiParam(name = "memberName", value = " 会员名称", required = true)
-    @NotEmpty
     private String memberName;
 
     /**
      * 注册时间
      */
-    @ApiParam(name = "registTime", value = " 注册时间", required = true)
-    @NotEmpty
     private long registTime;
 
     /**
      * 手机号
      */
-    @ApiParam(name = "memberMobile", value = " 手机号", required = true)
-    @NotEmpty
     private String memberMobile;
 
     /**
      * 职业
      */
-    @ApiParam(name = "profession", value = " 职业", required = true)
-    @NotEmpty
     private java.lang.String profession;
 
     /**
      * 创建时间
      */
-    @ApiParam(name = "createTime", value = " 创建时间", required = true)
-    @NotEmpty
     private long createTime;
 
     /**
      * 用户积分
      */
-    @ApiParam(name = "integral", value = " 用户积分", required = true)
-    @NotEmpty
     private java.lang.Integer integral;
 
     /**
      * 用户未读消息数
      */
-    @ApiParam(name = "unReadMsgs", value = " 用户未读消息数", required = true)
-    @NotEmpty
     private int unReadMsgs;
 
     /**
      * 邀请码
      */
-    @ApiParam(name = "inviteCode", value = " 邀请码", required = true)
-    @NotEmpty
     private java.lang.String inviteCode;
 
 
     /**
      * 被邀请码
      */
-    @ApiParam(name = "beInviteUser", value = " 被邀请码", required = true)
-    @NotEmpty
     private java.lang.String beInviteUser;
 
 
-    @ApiParam(name = "beInviteUser", value = " 被邀请码", required = true)
-    @NotEmpty
     private java.lang.String unionid;
 
 

@@ -25,10 +25,16 @@ public class ManagementTypeModel {
     private Long parentId;
 
     /**
-     * 图片链接
+     * 图标代码
      */
-    @ApiModelProperty("图片链接")
-    private String pictureUrl;
+    @ApiModelProperty("图标代码")
+    private String pictureCode;
+
+    /**
+     * 图标颜色
+     */
+    @ApiModelProperty("图标颜色")
+    private String pictureColour;
 
     /**
      * 经营名称

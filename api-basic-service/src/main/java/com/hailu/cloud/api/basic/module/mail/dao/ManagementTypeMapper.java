@@ -36,5 +36,17 @@ public interface ManagementTypeMapper {
      */
     ManagementType findManagementTypeByparentId(@Param("parentId")long parentId, @Param("managementName") String managementName);
 
+    /**
+     * 根据父级Id查询经营类型
+     * @param parentId
+     * @return
+     */
     List<ManagementType> findManagementTypeList(@Param("parentId") long parentId);
+
+    /**
+     * 更改经验类型
+     * @param managementTypeModel
+     * @return
+     */
+    int updeteManagementTypeModel(ManagementTypeModel managementTypeModel);
 }

@@ -17,9 +17,14 @@ public class ManagementType implements Serializable {
     private Long parentId;
 
     /**
-     * 图片链接
+     * 图标代码
      */
-    private String pictureUrl;
+    private String pictureCode;
+
+    /**
+     * 图标颜色
+     */
+    private String pictureColour;
 
     /**
      * 经营名称

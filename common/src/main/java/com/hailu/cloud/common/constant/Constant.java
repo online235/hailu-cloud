@@ -125,4 +125,10 @@ public final class Constant {
 
     // endregion
 
+
+    /**
+     * 分享购买服务商key
+     */
+    public static final String REDIS_INVITATION_MEMBER_POVIDER_CACHE = "cache:invitationMember:poviderUserId:";
+
 }

@@ -36,6 +36,12 @@ public class ManagementTypeImpl implements ManagementTypeService {
         return managementTypeMapper.findManagementTypeList(parentId);
     }
 
+    @Override
+    public ManagementTypeModel updeteManagementTypeModel(ManagementTypeModel managementTypeModel) {
+        managementTypeMapper.updeteManagementTypeModel(managementTypeModel);
+        return managementTypeModel;
+    }
+
 
     @Override
     public ManagementTypeModel insertSelective(ManagementTypeModel record) throws BusinessException {

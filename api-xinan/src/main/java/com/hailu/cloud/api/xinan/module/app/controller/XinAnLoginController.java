@@ -1,12 +1,13 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.feigns.AuthFeignClient;
-import com.hailu.cloud.api.xinan.module.app.service.impl.XinAnShopMemBerService;
+import com.hailu.cloud.api.xinan.module.app.service.impl.ShopMemBerService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -36,7 +37,7 @@ import javax.validation.constraints.Pattern;
 public class XinAnLoginController {
 
     @Autowired
-    private XinAnShopMemBerService memberService;
+    private ShopMemBerService memberService;
 
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
@@ -100,29 +101,14 @@ public class XinAnLoginController {
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query")
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "insuredIds", value = "邀请人ID", required = true, paramType = "query"),
     })
     public MerchantUserLoginInfoModel register(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
-            @NotBlank(message = "验证码不能为空") String code) throws BusinessException {
+            @NotBlank(message = "验证码不能为空") String code,String insuredIds) throws BusinessException {
 
-        boolean exists = memberService.exists(phone);
-        if (exists) {
-            // 账号已存在
-            throw new BusinessException("账号已存在");
-        }
-        // 万能验证码，前期测试时使用
-        if (!code.equals("111111")) {
-            String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
-
-            if (!code.equals(veriCode)) {
-                // 验证码不正确
-                throw new BusinessException("无效验证码");
-            }
-        }
-        // 注册账号
-        memberService.AddLitemallUser(phone,System.currentTimeMillis());
-
+        memberService.register(phone, code, insuredIds);
         return authFeignClient.vericodeLogin("0", phone, code).getData();
     }
 

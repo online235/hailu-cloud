@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.basic.module.mail.dao.ManagementTypeMapper" >
   <sql id="Base_Column_List" >
-    management_id, parent_id, picture_url, management_name,sort
+    management_id, parent_id, picture_code, picture_Colour, management_name,sort
   </sql>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType" useGeneratedKeys="true" keyProperty="managementId" >
     insert into mc_management_type
@@ -13,8 +13,11 @@
       <if test="parentId != null" >
         parent_id,
       </if>
-      <if test="pictureUrl != null" >
-        picture_url,
+      <if test="pictureCode != null" >
+        picture_code,
+      </if>
+      <if test="pictureColour != null" >
+        picture_Colour,
       </if>
       <if test="managementName != null" >
         management_name,
@@ -30,8 +33,11 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=BIGINT},
       </if>
-      <if test="pictureUrl != null" >
-        #{pictureUrl,jdbcType=VARCHAR},
+      <if test="pictureCode != null" >
+        #{pictureCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureColour != null" >
+        #{pictureColour,jdbcType=VARCHAR},
       </if>
       <if test="managementName != null" >
         #{managementName,jdbcType=VARCHAR},
@@ -66,5 +72,24 @@
     </if>
 
   </select>
+
+  <update id="updeteManagementTypeModel" parameterType="com.hailu.cloud.api.basic.module.mail.entity.ManagementType">
+    update mc_management_type
+    <set>
+      <if test="pictureCode != null" >
+        picture_code = #{pictureCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureColour != null" >
+        picture_Colour = #{pictureColour,jdbcType=VARCHAR},
+      </if>
+      <if test="managementName != null" >
+        management_name = #{managementName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where management_id = #{managementId}
+  </update>
 
 </mapper>

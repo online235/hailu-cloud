@@ -645,9 +645,6 @@
       <if test="memberLoginNum != null" >
         member_login_num = #{memberLoginNum,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=BIGINT},
-      </if>
       <if test="memberLoginTime != null" >
         member_login_time = #{memberLoginTime,jdbcType=BIGINT},
       </if>
@@ -747,9 +744,6 @@
       <if test="inviteCode != null" >
         invite_code = #{inviteCode,jdbcType=VARCHAR},
       </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=VARCHAR},
-      </if>
       <if test="wechat != null" >
         wechat = #{wechat,jdbcType=VARCHAR},
       </if>
@@ -758,9 +752,6 @@
       </if>
       <if test="beInviteUser != null" >
         be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
-      </if>
-      <if test="registTime != null" >
-        regist_time = #{registTime,jdbcType=DATE},
       </if>
       <if test="wxState != null" >
         WX_state = #{wxState,jdbcType=VARCHAR},
@@ -788,9 +779,6 @@
       </if>
       <if test="loginName != null" >
         LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="unReadMsgs != null" >
-        un_read_msgs = #{unReadMsgs,jdbcType=INTEGER},
       </if>
       <if test="idcard != null" >
         idcard = #{idcard,jdbcType=VARCHAR},
@@ -832,7 +820,7 @@
         user_icon = #{userIcon,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where member_id = #{memberId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
     update shop_member
@@ -1017,23 +1005,8 @@
     select count(member_mobile) from shop_member
     where member_mobile = #{phone}
   </select>
-  <select id="LoginPhone" resultMap="BaseResultMap">
-    select
-    <include refid="Blob_Column_List"/>
-    from shop_member
-    where member_mobile = #{phone}
-  </select>
-  <select id="selectFindShopMember" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from shop_member
-        where 1=1
-        <if test="membername != null">
-          and member_name like concat('%',#{membername},'%')
-        </if>
-        <if test="membermobile != null">
-          and member_mobile like concat('%',#{membermobile},'%')
-        </if>
-    ORDER BY regist_time desc
+  <select id="findShopMemberByUserIdAndMerchantType" resultType="int" parameterType="java.lang.String">
+    select count(member_id) from shop_member
+    where user_id = #{userId} And merchant_type = 1 or merchant_type = 2 and user_id = #{userId}
   </select>
 </mapper>
