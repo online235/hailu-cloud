@@ -34,17 +34,13 @@ public class ShopMemBerService {
     }
 
     /**
-     * 根据memberid拿到用户信息
+     * 根据userId拿到用户信息
      *
-     * @param memberid
+     * @param userId
      * @return
      */
-    public Object selectByPrimaryKey(String memberid) {
-        if (memberid != null) {
-            return memberMapper.selectByPrimaryKey(memberid);
-        } else {
-            return null;
-        }
+    public ShopMember selectByPrimaryKey(String userId) {
+            return memberMapper.selectByPrimaryKey(userId);
     }
 
     /**

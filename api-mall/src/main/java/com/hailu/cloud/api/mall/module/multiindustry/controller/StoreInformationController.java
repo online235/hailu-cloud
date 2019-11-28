@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 
+import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
+import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,15 +32,15 @@ public class StoreInformationController {
 
     @ApiOperation(value = "店铺查询-分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeTotalType", value = "经营父类型ID", required = true, dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "storeSonType", value = "经营子类型ID", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "页面大小", dataType = "int", paramType = "query"),
-            @ApiImplicitParam(name = "page", value = "第N页", dataType = "int", paramType = "query")
+            @ApiImplicitParam(name = "storeTotalType", value = "经营父类型ID", required = true,  paramType = "query"),
+            @ApiImplicitParam(name = "storeSonType", value = "经营子类型ID", paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "页面大小",  paramType = "query"),
+            @ApiImplicitParam(name = "page", value = "第N页", paramType = "query")
     })
     @PostMapping("/shopEnquiry")
     public Object findStoreInformationList(
-            @NotNull(message = "经营父类型ID不能为空") Integer storeTotalType,
-            Integer storeSonType,
+            @NotNull(message = "经营父类型ID不能为空") Long storeTotalType,
+            Long storeSonType,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false)
@@ -52,8 +54,8 @@ public class StoreInformationController {
             @ApiImplicitParam(name = "id", value = "店铺编号", required = true, paramType = "query")
     })
     @PostMapping("/shopDetails")
-    public Object findStoreInformation(
-            @NotNull(message = "编号不能为空") Long id){
+    public StoreInformation findStoreInformation(
+            @NotNull(message = "编号不能为空") Long id) throws BusinessException {
 
         return storeInformationService.findStoreInformation(id);
     }

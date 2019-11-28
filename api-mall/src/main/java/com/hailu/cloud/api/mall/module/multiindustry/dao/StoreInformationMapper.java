@@ -15,7 +15,7 @@ public interface StoreInformationMapper {
      * @param storeSonType
      * @return
      */
-    List<StoreInformation> findStoreInformationList(@Param("storeTotalType") Integer storeTotalType, @Param("storeSonType") Integer storeSonType);
+    List<StoreInformation> findStoreInformationList(@Param("storeTotalType") Long storeTotalType, @Param("storeSonType") Long storeSonType);
 
     /**
      * 店铺详细信息

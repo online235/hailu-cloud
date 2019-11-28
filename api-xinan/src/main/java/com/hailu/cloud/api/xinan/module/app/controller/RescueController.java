@@ -42,7 +42,7 @@ public class RescueController {
             @ApiImplicitParam(name="picture", value = "图片路径" , required = true, paramType = "query", allowMultiple=true, dataType = "String")
 
     })
-    public void insHelpANDMtualAid(Rescue rescue, String[] picture, HttpServletRequest request) throws BusinessException {
+    public void insHelpANDMtualAid(Rescue rescue, String[] picture) throws BusinessException {
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         rescue.setMemberId(loginInfo.getUserId());
         rescueInfoService.insRescueAndRictures(rescue,picture);

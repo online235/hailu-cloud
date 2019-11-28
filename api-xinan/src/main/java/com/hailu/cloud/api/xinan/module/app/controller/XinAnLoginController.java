@@ -5,6 +5,7 @@ import com.hailu.cloud.api.xinan.module.app.service.impl.XinAnShopMemBerService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
@@ -101,7 +102,7 @@ public class XinAnLoginController {
             @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query")
     })
-    public Object register(
+    public MerchantUserLoginInfoModel register(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
             @NotBlank(message = "验证码不能为空") String code) throws BusinessException {
 

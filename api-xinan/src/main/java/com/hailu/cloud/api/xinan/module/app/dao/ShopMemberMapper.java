@@ -66,7 +66,6 @@ public interface ShopMemberMapper {
 
 
 
-
     /**
      * 根据用户名查询个人信息
      * @param username
@@ -95,15 +94,6 @@ public interface ShopMemberMapper {
      * @return
      */
     ShopMember LoginPhone(@Param("phone") String phone);
-
-
-
-    /**
-     * 退出登录
-     * @param memberid
-     * @return
-     */
-    int updOutLoginLitemallUser(@Param("memberid") String memberid);
 
 
     List<ShopMember> selectFindShopMember(String membername, String membermobile);

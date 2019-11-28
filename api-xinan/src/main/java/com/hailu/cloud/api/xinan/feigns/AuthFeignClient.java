@@ -27,14 +27,14 @@ public interface AuthFeignClient {
     /**
      * 登录
      * @param loginType
-     * @param phone
+     * @param account
      * @param pwd
      * @return
      */
     @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_AUTH +"/login/{loginType}")
     ApiResponse<MerchantUserLoginInfoModel> login(
             @PathVariable("loginType") String loginType,
-            @RequestParam("phone") String phone,
+            @RequestParam("account") String account,
             @RequestParam("pwd") String pwd);
 
 }

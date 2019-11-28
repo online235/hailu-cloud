@@ -67,8 +67,9 @@ public class PcShopMemberController {
     @ApiOperation(value = "用户详情")
     @PostMapping("shopdetails")
     @ResponseBody
-    public Object selectByPrimaryKey(@NotBlank(message = "编号不能为空") String memberid) {
-        return shopMemBerService.selectByPrimaryKey(memberid);
+    @ApiImplicitParam(name = "userId", value = "会员编号", required = true, paramType = "query")
+    public Object selectByPrimaryKey(@NotBlank(message = "编号不能为空") String userId) {
+        return shopMemBerService.selectByPrimaryKey(userId);
     }
 
 }

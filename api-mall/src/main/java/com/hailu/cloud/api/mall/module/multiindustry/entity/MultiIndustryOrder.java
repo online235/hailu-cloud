@@ -21,7 +21,7 @@ public class MultiIndustryOrder implements Serializable {
     /**
      * 总类型
      */
-    private Integer totalType;
+    private Long totalType;
 
     /**
      * 用户ID

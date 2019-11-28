@@ -65,6 +65,6 @@ public class McStoreInformationModel {
     private Integer toExamine;
 
 
-    @ApiModelProperty("每周营业日用，“；”隔开（例1；2；3；4:）")
+    @ApiModelProperty("每周营业日用（1星期日，2星期一）")
     private String weekDay;
 }

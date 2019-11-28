@@ -107,7 +107,7 @@
     ,
     <include refid="Blob_Column_List" />
     from shop_member
-    where member_id = #{memberId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <select id="selectByPrimaryByuserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select
@@ -145,8 +145,7 @@
       un_read_msgs, idcard, idcard_imgx, 
       idcard_imgy, is_sub, audit_state, 
       pay_password, system_type, cid, 
-      audit_time, source_registration, tokencode, 
-      member_info, member_privacy,
+      audit_time, source_registration,member_info, member_privacy,
       user_icon)
     values (#{memberName,jdbcType=VARCHAR}, #{memberTruename,jdbcType=VARCHAR}, #{memberAvatar,jdbcType=VARCHAR}, 
       #{memberSex,jdbcType=VARCHAR}, #{memberBirthday,jdbcType=BIGINT}, #{memberPasswd,jdbcType=VARCHAR}, 
@@ -171,8 +170,7 @@
       #{unReadMsgs,jdbcType=INTEGER}, #{idcard,jdbcType=VARCHAR}, #{idcardImgx,jdbcType=VARCHAR}, 
       #{idcardImgy,jdbcType=VARCHAR}, #{isSub,jdbcType=INTEGER}, #{auditState,jdbcType=INTEGER}, 
       #{payPassword,jdbcType=VARCHAR}, #{systemType,jdbcType=INTEGER}, #{cid,jdbcType=VARCHAR}, 
-      #{auditTime,jdbcType=BIGINT}, #{sourceRegistration,jdbcType=VARCHAR}, #{tokencode,jdbcType=VARCHAR}, 
-     #{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR},
+      #{auditTime,jdbcType=BIGINT}, #{sourceRegistration,jdbcType=VARCHAR},#{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR},
       #{userIcon,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
@@ -385,10 +383,6 @@
       <if test="sourceRegistration != null" >
         source_registration,
       </if>
-      <if test="tokencode != null" >
-        tokencode,
-      </if>
-
       <if test="memberInfo != null" >
         member_info,
       </if>
@@ -607,10 +601,6 @@
       <if test="sourceRegistration != null" >
         #{sourceRegistration,jdbcType=VARCHAR},
       </if>
-      <if test="tokencode != null" >
-        #{tokencode,jdbcType=VARCHAR},
-      </if>
-
       <if test="memberInfo != null" >
         #{memberInfo,jdbcType=LONGVARCHAR},
       </if>
@@ -832,10 +822,6 @@
       <if test="sourceRegistration != null" >
         source_registration = #{sourceRegistration,jdbcType=VARCHAR},
       </if>
-      <if test="tokencode != null" >
-        tokencode = #{tokencode,jdbcType=VARCHAR},
-      </if>
-
       <if test="memberInfo != null" >
         member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       </if>
@@ -919,7 +905,6 @@
       cid = #{cid,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=BIGINT},
       source_registration = #{sourceRegistration,jdbcType=VARCHAR},
-      tokencode = #{tokencode,jdbcType=VARCHAR},
       member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       member_privacy = #{memberPrivacy,jdbcType=LONGVARCHAR},
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
@@ -995,9 +980,7 @@
       system_type = #{systemType,jdbcType=INTEGER},
       cid = #{cid,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=BIGINT},
-      source_registration = #{sourceRegistration,jdbcType=VARCHAR},
-      tokencode = #{tokencode,jdbcType=VARCHAR},
-
+      source_registration = #{sourceRegistration,jdbcType=VARCHAR}
     where member_id = #{memberId,jdbcType=INTEGER}
   </update>
 

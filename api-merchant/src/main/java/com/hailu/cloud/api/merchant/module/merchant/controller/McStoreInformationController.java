@@ -31,7 +31,7 @@ public class McStoreInformationController {
     @PostMapping("/changeInformation")
     @ResponseBody
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "wee", value = "每周营业日用，“；”隔开（例1；2；3；4:）", allowMultiple = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "wee", value = "每周营业日用（1星期日，2星期一）", allowMultiple = true, paramType = "query", dataType = "int"),
     })
     public void updateBYMcEntryInformation(McStoreInformationModel mcStoreInformationModel, int[] wee) {
         mcStoreInformationService.updateBYMcEntryInformation(mcStoreInformationModel, wee);
@@ -43,6 +43,8 @@ public class McStoreInformationController {
     public McStoreInformation findMcStoreInformation() {
         return mcStoreInformationService.findMcStoreInformation();
     }
+
+
 
 
 

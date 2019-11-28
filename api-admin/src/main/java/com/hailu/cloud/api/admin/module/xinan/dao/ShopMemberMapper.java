@@ -35,7 +35,7 @@ public interface ShopMemberMapper {
      *
      * @mbggenerated 2019-10-19
      */
-    ShopMember selectByPrimaryKey(String memberId);
+    ShopMember selectByPrimaryKey(String userId);
 
     /**
      *

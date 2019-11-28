@@ -61,12 +61,12 @@ public class StoreInformation implements Serializable {
     /**
      * 店铺子类型ID
      */
-    private Integer storeSonType;
+    private Long storeSonType;
 
     /**
      * 店铺总类型ID
      */
-    private Integer storeTotalType;
+    private Long storeTotalType;
 
     /**
      * 营业状态(1-营业中，2-休息中)
@@ -102,6 +102,11 @@ public class StoreInformation implements Serializable {
      * 店铺头像
      */
     private String defaultHead;
+
+    /**
+     * 每周营业日用（1星期日，2星期一）
+     */
+    private String weekDay;
 
     /**
      * mc_store_information

@@ -3,6 +3,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder;
 import com.hailu.cloud.api.mall.module.multiindustry.service.MultiIndustryOrderService;
+import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,14 +29,13 @@ public class MultiIndustryOrderController {
 
     @ApiOperation(value = "多行业下单预约")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "totalType", value = "店铺总类型", required = true,  paramType = "query"),
             @ApiImplicitParam(name = "storeId", value = "商品编号",  required = true,  paramType = "query"),
             @ApiImplicitParam(name = "memberName", value = "会员名称",  required = true,  paramType = "query"),
             @ApiImplicitParam(name = "phone", value = "手机号码",  required = true,  paramType = "query")
 
     })
     @PostMapping("/placeAnOrder")
-    public void addOrder(MultiIndustryOrder order, HttpServletRequest request){
+    public void addOrder(MultiIndustryOrder order, HttpServletRequest request) throws BusinessException {
         orderService.insertSelective(order, request);
     }
 

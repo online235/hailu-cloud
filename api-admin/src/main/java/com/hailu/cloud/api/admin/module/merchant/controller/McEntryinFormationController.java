@@ -142,6 +142,8 @@ public class McEntryinFormationController {
             @ApiImplicitParam(name = "longtermcertificate", value = "身份证是否为长期", paramType = "query"),
             @ApiImplicitParam(name = "serviceProviderOrNot", value = "是否为服务商", required = true, paramType = "query"),
             @ApiImplicitParam(name = "remarks", value = "备注", paramType = "query"),
+            @ApiImplicitParam(name = "firstManagementTypeId", value = "经营类型表一级编号", paramType = "query"),
+            @ApiImplicitParam(name = "secondManagementTypeId", value = "经营类型表二级编号id", paramType = "query"),
 
             @ApiImplicitParam(name = "licensepositivefile", value = "营业执照正面", required = true, paramType = "query"),
             @ApiImplicitParam(name = "idcardimgxfile", value = "证件照正面", required = true, paramType = "query"),

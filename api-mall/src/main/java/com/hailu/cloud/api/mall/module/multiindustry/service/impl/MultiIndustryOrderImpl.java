@@ -10,11 +10,13 @@ import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.service.MultiIndustryOrderService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import com.hailu.cloud.common.utils.StoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,12 +38,18 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
     private StoreInformationService storeInformationService;
 
     @Override
-    public void insertSelective(MultiIndustryOrder record, HttpServletRequest request) {
+    public void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
+
+        boolean boo = StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay());
+        if (!boo){
+            throw new BusinessException("店铺休息中");
+        }
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         String num = String.valueOf(basicFeignClient.uuid().getData());
         record.setMemberId(loginInfo.getUserId());
+        record.setTotalType(storeInformation.getStoreTotalType());
         record.setId(Long.parseLong(num));
         record.setOrderTime(new Date());
         record.setOrderNumber(IdUtil.simpleUUID());
