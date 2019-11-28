@@ -15,6 +15,7 @@ import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
+import com.hailu.cloud.common.function.RFunction;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -187,7 +188,7 @@ public class AuthServiceImpl implements IAuthService {
         // 添加一些其他校验
         callback.extendValidate();
         String userId = callback.getUserId();
-        return generateAuthInfo(loginType, userId, callback::handle);
+        return generateAuthInfo(loginType, userId, callback::handle, callback::beforeReturnExcludeField);
     }
 
     // region 登录处理
@@ -200,7 +201,7 @@ public class AuthServiceImpl implements IAuthService {
      * @return
      * @throws BusinessException
      */
-    private Object generateAuthInfo(Integer loginType, String userId, BiFunction<String, String, Object> callback) throws BusinessException {
+    private Object generateAuthInfo(Integer loginType, String userId, BiFunction<String, String, Object> callback, RFunction excludeField) throws BusinessException {
         // 生成认证信息存储于redis, accessToken有效期2小时， refreshToken有效期7天
         Date current = new Date();
         AuthInfo authInfo = new AuthInfo();
@@ -226,7 +227,7 @@ public class AuthServiceImpl implements IAuthService {
         String authJson = JSON.toJSONString(authInfo);
         redisClient.stringSet(accessTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_TWO_HOUR);
         redisClient.stringSet(refreshTokenRedisKey, authJson, Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
-        return userInfo;
+        return excludeField.apply();
     }
 
     // region 验证码登录回调处理
@@ -253,6 +254,11 @@ public class AuthServiceImpl implements IAuthService {
                 loginInfoModel.setRefreshToken(refreshToken);
                 return loginInfoModel;
             }
+
+            @Override
+            public Object beforeReturnExcludeField() {
+                return loginInfoModel;
+            }
         };
     }
 
@@ -276,6 +282,11 @@ public class AuthServiceImpl implements IAuthService {
             public Object handle(String accessToken, String refreshToken) {
                 loginInfoModel.setAccessToken(accessToken);
                 loginInfoModel.setRefreshToken(refreshToken);
+                return loginInfoModel;
+            }
+
+            @Override
+            public Object beforeReturnExcludeField() {
                 return loginInfoModel;
             }
         };
@@ -318,6 +329,11 @@ public class AuthServiceImpl implements IAuthService {
             public Object handle(String accessToken, String refreshToken) {
                 loginInfoModel.setAccessToken(accessToken);
                 loginInfoModel.setRefreshToken(refreshToken);
+                return loginInfoModel;
+            }
+
+            @Override
+            public Object beforeReturnExcludeField() {
                 loginInfoModel.setPwd(null);
                 loginInfoModel.setEnableStatus(null);
                 return loginInfoModel;
@@ -353,6 +369,11 @@ public class AuthServiceImpl implements IAuthService {
             public Object handle(String accessToken, String refreshToken) {
                 loginInfoModel.setAccessToken(accessToken);
                 loginInfoModel.setRefreshToken(refreshToken);
+                return loginInfoModel;
+            }
+
+            @Override
+            public Object beforeReturnExcludeField() {
                 loginInfoModel.setLandingpassword(null);
                 return loginInfoModel;
             }

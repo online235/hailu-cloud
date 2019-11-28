@@ -31,7 +31,8 @@ public interface AdminMapper {
     /**
      * 根据账号查询
      *
-     * @param account 账号
+     * @param account      账号
+     * @param enableStatus
      * @return
      */
     SysAdminModel searchAccount(@Param("account") String account, @Param("enableStatus") int enableStatus);

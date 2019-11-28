@@ -14,9 +14,9 @@ public enum ApiResponseEnum {
      */
     SUCCESS(200, "请求成功"),
     /**
-     * 未登录或登录已失效
+     * 请求头未携带Access-token
      */
-    UN_AUTHORIZED(401, "未登录或登录已失效"),
+    UN_AUTHORIZED(401, "请求头未携带Access-token"),
     /**
      * 请求数据不存在
      */

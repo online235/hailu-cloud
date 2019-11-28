@@ -46,4 +46,10 @@ public interface ILoginCallback {
      */
     Object handle(String accessToken, String refreshToken);
 
+    /**
+     * 返回前排除一些字段
+     *
+     * @return
+     */
+    Object beforeReturnExcludeField();
 }

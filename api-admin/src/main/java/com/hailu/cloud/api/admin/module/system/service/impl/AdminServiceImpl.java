@@ -52,10 +52,10 @@ public class AdminServiceImpl implements IAdminService {
     public void changePwd(String oldPwd, String newPwd) throws BusinessException {
         AdminLoginInfoModel infoModel = RequestUtils.getAdminLoginInfo();
         String oldPwdMd5 = SecureUtil.sha256(oldPwd + "&key=" + signKey);
-        if (infoModel.getPwd().equals(oldPwdMd5)) {
+        if (!infoModel.getPwd().equals(oldPwdMd5)) {
             throw new BusinessException("原密码不正确");
         }
-        String newPwdMd5 = SecureUtil.sha256(oldPwd + "&key=" + signKey);
+        String newPwdMd5 = SecureUtil.sha256(newPwd + "&key=" + signKey);
         adminMapper.changePwd(infoModel.getId(), newPwdMd5, infoModel.getAccount());
     }
 
