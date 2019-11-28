@@ -15,7 +15,7 @@ import java.util.List;
  * @Author xuzhijie
  * @Date 2019/10/21 16:13
  */
-@Api(tags = "商户-商品分类")
+@Api(tags = "百货商户-商品分类")
 @RestController
 @RequestMapping("/merchant/goods")
 public class GoodsCategoryController {

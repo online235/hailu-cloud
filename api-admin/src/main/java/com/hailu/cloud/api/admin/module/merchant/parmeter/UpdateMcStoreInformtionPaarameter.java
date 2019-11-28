@@ -1,13 +1,19 @@
 package com.hailu.cloud.api.admin.module.merchant.parmeter;
 
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.validation.constraints.NotNull;
+import java.text.DateFormat;
 
 /**
- * @author zhngmugui
+ * @author zhangmugui
  */
 @ApiModel
 @Data
@@ -17,7 +23,8 @@ public class UpdateMcStoreInformtionPaarameter {
     /**
      * 店铺编号id
      */
-    @ApiParam(name = "id", value = "店铺编号id")
+    @ApiParam(name = "id", value = "店铺编号id",required = true)
+    @NotNull
     private Long id;
 
 
@@ -106,6 +113,8 @@ public class UpdateMcStoreInformtionPaarameter {
     /**
      * 关闭时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     @ApiParam(name = "closingTime", value = "关闭时间")
     private java.util.Date closingTime;
 
@@ -113,6 +122,8 @@ public class UpdateMcStoreInformtionPaarameter {
     /**
      * 开店时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     @ApiParam(name = "openingTime", value = "开店时间")
     private java.util.Date openingTime;
 

@@ -26,6 +26,8 @@ spring:
       filter: stat,wall,log4j
   jackson:
     default-property-inclusion: non_null
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
 
 mybatis:
   configuration:

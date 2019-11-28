@@ -42,7 +42,6 @@ mapping:
         - /api/v1/basic/sms
         - /api/v1/basic/uuid
         - /api/v1/merchant
-        - /api/v1/admin
         - /api/v1/xinan/app/xinan/register
         - /api/v1/xinan/payment/callbackWechat
         - /api/v1/xinan/payment/callbackWechatHl

@@ -21,10 +21,7 @@ public class LocalCircleEntry implements Serializable {
      */
     private String shopName;
 
-    /**
-     * 主营类目
-     */
-    private String projectType;
+
 
     /**
      * 真实姓名

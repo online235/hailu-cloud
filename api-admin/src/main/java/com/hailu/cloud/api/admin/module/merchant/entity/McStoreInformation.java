@@ -1,13 +1,17 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
 /**
  * @author zhangmugui
  */
 @Data
+@InjectDict
 public class McStoreInformation {
 
 
@@ -75,11 +79,30 @@ public class McStoreInformation {
      */
     private Long storeSonType;
 
+    public Long getStoreSonType(){
+
+        if(storeSonType == null){
+            return 0L;
+        }
+        return storeSonType;
+    }
+
+
+
 
     /**
      *店铺总类型ID
      */
     private Long storeTotalType;
+
+
+    public Long getStoreTotalType() {
+
+        if(storeTotalType == null){
+            return 0L;
+        }
+        return storeTotalType;
+    }
 
 
     /**
@@ -124,7 +147,7 @@ public class McStoreInformation {
 
 
     @DictName(code = "TO_EXAMINE", joinField = "toExamine")
-    private Integer toExamineDisplay;
+    private String toExamineDisplay;
 
     /**
      * 每周营业日用，“；”隔开（例1；2；3；4:）

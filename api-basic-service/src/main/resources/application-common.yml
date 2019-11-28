@@ -47,6 +47,8 @@ spring:
     type: ehcache
   jackson:
     default-property-inclusion: non_null
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
 
 redis:
   hostname: 192.168.10.243

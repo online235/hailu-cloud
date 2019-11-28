@@ -1,10 +1,13 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author zhangmugui
@@ -27,10 +30,6 @@ public class LocalCircleEntry implements Serializable {
      */
     private String shopName;
 
-    /**
-     * 主营类目
-     */
-    private String projectType;
 
     /**
      * 真实姓名
@@ -77,7 +76,6 @@ public class LocalCircleEntry implements Serializable {
      * 二级经营类型表id
      */
     private Long secondManagementTypeId;
-
 
 
     /**
@@ -163,37 +161,12 @@ public class LocalCircleEntry implements Serializable {
      */
     private Long createdat;
 
+
     /**
      * 更改时间
      */
     private Long updatedat;
 
-//    /**
-//     * 开户银行
-//     */
-//    private String bank;
-
-//    /**
-//     * 开户支行
-//     */
-//    private Integer bankBranch;
-
-
-//    /**
-//     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
-//     */
-//    private Integer billingMethod;
-
-//
-//    /**
-//     * 银行卡号
-//     */
-//    private String bankNumber;
-
-//    /**
-//     * 开户类型（1、借记卡；2、信用卡 ）
-//     */
-//    private Integer bankType;
 
     /**
      * 附件数组字符串（用；隔开）

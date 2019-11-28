@@ -189,7 +189,7 @@
     </sql>
 
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <delete id="deleteByPrimaryKey" parameterType="long">
     delete from mc_store_information
     where id = #{id}
   </delete>

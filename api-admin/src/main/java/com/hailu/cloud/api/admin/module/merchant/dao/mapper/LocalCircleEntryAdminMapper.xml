@@ -4,7 +4,7 @@
 
 
     <sql id="base_column">
-    number_id, mc_number_id, shop_name, project_type, real_name, phone, id_card, idcard_imgx,
+    number_id, mc_number_id, shop_name, real_name, phone, id_card, idcard_imgx,
     idcard_imgy, idcardtermof_validity, long_term_certificate, first_management_type_id, business_license_number,
     business_name, name_of_legal_person, license_date, long_term_license, license_positive,
     third_party_links, invitation_code, service_provider_or_not, to_examine, city_code,
@@ -26,7 +26,7 @@
 
     <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.LocalCircleEntry"
             useGeneratedKeys="true" keyProperty="numberId">
-    insert into local_circle_entry (number_id, mc_number_id, shop_name, project_type,
+    insert into local_circle_entry (number_id, mc_number_id, shop_name,
       real_name, phone, id_card,
       idcard_imgx, idcard_imgy, idcardtermof_validity,
       long_term_certificate, first_management_type_id, business_license_number,
@@ -35,7 +35,7 @@
       invitation_code, service_provider_or_not, to_examine, city_code,
       city_code, province_code, remarks, area_code, detail_address,enclosures,second_management_type_id
       createdat, updatedat)
-    values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR}, #{projectType,jdbcType=CHAR},
+    values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},
       #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
       #{idcardImgx,jdbcType=VARCHAR}, #{idcardImgy,jdbcType=VARCHAR}, #{idcardtermofValidity,jdbcType=VARCHAR},
       #{longTermCertificate,jdbcType=BIGINT}, #{firstManagementTypeId,jdbcType=BIGINT}, #{businessLicenseNumber,jdbcType=VARCHAR},
@@ -59,9 +59,7 @@
             <if test="shopName != null">
                 shop_name,
             </if>
-            <if test="projectType != null">
-                project_type,
-            </if>
+
             <if test="realName != null">
                 real_name,
             </if>
@@ -155,9 +153,6 @@
             </if>
             <if test="shopName != null">
                 #{shopName,jdbcType=VARCHAR},
-            </if>
-            <if test="projectType != null">
-                #{projectType,jdbcType=CHAR},
             </if>
             <if test="realName != null">
                 #{realName,jdbcType=VARCHAR},
@@ -256,9 +251,7 @@
             <if test="shopName != null">
                 shop_name = #{shopName,jdbcType=VARCHAR},
             </if>
-            <if test="projectType != null">
-                project_type = #{projectType,jdbcType=CHAR},
-            </if>
+
             <if test="realName != null">
                 real_name = #{realName,jdbcType=VARCHAR},
             </if>
@@ -349,7 +342,6 @@
     update local_circle_entry
     set mc_number_id = #{mcNumberId,jdbcType=VARCHAR},
       shop_name = #{shopName,jdbcType=VARCHAR},
-      project_type = #{projectType,jdbcType=CHAR},
       real_name = #{realName,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       id_card = #{idCard,jdbcType=VARCHAR},

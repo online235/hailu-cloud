@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
@@ -76,12 +78,10 @@ public class McEntryInformation implements Serializable {
     private Long firstManagementTypeId;
 
 
-
     /**
      * 经营类型表二级编号id
      */
     private Long secondManagementTypeId;
-
 
 
     /**
@@ -166,15 +166,17 @@ public class McEntryInformation implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     private Long createdat;
 
     /**
      * 更改时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     private Long updatedat;
 
     /**
-     *开户类型（1、借记卡；2、信用卡 ）
+     * 开户类型（1、借记卡；2、信用卡 ）
      */
     private Integer bankType;
 
@@ -222,6 +224,7 @@ public class McEntryInformation implements Serializable {
      * 开户账号
      */
     private String accountNumber;
+
 
     /**
      * mc_entry_information

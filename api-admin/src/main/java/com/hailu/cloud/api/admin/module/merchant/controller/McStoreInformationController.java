@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -149,7 +150,7 @@ public class McStoreInformationController {
             @ApiImplicitParam(name = "id", value = "店铺编号id", required = true, paramType = "query"),
             @ApiImplicitParam(name = "toExamine", value = "状态", required = true, paramType = "query")
     })
-    public void updateToExamineByNumberId(@NotBlank(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer toExamine) {
+    public void updateToExamineByNumberId(@NotNull(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer toExamine) {
 
         mcStoreInformationAdminService.updateMcStoreInformationStatus(id, toExamine);
 
@@ -163,16 +164,11 @@ public class McStoreInformationController {
             "}"
             + "pre")
     @PostMapping("updLocalCircleEntry")
-    public void updateMcEntryInformation(UpdateMcStoreInformtionPaarameter updateMcStoreInformtionPaarameter, BindingResult result, HttpServletRequest request) throws BusinessException {
-
-        if (result.hasErrors()) {
-            throw new BusinessException("必传参数不能为空！");
-        }
+    public void updateMcEntryInformation(@ModelAttribute UpdateMcStoreInformtionPaarameter updateMcStoreInformtionPaarameter) throws BusinessException {
         McStoreInformation mcStoreInformation = new McStoreInformation();
         BeanUtils.copyProperties(updateMcStoreInformtionPaarameter, mcStoreInformation);
         mcStoreInformation.setUpdatedat(new Date());
         mcStoreInformationAdminService.updateMcStoreInformation(mcStoreInformation);
-
     }
 
 
