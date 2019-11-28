@@ -50,6 +50,10 @@ public class ManagementTypeController {
             "}" +
             "</pre>")
     @PostMapping("/add/industry")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "managementName",value = "经营名称",required = true, paramType = "query"),
+            @ApiImplicitParam(name = "sort", value = "排序号" , required = true, paramType = "query")
+    })
     public Object add(@Valid ManagementTypeModel managementType) throws BusinessException {
         return managementTypeService.insertSelective(managementType);
     }

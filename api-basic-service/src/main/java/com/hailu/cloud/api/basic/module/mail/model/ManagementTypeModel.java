@@ -39,14 +39,12 @@ public class ManagementTypeModel {
     /**
      * 经营名称
      */
-    @NotBlank(message = "行业名称不能为空")
     @ApiModelProperty("经营名称")
     private String managementName;
 
     /**
      * 排序号
      */
-    @NotNull(message = "排序号不能为空")
     @ApiModelProperty("排序号")
     private Integer sort;
 }
