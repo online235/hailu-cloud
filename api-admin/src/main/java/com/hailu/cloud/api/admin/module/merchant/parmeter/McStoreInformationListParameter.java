@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @ApiModel
 @Data
-public class LocalCircleListParameter {
+public class McStoreInformationListParameter {
 
 
     /**
@@ -18,6 +18,7 @@ public class LocalCircleListParameter {
      */
     @ApiParam(name = "mcNumberId", value = "商家编号")
     private String mcNumberId;
+
 
     @ApiParam(name = "shopName", value = "店铺名称")
     private String shopName;
@@ -27,12 +28,12 @@ public class LocalCircleListParameter {
     private String phone;
 
 
-    @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id")
-    private Long firstManagementTypeId;
+    @ApiParam(name = "storeSonType", value = "店铺子类型ID")
+    private Long storeSonType;
 
 
-    @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id")
-    private Long secondManagementTypeId;
+    @ApiParam(name = "storeTotalType", value = "店铺总类型ID")
+    private Long storeTotalType;
 
 
     @ApiParam(name="pageNum",value = "当前页" ,defaultValue = "1")
@@ -41,6 +42,7 @@ public class LocalCircleListParameter {
 
     @ApiParam(name="pageSize",value = "每页显示数量" ,defaultValue = "10")
     private Integer pageSize;
+
 
 
 }

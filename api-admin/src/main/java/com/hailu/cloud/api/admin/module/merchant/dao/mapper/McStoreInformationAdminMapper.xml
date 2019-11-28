@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.merchant.dao.McStoreInformationAdminMapper">
+
+
+    <sql id="Base_Column_List">
+        id,mc_number_id,shop_name,phone,province_code,city_code,area_code,detail_address,store_details,
+        per_capita_price,store_son_type,store_total_type,business_state,closing_time,opening_time,createdat,
+        updatedat,to_examine,week_day
+  </sql>
+
+    <sql id="Base_where_List">
+     #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{detailAddress},
+     #{storeDetails},#{perCapitaPrice},#{storeSonType},
+     #{storeTotalType},#{businessState},#{closingTime},#{openingTime},#{createdat},#{updatedat},#{toExamine},#{weekDay}
+  </sql>
+
+    <sql id="set_column">
+        <if test="id != null">
+            id,
+        </if>
+        <if test="mcNumberId != null">
+            mc_number_id,
+        </if>
+        <if test="shopName != null">
+            shop_name,
+        </if>
+        <if test="phone != null">
+            phone,
+        </if>
+        <if test="provinceCode != null">
+            province_code,
+        </if>
+        <if test="cityCode != null">
+            city_code,
+        </if>
+        <if test="areaCode != null">
+            area_code,
+        </if>
+        <if test="detailAddress != null">
+            detail_address,
+        </if>
+        <if test="storeDetails != null">
+            store_details,
+        </if>
+        <if test="perCapitaPrice != null">
+            per_capita_price,
+        </if>
+        <if test="storeSonType != null">
+            store_son_type,
+        </if>
+        <if test="storeTotalType != null">
+            store_total_type,
+        </if>
+        <if test="businessState != null">
+            business_state,
+        </if>
+        <if test="closingTime != null">
+            closing_time,
+        </if>
+        <if test="openingTime != null">
+            opening_time,
+        </if>
+        <if test="createdat != null">
+            createdat,
+        </if>
+        <if test="updatedat != null">
+            updatedat,
+        </if>
+        <if test="toExamine != null">
+            to_examine,
+        </if>
+        <if test="weekDay != null">
+            week_day
+        </if>
+    </sql>
+
+
+    <sql id="set_where_column">
+
+        <if test="id != null">
+            #{id},
+        </if>
+        <if test="mcNumberId != null">
+            #{mcNumberId},
+        </if>
+        <if test="shopName != null">
+            #{shopName},
+        </if>
+        <if test="phone != null">
+            #{phone},
+        </if>
+        <if test="provinceCode != null">
+            #{provinceCode},
+        </if>
+        <if test="cityCode != null">
+            #{cityCode},
+        </if>
+        <if test="areaCode != null">
+            #{areaCode},
+        </if>
+        <if test="detailAddress != null">
+            #{detailAddress},
+        </if>
+        <if test="storeDetails != null">
+            #{storeDetails},
+        </if>
+        <if test="perCapitaPrice != null">
+            #{perCapitaPrice},
+        </if>
+        <if test="storeSonType != null">
+            #{storeSonType},
+        </if>
+        <if test="storeTotalType != null">
+            #{storeTotalType},
+        </if>
+        <if test="businessState != null">
+            #{businessState},
+        </if>
+        <if test="closingTime != null">
+            #{closingTime},
+        </if>
+        <if test="openingTime != null">
+            #{openingTime},
+        </if>
+        <if test="createdat != null">
+            #{createdat},
+        </if>
+        <if test="updatedat != null">
+            #{updatedat},
+        </if>
+        <if test="toExamine != null">
+            #{toExamine},
+        </if>
+        <if test="weekDay != null">
+            #{weekDay}
+        </if>
+    </sql>
+
+    <sql id="update_where_column">
+        <if test="shopName != null">
+            shop_name = #{shopName},
+        </if>
+        <if test="phone != null">
+            phone = #{phone},
+        </if>
+        <if test="provinceCode != null">
+            province_code = #{provinceCode},
+        </if>
+        <if test="cityCode != null">
+            city_code = #{cityCode},
+        </if>
+        <if test="areaCode != null">
+            area_code = #{areaCode},
+        </if>
+        <if test="detailAddress != null">
+            detail_address = #{detailAddress},
+        </if>
+        <if test="storeDetails != null">
+            store_details = #{storeDetails},
+        </if>
+        <if test="perCapitaPrice != null">
+            per_capita_price = #{perCapitaPrice},
+        </if>
+        <if test="storeSonType != null">
+            store_son_type = #{storeSonType},
+        </if>
+        <if test="storeTotalType != null">
+            store_total_type = #{storeTotalType},
+        </if>
+        <if test="businessState != null">
+            business_state = #{businessState},
+        </if>
+        <if test="closingTime != null">
+            closing_time = #{closingTime},
+        </if>
+        <if test="openingTime != null">
+            opening_time = #{openingTime},
+        </if>
+        <if test="updatedat != null">
+            updatedat = #{updatedat},
+        </if>
+        <if test="toExamine != null">
+            to_examine = #{toExamine},
+        </if>
+        <if test="weekDay != null">
+            week_day = #{weekDay},
+        </if>
+    </sql>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from mc_store_information
+    where id = #{id}
+  </delete>
+
+    <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into mc_store_information (
+        <include refid="Base_Column_List"/>
+        )
+        values (
+        <include refid="Base_where_List"/>
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into mc_store_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="set_column"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="set_where_column"/>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation">
+        update mc_store_information
+        <set>
+            <include refid="update_where_column"/>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="selectByMcnumberidAndToexamine" resultType="int">
+    select count(id)
+    from mc_store_information
+    where mc_number_id = #{mcNumberId} and to_examine = #{toExamine}
+  </select>
+    <select id="selectMcEntryinFormationById" resultType="integer">
+    select IFNULL(count(mc_number_id),0) from mc_store_information
+    where mc_number_id = #{mcNumberId}
+  </select>
+
+
+    <select id="findMcStoreInformation" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_store_information
+        where id = #{id}
+    </select>
+
+
+    <select id="selectMcStoreInformationList"
+            resultType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation">
+        select
+        <include refid="Base_Column_List"></include>
+        from mc_store_information
+        where 1=1
+        <if test="mcNumberId != null">
+            and mc_number_id = #{mcNumberId}
+        </if>
+        <if test="shopName != null">
+            and shop_name like concat('%',#{shopName},'%')
+        </if>
+        <if test="phone != null">
+            and phone like concat('%',#{phone},'%')
+        </if>
+        <if test="storeSonType != null">
+            and store_son_type = #{storeSonType}
+        </if>
+        <if test="storeSonType != null">
+            and store_total_type = #{storeSonType}
+        </if>
+
+    </select>
+
+
+</mapper>

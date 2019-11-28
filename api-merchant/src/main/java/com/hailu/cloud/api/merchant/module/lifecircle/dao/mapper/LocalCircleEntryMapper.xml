@@ -311,7 +311,7 @@
                 service_provider_or_not = #{serviceProviderOrNot,jdbcType=BIT},
             </if>
             <if test="toExamine != null">
-                to_examine = #{toExamine,jdbcType=CHAR},
+                to_examine = #{toExamine},
             </if>
             <if test="cityCode != null">
                 city_code = #{cityCode,jdbcType=VARCHAR},
@@ -367,7 +367,7 @@
       third_party_links = #{thirdPartyLinks,jdbcType=VARCHAR},
       invitation_code = #{invitationCode,jdbcType=VARCHAR},
       service_provider_or_not = #{serviceProviderOrNot,jdbcType=BIT},
-      to_examine = #{toExamine,jdbcType=CHAR},
+      to_examine = #{toExamine},
       city_code = #{cityCode,jdbcType=VARCHAR},
       province_code = #{provinceCode,jdbcType=VARCHAR},
       area_code = #{areaCode,jdbcType=VARCHAR},
@@ -382,7 +382,7 @@
     <select id="selectByMcnumberidAndToexamine" resultType="int">
     select count(number_id)
     from local_circle_entry
-    where mc_number_id = #{memberid} and to_examine = #{toexamine}
+    where mc_number_id = #{memberid} and to_examine = #{toExamine}
   </select>
 
     <select id="selectMcEntryinFormationList"

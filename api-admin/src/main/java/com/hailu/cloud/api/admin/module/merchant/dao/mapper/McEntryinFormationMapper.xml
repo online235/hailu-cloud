@@ -319,7 +319,7 @@
             service_provider_or_not = #{serviceProviderOrNot,jdbcType=BIT},
         </if>
         <if test="toExamine != null">
-            to_examine = #{toExamine,jdbcType=CHAR},
+            to_examine = #{toExamine},
         </if>
         <if test="cityCode != null">
             city_code = #{cityCode,jdbcType=VARCHAR},
@@ -422,7 +422,7 @@
     <select id="selectByMcnumberidAndToexamine" resultType="int">
     select count(number_id)
     from mc_entry_information
-    where mc_number_id = #{memberid} and to_examine = #{toexamine}
+    where mc_number_id = #{memberid} and to_examine = #{toExamine}
   </select>
 
     <select id="selectMcEntryinFormationList"

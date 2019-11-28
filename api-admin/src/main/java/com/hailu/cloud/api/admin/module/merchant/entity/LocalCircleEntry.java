@@ -128,8 +128,10 @@ public class LocalCircleEntry implements Serializable {
     /**
      * 审核
      */
-    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
     private Integer toExamine;
+
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    private String toExamineDisPlay;
 
     /**
      * 市Id

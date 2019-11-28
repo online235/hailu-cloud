@@ -24,6 +24,11 @@ public class McEntryInformation implements Serializable {
      */
     private Integer mcType;
 
+
+    @DictName(code = "MC_TYPE", joinField = "mcType")
+    private String mcTypeDisPlay;
+
+
     /**
      * 店铺名称
      */
@@ -129,6 +134,10 @@ public class McEntryInformation implements Serializable {
      */
     private Integer toExamine;
 
+
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    private String toExamineDisPlay;
+
     /**
      * 店铺市Id
      */
@@ -203,6 +212,10 @@ public class McEntryInformation implements Serializable {
      * 1、平台代发；2、商家发；3、各开各票
      */
     private Integer billingMethod;
+
+
+    @DictName(code = "BILLING_METHOD", joinField = "billingMethod")
+    private String billingMethodDisPlay;
 
 
     /**

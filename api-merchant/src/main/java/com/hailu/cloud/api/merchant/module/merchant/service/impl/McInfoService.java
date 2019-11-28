@@ -83,6 +83,8 @@ public class McInfoService {
         mcEntryinFormationMapper.insertSelective(mcEntryInformation);
         McStoreInformation mcStoreInformation = new McStoreInformation();
         BeanUtils.copyProperties(mcEntryInformation, mcStoreInformation);
+        mcStoreInformation.setStoreTotalType(mcEntryInformation.getFirstManagementTypeId());
+        mcStoreInformation.setStoreSonType(mcEntryInformation.getSecondManagementTypeId());
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }

@@ -149,6 +149,8 @@ public class LocalCircleEntryService {
         }
         McStoreInformation mcStoreInformation = new McStoreInformation();
         BeanUtils.copyProperties(localCircleEntry, mcStoreInformation);
+        mcStoreInformation.setStoreTotalType(localCircleEntry.getFirstManagementTypeId());
+        mcStoreInformation.setStoreSonType(localCircleEntry.getSecondManagementTypeId());
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }

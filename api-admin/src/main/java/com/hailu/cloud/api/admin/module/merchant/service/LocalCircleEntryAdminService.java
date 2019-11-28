@@ -52,6 +52,37 @@ public class LocalCircleEntryAdminService {
     }
 
 
+    /**
+     * 更改审核状态
+     * @param numberId
+     * @param toExamine
+     */
+    public void updateLocalCircleEntryStatus(String numberId,Integer toExamine){
+
+        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
+        localCircleEntry.setToExamine(toExamine);
+        localCircleEntry.setNumberId(numberId);
+        localCircleEntry.setUpdatedat(System.currentTimeMillis());
+        localCircleEntryAdminMapper.updateByPrimaryKeySelective(localCircleEntry);
+    }
+
+    /**
+     * 更新入驻信息
+     */
+    public void updateLocalCircleEntry(LocalCircleEntry localCircleEntry ){
+
+        localCircleEntryAdminMapper.updateByPrimaryKeySelective(localCircleEntry);
+    }
+
+
+    /**
+     * 删除入驻信息
+     */
+    public void deleteByPrimaryKey(String numberId){
+        localCircleEntryAdminMapper.deleteByPrimaryKey(numberId);
+    }
+
+
 
     /**
      * 查询入驻信息是否存在
