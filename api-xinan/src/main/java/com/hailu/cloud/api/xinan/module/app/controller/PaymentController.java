@@ -53,7 +53,7 @@ public class PaymentController {
     @RequestMapping(value = "/callbackWechat",method = {RequestMethod.POST,RequestMethod.GET})
     public String callbackWechat() throws Exception {
         log.info("微信回调开始");
-        paymentService.callbackHl(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
+        paymentService.callback(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
         return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
     }
 
