@@ -101,7 +101,7 @@ public final class Constant {
     /**
      * jwt 用户token
      */
-    public static final String JWT_ACCESS_TOKEN = "ACCESS_TOKEN";
+    public static final String JWT_TOKEN = "TOKEN";
 
     // endregion
 

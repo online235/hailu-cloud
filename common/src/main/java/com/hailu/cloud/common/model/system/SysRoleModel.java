@@ -21,7 +21,7 @@ public class SysRoleModel {
      * 主键ID
      */
     @ApiModelProperty("主键ID")
-    private Integer id;
+    private Long id;
 
     /**
      * 角色名称

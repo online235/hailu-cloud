@@ -13,7 +13,7 @@ public class SysRole {
     /**
      * 主键ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 角色名称

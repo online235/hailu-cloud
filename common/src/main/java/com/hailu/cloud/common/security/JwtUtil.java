@@ -36,7 +36,7 @@ public final class JwtUtil {
             String token = JWT.create()
                     .withIssuer(ISSUSER)
                     .withClaim(Constant.JWT_LOGIN_TYPE, loginType)
-                    .withClaim(Constant.JWT_ACCESS_TOKEN, realToken)
+                    .withClaim(Constant.JWT_TOKEN, realToken)
                     .sign(algorithm);
             return Base64.encode(token);
         } catch (Exception exception) {

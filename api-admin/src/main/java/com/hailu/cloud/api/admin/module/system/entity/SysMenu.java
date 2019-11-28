@@ -13,12 +13,12 @@ public class SysMenu {
     /**
      * 主键ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 父菜单ID
      */
-    private Integer parentId;
+    private Long parentId;
 
     /**
      * 菜单名称

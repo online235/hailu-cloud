@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -21,13 +22,13 @@ public class SysMenuModel {
      * 主键ID
      */
     @ApiModelProperty("主键ID")
-    private Integer id;
+    private Long id;
 
     /**
      * 父菜单ID
      */
     @ApiModelProperty("父菜单ID")
-    private Integer parentId;
+    private Long parentId;
 
     /**
      * 菜单名称
@@ -53,7 +54,7 @@ public class SysMenuModel {
     /**
      * 菜单类型
      */
-    @NotBlank(message = "菜单类型不能为空")
+    @NotNull(message = "菜单类型不能为空")
     @ApiModelProperty(value = "菜单类型：0菜单，1按钮", required = true)
     private Integer menuType;
 

@@ -15,7 +15,7 @@ public class SysAdmin {
     /**
      * 主键ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 账号昵称

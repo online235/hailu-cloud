@@ -81,7 +81,7 @@ public class AuthServiceImpl implements IAuthService {
             throw new BusinessException("无效的refreshToken");
         }
         // 根据token获取redis value
-        String token = decodedJwt.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String token = decodedJwt.getClaim(Constant.JWT_TOKEN).asString();
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + token;
         String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {
@@ -157,7 +157,7 @@ public class AuthServiceImpl implements IAuthService {
         if (decodedJwt == null) {
             throw new BusinessException("无效的refreshToken");
         }
-        String token = decodedJwt.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String token = decodedJwt.getClaim(Constant.JWT_TOKEN).asString();
         String refreshTokenRedisKey = Constant.REDIS_KEY_REFRESH_TOKEN_STORE + token;
         String redisUserInfoJsonValue = redisClient.stringGet(refreshTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {
@@ -169,7 +169,7 @@ public class AuthServiceImpl implements IAuthService {
             return;
         }
         // 清理redis缓存
-        String redisToken = JwtUtil.extractToken(authInfo.getAccessToken(), Constant.JWT_ACCESS_TOKEN);
+        String redisToken = JwtUtil.extractToken(authInfo.getAccessToken(), Constant.JWT_TOKEN);
         if (redisToken == null) {
             return;
         }

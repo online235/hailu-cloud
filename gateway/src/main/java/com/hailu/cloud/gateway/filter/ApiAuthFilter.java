@@ -221,7 +221,7 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
             return null;
         }
         // 2. 根据token获取授权信息
-        String token = tokenDecode.getClaim(Constant.JWT_ACCESS_TOKEN).asString();
+        String token = tokenDecode.getClaim(Constant.JWT_TOKEN).asString();
         String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + token;
         String redisUserInfoJsonValue = redisClient.stringGet(accessTokenRedisKey);
         if (StringUtils.isBlank(redisUserInfoJsonValue)) {

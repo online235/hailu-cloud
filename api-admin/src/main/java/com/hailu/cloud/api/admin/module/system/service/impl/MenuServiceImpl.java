@@ -4,10 +4,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.system.dao.MenuMapper;
 import com.hailu.cloud.api.admin.module.system.service.IMenuService;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysMenuModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,8 +24,15 @@ public class MenuServiceImpl implements IMenuService {
     @Resource
     private MenuMapper menuMapper;
 
+    @Autowired
+    private BasicFeignClient basicFeignClient;
+
     @Override
     public void addMenu(SysMenuModel model) {
+        model.setId(basicFeignClient.uuid().getData());
+        if( model.getParentId() == null ){
+            model.setParentId(0L);
+        }
         menuMapper.addMenu(model);
     }
 
