@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -118,7 +119,7 @@ public class McEntryinFormationController {
     })
     public void updateToExamineByNumberId(
             @NotBlank(message = "编号不能为空") String numberId,
-            @NotBlank(message = "更改的状态不能为空") Integer toExamine){
+            @NotNull(message = "更改的状态不能为空") Integer toExamine){
 
         mcEntryinFormationService.updateToExamineByNumberId(numberId, toExamine);
     }
