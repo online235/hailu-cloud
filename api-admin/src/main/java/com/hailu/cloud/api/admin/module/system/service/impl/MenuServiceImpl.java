@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.system.dao.MenuMapper;
 import com.hailu.cloud.api.admin.module.system.service.IMenuService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -33,7 +34,19 @@ public class MenuServiceImpl implements IMenuService {
         if( model.getParentId() == null ){
             model.setParentId(0L);
         }
+        AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
+        model.setCreateBy(loginInfoModel.getAccount());
         menuMapper.addMenu(model);
+    }
+
+    @Override
+    public void updateMenu(SysMenuModel model) throws BusinessException {
+        if( model.getId() == null ){
+            throw new BusinessException("菜单ID不能为空");
+        }
+        AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
+        model.setUpdateBy(loginInfoModel.getAccount());
+        menuMapper.updateMenu(model);
     }
 
     @Override

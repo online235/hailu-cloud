@@ -9,6 +9,20 @@
 	</insert>
 
     <!-- 变更账号启用状态 -->
+    <update id="updateMenu">
+		update from sys_menu set
+		menu_name=#{menuName},
+		parent_id=#{parentId},
+		url=#{url},
+		menu_type=#{menuType},
+		enable_status=#{enableStatus},
+		permission_code=#{permissionCode},
+		update_by=#{updateBy},
+		update_time=NOW()
+		where id = #{id}
+    </update>
+
+    <!-- 变更账号启用状态 -->
     <update id="changeStatus">
 		update sys_menu set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
     </update>

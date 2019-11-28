@@ -12,11 +12,18 @@ import java.util.List;
 public interface IRoleService {
 
     /**
-     * 添加账号
+     * 添加角色
      *
      * @param model
      */
     void addRole(SysRoleModel model);
+
+    /**
+     * 添加角色
+     *
+     * @param model
+     */
+    void updateRole(SysRoleModel model) throws BusinessException;
 
     /**
      * 查询角色列表

@@ -20,6 +20,13 @@ public interface RoleMapper {
     void addRole(SysRoleModel model);
 
     /**
+     * 添加角色
+     *
+     * @param model
+     */
+    void updateRole(SysRoleModel model);
+
+    /**
      * 查询角色列表
      *
      * @param roleName     角色名称

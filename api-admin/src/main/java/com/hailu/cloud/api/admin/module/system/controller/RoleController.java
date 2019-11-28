@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.admin.module.system.controller;
 
 import com.hailu.cloud.api.admin.module.system.service.IRoleService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysRoleModel;
 import io.swagger.annotations.Api;
@@ -74,6 +75,19 @@ public class RoleController {
     public void addAccount(@Valid SysRoleModel model) {
 
         roleService.addRole(model);
+    }
+
+    @ApiOperation(value = "编辑角色", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': ''\n" +
+            "}" +
+            "</pre>")
+    @PostMapping("/update-role")
+    public void updateAccount(@Valid SysRoleModel model) throws BusinessException {
+
+        roleService.updateRole(model);
     }
 
     @ApiOperation(value = "变更角色启用状态", notes = "<pre>" +

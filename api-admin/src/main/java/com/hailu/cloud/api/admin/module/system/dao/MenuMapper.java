@@ -20,6 +20,13 @@ public interface MenuMapper {
     void addMenu(SysMenuModel model);
 
     /**
+     * 编辑菜单
+     *
+     * @param model
+     */
+    void updateMenu(SysMenuModel model);
+
+    /**
      * 查询菜单列表
      *
      * @param menuName     角色名称

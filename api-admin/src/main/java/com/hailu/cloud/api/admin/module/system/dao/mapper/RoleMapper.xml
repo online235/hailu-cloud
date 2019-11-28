@@ -8,6 +8,16 @@
 		values (#{id}, #{roleName}, #{enableStatus}, #{createBy}, NOW())
 	</insert>
 
+    <!-- 编辑角色 -->
+    <update id="updateRole">
+		update sys_role set
+		enable_status=#{enableStatus},
+		role_name=#{roleName},
+		update_by=#{updateBy},
+		update_time=NOW()
+		where id = #{id}
+    </update>
+
     <!-- 变更角色启用状态 -->
     <update id="changeStatus">
 		update sys_role set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}

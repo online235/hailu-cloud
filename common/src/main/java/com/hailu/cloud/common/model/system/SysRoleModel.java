@@ -2,6 +2,7 @@ package com.hailu.cloud.common.model.system;
 
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import java.util.Date;
  */
 @Data
 @InjectDict
+@ApiModel
 public class SysRoleModel {
 
     /**

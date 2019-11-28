@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.admin.module.system.controller;
 
 import com.hailu.cloud.api.admin.module.system.service.IMenuService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysMenuModel;
 import io.swagger.annotations.Api;
@@ -80,6 +81,19 @@ public class MenuController {
     public void addAccount(@Valid SysMenuModel model) {
 
         menuService.addMenu(model);
+    }
+
+    @ApiOperation(value = "编辑菜单", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': ''\n" +
+            "}" +
+            "</pre>")
+    @PostMapping("/update-menu")
+    public void updateAccount(@Valid SysMenuModel model) throws BusinessException {
+
+        menuService.updateMenu(model);
     }
 
     @ApiOperation(value = "变更菜单启用状态", notes = "<pre>" +

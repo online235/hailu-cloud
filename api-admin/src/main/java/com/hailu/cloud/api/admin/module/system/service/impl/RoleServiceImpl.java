@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.system.dao.RoleMapper;
 import com.hailu.cloud.api.admin.module.system.service.IRoleService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -30,7 +31,19 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public void addRole(SysRoleModel model) {
         model.setId(basicFeignClient.uuid().getData());
+        AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
+        model.setCreateBy(loginInfoModel.getAccount());
         roleMapper.addRole(model);
+    }
+
+    @Override
+    public void updateRole(SysRoleModel model) throws BusinessException {
+        if( model.getId() == null ){
+            throw new BusinessException("角色ID不能为空");
+        }
+        AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
+        model.setUpdateBy(loginInfoModel.getAccount());
+        roleMapper.updateRole(model);
     }
 
     @Override

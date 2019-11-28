@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.admin.module.system.service;
 
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysMenuModel;
 import com.hailu.cloud.common.model.system.SysRoleModel;
@@ -12,11 +13,18 @@ import java.util.List;
 public interface IMenuService {
 
     /**
-     * 添加账号
+     * 添加菜单
      *
      * @param model
      */
     void addMenu(SysMenuModel model);
+
+    /**
+     * 编辑菜单
+     *
+     * @param model
+     */
+    void updateMenu(SysMenuModel model) throws BusinessException;
 
     /**
      * 查询菜单列表
