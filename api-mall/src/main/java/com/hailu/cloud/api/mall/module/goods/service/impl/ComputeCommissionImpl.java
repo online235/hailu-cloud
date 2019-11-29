@@ -24,15 +24,11 @@ public class ComputeCommissionImpl implements IComputeCommission {
     private BigDecimal serviceAgent;
 
     @Override
-    public BigDecimal compute(BigDecimal commission) {
+    public BigDecimal compute(BigDecimal commission,Integer merchantType) {
         if( commission == null ){
             return BigDecimal.ZERO;
         }
-        MemberLoginInfoModel loginInfo =  RequestUtils.getMemberLoginInfo();
-        Integer merchantType = null;
-        if (loginInfo != null) {
-            merchantType = loginInfo.getMerchantType();
-        }
+
         if( merchantType == null || merchantType == 1){
             return commission;
         }

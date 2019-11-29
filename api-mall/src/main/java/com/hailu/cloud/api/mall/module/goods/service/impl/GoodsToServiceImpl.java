@@ -19,7 +19,11 @@ import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.util.Const;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.auth.AuthInfo;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,7 +267,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                             goodsList.setSpecGoodsPrice(price.getSpecGoodsPrice());
                             goodsList.setSpecGoodsVipPrice(price.getSpecGoodsVipPrice());
                             goodsList.setSpecGoodsPurchasePrice(price.getSpecGoodsPurchasePrice());
-                            goodsList.setCommission(computeCommission.compute(price.getCommission()));
+                            goodsList.setCommission(computeCommission.compute(price.getCommission(),merchantType));
                         }
                     }
                     recomm.setGoodsList(goods);
@@ -524,7 +528,9 @@ public class GoodsToServiceImpl implements IGoodsToService {
                         if (!StringUtil.isNotEmpty(map1.get("name"))) {
                             //得到父类id
                             GoodsClassVo gc = goodsToDao.getGoodsClass(x.getParentId());
-                            map1.put("name", gc.getGcName());
+                            if(gc != null){
+                                map1.put("name", gc.getGcName());
+                            }
                         }
                         gg.add(x);
                         it.remove();
@@ -836,7 +842,13 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 map1.put("specGoodsPurchasePrice", specVo.getSpecGoodsPurchasePrice());
 
                 // 计算提成
-                map1.put("commission", computeCommission.compute(specVo.getCommission()));
+                Object modelMerchant =  RequestUtils.getRequest().getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+                Integer merchantType = null;
+                if( modelMerchant != null){
+                    AuthInfo<MemberLoginInfoModel> authInfo = (AuthInfo<MemberLoginInfoModel>) modelMerchant;
+                    merchantType = authInfo.getUserInfo().getMerchantType();
+                }
+                map1.put("commission", computeCommission.compute(specVo.getCommission(),merchantType));
 
                 map1.put("specSalenum", specVo.getSpecSalenum());
                 map1.put("specGoodsStorage", specVo.getSpecGoodsStorage());

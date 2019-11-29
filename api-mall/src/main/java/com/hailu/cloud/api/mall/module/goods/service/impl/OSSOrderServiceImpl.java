@@ -110,7 +110,6 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
                                 otp.setOrderState(2);
                                 op.setPayAmount(ol.getOrderAmount());
                             }
-                            //System.out.println("out_trade_no={"+orderNoe+"} orderState={"+otp.getOrderState()+"}");
                             orderService.updateOrderByPay(otp); // 更改訂單
                             orderService.addOrderPay(op); // 支付詳情
 

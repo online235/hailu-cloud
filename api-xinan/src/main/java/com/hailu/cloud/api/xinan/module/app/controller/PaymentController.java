@@ -3,8 +3,8 @@ package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.module.app.service.IPaymentService;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.util.wechat.WechatUtil;
 import com.hailu.cloud.common.utils.RequestUtils;
+import com.hailu.cloud.common.utils.wechat.WechatUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -95,7 +95,7 @@ public class PaymentController {
     @RequestMapping(value = "/callbackWechatHl",method = {RequestMethod.POST,RequestMethod.GET})
     public String callbackWechatHl() throws Exception {
         log.info("微信回调开始");
-        paymentService.callback(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
+        paymentService.callbackHl(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
         return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
     }
 

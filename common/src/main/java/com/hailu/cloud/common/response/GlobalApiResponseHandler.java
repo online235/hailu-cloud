@@ -3,6 +3,7 @@ package com.hailu.cloud.common.response;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.fill.DictLoader;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -15,6 +16,7 @@ import java.util.regex.Pattern;
  *
  * @author xuzhijie
  */
+@Slf4j
 public class GlobalApiResponseHandler implements HandlerMethodReturnValueHandler {
     private HandlerMethodReturnValueHandler proxyObject;
 
@@ -45,6 +47,7 @@ public class GlobalApiResponseHandler implements HandlerMethodReturnValueHandler
         if (returnValue != null) {
             // 注入字典
             dictLoader.load(returnValue);
+            log.info("返回参数："+returnValue.toString());
         }
         //回调不封装参数
         if(!WEIXIN_CALLBACK_PATTERN.matcher(webRequest.getContextPath()).matches()){

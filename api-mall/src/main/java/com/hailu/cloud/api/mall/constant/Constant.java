@@ -21,7 +21,7 @@ public final class Constant {
     public static final String REDIS_NATION_CACHE_OLD = "redis:cache:old:nation:";
 
     /**
-     * 分享购买服务商key
+     * 分享人key
      */
     public static final String REDIS_INVITATION_MEMBER_POVIDER_CACHE = "cache:invitationMember:poviderUserId:";
 

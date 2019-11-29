@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.payment.module.service.impl;
+package com.hailu.cloud.api.payment.module.pay.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alipay.api.AlipayApiException;
@@ -8,7 +8,7 @@ import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.hailu.cloud.api.payment.config.CredentFactory;
-import com.hailu.cloud.api.payment.module.service.AbstractPayService;
+import com.hailu.cloud.api.payment.module.pay.service.AbstractPayService;
 import com.hailu.cloud.api.payment.tools.SendHttp;
 import com.hailu.cloud.api.payment.tools.SignUtil;
 import com.hailu.cloud.api.payment.tools.wecat.WeiXinPayConstant;
@@ -74,21 +74,44 @@ public class PayServiceImpl extends AbstractPayService {
         Map<String, String> xmlMap = sendResultParam(resultXML);
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         SortedMap<String, String> resultSort = new TreeMap<String, String>();
-        resultSort.put("appid", payParams.get(CredentFactory.APPID_FIELD));
-        resultSort.put("noncestr", xmlMap.get("nonce_str"));
-        resultSort.put("package", "Sign=WXPay");
-        resultSort.put("partnerid", payParams.get(CredentFactory.MCH_ID_FIELD));
-        resultSort.put("prepayid", xmlMap.get("prepay_id"));
-        long timestamp = System.currentTimeMillis() / 1000;
-        resultSort.put("timestamp", timestamp + "");
-        String sign2 = SignUtil.createSign("UTF-8", resultSort, payParams.get(CredentFactory.APP_SECRRECT_FIELD));
-        result.put("appid", payParams.get(CredentFactory.APPID_FIELD));
-        result.put("noncestr", xmlMap.get("nonce_str"));
-        result.put("packageValue", "Sign=WXPay");
-        result.put("partnerid", payParams.get(CredentFactory.MCH_ID_FIELD));
-        result.put("prepayid", xmlMap.get("prepay_id"));
-        result.put("timestamp", System.currentTimeMillis() / 1000 + "");
-        result.put("sign", sign2);
+
+
+        if(payRequest.getPayWay() == 1 || payRequest.getPayWay() == 2){
+            //生成签名
+            resultSort.put("appid", payParams.get(CredentFactory.APPID_FIELD));
+            resultSort.put("noncestr", xmlMap.get("nonce_str"));
+            resultSort.put("package", "Sign=WXPay");
+            resultSort.put("partnerid", payParams.get(CredentFactory.MCH_ID_FIELD));
+            resultSort.put("prepayid", xmlMap.get("prepay_id"));
+            long timestamp = System.currentTimeMillis() / 1000;
+            resultSort.put("timestamp", timestamp + "");
+            String sign2 = SignUtil.createSign("UTF-8", resultSort, payParams.get(CredentFactory.APP_SECRRECT_FIELD));
+
+
+            result.put("appid", payParams.get(CredentFactory.APPID_FIELD));
+            result.put("noncestr", xmlMap.get("nonce_str"));
+            result.put("packageValue", "Sign=WXPay");
+            result.put("partnerid", payParams.get(CredentFactory.MCH_ID_FIELD));
+            result.put("prepayid", xmlMap.get("prepay_id"));
+            result.put("timestamp", System.currentTimeMillis() / 1000 + "");
+            result.put("sign", sign2);
+        }else if(payRequest.getPayWay() == 3){
+
+            resultSort.put("appId", payParams.get(CredentFactory.APPID_FIELD));
+            resultSort.put("timeStamp", System.currentTimeMillis() / 1000 + "");
+            resultSort.put("nonceStr", xmlMap.get("nonce_str"));
+            resultSort.put("signType", "MD5");
+            resultSort.put("package", "prepay_id=" + xmlMap.get("prepay_id"));
+            String sign2 = SignUtil.createSign("UTF-8", resultSort, payParams.get(CredentFactory.APP_SECRRECT_FIELD));
+
+            result.put("appId", payParams.get(CredentFactory.APPID_FIELD));
+            result.put("timeStamp", resultSort.get("timeStamp"));
+            result.put("nonceStr", xmlMap.get("nonce_str"));
+            result.put("signType", "MD5");
+            result.put("package", "prepay_id=" +xmlMap.get("prepay_id"));
+            result.put("paySign", sign2);
+        }
+
         return result;
     }
 

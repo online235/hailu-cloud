@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.payment.module.model;
+package com.hailu.cloud.api.payment.module.pay.model;
 
 /**
  * 支付返回参数

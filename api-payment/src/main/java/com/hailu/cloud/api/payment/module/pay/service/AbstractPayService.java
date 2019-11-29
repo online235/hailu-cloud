@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.payment.module.service;
+package com.hailu.cloud.api.payment.module.pay.service;
 
 import com.hailu.cloud.common.model.payment.PayRequest;
 

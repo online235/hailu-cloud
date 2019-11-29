@@ -31,6 +31,7 @@ import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
+import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,7 +94,7 @@ public class OrderServiceImpl implements IOrderService {
                         shoppingCart.setSpecGoodsVipPrice(spec.getSpecGoodsVipPrice());
                         shoppingCart.setSpecGoodsPurchasePrice(spec.getSpecGoodsPurchasePrice());
                         // 计算提成
-                        shoppingCart.setCommission(computeCommission.compute(spec.getCommission()));
+                        shoppingCart.setCommission(computeCommission.compute(spec.getCommission(), RequestUtils.getMemberLoginInfo().getMerchantType()));
                         shoppingCart.setIsPopularize(spec.getIsPopularize());
                         break;
                     }

@@ -45,6 +45,25 @@ mapping:
         - /api/v1/xinan/app/xinan/register
         - /api/v1/xinan/payment/callbackWechat
         - /api/v1/xinan/payment/callbackWechatHl
+        - /mall/api/payment/callback/weixin
+        - /api/v1/mall/api/capacity
+        - /api/v1/mall/api/mall/findByGcIdQueryGoods
+        - /api/v1/mall/api/mall/getHomeList
+        - /api/v1/mall/api/mall/findClassifyRecommend
+        - /api/v1/mall/api/mall/getListGoodsClass
+        - /api/v1/mall/api/mall/getGoodsClass
+        - /api/v1/mall/api/mall/getParentClassList
+        - /api/v1/mall/api/mall/getReserveAndNew
+        - /api/v1/mall/api/mall/getGoodsKeyWords
+        - /api/v1/mall/api/mall/getGoodsInfo
+        - /api/v1/mall/api/mall/getNewGoods
+        - /api/v1/mall/api/mall/findSshtList
+        - /api/v1/mall/api/mall/getCartRecommend
+        - /api/v1/mall/api/mall/getGoodsRecommend
+        - /api/v1/mall/api/mall/iconList
+        - /api/v1/mall/api/mall/helpCentre
+        - /api/v1/mall/api/mall/allQuestionsByGoodsId
+        - /api/v1/mall/api/mall/goodsAllEevaluate
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
     debug: true

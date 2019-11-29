@@ -750,23 +750,23 @@ public class OrderController {
      * @param userId
      * @return
      */
-    @ApiImplicitParams({
-        @ApiImplicitParam(name="userId", value = "邀请人UserId", required = true, paramType="query",dataType = "String"),
-        @ApiImplicitParam(name="type", value = "类型（1-邀请购买服务商、2-邀请购买商品）", required = true, paramType="query",dataType = "int"),
-        @ApiImplicitParam(name="goodsId", value = "商品ID（type为2的时候必传）", required = true, paramType="query",dataType = "int")
-    })
-    @ApiOperation(notes = "", value = "更改邀请人ID")
-    @PostMapping("/updatePoviderInvitation")
-    public void updatePoviderInvitation(String userId,Integer type,String goodsId) throws BusinessException {
-        log.info("更改服务商邀请人ID：{}",userId);
-        MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
-        if(type == 1){
-            redisClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE+model.getUserId(),userId,0);
-        }else if(type == 2){
-            if(StringUtils.isBlank(goodsId)){
-                throw new BusinessException(BusinessCode.PARAM_ERROR.getDescription());
-            }
-            redisClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_GOODSIDANDUSERID_CACHE+model.getUserId()+goodsId,userId,0);
-        }
-    }
+//    @ApiImplicitParams({
+//        @ApiImplicitParam(name="userId", value = "邀请人UserId", required = true, paramType="query",dataType = "String"),
+//        @ApiImplicitParam(name="type", value = "类型（1-邀请购买服务商、2-邀请购买商品）", required = true, paramType="query",dataType = "int"),
+//        @ApiImplicitParam(name="goodsId", value = "商品ID（type为2的时候必传）", required = true, paramType="query",dataType = "int")
+//    })
+//    @ApiOperation(notes = "", value = "更改邀请人ID")
+//    @PostMapping("/updatePoviderInvitation")
+//    public void updatePoviderInvitation(String userId,Integer type,String goodsId) throws BusinessException {
+//        log.info("更改服务商邀请人ID：{}",userId);
+//        MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
+//        if(type == 1){
+//            redisClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE+model.getUserId(),userId,0);
+//        }else if(type == 2){
+//            if(StringUtils.isBlank(goodsId)){
+//                throw new BusinessException(BusinessCode.PARAM_ERROR.getDescription());
+//            }
+//            redisClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_GOODSIDANDUSERID_CACHE+model.getUserId()+goodsId,userId,0);
+//        }
+//    }
 }

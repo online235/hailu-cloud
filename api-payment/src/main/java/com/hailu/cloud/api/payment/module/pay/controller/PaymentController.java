@@ -1,6 +1,6 @@
-package com.hailu.cloud.api.payment.module.controller;
+package com.hailu.cloud.api.payment.module.pay.controller;
 
-import com.hailu.cloud.api.payment.module.service.impl.PayServiceImpl;
+import com.hailu.cloud.api.payment.module.pay.service.impl.PayServiceImpl;
 import com.hailu.cloud.common.model.payment.PayRequest;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

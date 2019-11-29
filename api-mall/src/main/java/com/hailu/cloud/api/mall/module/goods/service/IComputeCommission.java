@@ -15,6 +15,6 @@ public interface IComputeCommission {
      * @param commission
      * @return
      */
-    BigDecimal compute(BigDecimal commission);
+    BigDecimal compute(BigDecimal commission,Integer merchantType);
 
 }

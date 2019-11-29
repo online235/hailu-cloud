@@ -132,7 +132,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
         for (OrderGoodsVm o : orderGoodsList) {
             try {
                 //获取分享人ID
-                invitaionUserId = redisClient.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_GOODSIDANDUSERID_CACHE + userId + o.getGoodsId());
+                invitaionUserId = redisClient.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + userId + o.getGoodsId());
                 //判断商品是否参与推广 且 查询是否有分享人
                 if (o.getIsPopularize() == 0 || StringUtils.isBlank(invitaionUserId)) {
                     continue;

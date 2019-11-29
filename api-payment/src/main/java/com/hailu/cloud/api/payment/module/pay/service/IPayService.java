@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.payment.module.service;
+package com.hailu.cloud.api.payment.module.pay.service;
 
 import com.hailu.cloud.common.model.payment.PayRequest;
 
@@ -11,12 +11,12 @@ public interface IPayService {
      * @param payRequest
      * @return
      */
-    public abstract Map<String, Object> payForWeCat(PayRequest payRequest);
+    Map<String, Object> payForWeCat(PayRequest payRequest);
 
     /**
      * 支付宝支付
      * @param payRequest
      * @return
      */
-    public abstract Map<String, Object> payForAli(PayRequest payRequest);
+    Map<String, Object> payForAli(PayRequest payRequest);
 }

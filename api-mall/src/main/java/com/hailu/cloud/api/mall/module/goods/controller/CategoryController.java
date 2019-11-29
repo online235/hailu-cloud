@@ -4,6 +4,8 @@ import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.RecommendVo;
+import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
@@ -55,10 +57,11 @@ public class CategoryController {
     public List<RecommendVo> getHomeList(
             HttpServletRequest request,
             @RequestParam(value = "sessionID", required = false) String sessionId) {
-        MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
+        Object modelMerchant =  request.getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
         Integer merchantType = null;
-        if( model != null ){
-            merchantType = model.getMerchantType();
+        if( modelMerchant != null){
+            AuthInfo<MemberLoginInfoModel> authInfo = (AuthInfo<MemberLoginInfoModel>) modelMerchant;
+            merchantType = authInfo.getUserInfo().getMerchantType();
         }
         return goodsToService.verifyHomeList(sessionId, merchantType);
 

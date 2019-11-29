@@ -2,6 +2,7 @@ package com.hailu.cloud.api.mall.module.payment.controller;
 
 import com.hailu.cloud.api.mall.module.goods.service.IOSSOrderService;
 import com.hailu.cloud.common.utils.RequestUtils;
+import com.hailu.cloud.common.utils.wechat.WechatUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PaymentCallbackController {
     @RequestMapping(value = "/callback/weixin")
     public String weixinBack(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws Exception {
         log.info("微信回调开始");
-        ossOrderService.callback(com.hailu.cloud.common.util.wechat.WechatUtil.weCatCallback(com.hailu.cloud.common.util.wechat.WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
+        ossOrderService.callback(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
         return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
 
     }
