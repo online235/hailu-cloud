@@ -29,10 +29,24 @@ public class McManagementTypeVo {
     private Long parentId;
 
     /**
-     * 图片链接
+     * 排序号
      */
-    @ApiModelProperty(value = "图片链接",dataType = "String")
-    private String pictureUrl;
+    @ApiModelProperty(value = "排序号",dataType = "Integer")
+    private Integer sort;
+
+
+    /**
+     * 图标颜色
+     */
+    @ApiModelProperty(value = "图标颜色",dataType = "String")
+    private String pictureColour;
+
+
+    /**
+     * 图标链接
+     */
+    @ApiModelProperty(value = "图标链接",dataType = "String")
+    private String pictureCode;
 
 
     /**

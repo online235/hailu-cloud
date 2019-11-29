@@ -37,5 +37,8 @@ public class McManagementTypeImpl implements McManagementTypeService {
         return mcManagementTypeDao.findManagementTypeListResult(parameter);
     }
 
-
+    @Override
+    public McManagementType findManagementById(Long managementId) {
+        return mcManagementTypeDao.findManagementById(managementId);
+    }
 }

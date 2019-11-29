@@ -125,9 +125,9 @@ public class LocalCircleEntryAppController {
             "    'code': 200,\n" +
             "    'message': '请求成功',\n" +
             "    'data': [{\n" +
-            "            'managementId': 5444781580777984,\n" +
-            "            'parentId': 0,\n" +
-            "            'managementName': '美食'\n" +
+            "            'managementId': 5444781580777984,            //经营类型id\n" +
+            "            'parentId': 0,\n                              //父类id" +
+            "            'managementName': '美食'                      // 经营名称\n" +
             "        }, {\n" +
             "            'managementId': 5455544768823811,\n" +
             "            'parentId': 0,\n" +

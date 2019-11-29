@@ -7,14 +7,18 @@
                type="com.hailu.cloud.api.merchant.module.lifecircle.model.McManagementTypeVo">
         <result property="managementId" column="management_id"/>
         <result property="parentId" column="parent_id"/>
-        <result property="pictureUrl" column="picture_url"/>
         <result property="managementName" column="management_name"/>
+        <result property="pictureColour" column="picture_colour"/>
+        <result property="pictureCode" column="picture_code"/>
+        <result property="sort" column="sort"/>
         <collection property="mcManagementTypeList"
                     ofType="com.hailu.cloud.api.merchant.module.lifecircle.model.ManagementChildrenVo"
                     javaType="java.util.ArrayList">
             <result property="managementId" column="management_id_a"/>
             <result property="parentId" column="parent_id_a"/>
-            <result property="pictureUrl" column="picture_url_a"/>
+            <result property="pictureColour" column="picture_colour"/>
+            <result property="pictureCode" column="picture_code"/>
+            <result property="sort" column="sort"/>
             <result property="managementName" column="management_name_a"/>
         </collection>
     </resultMap>
@@ -26,7 +30,9 @@
         management_id,
         parent_id,
         management_name,
-        picture_url
+        sort,
+        picture_colour,
+        picture_code
         FROM mc_management_type
         WHERE 1=1
         <if test="managementName != null" >
@@ -45,11 +51,29 @@
         management_id,
         parent_id,
         management_name,
-        picture_url
+        sort,
+        picture_colour,
+        picture_code
         FROM mc_management_type
         WHERE 1=1
         <if test="parentName != null" >
             and management_name = #{parentName}
+        </if>
+    </select>
+
+
+    <select id="findManagementById"  resultType="com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType">
+        SELECT
+        management_id,
+        parent_id,
+        management_name,
+        sort,
+        picture_colour,
+        picture_code
+        FROM mc_management_type
+        WHERE 1=1
+        <if test="managementId != null" >
+            and management_id = #{managementId}
         </if>
     </select>
 
@@ -59,11 +83,15 @@
         management.management_id,
         management.parent_id,
         management.management_name,
-        management.picture_url,
+        management.sort,
+        management.picture_colour,
+        management.picture_code,
         management1.management_id as management_id_a,
         management1.parent_id as parent_id_a,
         management1.management_name as management_name_a,
-        management1.picture_url as aspicture_url_a
+        management1.sort as sort1,
+        management1.picture_colour as picture_colour1,
+        management1.picture_code as picture_code1
         FROM mc_management_type management  left join mc_management_type management1 on management1.parent_id = management.management_id
         WHERE 1=1 and management1.parent_id = management.management_id
         <if test="managementName != null" >

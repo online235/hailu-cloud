@@ -1,25 +1,20 @@
 package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 
 
-import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McStoreInformationMapper;
-import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.McStoreInformationModel;
-import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreInformationModel;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -105,9 +100,9 @@ public class McStoreInformationService {
 
     /**
      * 更改店铺信息
-     * @param mcStoreInformation
+     * @param mcStoreInformationModel
      */
-    public void updateBYMcEntryInformation(McStoreInformationModel mcStoreInformation, int[] weekDay){
+    public void updateBYMcEntryInformation(McStoreInformationModel mcStoreInformationModel, int[] weekDay){
         String week = "";
         if (weekDay != null) {
             int t = 0;
@@ -118,11 +113,12 @@ public class McStoreInformationService {
                     week += ",";
                 }
             }
-            mcStoreInformation.setWeekDay(week);
+            mcStoreInformationModel.setWeekDay(week);
         }
-        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
-        mcStoreInformation.setMcNumberId(merchantUserLoginInfoModel.getNumberid());
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        BeanUtils.copyProperties(mcStoreInformationModel, mcStoreInformation);
         mcStoreInformationMapper.updateByPrimaryKey(mcStoreInformation);
+
     }
 
     /**
@@ -133,6 +129,17 @@ public class McStoreInformationService {
         MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
         return mcStoreInformationMapper.findMcStoreInformation(merchantUserLoginInfoModel.getNumberid());
     }
+
+
+    /**
+     * 查看店铺信息
+     * @return
+     */
+    public McStoreInformation findMcStoreInformationById(Long id){
+
+        return mcStoreInformationMapper.selectByPrimaryKey(id);
+    }
+
 
 
 }

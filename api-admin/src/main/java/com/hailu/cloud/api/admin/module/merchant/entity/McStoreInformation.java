@@ -79,16 +79,6 @@ public class McStoreInformation {
      */
     private Long storeSonType;
 
-    public Long getStoreSonType(){
-
-        if(storeSonType == null){
-            return 0L;
-        }
-        return storeSonType;
-    }
-
-
-
 
     /**
      *店铺总类型ID
@@ -96,36 +86,27 @@ public class McStoreInformation {
     private Long storeTotalType;
 
 
-    public Long getStoreTotalType() {
-
-        if(storeTotalType == null){
-            return 0L;
-        }
-        return storeTotalType;
-    }
-
-
     /**
      * 营业状态(1-营业中，2-休息中)
      */
-    private Long businessState;
+    private Integer businessState;
 
 
     @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
-    private Long businessStateDisplay;
+    private String businessStateDisplay;
 
 
 
     /**
      * 关闭时间
      */
-    private java.util.Date closingTime;
+    private String closingTime;
 
 
     /**
      * 开店时间
      */
-    private java.util.Date openingTime;
+    private String openingTime;
 
 
 

@@ -188,8 +188,7 @@
         </if>
     </sql>
 
-    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation"
-            parameterType="java.lang.String">
+    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation" parameterType="long">
         select
         <include refid="Base_Column_List"/>
         from mc_store_information
@@ -232,13 +231,12 @@
         where id = #{id}
     </update>
 
-    <update id="updateByPrimaryKey"
-            parameterType="com.hailu.cloud.api.merchant.module.merchant.model.bak.McStoreInformationModel">
+    <update id="updateByPrimaryKey"  parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation">
         update mc_store_information
         <set>
             <include refid="update_where_column"/>
         </set>
-        where id = #{id} and mc_number_id = #{mcNumberId}
+        where id = #{id}
     </update>
 
     <select id="selectByMcnumberidAndToexamine" resultType="int">

@@ -32,6 +32,14 @@ public interface McManagementTypeDao {
 
 
     /**
+     * 根据id搜索数据
+     * @param managementId
+     * @return
+     */
+    McManagementType findManagementById(Long managementId);
+
+
+    /**
      * 根据父类下子类
      * @param parameter
      * @return

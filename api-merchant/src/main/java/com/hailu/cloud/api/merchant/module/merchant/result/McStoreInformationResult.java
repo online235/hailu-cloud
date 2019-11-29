@@ -1,13 +1,16 @@
-package com.hailu.cloud.api.merchant.module.merchant.entity;
+package com.hailu.cloud.api.merchant.module.merchant.result;
 
 
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
+/**
+ * @author zhangmugui
+ */
 @Data
 @InjectDict
-public class McStoreInformation {
+public class McStoreInformationResult {
 
 
     /**
@@ -70,26 +73,26 @@ public class McStoreInformation {
 
 
     /**
-     *店铺子类型ID
+     *店铺子类型名称
      */
-    private Long storeSonType;
-
+    private String storeSonTypeDisPlay;
 
 
 
     /**
-     *店铺总类型ID
+     *店铺总类型名称
      */
-    private Long storeTotalType;
+    private String storeTotalTypeDisPlay;
 
 
-    /**
-     * 营业状态(1-营业中，2-休息中)
-     */
-    private Integer businessState;
-
-
-    @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
+//
+//    /**
+//     * 营业状态(1-营业中，2-休息中)
+//     */
+//    private Integer businessState;
+//
+//
+//    @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
     private String businessStateDisplay;
 
     /**
@@ -116,22 +119,24 @@ public class McStoreInformation {
     private java.util.Date updatedat;
 
 
-    /**
-     * 审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'
-     */
-    private Integer toExamine;
+//    /**
+//     * 审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'
+//     */
+//    private Integer toExamine;
 
 
-    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+
     private String toExamineDisplay;
 
-    /**
-     * 每周营业日用，“；”隔开（例1；2；3；4:）
-     */
-    private String weekDay;
 
 
-    @DictName(code = "BUSINESS_DAY" , joinField = "weekDay")
+//    /**
+//     * 每周营业日用，“；”隔开（例1；2；3；4:）
+//     */
+//    private String weekDay;
+
+
+
     private String weekDayDisplay;
 
 

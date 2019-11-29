@@ -2,7 +2,6 @@ package com.hailu.cloud.api.merchant.module.merchant.dao;
 
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.McStoreInformationModel;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -45,7 +44,7 @@ public interface McStoreInformationMapper {
      * @mbggenerated 2019-11-19
      * @param record
      */
-    int updateByPrimaryKey(McStoreInformationModel record);
+    int updateByPrimaryKey(McStoreInformation record);
 
     /**
      * 查询审核是否通过
@@ -65,4 +64,6 @@ public interface McStoreInformationMapper {
 
 
     McStoreInformation findMcStoreInformation(String mcNumberId);
+
+
 }

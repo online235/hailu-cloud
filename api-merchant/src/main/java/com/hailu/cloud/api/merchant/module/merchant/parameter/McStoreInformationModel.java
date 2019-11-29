@@ -1,5 +1,6 @@
-package com.hailu.cloud.api.merchant.module.merchant.model.bak;
+package com.hailu.cloud.api.merchant.module.merchant.parameter;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,14 +8,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
+@ApiModel
 public class McStoreInformationModel {
-    @ApiModelProperty("编号")
+
+
+    @ApiModelProperty(value = "编号",required = true)
     @NotNull(message = "编号不能为空")
     private Long id;
 
 
     @ApiModelProperty("商家编号")
-    @NotBlank(message = "商家编号不能为空")
     private String mcNumberId;
 
 
@@ -51,7 +54,7 @@ public class McStoreInformationModel {
 
 
     @ApiModelProperty("营业状态(1-营业中，2-休息中)")
-    private Long businessState;
+    private Integer businessState;
 
     @ApiModelProperty("关闭时间")
     private java.util.Date closingTime;
@@ -67,4 +70,8 @@ public class McStoreInformationModel {
 
     @ApiModelProperty("每周营业日用（1星期日，2星期一）")
     private String weekDay;
+
+
+
+
 }
