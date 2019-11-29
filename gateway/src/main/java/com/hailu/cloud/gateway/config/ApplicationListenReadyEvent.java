@@ -36,7 +36,7 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
         String ip = getLocalIp();
         log.info("Startup Successfully.");
         log.info("接口地址：http://{}:{}", ip, port);
-        log.info("接口文档：http://{}:{}{}{}", ip, this.port, contextPath, "/swagger-ui.html");
+        log.info("接口文档：http://{}:{}{}{}", ip, this.port, contextPath, "swagger-ui.html");
 
         File file = new File(fileStorePath);
         boolean flag = file.mkdirs();
