@@ -1,0 +1,54 @@
+mapping:
+  auth:
+    # 以下请求地址不需要登录也能访问
+    exclude:
+      endsWith:
+        - swagger-ui.html
+        - api-docs
+        - .jpg
+        - .jpeg
+        - .png
+        - .zip
+        - .tar
+        - .mp4
+        - .pdf
+      startsWith:
+        # 登录授权接口
+        - /api/v1/auth
+        # 支付接口
+        - /api/v1/payment
+        # 基础服务接口
+        - /api/v1/basic
+        # 心安接口
+        - /api/v1/xinan/app/xinan/register
+        - /api/v1/xinan/payment/callbackWechat
+        - /api/v1/xinan/payment/callbackWechatHl
+        # 商城接口
+        - /api/v1/mall/payment/callback/weixin
+        - /api/v1/mall/api/capacity
+        - /api/v1/mall/api/mall/findByGcIdQueryGoods
+        - /api/v1/mall/api/mall/getHomeList
+        - /api/v1/mall/api/mall/findClassifyRecommend
+        - /api/v1/mall/api/mall/getListGoodsClass
+        - /api/v1/mall/api/mall/getGoodsClass
+        - /api/v1/mall/api/mall/getParentClassList
+        - /api/v1/mall/api/mall/getReserveAndNew
+        - /api/v1/mall/api/mall/getGoodsKeyWords
+        - /api/v1/mall/api/mall/getGoodsInfo
+        - /api/v1/mall/api/mall/getNewGoods
+        - /api/v1/mall/api/mall/findSshtList
+        - /api/v1/mall/api/mall/getCartRecommend
+        - /api/v1/mall/api/mall/getGoodsRecommend
+        - /api/v1/mall/api/mall/iconList
+        - /api/v1/mall/api/mall/helpCentre
+        - /api/v1/mall/api/mall/allQuestionsByGoodsId
+        - /api/v1/mall/api/mall/goodsAllEevaluate
+  login-type:
+    # 开启debug后, notAllow将不对登录类型做请求限制
+    debug: true
+    # 不允许访问的路径 【0，1】具体看 LoginTypeEnum
+    notAllow:
+      0:
+        - /api/v1/admin
+      1:
+        - /api/v1/admin
