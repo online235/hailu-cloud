@@ -62,7 +62,7 @@ public class ManagementTypeImpl implements ManagementTypeService {
             throw new BusinessException("行业已存在");
         }
 
-        record.setManagementId(Long.parseLong(String.valueOf(basicFeignClient.uuid())));
+        record.setManagementId(Long.parseLong(String.valueOf(basicFeignClient.uuid().getData())));
         managementTypeMapper.insertSelective(record);
         return record;
     }

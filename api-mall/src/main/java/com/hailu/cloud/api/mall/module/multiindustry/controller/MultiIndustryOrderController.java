@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/app/multiIndustryOrder")
 @Validated
-@Api(tags = "商城-多行业-APP-下单")
+@Api(tags = "商城-多行业-APP-订单")
 @Slf4j
 public class MultiIndustryOrderController {
 
@@ -29,13 +30,13 @@ public class MultiIndustryOrderController {
 
     @ApiOperation(value = "多行业下单预约")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "商品编号",  required = true,  paramType = "query"),
+            @ApiImplicitParam(name = "storeId", value = "商品编号(现传店铺编号)",  required = true,  paramType = "query"),
             @ApiImplicitParam(name = "memberName", value = "会员名称",  required = true,  paramType = "query"),
             @ApiImplicitParam(name = "phone", value = "手机号码",  required = true,  paramType = "query")
 
     })
     @PostMapping("/placeAnOrder")
-    public void addOrder(MultiIndustryOrder order, HttpServletRequest request) throws BusinessException {
+    public void addOrder(MultiIndustryOrder order, HttpServletRequest request) throws BusinessException, ParseException {
         orderService.insertSelective(order, request);
     }
 

@@ -30,7 +30,7 @@ import javax.validation.constraints.NotBlank;
 @RestController
 @RequestMapping("/app/merchantLogin")
 @Validated
-@Api(tags = "商户-商家入驻-APP")
+@Api(tags = "商户-商家入驻-百货-APP")
 @Slf4j
 public class McUserAppContrller {
 

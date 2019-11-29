@@ -14,4 +14,11 @@ public interface MultiIndustryOrderMapper {
      * @return
      */
     List<MultiIndustryOrder> findOrderListByStoreId(@Param("storeId") Long storeId);
+
+    /**
+     * 根据店铺Id更改订单状态
+     * @param id
+     * @return
+     */
+    int updateOrderState(@Param("id") Long id);
 }

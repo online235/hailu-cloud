@@ -4,7 +4,7 @@
   <sql id="Base_Column_List" >
     id, mc_number_id, shop_name, phone, province_code, city_code, area_code, detail_address,
     store_details, per_capita_price, store_son_type, store_total_type, business_state,
-    closing_time, opening_time, createdat, updatedat, to_examine, default_head
+    closing_time, opening_time, createdat, updatedat, to_examine, default_head, week_day
   </sql>
 
  <select id="findStoreInformationList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation">
@@ -14,6 +14,9 @@
    where store_total_type = #{storeTotalType} And to_examine = 2
    <if test="storeSonType != null">
      and store_son_type = #{storeSonType}
+   </if>
+   <if test="cityCode != null">
+     and city_code = #{cityCode}
    </if>
  </select>
 

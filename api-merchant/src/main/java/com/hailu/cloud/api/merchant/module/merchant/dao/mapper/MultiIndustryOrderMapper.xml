@@ -12,4 +12,9 @@
     where store_id = #{storeId}
   </select>
 
+  <update id="updateOrderState">
+    update mc_order set state = 2
+    where id = #{id}
+  </update>
+
 </mapper>

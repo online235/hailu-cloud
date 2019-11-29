@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@InjectDict
 public class StoreInformation implements Serializable {
     /**
      * 编号
@@ -72,16 +75,21 @@ public class StoreInformation implements Serializable {
      * 营业状态(1-营业中，2-休息中)
      */
     private Long businessState;
+    /**
+     * 营业状态(1-营业中，2-休息中)
+     */
+    @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
+    private String businessStateDisplay;
 
     /**
      * 关闭时间
      */
-    private Date closingTime;
+    private String closingTime;
 
     /**
      * 开发时间
      */
-    private Date openingTime;
+    private String openingTime;
 
     /**
      * 创建时间
@@ -98,6 +106,9 @@ public class StoreInformation implements Serializable {
      */
     private Long toExamine;
 
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    private String toExamineDisplay;
+
     /**
      * 店铺头像
      */
@@ -107,6 +118,9 @@ public class StoreInformation implements Serializable {
      * 每周营业日用（1星期日，2星期一）
      */
     private String weekDay;
+
+    @DictName(code = "BUSINESS_DAY" , joinField = "weekDay")
+    private String weekDayDisplay;
 
     /**
      * mc_store_information

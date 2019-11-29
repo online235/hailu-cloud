@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.merchant.module.merchant.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -72,6 +73,11 @@ public class MultiIndustryOrder implements Serializable {
      * 订单状态(未完成-1、已完成-2)
      */
     private Integer state;
+
+
+    @DictName(code = "ORDER_STATUS", joinField = "state")
+    private String stateDisplay;
+
 
     /**
      * 下单时间

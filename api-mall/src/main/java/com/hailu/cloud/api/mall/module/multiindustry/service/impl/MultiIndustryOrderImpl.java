@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
     private StoreInformationService storeInformationService;
 
     @Override
-    public void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException {
+    public void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
 

@@ -57,11 +57,11 @@ public class McStoreInformationModel {
     private Integer businessState;
 
     @ApiModelProperty("关闭时间")
-    private java.util.Date closingTime;
+    private String closingTime;
 
 
     @ApiModelProperty("开店时间")
-    private java.util.Date openingTime;
+    private String openingTime;
 
 
     @ApiModelProperty("审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'")

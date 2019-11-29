@@ -5,6 +5,7 @@ import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.List;
 
 public interface MultiIndustryOrderService {
@@ -14,7 +15,7 @@ public interface MultiIndustryOrderService {
      * @param record
      * @return
      */
-    void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException;
+    void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException;
 
 
     /**
