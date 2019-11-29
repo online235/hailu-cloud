@@ -372,4 +372,13 @@ public class UserController  {
         userInfoService.editMerchantTypeAndSuperiorMember(userId,merchantType,superiorMember,cityId);
     }
 
+    /**
+     * 获取购买服务商价格
+     * @param chooseCityId
+     * @return
+     */
+    @GetMapping("/findPoviderPrice")
+    public int findPoviderPrice(@RequestParam("chooseCityId")Long chooseCityId){
+        return userInfoService.findPoviderPrice(chooseCityId);
+    }
 }

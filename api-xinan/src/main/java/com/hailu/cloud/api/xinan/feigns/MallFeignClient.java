@@ -46,4 +46,12 @@ public interface MallFeignClient {
     @PostMapping(Constant.API_VERSION_V1 +"/mall/ledger/editInvitationProvider")
     void editInvitationProvider(@RequestBody UserInfo userInfo,
                                        @RequestParam(value = "money") BigDecimal money);
+
+    /**
+     * 获取购买服务商价格
+     * @param chooseCityId
+     * @return
+     */
+    @GetMapping(Constant.API_VERSION_V1 +Constant.API_NAME_MALL+"/api/user/findPoviderPrice")
+    ApiResponse<Integer> findPoviderPrice(@RequestParam("chooseCityId")Long chooseCityId);
 }

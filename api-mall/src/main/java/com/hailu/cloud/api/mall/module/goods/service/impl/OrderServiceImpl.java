@@ -659,6 +659,7 @@ public class OrderServiceImpl implements IOrderService {
                 put("orderAmount", order.getOrderAmount());
             }};
         } catch (Exception e) {
+            log.error("购物车异常：" + e.getMessage(), e);
             throw new RuntimeException(JSONObject.toJSONString(result));
         }
     }

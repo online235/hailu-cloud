@@ -206,11 +206,11 @@ public class PaymentServiceImpl implements IPaymentService {
               throw new BusinessException("订单不存在");
             }
 
-            //判断金额是否正确
-            if(money.compareTo(pay.getMoney()) != 0){
-                log.warn("订单号：{}，付款金额和订单金额不一致",outTradeNo);
-                throw new BusinessException("付款金额和订单金额不一致");
-            }
+//            //判断金额是否正确
+//            if(money.compareTo(pay.getMoney()) != 0){
+//                log.warn("订单号：{}，付款金额和订单金额不一致",outTradeNo);
+//                throw new BusinessException("付款金额和订单金额不一致");
+//            }
             //支付时间
             pay.setPayTime(System.currentTimeMillis());
             //第三方交易号
@@ -250,8 +250,8 @@ public class PaymentServiceImpl implements IPaymentService {
             throw new BusinessException("您已经是服务商，无须重新购买！");
         }
 
-//        BigDecimal moneyPrice = BigDecimal.valueOf(userInfoService.findPoviderPrice(chooseCityId));
-        BigDecimal moneyPrice = BigDecimal.valueOf(0.01);
+        BigDecimal moneyPrice = BigDecimal.valueOf(mallFeignClient.findPoviderPrice(chooseCityId).getData());
+//        BigDecimal moneyPrice = BigDecimal.valueOf(0.01);
 
         //校验金额是否有效N
         if (money.compareTo(moneyPrice) != 0) {
@@ -282,6 +282,7 @@ public class PaymentServiceImpl implements IPaymentService {
         PayExpand payExpand = new PayExpand();
         //金额
         payExpand.setMoney(order.getMoney());
+//        payExpand.setMoney(new BigDecimal(0.01));
         //支付ID
         payExpand.setPayId(pay.getId());
         //支付订单号
@@ -294,11 +295,11 @@ public class PaymentServiceImpl implements IPaymentService {
         //订单号
         payRequest.setOrderNo(orderNo);
         //金额
-        payRequest.setMoney(money);
+        payRequest.setMoney(new BigDecimal(0.01));
         //支付类型
         payRequest.setPayType(payType);
         //回调地址
-        payRequest.setNotifyUrl(serverUrl+"/api/v1/xinan/payment/callbackWechat");
+        payRequest.setNotifyUrl(serverUrl+"/api/v1/xinan/payment/callbackWechatHl");
         //商品名称
         payRequest.setGoodsName("购买服务商");
         //IP
@@ -311,6 +312,7 @@ public class PaymentServiceImpl implements IPaymentService {
             if(StringUtils.isNotBlank(openid)){
                 payRequest.setPayParams("HLJSAPIWECAT");
                 payRequest.setPayWay(3);
+                payRequest.setOpenId(openid);
             }else {
                 payRequest.setPayParams("HLAPPWECAT");
             }
