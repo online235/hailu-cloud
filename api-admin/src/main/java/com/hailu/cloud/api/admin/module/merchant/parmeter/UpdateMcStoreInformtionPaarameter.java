@@ -113,19 +113,15 @@ public class UpdateMcStoreInformtionPaarameter {
     /**
      * 关闭时间
      */
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     @ApiParam(name = "closingTime", value = "关闭时间")
-    private java.util.Date closingTime;
+    private String closingTime;
 
 
     /**
      * 开店时间
      */
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     @ApiParam(name = "openingTime", value = "开店时间")
-    private java.util.Date openingTime;
+    private String openingTime;
 
 
     /**

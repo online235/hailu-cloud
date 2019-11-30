@@ -47,13 +47,12 @@ public class McStoreInformationController {
 
 
 
-    @ApiOperation(value = "根据店铺id查看店铺信息",notes = "<pre>"+
+    @ApiOperation(value = "根据店铺id查看店铺信息",notes ="<pre>"+
             "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功',                   \n" +
             "    'data': {\n" +
             "        'areaCode': 'string',                  //地区code\n" +
-            "        'businessState': 0,                    //营业状态(1-营业中，2-休息中)\n" +
             "        'businessStateDisplay': 0,              //营业状态\n" +
             "        'cityCode': 'string',\n" +
             "        'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\n" +
@@ -67,21 +66,32 @@ public class McStoreInformationController {
             "        'provinceCode': 'string',              //省id\t\t\n" +
             "        'shopName': 'string',                  //店铺名字\n" +
             "        'storeDetails': 'string',              //店铺详情\n" +
-            "        'storeSonType': 0,                     //店铺子类型ID\n" +
-            "        'storeTotalType': 0,                   //店铺总类型ID\n" +
-            "        'toExamine': 0,                        //审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'\n" +
+            "        'storeSonTypeDisPlay': 0,                     //店铺子类型\n" +
+            "        'storeTotalTypeDisPlay': 0,                   //店铺总类型\n" +
             "        'toExamineDisplay': 0,                 //审核状态\n" +
             "        'updatedat': '2019-11-29T03:07:58.480Z',    //更新时间\n" +
-            "        'weekDay': 'string',                   //每周营业日用，“；”隔开（例1；2；3；4:）\n" +
+            "        'weekDay': 'string',                   //每周营业日用，“；”隔开（例1,2,3,4:）\n" +
             "        'weekDayDisplay': 'string'             //周一，周二\n" +
             "    }\n" +
             "}"
             +"</pre>")
     @PostMapping("storeInformationById")
     @ApiImplicitParam(name = "id", value = "店铺id",  paramType = "query", dataType = "Long",required = true)
-    public McStoreInformation findMcStoreInformation(@RequestParam(value = "id") Long id) {
+    public McStoreInformationResult findMcStoreInformation(@RequestParam(value = "id") Long id) {
 
-        return mcStoreInformationService.findMcStoreInformationById(id);
+        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
+        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(id);
+        BeanUtils.copyProperties(mcStoreInformation,mcStoreInformationResult);
+        if(mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0){
+            McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
+            mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
+
+        }
+        if(mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0){
+            McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
+            mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
+        }
+        return mcStoreInformationResult;
 
     }
 

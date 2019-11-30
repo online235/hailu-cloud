@@ -1,23 +1,17 @@
 package com.hailu.cloud.api.merchant.module.lifecircle.controller;
 
 
-import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
-import com.hailu.cloud.api.merchant.module.lifecircle.entity.McUser;
 import com.hailu.cloud.api.merchant.module.lifecircle.parameter.RegisterInformation;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.McManagementTypeService;
-import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.GoodsClassSrevice;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.LocalCircleEntryService;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 

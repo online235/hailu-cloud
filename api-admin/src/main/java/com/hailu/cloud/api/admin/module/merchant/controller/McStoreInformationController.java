@@ -48,17 +48,28 @@ public class McStoreInformationController {
             "    'data': {\n" +
             "        'totalPage': 1,\n" +
             "        'total': 8,\n" +
-            "        'datas': [{\n" +
-            "                'id': 5819938384165394,\n" +
-            "                'mcNumberId': '5819938384165392',\n" +
-            "                'shopName': '小明店铺',\n" +
-            "                'phone': '13128643784',\n" +
-            "                'detailAddress': '北街八号',\n" +
-            "                'storeTotalType': 5444781580777984,\n" +
-            "                'createdat': '2019-11-26T08:49:42.000+0000',\n" +
-            "                'updatedat': '2019-11-26T08:49:42.000+0000',\n" +
-            "                'toExamine': 1\n" +
-            "            }, {\n" +
+            "        'datas': [{\\n\" +\n" +
+            "                'areaCode': 'string',                  //地区code\\n\" +\n" +
+            "                'businessStateDisplay': 0,              //营业状态\\n\" +\n" +
+            "                 'cityCode': 'string',\\n\" +\n" +
+            "                 'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\\n\" +\n" +
+            "                  'createdat': '2019-11-29T03:07:58.480Z',     //创建时间\\n\" +\n" +
+            "                  'detailAddress': 'string',             //详细地址\\n\" +\n" +
+            "                  'id': 0,                               //店铺id\\n\" +\n" +
+            "                  'mcNumberId': 'string',                //商户id\\n\" +\n" +
+            "                  'openingTime': '2019-11-29T03:07:58.480Z',   //开店时间\\n\" +\n" +
+            "                  'perCapitaPrice': 0,                   //人均价格\\n\" +\n" +
+            "                  'phone': 'string',                     //店铺联系电话\\n\" +\n" +
+            "                  'provinceCode': 'string',              //省id\\t\\t\\n\" +\n" +
+            "                  'shopName': 'string',                  //店铺名字\\n\" +\n" +
+            "                  'storeDetails': 'string',              //店铺详情\\n\" +\n" +
+            "                  'storeSonTypeId': 0,                     //店铺子类型id\\n\" +\n" +
+            "                 'storeTotalTypeId': 0,                   //店铺总类型id\\n\" +\n" +
+            "                 'toExamineDisplay': 0,                 //审核状态\\n\" +\n" +
+            "                 'updatedat': '2019-11-29T03:07:58.480Z',    //更新时间\\n\" +\n" +
+            "                 'weekDay': 'string',                   //每周营业日用，“；”隔开（例1,2,3,4:）\\n\" +\n" +
+            "                 'weekDayDisplay': 'string'             //周一，周二\\n\" +\n" +
+            "                 }, {\n" +
             "                'id': 5819938384165405,\n" +
             "                'mcNumberId': '5819938384165401',\n" +
             "                'shopName': '虾米',\n" +
@@ -133,7 +144,7 @@ public class McStoreInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "编号ID", required = true, paramType = "query")
     })
-    public Object selectByPrimaryKey(@NotNull(message = "编号不能为空") Long id) {
+    public McStoreInformation selectByPrimaryKey(@NotNull(message = "编号不能为空") Long id) {
 
         return mcStoreInformationAdminService.findMcStoreInformation(id);
     }
@@ -163,7 +174,7 @@ public class McStoreInformationController {
             "  \"message\": \"请求成功\"\n" +
             "}"
             + "pre")
-    @PostMapping("updLocalCircleEntry")
+    @PostMapping("updateMcStoreInformation")
     public void updateMcEntryInformation(@ModelAttribute UpdateMcStoreInformtionPaarameter updateMcStoreInformtionPaarameter) throws BusinessException {
         McStoreInformation mcStoreInformation = new McStoreInformation();
         BeanUtils.copyProperties(updateMcStoreInformtionPaarameter, mcStoreInformation);

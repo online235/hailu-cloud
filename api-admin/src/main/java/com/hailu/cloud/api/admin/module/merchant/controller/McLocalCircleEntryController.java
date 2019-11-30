@@ -58,24 +58,24 @@ public class McLocalCircleEntryController {
             "                'firstManagementTypeId': 5444781580777984,                 //一级经营类型表id\n" +
             "                'secondManagementTypeId': 5444781580777986,                //二级经营类型表id\n" +
             "                'businessLicenseNumber': '5435345',                        //营业执照注册号\n" +
-            "                'businessName':null, //执照名称\n" +
-            "                'nameOfLegalPerson': '小明',//法人姓名\n" +
-            "                'licenseDate':null,//执照有效日期\n" +
-            "               'longTermLicense':false,//营业执照是否为长期\n" +
+            "                'businessName':null,                                       //执照名称\n" +
+            "                'nameOfLegalPerson': '小明',                               //法人姓名\n" +
+            "                'licenseDate':null,                                       //执照有效日期\n" +
+            "               'longTermLicense':false,                                   //营业执照是否为长期\n" +
             "                'licensePositive': '/life-circle/2019-11-26/3ac843bb592d4f1a82c90d40e75ff378-1574761069353.jpg',//营业执照正面照\n" +
-            "                'thirdPartyLinks':'',//第三方链接\n" +
-            "               'invitationCode':'',//入驻邀请码\n" +
-            "               'serviceProviderOrNot':'',//是否为服务商\n" +
-            "               'toExamine': 1,//审核\n" +
+            "                'thirdPartyLinks':'',                                     //第三方链接\n" +
+            "               'invitationCode':'',                                       //入驻邀请码\n" +
+            "               'serviceProviderOrNot':'',                                 //是否为服务商\n" +
+            "               'toExamine': 1,                                            //审核\n" +
             "                'toExamineDisPlay': '审核中',\n" +
-            "                'cityCode': '110100',//市code\n" +
-            "                'provinceCode': '110000',//省code\n" +
-            "               'remarks':'',//备注\n" +
-            "                'areaCode': '110101',//区code\n" +
-            "                'detailAddress': '九号',//详细地址\n" +
-            "                'createdat': 1574761147694,//创建时间戳\n" +
-            "                'updatedat': 1574761147694,//更新时间戳\n" +
-            "                'enclosures': ''//附件信息\n" +
+            "                'cityCode': '110100',                                    //市code\n" +
+            "                'provinceCode': '110000',                                //省code\n" +
+            "               'remarks':'',                                             //备注\n" +
+            "                'areaCode': '110101',                                    //区code\n" +
+            "                'detailAddress': '九号',                                  //详细地址\n" +
+            "                'createdat': 1574761147694,                              //创建时间戳\n" +
+            "                'updatedat': 1574761147694,                              //更新时间戳\n" +
+            "                'enclosures': ''                                         //附件信息\n" +
             "            }, ]\n" +
             "    }\n" +
             "}" +
@@ -93,25 +93,38 @@ public class McLocalCircleEntryController {
             "    'code': 200,\n" +
             "    'message': '请求成功',\n" +
             "    'data': {\n" +
-            "        'numberId': '5819938384165393',\n" +
-            "        'mcNumberId': '5819938384165392',\n" +
-            "        'shopName': '小明店铺',\n" +
-            "        'phone': '13128643784',\n" +
-            "        'idCard': '124412354354356456',\n" +
-            "        'idcardImgx': 'undefined',\n" +
-            "        'idcardImgy': 'undefined',\n" +
-            "        'firstManagementTypeId': 5444781580777984,\n" +
-            "        'secondManagementTypeId': 5444781580777986,\n" +
-            "        'businessLicenseNumber': 'S562432',\n" +
-            "        'nameOfLegalPerson': '小明',\n" +
-            "        'licensePositive': 'undefined',\n" +
-            "        'toExamine': 1,\n" +
-            "        'toExamineDisPlay': '审核中',\n" +
-            "        'detailAddress': '北街八号',\n" +
-            "        'createdat': 1574758182043,\n" +
-            "        'updatedat': 1574758182043,\n" +
-            "        'enclosures': ''\n" +
-            "    }\n" +
+            "                'numberId': '5819938384165404',                        //编号\n" +
+            "                'mcNumberId': '5819938384165402',                      //商家编号\n" +
+            "                'shopName': '虾米',                                      //店铺名称\n" +
+            "                'realName':null,                                       //真实姓名\n" +
+            "                'phone': '13125676567',                                //店铺手机号码\n" +
+            "                'idCard': '122222222222222222',                        //身份证号码\n" +
+            "                'idcardImgx': '/life-circle/2019-11-26/1ebb512f568c467493ac3ae80aa60508-1574761045641.jpg',        //身份证正面\n" +
+            "                'idcardImgy': '/life-circle/2019-11-26/f9fd33b0289046bc821e88e3e7fed683-1574761066029.jpg',        //身份证反面\n" +
+            "                'idcardtermofValidity':null,                               //身份证有效期\n" +
+            "                'longTermCertificate':false,                                //身份证是否为长期\n" +
+            "                'firstManagementTypeId': 5444781580777984,                 //一级经营类型表id\n" +
+            "                'secondManagementTypeId': 5444781580777986,                //二级经营类型表id\n" +
+            "                'businessLicenseNumber': '5435345',                        //营业执照注册号\n" +
+            "                'businessName':null,                                       //执照名称\n" +
+            "                'nameOfLegalPerson': '小明',                               //法人姓名\n" +
+            "                'licenseDate':null,                                       //执照有效日期\n" +
+            "               'longTermLicense':false,                                   //营业执照是否为长期\n" +
+            "                'licensePositive': '/life-circle/2019-11-26/3ac843bb592d4f1a82c90d40e75ff378-1574761069353.jpg',//营业执照正面照\n" +
+            "                'thirdPartyLinks':'',                                     //第三方链接\n" +
+            "               'invitationCode':'',                                       //入驻邀请码\n" +
+            "               'serviceProviderOrNot':'',                                 //是否为服务商\n" +
+            "               'toExamine': 1,                                            //审核\n" +
+            "                'toExamineDisPlay': '审核中',\n" +
+            "                'cityCode': '110100',                                    //市code\n" +
+            "                'provinceCode': '110000',                                //省code\n" +
+            "               'remarks':'',                                             //备注\n" +
+            "                'areaCode': '110101',                                    //区code\n" +
+            "                'detailAddress': '九号',                                  //详细地址\n" +
+            "                'createdat': 1574761147694,                              //创建时间戳\n" +
+            "                'updatedat': 1574761147694,                              //更新时间戳\n" +
+            "                'enclosures': ''                                         //附件信息\n" +
+            "            }" +
             "}\n"
             +"<pre>")
     @PostMapping("localCircleEntryDetails")
@@ -153,7 +166,7 @@ public class McLocalCircleEntryController {
             "}"
             +"pre")
     @PostMapping("updLocalCircleEntry")
-    public void updateMcEntryInformation(UpdateLocalCircleEntryParameter updateLocalCircleEntryParameter, BindingResult result, HttpServletRequest request) throws BusinessException {
+    public void updateMcEntryInformation(@ModelAttribute UpdateLocalCircleEntryParameter updateLocalCircleEntryParameter, BindingResult result, HttpServletRequest request) throws BusinessException {
 
         if (result.hasErrors()) {
             throw new BusinessException("必传参数不能为空！");

@@ -1,12 +1,15 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
 import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @InjectDict
@@ -224,6 +227,33 @@ public class McEntryInformation implements Serializable {
      * 开户账号
      */
     private String accountNumber;
+
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    /**
+     * 更改时间
+     */
+    @ApiModelProperty("更改时间")
+    private Date updateTime;
+
+
+
+    public void setCreatedat(Long createdat) {
+        this.createdat = createdat;
+        this.createTime = DateUtil.date(createdat);
+    }
+
+
+
+    public void setUpdatedat(Long updatedat) {
+        this.updatedat = updatedat;
+        this.updateTime = DateUtil.date(updatedat);
+    }
 
 
     /**

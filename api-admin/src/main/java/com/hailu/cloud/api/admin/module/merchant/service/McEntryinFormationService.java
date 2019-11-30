@@ -42,7 +42,7 @@ public class McEntryinFormationService {
      * @param numberId
      * @return
      */
-    public Object selectByPrimaryKey(String numberId) {
+    public McEntryInformation selectByPrimaryKey(String numberId) {
         return mcEntryinFormationMapper.selectByPrimaryKey(numberId);
     }
 

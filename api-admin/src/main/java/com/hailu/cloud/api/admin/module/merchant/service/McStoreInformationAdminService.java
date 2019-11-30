@@ -70,7 +70,7 @@ public class McStoreInformationAdminService {
      * 查看店铺信息详情
      * @return
      */
-    public Object findMcStoreInformation(Long id){
+    public McStoreInformation findMcStoreInformation(Long id){
 
         return mcStoreInformationAdminMapper.findMcStoreInformation(id);
     }

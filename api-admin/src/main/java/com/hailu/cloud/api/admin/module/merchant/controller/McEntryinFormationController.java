@@ -99,7 +99,7 @@ public class McEntryinFormationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "信息编号", required = true, paramType = "query")
     })
-    public Object selectByPrimaryKey(
+    public McEntryInformation selectByPrimaryKey(
             @NotBlank(message = "编号不能为空") String numberId) {
 
         return mcEntryinFormationService.selectByPrimaryKey(numberId);
@@ -144,7 +144,7 @@ public class McEntryinFormationController {
     })
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
-        ;
+
         if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }
