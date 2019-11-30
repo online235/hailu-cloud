@@ -8,7 +8,9 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 系统菜单
@@ -95,5 +97,7 @@ public class SysMenuModel {
      */
     @ApiModelProperty("修改时间")
     private Date updateTime;
+
+    private List<SysMenuModel> children = new ArrayList<>();
 
 }

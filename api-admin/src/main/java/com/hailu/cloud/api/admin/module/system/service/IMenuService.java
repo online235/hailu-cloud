@@ -3,7 +3,6 @@ package com.hailu.cloud.api.admin.module.system.service;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysMenuModel;
-import com.hailu.cloud.common.model.system.SysRoleModel;
 
 import java.util.List;
 
@@ -16,8 +15,9 @@ public interface IMenuService {
      * 添加菜单
      *
      * @param model
+     * @return
      */
-    void addMenu(SysMenuModel model);
+    SysMenuModel addMenu(SysMenuModel model);
 
     /**
      * 编辑菜单
@@ -41,6 +41,13 @@ public interface IMenuService {
             Integer enableStatus,
             int pageNum,
             int pageSize);
+
+    /**
+     * 查询所有菜单列表
+     *
+     * @return
+     */
+    List<SysMenuModel> menuTreeList();
 
     /**
      * 变更菜单启用状态

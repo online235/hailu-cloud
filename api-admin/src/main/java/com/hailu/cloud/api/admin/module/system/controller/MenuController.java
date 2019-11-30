@@ -70,6 +70,29 @@ public class MenuController {
         return menuService.menuList(menuName, menuType, enableStatus, Integer.parseInt(pageNum), pageSize);
     }
 
+    @ApiOperation(value = "查询树列表", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'data': {\n" +
+            "        'totalPage': 1,\n" +
+            "        'datas': [{\n" +
+            "            'id': 1,\n" +
+            "            'menuName': '系统管理',            // 菜单名称\n" +
+            "            'permissionCode': 'MENU-LIST',    // 权限编码\n" +
+            "            'url': '/system/menu/list',        // 菜单URL\n" +
+            "            'menuType': '0',                   // 菜单类型\n" +
+            "            'menuTypeDisplay': '菜单',         // 菜单类型中文描述\n" +
+            "            'enableStatus': 0,                // 状态\n" +
+            "            'enableStatusDisplay': '启用',     // 状态中文描述\n" +
+            "        }]\n" +
+            "    }\n" +
+            "}\n" +
+            "</pre>")
+    @GetMapping("/tree")
+    public List<SysMenuModel> treeList() {
+        return menuService.menuTreeList();
+    }
+
     @ApiOperation(value = "添加菜单", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +
@@ -78,9 +101,9 @@ public class MenuController {
             "}" +
             "</pre>")
     @PostMapping("/add-menu")
-    public void addAccount(@Valid SysMenuModel model) {
+    public SysMenuModel addMenu(@Valid SysMenuModel model) {
 
-        menuService.addMenu(model);
+        return menuService.addMenu(model);
     }
 
     @ApiOperation(value = "编辑菜单", notes = "<pre>" +

@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author xuzhijie
@@ -29,19 +32,20 @@ public class MenuServiceImpl implements IMenuService {
     private BasicFeignClient basicFeignClient;
 
     @Override
-    public void addMenu(SysMenuModel model) {
+    public SysMenuModel addMenu(SysMenuModel model) {
         model.setId(basicFeignClient.uuid().getData());
-        if( model.getParentId() == null ){
+        if (model.getParentId() == null) {
             model.setParentId(0L);
         }
         AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
         model.setCreateBy(loginInfoModel.getAccount());
         menuMapper.addMenu(model);
+        return model;
     }
 
     @Override
     public void updateMenu(SysMenuModel model) throws BusinessException {
-        if( model.getId() == null ){
+        if (model.getId() == null) {
             throw new BusinessException("菜单ID不能为空");
         }
         AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
@@ -60,6 +64,25 @@ public class MenuServiceImpl implements IMenuService {
         Page page = PageHelper.startPage(pageNum, pageSize);
         List<SysMenuModel> datas = menuMapper.menuList(menuName, menuType, enableStatus);
         return new PageInfoModel<>(page.getPages(), page.getTotal(), datas);
+    }
+
+    @Override
+    public List<SysMenuModel> menuTreeList() {
+        List<SysMenuModel> queryData = menuMapper.menuList(null, null, null);
+        Map<Long, SysMenuModel> mapping = new HashMap<>(queryData.size());
+        queryData.forEach(menu -> {
+            mapping.put(menu.getId(), menu);
+        });
+        queryData.stream()
+                .filter(menu -> menu.getParentId() != null)
+                .forEach(menu -> {
+                    if (!mapping.containsKey(menu.getParentId())) {
+                        return;
+                    }
+                    SysMenuModel parent = mapping.get(menu.getParentId());
+                    parent.getChildren().add(menu);
+                });
+        return queryData.stream().filter(menu -> menu.getParentId() == 0).collect(Collectors.toList());
     }
 
     @Override
