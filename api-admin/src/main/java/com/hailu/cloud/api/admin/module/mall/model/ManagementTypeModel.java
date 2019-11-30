@@ -15,7 +15,6 @@ public class ManagementTypeModel {
     /**
      * 经营类型id
      */
-    @ApiModelProperty("经营类型id")
     private Long managementId;
 
     /**
@@ -47,4 +46,10 @@ public class ManagementTypeModel {
      */
     @ApiModelProperty("排序号")
     private Integer sort;
+
+    /**
+     * 链接地址
+     */
+    @ApiModelProperty("链接地址")
+    private String url;
 }

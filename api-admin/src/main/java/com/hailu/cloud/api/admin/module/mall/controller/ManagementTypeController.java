@@ -34,6 +34,7 @@ public class ManagementTypeController {
             "    'managementName': '美食'                   //行业名称\n" +
             "    'pictureColour': 'null'                    //图标颜色\n" +
             "    'pictureCode': 'null'                      //图标代码\n" +
+            "    'url': 'null'                              //链接地址\n" +
             "  }\n" +
             "}" +
             "</pre>" +
@@ -67,6 +68,7 @@ public class ManagementTypeController {
             "    'managementName': '美食'                   //行业名称\n" +
             "    'pictureColour': 'null'                    //图标颜色\n" +
             "    'pictureCode': 'null'                      //图标代码\n" +
+            "    'url': 'null'                              //链接地址\n" +
             "  }\n" +
             "}" +
             "</pre>" +

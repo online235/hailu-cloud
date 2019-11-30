@@ -52,7 +52,7 @@ public class StoreInformationController {
             "        'openingTime': '9:00',                     //开发时间\n" +
             "        'createdat': '2019-11-27 14:30:23',        //创建时间\n" +
             "        'updatedat': '2019-11-27 14:30:23',        //更新时间\n" +
-            "        'defaultHead': 'null',                    //店铺头像\n" +
+            "        'defaultHead': 'null',                     //店铺头像\n" +
             "        'toExamine': 2,\n" +
             "        'weekDay': '1,2,4,6'                       //每周营业（例1，2，3，4）\n" +
             "      }\n" +

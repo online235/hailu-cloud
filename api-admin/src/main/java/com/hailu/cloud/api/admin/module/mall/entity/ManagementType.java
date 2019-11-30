@@ -37,6 +37,11 @@ public class ManagementType implements Serializable {
     private Integer sort;
 
     /**
+     * 链接地址
+     */
+    private String url;
+
+    /**
      * mc_management_type
      */
     private static final long serialVersionUID = 1L;

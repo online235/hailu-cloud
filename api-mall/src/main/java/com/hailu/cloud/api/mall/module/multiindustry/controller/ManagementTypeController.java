@@ -25,7 +25,30 @@ public class ManagementTypeController {
 
 
     @ApiOperation(value = "查询经营类型", notes = "<pre>" +
-            "" +
+            "{\n" +
+            "  'code': 200,\n" +
+            "  'message': '请求成功',\n" +
+            "  'data': {\n" +
+            "    'managementId': 5444781580777984,          //编号\n" +
+            "    'managementName': '美食'                   //行业名称\n" +
+            "    'pictureColour': 'null'                    //图标颜色\n" +
+            "    'pictureCode': 'null'                      //图标代码\n" +
+            "    'url': 'null'                              //链接地址\n" +
+            "  }\n" +
+            "}" +
+            "</pre>" +
+            "<pre>" +
+            "{\n" +
+            "  'code': 200,\n" +
+            "  'message': '请求成功',\n" +
+            "  'data': {\n" +
+            "    'managementId': 5444781580777986,\n" +
+            "    'parentId': 5444781580777984,              //夫Id\n" +
+            "    'managementName': '汤/粥'                  //行业名称\n" +
+            "    'pictureColour': 'null'                    //图标颜色\n" +
+            "    'pictureCode': 'null'                      //图标代码\n" +
+            "  }\n" +
+            "}" +
             "</pre>")
     @GetMapping("/find/queryBusinessType")
     @ApiImplicitParams({
