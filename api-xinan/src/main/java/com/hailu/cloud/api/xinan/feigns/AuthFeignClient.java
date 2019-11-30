@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.xinan.feigns;
 
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,7 +20,7 @@ public interface AuthFeignClient {
      * @return
      */
     @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_AUTH +"/login/vericode/{loginType}")
-    ApiResponse<MerchantUserLoginInfoModel> vericodeLogin(
+    ApiResponse<MemberLoginInfoModel> vericodeLogin(
             @PathVariable("loginType") String loginType,
             @RequestParam("phone") String phone,
             @RequestParam("code") String code);

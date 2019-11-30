@@ -8,6 +8,7 @@ import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
+import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -102,9 +103,9 @@ public class XinAnLoginController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "insuredIds", value = "邀请人ID", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "insuredIds", value = "邀请人ID", required = false, paramType = "query"),
     })
-    public MerchantUserLoginInfoModel register(
+    public MemberLoginInfoModel register(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
             @NotBlank(message = "验证码不能为空") String code,String insuredIds) throws BusinessException {
 

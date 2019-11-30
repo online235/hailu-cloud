@@ -61,7 +61,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
 
             //商家订单号
             String outTradeNo = (String) params.get("outTradeNo");
-            outTradeNo = outTradeNo.split("_")[0];
+            outTradeNo = outTradeNo.split("-")[0];
             //第三方交易号
             String tradeNo = (String) params.get("tradeNo");
             //交易状态
@@ -146,7 +146,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
                 itemNameSb.append(o.getGoodsName()+",");
             }
             String itemName = itemNameSb.toString();
-            payRequest.setGoodsName(itemName.substring(itemName.length()-1,itemName.length()));
+            payRequest.setGoodsName("购买商品："+itemName.substring(0,itemName.length()-1));
             //订单取金额逻辑 , 如果是预定2
             double orderAmount;
             String isReserve = "0";
@@ -197,7 +197,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
             //IP地址
             payRequest.setIp(IPUtil.getRemoteHost(RequestUtils.getRequest()));
             //回调地址
-            payRequest.setNotifyUrl(serverUrl+"/mall/api/payment/callback/weixin");
+            payRequest.setNotifyUrl(serverUrl+"/mall/payment/callback/weixin");
         } else {
             throw new BusinessException("不能重复支付");
         }
