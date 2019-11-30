@@ -76,10 +76,13 @@ public class McStoreInformationAdminService {
     }
 
     /**
-     * 更改店铺审核状态
+     * 更改店铺审核状态 审核中-1'',''审核通过-2'',''审核不通过-3
      */
     public void updateMcStoreInformationStatus(Long id,Integer toExamine){
 
+        if(toExamine == 2){
+
+        }
         McStoreInformation mcStoreInformation = new McStoreInformation();
         mcStoreInformation.setToExamine(toExamine);
         mcStoreInformation.setId(id);

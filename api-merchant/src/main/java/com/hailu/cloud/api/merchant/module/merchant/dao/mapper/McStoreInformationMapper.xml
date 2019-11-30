@@ -138,6 +138,9 @@
     </sql>
 
     <sql id="update_where_column">
+        <if test="id != null">
+            id = #{id},
+        </if>
         <if test="shopName != null">
             shop_name = #{shopName},
         </if>

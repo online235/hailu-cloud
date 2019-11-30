@@ -179,7 +179,7 @@ public class McEntryInformation implements Serializable {
     /**
      * 银行卡号
      */
-    private String bankNumber;
+    private Long bankNumber;
 
     /**
      * 开户省份code

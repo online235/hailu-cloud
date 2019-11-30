@@ -6,16 +6,19 @@ import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreInformationModel;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
+import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/app/store")
@@ -32,8 +35,7 @@ public class McStoreInformationController {
     private McManagementTypeService mcManagementTypeService;
 
 
-
-    @ApiOperation(value = "更改信息店铺信息",notes = "<prep>" +
+    @ApiOperation(value = "更改信息店铺信息", notes = "<prep>" +
             "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功'\n" +
@@ -41,13 +43,16 @@ public class McStoreInformationController {
             "</prep>")
     @PostMapping("/changeInformation")
     @ApiImplicitParam(name = "wee", value = "每周营业日用（1星期日，2星期一）", allowMultiple = true, paramType = "query", dataType = "int")
-    public void updateBYMcEntryInformation(@ModelAttribute McStoreInformationModel mcStoreInformationModel, int[] wee) {
+    public void updateBYMcEntryInformation(@ModelAttribute McStoreInformationModel mcStoreInformationModel, int[] wee, BindingResult result) throws BusinessException {
+
+        if (result.hasErrors()) {
+            throw new BusinessException("必填信息不能为空！");
+        }
         mcStoreInformationService.updateBYMcEntryInformation(mcStoreInformationModel, wee);
     }
 
 
-
-    @ApiOperation(value = "根据店铺id查看店铺信息",notes ="<pre>"+
+    @ApiOperation(value = "根据店铺id查看店铺信息", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功',                   \n" +
@@ -74,20 +79,20 @@ public class McStoreInformationController {
             "        'weekDayDisplay': 'string'             //周一，周二\n" +
             "    }\n" +
             "}"
-            +"</pre>")
+            + "</pre>")
     @PostMapping("storeInformationById")
-    @ApiImplicitParam(name = "id", value = "店铺id",  paramType = "query", dataType = "Long",required = true)
+    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
     public McStoreInformationResult findMcStoreInformation(@RequestParam(value = "id") Long id) {
 
         McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
         McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(id);
-        BeanUtils.copyProperties(mcStoreInformation,mcStoreInformationResult);
-        if(mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0){
+        BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
+        if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
             McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
             mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
 
         }
-        if(mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0){
+        if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
             McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
             mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
         }
@@ -96,13 +101,13 @@ public class McStoreInformationController {
     }
 
 
-
-    @ApiOperation(value = "商户查看店铺信息",notes = "<pre>"+
+    @ApiOperation(value = "商户查看店铺信息", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功',                   \n" +
             "    'data': {\n" +
             "        'areaCode': 'string',                  //地区code\n" +
+            "        'businessState': ''                    // 营业状态(1-营业中，2-休息中)\n  "+
             "        'businessStateDisplay': 0,              //营业状态\n" +
             "        'cityCode': 'string',\n" +
             "        'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\n" +
@@ -124,25 +129,26 @@ public class McStoreInformationController {
             "        'weekDayDisplay': 'string'             //周一，周二\n" +
             "    }\n" +
             "}"
-            +"</pre>")
+            + "</pre>")
     @PostMapping("storeInformation")
     public McStoreInformationResult findMcStoreInformation() {
 
         McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
         McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
-        BeanUtils.copyProperties(mcStoreInformation,mcStoreInformationResult);
-        if(mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0){
-            McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
-            mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
+        if (mcStoreInformation != null) {
+            BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
+            if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
+                McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
+                mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
 
-        }
-        if(mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0){
-            McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
-            mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
+            }
+            if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
+                McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
+                mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
+            }
         }
         return mcStoreInformationResult;
     }
-
 
 
 }

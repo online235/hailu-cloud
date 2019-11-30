@@ -85,14 +85,14 @@ public class McStoreInformationResult {
     private String storeTotalTypeDisPlay;
 
 
+
+    /**
+     * 营业状态(1-营业中，2-休息中)
+     */
+    private Integer businessState;
 //
-//    /**
-//     * 营业状态(1-营业中，2-休息中)
-//     */
-//    private Integer businessState;
 //
-//
-//    @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
+    @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
     private String businessStateDisplay;
 
     /**
@@ -119,24 +119,24 @@ public class McStoreInformationResult {
     private java.util.Date updatedat;
 
 
-//    /**
-//     * 审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'
-//     */
-//    private Integer toExamine;
+    /**
+     * 审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'
+     */
+    private Integer toExamine;
 
 
-
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
     private String toExamineDisplay;
 
 
 
-//    /**
-//     * 每周营业日用，“；”隔开（例1；2；3；4:）
-//     */
-//    private String weekDay;
+    /**
+     * 每周营业日用，“,”隔开（例1,2,3,4:）
+     */
+    private String weekDay;
 
 
-
+    @DictName(code = "BUSINESS_DAY" , joinField = "weekDay")
     private String weekDayDisplay;
 
 

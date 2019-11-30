@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * @Author zhangmugui
@@ -13,6 +14,11 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @ApiModel
 public class ShopInformationEntryParameter {
+
+
+    @ApiParam(name="mcType",value="1、个体店 ； 2、个体工商店",required = true)
+    @NotNull
+    private Integer mcType;
 
     @ApiParam(name = "shopName", value = "店铺名称", required = true)
     @NotEmpty
@@ -160,7 +166,7 @@ public class ShopInformationEntryParameter {
      */
     @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
     @NotEmpty
-    private String bankNumber;
+    private Long bankNumber;
 
 
     /**

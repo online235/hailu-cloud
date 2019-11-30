@@ -53,6 +53,7 @@ public class McStoreInformationService {
         mcStoreInformation.setCreatedat(new Date());
         mcStoreInformation.setUpdatedat(new Date());
         mcStoreInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
+        mcStoreInformation.setBusinessState(1);
         int result = mcStoreInformationMapper.insertSelective(mcStoreInformation);
         if (result <= 0) {
             throw new BusinessException("插入数据失败");
