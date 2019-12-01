@@ -1,5 +1,6 @@
 package com.hailu.cloud.gateway.config;
 
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.enums.LoginTypeEnum;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
@@ -48,7 +49,7 @@ public class RequestRangeCheck {
     /**
      * 检查当前登录用户是否有权限访问该URL
      */
-    private static final String MERCHANT_PC_PATH = "/api/v1/merchant/merchant";
+    private static final String MERCHANT_PC_PATH = Constant.API_VERSION + "/merchant/merchant";
 
     public DataBuffer checkUrlPermission(AuthInfo authInfo, String requestPath, ServerHttpResponse response) {
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(authInfo.getLoginType());

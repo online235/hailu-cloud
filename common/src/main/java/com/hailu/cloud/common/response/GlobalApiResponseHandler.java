@@ -22,7 +22,7 @@ public class GlobalApiResponseHandler implements HandlerMethodReturnValueHandler
 
     private DictLoader dictLoader;
 
-    private static final Pattern WEIXIN_CALLBACK_PATTERN = Pattern.compile("^/api/v1/.*/callback");
+    private static final Pattern WEIXIN_CALLBACK_PATTERN = Pattern.compile("^/api/.*/callback");
 
     public GlobalApiResponseHandler(HandlerMethodReturnValueHandler proxyObject, RedisStandAloneClient redisClient) {
         this.proxyObject = proxyObject;

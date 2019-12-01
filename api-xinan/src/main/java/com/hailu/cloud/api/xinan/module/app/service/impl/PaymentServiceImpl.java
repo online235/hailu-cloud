@@ -174,7 +174,7 @@ public class PaymentServiceImpl implements IPaymentService {
         //支付方式
         payRequest.setPayWay(1);
         //回调地址
-        payRequest.setNotifyUrl(serverUrl+"/api/v1/xinan/payment/callbackWechat");
+        payRequest.setNotifyUrl(serverUrl + "/xinan/payment/callbackWechat");
         //支付参数
         payRequest.setPayParams(payType == 1 ? "XINANALI":"XINANWECAT");
         //IP地址
@@ -299,7 +299,7 @@ public class PaymentServiceImpl implements IPaymentService {
         //支付类型
         payRequest.setPayType(payType);
         //回调地址
-        payRequest.setNotifyUrl(serverUrl+"/api/v1/xinan/payment/callbackWechatHl");
+        payRequest.setNotifyUrl(serverUrl+"/xinan/payment/callbackWechatHl");
         //商品名称
         payRequest.setGoodsName("购买服务商");
         //IP
