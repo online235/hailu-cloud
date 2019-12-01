@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MerchantUserLoginInfoModel {
+public class MerchantUserLoginInfoModel extends LoginModel {
 
     /**
      * 编号
@@ -47,15 +47,5 @@ public class MerchantUserLoginInfoModel {
      * 审核
      */
     private String toExamine;
-
-    /**
-     * access token
-     */
-    private String accessToken;
-
-    /**
-     * refresh token
-     */
-    private String refreshToken;
 
 }

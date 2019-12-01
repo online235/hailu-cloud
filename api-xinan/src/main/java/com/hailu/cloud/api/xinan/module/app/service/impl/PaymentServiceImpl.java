@@ -17,7 +17,7 @@ import com.hailu.cloud.common.model.payment.PayRequest;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.response.ApiResponse;
-import com.hailu.cloud.common.util.IPUtil;
+import com.hailu.cloud.common.utils.IPUtil;
 import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
