@@ -46,7 +46,9 @@ public class McStoreAlbumService {
     }
 
 
-
+    public void deleteById(Long id){
+        mcStoreAlbumMapper.deleteById(id);
+    }
 
 
 }

@@ -46,6 +46,8 @@ mapping:
         - ${api-version}/mall/api/mall/goodsAllEevaluate
         - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin
+        - ${api-version}/admin/ManagementType
+
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制

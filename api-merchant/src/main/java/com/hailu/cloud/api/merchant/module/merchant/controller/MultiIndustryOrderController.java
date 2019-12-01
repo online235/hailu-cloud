@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 
+import com.hailu.cloud.api.merchant.module.merchant.entity.MultiIndustryOrder;
 import com.hailu.cloud.api.merchant.module.merchant.service.MultiIndustryOrderService;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("/app/multiIndustryOrder")
@@ -33,7 +36,7 @@ public class MultiIndustryOrderController {
             @ApiImplicitParam(name = "size", value = "页面大小",  required = true, defaultValue = "20",  paramType = "query")
     })
     @PostMapping("/commodityQueryOrder")
-    public Object findOrderListByStoreId(
+    public PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId(
             @RequestParam(defaultValue = "1")Integer page ,
             @RequestParam(defaultValue = "20")Integer size){
 

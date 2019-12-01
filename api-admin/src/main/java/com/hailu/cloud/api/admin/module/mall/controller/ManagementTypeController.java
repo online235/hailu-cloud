@@ -52,7 +52,7 @@ public class ManagementTypeController {
             "}" +
             "</pre>")
     @PostMapping("/add/industry")
-    public Object add(@ModelAttribute ManagementTypeModel managementType) throws BusinessException {
+    public ManagementTypeModel add(@ModelAttribute ManagementTypeModel managementType) throws BusinessException {
         return managementTypeService.insertSelective(managementType);
     }
 
@@ -87,7 +87,7 @@ public class ManagementTypeController {
             "}" +
             "</pre>")
     @PostMapping("/upd/industry")
-    public Object upd(@Valid ManagementTypeModel managementType) {
+    public ManagementTypeModel upd(@Valid ManagementTypeModel managementType) {
         return managementTypeService.updeteManagementTypeModel(managementType);
     }
 

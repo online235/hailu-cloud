@@ -70,7 +70,7 @@
     </insert>
 
 
-    <update id="updateByPrimaryKey"  parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
+    <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
         update mc_store_album
         <set>
             <include refid="update_where_column"/>
@@ -79,7 +79,7 @@
     </update>
 
 
-    <select id="findListByParam"  resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
+    <select id="findListByParam" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
         SELECT
         id,
         store_id,
@@ -88,16 +88,16 @@
         update_time
         FROM mc_store_album
         WHERE 1=1
-        <if test="storeId != null" >
+        <if test="storeId != null">
             and store_id = #{storeId}
         </if>
-        <if test="albumUrl != null" >
+        <if test="albumUrl != null">
             and album_url = #{albumUrl}
         </if>
     </select>
 
 
-    <select id="findObjectById"  resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
+    <select id="findObjectById" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
         SELECT
         id,
         store_id,
@@ -106,9 +106,14 @@
         update_time
         FROM mc_store_album
         WHERE 1=1
-        <if test="id != null" >
+        <if test="id != null">
             and id = #{id}
         </if>
     </select>
+
+    <delete id="deleteById" parameterType="long">
+    delete from mc_store_album
+    where id = #{id}
+  </delete>
 
 </mapper>

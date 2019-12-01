@@ -26,4 +26,7 @@ public interface McStoreAlbumMapper {
     McStoreAlbum findObjectById(Long id);
 
 
+    int deleteById(Long id);
+
+
 }

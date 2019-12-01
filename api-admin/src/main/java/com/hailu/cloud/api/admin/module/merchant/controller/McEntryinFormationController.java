@@ -4,6 +4,7 @@ import com.hailu.cloud.api.admin.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.admin.module.merchant.service.McEntryinFormationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -82,7 +84,7 @@ public class McEntryinFormationController {
             @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示数量", defaultValue = "10", paramType = "query", dataType = "String"),
     })
-    public Object selectMcEntryinFormationList(
+    public PageInfoModel<List<McEntryInformation>> selectMcEntryinFormationList(
             String shopname,
             String phone,
             @Pattern(regexp = "^\\d*$", message = "请输入数字")

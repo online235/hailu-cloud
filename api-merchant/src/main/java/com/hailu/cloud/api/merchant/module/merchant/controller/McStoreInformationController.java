@@ -269,4 +269,21 @@ public class McStoreInformationController {
     }
 
 
+    @ApiOperation(value = "删除店铺相册", notes = "<prep>"
+            + "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "}" + "</prep>")
+    @PostMapping("deleStoreAlbumUrl")
+    @ApiImplicitParam(name = "id", value = "相册id", paramType = "query", dataType = "Long", required = true)
+    public void deleStoreAlbumUrl(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
+
+        if (id == null) {
+            throw new BusinessException("参数不能为空！");
+        }
+        mcStoreAlbumService.deleteById(id);
+    }
+
+
+
 }
