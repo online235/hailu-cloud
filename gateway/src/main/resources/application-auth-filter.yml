@@ -54,5 +54,7 @@ mapping:
     notAllow:
       0:
         - ${api-version}/admin
+        - ${api-version}/merchant
       1:
         - ${api-version}/admin
+        - ${api-version}/xinan
