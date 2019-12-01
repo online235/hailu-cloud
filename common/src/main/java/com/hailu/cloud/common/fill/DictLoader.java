@@ -1,5 +1,6 @@
 package com.hailu.cloud.common.fill;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import com.hailu.cloud.common.fill.annotation.DictName;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 字典项自动填充，目前仅处理最大深度3级以内的数据, 防止引发性能下降
@@ -73,17 +75,34 @@ public class DictLoader {
             return;
         }
         Field[] fields = model.getClass().getDeclaredFields();
+        injectFieldValue(depth, model, fields);
+
+        handleParentField(model, depth, model.getClass().getSuperclass());
+    }
+
+    private void handleParentField(Object model, int depth, Class parentClass) {
+        boolean isExtend = parentClass != null && !"Object".equals(parentClass.getSimpleName());
+        if (isExtend) {
+            Field[] parentFields = parentClass.getDeclaredFields();
+            injectFieldValue(depth, model, parentFields);
+            handleParentField(model, depth, parentClass.getSuperclass());
+        }
+    }
+
+    private void injectFieldValue(int depth, Object model, Field[] fields) {
         for (Field field : fields) {
             DictName dictName = field.getAnnotation(DictName.class);
             if (dictName == null) {
                 if (ignoreType(field)) {
                     continue;
                 }
-                load(depth + 1, getFieldValue(field, model));
+                load(depth + 1, BeanUtil.getFieldValue(model, field.getName()));
                 continue;
             }
             // 获取关联的值
-            String dictValue = getValue(model, dictName.joinField());
+            String dictValue = Optional.ofNullable(BeanUtil.getFieldValue(model, dictName.joinField()))
+                    .map(String::valueOf)
+                    .orElse("");
             if (StringUtils.isBlank(dictValue)) {
                 continue;
             }
@@ -92,7 +111,7 @@ public class DictLoader {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String item : dictValue.split(",")) {
                     item = item.trim();
-                    if( StringUtils.isBlank(item) ){
+                    if (StringUtils.isBlank(item)) {
                         continue;
                     }
                     String itemDisplayName = dataCollection.dictMapping(dictName.code(), item);
@@ -114,24 +133,6 @@ public class DictLoader {
             // 设置字典项
             setValue(model, field, displayName);
         }
-    }
-
-    private Object getFieldValue(Field field, Object target) {
-        try {
-            Object value;
-            if (field.isAccessible()) {
-                value = field.get(target);
-            } else {
-                field.setAccessible(true);
-                value = field.get(target);
-                field.setAccessible(false);
-            }
-            return value;
-        } catch (IllegalAccessException e) {
-            // nothing to do.
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private static final String TYPE_JAVA_LANG = "java.lang";
@@ -168,24 +169,6 @@ public class DictLoader {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private String getValue(Object bean, String fieldName) {
-        try {
-            Field target = bean.getClass().getDeclaredField(fieldName);
-            String value;
-            if (target.isAccessible()) {
-                value = String.valueOf(target.get(bean));
-            } else {
-                target.setAccessible(true);
-                value = String.valueOf(target.get(bean));
-                target.setAccessible(false);
-            }
-            return value;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**

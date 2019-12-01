@@ -2,6 +2,9 @@ package com.hailu.cloud.common.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.hailu.cloud.common.fill.DictLoader;
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -211,6 +214,64 @@ public class DictLoaderTest {
         DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
         loader.load(test);
         log.debug("测试完毕");
+    }
+
+    @Test
+    public void test2(){
+        // 模拟数据库字典
+        Map<String, Map<String, String>> cache = new HashMap() {{
+            put("CATEGORY", new HashMap() {{
+                put("1001", "分类1");
+                put("1002", "分类2");
+                put("1003", "分类3");
+                put("1004", "分类4");
+                put("1005", "分类5");
+                put("1006", "分类6");
+            }});
+            put("STATUS", new HashMap() {{
+                put("2001", "状态1");
+                put("2002", "状态2");
+                put("2003", "状态3");
+            }});
+        }};
+
+        PersonC personB = new PersonC();
+        personB.setCode("1001");
+
+        DictLoader loader = new DictLoader((code, value) -> cache.get(code).get(value));
+        loader.load(personB);
+        log.debug("==> " + JSON.toJSONString(personB));
+
+//        Field[] fields = PersonB.class.getDeclaredFields();
+//        log.info("");
+    }
+
+    @Data
+    @InjectDict
+    class Person{
+
+        private String code;
+
+        @DictName(code = "CATEGORY", joinField = "code")
+        private String codeDisplay;
+    }
+
+    @InjectDict
+    @Data
+    class PersonB extends Person{
+
+        @DictName(code = "CATEGORY", joinField = "code")
+        private String codeDisplay2;
+
+    }
+
+    @InjectDict
+    @Data
+    class PersonC extends PersonB{
+
+        @DictName(code = "CATEGORY", joinField = "code")
+        private String codeDisplay3;
+
     }
 
 }
