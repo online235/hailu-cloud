@@ -142,5 +142,14 @@ public class McStoreInformationService {
     }
 
 
+    /**
+     * 更改店铺信息
+     */
+    public void updateByPrimaryKey(McStoreInformation mcStoreInformation){
+
+        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformationMapper.updateByPrimaryKey(mcStoreInformation);
+    }
+
 
 }

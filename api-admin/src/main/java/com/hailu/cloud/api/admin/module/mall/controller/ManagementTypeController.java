@@ -52,13 +52,14 @@ public class ManagementTypeController {
             "}" +
             "</pre>")
     @PostMapping("/add/industry")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "managementName",value = "经营名称",required = true, paramType = "query"),
-            @ApiImplicitParam(name = "sort", value = "排序号" , required = true, paramType = "query")
-    })
-    public Object add(@Valid ManagementTypeModel managementType) throws BusinessException {
+    public Object add(@ModelAttribute ManagementTypeModel managementType) throws BusinessException {
         return managementTypeService.insertSelective(managementType);
     }
+
+
+
+
+
     @ApiOperation(value = "更改行业标签内容", notes = "<pre>" +
             "{\n" +
             "  'code': 200,\n" +
@@ -90,16 +91,22 @@ public class ManagementTypeController {
         return managementTypeService.updeteManagementTypeModel(managementType);
     }
 
+
+
+
     @ApiOperation(value = "查询经营类型列表", notes = "<pre>" +
             "" +
             "</pre>")
-    @GetMapping("/find/queryBusinessType")
+    @PostMapping("/find/queryBusinessType")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "parentId", value = "父ID（）", paramType = "query", dataType = "long")
+            @ApiImplicitParam(name = "parentId", value = "父ID（）", paramType = "query", dataType = "long",defaultValue = "0")
     })
-    public Object find(@RequestParam(defaultValue = "0") long parentId) {
+    public Object find(@RequestParam long parentId) {
         return managementTypeService.findManagementTypeList(parentId);
     }
+
+
+
 
     @ApiOperation(value = "查询经营类型详细", notes = "<pre>" +
             "" +

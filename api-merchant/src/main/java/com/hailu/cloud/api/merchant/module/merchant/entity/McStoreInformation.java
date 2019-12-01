@@ -15,6 +15,11 @@ public class McStoreInformation {
      */
     private Long id;
 
+    /**
+     * 店铺头像
+     */
+    private String shopAvatar;
+
 
     /**
      * 商家编号

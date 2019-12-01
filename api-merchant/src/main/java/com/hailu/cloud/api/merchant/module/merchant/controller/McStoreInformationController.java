@@ -2,13 +2,16 @@ package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.McManagementTypeService;
+import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreInformationModel;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
+import com.hailu.cloud.api.merchant.module.merchant.service.McStoreAlbumService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +21,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Collections;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/app/store")
@@ -30,9 +38,11 @@ public class McStoreInformationController {
     @Autowired
     private McStoreInformationService mcStoreInformationService;
 
-
     @Resource
     private McManagementTypeService mcManagementTypeService;
+
+    @Resource
+    private McStoreAlbumService mcStoreAlbumService;
 
 
     @ApiOperation(value = "更改信息店铺信息", notes = "<prep>" +
@@ -107,7 +117,8 @@ public class McStoreInformationController {
             "    'message': '请求成功',                   \n" +
             "    'data': {\n" +
             "        'areaCode': 'string',                  //地区code\n" +
-            "        'businessState': ''                    // 营业状态(1-营业中，2-休息中)\n  "+
+            "        'shopAvatar': 'string',                  //店铺头像\n" +
+            "        'businessState': ''                    // 营业状态(1-营业中，2-休息中)\n  " +
             "        'businessStateDisplay': 0,              //营业状态\n" +
             "        'cityCode': 'string',\n" +
             "        'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\n" +
@@ -148,6 +159,113 @@ public class McStoreInformationController {
             }
         }
         return mcStoreInformationResult;
+    }
+
+
+    @ApiOperation(value = "更改店铺头像", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功'\n" +
+            "}" +
+            "<pre>")
+    @PostMapping("updateStoreInformationAvatar")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "shopAvatar", value = "店铺头像路径", paramType = "query", dataType = "String", required = true)
+    })
+    public void updateStoreInformationAvatar(@NotNull @RequestParam(value = "id") Long id, @RequestParam(value = "shopAvatar") String shopAvatar) {
+
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        mcStoreInformation.setId(id);
+        mcStoreInformation.setShopAvatar(shopAvatar);
+        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
+
+    }
+
+
+    @ApiOperation(value = "相册列表", notes = "<prep>"
+            + "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': {\n" +
+            "        'id': 'Long',                  //相册id\n" +
+            "        'storeId': 'Long',                  //店铺id\n" +
+            "        'albumUrl': 'string',                  //相册路径\n" +
+            "        'createTime': '2019-11-29T03:07:58.480Z',     //创建时间\n" +
+            "        'updateTime': '2019-11-29T03:07:58.480Z',    //更新时间\n" +
+            "    }\n" +
+            "}" + "</prep>")
+    @PostMapping("findStoreAlbumList")
+    @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true)
+    public List<McStoreAlbum> findStoreAlbumList(@NotNull @RequestParam(value = "storeId") Long storeId) throws BusinessException {
+
+        if (storeId == null) {
+            throw new BusinessException("店铺id不能为空！");
+        }
+        Map<String, Object> map = new HashMap<>(4);
+        return mcStoreAlbumService.findListByParam(map.put("storeId", storeId));
+
+    }
+
+
+    @ApiOperation(value = "保存店铺相册", notes = "<prep>"
+            + "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "}" + "</prep>")
+    @PostMapping("submitStoreAlbumUrl")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "albumUrl", value = "相册路径", paramType = "query", dataType = "String", required = true)
+    })
+    public void submitStoreAlbumUrl(@NotNull @RequestParam(value = "storeId") Long storeId, @NotEmpty @RequestParam(value = "albumUrl") String albumUrl) throws BusinessException {
+
+        if (storeId == null || albumUrl == null) {
+            throw new BusinessException("参数不能为空！");
+        }
+        McStoreAlbum mcStoreAlbum = new McStoreAlbum();
+        mcStoreAlbum.setStoreId(storeId);
+        mcStoreAlbum.setAlbumUrl(albumUrl);
+        mcStoreAlbumService.insertSelective(mcStoreAlbum);
+
+    }
+
+    @ApiOperation(value = "上传编辑信息", notes = "<prep>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功'\n" +
+            "}\n" +
+            "</prep>")
+    @PostMapping("/submitStoreDetail")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "storeDetails", value = "店铺详情", paramType = "query", dataType = "String", required = true)
+    })
+    public void submitStoreDetail(@NotNull @RequestParam(value = "id") Long id, @NotEmpty @RequestParam(value = "storeDetails") String storeDetails) {
+
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        mcStoreInformation.setId(id);
+        mcStoreInformation.setStoreDetails(storeDetails);
+        mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
+    }
+
+    @ApiOperation(value = "获取编辑详情", notes = "<prep>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功'\n" +
+            "     'data'：'String'      \n" +
+            "}\n" +
+            "</prep>")
+    @PostMapping("/getStoreDetail")
+    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
+    public String getStoreDetail(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
+
+        if (id == null) {
+            throw new BusinessException("参数不能为空！");
+        }
+        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(id);
+        return mcStoreInformation.getStoreDetails();
     }
 
 

@@ -26,6 +26,10 @@ public class McStoreInformation {
      */
     private String mcNumberId;
 
+    /**
+     * 店铺头像
+     */
+    private String shopAvatar;
 
     /**
      *店铺名称

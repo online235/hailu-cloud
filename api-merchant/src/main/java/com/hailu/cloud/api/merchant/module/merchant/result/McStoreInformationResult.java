@@ -20,6 +20,11 @@ public class McStoreInformationResult {
 
 
     /**
+     * 店铺头像
+     */
+    private String shopAvatar;
+
+    /**
      * 商家编号
      */
     private String mcNumberId;
