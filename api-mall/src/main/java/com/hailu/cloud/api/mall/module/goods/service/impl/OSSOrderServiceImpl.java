@@ -13,7 +13,7 @@ import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
 import com.hailu.cloud.common.model.payment.PayRequest;
-import com.hailu.cloud.common.util.IPUtil;
+import com.hailu.cloud.common.utils.IPUtil;
 import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
