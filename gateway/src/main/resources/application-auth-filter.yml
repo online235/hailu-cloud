@@ -24,6 +24,7 @@ mapping:
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/payment/callbackWechat
         - ${api-version}/xinan/payment/callbackWechatHl
+        - /api/v1/xinan/nation
         # 商城接口
         - ${api-version}/mall/payment/callback/weixin
         - ${api-version}/mall/api/capacity

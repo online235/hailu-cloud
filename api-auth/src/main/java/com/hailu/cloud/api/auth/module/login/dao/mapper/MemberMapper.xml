@@ -11,7 +11,8 @@
             hl_member,
             member_mobile,
             user_icon,
-            login_name
+            login_name,
+            member_sex
         FROM
             shop_member
         WHERE

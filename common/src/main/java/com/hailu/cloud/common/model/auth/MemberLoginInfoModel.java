@@ -53,4 +53,10 @@ public class MemberLoginInfoModel extends LoginModel {
      */
     private String loginName;
 
+    /**
+     * 会员性别
+     */
+    private String memberSex;
+
+
 }
