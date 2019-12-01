@@ -30,7 +30,7 @@ public interface MultiIndustryOrderMapper {
      *
      * @mbggenerated 2019-11-25
      */
-    MultiIndustryOrder selectByPrimaryKey(Integer id);
+    MultiIndustryOrder selectByPrimaryKey(Long id);
 
     /**
      *

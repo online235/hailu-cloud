@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.merchant.module.merchant.entity;
 
 import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@InjectDict
 public class MultiIndustryOrder implements Serializable {
     /**
      * 编号

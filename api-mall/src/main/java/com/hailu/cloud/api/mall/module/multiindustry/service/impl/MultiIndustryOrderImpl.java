@@ -39,7 +39,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
     private StoreInformationService storeInformationService;
 
     @Override
-    public void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException {
+    public MultiIndustryOrder insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
 
@@ -57,11 +57,13 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
         record.setExchangeCode(RandomUtil.randomNumbers(10));
         record.setProductTitle(storeInformation.getShopName());
         record.setState(1);
+        record.setPurchaseQuantity(1L);
         multiIndustryOrderMapper.insertSelective(record);
+        return selectByPrimaryKey(Long.parseLong(num));
     }
 
     @Override
-    public MultiIndustryOrder selectByPrimaryKey(Integer id) {
+    public MultiIndustryOrder selectByPrimaryKey(Long id) {
         return multiIndustryOrderMapper.selectByPrimaryKey(id);
     }
 

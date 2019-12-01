@@ -15,14 +15,14 @@ public interface MultiIndustryOrderService {
      * @param record
      * @return
      */
-    void insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException;
+    MultiIndustryOrder insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException;
 
 
     /**
      * 查询订单
      * @mbggenerated 2019-11-25
      */
-    MultiIndustryOrder selectByPrimaryKey(Integer id);
+    MultiIndustryOrder selectByPrimaryKey(Long id);
 
     /**
      * 根据用户编号查询多行业订单

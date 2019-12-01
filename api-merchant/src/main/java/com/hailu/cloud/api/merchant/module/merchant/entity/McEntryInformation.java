@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.merchant.module.merchant.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.io.Serializable;
  * @author zhangmugui
  */
 @Data
+@InjectDict
 public class McEntryInformation implements Serializable {
     /**
      * 编号
@@ -23,6 +26,12 @@ public class McEntryInformation implements Serializable {
      * 商户类型 1、个体店 ； 2、个体工商店
      */
     private Integer mcType;
+
+    /**
+     * 商户类型 1、个体店 ； 2、个体工商店
+     */
+    @DictName(code = "MC_TYPE", joinField = "mcType")
+    private Integer mcTypeDisPlay;
 
     /**
      * 店铺名称
@@ -169,6 +178,12 @@ public class McEntryInformation implements Serializable {
      */
     private Integer bankType;
 
+    /**
+     *开户类型（1、借记卡；2、信用卡 ）
+     */
+    @DictName(code = "BANK_TYPE", joinField = "bankType")
+    private Integer bankTypeDisPlay;
+
 
     /**
      * 开户行
@@ -200,6 +215,12 @@ public class McEntryInformation implements Serializable {
      * 1、平台代发；2、商家发；3、各开各票
      */
     private Integer billingMethod;
+
+    /**
+     * 1、平台代发；2、商家发；3、各开各票
+     */
+    @DictName(code = "BILLING_METHOD", joinField = "billingMethod")
+    private Integer billingMethodDisPlay;
 
 
     /**

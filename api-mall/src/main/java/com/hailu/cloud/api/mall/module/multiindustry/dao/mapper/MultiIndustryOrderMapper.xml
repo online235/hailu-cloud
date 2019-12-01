@@ -30,6 +30,9 @@
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder" useGeneratedKeys="true" keyProperty="id" >
     insert into mc_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
       <if test="orderNumber != null" >
         order_number,
       </if>
@@ -71,6 +74,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="orderNumber != null" >
         #{orderNumber,jdbcType=VARCHAR},
       </if>
