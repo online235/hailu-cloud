@@ -1,7 +1,7 @@
 server:
   port: 30400
   servlet:
-    context-path: /api/v1/basic
+    context-path: /api/v2/basic
 spring:
   application:
     name: service-api-basic

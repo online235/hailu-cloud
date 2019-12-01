@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("service-api-admin")
 public interface AdminAccountFeignClient {
 
-    @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_ADMIN + "/system/admin/search-account")
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_ADMIN + "/system/admin/search-account")
     ApiResponse<AdminLoginInfoModel> searchAccount(@RequestParam("account") String account);
 
 }

@@ -18,7 +18,7 @@ public interface AuthFeignClient {
      * @param code
      * @return
      */
-    @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_AUTH +"/login/vericode/{loginType}")
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_AUTH +"/login/vericode/{loginType}")
     ApiResponse<MerchantUserLoginInfoModel> vericodeLogin(
             @PathVariable("loginType") String loginType,
             @RequestParam("phone") String phone,
@@ -31,7 +31,7 @@ public interface AuthFeignClient {
      * @param pwd
      * @return
      */
-    @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_AUTH + "/login/{loginType}")
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_AUTH + "/login/{loginType}")
     ApiResponse<MerchantUserLoginInfoModel> login(
             @PathVariable("loginType") String loginType,
             @RequestParam("account") String account,

@@ -1,7 +1,7 @@
 server:
   port: 30700
   servlet:
-    context-path: /api/v1/payment
+    context-path: /api/v2/payment
 spring:
   application:
     name: service-api-payment

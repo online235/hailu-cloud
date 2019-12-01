@@ -1,3 +1,4 @@
+#version: /api/v2
 spring:
   cloud:
     gateway:
@@ -5,30 +6,30 @@ spring:
         - id: service-api-auth
           uri: lb://service-api-auth
           predicates:
-            - Path=/api/v1/auth/**
+            - Path=${api-version}/auth/**
         - id: service-api-admin
           uri: lb://service-api-admin
           predicates:
-            - Path=/api/v1/admin/**
+            - Path=${api-version}/admin/**
         - id: service-api-mall
           uri: lb://service-api-mall
           predicates:
-            - Path=/api/v1/mall/**
+            - Path=${api-version}/mall/**
         - id: service-api-basic
           uri: lb://service-api-basic
           predicates:
-            - Path=/api/v1/basic/**
+            - Path=${api-version}/basic/**
         - id: service-api-xinan
           uri: lb://service-api-xinan
           predicates:
-            - Path=/api/v1/xinan/**
+            - Path=${api-version}/xinan/**
         - id: service-api-payment
           uri: lb://service-api-payment
           predicates:
-            - Path=/api/v1/payment/**
+            - Path=${api-version}/payment/**
         - id: service-api-merchant
           uri: lb://service-api-merchant
           predicates:
-            - Path=/api/v1/merchant/**
+            - Path=${api-version}/merchant/**
       default-filters:
         - SwaggerHeaderFilter

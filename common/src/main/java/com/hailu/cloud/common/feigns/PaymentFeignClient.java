@@ -17,9 +17,9 @@ import java.util.Map;
 @FeignClient(name = "service-api-payment")
 public interface PaymentFeignClient {
 
-    @PostMapping(Constant.API_VERSION_V1 + Constant.API_NAME_PAYMENT + "/payment/gateway")
+    @PostMapping(Constant.API_VERSION + Constant.API_NAME_PAYMENT + "/payment/gateway")
     ApiResponse<Map<String,Object>> gateway(@RequestBody PayRequest payRequest);
 
-    @PostMapping(Constant.API_VERSION_V1 + Constant.API_NAME_PAYMENT + "/wechat/getInfoByCode")
+    @PostMapping(Constant.API_VERSION + Constant.API_NAME_PAYMENT + "/wechat/getInfoByCode")
     ApiResponse<Map<String, Object>> getInfoByCode(@RequestParam(value = "code") String code);
 }

@@ -1,7 +1,7 @@
 server:
   port: 30600
   servlet:
-    context-path: /api/v1/xinan
+    context-path: /api/v2/xinan
 spring:
   application:
     name: service-api-xinan

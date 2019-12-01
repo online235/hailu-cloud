@@ -1,7 +1,7 @@
 server:
   port: 30500
   servlet:
-    context-path: /api/v1/scheduling
+    context-path: /api/v2/scheduling
 spring:
   application:
     name: service-api-scheduling

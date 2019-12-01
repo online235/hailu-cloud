@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "service-api-basic")
 public interface BasicFeignClient {
 
-    @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_BASIC + "/uuid/create")
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_BASIC + "/uuid/create")
     ApiResponse<Long> uuid();
 
-    @GetMapping(Constant.API_VERSION_V1 + Constant.API_NAME_BASIC + "/sms/send/free")
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_BASIC + "/sms/send/free")
     ApiResponse send( @RequestParam("phone") String phone,@RequestParam("message") String message);
 }

@@ -1,7 +1,7 @@
 server:
   port: 30100
   servlet:
-    context-path: /api/v1/admin
+    context-path: /api/v2/admin
 spring:
   application:
     name: service-api-admin

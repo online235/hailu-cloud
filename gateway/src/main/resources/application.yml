@@ -2,3 +2,5 @@ spring:
   profiles:
     active: dev
     include: router,common,auth-filter
+
+api-version: /api/v2

@@ -117,11 +117,13 @@ public final class Constant {
     // region 版本&服务名称
 
     public static final String API_VERSION_V1 = "/api/v1";
+    public static final String API_VERSION_V2 = "/api/v2";
     public static final String API_NAME_BASIC = "/basic";
     public static final String API_NAME_ADMIN = "/admin";
     public static final String API_NAME_AUTH = "/auth";
     public static final String API_NAME_PAYMENT = "/payment";
     public static final String API_NAME_MALL = "/mall";
+    public static final String API_VERSION = API_VERSION_V2;
 
     // endregion
 

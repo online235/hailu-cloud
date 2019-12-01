@@ -17,41 +17,45 @@ public interface MallFeignClient {
 
     /**
      * 根据UserId获取用户信息
+     *
      * @param userId
      * @return
      */
-    @GetMapping(Constant.API_VERSION_V1 + "/mall/api/user/findById")
-    ApiResponse<UserInfo> findById(@RequestParam(value = "userId")String userId);
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/api/user/findById")
+    ApiResponse<UserInfo> findById(@RequestParam(value = "userId") String userId);
 
     /**
      * 更改会员信息的商户状态
+     *
      * @param userId
      * @param merchantType
      * @param superiorMember
      * @param cityId
      */
-    @PostMapping(Constant.API_VERSION_V1 + "/mall/api/user/editMerchantTypeAndSuperiorMember")
+    @PostMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/api/user/editMerchantTypeAndSuperiorMember")
     void editMerchantTypeAndSuperiorMember(
             @RequestParam("userId") String userId,
             @RequestParam("merchantType") int merchantType,
-            @RequestParam("superiorMember")String superiorMember,
-            @RequestParam("cityId")Long cityId
+            @RequestParam("superiorMember") String superiorMember,
+            @RequestParam("cityId") Long cityId
     );
 
     /**
      * 服务商分销
+     *
      * @param userInfo
      * @param money
      */
-    @PostMapping(Constant.API_VERSION_V1 +"/mall/ledger/editInvitationProvider")
+    @PostMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/ledger/editInvitationProvider")
     void editInvitationProvider(@RequestBody UserInfo userInfo,
-                                       @RequestParam(value = "money") BigDecimal money);
+                                @RequestParam(value = "money") BigDecimal money);
 
     /**
      * 获取购买服务商价格
+     *
      * @param chooseCityId
      * @return
      */
-    @GetMapping(Constant.API_VERSION_V1 +Constant.API_NAME_MALL+"/api/user/findPoviderPrice")
-    ApiResponse<Integer> findPoviderPrice(@RequestParam("chooseCityId")Long chooseCityId);
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/api/user/findPoviderPrice")
+    ApiResponse<Integer> findPoviderPrice(@RequestParam("chooseCityId") Long chooseCityId);
 }
