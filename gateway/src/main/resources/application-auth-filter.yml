@@ -24,7 +24,10 @@ mapping:
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/payment/callbackWechat
         - ${api-version}/xinan/payment/callbackWechatHl
-        - /api/v1/xinan/nation
+        - ${api-version}/xinan/nation
+        # 商户接口
+        - ${api-version}/merchant/life-circle
+        - ${api-version}/merchant/app/merchantLogin
         # 商城接口
         - ${api-version}/mall/payment/callback/weixin
         - ${api-version}/mall/api/capacity
@@ -45,10 +48,6 @@ mapping:
         - ${api-version}/mall/api/mall/helpCentre
         - ${api-version}/mall/api/mall/allQuestionsByGoodsId
         - ${api-version}/mall/api/mall/goodsAllEevaluate
-        - ${api-version}/merchant/life-circle
-        - ${api-version}/merchant/app/merchantLogin
-        - ${api-version}/admin/ManagementType
-
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
