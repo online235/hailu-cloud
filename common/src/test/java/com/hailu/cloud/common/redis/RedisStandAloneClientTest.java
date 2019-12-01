@@ -3,10 +3,12 @@ package com.hailu.cloud.common.redis;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
+@Disabled
 @DisplayName("redis功能测试")
 public class RedisStandAloneClientTest {
 

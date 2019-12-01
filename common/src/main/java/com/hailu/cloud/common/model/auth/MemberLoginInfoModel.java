@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MemberLoginInfoModel {
+public class MemberLoginInfoModel extends LoginModel {
 
     /**
      * 用户ID
@@ -52,15 +52,5 @@ public class MemberLoginInfoModel {
      * 登录名称
      */
     private String loginName;
-
-    /**
-     * access token
-     */
-    private String accessToken;
-
-    /**
-     * refresh token
-     */
-    private String refreshToken;
 
 }

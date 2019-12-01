@@ -1,4 +1,4 @@
-package com.hailu.cloud.common.util;
+package com.hailu.cloud.common.utils;
 
 /**
  * Created by somebody on 2016/7/7.

@@ -11,7 +11,7 @@ import java.util.List;
  * @author zhijie
  */
 @Data
-public class AdminLoginInfoModel {
+public class AdminLoginInfoModel extends LoginModel {
 
     /**
      * 主键ID
@@ -47,16 +47,6 @@ public class AdminLoginInfoModel {
      * 头像，预留
      */
     private String avatar;
-
-    /**
-     * access token
-     */
-    private String accessToken;
-
-    /**
-     * refresh token
-     */
-    private String refreshToken;
 
     /**
      * 拥有的菜单

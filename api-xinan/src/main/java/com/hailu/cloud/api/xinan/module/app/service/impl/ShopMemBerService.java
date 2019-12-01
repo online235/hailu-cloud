@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.xinan.module.app.service.impl;
 
-import com.hailu.cloud.api.xinan.feigns.AuthFeignClient;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.common.constant.Constant;
@@ -9,6 +10,7 @@ import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
+import com.hailu.cloud.common.utils.RedisCacheUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +35,6 @@ public class ShopMemBerService {
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
 
-    @Autowired
-    private AuthFeignClient authFeignClient;
-
     /**
      * 根据memberid拿到用户信息
      *
@@ -58,6 +57,8 @@ public class ShopMemBerService {
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         shopMember.setUserId(loginInfo.getUserId());
         memberMapper.updateByPrimaryKeySelective(shopMember);
+        BeanUtil.copyProperties(shopMember, loginInfo, CopyOptions.create().ignoreNullValue());
+        RedisCacheUtils.updateUserInfo(redisStandAloneClient, loginInfo);
     }
 
     public boolean exists(String phone) {
@@ -72,7 +73,7 @@ public class ShopMemBerService {
      * @param addtime
      * @return
      */
-    public void AddLitemallUser(String phone, long addtime) {
+    public void addLitemallUser(String phone, long addtime) {
         ShopMember userInfo = new ShopMember();
         userInfo.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
         userInfo.setLoginName(phone);
@@ -122,7 +123,7 @@ public class ShopMemBerService {
         }
 
         // 注册账号
-        AddLitemallUser(phone,System.currentTimeMillis());
+        addLitemallUser(phone,System.currentTimeMillis());
     }
 
 }

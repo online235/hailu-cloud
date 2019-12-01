@@ -3,6 +3,7 @@ package com.hailu.cloud.common.redis;
 import com.alibaba.fastjson.JSON;
 import com.hailu.cloud.common.fill.DictLoader;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
+@Disabled
 @DisplayName("字典填充测试")
 public class DictLoaderTest {
 
