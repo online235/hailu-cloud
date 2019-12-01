@@ -9,6 +9,7 @@ import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationRes
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreAlbumService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -40,6 +41,9 @@ public class McStoreInformationController {
 
     @Resource
     private McStoreAlbumService mcStoreAlbumService;
+
+    @Autowired
+    private BasicFeignClient uuidFeignClient;
 
 
     @ApiOperation(value = "更改信息店铺信息", notes = "<prep>" +
@@ -271,6 +275,7 @@ public class McStoreInformationController {
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
         for (int i = 0; i < albumUrls.length; i++) {
             McStoreAlbum mcStoreAlbum = new McStoreAlbum();
+            mcStoreAlbum.setId(uuidFeignClient.uuid().getData());
             mcStoreAlbum.setStoreId(storeId);
             mcStoreAlbum.setAlbumUrl(albumUrls[i]);
             mcStoreAlbumList.add(mcStoreAlbum);
