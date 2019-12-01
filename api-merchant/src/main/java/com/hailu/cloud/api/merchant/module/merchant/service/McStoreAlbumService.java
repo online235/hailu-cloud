@@ -50,5 +50,9 @@ public class McStoreAlbumService {
         mcStoreAlbumMapper.deleteById(id);
     }
 
+    public void  insertStoreAlbumList(Object parameter){
+        mcStoreAlbumMapper.insertStoreAlbumList(parameter);
+    }
+
 
 }

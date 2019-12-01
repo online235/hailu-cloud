@@ -69,6 +69,20 @@
         </trim>
     </insert>
 
+    <!-- 批量插入 -->
+    <insert id="insertStoreAlbumList">
+        insert into mc_store_album( id,
+        store_id,
+        album_url,
+        create_time,
+        update_time)
+        values
+        <foreach collection="mcStoreAlbumList" item="item" index="index" separator=",">
+            (#{item.id}, #{item.storeId},#{item.albumUrl},now(),now())
+        </foreach>
+    </insert>
+
+
 
     <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">
         update mc_store_album

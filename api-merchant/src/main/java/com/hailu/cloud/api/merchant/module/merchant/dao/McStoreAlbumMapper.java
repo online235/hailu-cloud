@@ -18,7 +18,12 @@ public interface McStoreAlbumMapper {
 
     int updateByPrimaryKey(McStoreAlbum mcStoreAlbum);
 
-
+    /**
+     * 批量插入
+     * @param parameter
+     * @return
+     */
+    int insertStoreAlbumList(Object parameter);
 
     List<McStoreAlbum> findListByParam(Object parameter);
 
