@@ -12,12 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Max;
 import java.text.ParseException;
 
 @RestController
@@ -50,7 +48,10 @@ public class MultiIndustryOrderController {
             @ApiImplicitParam(name = "state", value = "订单状态(全部-0、未完成-1、已完成-2)",  required = true,  paramType = "query")
     })
     @GetMapping("/userQueryOrder")
-    public Object findOrderListByMemberId(Integer page ,Integer size,Integer state){
+    public Object findOrderListByMemberId(@RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
+                                          @Max(value = 200, message = "每页最多显示200条数据")
+                                          @RequestParam(value = "size", defaultValue = "20", required = false) Integer size,
+                                          Integer state){
         return orderService.findOrderListByMemberId(page, size,state);
     }
 
@@ -73,12 +74,16 @@ public class MultiIndustryOrderController {
             "    'stateDisPlay': '未完成',                                   //订单状态(中文)\n" +
             "    'orderTime': '2019-11-30 19:16:43'                         //下单时间\n" +
             "    'defaultHead': 'null'                                      //店铺头像\n" +
+            "    'businessState': 'null'                                    //营业状态(1-营业中，2-休息中)\n" +
+            "    'businessStateDisPlay': 'null'                             //营业状态\n" +
+            "    'openingTime': 'null'                                      //开放时间\n" +
+            "    'closingTime': 'null'                                      //关闭时间\n" +
             "  }\n" +
             "}" +
             "</pre>")
     @ApiImplicitParam(name = "id", value = "编号", required = true,  paramType = "query")
     @GetMapping("/orderDetails")
-    public Object findOrderListById(Long id){
+    public McOrderModel findOrderListById(Long id){
         return orderService.selectDefaultHead(id);
     }
 }

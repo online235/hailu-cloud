@@ -44,10 +44,10 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
 
-        boolean boo = StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay());
+        /*boolean boo = StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay());
         if (!boo){
             throw new BusinessException("店铺休息中");
-        }
+        }*/
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         String num = String.valueOf(basicFeignClient.uuid().getData());
         record.setMemberId(loginInfo.getUserId());

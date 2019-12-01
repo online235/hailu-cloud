@@ -12,7 +12,7 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="selectDefaultHead" resultType="com.hailu.cloud.api.mall.module.multiindustry.model.McOrderModel" parameterType="java.lang.Long" >
-    select mo.*,msi.default_head from mc_order mo INNER JOIN mc_store_information msi ON mo.store_id = msi.id
+    select mo.*,msi.default_head,msi.business_state,msi.opening_time,msi.closing_time from mc_order mo INNER JOIN mc_store_information msi ON mo.store_id = msi.id
     where mo.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
