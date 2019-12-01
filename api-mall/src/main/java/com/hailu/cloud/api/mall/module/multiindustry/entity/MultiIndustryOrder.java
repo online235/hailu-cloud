@@ -78,7 +78,7 @@ public class MultiIndustryOrder implements Serializable {
 
 
     @DictName(code = "ORDER_STATUS", joinField = "state")
-    private Integer stateDisPlay;
+    private String stateDisPlay;
 
     /**
      * 下单时间

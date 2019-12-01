@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.dao;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McOrderModel;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 
@@ -36,6 +37,12 @@ public interface MultiIndustryOrderMapper {
      *
      * @mbggenerated 2019-11-25
      */
+    McOrderModel selectDefaultHead(Long id);
+
+    /**
+     *
+     * @mbggenerated 2019-11-25
+     */
     int updateByPrimaryKeySelective(MultiIndustryOrder record);
 
     /**
@@ -43,5 +50,5 @@ public interface MultiIndustryOrderMapper {
      * @param memberId
      * @return
      */
-    List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId);
+    List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId,@Param("state")   Integer state);
 }

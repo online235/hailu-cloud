@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.MultiIndustryOrderMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McOrderModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.MultiIndustryOrderService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.constant.Constant;
@@ -39,7 +40,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
     private StoreInformationService storeInformationService;
 
     @Override
-    public MultiIndustryOrder insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException {
+    public McOrderModel insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException {
 
         StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
 
@@ -59,19 +60,19 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
         record.setState(1);
         record.setPurchaseQuantity(1L);
         multiIndustryOrderMapper.insertSelective(record);
-        return selectByPrimaryKey(Long.parseLong(num));
+        return selectDefaultHead(Long.parseLong(num));
     }
 
     @Override
-    public MultiIndustryOrder selectByPrimaryKey(Long id) {
-        return multiIndustryOrderMapper.selectByPrimaryKey(id);
+    public McOrderModel selectDefaultHead(Long id) {
+        return multiIndustryOrderMapper.selectDefaultHead(id);
     }
 
     @Override
-    public PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(HttpServletRequest request , Integer page , Integer size) {
+    public PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(Integer page , Integer size,Integer state) {
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         Page pageData = PageHelper.startPage(page,size);
-        List<MultiIndustryOrder> orders = multiIndustryOrderMapper.findOrderListByMemberId(loginInfo.getUserId());
+        List<MultiIndustryOrder> orders = multiIndustryOrderMapper.findOrderListByMemberId(loginInfo.getUserId(),state);
         return new PageInfoModel(pageData.getPages(), pageData.getTotal(), orders);
     }
 }

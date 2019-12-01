@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.service;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McOrderModel;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 
@@ -15,19 +16,18 @@ public interface MultiIndustryOrderService {
      * @param record
      * @return
      */
-    MultiIndustryOrder insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException;
+    McOrderModel insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException;
 
 
     /**
      * 查询订单
      * @mbggenerated 2019-11-25
      */
-    MultiIndustryOrder selectByPrimaryKey(Long id);
+    McOrderModel selectDefaultHead(Long id);
 
     /**
      * 根据用户编号查询多行业订单
-     * @param request
      * @return
      */
-    PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(HttpServletRequest request, Integer page , Integer size);
+    PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(Integer page , Integer size,Integer state);
 }

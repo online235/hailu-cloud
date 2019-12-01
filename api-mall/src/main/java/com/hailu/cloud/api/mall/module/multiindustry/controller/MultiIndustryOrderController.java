@@ -2,6 +2,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McOrderModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.MultiIndustryOrderService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +38,7 @@ public class MultiIndustryOrderController {
 
     })
     @PostMapping("/placeAnOrder")
-    public MultiIndustryOrder addOrder(MultiIndustryOrder order, HttpServletRequest request) throws BusinessException, ParseException {
+    public McOrderModel addOrder(MultiIndustryOrder order, HttpServletRequest request) throws BusinessException, ParseException {
         return orderService.insertSelective(order, request);
     }
 
@@ -44,11 +46,12 @@ public class MultiIndustryOrderController {
     @ApiOperation(value = "用户查询多行业订单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "第N页", required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "页面大小",  required = true,  paramType = "query")
+            @ApiImplicitParam(name = "size", value = "页面大小",  required = true,  paramType = "query"),
+            @ApiImplicitParam(name = "state", value = "订单状态(全部-0、未完成-1、已完成-2)",  required = true,  paramType = "query")
     })
-    @PostMapping("/userQueryOrder")
-    public Object findOrderListByMemberId(HttpServletRequest request, Integer page ,Integer size){
-        return orderService.findOrderListByMemberId(request, page, size);
+    @GetMapping("/userQueryOrder")
+    public Object findOrderListByMemberId(Integer page ,Integer size,Integer state){
+        return orderService.findOrderListByMemberId(page, size,state);
     }
 
     @ApiOperation(value = "用户查询订单详情", notes = "<pre>" +
@@ -59,8 +62,8 @@ public class MultiIndustryOrderController {
             "    'id': 7319805388471298,                                    //编号\n" +
             "    'orderNumber': '2fa97f3da2d64702a3933e73dd54f496',         //订单号\n" +
             "    'totalType': 5819938384165405,                             //总类型(经营类型编号)\n" +
-            "    'memberId': '4f94dca513834de09afd3144aeb2c139',            //商品编号(店铺编号)\n" +
-            "    'storeId': 5444781580777984,                               //用户ID\n" +
+            "    'memberId': '4f94dca513834de09afd3144aeb2c139',            //用户ID\n" +
+            "    'storeId': 5444781580777984,                               //商品编号(店铺编号)\n" +
             "    'productTitle': '虾米',                                     //产品标题\n" +
             "    'memberName': '大红色的发',                                 //会员名称\n" +
             "    'phone': '13129020401',                                    //手机好码\n" +
@@ -69,12 +72,13 @@ public class MultiIndustryOrderController {
             "    'state': 1,                                                //订单状态(未完成-1、已完成-2)\n" +
             "    'stateDisPlay': '未完成',                                   //订单状态(中文)\n" +
             "    'orderTime': '2019-11-30 19:16:43'                         //下单时间\n" +
+            "    'defaultHead': 'null'                                      //店铺头像\n" +
             "  }\n" +
             "}" +
             "</pre>")
     @ApiImplicitParam(name = "id", value = "编号", required = true,  paramType = "query")
-    @PostMapping("/orderDetails")
+    @GetMapping("/orderDetails")
     public Object findOrderListById(Long id){
-        return orderService.selectByPrimaryKey(id);
+        return orderService.selectDefaultHead(id);
     }
 }
