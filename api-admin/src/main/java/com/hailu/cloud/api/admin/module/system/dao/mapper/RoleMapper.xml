@@ -24,13 +24,13 @@
     </update>
 
     <!-- 关联菜单 -->
-    <update id="linkMenus">
+    <insert id="linkMenus">
         insert into lk_role_menu(role_id, menu_id)
         values
         <foreach collection="roleIds" item="item" separator=",">
             (#{id}, #{item})
         </foreach>
-    </update>
+    </insert>
 
     <!-- 变更菜单 -->
     <delete id="unlinkMenus">

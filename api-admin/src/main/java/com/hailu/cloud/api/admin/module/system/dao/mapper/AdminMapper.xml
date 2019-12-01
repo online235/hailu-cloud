@@ -14,13 +14,13 @@
     </update>
 
     <!-- 关联角色 -->
-    <update id="linkRoles">
+    <insert id="linkRoles">
         insert into lk_admin_role(admin_id, role_id)
         values
         <foreach collection="roleIds" item="item" separator=",">
             (#{id}, #{item})
         </foreach>
-    </update>
+    </insert>
 
     <!-- 修改自己的密码 -->
     <update id="changePwd">
