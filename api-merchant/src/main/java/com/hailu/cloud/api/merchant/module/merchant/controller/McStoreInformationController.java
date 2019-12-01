@@ -263,15 +263,16 @@ public class McStoreInformationController {
             @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
             @ApiImplicitParam(name = "albumUrls", value = "相册路径(1,2,3)", allowMultiple = true, paramType = "query", dataType = "String", required = true)
     })
-    public void submitStoreMoreAlbumUrls(@NotNull @RequestParam(value = "storeId") Long storeId, String[] albumUrl) throws BusinessException {
+    public void submitStoreMoreAlbumUrls(@NotNull @RequestParam(value = "storeId") Long storeId, String[] albumUrls) throws BusinessException {
 
-        if (storeId == null || albumUrl == null) {
+        if (storeId == null || albumUrls.length <= 0) {
             throw new BusinessException("参数不能为空！");
         }
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
-        for (int i = 0; i < albumUrl.length; i++) {
+        for (int i = 0; i < albumUrls.length; i++) {
             McStoreAlbum mcStoreAlbum = new McStoreAlbum();
-            mcStoreAlbum.setAlbumUrl(albumUrl[i]);
+            mcStoreAlbum.setStoreId(storeId);
+            mcStoreAlbum.setAlbumUrl(albumUrls[i]);
             mcStoreAlbumList.add(mcStoreAlbum);
         }
         Map map = new HashMap();
