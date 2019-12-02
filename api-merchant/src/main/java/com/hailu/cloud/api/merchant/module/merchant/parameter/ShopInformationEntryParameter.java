@@ -28,14 +28,12 @@ public class ShopInformationEntryParameter {
     @NotEmpty
     private String phone;
 
-    @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id", required = true)
-    @NotEmpty
-    private Long firstManagementTypeId;
-
-
-    @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id", required = true)
-    @NotEmpty
-    private Long secondManagementTypeId;
+//    @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id", required = true)
+//    private Long firstManagementTypeId;
+//
+//
+//    @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id", required = true)
+//    private Long secondManagementTypeId;
 
 
     @ApiParam(name = "provinceCode", value = "省的code值", required = true)

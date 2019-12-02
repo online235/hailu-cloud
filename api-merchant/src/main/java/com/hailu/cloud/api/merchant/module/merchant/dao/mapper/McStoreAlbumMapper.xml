@@ -82,6 +82,13 @@
         </foreach>
     </insert>
 
+    <!--批量删除-->
+    <delete id="deleteByIdList" parameterType="arraylist">
+        delete from mc_store_album where
+        <foreach collection="idList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 
 
     <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum">

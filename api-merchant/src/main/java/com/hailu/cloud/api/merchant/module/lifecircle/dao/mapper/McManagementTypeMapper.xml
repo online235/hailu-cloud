@@ -41,6 +41,9 @@
         <if test="parentId != null" >
             and parent_id = #{parentId}
         </if>
+        <if test="isLifeCircle != null">
+            and management_name != "百货购物"
+        </if>
         <if test="parentIdIsNull != null" >
             and (parent_id is null OR parent_id = 0)
         </if>

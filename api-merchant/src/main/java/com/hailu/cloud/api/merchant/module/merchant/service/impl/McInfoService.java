@@ -2,7 +2,9 @@ package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import com.hailu.cloud.api.merchant.module.lifecircle.dao.McUserMapper;
+import com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.McUser;
+import com.hailu.cloud.api.merchant.module.lifecircle.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McEntryinFormationService;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper;
@@ -47,6 +49,9 @@ public class McInfoService {
     @Resource
     private McStoreInformationService mcStoreInformationService;
 
+    @Resource
+    private McManagementTypeService mcManagementTypeService;
+
     /**
      * 密码加密的key
      */
@@ -63,6 +68,7 @@ public class McInfoService {
 
         String mcNumberId = mcUserService.insertSelective(shopInformationEntryParameter.getLandingAccount(), shopInformationEntryParameter.getLandingPassword(), shopInformationEntryParameter.getMoli(), shopInformationEntryParameter.getCode(), accountType);
 
+        McManagementType mcManagementType = mcManagementTypeService.findObjectByParentName("百货购物");
         McEntryInformation mcEntryInformation = new McEntryInformation();
         BeanUtils.copyProperties(shopInformationEntryParameter, mcEntryInformation);
         if (mcEntryInformation == null) {
@@ -80,11 +86,13 @@ public class McInfoService {
         mcEntryInformation.setUpdatedat(time);
         mcEntryInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
         mcEntryInformation.setMcNumberId(mcNumberId);
+        mcEntryInformation.setFirstManagementTypeId(mcManagementType.getManagementId());
         mcEntryinFormationMapper.insertSelective(mcEntryInformation);
         McStoreInformation mcStoreInformation = new McStoreInformation();
         BeanUtils.copyProperties(mcEntryInformation, mcStoreInformation);
         mcStoreInformation.setStoreTotalType(mcEntryInformation.getFirstManagementTypeId());
         mcStoreInformation.setStoreSonType(mcEntryInformation.getSecondManagementTypeId());
+        mcStoreInformation.setStoreTotalType(mcManagementType.getManagementId());
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }

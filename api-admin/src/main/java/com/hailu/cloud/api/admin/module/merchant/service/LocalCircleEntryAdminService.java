@@ -34,7 +34,7 @@ public class LocalCircleEntryAdminService {
     /**
      * 查询生活圈入驻信息列表
      */
-    public Object selectLocalCircleEntryList(LocalCircleListParameter localCircleListParameter) {
+    public PageInfoModel<List<LocalCircleEntry>> selectLocalCircleEntryList(LocalCircleListParameter localCircleListParameter) {
 
         Page pageData = PageHelper.startPage(localCircleListParameter.getPageNum(), localCircleListParameter.getPageSize());
         List<LocalCircleEntry> result = localCircleEntryAdminMapper.selectMcEntryinFormationList(localCircleListParameter);
@@ -47,7 +47,7 @@ public class LocalCircleEntryAdminService {
      * @param numberId
      * @return
      */
-    public Object selectByPrimaryKey(String numberId){
+    public LocalCircleEntry selectByPrimaryKey(String numberId){
         return localCircleEntryAdminMapper.selectByPrimaryKey(numberId);
     }
 

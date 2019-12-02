@@ -98,7 +98,8 @@ public class AuthServiceImpl implements IAuthService {
         Date accessTokenExpire = DateUtil.offset(current, DateField.HOUR_OF_DAY, 2);
         redisClient.deleteKey(Constant.REDIS_KEY_AUTH_INFO + authInfo.getAccessToken());
         String accessToken = IdUtil.simpleUUID();
-        authInfo.setAccessToken(JwtUtil.createToken(accessToken, 0));
+        int loginType = decodedJwt.getClaim(Constant.JWT_LOGIN_TYPE).asInt();
+        authInfo.setAccessToken(JwtUtil.createToken(accessToken, loginType));
         authInfo.setAccessTokenExpire(accessTokenExpire.getTime());
         AuthInfoParseTool.updateAuthInfoToken(authInfo, authInfo.getAccessToken(), null);
 

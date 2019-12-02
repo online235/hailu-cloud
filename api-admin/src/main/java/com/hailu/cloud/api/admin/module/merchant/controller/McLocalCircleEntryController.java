@@ -6,6 +6,7 @@ import com.hailu.cloud.api.admin.module.merchant.parmeter.LocalCircleListParamet
 import com.hailu.cloud.api.admin.module.merchant.parmeter.UpdateLocalCircleEntryParameter;
 import com.hailu.cloud.api.admin.module.merchant.service.LocalCircleEntryAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,6 +21,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @Author: zhangmugui
@@ -81,7 +83,7 @@ public class McLocalCircleEntryController {
             "}" +
             "</pre>")
     @PostMapping("localCircleEntryList")
-    public Object selectMcEntryinFormationList(@ModelAttribute LocalCircleListParameter localCircleListParameter, HttpServletRequest request) {
+    public PageInfoModel<List<LocalCircleEntry>> selectMcEntryinFormationList(@ModelAttribute LocalCircleListParameter localCircleListParameter, HttpServletRequest request) {
 
         return localCircleEntryAdminService.selectLocalCircleEntryList(localCircleListParameter);
 
@@ -131,7 +133,7 @@ public class McLocalCircleEntryController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "编号ID", required = true, paramType = "query")
     })
-    public Object selectByPrimaryKey(
+    public LocalCircleEntry selectByPrimaryKey(
             @NotBlank(message = "编号不能为空") String numberId) {
 
         return localCircleEntryAdminService.selectByPrimaryKey(numberId);

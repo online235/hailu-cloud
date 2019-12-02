@@ -1,15 +1,16 @@
 package com.hailu.cloud.api.merchant.module.lifecircle.controller;
 
 
+import com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.lifecircle.parameter.RegisterInformation;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.LocalCircleEntryService;
-import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,8 +46,6 @@ public class LocalCircleEntryAppController {
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
 
-    @Resource
-    private McUserService mcUserService;
 
 
     @ApiOperation(value = "提交审核(商家注册以及入驻)", notes = "<pre>" +
@@ -134,11 +134,17 @@ public class LocalCircleEntryAppController {
             "}\n" +
             "</pre>")
     @PostMapping("businessType")
-    @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query",dataType = "Long")
-    public Object findGoodsList(Long parentId) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query",dataType = "Long"),
+            @ApiImplicitParam(name = "mcType", value = "入驻商户类型", paramType = "query",dataType = "int")
+    })
+    public List<McManagementType> findGoodsList(Long parentId,Integer mcType) {
 
         Map<String, Object> map = new HashMap<>(4);
         if (parentId == null) {
+            if(mcType == 1){
+                map.put("isLifeCircle",1);//生活圈过滤百货经营类型
+            }
             map.put("parentIdIsNull", 1);
             return mcManagementTypeService.findListByParam(map);
         } else {

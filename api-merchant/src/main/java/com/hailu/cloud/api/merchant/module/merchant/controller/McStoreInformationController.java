@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
@@ -229,7 +230,8 @@ public class McStoreInformationController {
             throw new BusinessException("店铺id不能为空！");
         }
         Map<String, Object> map = new HashMap<>(4);
-        return mcStoreAlbumService.findListByParam(map.put("storeId", storeId));
+        map.put("storeId", storeId);
+        return mcStoreAlbumService.findListByParam(map);
 
     }
 
@@ -271,6 +273,8 @@ public class McStoreInformationController {
 
         if (storeId == null || albumUrls.length <= 0) {
             throw new BusinessException("参数不能为空！");
+        } else if (albumUrls.length > 5) {
+            throw new BusinessException("图片个数超过5张！");
         }
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
         for (int i = 0; i < albumUrls.length; i++) {
@@ -282,7 +286,9 @@ public class McStoreInformationController {
         }
         Map map = new HashMap();
         map.put("mcStoreAlbumList", mcStoreAlbumList);
+        mcStoreAlbumService.deleteStoreAlbumByStoreId(storeId);//删除之前数据
         mcStoreAlbumService.insertStoreAlbumList(map);
+
     }
 
 

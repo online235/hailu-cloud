@@ -25,6 +25,14 @@ public interface McStoreAlbumMapper {
      */
     int insertStoreAlbumList(Object parameter);
 
+
+    /**
+     * 批量删除
+     * @param parameter
+     * @return
+     */
+    int deleteByIdList(Object parameter);
+
     List<McStoreAlbum> findListByParam(Object parameter);
 
 

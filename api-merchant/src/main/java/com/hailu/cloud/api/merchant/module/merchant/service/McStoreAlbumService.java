@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class McStoreAlbumService {
@@ -52,6 +52,34 @@ public class McStoreAlbumService {
 
     public void  insertStoreAlbumList(Object parameter){
         mcStoreAlbumMapper.insertStoreAlbumList(parameter);
+    }
+
+
+    /**
+     * 根据店铺id批量删除相册数据
+     */
+    public void deleteStoreAlbumByStoreId(Long storeId){
+
+        Map map = new HashMap();
+        map.put("storeId",storeId);
+        List<McStoreAlbum> mcStoreAlbumList = mcStoreAlbumMapper.findListByParam(map);
+        if(mcStoreAlbumList.size()>0){
+            List<Long> idList = new ArrayList<>();
+            for(McStoreAlbum mcStoreAlbum:mcStoreAlbumList){
+                idList.add(mcStoreAlbum.getId());
+            }
+            map.clear();
+            map.put("idList",idList);
+            mcStoreAlbumMapper.deleteByIdList(map);
+        }
+    }
+
+
+    /**
+     * 批量删除
+     */
+    public void deleteByIds(Object parameter){
+        mcStoreAlbumMapper.deleteByIdList(parameter);
     }
 
 
