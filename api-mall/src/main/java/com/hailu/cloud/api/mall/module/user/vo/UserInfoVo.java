@@ -3,6 +3,8 @@ package com.hailu.cloud.api.mall.module.user.vo;
 import lombok.Data;
 
 /**
+ * 后期要删掉
+ *
  * @author 刘柱栋
  * @Description 用户接口信息
  * @date 2016/6/9 21:46
@@ -10,6 +12,7 @@ import lombok.Data;
  * @since v1.0
  */
 @Data
+@Deprecated
 public class UserInfoVo {
 
     private static final long serialVersionUID = -2485672484540185587L;

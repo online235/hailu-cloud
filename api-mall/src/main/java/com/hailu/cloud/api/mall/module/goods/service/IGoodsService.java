@@ -9,6 +9,8 @@ import com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods;
 import com.hailu.cloud.api.mall.module.goods.vo.AskReplyAnswerVo;
 import com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo;
 import com.hailu.cloud.api.mall.module.goods.vo.AskReplyVo;
+import com.hailu.cloud.api.mall.module.goods.vo.GoodsAndGoodsSpecVo;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 
 import java.util.List;
 import java.util.Map;
@@ -111,12 +113,13 @@ public interface IGoodsService {
      */
     GoodsInfoTo verifyGoodsInfo(Integer goodsId, Integer goodsSpecId, Integer type, String userId);
 
-//    /**
-//     * @Author: QiuFeng:WANG
-//     * @Description: 查询推广产品
-//     * @Date: 18:01 2019/11/4 0004
-//     */
-//    ResponseData findGoodsList(String userid, Integer page, Integer size);
+    /**
+     * @Author: QiuFeng:WANG
+     * @Description: 查询推广产品
+     * @Date: 18:01 2019/11/4 0004
+     * @return
+     */
+    PageInfoModel<List<GoodsAndGoodsSpecVo>> findGoodsList(String userid, Integer page, Integer size);
 
 
 }

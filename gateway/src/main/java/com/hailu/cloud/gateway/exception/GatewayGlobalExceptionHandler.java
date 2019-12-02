@@ -1,6 +1,7 @@
 package com.hailu.cloud.gateway.exception;
 
 import com.hailu.cloud.common.response.ApiResponse;
+import com.hailu.cloud.common.response.ApiResponseEnum;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -118,7 +119,15 @@ public class GatewayGlobalExceptionHandler implements ErrorWebExceptionHandler {
      */
     protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
         ApiResponse result = exceptionHandlerResult.get();
-        return ServerResponse.status(HttpStatus.OK)
+        HttpStatus status;
+        if( result.getCode() == ApiResponseEnum.NOT_FOUND.getResponseCode()){
+            status = HttpStatus.NOT_FOUND;
+        }else if(result.getCode() == ApiResponseEnum.SERVER_ERROR.getResponseCode()){
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }else{
+            status = HttpStatus.BAD_REQUEST;
+        }
+        return ServerResponse.status(status)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(result));
     }

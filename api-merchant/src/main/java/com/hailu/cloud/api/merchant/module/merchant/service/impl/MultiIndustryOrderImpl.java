@@ -6,14 +6,11 @@ import com.hailu.cloud.api.merchant.module.merchant.dao.MultiIndustryOrderMapper
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.MultiIndustryOrder;
 import com.hailu.cloud.api.merchant.module.merchant.service.MultiIndustryOrderService;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
-import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service

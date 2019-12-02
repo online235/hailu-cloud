@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.mall.module.goods.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
@@ -16,6 +18,9 @@ import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
 import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.util.Const;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.page.PageInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -405,23 +410,25 @@ public class GoodsServiceImpl implements IGoodsService {
         return map10;
     }
 
-//    /**
-//     * 查询推广产品
-//     *
-//     * @return
-//     */
-//    @Override
-//    public ResponseData findGoodsList(String userid, Integer page, Integer size) {
-//        //查询商户类型
-//        UserInfo userInfo = xinAnShopMemBerService.selectByPrimaryByuserId(userid);
-//        if (userInfo.getMerchantType() == 0) {
-//            return ResponseUtil.ok();
-//        }
-//        //添加分页
-//        PageHelper.startPage(page, size);
-//        List<GoodsAndGoodsSpecVo> goods = goodsDao.findGoodsList();
-//        goods.forEach(vo -> vo.setCommission(computeCommission.compute(vo.getCommission())));
-//        PageInfo pageInfo = new PageInfo(goods);
-//        return ResponseUtil.ok(pageInfo);
-//    }
+    /**
+     * 查询推广产品
+     *
+     * @return
+     */
+    @Override
+    public PageInfoModel<List<GoodsAndGoodsSpecVo>> findGoodsList(String userid, Integer page, Integer size) {
+        MemberLoginInfoModel loginInfoModel = null;
+        if( RequestUtils.getAuthInfo().getLoginType() == 0 ){
+            loginInfoModel = RequestUtils.getMemberLoginInfo();
+            if( loginInfoModel.getMerchantType() == 0 ){
+                return null;
+            }
+        }
+        //添加分页
+        Page pageData = PageHelper.startPage(page, size);
+        List<GoodsAndGoodsSpecVo> goods = goodsDao.findGoodsList();
+        MemberLoginInfoModel finalLoginInfoModel = loginInfoModel;
+        goods.forEach(vo -> vo.setCommission(computeCommission.compute(vo.getCommission(), finalLoginInfoModel.getMerchantType())));
+        return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), goods);
+    }
 }
