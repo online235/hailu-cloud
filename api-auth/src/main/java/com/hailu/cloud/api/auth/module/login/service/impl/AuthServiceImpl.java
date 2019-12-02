@@ -24,6 +24,7 @@ import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -362,7 +363,11 @@ public class AuthServiceImpl implements IAuthService {
             public void extendValidate() throws BusinessException {
                 String pwdMd5 = SecureUtil.sha256(pwd + "&key=" + signKey);
                 if (!pwdMd5.equals(loginInfoModel.getLandingpassword())) {
-                    throw new BusinessException("登录密码不正确");
+                    // 判断旧加密方式
+                    String oldPwdMd5 = DigestUtils.md5Hex(DigestUtils.sha1("passwd=" + pwd + "&key=79AA9270FD5D4B28A02E616C61B7D7AB"));
+                    if (!oldPwdMd5.equals(loginInfoModel.getLandingpassword())) {
+                        throw new BusinessException("登录密码不正确");
+                    }
                 }
             }
 
