@@ -18,6 +18,8 @@ mapping:
         - ${api-version}/auth
         # 支付接口
         - ${api-version}/payment
+        # 后台接口
+        - ${api-version}/admin
         # 基础服务接口
         - ${api-version}/basic
         # 心安接口

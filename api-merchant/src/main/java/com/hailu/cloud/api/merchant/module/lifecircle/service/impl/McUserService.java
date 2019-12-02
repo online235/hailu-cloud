@@ -83,6 +83,7 @@ public class McUserService {
         mcUser.setLandingAccount(landingAccount);
         String password = SecureUtil.sha256(landingPassword + "&key=" + signKey);
         mcUser.setNumberId(numberId);
+        mcUser.setPhone(phone);
         mcUser.setLandingPassword(password);
         mcUser.setNetworkName(mcUser.getLandingAccount());
         mcUser.setAccountType(accountType);
