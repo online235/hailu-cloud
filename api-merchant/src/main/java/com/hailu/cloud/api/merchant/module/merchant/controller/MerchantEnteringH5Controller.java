@@ -4,6 +4,7 @@ import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.MerchantEnteringService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -70,11 +71,11 @@ public class MerchantEnteringH5Controller {
             @ApiImplicitParam(name="idcardimgy", value = "证件照反面" , required = true, paramType = "query")
     })
     public void addMcEntryinFormation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
-        MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
+        MerchantUserLoginInfoModel loginInfo = RequestUtils.getMerchantUserLoginInfo();
         if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }
-        mcEntryinFormation.setMcNumberId(loginInfo.getUserId());
+        mcEntryinFormation.setMcNumberId(loginInfo.getNumberid());
         merchantEnteringService.insertSelective(mcEntryinFormation);
     }
 

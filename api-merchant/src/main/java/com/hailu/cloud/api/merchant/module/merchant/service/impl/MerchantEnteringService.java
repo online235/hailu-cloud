@@ -47,7 +47,7 @@ public class MerchantEnteringService {
         //生成时间戳
         long time = System.currentTimeMillis();
         //生成随机ID
-        String numberid = String.valueOf(uuidFeign.uuid());
+        String numberid = String.valueOf(uuidFeign.uuid().getData());
         mcEntryinFormation.setNumberId(numberid);
         mcEntryinFormation.setCreatedat(time);
         mcEntryinFormation.setUpdatedat(time);
