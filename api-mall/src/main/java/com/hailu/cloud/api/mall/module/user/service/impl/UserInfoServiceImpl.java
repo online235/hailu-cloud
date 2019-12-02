@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.mall.module.user.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.hailu.cloud.api.mall.constant.Constant;
 import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
 import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
@@ -10,11 +11,14 @@ import com.hailu.cloud.api.mall.module.user.vo.RealNameVo;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -51,6 +55,10 @@ public class UserInfoServiceImpl implements IUserInfoService {
 
     @Resource
     private BasicFeignClient smsFeightClient;
+
+    @Resource
+    private RedisStandAloneClient redisClient;
+
 
     /**
      * 密码加密
@@ -245,6 +253,14 @@ public class UserInfoServiceImpl implements IUserInfoService {
         }
         if (isUpdate) {
             userInfoDao.updateUserInfo(user);
+            MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
+            BeanUtils.copyProperties(user,model);
+            // 存储到redis,并设置有效期
+            String refreshTokenRedisKey = com.hailu.cloud.common.constant.Constant.REDIS_KEY_REFRESH_TOKEN_STORE + model.getRefreshToken();
+            String accessTokenRedisKey = com.hailu.cloud.common.constant.Constant.REDIS_KEY_AUTH_INFO + model.getAccessToken();
+            String authJson = JSON.toJSONString(model);
+            redisClient.stringSet(accessTokenRedisKey, authJson, com.hailu.cloud.common.constant.Constant.REDIS_EXPIRE_OF_TWO_HOUR);
+            redisClient.stringSet(refreshTokenRedisKey, authJson, com.hailu.cloud.common.constant.Constant.REDIS_EXPIRE_OF_SEVEN_DAYS);
             return true;
         }
 
