@@ -84,7 +84,7 @@
 
     <!--批量删除-->
     <delete id="deleteByIdList" parameterType="arraylist">
-        delete from mc_store_album where
+        delete from mc_store_album where id in
         <foreach collection="idList" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
