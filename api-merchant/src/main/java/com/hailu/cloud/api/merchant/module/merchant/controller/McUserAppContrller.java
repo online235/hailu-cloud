@@ -1,26 +1,22 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
-import com.hailu.cloud.api.merchant.module.lifecircle.entity.LocalCircleEntry;
-import com.hailu.cloud.api.merchant.module.lifecircle.parameter.RegisterInformation;
-import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @Author: QiuFeng:WANG
@@ -91,8 +87,9 @@ public class McUserAppContrller {
             "  \"serverTime\": 1572339258708\n" +
             "}")
     @PostMapping("register")
-    public void register(@ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter, HttpServletRequest request, BindingResult result) throws Exception {
-
+    public void register(
+            @ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter,
+            BindingResult result) throws Exception {
 
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
@@ -102,11 +99,9 @@ public class McUserAppContrller {
             // 验证码不存在
             throw new BusinessException("无效验证码");
         }
-        mcInfoService.addMcUserAndEntry(shopInformationEntryParameter,2);
+        mcInfoService.addMcUserAndEntry(shopInformationEntryParameter, 2);
 
     }
-
-
 
 
 }

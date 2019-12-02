@@ -66,7 +66,7 @@ public class McInfoService {
     @Transactional(rollbackFor = Exception.class)
     public void addMcUserAndEntry(ShopInformationEntryParameter shopInformationEntryParameter, Integer accountType) throws BusinessException {
 
-        String mcNumberId = mcUserService.insertSelective(shopInformationEntryParameter.getLandingAccount(), shopInformationEntryParameter.getLandingPassword(), shopInformationEntryParameter.getMoli(), shopInformationEntryParameter.getCode(), accountType);
+        String mcNumberId = mcUserService.insertSelective(shopInformationEntryParameter.getLandingAccount(), shopInformationEntryParameter.getLandingPassword(), shopInformationEntryParameter.getMoli(), accountType);
 
         McManagementType mcManagementType = mcManagementTypeService.findObjectByParentName("百货购物");
         McEntryInformation mcEntryInformation = new McEntryInformation();

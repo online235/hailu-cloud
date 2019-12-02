@@ -30,6 +30,7 @@ mapping:
         # 商户接口
         - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin
+        - ${api-version}/merchant/merchant/pc/register
         # 商城接口
         - ${api-version}/mall/payment/callback/weixin
         - ${api-version}/mall/api/capacity

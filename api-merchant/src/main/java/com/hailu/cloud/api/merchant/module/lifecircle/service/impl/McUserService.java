@@ -1,20 +1,15 @@
 package com.hailu.cloud.api.merchant.module.lifecircle.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
-import com.hailu.cloud.api.merchant.feigns.AuthFeignClient;
 import com.hailu.cloud.api.merchant.module.lifecircle.dao.McUserMapper;
 import com.hailu.cloud.api.merchant.module.lifecircle.entity.McUser;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.response.ApiResponse;
-import com.hailu.cloud.common.response.ApiResponseEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
@@ -31,10 +26,6 @@ import java.util.Map;
 public class McUserService {
     @Resource
     private McUserMapper mcUserMapper;
-
-
-    @Autowired
-    private AuthFeignClient authFeignClient;
 
     @Autowired
     private BasicFeignClient uuidFeignClient;
@@ -59,9 +50,9 @@ public class McUserService {
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
-    public String insertSelective(String landingAccount, String landingPassword, String phone, String code, Integer accountType) throws BusinessException {
+    public String insertSelective(String landingAccount, String landingPassword, String phone, Integer accountType) throws BusinessException {
 
-        boolean user = false;
+        boolean user;
         //判断账号是否存在
         user = exists(landingAccount);
         if (user) {

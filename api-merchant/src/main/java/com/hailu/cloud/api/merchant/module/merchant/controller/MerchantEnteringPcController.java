@@ -1,9 +1,13 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
+import com.hailu.cloud.api.merchant.feigns.AuthFeignClient;
 import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import com.hailu.cloud.common.response.ApiResponse;
+import com.hailu.cloud.common.response.ApiResponseEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,6 +36,9 @@ public class MerchantEnteringPcController {
 
     @Autowired
     private McUserService mcUserService;
+
+    @Autowired
+    private AuthFeignClient authFeignClient;
 
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
@@ -82,6 +89,7 @@ public class MerchantEnteringPcController {
             @NotBlank(message = "登陆密码不能为空") String landingpassword,
             @NotBlank(message = "手机号码不能为空") String phone,
             @NotBlank(message = "验证码不能为空") String code) throws Exception {
+
         String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + "1");
         if(!code.equals("1111")) {
             if (!varCode.equals(code)) {
@@ -89,7 +97,12 @@ public class MerchantEnteringPcController {
                 throw new BusinessException("无效验证码");
             }
         }
-        return mcUserService.insertSelective(landingaccount,landingpassword,phone, code,2);
+        mcUserService.insertSelective(landingaccount,landingpassword,phone,2);
+        ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin("1", phone, code);
+        if (loginInfo.getCode() == ApiResponseEnum.SUCCESS.getResponseCode()) {
+            return loginInfo.getData();
+        }
+        throw new BusinessException(loginInfo.getMessage());
     }
 
 
