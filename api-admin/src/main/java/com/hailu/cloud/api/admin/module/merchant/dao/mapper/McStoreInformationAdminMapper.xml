@@ -6,13 +6,13 @@
     <sql id="Base_Column_List">
         id,mc_number_id,shop_name,phone,province_code,city_code,area_code,detail_address,store_details,
         per_capita_price,store_son_type,store_total_type,business_state,closing_time,opening_time,createdat,
-        updatedat,to_examine,week_day,shop_avatar
+        updatedat,to_examine,week_day,default_head
   </sql>
 
     <sql id="Base_where_List">
      #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{detailAddress},
      #{storeDetails},#{perCapitaPrice},#{storeSonType},
-     #{storeTotalType},#{businessState},#{closingTime},#{openingTime},#{createdat},#{updatedat},#{toExamine},#{weekDay},#{shopAvatar}
+     #{storeTotalType},#{businessState},#{closingTime},#{openingTime},#{createdat},#{updatedat},#{toExamine},#{weekDay},#{defaultHead}
   </sql>
 
     <sql id="set_column">
@@ -73,8 +73,8 @@
         <if test="weekDay != null">
             week_day,
         </if>
-        <if test="shopAvatar != null">
-            shop_avatar
+        <if test="defaultHead != null">
+            default_head
         </if>
     </sql>
 
@@ -138,8 +138,8 @@
         <if test="weekDay != null">
             #{weekDay},
         </if>
-        <if test="shopAvatar != null">
-            #{shopAvatar}
+        <if test="defaultHead != null">
+            #{defaultHead}
         </if>
     </sql>
 
@@ -192,8 +192,8 @@
         <if test="weekDay != null">
             week_day = #{weekDay},
         </if>
-        <if test="shopAvatar != null">
-           shop_avatar = #{shopAvatar}
+        <if test="defaultHead != null">
+           default_head = #{defaultHead}
         </if>
     </sql>
 

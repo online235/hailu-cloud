@@ -143,7 +143,7 @@ public class McStoreInformationController {
             "    'message': '请求成功',                   \n" +
             "    'data': {\n" +
             "        'areaCode': 'string',                  //地区code\n" +
-            "        'shopAvatar': 'string',                  //店铺头像\n" +
+            "        'defaultHead': 'string',                  //店铺头像\n" +
             "        'businessState': ''                    // 营业状态(1-营业中，2-休息中)\n  " +
             "        'businessStateDisplay': 0,              //营业状态\n" +
             "        'cityCode': 'string',\n" +
@@ -197,13 +197,13 @@ public class McStoreInformationController {
     @PostMapping("updateStoreInformationAvatar")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-            @ApiImplicitParam(name = "shopAvatar", value = "店铺头像路径", paramType = "query", dataType = "String", required = true)
+            @ApiImplicitParam(name = "defaultHead", value = "店铺头像路径", paramType = "query", dataType = "String", required = true)
     })
-    public void updateStoreInformationAvatar(@NotNull @RequestParam(value = "id") Long id, @RequestParam(value = "shopAvatar") String shopAvatar) {
+    public void updateStoreInformationAvatar(@NotNull @RequestParam(value = "id") Long id, @RequestParam(value = "defaultHead") String defaultHead) {
 
         McStoreInformation mcStoreInformation = new McStoreInformation();
         mcStoreInformation.setId(id);
-        mcStoreInformation.setShopAvatar(shopAvatar);
+        mcStoreInformation.setDefaultHead(defaultHead);
         mcStoreInformation.setUpdatedat(new Date());
         mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
 

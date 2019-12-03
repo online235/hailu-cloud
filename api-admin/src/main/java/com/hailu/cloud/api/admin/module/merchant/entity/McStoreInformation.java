@@ -29,7 +29,7 @@ public class McStoreInformation {
     /**
      * 店铺头像
      */
-    private String shopAvatar;
+    private String defaultHead;
 
     /**
      *店铺名称

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.multiindustry.dao.McStoreAlbumMallMapper">
+
+
+    <sql id="set_column">
+        <if test="id != null">
+            id,
+        </if>
+        <if test="storeId != null">
+            store_id,
+        </if>
+        <if test="albumUrl != null">
+            album_url,
+        </if>
+        <if test="createTime != null">
+            create_time,
+        </if>
+        <if test="updateTime != null">
+            update_time,
+        </if>
+    </sql>
+
+    <sql id="set_where_column">
+
+        <if test="id != null">
+            #{id},
+        </if>
+        <if test="storeId != null">
+            #{storeId},
+        </if>
+        <if test="albumUrl != null">
+            #{albumUrl},
+        </if>
+        <if test="createTime != null">
+            #{createTime},
+        </if>
+        <if test="updateTime != null">
+            #{updateTime},
+        </if>
+    </sql>
+
+    <sql id="update_where_column">
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="storeId != null">
+            store_id = #{storeId},
+        </if>
+        <if test="albumUrl != null">
+            album_url = #{albumUrl},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime},
+        </if>
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into mc_store_album
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="set_column"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="set_where_column"/>
+        </trim>
+    </insert>
+
+    <!-- 批量插入 -->
+    <insert id="insertStoreAlbumList">
+        insert into mc_store_album( id,
+        store_id,
+        album_url,
+        create_time,
+        update_time)
+        values
+        <foreach collection="mcStoreAlbumList" item="item" index="index" separator=",">
+            (#{item.id}, #{item.storeId},#{item.albumUrl},now(),now())
+        </foreach>
+    </insert>
+
+    <!--批量删除-->
+    <delete id="deleteByIdList" parameterType="arraylist">
+        delete from mc_store_album where id in
+        <foreach collection="idList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum">
+        update mc_store_album
+        <set>
+            <include refid="update_where_column"/>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="findListByParam" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum">
+        SELECT
+        id,
+        store_id,
+        album_url,
+        create_time,
+        update_time
+        FROM mc_store_album
+        WHERE 1=1
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+        <if test="albumUrl != null">
+            and album_url = #{albumUrl}
+        </if>
+    </select>
+
+
+    <select id="findObjectById" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum">
+        SELECT
+        id,
+        store_id,
+        album_url,
+        create_time,
+        update_time
+        FROM mc_store_album
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+    </select>
+
+    <delete id="deleteById" parameterType="long">
+    delete from mc_store_album
+    where id = #{id}
+  </delete>
+
+</mapper>

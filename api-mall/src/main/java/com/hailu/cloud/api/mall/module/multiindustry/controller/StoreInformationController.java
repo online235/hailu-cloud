@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 
+import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
@@ -13,9 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/app/multiIndustry")
@@ -27,8 +33,11 @@ public class StoreInformationController {
 
     @Autowired
     private StoreInformationService storeInformationService;
+    @Resource
+    private McStoreAlbumMallService mcStoreAlbumMallService;
 
-    @ApiOperation(value = "店铺查询-分页" , notes = "<pre>" +
+
+    @ApiOperation(value = "店铺查询-分页", notes = "<pre>" +
             "{\n" +
             "  'code': 200,\n" +
             "  'message': '请求成功',\n" +
@@ -61,10 +70,10 @@ public class StoreInformationController {
             "}" +
             "</pre>")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeTotalType", value = "经营父类型ID", required = true,  paramType = "query"),
+            @ApiImplicitParam(name = "storeTotalType", value = "经营父类型ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "storeSonType", value = "经营子类型ID", paramType = "query"),
             @ApiImplicitParam(name = "cityCode", value = "市Id", paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "页面大小",  paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "页面大小", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "第N页", paramType = "query")
     })
     @GetMapping("/shopEnquiry")
@@ -75,9 +84,9 @@ public class StoreInformationController {
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false)
-            Integer size) throws ParseException {
+                    Integer size) throws ParseException {
 
-        return storeInformationService.findStoreInformationList(storeTotalType,storeSonType,cityCode,size,page);
+        return storeInformationService.findStoreInformationList(storeTotalType, storeSonType, cityCode, size, page);
     }
 
     @ApiOperation(value = "店铺详细信息")
@@ -90,5 +99,19 @@ public class StoreInformationController {
 
         return storeInformationService.findStoreInformation(id);
     }
+
+
+    @ApiOperation(value = "获取店铺轮播图接口")
+    @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
+    @GetMapping("/getShopAlbum")
+    public List<McStoreAlbum> getShopAlbum(
+            @NotNull(message = "编号不能为空") Long storeId) throws BusinessException {
+
+        Map<String, Object> map = new HashMap<>(4);
+        map.put("storeId", storeId);
+        return mcStoreAlbumMallService.findListByParam(map);
+
+    }
+
 
 }

@@ -27,7 +27,7 @@ public class McStoreInformationResult {
      * 店铺头像
      */
     @ApiModelProperty(value="店铺头像")
-    private String shopAvatar;
+    private String defaultHead;
 
     /**
      * 商家编号
