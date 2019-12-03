@@ -10,7 +10,7 @@
 
     <!-- 变更账号启用状态 -->
     <update id="updateMenu">
-		update from sys_menu set
+		update sys_menu set
 		menu_name=#{menuName},
 		parent_id=#{parentId},
 		url=#{url},
