@@ -89,7 +89,7 @@ public class StoreInformation implements Serializable {
     /**
      * 营业状态(1-营业中，2-休息中)
      */
-    @ApiModelProperty("业状态(1-营业中，2-休息中)")
+    @ApiModelProperty("营业状态(1-营业中，2-休息中)")
     private Long businessState;
 
     /**

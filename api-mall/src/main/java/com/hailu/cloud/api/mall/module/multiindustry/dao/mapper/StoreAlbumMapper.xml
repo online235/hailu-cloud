@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.multiindustry.dao.StoreAlbumMapper" >
+  <sql id="Base_Column_List" >
+    id, store_id, album_url, create_time, update_time
+  </sql>
+
+  <select id="findStoreAlbumList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum">
+    select album_url
+    from mc_store_album
+    where store_id = #{storeId}
+  </select>
+</mapper>

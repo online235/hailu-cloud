@@ -5,6 +5,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.MultiIndustryOrderMapper;
+import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.model.McOrderModel;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -33,25 +35,28 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
     @Autowired
     private BasicFeignClient basicFeignClient;
 
-    @Autowired
-    private StoreInformationService storeInformationService;
+    @Resource
+    private StoreInformationMapper storeInformationMapper;
 
     @Override
     public McOrderModel insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException {
 
-        StoreInformation storeInformation = storeInformationService.findStoreInformation(record.getStoreId());
+        StoreInformation storeInformation = storeInformationMapper.findStoreInformation(record.getStoreId());
 
         /*boolean boo = StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay());
         if (!boo){
             throw new BusinessException("店铺休息中");
         }*/
+
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         String num = String.valueOf(basicFeignClient.uuid().getData());
         record.setMemberId(loginInfo.getUserId());
         record.setTotalType(storeInformation.getStoreTotalType());
         record.setId(Long.parseLong(num));
         record.setOrderTime(new Date());
-        record.setOrderNumber(IdUtil.simpleUUID());
+        record.setOrderNumber(sdf.format(new Date())+(System.currentTimeMillis() / 1000) +basicFeignClient.uuid().getData());
         record.setExchangeCode(RandomUtil.randomNumbers(10));
         record.setProductTitle(storeInformation.getShopName());
         record.setState(1);

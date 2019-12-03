@@ -21,5 +21,5 @@ public interface StoreInformationService {
      * @param id
      * @return
      */
-    StoreInformation findStoreInformation(Long id) throws BusinessException;
+    Object findStoreInformation(Long id) throws BusinessException;
 }
