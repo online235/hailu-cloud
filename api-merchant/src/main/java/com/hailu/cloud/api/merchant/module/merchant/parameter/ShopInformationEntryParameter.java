@@ -61,6 +61,7 @@ public class ShopInformationEntryParameter {
     private String nameOfLegalPerson;
 
 
+
     @ApiParam(name = "idCard", value = "经营者身份证号码", required = true)
     @NotEmpty
     private String idCard;

@@ -94,6 +94,9 @@ public class McUserAppContrller {
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
         }
+        if(shopInformationEntryParameter.getIdCard().length() != 18){
+            throw new BusinessException("身份证长度不符合");
+        }
         String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + shopInformationEntryParameter.getMoli() + 0);
         if (!shopInformationEntryParameter.getCode().equals(veriCode) && !shopInformationEntryParameter.getCode().equals("111111")) {
             // 验证码不存在

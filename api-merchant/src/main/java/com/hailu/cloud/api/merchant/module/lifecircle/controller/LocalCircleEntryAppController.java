@@ -47,7 +47,6 @@ public class LocalCircleEntryAppController {
     private RedisStandAloneClient redisStandAloneClient;
 
 
-
     @ApiOperation(value = "提交审核(商家注册以及入驻)", notes = "<pre>" +
             "{\n" +
             "  \"code\": 807,\n" +
@@ -104,11 +103,14 @@ public class LocalCircleEntryAppController {
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
         }
+        if (registerInformation.getIdCard().length() != 18) {
+            throw new BusinessException("身份证长度不符合");
+        }
         String val = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
-        if (!registerInformation.getCode().equals(val) && !registerInformation.getCode().equals("111111") ) {
+        if (!registerInformation.getCode().equals(val) && !registerInformation.getCode().equals("111111")) {
             throw new BusinessException("验证码不正确或输入手机号码有误！");
         }
-        localCircleEntryService.setLocalCircleEntry(registerInformation,1);
+        localCircleEntryService.setLocalCircleEntry(registerInformation, 1);
 
     }
 
@@ -135,15 +137,15 @@ public class LocalCircleEntryAppController {
             "</pre>")
     @PostMapping("businessType")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query",dataType = "Long"),
-            @ApiImplicitParam(name = "mcType", value = "入驻商户类型", paramType = "query",dataType = "int")
+            @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "mcType", value = "入驻商户类型", paramType = "query", dataType = "int")
     })
-    public List<McManagementType> findGoodsList(Long parentId,Integer mcType) {
+    public List<McManagementType> findGoodsList(Long parentId, Integer mcType) {
 
         Map<String, Object> map = new HashMap<>(4);
         if (parentId == null) {
-            if(mcType == 1){
-                map.put("isLifeCircle",1);//生活圈过滤百货经营类型
+            if (mcType == 1) {
+                map.put("isLifeCircle", 1);//生活圈过滤百货经营类型
             }
             map.put("parentIdIsNull", 1);
             return mcManagementTypeService.findListByParam(map);
