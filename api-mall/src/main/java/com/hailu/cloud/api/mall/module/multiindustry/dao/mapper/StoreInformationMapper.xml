@@ -1,30 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper" >
-  <sql id="Base_Column_List" >
+<mapper namespace="com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper">
+
+
+    <resultMap id="McStoreInformationAlbumResultMap"
+               type="com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel">
+        <result property="id" column="id"/>
+        <result property="mcNumberId" column="mc_number_id"/>
+        <result property="shopName" column="shop_name"/>
+        <result property="phone" column="phone"/>
+        <result property="provinceCode" column="province_code"/>
+        <result property="cityCode" column="city_code"/>
+        <result property="areaCode" column="area_code"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="storeDetails" column="store_details"/>
+        <result property="perCapitaPrice" column="per_capita_price"/>
+        <result property="storeSonType" column="store_son_type"/>
+        <result property="storeTotalType" column="store_total_type"/>
+        <result property="businessState" column="business_state"/>
+        <result property="closingTime" column="closing_time"/>
+        <result property="openingTime" column="opening_time"/>
+        <result property="createdat" column="createdat"/>
+        <result property="toExamine" column="to_examine"/>
+        <result property="defaultHead" column="default_head"/>
+        <result property="weekDay" column="week_day"/>
+
+        <collection property="storeAlbumList"
+                    ofType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum"
+                    javaType="java.util.ArrayList">
+            <result property="id" column="id1"/>
+            <result property="storeId" column="store_id"/>
+            <result property="albumUrl" column="album_url"/>
+            <result property="createTime" column="create_time1"/>
+            <result property="updateTime" column="update_time1"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
     id, mc_number_id, shop_name, phone, province_code, city_code, area_code, detail_address,
     store_details, per_capita_price, store_son_type, store_total_type, business_state,
     closing_time, opening_time, createdat, updatedat, to_examine, default_head, week_day
   </sql>
 
- <select id="findStoreInformationList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation">
-   select
-   <include refid="Base_Column_List"/>
-   from mc_store_information
-   where store_total_type = #{storeTotalType} And to_examine = 2
-   <if test="storeSonType != null">
-     and store_son_type = #{storeSonType}
-   </if>
-   <if test="cityCode != null">
-     and city_code = #{cityCode}
-   </if>
- </select>
+    <select id="findStoreInformationList"
+            resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_store_information
+        where store_total_type = #{storeTotalType} And to_examine = 2
+        <if test="storeSonType != null">
+            and store_son_type = #{storeSonType}
+        </if>
+        <if test="cityCode != null">
+            and city_code = #{cityCode}
+        </if>
+    </select>
 
-  <select id="findStoreInformation" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation">
+    <select id="findStoreInformation"
+            resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_store_information
+        where id = #{id} and to_examine = 2
+    </select>
+
+
+    <select id="findStoreInformationLeftAlbum" resultMap="McStoreInformationAlbumResultMap">
     select
-    <include refid="Base_Column_List"/>
-    from mc_store_information
-    where id = #{id} and to_examine = 2
+    store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,  store.detail_address,
+     store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
+     store.closing_time,  store.opening_time,  store.createdat,  store.updatedat,  store.to_examine,  store.default_head,  store.week_day,
+     album.id as id1,album.store_id,album.album_url,album.create_time as create_time1,album.update_time as update_time1
+    from mc_store_information as store left join mc_store_album as album ON album.store_id = store.id
+    where store.id = #{id} and store.to_examine = 2
   </select>
+
 
 </mapper>

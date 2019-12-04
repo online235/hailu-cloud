@@ -112,37 +112,32 @@ public class ShopInformationEntryParameter {
     /**
      *开户类型（1、储蓄卡；2、借记卡 ）
      */
-    @ApiParam(name = "bankType", value = "开户类型（1、储蓄卡；2、借记卡 ）", required = true)
-    @NotEmpty
+    @ApiParam(name = "bankType", value = "开户类型（1、储蓄卡；2、借记卡 ）")
     private Integer bankType;
 
     /**
      * 开户支行
      */
-    @ApiParam(name = "bankBranch", value = "开户支行", required = true)
-    @NotEmpty
+    @ApiParam(name = "bankBranch", value = "开户支行")
     private String bankBranch;
 
 
     /**
      * 开户账号
      */
-    @ApiParam(name = "accountNumber", value = "开户账号", required = true)
-    @NotEmpty
+    @ApiParam(name = "accountNumber", value = "开户账号")
     private String accountNumber;
 
     /**
      * 开户省份code
      */
-    @ApiParam(name = "bankProvince", value = "开户省份code", required = true)
-    @NotEmpty
+    @ApiParam(name = "bankProvince", value = "开户省份code")
     private String bankProvince;
 
     /**
      * 开户市区code
      */
-    @ApiParam(name = "bankCity", value = "开户市区code", required = true)
-    @NotEmpty
+    @ApiParam(name = "bankCity", value = "开户市区code")
     private String bankCity;
 
     /**
@@ -156,15 +151,14 @@ public class ShopInformationEntryParameter {
     /**
      * 开户行
      */
-    @ApiParam(name = "bank", value = "开户行", required = true)
+    @ApiParam(name = "bank", value = "开户行")
     private String bank;
 
 
     /**
      * 银行卡号
      */
-    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
-    @NotEmpty
+    @ApiParam(name = "bankNumber", value = "银行卡号")
     private Long bankNumber;
 
 

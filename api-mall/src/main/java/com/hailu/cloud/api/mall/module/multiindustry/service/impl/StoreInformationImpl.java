@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreAlbumServier;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -30,7 +31,7 @@ public class StoreInformationImpl implements StoreInformationService {
     private StoreAlbumServier storeAlbumServier;
 
     @Override
-    public Object findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException {
+    public PageInfoModel<List<StoreInformation>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException {
         Page p = PageHelper.startPage(page, size);
         List<StoreInformation> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType ,cityCode);
         List<StoreInformation> data = new ArrayList<>();
@@ -42,46 +43,22 @@ public class StoreInformationImpl implements StoreInformationService {
     }
 
     @Override
-    public Object findStoreInformation(Long id) throws BusinessException {
+    public StoreInformation findStoreInformation(Long id) throws BusinessException {
         StoreInformation storeInformation = storeInformationMapper.findStoreInformation(id);
-        List<StoreAlbum> storeAlbums = storeAlbumServier.findStoreAlbumList(storeInformation.getId());
-        JSONArray objects = new JSONArray();
-        JSONArray object = new JSONArray();
+        if (storeInformation == null){
+            throw new BusinessException("商店未营业或者不存在");
+        }
+        return storeInformation;
 
-        for (StoreAlbum storeAlbum : storeAlbums){
-            object.add(storeAlbum.getAlbumUrl());
-        }
-        objects.add(jsonObjectByStoreInformation(object,storeInformation));
-        if (storeInformation != null){
-            return objects;
-        }
-        throw new BusinessException("商店未营业");
     }
-    
-    public JSONObject jsonObjectByStoreInformation(JSONArray object,StoreInformation storeInformation){
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id",storeInformation.getId());
-        jsonObject.put("mcNumberId",storeInformation.getMcNumberId());
-        jsonObject.put("shopName",storeInformation.getShopName());
-        jsonObject.put("phone",storeInformation.getPhone());
-        jsonObject.put("provinceCode",storeInformation.getProvinceCode());
-        jsonObject.put("cityCode",storeInformation.getCityCode());
-        jsonObject.put("areaCode",storeInformation.getAreaCode());
-        jsonObject.put("detailAddress",storeInformation.getDetailAddress());
-        jsonObject.put("storeTotalType",storeInformation.getStoreTotalType());
-        jsonObject.put("storeSonType",storeInformation.getStoreSonType());
-        jsonObject.put("businessState",storeInformation.getBusinessState());
-        jsonObject.put("businessStateDisplay",storeInformation.getBusinessStateDisplay());
-        jsonObject.put("closingTime",storeInformation.getClosingTime());
-        jsonObject.put("openingTime",storeInformation.getOpeningTime());
-        jsonObject.put("createdat",storeInformation.getCreatedat());
-        jsonObject.put("updatedat",storeInformation.getUpdatedat());
-        jsonObject.put("defaultHead",storeInformation.getDefaultHead());
-        jsonObject.put("toExamine",storeInformation.getToExamine());
-        jsonObject.put("toExamineDisplay",storeInformation.getToExamineDisplay());
-        jsonObject.put("weekDay",storeInformation.getWeekDay());
-        jsonObject.put("weekDayDisplay",storeInformation.getWeekDayDisplay());
-        jsonObject.put("albumUrlList",object);
-        return jsonObject;
+
+
+    @Override
+    public StoreInformationResultModel findStoreInformationLeftAlbum(Long id) throws BusinessException {
+        StoreInformationResultModel storeInformationResultModelList = storeInformationMapper.findStoreInformationLeftAlbum(id);
+        if (storeInformationResultModelList == null){
+            throw new BusinessException("商店未营业或者不存在");
+        }
+        return storeInformationResultModelList;
     }
 }
