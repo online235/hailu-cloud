@@ -78,5 +78,5 @@ public interface IAdminService {
      * @param id      账号ID
      * @param roleIds 角色ID
      */
-    void changeRoles(Long id, Long[] roleIds);
+    void changeRoles(Long id, String roleIds) throws BusinessException;
 }

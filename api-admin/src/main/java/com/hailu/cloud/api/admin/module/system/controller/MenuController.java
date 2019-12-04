@@ -73,24 +73,47 @@ public class MenuController {
     @ApiOperation(value = "查询树列表", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +
-            "    'data': {\n" +
-            "        'totalPage': 1,\n" +
-            "        'datas': [{\n" +
-            "            'id': 1,\n" +
-            "            'menuName': '系统管理',            // 菜单名称\n" +
-            "            'permissionCode': 'MENU-LIST',    // 权限编码\n" +
-            "            'url': '/system/menu/list',        // 菜单URL\n" +
-            "            'menuType': '0',                   // 菜单类型\n" +
-            "            'menuTypeDisplay': '菜单',         // 菜单类型中文描述\n" +
-            "            'enableStatus': 0,                // 状态\n" +
-            "            'enableStatusDisplay': '启用',     // 状态中文描述\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': [{\n" +
+            "        'id': 6172237371594754,\n" +
+            "        'parentId': 0,\n" +
+            "        'menuName': '系统菜单',                // 菜单名称 \n" +
+            "        'url': '/system/menu/list',           // 菜单URL\n" +
+            "        'permissionCode': 'MENU-LIST',        // 权限编码\n" +
+            "        'menuType': 1,                        // 菜单类型\n" +
+            "        'menuTypeDisplay': '按钮',             // 菜单类型描述\n" +
+            "        'enableStatus': 1,                    // 启用状态\n" +
+            "        'enableStatusDisplay': '启用',         // 启用状态描述\n" +
+            "        'children': []                        // 子菜单\n" +
+            "    }, {\n" +
+            "        'id': 7062889034753024,\n" +
+            "        'parentId': 0,\n" +
+            "        'menuName': '测试父类',\n" +
+            "        'url': 'aaa',\n" +
+            "        'permissionCode': 'aaa',\n" +
+            "        'menuType': 0,\n" +
+            "        'menuTypeDisplay': '菜单',\n" +
+            "        'enableStatus': 1,\n" +
+            "        'enableStatusDisplay': '启用',\n" +
+            "        'children': [{\n" +
+            "            'id': 7062889034753025,\n" +
+            "            'parentId': 7062889034753024,\n" +
+            "            'menuName': '子菜单1',\n" +
+            "            'url': '11',\n" +
+            "            'permissionCode': '11',\n" +
+            "            'menuType': 0,\n" +
+            "            'menuTypeDisplay': '菜单',\n" +
+            "            'enableStatus': 1,\n" +
+            "            'enableStatusDisplay': '启用',\n" +
+            "            'children': []\n" +
             "        }]\n" +
-            "    }\n" +
+            "    }]\n" +
             "}\n" +
             "</pre>")
+    @ApiImplicitParam(name = "onlyShowEnable", value = "只显示启用的菜单", paramType = "query", dataType = "String")
     @GetMapping("/tree")
-    public List<SysMenuModel> treeList() {
-        return menuService.menuTreeList();
+    public List<SysMenuModel> treeList(Boolean onlyShowEnable) {
+        return menuService.menuTreeList(onlyShowEnable);
     }
 
     @ApiOperation(value = "添加菜单", notes = "<pre>" +

@@ -118,12 +118,12 @@ public class RoleController {
             "</pre>")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "menuIds", value = "菜单ID", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "menuIds", value = "菜单ID，多个菜单用逗号隔开", required = true, paramType = "query", dataType = "String"),
     })
     @GetMapping("/change-menus")
     public void changeRoles(
             @NotNull(message = "角色ID不能为空") Long id,
-            @NotNull(message = "菜单不能为空") Long[] menuIds) {
+            @NotNull(message = "菜单不能为空") String menuIds) throws BusinessException {
 
         roleService.changeMenus(id, menuIds);
     }

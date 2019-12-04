@@ -168,12 +168,12 @@ public class AdminController {
             "</pre>")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "账号ID", required = true, paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "roleIds", value = "角色ID", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "roleIds", value = "角色ID，多个角色用逗号隔开", required = true, paramType = "query", dataType = "String"),
     })
     @GetMapping("/change-roles")
     public void changeRoles(
             @NotNull(message = "账号ID不能为空") Long id,
-            @NotNull(message = "角色不能为空") Long[] roleIds) {
+            @NotNull(message = "角色不能为空") String roleIds) throws BusinessException {
 
         adminService.changeRoles(id, roleIds);
     }

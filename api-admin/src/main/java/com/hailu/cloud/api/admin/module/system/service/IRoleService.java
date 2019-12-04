@@ -54,6 +54,6 @@ public interface IRoleService {
      * @param id      角色ID
      * @param menuIds 菜单ID
      */
-    void changeMenus(Long id, Long[] menuIds);
+    void changeMenus(Long id, String menuIds) throws BusinessException;
 
 }

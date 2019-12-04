@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -67,8 +68,9 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<SysMenuModel> menuTreeList() {
-        List<SysMenuModel> queryData = menuMapper.menuList(null, null, null);
+    public List<SysMenuModel> menuTreeList(Boolean onlyShowEnable) {
+        Integer enableStatus = Optional.ofNullable(onlyShowEnable).map(state-> state.booleanValue() ? 1 : null).orElse(null);
+        List<SysMenuModel> queryData = menuMapper.menuList(null, null, enableStatus);
         Map<Long, SysMenuModel> mapping = new HashMap<>(queryData.size());
         queryData.forEach(menu -> {
             mapping.put(menu.getId(), menu);

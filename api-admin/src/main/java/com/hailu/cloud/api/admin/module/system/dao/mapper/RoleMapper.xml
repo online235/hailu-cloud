@@ -27,7 +27,7 @@
     <insert id="linkMenus">
         insert into lk_role_menu(role_id, menu_id)
         values
-        <foreach collection="roleIds" item="item" separator=",">
+        <foreach collection="menuIds" item="item" separator=",">
             (#{id}, #{item})
         </foreach>
     </insert>
@@ -49,5 +49,21 @@
                 and enable_status = #{enableStatus}
             </if>
         </where>
+    </select>
+
+    <!-- 查询账号列表 -->
+    <select id="findBindMenus" resultType="com.hailu.cloud.api.admin.module.system.model.LkRoleMenuModel">
+        SELECT
+        role_id,
+        GROUP_CONCAT(menu_id) as menu_id
+        FROM
+        lk_role_menu
+        WHERE
+        role_id IN
+        <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        GROUP BY
+        role_id
     </select>
 </mapper>

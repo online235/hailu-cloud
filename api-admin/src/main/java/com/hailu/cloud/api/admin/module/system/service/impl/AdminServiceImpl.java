@@ -11,12 +11,16 @@ import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysAdminModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author xuzhijie
@@ -105,8 +109,16 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
-    public void changeRoles(Long id, Long[] roleIds) {
+    public void changeRoles(Long id, String roleIds) throws BusinessException {
+        Set<Long> roleSet = Arrays.stream(roleIds.split(","))
+                .map(StringUtils::trim)
+                .filter(StringUtils::isNotBlank)
+                .map(Long::valueOf)
+                .collect(Collectors.toSet());
+        if( roleSet.isEmpty() ){
+            throw new BusinessException("请选择角色");
+        }
         adminMapper.unlinkRoles(id);
-        adminMapper.linkRoles(id, roleIds);
+        adminMapper.linkRoles(id, roleSet);
     }
 }

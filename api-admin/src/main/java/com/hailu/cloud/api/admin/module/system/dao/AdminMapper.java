@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author xuzhijie
@@ -65,7 +67,7 @@ public interface AdminMapper {
      * @param id      账号ID
      * @param roleIds 角色ID
      */
-    void linkRoles(@Param("id") Long id, @Param("roleIds") Long[] roleIds);
+    void linkRoles(@Param("id") Long id, @Param("roleIds") Set<Long> roleIds);
 
     /**
      * 变更角色

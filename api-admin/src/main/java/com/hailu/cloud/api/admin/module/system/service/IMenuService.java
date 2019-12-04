@@ -47,7 +47,7 @@ public interface IMenuService {
      *
      * @return
      */
-    List<SysMenuModel> menuTreeList();
+    List<SysMenuModel> menuTreeList(Boolean onlyShowEnable);
 
     /**
      * 变更菜单启用状态
