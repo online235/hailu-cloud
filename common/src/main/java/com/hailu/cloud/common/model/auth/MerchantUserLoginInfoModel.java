@@ -1,7 +1,10 @@
 package com.hailu.cloud.common.model.auth;
 
+import com.hailu.cloud.common.model.merchant.StoreInformationModel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 商户账号共用一个账号体系，用于登录时返回给客户端的登录信息
@@ -16,7 +19,7 @@ public class MerchantUserLoginInfoModel extends LoginModel {
     /**
      * 编号
      */
-    private String numberid;
+    private Long numberid;
 
     /**
      * 登陆账号
@@ -44,8 +47,8 @@ public class MerchantUserLoginInfoModel extends LoginModel {
     private String phone;
 
     /**
-     * 审核
+     * 店铺列表
      */
-    private String toExamine;
+    private List<StoreInformationModel> stores;
 
 }

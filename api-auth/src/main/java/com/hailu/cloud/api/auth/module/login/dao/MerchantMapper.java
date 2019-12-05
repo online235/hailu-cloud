@@ -1,8 +1,11 @@
 package com.hailu.cloud.api.auth.module.login.dao;
 
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
+import com.hailu.cloud.common.model.merchant.StoreInformationModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author xuzhijie
@@ -18,6 +21,14 @@ public interface MerchantMapper {
      * @return
      */
     MerchantUserLoginInfoModel findUserByPhone(@Param("phone") String phone);
+
+    /**
+     * 根据手机号查找账号
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    List<StoreInformationModel> findUserStore(@Param("userId") Long userId);
 
     /**
      * 根据手机号查找账号

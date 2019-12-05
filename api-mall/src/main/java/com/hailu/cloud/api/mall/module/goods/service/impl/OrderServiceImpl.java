@@ -101,6 +101,9 @@ public class OrderServiceImpl implements IOrderService {
                 }
             });
         }
+        shoppingCarts.stream()
+                .filter(item -> StringUtils.isBlank(item.getShopName()))
+                .forEach(item -> item.setShopName("海露物联云商"));
         return shoppingCarts;
     }
 

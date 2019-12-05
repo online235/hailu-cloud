@@ -20,6 +20,7 @@ import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
+import com.hailu.cloud.common.model.merchant.StoreInformationModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 import java.util.function.BiFunction;
 
 /**
@@ -242,12 +244,18 @@ public class AuthServiceImpl implements IAuthService {
             @Override
             public boolean exists(String account) {
                 loginInfoModel = merchantMapper.findUserByPhone(account);
-                return loginInfoModel != null;
+                boolean exists = false;
+                if (loginInfoModel != null) {
+                    exists = true;
+                    List<StoreInformationModel> storeList = merchantMapper.findUserStore(loginInfoModel.getNumberid());
+                    loginInfoModel.setStores(storeList);
+                }
+                return exists;
             }
 
             @Override
             public String getUserId() {
-                return loginInfoModel.getNumberid();
+                return String.valueOf(loginInfoModel.getNumberid());
             }
 
             @Override
@@ -351,12 +359,18 @@ public class AuthServiceImpl implements IAuthService {
             @Override
             public boolean exists(String account) {
                 loginInfoModel = merchantMapper.findUserByAccount(account);
-                return loginInfoModel != null;
+                boolean exists = false;
+                if (loginInfoModel != null) {
+                    exists = true;
+                    List<StoreInformationModel> storeList = merchantMapper.findUserStore(loginInfoModel.getNumberid());
+                    loginInfoModel.setStores(storeList);
+                }
+                return exists;
             }
 
             @Override
             public String getUserId() {
-                return loginInfoModel.getNumberid();
+                return String.valueOf(loginInfoModel.getNumberid());
             }
 
             @Override

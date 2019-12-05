@@ -24,6 +24,14 @@ public class ShoppingCartVo {
      */
     private int goodsId;
     /**
+     * 商品id
+     */
+    private Long storeId;
+    /**
+     * 商品名称
+     */
+    private String shopName;
+    /**
      * 会员id
      */
     private String userId;
@@ -99,7 +107,6 @@ public class ShoppingCartVo {
      * 是否选中
      */
     private Integer isSelected;
-    private List<GoodsCompl> complList;
     /**
      * 状态
      */

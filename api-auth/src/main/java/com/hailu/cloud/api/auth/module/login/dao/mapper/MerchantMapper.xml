@@ -9,13 +9,21 @@
             mu.landing_password,
             mu.network_name,
             mu.account_type,
-            mu.phone,
-            mei.to_examine
+            mu.phone
         FROM
             mc_user mu
-            LEFT JOIN mc_entry_information mei ON mu.number_id = mei.mc_number_id
         WHERE
             mu.phone = #{phone}
+    </select>
+
+    <select id="findUserStore" resultType="com.hailu.cloud.common.model.merchant.StoreInformationModel">
+        SELECT
+            mei.number_id as store_id,
+            mei.to_examine
+        FROM
+            mc_entry_information mei
+        WHERE
+            mei.mc_number_id = #{userId}
     </select>
 
     <select id="findUserByAccount" resultType="com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel">
@@ -25,11 +33,9 @@
             mu.landing_password,
             mu.network_name,
             mu.account_type,
-            mu.phone,
-            mei.to_examine
+            mu.phone
         FROM
             mc_user mu
-            LEFT JOIN mc_entry_information mei ON mu.number_id = mei.mc_number_id
         WHERE
             mu.landing_account = #{account}
     </select>

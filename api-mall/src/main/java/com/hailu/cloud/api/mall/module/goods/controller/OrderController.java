@@ -3,8 +3,6 @@ package com.hailu.cloud.api.mall.module.goods.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.hailu.cloud.api.mall.constant.Constant;
-import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
 import com.hailu.cloud.api.mall.module.goods.entity.order.*;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.service.IOSSOrderService;
@@ -16,14 +14,12 @@ import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -109,16 +105,12 @@ public class OrderController {
      * 获取购物车列表
      */
     @GetMapping("/shoppingCartList")
-    public Map<String, Object> shoppingCartList(
-            @RequestParam String userId) throws Exception {
-
-        if (userId == null || "".equals(userId)) {
-            List<ShoppingCartVo> shoppingCartList = new ArrayList<>();
-            Map<String, Object> data = new HashMap<>();
-            data.put("shoppingCartList", shoppingCartList);
-            return data;
-        }
-        List<ShoppingCartVo> shoppingCartList = orderService.shoppingList(userId);
+    public Map<String, Object> shoppingCartList() throws Exception {
+        MemberLoginInfoModel loginInfoModel = RequestUtils.getMemberLoginInfo();
+        List<ShoppingCartVo> shoppingCartList = orderService.shoppingList(loginInfoModel.getUserId());
+        shoppingCartList.forEach(item -> {
+//            item.get
+        });
         Map<String, Object> data = new HashMap<>();
         data.put("shoppingCartList", shoppingCartList);
         return data;

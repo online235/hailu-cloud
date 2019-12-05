@@ -40,12 +40,11 @@
 	</insert>
     <resultMap id="ShoppingResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
         <id column="cart_id" jdbcType="INTEGER" property="cartId"/>
-        <collection property="complList" column="crat_id" select="getGoodsCompl"/>
     </resultMap>
     <!-- 得到购物车列表 -->
-    <select id="shoppingList" parameterType="String" resultMap="ShoppingResultMap">
+    <select id="shoppingList" parameterType="String" resultType="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
 		SELECT
-			cart_id ,
+			cart_id,
 			goods_id AS goodsId,
 			user_id AS userId,
 			goods_name AS goodsName,
@@ -56,11 +55,14 @@
 			goods_images AS goodsImages,
 			first_gc_id AS firstGcId,
 			first_gcbig_id AS firstGcbigId,
-			g_type  AS type  ,
-			is_activity AS isActivity ,
-			is_selected AS isSelected   ,
-			state  AS state
-		FROM shop_cart
+			g_type AS type,
+			is_activity AS isActivity,
+			is_selected AS isSelected,
+			state AS state,
+			store_id,
+			msi.shop_name
+		FROM shop_cart sc
+		LEFT JOIN mc_store_information msi ON msi.id = sc.store_id
 		WHERE user_id=#{userId} ORDER BY create_time
 	</select>
     <!-- 查找购物车商品价格 -->
