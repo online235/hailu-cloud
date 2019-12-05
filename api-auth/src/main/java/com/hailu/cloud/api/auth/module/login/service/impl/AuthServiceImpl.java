@@ -247,7 +247,7 @@ public class AuthServiceImpl implements IAuthService {
                 boolean exists = false;
                 if (loginInfoModel != null) {
                     exists = true;
-                    List<StoreInformationModel> storeList = merchantMapper.findUserStore(loginInfoModel.getNumberid());
+                    List<StoreInformationModel> storeList = merchantMapper.findUserStore(Long.valueOf(loginInfoModel.getNumberid()));
                     loginInfoModel.setStores(storeList);
                 }
                 return exists;
@@ -362,7 +362,7 @@ public class AuthServiceImpl implements IAuthService {
                 boolean exists = false;
                 if (loginInfoModel != null) {
                     exists = true;
-                    List<StoreInformationModel> storeList = merchantMapper.findUserStore(loginInfoModel.getNumberid());
+                    List<StoreInformationModel> storeList = merchantMapper.findUserStore(Long.valueOf(loginInfoModel.getNumberid()));
                     loginInfoModel.setStores(storeList);
                 }
                 return exists;

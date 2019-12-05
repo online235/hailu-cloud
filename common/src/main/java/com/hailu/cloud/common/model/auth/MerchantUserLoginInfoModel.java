@@ -19,7 +19,7 @@ public class MerchantUserLoginInfoModel extends LoginModel {
     /**
      * 编号
      */
-    private Long numberid;
+    private String numberid;
 
     /**
      * 登陆账号
