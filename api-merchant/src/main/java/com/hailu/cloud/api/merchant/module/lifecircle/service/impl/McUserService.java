@@ -64,7 +64,6 @@ public class McUserService {
         if (user) {
             throw new BusinessException("手机号码以绑定");
         }
-        SecureUtil.md5();
         //生成时间戳
         long time = System.currentTimeMillis();
         String numberId = String.valueOf(uuidFeignClient.uuid().getData());

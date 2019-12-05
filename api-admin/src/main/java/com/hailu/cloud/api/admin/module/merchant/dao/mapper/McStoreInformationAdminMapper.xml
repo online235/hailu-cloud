@@ -274,6 +274,9 @@
         <if test="storeSonType != null">
             and store_total_type = #{storeSonType}
         </if>
+        <if test="accountType != null">
+            and account_type = #{accountType}
+        </if>
 
     </select>
 

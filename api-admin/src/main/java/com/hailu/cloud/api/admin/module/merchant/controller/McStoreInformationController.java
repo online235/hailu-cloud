@@ -115,6 +115,7 @@ public class McStoreInformationController {
     @PostMapping("mcStoreInformationList")
     public Object selectMcStoreInformationList(@ModelAttribute McStoreInformationListParameter mcStoreInformationListParameter, HttpServletRequest request) {
 
+        mcStoreInformationListParameter.setAccountType(1);
         return mcStoreInformationAdminService.selectLocalCircleEntryList(mcStoreInformationListParameter);
 
     }

@@ -117,7 +117,7 @@ public class LocalCircleEntryService {
      * 插入入驻信息
      */
     /**
-     * 添加入驻信息
+     * 生活圈添加入驻信息
      * @param registerInformation
      * @return
      */
@@ -151,6 +151,7 @@ public class LocalCircleEntryService {
         BeanUtils.copyProperties(localCircleEntry, mcStoreInformation);
         mcStoreInformation.setStoreTotalType(localCircleEntry.getFirstManagementTypeId());
         mcStoreInformation.setStoreSonType(localCircleEntry.getSecondManagementTypeId());
+        mcStoreInformation.setAccountType(accountType);
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }

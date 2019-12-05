@@ -43,6 +43,9 @@ public class McStoreInformationListParameter {
     @ApiParam(name="pageSize",value = "每页显示数量" ,defaultValue = "10")
     private Integer pageSize;
 
+    @ApiParam(name="accountType",value = "店铺类型：1、生活圈入驻店铺；2、百货入驻店铺" )
+    private Integer accountType;
+
 
 
 }

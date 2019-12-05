@@ -1,10 +1,13 @@
 package com.hailu.cloud.api.merchant.module.lifecircle.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
+@InjectDict
 public class McUser implements Serializable {
     /**
      * 编号
@@ -30,6 +33,11 @@ public class McUser implements Serializable {
      * 账号类型(1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户)
      */
     private Integer accountType;
+
+
+    @DictName(code = "ACCOUNT_TYPE", joinField = "accountType")
+    private String accountTypeString;
+
 
     /**
      * 手机号码

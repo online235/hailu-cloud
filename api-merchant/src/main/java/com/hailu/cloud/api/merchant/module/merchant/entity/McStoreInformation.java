@@ -97,6 +97,8 @@ public class McStoreInformation {
     @DictName(code = "BUSINESS_STATUS", joinField = "businessState")
     private String businessStateDisplay;
 
+
+
     /**
      * 关闭时间
      */
@@ -140,6 +142,14 @@ public class McStoreInformation {
     private String weekDayDisplay;
 
 
+    /**
+     * 账号类型(1、生活圈入驻店铺；2、百货入驻店铺；3、供应商入驻店铺)
+     */
+    private Integer accountType;
+
+
+    @DictName(code = "ACCOUNT_TYPE", joinField = "accountType")
+    private String accountTypeString;
 
 
 

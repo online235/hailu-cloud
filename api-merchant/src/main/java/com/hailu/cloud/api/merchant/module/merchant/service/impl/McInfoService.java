@@ -93,6 +93,7 @@ public class McInfoService {
         mcStoreInformation.setStoreTotalType(mcEntryInformation.getFirstManagementTypeId());
         mcStoreInformation.setStoreSonType(mcEntryInformation.getSecondManagementTypeId());
         mcStoreInformation.setStoreTotalType(mcManagementType.getManagementId());
+        mcStoreInformation.setAccountType(accountType);
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }
