@@ -13,19 +13,19 @@ public class CharitableCommonweal implements Serializable {
     /**
      * 编号
      */
-    @ApiModelProperty("")
+    @ApiModelProperty("编号")
     private Long id;
 
     /**
      * 政府用户编号
      */
-    @ApiModelProperty("")
-    private Long usersId;
+    @ApiModelProperty("政府用户编号")
+    private Long adminId;
 
     /**
      * 公益标题
      */
-    @ApiModelProperty("")
+    @ApiModelProperty("公益标题")
     private String commonwealTitle;
 
     /**
@@ -50,7 +50,7 @@ public class CharitableCommonweal implements Serializable {
      * 修改时间
      */
     @ApiModelProperty("修改时间")
-    private Date update;
+    private Date updatedat;
 
     /**
      * 文章

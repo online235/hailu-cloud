@@ -71,6 +71,18 @@ public class SysAdminModel {
     private String enableStatusDisplay;
 
     /**
+     * 市code
+     */
+    @ApiModelProperty("市code")
+    private String cityCode;
+
+    /**
+     * 账号类型（管理员-1、政府-2）
+     */
+    @ApiModelProperty("账号类型（管理员-1、政府-2）")
+    private String accountType;
+
+    /**
      * 创建人
      */
     @ApiModelProperty("创建人")

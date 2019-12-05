@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.module.app.service;
 
 import com.hailu.cloud.api.xinan.module.app.entity.CharitableCommonweal;
-import org.apache.ibatis.annotations.Param;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 
 import java.util.List;
 
@@ -14,8 +14,15 @@ public interface CharitableCommonwealService {
 
     /**
      * 根据政府编号查询公益列表
-     * @param usersId
+     * @param adminId
      * @return
      */
-    List<CharitableCommonweal> findCharitableCommonwealByUsersId(@Param("usersId") Long usersId);
+    PageInfoModel<List<CharitableCommonweal>> findCharitableCommonwealByAdminId(Long adminId , Integer page, Integer size);
+
+    /**
+     * 根据编号查询详细信息
+     * @param Id
+     * @return
+     */
+    CharitableCommonweal findCharitableCommonwealById(Long Id);
 }

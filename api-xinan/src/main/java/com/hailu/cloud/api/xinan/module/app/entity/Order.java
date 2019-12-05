@@ -19,6 +19,11 @@ public class Order implements Serializable {
     private String memberId;
 
     /**
+     * 商品编号
+     */
+    private String rescueId;
+
+    /**
      * 商品名称
      */
     private String itemName;

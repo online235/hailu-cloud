@@ -125,8 +125,6 @@ public class PaymentServiceImpl implements IPaymentService {
         pay.setPayOrderNo(orderNo);
         //支付状态 1-未付款 2-已付款3-已退款4-已过期
         pay.setPayStatus( moneyFlag ? 2:1);
-        //会员ID
-        pay.setMemberId(userId);
 
         xinAnPayService.saveEntity(pay);
 
@@ -259,7 +257,7 @@ public class PaymentServiceImpl implements IPaymentService {
         }
 
         //生成订单
-        Order order = xinAnOrderService.buildOrder(name, phone, userId, "服务商",
+        Order order = xinAnOrderService.buildOrder(name, phone, userId, null, "服务商",
                 "HL","购买海露服务商", redisKit.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + userId), money, provinceId, cityId,
                 areaId, address, chooseCityId);
 
@@ -427,6 +425,128 @@ public class PaymentServiceImpl implements IPaymentService {
         } catch (Exception e) {
             log.warn("处理支付订单出现错误：" + e.getMessage(), e);
             throw new BusinessException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Map<String, Object> donationOrder(Integer payType, Double moneyPrice, String orderId) throws BusinessException {
+        Map<String,Object> data = new HashMap<>();
+
+        //会员ID
+        String userId = RequestUtils.getMemberLoginInfo().getUserId();
+        //获取需要支付的参保人
+        if(StringUtils.isBlank(orderId)){
+            throw new BusinessException("参保人不能为空！");
+        }
+
+        //金额 计算出总金额
+        BigDecimal money = new BigDecimal("0");
+
+        Order order = xaOrderMapper.selectByPrimaryKey(orderId);
+        money = money.add(order.getMoney());
+        //校验金额是否一致
+        if(money.compareTo(BigDecimal.valueOf(moneyPrice)) != 0){
+            throw new BusinessException("金额与后台计算不一致！");
+        }
+
+        boolean moneyFlag = false;
+        //校验金额是否为0 ,直接支付成功
+        if(money.compareTo(BigDecimal.valueOf(0.00)) == 0){
+            moneyFlag = true;
+        }
+
+        Pay pay = new Pay();
+
+        //会员ID
+        pay.setMemberId(userId);
+        //金额
+        pay.setMoney(money);
+        //支付方式
+        pay.setPayType(payType == 1? 1 : 2);
+        //支付订单号
+        String orderNo = IdUtil.simpleUUID();
+        pay.setPayOrderNo(orderNo);
+        //支付状态 1-未付款 2-已付款3-已退款4-已过期
+        pay.setPayStatus( moneyFlag ? 2:1);
+
+        xinAnPayService.saveEntity(pay);
+
+        if(moneyFlag){
+            //1代表0元，无需支付，直接成功购买
+            data.put("msg","捐赠成功！");
+            data.put("code",1);
+            return data;
+        }
+        PayRequest payRequest = new PayRequest();
+        //订单号
+        payRequest.setOrderNo(orderNo);
+        //金额
+        payRequest.setMoney(money);
+        //商品名称
+        payRequest.setGoodsName("捐赠");
+        //支付类型
+        payRequest.setPayType(payType);
+        //支付方式
+        payRequest.setPayWay(1);
+        //回调地址
+        payRequest.setNotifyUrl(serverUrl + "/xinan/payment/callbackWeChatDonation");
+        //支付参数
+        payRequest.setPayParams(payType == 1 ? "XINANALI":"XINANWECAT");
+        //IP地址
+        payRequest.setIp(IPUtil.getRemoteHost(RequestUtils.getRequest()));
+
+        //调用支付服务
+        return paymentFeignClient.gateway(payRequest).getData();
+    }
+
+    @Override
+    public void callbackDonation(Map<String, Object> params) throws BusinessException {
+        try {
+            //类型  1-支付宝2-微信
+            int payType = (int) params.get("payType");
+
+            //商家订单号
+            String outTradeNo = (String) params.get("outTradeNo");
+            //第三方交易号
+            String tradeNo = (String) params.get("tradeNo");
+//            //交易状态
+//            String tradeStatus = (String) params.get("tradeStatus");
+//            //金额
+//            BigDecimal money = BigDecimal.valueOf((double)params.get("money"));
+
+            //根据订单号获取订单
+            Pay pay = xinAnPayService.findByPayOrderNo(outTradeNo);
+
+            if(pay == null){
+                throw new BusinessException("订单不存在");
+            }
+
+//            //判断金额是否正确
+//            if(money.compareTo(pay.getMoney()) != 0){
+//                log.warn("订单号：{}，付款金额和订单金额不一致",outTradeNo);
+//                throw new BusinessException("付款金额和订单金额不一致");
+//            }
+            //支付时间
+            pay.setPayTime(System.currentTimeMillis());
+            //第三方交易号
+            pay.setTradeNo(tradeNo);
+            //付款状态 1-待付款2-已付款3-已取消
+            pay.setPayStatus(2);
+            //支付方式
+            pay.setPayType(payType);
+            xinAnPayService.saveEntity(pay);
+
+            //获取订单信息
+            Order order = xaOrderMapper.findByOrderNo(outTradeNo);
+            //支付方式
+            order.setPayType(payType);
+            //将订单状态改成已支付 订单状态（1-未付款2-已付款3-已取消）
+            order.setOrderStatus(2);
+            xinAnOrderService.saveEntity(order);
+
+        }catch (Exception e){
+            log.warn("处理支付订单出现错误：",e.getMessage());
+            throw new BusinessException("处理支付订单出现错误");
         }
     }
 }

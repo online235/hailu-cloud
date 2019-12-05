@@ -6,12 +6,14 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 
 @Disabled
 @Slf4j
@@ -70,6 +72,15 @@ public class SignatureTest {
         byte[] tokenByte = Base64.decode(token);
         String passToken = StrUtil.str(rsa.decrypt(tokenByte, KeyType.PublicKey), CharsetUtil.CHARSET_UTF_8);
         log.info("解密后后token:{}", passToken);
+    }
+
+    private String signKey = "hailu.com";
+
+    @Test
+    @DisplayName("生成一个密码")
+    public void pwd(){
+        String pwdMd5 = SecureUtil.sha256(123456 + "&key=" + signKey);
+        log.info(pwdMd5);
     }
 
 }

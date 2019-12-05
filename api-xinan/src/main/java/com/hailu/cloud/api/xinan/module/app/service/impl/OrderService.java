@@ -82,7 +82,20 @@ public class OrderService {
      * @return
      */
     public Order buildOrder(String name, String value, String memberId, String itemType, String from, String itemName, String invitationMember, BigDecimal money){
-        return buildOrder(name, value, memberId, itemType, from, itemName, invitationMember, money,null,null,null,null,null);
+        return buildOrder(name, value, null, memberId, itemType, from, itemName, invitationMember, money,null,null,null,null,null);
+    }
+
+    /**
+     * 创建捐赠订单
+     * @param memberId
+     * @param itemType
+     * @param from
+     * @param money
+     * @param invitationMember
+     * @return
+     */
+    public Order buildDonationOrder(String memberId, String rescueId, String itemType, String from, BigDecimal money, String invitationMember){
+        return buildOrder(null, null, memberId, rescueId, itemType, from, "捐赠", invitationMember, money, null, null, null,null, null);
     }
 
     /**
@@ -92,11 +105,13 @@ public class OrderService {
      * @param memberId
      * @return
      */
-    public Order buildOrder(String name, String value, String memberId, String itemType, String from, String itemName, String invitationMember, BigDecimal money, Long provinceId, Long cityId, Long areaId, String address, Long chooseCityId){
+    public Order buildOrder(String name, String value, String memberId, String rescueId,  String itemType, String from, String itemName, String invitationMember, BigDecimal money, Long provinceId, Long cityId, Long areaId, String address, Long chooseCityId){
         //添加订单
         Order order = new Order();
         //商品名称
         order.setItemName(itemName);
+        //商品编号
+        order.setRescueId(rescueId);
         //订单号
         order.setOrderNo(IdUtil.simpleUUID());
         //参保人名称

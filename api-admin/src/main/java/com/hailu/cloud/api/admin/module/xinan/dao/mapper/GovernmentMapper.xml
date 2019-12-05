@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.GovernmentMapper" >
+  <sql id="Base_Column_List" >
+    id, admin_id, donation_times, cratedat, updatedat
+  </sql>
+  <sql id="Blob_Column_List" >
+    commonweal_article
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Government" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xa_government
+    where admin_id = #{adminId,jdbcType=BIGINT}
+  </select>
+
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Government" useGeneratedKeys="true" keyProperty="id" >
+    insert into xa_government
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="donationTimes != null" >
+        donation_times,
+      </if>
+      <if test="cratedat != null" >
+        cratedat,
+      </if>
+      <if test="updatedat != null" >
+        updatedat,
+      </if>
+      <if test="commonwealArticle != null" >
+        commonweal_article,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=VARCHAR},
+      </if>
+      <if test="donationTimes != null" >
+        #{donationTimes,jdbcType=INTEGER},
+      </if>
+      <if test="cratedat != null" >
+        #{cratedat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedat != null" >
+        #{updatedat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commonwealArticle != null" >
+        #{commonwealArticle,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Government" >
+    update xa_government
+    <set >
+      <if test="updatedat != null" >
+        updatedat = #{updatedat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commonwealArticle != null" >
+        commonweal_article = #{commonwealArticle,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=BIGINT}
+  </update>
+
+  <select id="findGovernmentUsersByCityCode" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Government" parameterType="java.lang.String">
+    select
+    city_code,commonweal_article
+    from xa_government
+    where city_code = #{cityCode}
+  </select>
+
+  <select id="findGovernmentList" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Government">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from xa_government
+  </select>
+</mapper>

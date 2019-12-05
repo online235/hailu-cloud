@@ -1,49 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.CharitableCommonwealMapper" >
-  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="users_id" property="usersId" jdbcType="BIGINT" />
-    <result column="commonweal_title" property="commonwealTitle" jdbcType="VARCHAR" />
-    <result column="default_picture" property="defaultPicture" jdbcType="VARCHAR" />
-    <result column="state" property="state" jdbcType="INTEGER" />
-    <result column="cratedat" property="cratedat" jdbcType="TIMESTAMP" />
-    <result column="update" property="update" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" extends="BaseResultMap" >
-    <result column="article" property="article" jdbcType="LONGVARCHAR" />
-  </resultMap>
   <sql id="Base_Column_List" >
-    id, users_id, commonweal_title, default_picture, state, cratedat, update
+    id, admin_id, commonweal_title, default_picture, state, cratedat, updatedat
   </sql>
   <sql id="Blob_Column_List" >
     article
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from xa_charitable_commonweal
-    where id = #{id,jdbcType=BIGINT}
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from xa_charitable_commonweal
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" useGeneratedKeys="true" keyProperty="id" >
-    insert into xa_charitable_commonweal (users_id, commonweal_title, default_picture, 
-      state, cratedat, update, 
-      article)
-    values (#{usersId,jdbcType=BIGINT}, #{commonwealTitle,jdbcType=VARCHAR}, #{defaultPicture,jdbcType=VARCHAR}, 
-      #{state,jdbcType=INTEGER}, #{cratedat,jdbcType=TIMESTAMP}, #{update,jdbcType=TIMESTAMP}, 
-      #{article,jdbcType=LONGVARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" useGeneratedKeys="true" keyProperty="id" >
     insert into xa_charitable_commonweal
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="usersId != null" >
-        users_id,
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
       </if>
       <if test="commonwealTitle != null" >
         commonweal_title,
@@ -57,16 +32,19 @@
       <if test="cratedat != null" >
         cratedat,
       </if>
-      <if test="update != null" >
-        update,
+      <if test="updatedat != null" >
+        updatedat,
       </if>
       <if test="article != null" >
         article,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="usersId != null" >
-        #{usersId,jdbcType=BIGINT},
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=BIGINT},
       </if>
       <if test="commonwealTitle != null" >
         #{commonwealTitle,jdbcType=VARCHAR},
@@ -80,8 +58,8 @@
       <if test="cratedat != null" >
         #{cratedat,jdbcType=TIMESTAMP},
       </if>
-      <if test="update != null" >
-        #{update,jdbcType=TIMESTAMP},
+      <if test="updatedat != null" >
+        #{updatedat,jdbcType=TIMESTAMP},
       </if>
       <if test="article != null" >
         #{article,jdbcType=LONGVARCHAR},
@@ -91,9 +69,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" >
     update xa_charitable_commonweal
     <set >
-      <if test="usersId != null" >
-        users_id = #{usersId,jdbcType=BIGINT},
-      </if>
       <if test="commonwealTitle != null" >
         commonweal_title = #{commonwealTitle,jdbcType=VARCHAR},
       </if>
@@ -103,11 +78,8 @@
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
-      <if test="cratedat != null" >
-        cratedat = #{cratedat,jdbcType=TIMESTAMP},
-      </if>
       <if test="update != null" >
-        update = #{update,jdbcType=TIMESTAMP},
+        updatedat = #{updatedat,jdbcType=TIMESTAMP},
       </if>
       <if test="article != null" >
         article = #{article,jdbcType=LONGVARCHAR},
@@ -115,33 +87,30 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" >
-    update xa_charitable_commonweal
-    set users_id = #{usersId,jdbcType=BIGINT},
-      commonweal_title = #{commonwealTitle,jdbcType=VARCHAR},
-      default_picture = #{defaultPicture,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
-      cratedat = #{cratedat,jdbcType=TIMESTAMP},
-      update = #{update,jdbcType=TIMESTAMP},
-      article = #{article,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal" >
-    update xa_charitable_commonweal
-    set users_id = #{usersId,jdbcType=BIGINT},
-      commonweal_title = #{commonwealTitle,jdbcType=VARCHAR},
-      default_picture = #{defaultPicture,jdbcType=VARCHAR},
-      state = #{state,jdbcType=INTEGER},
-      cratedat = #{cratedat,jdbcType=TIMESTAMP},
-      update = #{update,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
 
-  <select id="findCharitableCommonwealByUsersId" resultType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal">
+  <select id="findCharitableCommonwealByAdminId" resultType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal">
     select
-    <include refid="Base_Column_List"/>,
+    <include refid="Base_Column_List"/>
+    ,
     <include refid="Blob_Column_List"/>
     from xa_charitable_commonweal
-    where users_id = #{usersId}
+    where admin_id = #{adminId}
+  </select>
+
+  <select id="findCharitableCommonwealList" resultType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from xa_charitable_commonweal
+  </select>
+
+  <select id="findCharitableCommonwealById" resultType="com.hailu.cloud.api.admin.module.xinan.entity.CharitableCommonweal">
+    select
+    <include refid="Blob_Column_List"/>
+    ,
+    <include refid="Base_Column_List"/>
+    from xa_charitable_commonweal
+    where id = #{Id}
   </select>
 </mapper>

@@ -9,29 +9,17 @@ import java.util.Date;
 
 @Data
 @ApiModel
-public class GovernmentUsers implements Serializable {
+public class Government implements Serializable {
     /**
      *  编号
      */
     private Long id;
 
     /**
-     * 登陆账号
+     * 管理员编号
      */
-    @ApiModelProperty("登陆账号")
-    private String loginAccount;
-
-    /**
-     * 登陆密码
-     */
-    @ApiModelProperty("登陆密码")
-    private String loginPassword;
-
-    /**
-     * 市编号
-     */
-    @ApiModelProperty("市编号")
-    private String cityCode;
+    @ApiModelProperty("管理员编号")
+    private Long adminId;
 
     /**
      * 捐赠次数

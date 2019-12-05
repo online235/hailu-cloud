@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.GovernmentMapper" >
+
+  <sql id="Base_Column_List" >
+    id, admin_id, donation_times, cratedat, updatedat
+  </sql>
+  <sql id="Blob_Column_List" >
+    commonweal_article
+  </sql>
+  <select id="findGovernmentUsersByCityCode" resultType="com.hailu.cloud.api.xinan.module.app.model.GovernmentModel" parameterType="java.lang.String">
+        select sa.id,sa.city_code,xg.commonweal_article
+        from sys_admin sa INNER JOIN xa_government xg ON sa.id = xg.admin_id
+        where sa.account_type = 2 and sa.city_code = #{cityCode}
+  </select>
+</mapper>

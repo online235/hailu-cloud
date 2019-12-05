@@ -49,6 +49,16 @@ public class AdminLoginInfoModel extends LoginModel {
     private String avatar;
 
     /**
+     * 市code
+     */
+    private String cityCode;
+
+    /**
+     * 账号类型（管理员-1、政府-2）
+     */
+    private String accountType;
+
+    /**
      * 拥有的菜单
      */
     private List<SysMenuModel> menus;

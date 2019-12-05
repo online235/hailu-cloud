@@ -19,46 +19,38 @@ public interface CharitableCommonwealMapper {
      */
     int deleteByPrimaryKey(Long id);
 
-    /**
-     *
-     * @mbggenerated 2019-12-02
-     */
-    int insert(CharitableCommonweal record);
 
     /**
-     *
+     * 添加公益
      * @mbggenerated 2019-12-02
      */
     int insertSelective(CharitableCommonweal record);
 
-    /**
-     *
-     * @mbggenerated 2019-12-02
-     */
-    CharitableCommonweal selectByPrimaryKey(Long id);
 
     /**
-     *
+     * 根据编号更改信息
      * @mbggenerated 2019-12-02
      */
     int updateByPrimaryKeySelective(CharitableCommonweal record);
 
-    /**
-     *
-     * @mbggenerated 2019-12-02
-     */
-    int updateByPrimaryKeyWithBLOBs(CharitableCommonweal record);
-
-    /**
-     *
-     * @mbggenerated 2019-12-02
-     */
-    int updateByPrimaryKey(CharitableCommonweal record);
 
     /**
      * 根据政府编号查询公益列表
-     * @param usersId
+     * @param adminId
      * @return
      */
-    List<CharitableCommonweal> findCharitableCommonwealByUsersId(@Param("usersId") Long usersId);
+    List<CharitableCommonweal> findCharitableCommonwealByAdminId(@Param("adminId") Long adminId);
+
+    /**
+     * 超级管理员获取公益列表
+     * @return
+     */
+    List<CharitableCommonweal> findCharitableCommonwealList();
+
+    /**
+     * 根据编号查询详细信息
+     * @param Id
+     * @return
+     */
+    CharitableCommonweal findCharitableCommonwealById(@Param("Id") Long Id);
 }

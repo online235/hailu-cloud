@@ -34,4 +34,20 @@ public interface IPaymentService {
      * @throws BusinessException
      */
     void callbackHl(Map<String,Object> params) throws BusinessException;
+
+    /**
+     * 心安捐赠支付
+     * @param payType
+     * @param moneyPrice
+     * @param orderId
+     * @return
+     */
+    Map<String, Object> donationOrder(Integer payType, Double moneyPrice, String orderId) throws BusinessException;
+
+    /**
+     * 心安捐赠支付回调
+     * @param params
+     * @throws BusinessException
+     */
+    void callbackDonation(Map<String,Object> params) throws BusinessException;
 }

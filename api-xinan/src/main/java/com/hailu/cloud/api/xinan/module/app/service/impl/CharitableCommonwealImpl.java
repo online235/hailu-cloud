@@ -1,11 +1,14 @@
 package com.hailu.cloud.api.xinan.module.app.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.xinan.module.app.dao.CharitableCommonwealMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.CharitableCommonweal;
 import com.hailu.cloud.api.xinan.module.app.service.CharitableCommonwealService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,12 +19,18 @@ import java.util.List;
 @Service
 public class CharitableCommonwealImpl implements CharitableCommonwealService {
 
-    @Autowired
+    @Resource
     private CharitableCommonwealMapper charitableCommonwealMapper;
 
     @Override
-    public List<CharitableCommonweal> findCharitableCommonwealByUsersId(Long usersId) {
+    public PageInfoModel<List<CharitableCommonweal>> findCharitableCommonwealByAdminId(Long adminId, Integer page, Integer size) {
+        Page pageData = PageHelper.startPage(page,size);
+        List<CharitableCommonweal> orders = charitableCommonwealMapper.findCharitableCommonwealByAdminId(adminId);
+        return new PageInfoModel(pageData.getPages(), pageData.getTotal(), orders);
+    }
 
-        return charitableCommonwealMapper.findCharitableCommonwealByUsersId(usersId);
+    @Override
+    public CharitableCommonweal findCharitableCommonwealById(Long Id) {
+        return charitableCommonwealMapper.findCharitableCommonwealById(Id);
     }
 }

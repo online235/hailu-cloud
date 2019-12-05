@@ -4,8 +4,8 @@
 
     <!-- 添加账号 -->
     <insert id="addAccount">
-		insert into sys_admin(id, nick_name, account, avatar, pwd, enable_status, phone, create_by, create_time)
-		values (#{id}, #{nickName}, #{account}, #{avatar}, #{pwd}, #{enableStatus}, #{phone}, #{createBy}, NOW())
+		insert into sys_admin(id, nick_name, account, avatar, pwd, enable_status, phone, city_code, account_type, create_by, create_time)
+		values (#{id}, #{nickName}, #{account}, #{avatar}, #{pwd}, #{enableStatus}, #{phone}, #{cityCode}, #{accountType}, #{createBy}, NOW())
 	</insert>
 
     <!-- 变更账号启用状态 -->
@@ -34,7 +34,7 @@
 
     <!-- 查询账号列表 -->
     <select id="accountList" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
-        SELECT id, nick_name, account, avatar, enable_status, phone
+        SELECT id, nick_name, account, avatar, enable_status, phone, city_code, account_type
         FROM sys_admin
         <where>
             <if test="nickName != null and nickName != ''">
@@ -51,7 +51,7 @@
 
     <!-- 根据账号查询 -->
     <select id="searchAccount" resultType="com.hailu.cloud.common.model.system.SysAdminModel">
-		SELECT id, nick_name, account, avatar, pwd, enable_status, phone
+		SELECT id, nick_name, account, avatar, pwd, enable_status, phone, city_code, account_type
 		FROM sys_admin
 		WHERE enable_status = #{enableStatus}
 		  AND account = #{account}

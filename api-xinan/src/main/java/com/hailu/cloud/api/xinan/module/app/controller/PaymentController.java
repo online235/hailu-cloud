@@ -100,4 +100,26 @@ public class PaymentController {
     }
 
 
+    @ApiOperation(notes = "", value = "心安捐赠支付接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="payType", value = "支付类型（1-支付宝、2-微信、3-微信H5）", required = true, paramType="query",dataType = "int"),
+            @ApiImplicitParam(name="money", value = "金额", required = true, paramType="query",dataType = "double"),
+            @ApiImplicitParam(name="orderId", value = "订单编号", required = true, paramType="query",dataType = "String"),
+    })
+    @RequestMapping(value = "/donationOrder",method = {RequestMethod.POST,RequestMethod.GET})
+    public Map<String,Object> donationOrder(@NotNull(message = "支付类型不能为空") Integer payType,
+                                       @NotNull(message = "金额不能为空") Double money,
+                                       @NotNull(message = "订单编号不能为空") String orderId)throws BusinessException {
+        log.info("心安支付 支付类型：{},金额：{}, 参保人ID：{}",payType,money,orderId);
+        return paymentService.donationOrder(payType,money,orderId);
+    }
+
+    @RequestMapping(value = "/callbackWeChatDonation",method = {RequestMethod.POST,RequestMethod.GET})
+    public String callbackWeChatDonation() throws Exception {
+        log.info("微信回调开始");
+        paymentService.callbackDonation(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
+        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
+    }
+
+
 }

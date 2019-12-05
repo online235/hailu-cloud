@@ -1,7 +1,8 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
-import com.hailu.cloud.api.xinan.module.app.entity.GovernmentUsers;
-import com.hailu.cloud.api.xinan.module.app.service.GovernmentUsersService;
+import com.hailu.cloud.api.xinan.module.app.entity.Government;
+import com.hailu.cloud.api.xinan.module.app.model.GovernmentModel;
+import com.hailu.cloud.api.xinan.module.app.service.GovernmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,10 +27,10 @@ import javax.validation.constraints.NotBlank;
 @Validated
 @Api(tags = "心安-政府慈善公益")
 @Slf4j
-public class GovernmentUsersController {
+public class GovernmentController {
 
     @Autowired
-    private GovernmentUsersService governmentUsersService;
+    private GovernmentService governmentUsersService;
 
     @ApiOperation(value = "根据城市查询文章", notes = "<pre>" +
             "" +
@@ -39,7 +40,7 @@ public class GovernmentUsersController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cityCode", value = "城市Id", required = true, paramType = "query")
     })
-    public GovernmentUsers findCommonwealArticle(@NotBlank(message = "城市Id不能为空") String cityCode){
+    public GovernmentModel findCommonwealArticle(@NotBlank(message = "城市Id不能为空") String cityCode){
 
         return governmentUsersService.findGovernmentUsersByCityCode(cityCode);
     }

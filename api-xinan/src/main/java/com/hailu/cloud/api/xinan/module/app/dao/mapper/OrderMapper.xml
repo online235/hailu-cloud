@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.Order" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="rescue_id" property="rescueId" jdbcType="VARCHAR" />
     <result column="item_name" property="itemName" jdbcType="VARCHAR" />
     <result column="item_type" property="itemType" jdbcType="VARCHAR" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
@@ -25,7 +26,7 @@
     <result column="order_status" property="orderStatus" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, member_id, item_name, item_type, order_no, status, froms, pay_type, insured_name,province_Id,city_id,area_id,address,
+    id, member_id, rescue_id, item_name, item_type, order_no, status, froms, pay_type, insured_name,province_Id,city_id,area_id,address,
     insured_value, money, create_date, create_by, update_date, update_by, order_status,invitation_member,choose_city_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -39,13 +40,13 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" useGeneratedKeys="true" keyProperty="id" >
-    insert into xa_order (id,member_id, item_name, item_type,
+    insert into xa_order (id,member_id, rescue_id, item_name, item_type,
       order_no, status, froms,
       pay_type, insured_name, insured_value,
       money, create_date, create_by,
       update_date, update_by, order_status,province_Id,city_id,area_id,address,choose_city_id,invitation_member
       )
-    values (#{id,jdbcType=VARCHAR},#{memberId,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR},
+    values (#{id,jdbcType=VARCHAR},#{memberId,jdbcType=VARCHAR}, #{rescueId,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR},
       #{orderNo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{froms,jdbcType=VARCHAR},
       #{payType,jdbcType=INTEGER}, #{insuredName,jdbcType=VARCHAR}, #{insuredValue,jdbcType=VARCHAR},
       #{money,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
@@ -58,6 +59,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="memberId != null" >
         member_id,
+      </if>
+      <if test="rescueId != null" >
+        rescue_id,
       </if>
       <if test="itemName != null" >
         item_name,
@@ -105,6 +109,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="memberId != null" >
         #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueId != null" >
+        #{rescueId,jdbcType=VARCHAR},
       </if>
       <if test="itemName != null" >
         #{itemName,jdbcType=VARCHAR},
@@ -155,6 +162,9 @@
     <set >
       <if test="memberId != null" >
         member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="rescueId != null" >
+        rescue_id = #{rescueId,jdbcType=VARCHAR},
       </if>
       <if test="itemName != null" >
         item_name = #{itemName,jdbcType=VARCHAR},
@@ -216,6 +226,7 @@
   <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" >
     update xa_order
     set member_id = #{memberId,jdbcType=VARCHAR},
+      rescue_id = #{rescueId,jdbcType=VARCHAR},
       item_name = #{itemName,jdbcType=VARCHAR},
       item_type = #{itemType,jdbcType=VARCHAR},
       order_no = #{orderNo,jdbcType=VARCHAR},
