@@ -36,8 +36,10 @@ public class StoreInformationImpl implements StoreInformationService {
         List<StoreInformation> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType ,cityCode);
         List<StoreInformation> data = new ArrayList<>();
         for (StoreInformation storeInformation : datas){
-            storeInformation.setBusinessState(StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay()) == true ? 1L : 2L);
-            data.add(storeInformation);
+            if(storeInformation.getBusinessState() == 1){
+                storeInformation.setBusinessState(StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay()) == true ? 1 : 2);
+                data.add(storeInformation);
+            }
         }
         return new PageInfoModel<>(p.getPages(),p.getTotal(),data);
     }

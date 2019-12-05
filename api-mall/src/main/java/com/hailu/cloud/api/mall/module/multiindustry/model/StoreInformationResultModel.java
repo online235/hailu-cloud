@@ -95,7 +95,7 @@ public class StoreInformationResultModel{
      * 营业状态(1-营业中，2-休息中)
      */
     @ApiModelProperty("营业状态(1-营业中，2-休息中)")
-    private Long businessState;
+    private Integer businessState;
 
     /**
      * 营业状态(1-营业中，2-休息中)
@@ -132,7 +132,7 @@ public class StoreInformationResultModel{
      * 审核('审核中-1','审核通过-2','审核不通过-3')
      */
     @ApiModelProperty("审核('审核中-1','审核通过-2','审核不通过-3')")
-    private Long toExamine;
+    private Integer toExamine;
 
     @DictName(code = "TO_EXAMINE", joinField = "toExamine")
     @ApiModelProperty("审核('审核中','审核通过','审核不通过')")

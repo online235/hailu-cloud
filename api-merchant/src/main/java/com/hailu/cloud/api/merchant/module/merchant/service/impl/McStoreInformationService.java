@@ -53,7 +53,10 @@ public class McStoreInformationService {
         mcStoreInformation.setCreatedat(new Date());
         mcStoreInformation.setUpdatedat(new Date());
         mcStoreInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
-        mcStoreInformation.setBusinessState(1);
+        mcStoreInformation.setBusinessState(2);//1-营业中，2-休息中
+        mcStoreInformation.setOpeningTime("9:00");//默认开店时间
+        mcStoreInformation.setClosingTime("17:00");//默认关店时间
+        mcStoreInformation.setWeekDay("1");//默认关店时间
         int result = mcStoreInformationMapper.insertSelective(mcStoreInformation);
         if (result <= 0) {
             throw new BusinessException("插入数据失败");
