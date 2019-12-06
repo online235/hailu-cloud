@@ -4,22 +4,23 @@ import cn.hutool.crypto.SecureUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.system.dao.AdminMapper;
+import com.hailu.cloud.api.admin.module.system.dao.RoleMapper;
 import com.hailu.cloud.api.admin.module.system.service.IAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysAdminModel;
+import com.hailu.cloud.common.model.system.SysRoleModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +31,9 @@ public class AdminServiceImpl implements IAdminService {
 
     @Resource
     private AdminMapper adminMapper;
+
+    @Resource
+    private RoleMapper roleMapper;
 
     @Autowired
     private BasicFeignClient basicFeignClient;
@@ -70,11 +74,6 @@ public class AdminServiceImpl implements IAdminService {
         adminMapper.changePwd(id, newPwdMd5, infoModel.getAccount());
     }
 
-    public static void main(String[] args) {
-        String pwd = SecureUtil.sha256("123456&key=hailu.com");
-        System.out.println(pwd);
-    }
-
     @Override
     public SysAdminModel searchAccount(String account, int enableStatus) {
         return adminMapper.searchAccount(account, enableStatus);
@@ -90,6 +89,15 @@ public class AdminServiceImpl implements IAdminService {
 
         Page page = PageHelper.startPage(pageNum, pageSize);
         List<SysAdminModel> datas = adminMapper.accountList(nickName, account, enableStatus);
+
+        Map<Long, SysAdminModel> mapping = new HashMap<>(datas.size());
+        datas.forEach(admin -> mapping.put(admin.getId(), admin));
+        roleMapper.adminRoleList(mapping.keySet()).forEach(role->{
+            SysRoleModel sysAdminModel = new SysRoleModel();
+            sysAdminModel.setId(role.getRoleId());
+            sysAdminModel.setRoleName(role.getRoleName());
+            mapping.get(role.getAdminId()).getRoles().add(sysAdminModel);
+        });
         return new PageInfoModel<>(page.getPages(), page.getTotal(), datas);
     }
 

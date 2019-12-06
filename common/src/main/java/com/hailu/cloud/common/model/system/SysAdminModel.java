@@ -1,5 +1,6 @@
 package com.hailu.cloud.common.model.system;
 
+import com.google.common.collect.Lists;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
@@ -9,6 +10,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 管理员账号
@@ -105,5 +107,7 @@ public class SysAdminModel {
      */
     @ApiModelProperty("修改时间")
     private Date updateTime;
+
+    private List<SysRoleModel> roles = Lists.newArrayList();
 
 }

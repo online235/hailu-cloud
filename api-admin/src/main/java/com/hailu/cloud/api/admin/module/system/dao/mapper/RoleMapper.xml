@@ -51,6 +51,22 @@
         </where>
     </select>
 
+    <!-- 查询管理员角色列表 -->
+    <select id="adminRoleList" resultType="com.hailu.cloud.api.admin.module.system.model.LkAdminRoleModel">
+        SELECT
+            sr.id as role_id,
+            lar.admin_id,
+            sr.role_name
+        FROM
+            sys_role sr
+            INNER JOIN lk_admin_role lar ON lar.role_id = sr.id
+        WHERE
+            lar.admin_id in
+        <foreach collection="userIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <!-- 查询账号列表 -->
     <select id="findBindMenus" resultType="com.hailu.cloud.api.admin.module.system.model.LkRoleMenuModel">
         SELECT

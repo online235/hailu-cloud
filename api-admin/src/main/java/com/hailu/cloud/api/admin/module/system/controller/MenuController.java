@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.system.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.google.common.collect.ImmutableList;
 import com.hailu.cloud.api.admin.module.system.service.IMenuService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -112,8 +114,10 @@ public class MenuController {
             "</pre>")
     @ApiImplicitParam(name = "onlyShowEnable", value = "只显示启用的菜单", paramType = "query", dataType = "String")
     @GetMapping("/tree")
-    public List<SysMenuModel> treeList(Boolean onlyShowEnable) {
-        return menuService.menuTreeList(onlyShowEnable);
+    public ImmutableList<SysMenuModel> treeList(Boolean onlyShowEnable) {
+        List<SysMenuModel> data = menuService.menuTreeList(onlyShowEnable);
+        log.info("==> " + JSON.toJSONString(data));
+        return ImmutableList.copyOf(data);
     }
 
     @ApiOperation(value = "添加菜单", notes = "<pre>" +

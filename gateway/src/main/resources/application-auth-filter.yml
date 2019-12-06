@@ -18,8 +18,6 @@ mapping:
         - ${api-version}/auth
         # 支付接口
         - ${api-version}/payment
-        # 后台接口
-        - ${api-version}/admin
         # 基础服务接口
         - ${api-version}/basic
         # 心安接口
@@ -62,7 +60,7 @@ mapping:
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
-    debug: false
+    debug: true
     # 不允许访问的路径 【0，1】具体看 LoginTypeEnum
     notAllow:
       0:

@@ -1,12 +1,12 @@
 package com.hailu.cloud.api.admin.module.system.dao;
 
+import com.hailu.cloud.api.admin.module.system.model.LkAdminRoleModel;
 import com.hailu.cloud.api.admin.module.system.model.LkRoleMenuModel;
 import com.hailu.cloud.common.model.system.SysRoleModel;
 import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -39,6 +39,14 @@ public interface RoleMapper {
     List<SysRoleModel> roleList(
             @Param("roleName") String roleName,
             @Param("enableStatus") Integer enableStatus);
+
+    /**
+     * 查询管理员角色列表
+     *
+     * @param userIds 管理员账号ID
+     * @return
+     */
+    List<LkAdminRoleModel> adminRoleList(@Param("userIds") Set<Long> userIds);
 
     /**
      * 查询角色绑定的菜单

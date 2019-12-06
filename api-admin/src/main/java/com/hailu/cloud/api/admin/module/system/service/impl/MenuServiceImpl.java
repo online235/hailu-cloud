@@ -76,7 +76,7 @@ public class MenuServiceImpl implements IMenuService {
             mapping.put(menu.getId(), menu);
         });
         queryData.stream()
-                .filter(menu -> menu.getParentId() != null)
+                .filter(menu -> menu.getParentId() != null && menu.getParentId() != 0)
                 .forEach(menu -> {
                     if (!mapping.containsKey(menu.getParentId())) {
                         return;

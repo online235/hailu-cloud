@@ -6,9 +6,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.hailu.cloud.api.auth.module.login.dao.AdminMapper;
 import com.hailu.cloud.api.auth.module.login.dao.MemberMapper;
 import com.hailu.cloud.api.auth.module.login.dao.MerchantMapper;
-import com.hailu.cloud.api.auth.module.login.feigns.AdminAccountFeignClient;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.api.auth.module.login.service.ILoginCallback;
 import com.hailu.cloud.common.constant.Constant;
@@ -27,7 +27,6 @@ import com.hailu.cloud.common.security.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -61,8 +60,8 @@ public class AuthServiceImpl implements IAuthService {
     /**
      * 管理员账号查询
      */
-    @Autowired
-    private AdminAccountFeignClient adminAccountFeignClient;
+    @Resource
+    private AdminMapper adminMapper;
 
     /**
      * 是否启用全局万能验证码
@@ -313,7 +312,7 @@ public class AuthServiceImpl implements IAuthService {
 
             @Override
             public boolean exists(String account) {
-                loginInfoModel = adminAccountFeignClient.searchAccount(account).getData();
+                loginInfoModel = adminMapper.searchAccount(account);
                 return loginInfoModel != null;
             }
 
