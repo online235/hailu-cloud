@@ -73,7 +73,7 @@ public class ShopMemBerService {
      * @param addtime
      * @return
      */
-    public void addLitemallUser(String phone, long addtime) {
+    public ShopMember addLitemallUser(String phone, long addtime) {
         ShopMember userInfo = new ShopMember();
         userInfo.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
         userInfo.setLoginName(phone);
@@ -82,6 +82,7 @@ public class ShopMemBerService {
         userInfo.setMemberMobile(phone);
         userInfo.setCreateTime(addtime);
         memberMapper.AddLitemallUser(userInfo);
+        return userInfo;
     }
 
 
@@ -116,14 +117,16 @@ public class ShopMemBerService {
                 throw new BusinessException("无效验证码");
             }
         }
-        int result = findShopMemberByUserIdAndMerchantType(insuredIds);
-        if (result > 0){
-            MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
-            redisStandAloneClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE+model.getUserId(),insuredIds,0);
-        }
 
         // 注册账号
-        addLitemallUser(phone,System.currentTimeMillis());
+        ShopMember ShopMember = addLitemallUser(phone,System.currentTimeMillis());
+        if (insuredIds != null) {
+            int result = findShopMemberByUserIdAndMerchantType(insuredIds);
+            if (result > 0) {
+                redisStandAloneClient.stringSet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + ShopMember.getUserId(), insuredIds, 0);
+            }
+        }
+
     }
 
 }
