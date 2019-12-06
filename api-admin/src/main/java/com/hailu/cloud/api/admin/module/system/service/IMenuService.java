@@ -20,6 +20,14 @@ public interface IMenuService {
     SysMenuModel addMenu(SysMenuModel model);
 
     /**
+     * 删除菜单
+     *
+     * @param menuIds
+     * @return
+     */
+    void delMenu(String menuIds);
+
+    /**
      * 编辑菜单
      *
      * @param model

@@ -10,14 +10,13 @@ import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.model.system.SysMenuModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +41,19 @@ public class MenuServiceImpl implements IMenuService {
         model.setCreateBy(loginInfoModel.getAccount());
         menuMapper.addMenu(model);
         return model;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delMenu(String menuIds) {
+        List<Long> menuIdList = Arrays.stream(menuIds.split(","))
+                .map(StringUtils::trim)
+                .filter(StringUtils::isNotBlank)
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+
+        menuMapper.unbindRoleMenu(menuIdList);
+        menuMapper.delMenu(menuIdList);
     }
 
     @Override
@@ -72,9 +84,7 @@ public class MenuServiceImpl implements IMenuService {
         Integer enableStatus = Optional.ofNullable(onlyShowEnable).map(state-> state.booleanValue() ? 1 : null).orElse(null);
         List<SysMenuModel> queryData = menuMapper.menuList(null, null, enableStatus);
         Map<Long, SysMenuModel> mapping = new HashMap<>(queryData.size());
-        queryData.forEach(menu -> {
-            mapping.put(menu.getId(), menu);
-        });
+        queryData.forEach(menu -> mapping.put(menu.getId(), menu));
         queryData.stream()
                 .filter(menu -> menu.getParentId() != null && menu.getParentId() != 0)
                 .forEach(menu -> {

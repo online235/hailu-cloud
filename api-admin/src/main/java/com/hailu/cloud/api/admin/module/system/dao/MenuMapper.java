@@ -20,6 +20,20 @@ public interface MenuMapper {
     void addMenu(SysMenuModel model);
 
     /**
+     * 解绑角色与菜单的关联
+     *
+     * @param menuIds
+     */
+    void unbindRoleMenu(@Param("menuIds") List<Long> menuIds);
+
+    /**
+     * 解绑角色与菜单的关联
+     *
+     * @param menuIds
+     */
+    void delMenu(@Param("menuIds") List<Long> menuIds);
+
+    /**
      * 编辑菜单
      *
      * @param model

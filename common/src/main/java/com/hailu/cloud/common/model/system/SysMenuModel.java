@@ -44,14 +44,12 @@ public class SysMenuModel {
     /**
      * 菜单URL路径
      */
-    @NotBlank(message = "菜单URL路径不能为空")
     @ApiModelProperty(value = "菜单URL路径", required = true)
     private String url;
 
     /**
      * 菜单权限编码
      */
-    @NotBlank(message = "菜单权限编码不能为空")
     @ApiModelProperty(value = "菜单权限编码", required = true)
     private String permissionCode;
 

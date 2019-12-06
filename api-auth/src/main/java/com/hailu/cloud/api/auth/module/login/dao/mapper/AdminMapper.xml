@@ -9,4 +9,14 @@
 		WHERE account = #{account}
 	</select>
 
+    <!-- 查询账号可以访问哪些菜单 -->
+    <select id="findAccountMenu" resultType="com.hailu.cloud.common.model.system.SysMenuModel">
+		select distinct sm.id, sm.parent_id, sm.menu_name, sm.menu_type, sm.permission_code, sm.url
+		from lk_admin_role lar
+		inner join sys_role sr on lar.role_id = sr.id
+		inner join lk_role_menu lrm on lrm.role_id = sr.id
+		inner join sys_menu sm on (sm.id = lrm.menu_id and sm.enable_status = 1)
+		where lar.admin_id = #{adminId}
+	</select>
+
 </mapper>

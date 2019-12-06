@@ -27,6 +27,24 @@
 		update sys_menu set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}
     </update>
 
+    <delete id="unbindRoleMenu">
+        delete from lk_role_menu where menu_id in
+        <foreach collection="menuIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delMenu">
+        delete from sys_menu where id in
+        <foreach collection="menuIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        or parent_id in
+        <foreach collection="menuIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
     <!-- 查询菜单列表 -->
     <select id="menuList" resultType="com.hailu.cloud.common.model.system.SysMenuModel">
         SELECT id, menu_name, parent_id, url, menu_type, enable_status, permission_code

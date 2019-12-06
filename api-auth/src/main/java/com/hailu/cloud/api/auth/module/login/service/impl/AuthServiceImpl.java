@@ -21,6 +21,7 @@ import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.merchant.StoreInformationModel;
+import com.hailu.cloud.common.model.system.SysMenuModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
@@ -32,8 +33,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 /**
  * @author zhijie
@@ -268,6 +272,7 @@ public class AuthServiceImpl implements IAuthService {
             public Object beforeReturnExcludeField() {
                 return loginInfoModel;
             }
+
         };
     }
 
@@ -298,6 +303,7 @@ public class AuthServiceImpl implements IAuthService {
             public Object beforeReturnExcludeField() {
                 return loginInfoModel;
             }
+
         };
     }
 
@@ -338,6 +344,21 @@ public class AuthServiceImpl implements IAuthService {
             public Object handle(String accessToken, String refreshToken) {
                 loginInfoModel.setAccessToken(accessToken);
                 loginInfoModel.setRefreshToken(refreshToken);
+                // 转换成树型结构
+                List<SysMenuModel> menus = adminMapper.findAccountMenu(loginInfoModel.getId());
+                Map<Long, SysMenuModel> mapping = new HashMap<>(menus.size());
+                menus.forEach(menu -> mapping.put(menu.getId(), menu));
+                menus.stream()
+                        .filter(menu -> menu.getParentId() != null && menu.getParentId() != 0)
+                        .forEach(menu -> {
+                            if (!mapping.containsKey(menu.getParentId())) {
+                                return;
+                            }
+                            SysMenuModel parent = mapping.get(menu.getParentId());
+                            parent.getChildren().add(menu);
+                        });
+                List<SysMenuModel> menuTree = menus.stream().filter(menu -> menu.getParentId() == 0).collect(Collectors.toList());
+                loginInfoModel.setMenus(menuTree);
                 return loginInfoModel;
             }
 
@@ -347,6 +368,7 @@ public class AuthServiceImpl implements IAuthService {
                 loginInfoModel.setEnableStatus(null);
                 return loginInfoModel;
             }
+
         };
     }
 
@@ -396,6 +418,7 @@ public class AuthServiceImpl implements IAuthService {
                 loginInfoModel.setLandingpassword(null);
                 return loginInfoModel;
             }
+
         };
     }
 
