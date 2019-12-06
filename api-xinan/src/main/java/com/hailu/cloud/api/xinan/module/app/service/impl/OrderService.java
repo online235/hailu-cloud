@@ -82,7 +82,7 @@ public class OrderService {
      * @return
      */
     public Order buildOrder(String name, String value, String memberId, String itemType, String from, String itemName, String invitationMember, BigDecimal money){
-        return buildOrder(name, value, null, memberId, itemType, from, itemName, invitationMember, money,null,null,null,null,null);
+        return buildOrder(name, value, memberId, null, itemType, from, itemName, invitationMember, money,null,null,null,null,null);
     }
 
     /**
