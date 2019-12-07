@@ -159,4 +159,19 @@ public class StoreInformationResultModel{
     private List<StoreAlbum>  storeAlbumList;
 
 
+    /**
+     * 经营子类类型名称
+     */
+    @ApiModelProperty("经营子类类型名称")
+    private String storeTypeName;
+
+
+    /**
+     * 经营父类类型名称
+     */
+    @ApiModelProperty("经营父类类型名称")
+    private String storeTotalTypeName;
+
+
+
 }

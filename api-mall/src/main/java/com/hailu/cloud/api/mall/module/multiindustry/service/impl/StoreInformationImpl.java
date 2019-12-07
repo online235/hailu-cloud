@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
+import com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
+import com.hailu.cloud.api.mall.module.multiindustry.service.ManagementTypeService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreAlbumServier;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -30,6 +32,11 @@ public class StoreInformationImpl implements StoreInformationService {
 
     @Autowired
     private StoreAlbumServier storeAlbumServier;
+
+    @Resource
+    private ManagementTypeService managementTypeService;
+
+
 
     @Override
     public PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException {
@@ -58,10 +65,21 @@ public class StoreInformationImpl implements StoreInformationService {
 
     @Override
     public StoreInformationResultModel findStoreInformationLeftAlbum(Long id) throws BusinessException {
+
         StoreInformationResultModel storeInformationResultModelList = storeInformationMapper.findStoreInformationLeftAlbum(id);
         if (storeInformationResultModelList == null){
             throw new BusinessException("商店未营业或者不存在");
         }
+        if(storeInformationResultModelList.getStoreTotalType() != null){
+            ManagementType managementType = managementTypeService.findManagementById(storeInformationResultModelList.getStoreTotalType());
+            storeInformationResultModelList.setStoreTotalTypeName(managementType.getManagementName());
+        }
+        if(storeInformationResultModelList.getStoreSonType() != null){
+            ManagementType managementType = managementTypeService.findManagementById(storeInformationResultModelList.getStoreSonType());
+            storeInformationResultModelList.setStoreTypeName(managementType.getManagementName());
+        }
         return storeInformationResultModelList;
     }
+
+
 }

@@ -4,16 +4,28 @@
   <sql id="Base_Column_List" >
     management_id, parent_id, picture_code, picture_Colour, management_name,sort,url
   </sql>
+
+
   <select id="findManagementTypeList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType">
     select
     <include refid="Base_Column_List"/>
     from mc_management_type
+
+      where 1=1
     <if test="parentId != null">
-        where parent_id = #{parentId}
+        and parent_id = #{parentId}
     </if>
     <if test="parentId == null">
-        where parent_id = 0
+        and parent_id = 0
     </if>
         ORDER BY sort
   </select>
+
+    <select id="findManagementById" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_management_type
+        where management_id = #{managementId}
+    </select>
+
 </mapper>

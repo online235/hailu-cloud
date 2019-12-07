@@ -100,6 +100,7 @@ public class StoreInformationController {
     public StoreInformationResultModel findStoreInformation(
             @NotNull(message = "编号不能为空") Long id) throws BusinessException {
 
+
         return storeInformationService.findStoreInformationLeftAlbum(id);
     }
 

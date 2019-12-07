@@ -21,4 +21,11 @@ public interface ManagementTypeMapper {
      * @return
      */
     List<ManagementType> findManagementTypeList(@Param("parentId") long parentId);
+
+
+    /**
+     * 根據id查询数据
+     */
+    ManagementType findManagementById(@Param("managementId")Long managementId);
+
 }

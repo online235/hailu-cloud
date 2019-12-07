@@ -20,4 +20,10 @@ public class ManagementTypeImpl implements ManagementTypeService {
     }
 
 
+    @Override
+    public ManagementType findManagementById(Long managementId) {
+        return managementTypeMapper.findManagementById(managementId);
+    }
+
+
 }
