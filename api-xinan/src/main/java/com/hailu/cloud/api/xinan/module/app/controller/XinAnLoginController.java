@@ -15,12 +15,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -104,16 +102,47 @@ public class XinAnLoginController {
             @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
             @ApiImplicitParam(name = "insuredIds", value = "邀请人ID", required = false, paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", required = false),
+            @ApiImplicitParam(name = "registerType", value = "注册类型：1、验证码;2、密码", paramType = "query",required = false),
     })
     public MemberLoginInfoModel register(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
-            @NotBlank(message = "验证码不能为空") String code,String insuredIds) throws BusinessException {
+            @NotBlank(message = "验证码不能为空") String code, String insuredIds,String password,
+            @RequestParam(name = "registerType", required = false, defaultValue = "1") Integer registerType) throws BusinessException {
 
-        memberService.register(phone, code, insuredIds);
+        if(registerType == 2){
+            if(StringUtils.isBlank(password)){
+                throw new BusinessException("密码不能为空");
+            }
+        }
+        memberService.registerAndPassword(phone, code, insuredIds, password);
         return authFeignClient.vericodeLogin("0", phone, code).getData();
     }
 
 
+
+
+    /**
+     * 忘记密码，重设密码
+     *
+     * @param phone
+     * @param code
+     * @return
+     */
+    @ApiOperation(value = "忘记密码，重设密码")
+    @PostMapping("updatePassword")
+    @ResponseBody
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query")
+    })
+    public void updatePassword(
+            @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
+            @NotBlank(message = "验证码不能为空") String code, String password) throws BusinessException {
+
+        memberService.updatePassword(phone, code, password);
+    }
 
 
     /**

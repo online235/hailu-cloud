@@ -3,6 +3,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
@@ -79,7 +80,7 @@ public class StoreInformationController {
             @ApiImplicitParam(name = "page", value = "第N页", paramType = "query")
     })
     @GetMapping("/shopEnquiry")
-    public PageInfoModel<List<StoreInformation>> findStoreInformationList(
+    public PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(
             @NotNull(message = "经营父类型ID不能为空") Long storeTotalType,
             Long storeSonType,
             String cityCode,

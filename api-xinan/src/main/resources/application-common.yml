@@ -57,3 +57,9 @@ mybatis:
     map-underscore-to-camel-case: true
   type-aliases-package: com.hailu.cloud.api.*.module.*.entity
   mapper-locations: classpath*:/com/hailu/cloud/api/**/*Mapper.xml
+
+user:
+  passwd:
+    sign:
+      # 密码加密的key
+      key: hailu.com

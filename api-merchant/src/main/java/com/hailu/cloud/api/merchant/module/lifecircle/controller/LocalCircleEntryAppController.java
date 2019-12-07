@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,6 +158,27 @@ public class LocalCircleEntryAppController {
         }
 
     }
+
+
+    @ApiOperation(value = "商户忘记密码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "loginType", value = "登录类型(0:心安&商城; 1:商户, 2:管理员)", required = true, paramType = "path", dataType = "String"),
+            @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String")
+    })
+    @GetMapping("/rePasswordLogin/{loginType}")
+    public void rePasswordLogin(
+            @NotBlank(message = "登录类型不能为空")
+            @Pattern(regexp = "^[012]$", message = "不支持的登录类型")
+            @PathVariable("loginType") String loginType,
+            @NotBlank(message = "手机号码不能为空")
+            @Pattern(regexp = "^\\d{11}$", message = "手机号码格式不正确") String phone,
+            @NotBlank(message = "验证码不能为空") String code, String password) throws BusinessException {
+
+        localCircleEntryService.merchantRepassword(Integer.valueOf(loginType),password, phone, code);
+    }
+
 
 
 }

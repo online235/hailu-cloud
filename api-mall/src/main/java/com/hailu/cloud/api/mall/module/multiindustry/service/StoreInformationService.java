@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.service;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -17,7 +18,7 @@ public interface StoreInformationService {
      * @param storeSonType
      * @return
      */
-    PageInfoModel<List<StoreInformation>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException;
+    PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException;
 
     /**
      * 店铺详细信息

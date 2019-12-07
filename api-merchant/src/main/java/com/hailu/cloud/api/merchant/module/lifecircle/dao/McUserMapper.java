@@ -54,6 +54,9 @@ public interface McUserMapper {
 
     int selMcUserByPhone(String phone);
 
+
+    McUser selectMcUserByParame(Object parameter);
+
     /**
      * 查询输入的手机号码或者账号是否存在
      * @param random

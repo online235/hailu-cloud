@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreAlbumServier;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
@@ -31,15 +32,15 @@ public class StoreInformationImpl implements StoreInformationService {
     private StoreAlbumServier storeAlbumServier;
 
     @Override
-    public PageInfoModel<List<StoreInformation>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException {
+    public PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, Integer size, Integer page) throws ParseException {
         Page p = PageHelper.startPage(page, size);
-        List<StoreInformation> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType ,cityCode);
-        List<StoreInformation> data = new ArrayList<>();
-        for (StoreInformation storeInformation : datas){
-            if(storeInformation.getBusinessState() == 1){
-                storeInformation.setBusinessState(StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay()) == true ? 1 : 2);
-                data.add(storeInformation);
+        List<StoreInformationListResult> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType ,cityCode);
+        List<StoreInformationListResult> data = new ArrayList<>();
+        for (StoreInformationListResult storeInformationListResult : datas){
+            if(storeInformationListResult.getBusinessState() == 1){
+                storeInformationListResult.setBusinessState(StoreUtil.storeStatus(storeInformationListResult.getOpeningTime(),storeInformationListResult.getClosingTime(),storeInformationListResult.getWeekDay()) == true ? 1 : 2);
             }
+            data.add(storeInformationListResult);
         }
         return new PageInfoModel<>(p.getPages(),p.getTotal(),data);
     }

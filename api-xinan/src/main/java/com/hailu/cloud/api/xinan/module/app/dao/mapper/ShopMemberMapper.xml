@@ -1001,10 +1001,44 @@
           #{userId}
         ) ;
   </insert>
+
+
+  <insert id="AddShopMember" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+    INSERT INTO `shop_member` (
+        `member_id`,
+        `LOGIN_NAME`,
+        `member_name`,
+        `member_mobile`,
+        `regist_time`,
+        `user_id`,
+        member_passwd
+      )
+      VALUES
+        (
+          #{memberId},
+          #{loginName},
+          #{memberName},
+          #{memberMobile},
+          #{registTime},
+          #{userId},
+          #{memberPasswd}
+        ) ;
+  </insert>
+
+
   <select id="selectLitemallByPhone" resultType="int">
     select count(member_mobile) from shop_member
     where member_mobile = #{phone}
   </select>
+
+
+
+  <select id="findObjectByPhone"  resultType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+    select * from shop_member
+    where member_mobile = #{phone}
+  </select>
+
+
   <select id="findShopMemberByUserIdAndMerchantType" resultType="int" parameterType="java.lang.String">
     select count(member_id) from shop_member
     where user_id = #{userId} And merchant_type = 1 or merchant_type = 2 and user_id = #{userId}

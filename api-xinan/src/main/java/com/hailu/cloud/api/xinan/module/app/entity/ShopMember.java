@@ -185,7 +185,7 @@ public class ShopMember implements Serializable {
     private Long memberBirthday;
 
     /**
-     *
+     *登录密码
      */
     private String memberPasswd;
 

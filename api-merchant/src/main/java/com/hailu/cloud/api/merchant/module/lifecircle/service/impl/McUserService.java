@@ -58,7 +58,6 @@ public class McUserService {
         if (user) {
             throw new BusinessException("用户已存在");
         }
-
         //判断手机号码是否绑定
         user = isBind(phone);
         if (user) {
@@ -87,6 +86,41 @@ public class McUserService {
         throw new BusinessException("插入失败");
 
     }
+
+
+    /**
+     * 重置密码
+     *
+     * @param landingPassword
+     * @param phone
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws NoSuchAlgorithmException
+     */
+    public void updatePassword(String landingPassword, String phone) throws BusinessException {
+
+        Map map = new HashMap();
+        map.put("phone",phone);
+        McUser mcUser = this.selectMcUserByParame(map);
+        //判断手机号码是否绑定
+        if(mcUser == null){
+            throw new BusinessException("手机号码不存在，请重新输入手机号码");
+        }
+        //生成时间戳
+        long time = System.currentTimeMillis();
+        String numberId = String.valueOf(uuidFeignClient.uuid().getData());
+//        request.setAttribute(Constant.MEMBERID,numberId);
+        //密码加密
+        String password = SecureUtil.sha256(landingPassword + "&key=" + signKey);
+        mcUser.setLandingPassword(password);
+        mcUser.setUpdatedat(time);
+        long result = mcUserMapper.updateByPrimaryKeySelective(mcUser);
+        if(result <= 0){
+            throw new BusinessException("修改失败");
+        }
+
+    }
+
 
 
     /**
@@ -196,6 +230,12 @@ public class McUserService {
     public boolean isBind(String phone) {
         int cnt = mcUserMapper.selMcUserByPhone(phone);
         return cnt > 0 ? true : false;
+    }
+
+
+    public McUser selectMcUserByParame(Object parameter){
+
+        return mcUserMapper.selectMcUserByParame(parameter);
     }
 
 

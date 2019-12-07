@@ -79,12 +79,30 @@ public interface ShopMemberMapper {
      */
     int AddLitemallUser(ShopMember litemallUser);
 
+
+    /**
+     * 添加用户加密码
+     * @param litemallUser
+     * @return
+     */
+    int AddShopMember(ShopMember litemallUser);
+
+
     /**
      * 查询手机号码是否绑定
      * @param phone
      * @return
      */
     int selectLitemallByPhone(@Param("phone") String phone);
+
+
+
+    /**
+     * 手机号码查询数据
+     * @param phone
+     * @return
+     */
+    ShopMember findObjectByPhone(@Param("phone") String phone);
 
 
     int findShopMemberByUserIdAndMerchantType(String userId);
