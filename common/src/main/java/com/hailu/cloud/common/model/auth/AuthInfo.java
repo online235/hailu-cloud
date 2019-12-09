@@ -27,6 +27,11 @@ public class AuthInfo<E> {
     private int loginType;
 
     /**
+     * 是否微信登录
+     */
+    private boolean weChatLogin = false;
+
+    /**
      * access token
      */
     private String accessToken;

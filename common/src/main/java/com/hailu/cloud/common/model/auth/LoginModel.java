@@ -18,4 +18,9 @@ public class LoginModel {
      */
     private String refreshToken;
 
+    /**
+     * 是否有设置过密码
+     */
+    private boolean hasPwd;
+
 }

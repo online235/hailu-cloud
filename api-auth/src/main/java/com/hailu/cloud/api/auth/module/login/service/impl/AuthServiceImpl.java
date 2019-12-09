@@ -131,7 +131,7 @@ public class AuthServiceImpl implements IAuthService {
         LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(loginType);
         switch (loginTypeEnum) {
             case ADMIN:
-                throw new BusinessException("该账号 " + phone + " 暂时不支持验证码登录, 登录类型为：" + loginType);
+                throw new BusinessException("该账号 " + phone + " 暂时不支持验证码登录");
             case MERCHANT:
                 return loginHandle(loginType, phone, merchantUserVericodeLoginCallback());
             case XINAN_AND_MALL:
@@ -139,7 +139,7 @@ public class AuthServiceImpl implements IAuthService {
             default:
                 break;
         }
-        throw new BusinessException("该用户 " + phone + " 被禁止登录, 登录类型为：" + loginType);
+        throw new BusinessException("该用户 " + phone + " 被禁止使用验证密码登录");
     }
 
     @Override
@@ -151,11 +151,11 @@ public class AuthServiceImpl implements IAuthService {
             case MERCHANT:
                 return loginHandle(loginType, account, merchantLoginCallback(pwd));
             case XINAN_AND_MALL:
-                throw new BusinessException("该账号 " + account + " 暂时不支持密码登录, 登录类型为：" + loginType);
+                throw new BusinessException("该账号 " + account + " 暂时不支持密码登录");
             default:
                 break;
         }
-        throw new BusinessException("该用户 " + account + " 被禁止登录, 登录类型为：" + loginType);
+        throw new BusinessException("该用户 " + account + " 被禁止使用账号密码登录");
     }
 
     @Override

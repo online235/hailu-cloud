@@ -17,6 +17,27 @@
             shop_member
         WHERE
             member_mobile = #{phone}
+            and is_del = 0
+    </select>
+
+    <select id="findWeChatMember" resultType="com.hailu.cloud.common.model.auth.MemberLoginInfoModel">
+        SELECT
+            user_id,
+            member_name,
+            merchant_type,
+            superior_member,
+            hl_member,
+            member_mobile,
+            user_icon,
+            login_name,
+            member_sex,
+            open_id as we_chat_open_id,
+            unionid as we_chat_union_id,
+            pwd
+        FROM
+            shop_member
+        WHERE unionid = #{unionId}
+          and is_del = 0
     </select>
 
 </mapper>

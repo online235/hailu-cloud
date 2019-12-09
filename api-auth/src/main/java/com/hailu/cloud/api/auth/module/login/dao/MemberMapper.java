@@ -19,4 +19,12 @@ public interface MemberMapper {
      */
     MemberLoginInfoModel findMember(@Param("phone") String phone);
 
+    /**
+     * 根据微信openId, unionId查找账号
+     *
+     * @param unionId
+     * @return
+     */
+    MemberLoginInfoModel findWeChatMember(@Param("unionId") String unionId);
+
 }

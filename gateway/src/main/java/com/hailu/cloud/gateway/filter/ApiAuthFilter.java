@@ -4,11 +4,16 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.enums.LoginTypeEnum;
+import com.hailu.cloud.common.feigns.WeChatFeignClient;
 import com.hailu.cloud.common.model.auth.AuthInfo;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.auth.WeChatAuthResponse;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponseEnum;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
 import com.hailu.cloud.common.security.JwtUtil;
+import com.hailu.cloud.common.utils.RedisCacheUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
 import com.hailu.cloud.gateway.config.RequestRangeCheck;
 import jodd.util.Base64;
@@ -32,6 +37,7 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * 接口认证拦截
@@ -82,6 +88,16 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
     @Resource
     private RedisStandAloneClient redisClient;
 
+    @Resource
+    private WeChatFeignClient weChatFeignClient;
+
+    // endregion
+
+    // region weChat config
+
+    @Value("${wechat.config.appId}")
+    private String appId;
+
     // endregion
 
     @Override
@@ -96,13 +112,19 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
 
         if (ignore(url)) {
             String accessToken = getAccessTokenFromRequestHeader(request);
-            if( StringUtils.isBlank(accessToken) ){
+            if (StringUtils.isBlank(accessToken)) {
                 return chain.filter(exchange);
             }
             AuthInfo authInfo = verifyToken(accessToken);
             if (authInfo == null) {
                 return chain.filter(exchange);
             }
+
+            if (authInfo.isWeChatLogin()) {
+                // 微信accessToken如果差不多两个小时就续期
+                verifyWeChatToken(authInfo);
+            }
+
             ServerHttpRequest serverHttpRequest = exchange
                     .getRequest()
                     .mutate()
@@ -129,6 +151,14 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         if (authInfo == null) {
             DataBuffer dataBuffer = RequestUtils.getDataBuffer(response, ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
             return response.writeWith(Mono.just(dataBuffer));
+        }
+
+        if (authInfo.isWeChatLogin()) {
+            // 微信accessToken如果差不多两个小时就续期
+            DataBuffer dataBuffer = verifyWeChatToken(authInfo);
+            if (dataBuffer != null) {
+                return response.writeWith(Mono.just(dataBuffer));
+            }
         }
 
         if (!debug) {
@@ -205,6 +235,63 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
             return null;
         }
         return tokens.get(0);
+    }
+
+    /**
+     * 验证微信token是否过期
+     *
+     * @param authInfo
+     * @return
+     */
+    private DataBuffer verifyWeChatToken(AuthInfo authInfo) {
+        LoginTypeEnum loginTypeEnum = LoginTypeEnum.of(authInfo.getLoginType());
+        try {
+            switch (loginTypeEnum) {
+                case XINAN_AND_MALL:
+                    MemberLoginInfoModel loginInfo = (MemberLoginInfoModel) authInfo.getUserInfo();
+                    weChatRenewAccessToken(
+                            loginInfo.getWeChatExpiresIn(),
+                            loginInfo.getWeChatRefreshToken(),
+                            (accessToken, expire) -> {
+                                loginInfo.setWeChatAccessToken(accessToken);
+                                loginInfo.setWeChatExpiresIn(expire);
+                                RedisCacheUtils.updateUserInfo(redisClient, loginInfo);
+                            });
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            log.error("微信accessToken续期失败", e);
+        }
+        return null;
+    }
+
+    /**
+     * 如果微信accessToken即将过期，提前续期
+     *
+     * @param weChatExpire
+     * @param weChatRefreshToken
+     * @param callback
+     */
+    private void weChatRenewAccessToken(long weChatExpire, String weChatRefreshToken, BiConsumer<String, Long> callback) {
+        // 判断accessToken有效期
+        Date current = new Date();
+        Date expire = DateUtil.date(weChatExpire);
+        if (DateUtil.compare(expire, current) > 0) {
+            return;
+        }
+        // accessToken续期
+        String weChatResponse = weChatFeignClient.refreshToken(
+                this.appId,
+                "refresh_token",
+                weChatRefreshToken);
+        WeChatAuthResponse weChatLoginModel = JSON.parseObject(weChatResponse, WeChatAuthResponse.class);
+        if (StringUtils.isBlank(weChatLoginModel.getErrCode())) {
+            // 设置微信过期时间,提前30秒给accessToken续期
+            long newExpireTime = System.currentTimeMillis() + ((weChatLoginModel.getExpiresIn() - 30) * 1000);
+            callback.accept(weChatLoginModel.getAccessToken(), newExpireTime);
+        }
     }
 
     /**

@@ -1,21 +1,21 @@
 package com.hailu.cloud.api.auth.module.login.service;
 
+import com.hailu.cloud.api.auth.module.login.model.WeChatUserInfoResponse;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.auth.WeChatAuthResponse;
 
 /**
  * 登录验证回调处理
- *
- * @author xuzhijie
  */
-public interface ILoginCallback {
+public interface IWeChatLoginCallback {
 
     /**
-     * 该账号是否存在
+     * 根据微信unionId查询是否绑定平台账号
      *
-     * @param account
+     * @param unionId
      * @return
      */
-    boolean exists(String account);
+    boolean exists(String unionId);
 
     /**
      * 获取用户ID
@@ -44,9 +44,15 @@ public interface ILoginCallback {
      *
      * @param accessToken
      * @param refreshToken
+     * @param weChatLoginInfoModel
+     * @param weChatUserInfoModel
      * @return
      */
-    Object handle(String accessToken, String refreshToken);
+    Object handle(
+            String accessToken,
+            String refreshToken,
+            WeChatAuthResponse weChatLoginInfoModel,
+            WeChatUserInfoResponse weChatUserInfoModel);
 
     /**
      * 返回前排除一些字段

@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MemberLoginInfoModel extends LoginModel {
+public class MemberLoginInfoModel extends WeChatLoginModel {
 
     /**
      * 用户ID
@@ -22,6 +22,16 @@ public class MemberLoginInfoModel extends LoginModel {
      * 会员名称
      */
     private String memberName;
+
+    /**
+     * 密码
+     */
+    private String pwd;
+
+    /**
+     * 是否绑定微信
+     */
+    private boolean bindWeChat;
 
     /**
      * 商户类型 0_无，1_区域代理，2_服务商
@@ -57,6 +67,5 @@ public class MemberLoginInfoModel extends LoginModel {
      * 会员性别
      */
     private String memberSex;
-
 
 }

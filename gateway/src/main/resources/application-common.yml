@@ -41,3 +41,10 @@ hystrix:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
+
+wechat:
+  # 微信配置
+  server: https://api.weixin.qq.com
+  config:
+    appId: wx28a66e8b774bd3f2
+    secret: 17edb75ac4bcb2601c53a82277486e94

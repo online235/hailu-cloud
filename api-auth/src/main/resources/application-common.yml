@@ -45,3 +45,10 @@ user:
     sign:
       # 密码加密的key
       key: hailu.com
+
+wechat:
+  # 微信配置
+  server: https://api.weixin.qq.com
+  config:
+    appId: wx28a66e8b774bd3f2
+    secret: 17edb75ac4bcb2601c53a82277486e94
