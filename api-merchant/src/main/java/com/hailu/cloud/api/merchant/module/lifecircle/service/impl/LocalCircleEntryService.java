@@ -70,7 +70,7 @@ public class LocalCircleEntryService {
         //生成时间戳
         long time = System.currentTimeMillis();
         //生成随机ID
-        String numberid = String.valueOf(uuidFeign.uuid());
+        String numberid = String.valueOf(uuidFeign.uuid().getData());
         localCircleEntry.setNumberId(numberid);
         localCircleEntry.setCreatedat(time);
         localCircleEntry.setUpdatedat(time);

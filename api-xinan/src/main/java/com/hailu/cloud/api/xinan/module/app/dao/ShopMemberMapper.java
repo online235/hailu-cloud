@@ -4,7 +4,6 @@ import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG

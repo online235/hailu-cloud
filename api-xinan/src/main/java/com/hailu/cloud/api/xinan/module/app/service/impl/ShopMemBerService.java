@@ -14,7 +14,6 @@ import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.utils.RedisCacheUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -89,6 +88,7 @@ public class ShopMemBerService {
 
         ShopMember userInfo = new ShopMember();
         userInfo.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
+        userInfo.setMemberId(uuidFeignClient.uuid().getData());
         userInfo.setLoginName(phone);
         userInfo.setMemberName(phone);
         userInfo.setRegistTime(addtime);

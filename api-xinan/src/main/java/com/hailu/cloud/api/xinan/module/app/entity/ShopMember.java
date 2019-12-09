@@ -1,77 +1,20 @@
 package com.hailu.cloud.api.xinan.module.app.entity;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
+import java.math.BigDecimal;
 
 /**
- * @author 刘柱栋
- * @Description 用户信息
- * @date 2016/6/7 23:57
- * @copyright Jelly.Liu. All rights reserved. Mail to liuzhudong57@gmail.com
- * @since v1.0
+ * 会员表
+ *
+ * @author zhijie
  */
 @Data
-@ApiModel
-public class ShopMember implements Serializable {
-
-    private static final long serialVersionUID = -8063242689214064367L;
+public class ShopMember {
 
     /**
-     * 主键ID
+     * 会员id
      */
-    private java.lang.Integer id;
-
-    /**
-     * 用户ID(外键关联)
-     */
-    private java.lang.String userId;
-
-    /**
-     * 登录名称
-     */
-    private java.lang.String loginName;
-
-    /**
-     * 登录密码
-     */
-    private java.lang.String loginPasswd;
-
-    /**
-     * 用户头像
-     */
-    private java.lang.String userIcon;
-
-    /**
-     * 用户名称
-     */
-    private java.lang.String userName;
-
-    /**
-     * 用户昵称
-     */
-    private java.lang.String nickName;
-
-
-    /**
-     * QQ
-     */
-    private java.lang.String qq;
-
-    /**
-     * 微信
-     */
-    private java.lang.String wechat;
-
-    /**
-     * 邮箱
-     */
-    private java.lang.String email;
+    private Long memberId;
 
     /**
      * 会员名称
@@ -79,105 +22,54 @@ public class ShopMember implements Serializable {
     private String memberName;
 
     /**
-     * 注册时间
-     */
-    private long registTime;
-
-    /**
-     * 手机号
-     */
-    private String memberMobile;
-
-    /**
-     * 职业
-     */
-    private java.lang.String profession;
-
-    /**
-     * 创建时间
-     */
-    private long createTime;
-
-    /**
-     * 用户积分
-     */
-    private java.lang.Integer integral;
-
-    /**
-     * 用户未读消息数
-     */
-    private int unReadMsgs;
-
-    /**
-     * 邀请码
-     */
-    private java.lang.String inviteCode;
-
-
-    /**
-     * 被邀请码
-     */
-    private java.lang.String beInviteUser;
-
-
-    private java.lang.String unionid;
-
-
-    private java.lang.String openId;
-
-    private Long createDate;
-
-    private java.lang.String memberSex;
-
-    private java.lang.String sourceRegistration;
-
-    private String cid;//设备唯一id
-    private Integer systemType;//0Android 1IOS
-
-    private int merchantType; //商户类型 0_无，1_区域代理，2_服务商
-
-    private String superiorMember; //该会员归属于哪个区域代理商 上级ID
-
-    /**
-     * 累计金额（针对于商户）
-     */
-    private BigDecimal cumulativeMerchantsMoney;
-
-    /**
-     * 冻结提现金额（针对于商户）
-     */
-    private BigDecimal freezeWithdrawMerchants;
-
-    /**
-     * 可提现收入（针对于商户）
-     */
-    private BigDecimal availableWithdrawMerchants;
-
-    /**
-     * 商户总金额（针对于商户）
-     */
-    private BigDecimal totalMerchantsMoney;
-    /**
-     * 是否为海露会员（0-否、1-是）
-     */
-    private int hlMember;
-
-
-
-    /**
-     * 会员id
-     */
-    private Integer memberId;
-
-    /**
      * 真实姓名
      */
     private String memberTruename;
 
     /**
-     *
+     * null
      */
     private String memberAvatar;
+
+    /**
+     * 服务商城市
+     */
+    private Integer merchantCityId;
+
+    /**
+     * 商户类型 0_无，1_区域代理，2_服务商
+     */
+    private Integer merchantType;
+
+    /**
+     * 该会员归属于哪个区域代理商
+     */
+    private String superiorMember;
+
+    /**
+     * 海露会员卡号
+     */
+    private String hlMemberCard;
+
+    /**
+     * 海露会员过期时间
+     */
+    private Date hlMemberTimeout;
+
+    /**
+     * 是否为海露会员（0-否、1-是）
+     */
+    private Integer hlMember;
+
+    /**
+     * 商户总金额（针对于商户）
+     */
+    private BigDecimal totalMerchantsMoney;
+
+    /**
+     * 会员性别1男2女
+     */
+    private String memberSex;
 
     /**
      * 生日
@@ -185,7 +77,7 @@ public class ShopMember implements Serializable {
     private Long memberBirthday;
 
     /**
-     *登录密码
+     * 密码
      */
     private String memberPasswd;
 
@@ -208,6 +100,11 @@ public class ShopMember implements Serializable {
      * 登录次数
      */
     private Integer memberLoginNum;
+
+    /**
+     * 会员注册时间
+     */
+    private Long createTime;
 
     /**
      * 当前登录时间
@@ -233,6 +130,11 @@ public class ShopMember implements Serializable {
      * 会员微信id
      */
     private String memberOpenid;
+
+    /**
+     * 会员详细信息
+     */
+    private String memberInfo;
 
     /**
      * 会员消费积分
@@ -325,19 +227,29 @@ public class ShopMember implements Serializable {
     private String memberAreainfo;
 
     /**
+     * 隐私设定
+     */
+    private String memberPrivacy;
+
+    /**
      * 删除标志0未删除1已删除
      */
     private Integer isDel;
 
     /**
-     *
+     * null
      */
     private String signCode;
 
     /**
-     *
+     * null
      */
     private String signCodeState;
+
+    /**
+     * 手机号
+     */
+    private String memberMobile;
 
     /**
      * 会员等级
@@ -365,14 +277,64 @@ public class ShopMember implements Serializable {
     private String memberType;
 
     /**
-     * 微信状态1_app,2_H5,3_pc
+     * 邀请码
+     */
+    private String inviteCode;
+
+    /**
+     * 用户字符Id
+     */
+    private String userId;
+
+    /**
+     * null
+     */
+    private String userIcon;
+
+    /**
+     * 微信
+     */
+    private String wechat;
+
+    /**
+     * 职业
+     */
+    private String profession;
+
+    /**
+     * 邀请人
+     */
+    private String beInviteUser;
+
+    /**
+     * 注册时间
+     */
+    private Long registTime;
+
+    /**
+     * 微信状态1_app,2_H5,3_pc、4-公众号
      */
     private String wxState;
+
+    /**
+     * openId
+     */
+    private String openId;
+
+    /**
+     * unionid
+     */
+    private String unionid;
 
     /**
      * 消费健康豆
      */
     private Integer consumptionIntegral;
+
+    /**
+     * 可用健康豆
+     */
+    private Integer integral;
 
     /**
      * 总健康豆
@@ -388,6 +350,16 @@ public class ShopMember implements Serializable {
      * 成长值
      */
     private Integer growthVal;
+
+    /**
+     * 登录名字
+     */
+    private String loginName;
+
+    /**
+     * 未读消息数
+     */
+    private Integer unReadMsgs;
 
     /**
      * 身份证号
@@ -420,27 +392,23 @@ public class ShopMember implements Serializable {
     private String payPassword;
 
     /**
+     * 0Android 2IOS
+     */
+    private Integer systemType;
+
+    /**
+     * 移动设备id
+     */
+    private String cid;
+
+    /**
      * 审核时间
      */
     private Long auditTime;
 
     /**
-     * 会员详细信息
+     * 注册来源0_PC1_安卓2_ios3_微信4_H5
      */
-    private String memberInfo;
+    private String sourceRegistration;
 
-    /**
-     * 隐私设定
-     */
-    private String memberPrivacy;
-
-    /**
-     * 服务商城市
-     */
-    private Integer merchantCityId;
-
-    /**
-     * 海露会员过期时间
-     */
-    private Date hlMemberTimeout;
 }

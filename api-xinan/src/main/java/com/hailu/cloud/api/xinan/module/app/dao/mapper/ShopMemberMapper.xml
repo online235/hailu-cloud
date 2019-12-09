@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper" >
   <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
-    <id column="member_id" property="memberId" jdbcType="INTEGER" />
+    <id column="member_id" property="memberId" />
     <result column="member_name" property="memberName" jdbcType="VARCHAR" />
     <result column="member_truename" property="memberTruename" jdbcType="VARCHAR" />
     <result column="member_avatar" property="memberAvatar" jdbcType="VARCHAR" />
@@ -107,7 +107,7 @@
     ,
     <include refid="Blob_Column_List" />
     from shop_member
-    where member_id = #{memberId,jdbcType=INTEGER}
+    where member_id = #{memberId}
   </select>
   <select id="selectByPrimaryByuserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select
@@ -119,7 +119,7 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from shop_member
-    where member_id = #{memberId,jdbcType=INTEGER}
+    where member_id = #{memberId}
   </delete>
   <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
     insert into shop_member (member_name, member_truename, member_avatar, 
@@ -896,7 +896,7 @@
       member_info = #{memberInfo,jdbcType=LONGVARCHAR},
       member_privacy = #{memberPrivacy,jdbcType=LONGVARCHAR},
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
-    where member_id = #{memberId,jdbcType=INTEGER}
+    where member_id = #{memberId}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
     update shop_member
@@ -969,7 +969,7 @@
       cid = #{cid,jdbcType=VARCHAR},
       audit_time = #{auditTime,jdbcType=BIGINT},
       source_registration = #{sourceRegistration,jdbcType=VARCHAR}
-    where member_id = #{memberId,jdbcType=INTEGER}
+    where member_id = #{memberId}
   </update>
 
 

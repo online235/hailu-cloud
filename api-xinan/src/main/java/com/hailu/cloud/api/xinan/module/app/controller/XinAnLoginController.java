@@ -111,6 +111,9 @@ public class XinAnLoginController {
             @RequestParam(name = "registerType", required = false, defaultValue = "1") Integer registerType) throws BusinessException {
 
         if(registerType == 2){
+            if(password.length() < 6){
+                throw new BusinessException("密码长度不能小于6个长度");
+            }
             if(StringUtils.isBlank(password)){
                 throw new BusinessException("密码不能为空");
             }
