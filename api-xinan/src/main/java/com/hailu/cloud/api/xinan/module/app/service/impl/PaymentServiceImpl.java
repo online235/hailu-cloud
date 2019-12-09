@@ -293,7 +293,7 @@ public class PaymentServiceImpl implements IPaymentService {
         //订单号
         payRequest.setOrderNo(orderNo);
         //金额
-        payRequest.setMoney(new BigDecimal(0.01));
+        payRequest.setMoney(order.getMoney());
         //支付类型
         payRequest.setPayType(payType);
         //回调地址
