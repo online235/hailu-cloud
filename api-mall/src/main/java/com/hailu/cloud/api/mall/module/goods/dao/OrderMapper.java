@@ -406,6 +406,15 @@ public interface OrderMapper {
     Integer findByUserIdAndOs(@Param("userId") String userId, @Param("os") int os);
 
     /**
+     * 根据用户id查询到对应状态的条数
+     * @param userId
+     * @return
+     */
+    List<Map<String,Object>> findCountStatusByUserId(@Param("userId") String userId);
+
+
+
+    /**
      * @param userId
      * @param os
      * @return

@@ -535,7 +535,8 @@
 	</select>
 
     <!-- 得到订单列表-->
-    <select id="getOrdersList" parameterType="map"
+
+	<select id="getOrdersList" parameterType="map"
             resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderListVo">
         SELECT
         order_id AS orderId,
@@ -953,6 +954,11 @@
     <!-- @AUTHOR HUANGL 根据用户id和对应订单状态得到该状态的条数 -->
     <select id="findByUserIdAndOs" parameterType="map" resultType="java.lang.Integer">
 		SELECT count(order_id) FROM shop_order WHERE buyer_id= #{userId}  AND order_state= #{os}  AND delete_status=1
+	</select>
+
+	<!-- @AUTHOR HUANGL 根据用户id查询到对应状态的条数 -->
+	<select id="findCountStatusByUserId"  resultType="java.util.Map">
+		SELECT count(1) as count,order_state as orderStatus FROM shop_order WHERE buyer_id= #{userId}  AND delete_status=1 GROUP BY order_state
 	</select>
     <!-- 根据用户id和订单状态得到对应的条数 -->
     <select id="findByUserIdAndEvaluate" parameterType="map" resultType="java.lang.Integer">

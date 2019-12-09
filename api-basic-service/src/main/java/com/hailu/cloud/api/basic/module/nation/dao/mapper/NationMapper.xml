@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.basic.module.nation.dao.NationMapper">
+
+
+	<!-- 返回所有字典 -->
+	<select id="findAll" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
+		select
+			id,
+			PROVINCE,
+			CITY,
+			DISTRICT
+		from sys_nation
+	</select>
+
+</mapper>

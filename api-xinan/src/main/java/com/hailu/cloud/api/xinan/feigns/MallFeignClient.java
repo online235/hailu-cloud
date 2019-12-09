@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @FeignClient(name = "service-api-mall")
@@ -58,4 +60,13 @@ public interface MallFeignClient {
      */
     @GetMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/api/user/findPoviderPrice")
     ApiResponse<Integer> findPoviderPrice(@RequestParam("chooseCityId") Long chooseCityId);
+
+    /**
+     * 根据userId修改服务商状态
+     * @param userId
+     * @param isService
+     * @return
+     */
+    @GetMapping(Constant.API_VERSION + Constant.API_NAME_MALL+"/serviceProviders/updateStatusByUserId")
+    ApiResponse<Integer> updateStatusByUserId(@RequestParam("userId") String userId, @RequestParam("isService")int isService);
 }

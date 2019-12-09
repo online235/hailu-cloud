@@ -954,34 +954,51 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getOrderCount(String userId) {
         Map<String, Object> map = Maps.newHashMap();
-        //未付款
-        int os = 1;
-        Integer notPaymentNum = orderDao.findByUserIdAndOs(userId, os);
-        if (notPaymentNum == null) {
-            notPaymentNum = 0;
+
+        List<Map<String,Object>> orderCount = orderDao.findCountStatusByUserId(userId);
+        for (Map m : orderCount){
+            if(m.get("orderStatus") != null){
+                int orderStatus = (int) m.get("orderStatus");
+                int count = (int) m.get("count");
+                if(orderStatus == 1){
+                    map.put("notPaymentNum", count);
+                }else if(orderStatus == 2){
+                    map.put("notDeliverGoods", count);
+                }else if(orderStatus == 3){
+                    map.put("notSignFor", count);
+                }else if(orderStatus == 4){
+                    map.put("notEvaluate", count);
+                }
+            }
         }
-        map.put("notPaymentNum", notPaymentNum);
-        //未发货
-        os = 2;
-        Integer notDeliverGoods = orderDao.findByUserIdAndOs(userId, os);
-        if (notDeliverGoods == null) {
-            notDeliverGoods = 0;
-        }
-        map.put("notDeliverGoods", notDeliverGoods);
-        //未签收
-        os = 3;
-        Integer notSignFor = orderDao.findByUserIdAndOs(userId, os);
-        if (notSignFor == null) {
-            notSignFor = 0;
-        }
-        map.put("notSignFor", notSignFor);
-        //未评价
-        os = 4;
-        Integer notEvaluate = orderDao.findByUserIdAndEvaluate(userId, os);
-        if (notEvaluate == null) {
-            notEvaluate = 0;
-        }
-        map.put("notEvaluate", notEvaluate);
+//        //未付款
+//        int os = 1;
+//        Integer notPaymentNum = orderDao.findByUserIdAndOs(userId, os);
+//        if (notPaymentNum == null) {
+//            notPaymentNum = 0;
+//        }
+//        map.put("notPaymentNum", notPaymentNum);
+//        //未发货
+//        os = 2;
+//        Integer notDeliverGoods = orderDao.findByUserIdAndOs(userId, os);
+//        if (notDeliverGoods == null) {
+//            notDeliverGoods = 0;
+//        }
+//        map.put("notDeliverGoods", notDeliverGoods);
+//        //未签收
+//        os = 3;
+//        Integer notSignFor = orderDao.findByUserIdAndOs(userId, os);
+//        if (notSignFor == null) {
+//            notSignFor = 0;
+//        }
+//        map.put("notSignFor", notSignFor);
+//        //未评价
+//        os = 4;
+//        Integer notEvaluate = orderDao.findByUserIdAndEvaluate(userId, os);
+//        if (notEvaluate == null) {
+//            notEvaluate = 0;
+//        }
+//        map.put("notEvaluate", notEvaluate);
         return map;
     }
 

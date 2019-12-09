@@ -276,16 +276,6 @@ public class OrderController {
         return ossOrderService.createOrder(orderSn, payType, openid);
     }
 
-//    /**
-//     * 余额下单
-//     */
-//    @PostMapping("/balancePay")
-//    public Boolean addBalancePay(
-//            @RequestParam("orderSn") String orderSn,
-//            @RequestParam("payPwd") String payPwd) throws Exception {
-//
-//        return ossOrderService.addBalancePay(orderSn, payPwd);
-//    }
 
     /**
      * 查看所有订单   或查看相应状态订单 得到订单列表
@@ -659,62 +649,6 @@ public class OrderController {
     }
 
     /**
-     * H5支付宝
-     */
-    @GetMapping("/phoneH5AiPayPage")
-    public void phoneH5AiPayPage(HttpServletResponse httpResponse, @RequestParam String orderSn) {
-//        AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", Alipayh5Contents.partner, Alipayh5Contents.privatekey, "json", "utf-8", Alipayh5Contents.alipublickey, "RSA");
-//        AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
-//        try {
-//            OrderToVo ol = orderService.findByOrderSn(orderSn);
-//            StringBuilder stringBuffer = new StringBuilder();
-//            BigDecimal bigDecimal;
-//            if (ol != null) {
-//                List<OrderGoods> goodsByOrderList = orderService.findByOrderId(ol.getOrderId());
-//                for (OrderGoods orderHGoods : goodsByOrderList) {
-//                    stringBuffer.append(orderHGoods.getGoodsName());
-//                }
-//                double orderAmount;
-//                if (ol.getIsReserve() == 1) {
-//                    //第一阶段支付了,取第二阶段的金额
-//                    if (ol.getOneIsPay() == 1) {
-//                        orderAmount = ol.getReserveTwoAmount();
-//                    } else {
-//                        orderAmount = ol.getReserveOneAmount();
-//                    }
-//
-//                } else {
-//                    orderAmount = ol.getOrderAmount();
-//                }
-//                if (orderAmount <= 0) {
-//                    ossOrderService.addZeroPay(ol);
-//                    httpResponse.getWriter().print("支付成功");
-//                }
-//                // 总金额
-//                bigDecimal = new BigDecimal(orderAmount);
-//            } else {
-//                return;
-//            }
-//            alipayRequest.setReturnUrl(Alipayh5Contents.alipayh5backUrl + "?id=" + ol.getOrderId());
-//            //在公共参数中设置回跳和通知地址
-//            alipayRequest.setNotifyUrl(Alipayh5Contents.alipayh5frontUrl);
-//            //填充业务参数
-//            alipayRequest.setBizContent("{" + "    \"out_trade_no\":\"" + orderSn + "\"," + "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," + "    \"total_amount\":" + bigDecimal.doubleValue() + "," + "    \"subject\":\"德达康健商品\"," + "    \"body\":\"" + stringBuffer.toString() + "\"," + "    \"extend_params\":{" + "    \"sys_service_provider_id\":\"" + Alipayh5Contents.Pid + "\"" + "    }" + "  }");
-//            //调用SDK生成表单
-//            String form = alipayClient.pageExecute(alipayRequest).getBody();
-//            httpResponse.setContentType("text/html;charset=" + "utf-8");
-//            //直接将完整的表单html输出到页面
-//            httpResponse.getWriter().write(form);
-//            httpResponse.getWriter().flush();
-//            httpResponse.getWriter().close();
-//        } catch (Exception e) {
-//            log.error(e.getMessage(), e);
-//        }
-    }
-
-
-
-    /**
      * 获取购买服务商的价格
      * @return
      */
@@ -736,29 +670,4 @@ public class OrderController {
         jsonObject.put("price",userInfoService.findPoviderPrice(merchantCityId));
         return jsonObject;
     }
-
-    /**
-     * 更改服务商邀请人ID
-     * @param userId
-     * @return
-     */
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name="userId", value = "邀请人UserId", required = true, paramType="query",dataType = "String"),
-//        @ApiImplicitParam(name="type", value = "类型（1-邀请购买服务商、2-邀请购买商品）", required = true, paramType="query",dataType = "int"),
-//        @ApiImplicitParam(name="goodsId", value = "商品ID（type为2的时候必传）", required = true, paramType="query",dataType = "int")
-//    })
-//    @ApiOperation(notes = "", value = "更改邀请人ID")
-//    @PostMapping("/updatePoviderInvitation")
-//    public void updatePoviderInvitation(String userId,Integer type,String goodsId) throws BusinessException {
-//        log.info("更改服务商邀请人ID：{}",userId);
-//        MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
-//        if(type == 1){
-//            redisClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE+model.getUserId(),userId,0);
-//        }else if(type == 2){
-//            if(StringUtils.isBlank(goodsId)){
-//                throw new BusinessException(BusinessCode.PARAM_ERROR.getDescription());
-//            }
-//            redisClient.stringSet(RedisEnum.DB_2.ordinal(),Constant.REDIS_INVITATION_MEMBER_GOODSIDANDUSERID_CACHE+model.getUserId()+goodsId,userId,0);
-//        }
-//    }
 }

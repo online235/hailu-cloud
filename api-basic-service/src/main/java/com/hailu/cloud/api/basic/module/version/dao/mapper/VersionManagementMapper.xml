@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hailu.cloud.api.basic.module.version.dao.VersionManagementMapper">
+	<sql id="Base_sql">
+        id,version,build,title,content,mandatory,renewal,url,type
+    </sql>
+
+	<select id="findByVersionAndType" resultType="com.hailu.cloud.common.model.basic.VersionManagement">
+		select <include refid="Base_sql"/>
+		from sys_version
+		where status = 1 and version = #{version} and type = #{type}
+	</select>
+
+
+</mapper>

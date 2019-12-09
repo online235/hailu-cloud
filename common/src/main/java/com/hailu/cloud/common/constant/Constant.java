@@ -54,6 +54,11 @@ public final class Constant {
      */
     public static final String REDIS_KEY_DICT_CACHE = "DICT_CACHE:";
 
+    /**
+     * 省市区字典Key值
+     */
+    public static final String REDIS_KEY_DICT_CACHE_NATION = "NATION";
+
     // endregion
 
     // region request header

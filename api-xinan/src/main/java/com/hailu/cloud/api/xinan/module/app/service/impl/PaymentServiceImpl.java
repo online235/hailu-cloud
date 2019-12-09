@@ -370,6 +370,9 @@ public class PaymentServiceImpl implements IPaymentService {
             pay.setPayType(payType);
             xinAnPayService.saveEntity(pay);
 
+            //将服务商信息里面状态修改成服务商  是否服务商（1-是、2-否）
+            mallFeignClient.updateStatusByUserId(pay.getMemberId(),1);
+
             List<PayExpand> payExpandList = xinAnPayExpandService.findListByPayId(pay.getId());
             /**修改订单状态**/
             for (PayExpand p : payExpandList) {

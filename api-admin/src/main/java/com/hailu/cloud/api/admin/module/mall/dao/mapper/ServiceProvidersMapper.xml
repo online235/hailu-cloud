@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.mall.dao.ServiceProvidersMapper" >
+    <sql id="Base_Column_List" >
+    id, user_id, name, phone, province_id, city_id, area_id, address, is_service, status,
+    create_time, create_by, modify_time, modify_by
+  </sql>
+
+    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from hl_service_providers
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hl_service_providers
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders" useGeneratedKeys="true" keyProperty="id" >
+    insert into hl_service_providers (id,user_id, name, phone,
+      province_id, city_id, area_id,
+      address, is_service, status,
+      create_time, create_by, modify_time,
+      modify_by)
+    values (#{id,jdbcType=BIGINT},#{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT},
+      #{address,jdbcType=VARCHAR}, #{isService,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders" >
+        update hl_service_providers
+        <set >
+            <if test="userId != null" >
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceId != null" >
+                province_id = #{provinceId,jdbcType=BIGINT},
+            </if>
+            <if test="cityId != null" >
+                city_id = #{cityId,jdbcType=BIGINT},
+            </if>
+            <if test="areaId != null" >
+                area_id = #{areaId,jdbcType=BIGINT},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="isService != null" >
+                is_service = #{isService,jdbcType=INTEGER},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null" >
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null" >
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyBy != null" >
+                modify_by = #{modifyBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="findByPhone" resultType="com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders">
+        select <include refid="Base_Column_List"/>
+        from hl_service_providers where phone = #{phone,jdbcType=VARCHAR} and status = 1
+    </select>
+
+    <select id="findByUserId" resultType="com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders">
+        select <include refid="Base_Column_List"/>
+        from hl_service_providers where user_id = #{userId,jdbcType=VARCHAR} and status = 1
+    </select>
+
+    <update id="updateStatusByUserId" >
+        update hl_service_providers set is_service = #{isService,jdbcType=INTEGER} where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="findList" resultType="com.hailu.cloud.api.admin.module.mall.model.ServiceProvidersDto">
+        select hsp.id, hsp.user_id, hsp.name, hsp.phone, hsp.province_id, hsp.city_id, hsp.area_id, hsp.address, hsp.is_service, hsp.status,
+        hsp.create_time, xo.item_name as goods_name
+        from hl_service_providers hsp left join xa_order xo on xo.member_id = hsp.user_id and xo.item_type = '服务商' and xo.order_status = 2
+        where hsp.status = 1
+        <if test="name != null and name != ''" >
+          and instr(hsp.name,#{name}) >0
+        </if>
+        <if test="isService != null and isService != ''" >
+           and hsp.is_service = #{isService,jdbcType=INTEGER}
+        </if>
+        order by hsp.create_by desc
+    </select>
+
+</mapper>

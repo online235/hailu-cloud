@@ -54,7 +54,7 @@ public class InsuredService {
      */
     private final double NEXTMONEY = 26;
 
-    public Object addOrEditInsured(String name, String idCard, String memberId, Integer memberRelation, Integer type, Integer isYearEnjoy, String photoUrl) {
+    public Object addOrEditInsured(String name, String idCard, String memberId, Integer memberRelation, Integer type, Integer isYearEnjoy, String photoUrl) throws BusinessException {
 
         //返回信息
         JSONObject resultParam = new JSONObject();
@@ -127,7 +127,7 @@ public class InsuredService {
             return resultParam;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return null;
+            throw new BusinessException(e.getMessage());
         }
     }
 
