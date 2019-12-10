@@ -12,7 +12,8 @@
             member_mobile,
             user_icon,
             login_name,
-            member_sex
+            member_sex,
+            member_passwd as pwd
         FROM
             shop_member
         WHERE
@@ -33,7 +34,7 @@
             member_sex,
             open_id as we_chat_open_id,
             unionid as we_chat_union_id,
-            pwd
+            member_passwd as pwd
         FROM
             shop_member
         WHERE unionid = #{unionId}

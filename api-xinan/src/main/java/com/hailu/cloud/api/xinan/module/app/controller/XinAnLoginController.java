@@ -1,8 +1,10 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.feigns.AuthFeignClient;
+import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.api.xinan.module.app.service.impl.ShopMemBerService;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.exception.AccessTokenExpiredException;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
@@ -17,13 +19,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.util.RequestUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.Collections;
 
 /**
  * @Author: QiuFeng:WANG
@@ -134,13 +139,15 @@ public class XinAnLoginController {
     @PostMapping("wetChatSubmitPhone")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "accessToken", value = "accessToken", required = true, paramType = "query"),
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query")
     })
     public MemberLoginInfoModel wetChatSubmitPhone(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
-            @NotBlank(message = "验证码不能为空") String code) throws BusinessException {
+            @NotBlank(message = "验证码不能为空") String code,@NotEmpty String accessToken) throws BusinessException, AccessTokenExpiredException {
 
-        MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
+
+        MemberLoginInfoModel memberLoginInfoModel = memberService.getMemberLoginInfoModel(accessToken);
         return memberService.verification(phone, code, memberLoginInfoModel);
     }
 
@@ -194,54 +201,16 @@ public class XinAnLoginController {
      *
      * @return
      */
-    @ApiOperation(value = "获取用户信息", notes = "<pre>" +
-            "{\n" +
-            "  \"msg\": \"成功\",\n" +
-            "  \"code\": 0,\n" +
-            "  \"data\": {\n" +
-            "    \"memberName\": \"13927555292\",           // 会员名称\n" +
-            "    \"memberMobile\": \"13927555292\"          //手机号码\n" +
-            "    \"merchantType\": \"0\"                    //商户类型 0_无，1_区域代理，2_服务商\n" +
-            "    \"hlMember\": \"0\"                        //是否为海露会员（0-否、1-是）\n" +
-            "    \"memberId\": \"null\"      //token\n" +
-            "    \"userId\": \"9de1897a-3204-4f29-8e00-9d42650c073d\"          //会员Id\n" +
-            "    \"userIcon\": \"https://ddkj-storage.oss-cn-shenzhen.aliyuncs.com/formalServer/upload/img/adv/1571472978960.jpg\"          //用户头像 \n" +
-            "    \"userName\": \"134****1225\"         //用户名\n" +
-            "    \"nickName\": \"134****1225\"         //登陆名称\n" +
-            "    \"userMobile\": \"13411441225\"       //手机号码\n" +
-            "    \"wechat\": \"null\"                  //微信\n" +
-            "    \"email\": \"null\"                   //电子邮箱\n" +
-            "    \"qq\"\": \"null\"                    //QQ\n" +
-            "    \"profession\": \"null\"              //职业\n" +
-            "    \"birthday\": \"null\"                //生日\n" +
-            "    \"createTime\": \"null\"              //创建时间\n" +
-            "    \"inviteCode\": \"null\"              //邀请码\n" +
-            "    \"beInviteUser\": \"null\"            //被邀请码\n" +
-            "    \"sex\": \"1\"                        //性别\n" +
-            "    \"unionid\": \"null\"                 //unionid\n" +
-            "    \"openId\": \"null\"                  //openId \n" +
-            "    \"integral\": \"0\"                   //用户积分 \n" +
-            "    \"balance\": \"0.0\"                  //总余额 \n" +
-            "    \"isLqlb\": \"1\"                     //是否领取大礼包 0未  1已 \n" +
-            "    \"growthVal\": \"0\"                  //成长值 \n" +
-            "    \"levelName\": \"null\"               //级别名称 \n" +
-            "    \"cid\": \"1114a89792c3c8bf9ed\"      //设备唯一id \n" +
-            "    \"systemType\": \"2\"                 //0Android 1IOS \n" +
-            "    \"memberGrowGrade\": \"0\"            //会员成长等级(会员等级注册就是0) \n" +
-            "    \"memberGradeVo\": \"null\"           //会员等级 \n" +
-            "    \"payPassword\": \"null\"             //支付密码 \n" +
-            "    \"updatePwState\": \"0\"              //修改密码状态 \n" +
-            "    \"isBindWeChat\": \"0\"               //是否绑定微信 \n" +
-            "    \"memberSex\": \"null\"               //成员性别 \n" +
-            "    \"sourceRegistration\": \"null\"      //注册来源0_PC1_安卓2_ios3_微信4_H5 \n" +
-            "    \"wxstate\": \"null\"                 //微信状态1_app,2_H5,3_pc \n" +
-            "  },\n" +
-            "}")
+    @ApiOperation(value = "获取用户信息")
     @PostMapping("selectShopMember")
     @ResponseBody
-    public Object selectShopMember() {
+    public MemberLoginInfoModel selectShopMember() {
         MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
+        String userId = memberLoginInfoModel.getUserId();
+        ShopMember shopMember = memberService.selectByPrimaryByuserId(userId);
+        BeanUtils.copyProperties(shopMember, memberLoginInfoModel);
         return memberLoginInfoModel;
     }
+
 
 }

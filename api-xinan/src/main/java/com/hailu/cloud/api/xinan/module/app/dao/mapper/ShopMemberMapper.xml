@@ -820,7 +820,7 @@
         user_icon = #{userIcon,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
     update shop_member

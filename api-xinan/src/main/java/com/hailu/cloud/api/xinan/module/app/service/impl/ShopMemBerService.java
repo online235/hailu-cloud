@@ -3,14 +3,20 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.crypto.SecureUtil;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.exception.AccessTokenExpiredException;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
+import com.hailu.cloud.common.security.AuthInfoParseTool;
+import com.hailu.cloud.common.security.JwtUtil;
 import com.hailu.cloud.common.utils.RedisCacheUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +44,7 @@ public class ShopMemBerService {
 
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
+
 
 
     /**
@@ -125,7 +132,7 @@ public class ShopMemBerService {
         userInfo.setUnionid(memberLoginInfoModel.getWeChatUnionId());
         userInfo.setMemberSex(memberLoginInfoModel.getMemberSex());
         userInfo.setWechat(memberLoginInfoModel.getWeChatNickname());
-        userInfo.setWxState("1_app");
+        userInfo.setWxState("1");
         memberMapper.AddShopMember(userInfo);
         return userInfo;
     }
@@ -138,8 +145,6 @@ public class ShopMemBerService {
      */
     public ShopMember updateLitemallWetchatUser(ShopMember shopMember,long addtime, MemberLoginInfoModel memberLoginInfoModel) {
 
-        shopMember.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
-        shopMember.setMemberId(uuidFeignClient.uuid().getData());
         shopMember.setOpenId(memberLoginInfoModel.getWeChatOpenId());
         shopMember.setUnionid(memberLoginInfoModel.getWeChatUnionId());
         shopMember.setWechat(memberLoginInfoModel.getWeChatNickname());
@@ -193,6 +198,27 @@ public class ShopMemBerService {
             }
         }
 
+    }
+
+
+    public MemberLoginInfoModel getMemberLoginInfoModel(String accessToken) throws AccessTokenExpiredException, BusinessException {
+
+        if(StringUtils.isBlank(accessToken)){
+            throw new BusinessException("accessToken不能为空");
+        }
+        DecodedJWT decodedJwt = JwtUtil.verifierToken(accessToken);
+        if (decodedJwt == null) {
+            throw new AccessTokenExpiredException("accessToken无效");
+        }
+        // 根据token获取redis value
+        String token = decodedJwt.getClaim(Constant.JWT_TOKEN).asString();
+        String refreshTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + token;
+        String redisUserInfoJsonValue = redisStandAloneClient.stringGet(refreshTokenRedisKey);
+        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
+            throw new AccessTokenExpiredException("accessToken已失效，请重新登录");
+        }
+        AuthInfo<MemberLoginInfoModel> authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, decodedJwt);
+        return authInfo.getUserInfo();
     }
 
 

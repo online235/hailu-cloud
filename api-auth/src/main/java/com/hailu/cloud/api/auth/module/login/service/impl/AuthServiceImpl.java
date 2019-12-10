@@ -151,7 +151,7 @@ public class AuthServiceImpl implements IAuthService {
             case MERCHANT:
                 return loginHandle(loginType, account, merchantLoginCallback(pwd));
             case XINAN_AND_MALL:
-                throw new BusinessException("该账号 " + account + " 暂时不支持密码登录");
+                return loginHandle(loginType, account, xinanLoginCallback(pwd));
             default:
                 break;
         }
@@ -422,6 +422,56 @@ public class AuthServiceImpl implements IAuthService {
 
         };
     }
+
+    private ILoginCallback xinanLoginCallback(String pwd) {
+        return new AbstractLoginCallback() {
+
+            private MemberLoginInfoModel loginInfoModel;
+
+            @Override
+            public boolean exists(String account) {
+                loginInfoModel = memberMapper.findMember(account);
+                boolean exists = false;
+                if (loginInfoModel != null) {
+                    exists = true;
+                }
+                return exists;
+            }
+
+            @Override
+            public String getUserId() {
+                return String.valueOf(loginInfoModel.getUserId());
+            }
+
+            @Override
+            public void extendValidate() throws BusinessException {
+                String pwdMd5 = SecureUtil.sha256(pwd + "&key=" + signKey);
+                if (!pwdMd5.equals(loginInfoModel.getPwd())) {
+                    // 判断旧加密方式
+                    String oldPwdMd5 = DigestUtils.md5Hex(DigestUtils.sha1("passwd=" + pwd + "&key=79AA9270FD5D4B28A02E616C61B7D7AB"));
+                    if (!oldPwdMd5.equals(loginInfoModel.getPwd())) {
+                        throw new BusinessException("登录密码不正确");
+                    }
+                }
+            }
+
+            @Override
+            public Object handle(String accessToken, String refreshToken) {
+                loginInfoModel.setAccessToken(accessToken);
+                loginInfoModel.setRefreshToken(refreshToken);
+                loginInfoModel.setHasPwd(StringUtils.isNotBlank(loginInfoModel.getPwd()));
+                return loginInfoModel;
+            }
+
+            @Override
+            public Object beforeReturnExcludeField() {
+                loginInfoModel.setPwd(null);
+                return loginInfoModel;
+            }
+
+        };
+    }
+
 
     // endregion
 

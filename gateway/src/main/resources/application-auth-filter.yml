@@ -26,6 +26,7 @@ mapping:
         # 心安接口
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/app/xinan/updatePassword
+        - ${api-version}/xinan/app/xinan/wetChatSubmitPhone
         - ${api-version}/xinan/payment/callbackWechat
         - ${api-version}/xinan/payment/callbackWechatHl
         - ${api-version}/xinan/nation
