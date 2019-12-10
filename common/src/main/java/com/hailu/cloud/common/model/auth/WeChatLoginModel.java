@@ -1,5 +1,7 @@
 package com.hailu.cloud.common.model.auth;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -8,6 +10,7 @@ import lombok.Data;
  * @author xuzhijie
  */
 @Data
+@ApiModel
 public class WeChatLoginModel extends LoginModel {
 
     /**
@@ -38,11 +41,13 @@ public class WeChatLoginModel extends LoginModel {
     /**
      * 授权用户唯一标识
      */
+    @ApiModelProperty("微信昵称")
     private String weChatNickname;
 
     /**
      * 授权用户唯一标识
      */
+    @ApiModelProperty("微信头像")
     private String weChatHeadImgUrl;
 
 }

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 
 /**
@@ -37,6 +38,7 @@ public class ShopMemBerService {
 
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
+
 
     /**
      * 密码加密的key
@@ -78,7 +80,7 @@ public class ShopMemBerService {
     }
 
     /**
-     * 根据手机号注册用户
+     * 根据手机号或者密码注册用户
      *
      * @param phone
      * @param addtime
@@ -94,11 +96,57 @@ public class ShopMemBerService {
         userInfo.setRegistTime(addtime);
         userInfo.setMemberMobile(phone);
         userInfo.setCreateTime(addtime);
-        if(StringUtils.isBlank(password)){
+        if (StringUtils.isBlank(password)) {
             userInfo.setMemberPasswd(SecureUtil.sha256(password + "&key=" + signKey));
         }
         memberMapper.AddShopMember(userInfo);
         return userInfo;
+    }
+
+
+    /**
+     * 微信绑定账号,保存操作
+     * @param phone
+     * @param addtime
+     * @return
+     */
+    public ShopMember addLitemallWetchatUser(String phone, long addtime, MemberLoginInfoModel memberLoginInfoModel) {
+
+        ShopMember userInfo = new ShopMember();
+        userInfo.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
+        userInfo.setMemberId(uuidFeignClient.uuid().getData());
+        userInfo.setLoginName(phone);
+        userInfo.setMemberName(phone);
+        userInfo.setRegistTime(addtime);
+        userInfo.setMemberMobile(phone);
+        userInfo.setCreateTime(addtime);
+        userInfo.setCreateTime(addtime);
+        userInfo.setOpenId(memberLoginInfoModel.getWeChatOpenId());
+        userInfo.setUnionid(memberLoginInfoModel.getWeChatUnionId());
+        userInfo.setMemberSex(memberLoginInfoModel.getMemberSex());
+        userInfo.setWechat(memberLoginInfoModel.getWeChatNickname());
+        userInfo.setWxState("1_app");
+        memberMapper.AddShopMember(userInfo);
+        return userInfo;
+    }
+
+
+    /**
+     * 微信绑定账号，更新操作
+     * @param addtime
+     * @return
+     */
+    public ShopMember updateLitemallWetchatUser(ShopMember shopMember,long addtime, MemberLoginInfoModel memberLoginInfoModel) {
+
+        shopMember.setUserId(String.valueOf(uuidFeignClient.uuid().getData()));
+        shopMember.setMemberId(uuidFeignClient.uuid().getData());
+        shopMember.setOpenId(memberLoginInfoModel.getWeChatOpenId());
+        shopMember.setUnionid(memberLoginInfoModel.getWeChatUnionId());
+        shopMember.setWechat(memberLoginInfoModel.getWeChatNickname());
+        shopMember.setWxState("1_app");
+        shopMember.setMemberLoginTime(addtime);
+        memberMapper.updateByPrimaryKeySelective(shopMember);
+        return shopMember;
     }
 
 
@@ -111,7 +159,6 @@ public class ShopMemBerService {
     public int findShopMemberByUserIdAndMerchantType(String userId) {
         return memberMapper.findShopMemberByUserIdAndMerchantType(userId);
     }
-
 
 
     /**
@@ -150,6 +197,72 @@ public class ShopMemBerService {
 
 
     /**
+     * 微信验证手机号码
+     */
+    public MemberLoginInfoModel verification(String phone, String code, MemberLoginInfoModel memberLoginInfoModel) throws BusinessException {
+
+        // 万能验证码，前期测试时使用
+        if (!code.equals("111111")) {
+            String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
+            if (!code.equals(veriCode)) {
+                // 验证码不正确
+                throw new BusinessException("无效验证码");
+            }
+        }
+        ShopMember shopMember = this.findObjectByPhone(phone);
+        memberLoginInfoModel.setHasPwd(false);
+        if (shopMember != null) {
+            // 账号已存在
+            if (!StringUtils.isBlank(shopMember.getMemberPasswd())) {
+                memberLoginInfoModel.setHasPwd(true);
+            }
+            //更新操作绑定微信
+            shopMember = updateLitemallWetchatUser(shopMember,System.currentTimeMillis(),memberLoginInfoModel);
+        } else {
+            //账号不存在，注册账号绑定微信
+            shopMember = addLitemallWetchatUser(phone, System.currentTimeMillis(), memberLoginInfoModel);
+        }
+        memberLoginInfoModel.setMemberMobile(phone);
+        memberLoginInfoModel.setUserId(shopMember.getUserId());
+        memberLoginInfoModel.setWeChatRefreshToken(null);
+        memberLoginInfoModel.setWeChatAccessToken(null);
+        memberLoginInfoModel.setWeChatExpiresIn(null);
+        memberLoginInfoModel.setWeChatOpenId(null);
+        memberLoginInfoModel.setWeChatUnionId(null);
+        memberLoginInfoModel.setPwd(null);
+        BeanUtil.copyProperties(shopMember, memberLoginInfoModel, CopyOptions.create().ignoreNullValue());
+        RedisCacheUtils.updateUserInfo(redisStandAloneClient, memberLoginInfoModel);
+        return memberLoginInfoModel;
+
+    }
+
+
+    /**
+     * 用户字符id获取用户
+     */
+    public ShopMember selectByPrimaryByuserId(String userId){
+        return memberMapper.selectByPrimaryByuserId(userId);
+    }
+
+
+    /**
+     * 心安微信登录设置密码
+     *
+     */
+    public MemberLoginInfoModel wetChatUpdatePassword(String password,MemberLoginInfoModel memberLoginInfoModel){
+
+        ShopMember shopMember = this.selectByPrimaryByuserId(memberLoginInfoModel.getUserId());
+        // 账号加入密码
+        shopMember.setMemberPasswd(SecureUtil.sha256(password + "&key=" + signKey));
+        //更新密码
+        memberMapper.updateByPrimaryKeySelective(shopMember);
+        RedisCacheUtils.updateUserInfo(redisStandAloneClient, memberLoginInfoModel);
+        return memberLoginInfoModel;
+
+    }
+
+
+    /**
      * 心安忘记密码
      *
      * @param phone
@@ -172,11 +285,10 @@ public class ShopMemBerService {
                 throw new BusinessException("无效验证码");
             }
         }
-        // 注册账号
+        // 账号加入密码
         shopMember.setMemberPasswd(SecureUtil.sha256(password + "&key=" + signKey));
         //更新密码
         memberMapper.updateByPrimaryKeySelective(shopMember);
-
     }
 
 
@@ -189,6 +301,5 @@ public class ShopMemBerService {
     public ShopMember findObjectByPhone(String phone) {
         return memberMapper.findObjectByPhone(phone);
     }
-
 
 }

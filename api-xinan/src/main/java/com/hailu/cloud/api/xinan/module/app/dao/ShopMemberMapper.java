@@ -38,10 +38,10 @@ public interface ShopMemberMapper {
 
     /**
      *
-     * @param userid
+     * @param userId
      * @return
      */
-    ShopMember selectByPrimaryByuserId(String userid);
+    ShopMember selectByPrimaryByuserId(String userId);
 
     /**
      *

@@ -109,14 +109,14 @@
     from shop_member
     where member_id = #{memberId}
   </select>
-  <select id="selectByPrimaryByuserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+
+  <select id="selectByPrimaryByuserId" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
     select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+    *
     from shop_member
-    where user_id = #{userid,jdbcType=INTEGER}
+    where user_id = #{userId}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from shop_member
     where member_id = #{memberId}

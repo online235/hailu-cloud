@@ -15,12 +15,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.util.RequestUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -38,8 +40,6 @@ public class XinAnLoginController {
     @Autowired
     private ShopMemBerService memberService;
 
-    @Autowired
-    private RedisStandAloneClient redisStandAloneClient;
 
     @Autowired
     private AuthFeignClient authFeignClient;
@@ -103,18 +103,18 @@ public class XinAnLoginController {
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query"),
             @ApiImplicitParam(name = "insuredIds", value = "邀请人ID", required = false, paramType = "query"),
             @ApiImplicitParam(name = "password", value = "密码", paramType = "query", required = false),
-            @ApiImplicitParam(name = "registerType", value = "注册类型：1、验证码;2、密码", paramType = "query",required = false),
+            @ApiImplicitParam(name = "registerType", value = "注册类型：1、验证码;2、密码", paramType = "query", required = false),
     })
     public MemberLoginInfoModel register(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
-            @NotBlank(message = "验证码不能为空") String code, String insuredIds,String password,
+            @NotBlank(message = "验证码不能为空") String code, String insuredIds, String password,
             @RequestParam(name = "registerType", required = false, defaultValue = "1") Integer registerType) throws BusinessException {
 
-        if(registerType == 2){
-            if(password.length() < 6){
+        if (registerType == 2) {
+            if (password.length() < 6) {
                 throw new BusinessException("密码长度不能小于6个长度");
             }
-            if(StringUtils.isBlank(password)){
+            if (StringUtils.isBlank(password)) {
                 throw new BusinessException("密码不能为空");
             }
         }
@@ -123,6 +123,47 @@ public class XinAnLoginController {
     }
 
 
+    /**
+     * 微信登录输入手机号码，验证码
+     *
+     * @param phone
+     * @param code
+     * @return
+     */
+    @ApiOperation(value = "微信登录输入手机号码，验证码")
+    @PostMapping("wetChatSubmitPhone")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "phone", value = "手机号", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query")
+    })
+    public MemberLoginInfoModel wetChatSubmitPhone(
+            @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
+            @NotBlank(message = "验证码不能为空") String code) throws BusinessException {
+
+        MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
+        return memberService.verification(phone, code, memberLoginInfoModel);
+    }
+
+
+    /**
+     *微信登录设置密码
+     * @return
+     */
+    @ApiOperation(value = "微信登录设置密码")
+    @PostMapping("wetChatUpdatePassword")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query")
+    })
+    public MemberLoginInfoModel wetChatUpdatePassword(@NotNull String password) throws BusinessException {
+
+        if (StringUtils.isBlank(password)) {
+            // 验证码不正确
+            throw new BusinessException("密码不能为空");
+        }
+        MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
+        return memberService.wetChatUpdatePassword(password,memberLoginInfoModel);
+
+    }
 
 
     /**
@@ -132,7 +173,7 @@ public class XinAnLoginController {
      * @param code
      * @return
      */
-    @ApiOperation(value = "忘记密码，重设密码")
+    @ApiOperation(value = "忘记密码，重设密码（用手机号码、验证码修改密码）")
     @PostMapping("updatePassword")
     @ResponseBody
     @ApiImplicitParams({
