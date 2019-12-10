@@ -251,7 +251,8 @@ public class ShopMemBerService {
      */
     public MemberLoginInfoModel wetChatUpdatePassword(String password,MemberLoginInfoModel memberLoginInfoModel){
 
-        ShopMember shopMember = this.selectByPrimaryByuserId(memberLoginInfoModel.getUserId());
+        String userId = memberLoginInfoModel.getUserId();
+        ShopMember shopMember = this.selectByPrimaryByuserId(userId);
         // 账号加入密码
         shopMember.setMemberPasswd(SecureUtil.sha256(password + "&key=" + signKey));
         //更新密码

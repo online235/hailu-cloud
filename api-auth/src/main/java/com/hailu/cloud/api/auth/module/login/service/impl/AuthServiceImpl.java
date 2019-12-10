@@ -296,6 +296,7 @@ public class AuthServiceImpl implements IAuthService {
             public Object handle(String accessToken, String refreshToken) {
                 loginInfoModel.setAccessToken(accessToken);
                 loginInfoModel.setRefreshToken(refreshToken);
+                loginInfoModel.setHasPwd(StringUtils.isNotBlank(loginInfoModel.getPwd()));
                 return loginInfoModel;
             }
 

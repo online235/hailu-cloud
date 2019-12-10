@@ -110,7 +110,7 @@
     where member_id = #{memberId}
   </select>
 
-  <select id="selectByPrimaryByuserId" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
+  <select id="selectByPrimaryByuserId"  resultType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" parameterType="string">
     select
     *
     from shop_member

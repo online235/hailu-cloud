@@ -4,6 +4,8 @@ import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import javax.validation.Valid;
+
 
 /**
  * @Author: QiuFeng:WANG
@@ -41,7 +43,7 @@ public interface ShopMemberMapper {
      * @param userId
      * @return
      */
-    ShopMember selectByPrimaryByuserId(String userId);
+    ShopMember selectByPrimaryByuserId(@Param("userId") String userId);
 
     /**
      *
