@@ -22,6 +22,7 @@ mapping:
     service-api-xinan: 心安接口-接口文档
     service-api-payment: 海露支付服务-接口文档
     service-api-merchant: 海露商户服务-接口文档
+    service-api-open-api: 海露开放API服务-接口文档
 
 # 用于签名的公私密钥
 signature:

@@ -11,6 +11,7 @@
   ├── api-xinan             心安接口（端口：30600）
   ├── api-payment           支付接口（端口：30700）
   ├── api-merchant          商户接口（端口：30800）
+  ├── api-openapi           开放API接口（端口：30900）
   ├── common                通用模块
 ```
 

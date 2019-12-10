@@ -22,6 +22,7 @@ mapping:
         - ${api-version}/basic/ueditor
         - ${api-version}/basic/upload
         - ${api-version}/basic/sms
+        - ${api-version}/basic/debug
         # 心安接口
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/app/xinan/updatePassword
@@ -71,4 +72,10 @@ mapping:
         - ${api-version}/merchant
       1:
         - ${api-version}/admin
+        - ${api-version}/xinan
+      3:
+        - ${api-version}/admin
+        - ${api-version}/basic-service
+        - ${api-version}/mall
+        - ${api-version}/payment
         - ${api-version}/xinan

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.openapi.dao.OpenApiAccountMapper">
+
+    <insert id="addAccount">
+        insert into open_api_account(id, company_name, app_id, app_secret, time)
+        values(#{id}, #{companyName}, #{appId}, #{appSecret}, #{time})
+    </insert>
+
+    <delete id="delAccount">
+        delete from open_api_account where id = #{id}
+    </delete>
+
+    <select id="list" resultType="com.hailu.cloud.common.model.system.OpenApiAccountModel">
+        select id, company_name, app_id, app_secret, time
+        from open_api_account
+        <where>
+            <if test="companyName != null and companyName != ''">
+                and company_name like concat('%', #{companyName} ,'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -18,7 +18,11 @@ public enum LoginTypeEnum {
     /**
      * 管理员
      */
-    ADMIN;
+    ADMIN,
+    /**
+     * 开放平台账号
+     */
+    OPEN_API;
 
     public static LoginTypeEnum of(int type) {
         switch (type) {

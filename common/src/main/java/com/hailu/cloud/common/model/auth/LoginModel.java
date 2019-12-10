@@ -27,7 +27,7 @@ public class LoginModel {
      * 是否有设置过密码
      */
     @ApiModelProperty("是否有设置过密码")
-    private boolean hasPwd;
+    private Boolean hasPwd;
 
 
 }
