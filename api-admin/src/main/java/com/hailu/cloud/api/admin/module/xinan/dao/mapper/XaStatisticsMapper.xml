@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.XaStatisticsMapper">
+
+    <sql id="base_column">
+          id, help_menber, pre_mutual_capital, apportionment_num, average_money,
+         time_date, periods_number, create_time, update_time
+    </sql>
+
+    <sql id="set_column">
+        #{id},#{helpMenber},#{preMutualCapital},#{apportionmentNum},#{averageMoney},#{timeDate},#{periodsNumber},#{createTime},#{updateTime}
+    </sql>
+
+    <sql id="where_set">
+
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="helpMenber != null">
+            help_menber = #{helpMenber},
+        </if>
+        <if test="preMutualCapital != null">
+            pre_mutual_capital = #{preMutualCapital},
+        </if>
+
+        <if test="apportionmentNum != null">
+            apportionment_num = #{apportionmentNum},
+        </if>
+        <if test="averageMoney != null">
+            average_money = #{averageMoney},
+        </if>
+        <if test="timeDate != null">
+            time_date = #{timeDate},
+        </if>
+        <if test="periodsNumber != null">
+            periods_number = #{periodsNumber},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime},
+        </if>
+    </sql>
+
+
+    <select id="findListByParameter" resultType="com.hailu.cloud.api.admin.module.xinan.model.XaStatisticsModel">
+        select
+        id, help_menber, pre_mutual_capital, apportionment_num, average_money,
+         time_date, periods_number, create_time, update_time
+        from xa_statistics
+        where 1=1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="periodsNumber != null">
+            and periods_number = #{periodsNumber}
+        </if>
+        <if test="timeDate != null">
+            and date_format(time_date,'%Y%m')<![CDATA[=]]>#{timeDate}
+        </if>
+
+        ORDER BY time_date desc
+    </select>
+
+    <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaStatisticsModel" useGeneratedKeys="true" keyProperty="id">
+        insert into xa_statistics (
+        <include refid="base_column" />
+        )
+        values (
+        <include refid="set_column" />
+        )
+    </insert>
+
+    <insert id="update" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaStatisticsModel" useGeneratedKeys="true" keyProperty="id">
+        update xa_statistics
+        set
+        <include refid="where_set" />
+        where id = #{id}
+    </insert>
+
+
+</mapper>
