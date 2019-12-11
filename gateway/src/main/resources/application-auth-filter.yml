@@ -30,9 +30,10 @@ mapping:
         - ${api-version}/xinan/payment/callbackWechat
         - ${api-version}/xinan/payment/callbackWechatHl
         - ${api-version}/xinan/nation
-        - ${api-version}/xinan//app/xinanhelp/findMutualAidList
-        - ${api-version}/xinan//app/xinanhelp/MutualAidDetails
-        - ${api-version}/xinan//app/xinanhelp/MutualAidPictur
+        - ${api-version}/xinan/app/xinanhelp/findMutualAidList
+        - ${api-version}/xinan/app/xinanhelp/MutualAidDetails
+        - ${api-version}/xinan/app/xinanhelp/MutualAidPictur
+        - ${api-version}/xinan/app/home
         # 商户接口
         - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin

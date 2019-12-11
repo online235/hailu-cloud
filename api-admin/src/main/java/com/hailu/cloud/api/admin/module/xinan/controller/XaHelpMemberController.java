@@ -45,7 +45,7 @@ public class XaHelpMemberController {
     @Resource
     private XaHelpMenberService xaHelpMenberService;
 
-    @ApiOperation(value = "查询期数统计列表")
+    @ApiOperation(value = "查询救助历史案例列表")
     @PostMapping("/list")
     @ResponseBody
     @ApiImplicitParams({
@@ -67,7 +67,7 @@ public class XaHelpMemberController {
     }
 
 
-    @ApiOperation(value = "插入期数统计数据")
+    @ApiOperation(value = "插入救助案例")
     @PostMapping("/insertXaHelpMember")
     @ResponseBody
     public void insertXaHelpMember(@ModelAttribute XaHelpMemberParameter xaHelpMemberParameter, BindingResult result) throws BusinessException {
@@ -82,7 +82,7 @@ public class XaHelpMemberController {
 
 
 
-    @ApiOperation(value = "更新期数统计数据")
+    @ApiOperation(value = "更新救助案例数据")
     @PostMapping("/updateXaHelpMember")
     @ResponseBody
     public void updateXaHelpMember(@ModelAttribute XaHelpMemberParameterUpdate xaHelpMemberParameterUpdate) throws BusinessException {
@@ -97,7 +97,7 @@ public class XaHelpMemberController {
 
 
 
-    @ApiOperation(value = "查询单条期数统计数据详情")
+    @ApiOperation(value = "查询单条救助案例详情")
     @PostMapping("/getXaHelpMemberModelDetail")
     @ResponseBody
     @ApiImplicitParam(name = "id", value = "期数id", required = true, paramType = "query")

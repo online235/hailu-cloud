@@ -1,7 +1,7 @@
-package com.hailu.cloud.api.admin.module.xinan.parameter;
+package com.hailu.cloud.api.xinan.module.app.model;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,78 +14,80 @@ import java.util.Date;
  */
 @Data
 @ApiModel
-public class XaHelpMemberParameter {
+public class XaHelpMemberModel {
 
     /**
      * id
      */
-    @ApiParam(name = "id", value = " id")
+    @ApiModelProperty("id")
     private Long id;
 
     /**
      * 姓名
      */
-    @ApiParam(name = "name", value = " 姓名",required = true)
+    @ApiModelProperty("姓名")
     private String name;
 
     /**
      * 年龄
      */
-    @ApiParam(name="age",value = " 年龄",required = true)
+    @ApiModelProperty("年龄")
     private Integer age;
 
     /**
      * 省份
      */
-    @ApiParam(name="province",value = " 省份",required = true)
+    @ApiModelProperty("省份")
     private String province;
 
     /**
      * 省份code值
      */
-    @ApiParam(name="provinceCode",value = " 省份code值")
+    @ApiModelProperty("省份code值")
     private String provinceCode;
 
     /**
      * 病名
      */
-    @ApiParam(name="disease",value = " 病名",required = true)
+    @ApiModelProperty("病名")
     private String disease;
 
     /**
      * 本期时间（yyyy-MM）
      */
-    @ApiParam(name="id",value = " 本期时间（yyyy-MM）",required = true)
+    @ApiModelProperty("本期时间（yyyy-MM）")
     private Date timeDate;
 
     /**
      * 期数
      */
-    @ApiParam(name="periodsNumber",value = "期数",required = true)
+    @ApiModelProperty("期数")
     private Integer periodsNumber;
 
     /**
      * 分摊次数
      */
-    @ApiParam(name="shareTimes",value = " 分摊次数",required = true)
+    @ApiModelProperty("分摊次数")
     private Integer shareTimes;
 
     /**
      * 互助天数
      */
-    @ApiParam(name="helpDays",value = " 互助天数",required = true)
+    @ApiModelProperty("互助天数")
     private Integer helpDays;
 
     /**
      * 性别：1男；2女
      */
-    @ApiParam(name="sex" , value = "性别：1男；2女",required = true)
+    @ApiModelProperty("性别：1男；2女")
     private Integer sex;
 
     /**
      * 获取金额
      */
-    @ApiParam(name="gainMoney",value = " 获取金额",required = true)
+    @ApiModelProperty("获取金额")
     private BigDecimal gainMoney;
+
+
 
 }

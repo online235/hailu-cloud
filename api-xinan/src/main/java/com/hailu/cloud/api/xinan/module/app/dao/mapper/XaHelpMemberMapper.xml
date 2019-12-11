@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.XaHelpMemberMapper">
+
+
+    <sql id="base_column">
+        id, name, age, province, province_code, disease, time_date,
+         periods_number, share_times, help_days, sex, gain_money, create_time, update_time
+    </sql>
+
+    <sql id="set_column">
+        #{id},#{name},#{age},#{province},#{provinceCode},#{disease},#{timeDate},#{periodsNumber},#{shareTimes},#{helpDays}
+        ,#{sex},#{gainMoney},#{createTime},#{updateTime}
+    </sql>
+
+    <sql id="where_set">
+
+        <if test="id != null">
+            id = #{id},
+        </if>
+        <if test="name != null">
+            name = #{name},
+        </if>
+        <if test="age != null">
+            age = #{age},
+        </if>
+
+        <if test="province != null">
+            province = #{province},
+        </if>
+        <if test="provinceCode != null">
+            province_code = #{provinceCode},
+        </if>
+        <if test="disease != null">
+            disease = #{disease},
+        </if>
+        <if test="timeDate != null">
+            time_date = #{timeDate},
+        </if>
+        <if test="periodsNumber != null">
+            periods_number = #{periodsNumber},
+        </if>
+        <if test="shareTimes != null">
+            share_times = #{shareTimes},
+        </if>
+        <if test="helpDays != null">
+            help_days = #{helpDays},
+        </if>
+        <if test="sex != null">
+            sex = #{sex},
+        </if>
+        <if test="gainMoney != null">
+            gain_money = #{gainMoney},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime},
+        </if>
+    </sql>
+
+
+    <select id="findListByParameter" resultType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel">
+        select
+        id, name, age, province, province_code, disease, time_date,
+        periods_number, share_times, help_days, sex, gain_money
+        from xa_help_member
+        where 1=1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+        <if test="name != null">
+            and name = #{name}
+        </if>
+        <if test="periodsNumber != null">
+            and periods_number = #{periodsNumber}
+        </if>
+        <if test="timeDate != null">
+            and date_format(time_date,'%Y%m')<![CDATA[=]]>#{timeDate}
+        </if>
+        ORDER BY time_date desc
+    </select>
+
+<!--    <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">-->
+<!--        insert into xa_help_member (-->
+<!--        <include refid="base_column" />-->
+<!--        )-->
+<!--        values (-->
+<!--        <include refid="set_column" />-->
+<!--        )-->
+<!--    </insert>-->
+
+<!--    <insert id="update" parameterType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">-->
+<!--        update xa_help_member-->
+<!--        set-->
+<!--        <include refid="where_set" />-->
+<!--        where id = #{id}-->
+<!--    </insert>-->
+
+
+
+</mapper>
