@@ -17,7 +17,7 @@ public class UserInfoVo {
 
     private static final long serialVersionUID = -2485672484540185587L;
 
-    private Integer memberId;
+    private Long memberId;
 
     /**
      * 用户ID(外键关联)

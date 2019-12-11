@@ -21,7 +21,7 @@ public class ShopMember implements Serializable {
     /**
      * 主键ID
      */
-    private Integer id;
+    private Long id;
 
     /**
      * 用户ID(外键关联)
@@ -157,7 +157,7 @@ public class ShopMember implements Serializable {
     /**
      * 会员id
      */
-    private Integer memberId;
+    private Long memberId;
 
     /**
      * 真实姓名

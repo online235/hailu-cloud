@@ -138,7 +138,7 @@ public class UserInfo implements Serializable {
     /**
      * 会员id
      */
-    private Integer memberId;
+    private Long memberId;
 
     /**
      * 真实姓名
