@@ -2,6 +2,7 @@ package com.hailu.cloud.api.basic.module.upload.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import com.hailu.cloud.api.basic.module.upload.model.UploadOptions;
 import com.hailu.cloud.api.basic.module.upload.service.IFileStoreService;
 import com.hailu.cloud.api.basic.module.upload.service.IFileUploadService;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -27,11 +28,7 @@ public class FileUploadServiceImpl implements IFileUploadService {
     private String separator = "/";
 
     @Override
-    public String single(
-            String businessCode,
-            Boolean imageCompress,
-            Double compressQuality,
-            MultipartFile file) throws BusinessException {
+    public String single(UploadOptions options, MultipartFile file) throws BusinessException {
         try {
             // 获取文件后缀
             String fileSuffix = "";
@@ -51,26 +48,24 @@ public class FileUploadServiceImpl implements IFileUploadService {
                     .toString();
 
             String storePath = new StringBuilder()
-                    .append(businessCode)
+                    .append(options.getBusinessCode())
                     .append(separator)
                     .append(DateUtil.today())
                     .toString();
-            return fileStoreService.saveFile(file.getInputStream(), imageCompress, compressQuality, storePath, storeFileName);
+            options.setPath(storePath);
+            options.setPicName(storeFileName);
+            return fileStoreService.saveFile(file.getInputStream(), options);
         } catch (IOException e) {
             throw new BusinessException("文件上传失败");
         }
     }
 
     @Override
-    public List<String> multi(
-            String businessCode,
-            Boolean imageCompress,
-            Double compressQuality,
-            MultipartFile... files) throws BusinessException {
+    public List<String> multi(UploadOptions options, MultipartFile... files) throws BusinessException {
 
         List<String> result = new ArrayList<>(files.length);
         for (MultipartFile file : files) {
-            result.add(single(businessCode, imageCompress, compressQuality, file));
+            result.add(single(options, file));
         }
         return result;
     }

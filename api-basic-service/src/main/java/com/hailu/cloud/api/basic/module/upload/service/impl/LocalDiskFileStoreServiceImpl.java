@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.basic.module.upload.service.impl;
 
 import cn.hutool.core.img.Img;
+import com.hailu.cloud.api.basic.module.upload.model.UploadOptions;
 import com.hailu.cloud.api.basic.module.upload.service.IFileStoreService;
 import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -31,23 +32,16 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
 
     /**
      * @param is
-     * @param path    ueditor-config.json里面定义的相对路径
-     * @param picName 文件名称
      * @return
      */
     @Override
-    public String saveFile(
-            InputStream is,
-            Boolean imageCompress,
-            Double compressQuality,
-            String path,
-            String picName) throws BusinessException {
+    public String saveFile(InputStream is, UploadOptions options) throws BusinessException {
 
         try {
             // 目录检查
-            FileUtils.forceMkdir(new File(getStorePath(path)));
+            FileUtils.forceMkdir(new File(getStorePath(options.getPath())));
             // 保存文件
-            return save(is, imageCompress, compressQuality, path, picName);
+            return save(is, options);
         } catch (IOException e) {
             throw new BusinessException("图片上传失败", e);
         }
@@ -55,27 +49,22 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
 
     @Override
     public void deleteFile(String filePath) {
-        File file = new File(fileStorePath+filePath);
+        File file = new File(fileStorePath + filePath);
         file.deleteOnExit();
     }
 
-    private String save(
-            InputStream in,
-            Boolean imageCompress,
-            Double compressQuality,
-            String path,
-            String picName) throws BusinessException {
+    private String save(InputStream in, UploadOptions options) throws BusinessException {
 
         FileOutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(getStoreFilePath(path, picName));
-            if (isCompressImage(imageCompress, compressQuality, picName)) {
+            outputStream = new FileOutputStream(getStoreFilePath(options.getPath(), options.getPicName()));
+            if (isCompressImage(options.getIsImageCompress(), options.getCompressQuality(), options.getPicName())) {
                 // 压缩图片存储
-                Img.from(in).setQuality(compressQuality).write(outputStream);
+                Img.from(in).setQuality(options.getCompressQuality()).write(outputStream);
             } else {
                 IOUtils.copy(in, outputStream);
             }
-            return getStoreFileRelativePath(path, picName);
+            return getStoreFileRelativePath(options.getPath(), options.getPicName());
         } catch (IOException e) {
             throw new BusinessException("图片上传失败", e);
         } finally {

@@ -3,6 +3,7 @@ package com.hailu.cloud.api.basic.module.ueditor.component.upload;
 import com.hailu.cloud.api.basic.module.ueditor.component.define.AppInfo;
 import com.hailu.cloud.api.basic.module.ueditor.component.define.BaseState;
 import com.hailu.cloud.api.basic.module.ueditor.component.define.State;
+import com.hailu.cloud.api.basic.module.upload.model.UploadOptions;
 import com.hailu.cloud.api.basic.module.upload.service.IFileStoreService;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -63,7 +64,11 @@ public class StorageManager {
 
         try {
             // TODO 此处调用文件上传服务，并获取返回结果返回
-            String savePath = storeService.saveFile(is, false, null, path, picName);
+            UploadOptions options = UploadOptions.builder()
+                    .path(path)
+                    .picName(picName)
+                    .build();
+            String savePath = storeService.saveFile(is, options);
 
             //如果上传成功
             if (StringUtils.isNotBlank(savePath)) {
