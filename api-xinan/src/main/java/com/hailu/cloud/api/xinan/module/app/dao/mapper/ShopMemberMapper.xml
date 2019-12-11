@@ -1,88 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper" >
-  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
-    <id column="member_id" property="memberId" />
-    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
-    <result column="member_truename" property="memberTruename" jdbcType="VARCHAR" />
-    <result column="member_avatar" property="memberAvatar" jdbcType="VARCHAR" />
-    <result column="merchant_type" property="merchantType" jdbcType="BIT" />
-    <result column="superior_member" property="superiorMember" jdbcType="VARCHAR" />
-    <result column="hl_member" property="hlMember" jdbcType="INTEGER" />
-    <result column="total_merchants_money" property="totalMerchantsMoney" jdbcType="DECIMAL" />
-    <result column="member_sex" property="memberSex" jdbcType="VARCHAR" />
-    <result column="member_birthday" property="memberBirthday" jdbcType="BIGINT" />
-    <result column="member_passwd" property="memberPasswd" jdbcType="VARCHAR" />
-    <result column="member_email" property="memberEmail" jdbcType="VARCHAR" />
-    <result column="member_qq" property="memberQq" jdbcType="VARCHAR" />
-    <result column="member_ww" property="memberWw" jdbcType="VARCHAR" />
-    <result column="member_login_num" property="memberLoginNum" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="BIGINT" />
-    <result column="member_login_time" property="memberLoginTime" jdbcType="BIGINT" />
-    <result column="member_old_login_time" property="memberOldLoginTime" jdbcType="BIGINT" />
-    <result column="member_login_ip" property="memberLoginIp" jdbcType="VARCHAR" />
-    <result column="member_old_login_ip" property="memberOldLoginIp" jdbcType="VARCHAR" />
-    <result column="member_openid" property="memberOpenid" jdbcType="VARCHAR" />
-    <result column="member_consume_points" property="memberConsumePoints" jdbcType="INTEGER" />
-    <result column="member_rank_points" property="memberRankPoints" jdbcType="INTEGER" />
-    <result column="available_predeposit" property="availablePredeposit" jdbcType="DECIMAL" />
-    <result column="freeze_predeposit" property="freezePredeposit" jdbcType="DECIMAL" />
-    <result column="consumption_predeposit" property="consumptionPredeposit" jdbcType="DECIMAL" />
-    <result column="withdraw_predeposit" property="withdrawPredeposit" jdbcType="DECIMAL" />
-    <result column="total_predeposit" property="totalPredeposit" jdbcType="DECIMAL" />
-    <result column="red_envelope" property="redEnvelope" jdbcType="DECIMAL" />
-    <result column="inform_allow" property="informAllow" jdbcType="INTEGER" />
-    <result column="is_buy" property="isBuy" jdbcType="INTEGER" />
-    <result column="is_allowtalk" property="isAllowtalk" jdbcType="INTEGER" />
-    <result column="member_state" property="memberState" jdbcType="INTEGER" />
-    <result column="member_credit" property="memberCredit" jdbcType="INTEGER" />
-    <result column="member_snsvisitnum" property="memberSnsvisitnum" jdbcType="INTEGER" />
-    <result column="member_areaid" property="memberAreaid" jdbcType="INTEGER" />
-    <result column="member_cityid" property="memberCityid" jdbcType="INTEGER" />
-    <result column="member_provinceid" property="memberProvinceid" jdbcType="INTEGER" />
-    <result column="member_areainfo" property="memberAreainfo" jdbcType="VARCHAR" />
-    <result column="is_del" property="isDel" jdbcType="INTEGER" />
-    <result column="sign_code" property="signCode" jdbcType="VARCHAR" />
-    <result column="sign_code_state" property="signCodeState" jdbcType="VARCHAR" />
-    <result column="member_mobile" property="memberMobile" jdbcType="VARCHAR" />
-    <result column="member_gradeid" property="memberGradeid" jdbcType="INTEGER" />
-    <result column="member_grow" property="memberGrow" jdbcType="INTEGER" />
-    <result column="member_grow_grade" property="memberGrowGrade" jdbcType="INTEGER" />
-    <result column="is_upgrade" property="isUpgrade" jdbcType="CHAR" />
-    <result column="member_type" property="memberType" jdbcType="VARCHAR" />
-    <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="wechat" property="wechat" jdbcType="VARCHAR" />
-    <result column="profession" property="profession" jdbcType="VARCHAR" />
-    <result column="be_invite_user" property="beInviteUser" jdbcType="VARCHAR" />
-    <result column="regist_time" property="registTime" jdbcType="BIGINT" />
-    <result column="WX_state" property="wxState" jdbcType="VARCHAR" />
-    <result column="open_id" property="openId" jdbcType="VARCHAR" />
-    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
-    <result column="consumption_integral" property="consumptionIntegral" jdbcType="INTEGER" />
-    <result column="integral" property="integral" jdbcType="INTEGER" />
-    <result column="total_integral" property="totalIntegral" jdbcType="INTEGER" />
-    <result column="is_lqlb" property="isLqlb" jdbcType="INTEGER" />
-    <result column="growth_val" property="growthVal" jdbcType="INTEGER" />
-    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
-    <result column="un_read_msgs" property="unReadMsgs" jdbcType="INTEGER" />
-    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
-    <result column="idcard_imgx" property="idcardImgx" jdbcType="VARCHAR" />
-    <result column="idcard_imgy" property="idcardImgy" jdbcType="VARCHAR" />
-    <result column="is_sub" property="isSub" jdbcType="INTEGER" />
-    <result column="audit_state" property="auditState" jdbcType="INTEGER" />
-    <result column="pay_password" property="payPassword" jdbcType="VARCHAR" />
-    <result column="system_type" property="systemType" jdbcType="INTEGER" />
-    <result column="cid" property="cid" jdbcType="VARCHAR" />
-    <result column="audit_time" property="auditTime" jdbcType="BIGINT" />
-    <result column="source_registration" property="sourceRegistration" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" extends="BaseResultMap" >
-    <result column="member_info" property="memberInfo" jdbcType="LONGVARCHAR" />
-    <result column="member_privacy" property="memberPrivacy" jdbcType="LONGVARCHAR" />
-    <result column="user_icon" property="userIcon" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper">
+    <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+        <id column="member_id" property="memberId"/>
+        <result column="member_name" property="memberName" jdbcType="VARCHAR"/>
+        <result column="member_truename" property="memberTruename" jdbcType="VARCHAR"/>
+        <result column="member_avatar" property="memberAvatar" jdbcType="VARCHAR"/>
+        <result column="merchant_type" property="merchantType" jdbcType="BIT"/>
+        <result column="superior_member" property="superiorMember" jdbcType="VARCHAR"/>
+        <result column="hl_member" property="hlMember" jdbcType="INTEGER"/>
+        <result column="total_merchants_money" property="totalMerchantsMoney" jdbcType="DECIMAL"/>
+        <result column="member_sex" property="memberSex" jdbcType="VARCHAR"/>
+        <result column="member_birthday" property="memberBirthday" jdbcType="BIGINT"/>
+        <result column="member_passwd" property="memberPasswd" jdbcType="VARCHAR"/>
+        <result column="member_email" property="memberEmail" jdbcType="VARCHAR"/>
+        <result column="member_qq" property="memberQq" jdbcType="VARCHAR"/>
+        <result column="member_ww" property="memberWw" jdbcType="VARCHAR"/>
+        <result column="member_login_num" property="memberLoginNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="member_login_time" property="memberLoginTime" jdbcType="BIGINT"/>
+        <result column="member_old_login_time" property="memberOldLoginTime" jdbcType="BIGINT"/>
+        <result column="member_login_ip" property="memberLoginIp" jdbcType="VARCHAR"/>
+        <result column="member_old_login_ip" property="memberOldLoginIp" jdbcType="VARCHAR"/>
+        <result column="member_openid" property="memberOpenid" jdbcType="VARCHAR"/>
+        <result column="member_consume_points" property="memberConsumePoints" jdbcType="INTEGER"/>
+        <result column="member_rank_points" property="memberRankPoints" jdbcType="INTEGER"/>
+        <result column="available_predeposit" property="availablePredeposit" jdbcType="DECIMAL"/>
+        <result column="freeze_predeposit" property="freezePredeposit" jdbcType="DECIMAL"/>
+        <result column="consumption_predeposit" property="consumptionPredeposit" jdbcType="DECIMAL"/>
+        <result column="withdraw_predeposit" property="withdrawPredeposit" jdbcType="DECIMAL"/>
+        <result column="total_predeposit" property="totalPredeposit" jdbcType="DECIMAL"/>
+        <result column="red_envelope" property="redEnvelope" jdbcType="DECIMAL"/>
+        <result column="inform_allow" property="informAllow" jdbcType="INTEGER"/>
+        <result column="is_buy" property="isBuy" jdbcType="INTEGER"/>
+        <result column="is_allowtalk" property="isAllowtalk" jdbcType="INTEGER"/>
+        <result column="member_state" property="memberState" jdbcType="INTEGER"/>
+        <result column="member_credit" property="memberCredit" jdbcType="INTEGER"/>
+        <result column="member_snsvisitnum" property="memberSnsvisitnum" jdbcType="INTEGER"/>
+        <result column="member_areaid" property="memberAreaid" jdbcType="INTEGER"/>
+        <result column="member_cityid" property="memberCityid" jdbcType="INTEGER"/>
+        <result column="member_provinceid" property="memberProvinceid" jdbcType="INTEGER"/>
+        <result column="member_areainfo" property="memberAreainfo" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+        <result column="sign_code" property="signCode" jdbcType="VARCHAR"/>
+        <result column="sign_code_state" property="signCodeState" jdbcType="VARCHAR"/>
+        <result column="member_mobile" property="memberMobile" jdbcType="VARCHAR"/>
+        <result column="member_gradeid" property="memberGradeid" jdbcType="INTEGER"/>
+        <result column="member_grow" property="memberGrow" jdbcType="INTEGER"/>
+        <result column="member_grow_grade" property="memberGrowGrade" jdbcType="INTEGER"/>
+        <result column="is_upgrade" property="isUpgrade" jdbcType="CHAR"/>
+        <result column="member_type" property="memberType" jdbcType="VARCHAR"/>
+        <result column="invite_code" property="inviteCode" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="wechat" property="wechat" jdbcType="VARCHAR"/>
+        <result column="profession" property="profession" jdbcType="VARCHAR"/>
+        <result column="be_invite_user" property="beInviteUser" jdbcType="VARCHAR"/>
+        <result column="regist_time" property="registTime" jdbcType="BIGINT"/>
+        <result column="WX_state" property="wxState" jdbcType="VARCHAR"/>
+        <result column="open_id" property="openId" jdbcType="VARCHAR"/>
+        <result column="unionid" property="unionid" jdbcType="VARCHAR"/>
+        <result column="consumption_integral" property="consumptionIntegral" jdbcType="INTEGER"/>
+        <result column="integral" property="integral" jdbcType="INTEGER"/>
+        <result column="total_integral" property="totalIntegral" jdbcType="INTEGER"/>
+        <result column="is_lqlb" property="isLqlb" jdbcType="INTEGER"/>
+        <result column="growth_val" property="growthVal" jdbcType="INTEGER"/>
+        <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
+        <result column="un_read_msgs" property="unReadMsgs" jdbcType="INTEGER"/>
+        <result column="idcard" property="idcard" jdbcType="VARCHAR"/>
+        <result column="idcard_imgx" property="idcardImgx" jdbcType="VARCHAR"/>
+        <result column="idcard_imgy" property="idcardImgy" jdbcType="VARCHAR"/>
+        <result column="is_sub" property="isSub" jdbcType="INTEGER"/>
+        <result column="audit_state" property="auditState" jdbcType="INTEGER"/>
+        <result column="pay_password" property="payPassword" jdbcType="VARCHAR"/>
+        <result column="system_type" property="systemType" jdbcType="INTEGER"/>
+        <result column="cid" property="cid" jdbcType="VARCHAR"/>
+        <result column="audit_time" property="auditTime" jdbcType="BIGINT"/>
+        <result column="source_registration" property="sourceRegistration" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember"
+               extends="BaseResultMap">
+        <result column="member_info" property="memberInfo" jdbcType="LONGVARCHAR"/>
+        <result column="member_privacy" property="memberPrivacy" jdbcType="LONGVARCHAR"/>
+        <result column="user_icon" property="userIcon" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     member_id, member_name, member_truename, member_avatar, merchant_type, superior_member,
     hl_member, total_merchants_money, member_sex, member_birthday, member_passwd, member_email,
     member_qq, member_ww, member_login_num, create_time, member_login_time, member_old_login_time,
@@ -97,31 +98,33 @@
     idcard_imgx, idcard_imgy, is_sub, audit_state, pay_password, system_type, cid, audit_time,
     source_registration
   </sql>
-  <sql id="Blob_Column_List" >
-    <include refid="Base_Column_List"/>
-    ,member_info, member_privacy, user_icon
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from shop_member
-    where member_id = #{memberId}
-  </select>
+    <sql id="Blob_Column_List">
+        <include refid="Base_Column_List"/>
+        ,member_info, member_privacy, user_icon
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from shop_member
+        where member_id = #{memberId}
+    </select>
 
-  <select id="selectByPrimaryByuserId"  resultType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" parameterType="string">
+    <select id="selectByPrimaryByuserId" resultType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember"
+            parameterType="string">
     select
     *
     from shop_member
     where user_id = #{userId}
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from shop_member
     where member_id = #{memberId}
   </delete>
-  <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
+    <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true"
+            keyProperty="memberId">
     insert into shop_member (member_name, member_truename, member_avatar, 
       member_sex, member_birthday, member_passwd, 
       member_email, member_qq, member_ww, 
@@ -173,656 +176,657 @@
       #{auditTime,jdbcType=BIGINT}, #{sourceRegistration,jdbcType=VARCHAR},#{memberInfo,jdbcType=LONGVARCHAR}, #{memberPrivacy,jdbcType=LONGVARCHAR},
       #{userIcon,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
-    insert into shop_member
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="memberName != null" >
-        member_name,
-      </if>
-      <if test="memberTruename != null" >
-        member_truename,
-      </if>
-      <if test="memberAvatar != null" >
-        member_avatar,
-      </if>
-      <if test="memberSex != null" >
-        member_sex,
-      </if>
-      <if test="memberBirthday != null" >
-        member_birthday,
-      </if>
-      <if test="memberPasswd != null" >
-        member_passwd,
-      </if>
-      <if test="memberEmail != null" >
-        member_email,
-      </if>
-      <if test="memberQq != null" >
-        member_qq,
-      </if>
-      <if test="memberWw != null" >
-        member_ww,
-      </if>
-      <if test="memberLoginNum != null" >
-        member_login_num,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="memberLoginTime != null" >
-        member_login_time,
-      </if>
-      <if test="memberOldLoginTime != null" >
-        member_old_login_time,
-      </if>
-      <if test="memberLoginIp != null" >
-        member_login_ip,
-      </if>
-      <if test="memberOldLoginIp != null" >
-        member_old_login_ip,
-      </if>
-      <if test="memberOpenid != null" >
-        member_openid,
-      </if>
-      <if test="memberConsumePoints != null" >
-        member_consume_points,
-      </if>
-      <if test="memberRankPoints != null" >
-        member_rank_points,
-      </if>
-      <if test="availablePredeposit != null" >
-        available_predeposit,
-      </if>
-      <if test="freezePredeposit != null" >
-        freeze_predeposit,
-      </if>
-      <if test="consumptionPredeposit != null" >
-        consumption_predeposit,
-      </if>
-      <if test="withdrawPredeposit != null" >
-        withdraw_predeposit,
-      </if>
-      <if test="totalPredeposit != null" >
-        total_predeposit,
-      </if>
-      <if test="redEnvelope != null" >
-        red_envelope,
-      </if>
-      <if test="informAllow != null" >
-        inform_allow,
-      </if>
-      <if test="isBuy != null" >
-        is_buy,
-      </if>
-      <if test="isAllowtalk != null" >
-        is_allowtalk,
-      </if>
-      <if test="memberState != null" >
-        member_state,
-      </if>
-      <if test="memberCredit != null" >
-        member_credit,
-      </if>
-      <if test="memberSnsvisitnum != null" >
-        member_snsvisitnum,
-      </if>
-      <if test="memberAreaid != null" >
-        member_areaid,
-      </if>
-      <if test="memberCityid != null" >
-        member_cityid,
-      </if>
-      <if test="memberProvinceid != null" >
-        member_provinceid,
-      </if>
-      <if test="memberAreainfo != null" >
-        member_areainfo,
-      </if>
-      <if test="isDel != null" >
-        is_del,
-      </if>
-      <if test="signCode != null" >
-        sign_code,
-      </if>
-      <if test="signCodeState != null" >
-        sign_code_state,
-      </if>
-      <if test="memberMobile != null" >
-        member_mobile,
-      </if>
-      <if test="memberGradeid != null" >
-        member_gradeid,
-      </if>
-      <if test="memberGrow != null" >
-        member_grow,
-      </if>
-      <if test="memberGrowGrade != null" >
-        member_grow_grade,
-      </if>
-      <if test="isUpgrade != null" >
-        is_upgrade,
-      </if>
-      <if test="memberType != null" >
-        member_type,
-      </if>
-      <if test="inviteCode != null" >
-        invite_code,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="wechat != null" >
-        wechat,
-      </if>
-      <if test="profession != null" >
-        profession,
-      </if>
-      <if test="beInviteUser != null" >
-        be_invite_user,
-      </if>
-      <if test="registTime != null" >
-        regist_time,
-      </if>
-      <if test="wxState != null" >
-        WX_state,
-      </if>
-      <if test="openId != null" >
-        open_id,
-      </if>
-      <if test="unionid != null" >
-        unionid,
-      </if>
-      <if test="consumptionIntegral != null" >
-        consumption_integral,
-      </if>
-      <if test="integral != null" >
-        integral,
-      </if>
-      <if test="totalIntegral != null" >
-        total_integral,
-      </if>
-      <if test="isLqlb != null" >
-        is_lqlb,
-      </if>
-      <if test="growthVal != null" >
-        growth_val,
-      </if>
-      <if test="loginName != null" >
-        LOGIN_NAME,
-      </if>
-      <if test="unReadMsgs != null" >
-        un_read_msgs,
-      </if>
-      <if test="idcard != null" >
-        idcard,
-      </if>
-      <if test="idcardImgx != null" >
-        idcard_imgx,
-      </if>
-      <if test="idcardImgy != null" >
-        idcard_imgy,
-      </if>
-      <if test="isSub != null" >
-        is_sub,
-      </if>
-      <if test="auditState != null" >
-        audit_state,
-      </if>
-      <if test="payPassword != null" >
-        pay_password,
-      </if>
-      <if test="systemType != null" >
-        system_type,
-      </if>
-      <if test="cid != null" >
-        cid,
-      </if>
-      <if test="auditTime != null" >
-        audit_time,
-      </if>
-      <if test="sourceRegistration != null" >
-        source_registration,
-      </if>
-      <if test="memberInfo != null" >
-        member_info,
-      </if>
-      <if test="memberPrivacy != null" >
-        member_privacy,
-      </if>
-      <if test="userIcon != null" >
-        user_icon,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="memberName != null" >
-        #{memberName,jdbcType=VARCHAR},
-      </if>
-      <if test="memberTruename != null" >
-        #{memberTruename,jdbcType=VARCHAR},
-      </if>
-      <if test="memberAvatar != null" >
-        #{memberAvatar,jdbcType=VARCHAR},
-      </if>
-      <if test="memberSex != null" >
-        #{memberSex,jdbcType=VARCHAR},
-      </if>
-      <if test="memberBirthday != null" >
-        #{memberBirthday,jdbcType=BIGINT},
-      </if>
-      <if test="memberPasswd != null" >
-        #{memberPasswd,jdbcType=VARCHAR},
-      </if>
-      <if test="memberEmail != null" >
-        #{memberEmail,jdbcType=VARCHAR},
-      </if>
-      <if test="memberQq != null" >
-        #{memberQq,jdbcType=VARCHAR},
-      </if>
-      <if test="memberWw != null" >
-        #{memberWw,jdbcType=VARCHAR},
-      </if>
-      <if test="memberLoginNum != null" >
-        #{memberLoginNum,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=BIGINT},
-      </if>
-      <if test="memberLoginTime != null" >
-        #{memberLoginTime,jdbcType=BIGINT},
-      </if>
-      <if test="memberOldLoginTime != null" >
-        #{memberOldLoginTime,jdbcType=BIGINT},
-      </if>
-      <if test="memberLoginIp != null" >
-        #{memberLoginIp,jdbcType=VARCHAR},
-      </if>
-      <if test="memberOldLoginIp != null" >
-        #{memberOldLoginIp,jdbcType=VARCHAR},
-      </if>
-      <if test="memberOpenid != null" >
-        #{memberOpenid,jdbcType=VARCHAR},
-      </if>
-      <if test="memberConsumePoints != null" >
-        #{memberConsumePoints,jdbcType=INTEGER},
-      </if>
-      <if test="memberRankPoints != null" >
-        #{memberRankPoints,jdbcType=INTEGER},
-      </if>
-      <if test="availablePredeposit != null" >
-        #{availablePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="freezePredeposit != null" >
-        #{freezePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="consumptionPredeposit != null" >
-        #{consumptionPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="withdrawPredeposit != null" >
-        #{withdrawPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="totalPredeposit != null" >
-        #{totalPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="redEnvelope != null" >
-        #{redEnvelope,jdbcType=DECIMAL},
-      </if>
-      <if test="informAllow != null" >
-        #{informAllow,jdbcType=INTEGER},
-      </if>
-      <if test="isBuy != null" >
-        #{isBuy,jdbcType=INTEGER},
-      </if>
-      <if test="isAllowtalk != null" >
-        #{isAllowtalk,jdbcType=INTEGER},
-      </if>
-      <if test="memberState != null" >
-        #{memberState,jdbcType=INTEGER},
-      </if>
-      <if test="memberCredit != null" >
-        #{memberCredit,jdbcType=INTEGER},
-      </if>
-      <if test="memberSnsvisitnum != null" >
-        #{memberSnsvisitnum,jdbcType=INTEGER},
-      </if>
-      <if test="memberAreaid != null" >
-        #{memberAreaid,jdbcType=INTEGER},
-      </if>
-      <if test="memberCityid != null" >
-        #{memberCityid,jdbcType=INTEGER},
-      </if>
-      <if test="memberProvinceid != null" >
-        #{memberProvinceid,jdbcType=INTEGER},
-      </if>
-      <if test="memberAreainfo != null" >
-        #{memberAreainfo,jdbcType=VARCHAR},
-      </if>
-      <if test="isDel != null" >
-        #{isDel,jdbcType=INTEGER},
-      </if>
-      <if test="signCode != null" >
-        #{signCode,jdbcType=VARCHAR},
-      </if>
-      <if test="signCodeState != null" >
-        #{signCodeState,jdbcType=VARCHAR},
-      </if>
-      <if test="memberMobile != null" >
-        #{memberMobile,jdbcType=VARCHAR},
-      </if>
-      <if test="memberGradeid != null" >
-        #{memberGradeid,jdbcType=INTEGER},
-      </if>
-      <if test="memberGrow != null" >
-        #{memberGrow,jdbcType=INTEGER},
-      </if>
-      <if test="memberGrowGrade != null" >
-        #{memberGrowGrade,jdbcType=INTEGER},
-      </if>
-      <if test="isUpgrade != null" >
-        #{isUpgrade,jdbcType=CHAR},
-      </if>
-      <if test="memberType != null" >
-        #{memberType,jdbcType=VARCHAR},
-      </if>
-      <if test="inviteCode != null" >
-        #{inviteCode,jdbcType=VARCHAR},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="wechat != null" >
-        #{wechat,jdbcType=VARCHAR},
-      </if>
-      <if test="profession != null" >
-        #{profession,jdbcType=VARCHAR},
-      </if>
-      <if test="beInviteUser != null" >
-        #{beInviteUser,jdbcType=VARCHAR},
-      </if>
-      <if test="registTime != null" >
-        #{registTime,jdbcType=DATE},
-      </if>
-      <if test="wxState != null" >
-        #{wxState,jdbcType=VARCHAR},
-      </if>
-      <if test="openId != null" >
-        #{openId,jdbcType=VARCHAR},
-      </if>
-      <if test="unionid != null" >
-        #{unionid,jdbcType=VARCHAR},
-      </if>
-      <if test="consumptionIntegral != null" >
-        #{consumptionIntegral,jdbcType=INTEGER},
-      </if>
-      <if test="integral != null" >
-        #{integral,jdbcType=INTEGER},
-      </if>
-      <if test="totalIntegral != null" >
-        #{totalIntegral,jdbcType=INTEGER},
-      </if>
-      <if test="isLqlb != null" >
-        #{isLqlb,jdbcType=INTEGER},
-      </if>
-      <if test="growthVal != null" >
-        #{growthVal,jdbcType=INTEGER},
-      </if>
-      <if test="loginName != null" >
-        #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="unReadMsgs != null" >
-        #{unReadMsgs,jdbcType=INTEGER},
-      </if>
-      <if test="idcard != null" >
-        #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="idcardImgx != null" >
-        #{idcardImgx,jdbcType=VARCHAR},
-      </if>
-      <if test="idcardImgy != null" >
-        #{idcardImgy,jdbcType=VARCHAR},
-      </if>
-      <if test="isSub != null" >
-        #{isSub,jdbcType=INTEGER},
-      </if>
-      <if test="auditState != null" >
-        #{auditState,jdbcType=INTEGER},
-      </if>
-      <if test="payPassword != null" >
-        #{payPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="systemType != null" >
-        #{systemType,jdbcType=INTEGER},
-      </if>
-      <if test="cid != null" >
-        #{cid,jdbcType=VARCHAR},
-      </if>
-      <if test="auditTime != null" >
-        #{auditTime,jdbcType=BIGINT},
-      </if>
-      <if test="sourceRegistration != null" >
-        #{sourceRegistration,jdbcType=VARCHAR},
-      </if>
-      <if test="memberInfo != null" >
-        #{memberInfo,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="memberPrivacy != null" >
-        #{memberPrivacy,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="userIcon != null" >
-        #{userIcon,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
-    update shop_member
-    <set >
-      <if test="memberName != null" >
-        member_name = #{memberName,jdbcType=VARCHAR},
-      </if>
-      <if test="memberTruename != null" >
-        member_truename = #{memberTruename,jdbcType=VARCHAR},
-      </if>
-      <if test="memberAvatar != null" >
-        member_avatar = #{memberAvatar,jdbcType=VARCHAR},
-      </if>
-      <if test="memberSex != null" >
-        member_sex = #{memberSex,jdbcType=VARCHAR},
-      </if>
-      <if test="memberBirthday != null" >
-        member_birthday = #{memberBirthday,jdbcType=BIGINT},
-      </if>
-      <if test="memberPasswd != null" >
-        member_passwd = #{memberPasswd,jdbcType=VARCHAR},
-      </if>
-      <if test="memberEmail != null" >
-        member_email = #{memberEmail,jdbcType=VARCHAR},
-      </if>
-      <if test="memberQq != null" >
-        member_qq = #{memberQq,jdbcType=VARCHAR},
-      </if>
-      <if test="memberWw != null" >
-        member_ww = #{memberWw,jdbcType=VARCHAR},
-      </if>
-      <if test="memberLoginNum != null" >
-        member_login_num = #{memberLoginNum,jdbcType=INTEGER},
-      </if>
-      <if test="memberLoginTime != null" >
-        member_login_time = #{memberLoginTime,jdbcType=BIGINT},
-      </if>
-      <if test="memberOldLoginTime != null" >
-        member_old_login_time = #{memberOldLoginTime,jdbcType=BIGINT},
-      </if>
-      <if test="memberLoginIp != null" >
-        member_login_ip = #{memberLoginIp,jdbcType=VARCHAR},
-      </if>
-      <if test="memberOldLoginIp != null" >
-        member_old_login_ip = #{memberOldLoginIp,jdbcType=VARCHAR},
-      </if>
-      <if test="memberOpenid != null" >
-        member_openid = #{memberOpenid,jdbcType=VARCHAR},
-      </if>
-      <if test="memberConsumePoints != null" >
-        member_consume_points = #{memberConsumePoints,jdbcType=INTEGER},
-      </if>
-      <if test="memberRankPoints != null" >
-        member_rank_points = #{memberRankPoints,jdbcType=INTEGER},
-      </if>
-      <if test="availablePredeposit != null" >
-        available_predeposit = #{availablePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="freezePredeposit != null" >
-        freeze_predeposit = #{freezePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="consumptionPredeposit != null" >
-        consumption_predeposit = #{consumptionPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="withdrawPredeposit != null" >
-        withdraw_predeposit = #{withdrawPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="totalPredeposit != null" >
-        total_predeposit = #{totalPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="redEnvelope != null" >
-        red_envelope = #{redEnvelope,jdbcType=DECIMAL},
-      </if>
-      <if test="informAllow != null" >
-        inform_allow = #{informAllow,jdbcType=INTEGER},
-      </if>
-      <if test="isBuy != null" >
-        is_buy = #{isBuy,jdbcType=INTEGER},
-      </if>
-      <if test="isAllowtalk != null" >
-        is_allowtalk = #{isAllowtalk,jdbcType=INTEGER},
-      </if>
-      <if test="memberState != null" >
-        member_state = #{memberState,jdbcType=INTEGER},
-      </if>
-      <if test="memberCredit != null" >
-        member_credit = #{memberCredit,jdbcType=INTEGER},
-      </if>
-      <if test="memberSnsvisitnum != null" >
-        member_snsvisitnum = #{memberSnsvisitnum,jdbcType=INTEGER},
-      </if>
-      <if test="memberAreaid != null" >
-        member_areaid = #{memberAreaid,jdbcType=INTEGER},
-      </if>
-      <if test="memberCityid != null" >
-        member_cityid = #{memberCityid,jdbcType=INTEGER},
-      </if>
-      <if test="memberProvinceid != null" >
-        member_provinceid = #{memberProvinceid,jdbcType=INTEGER},
-      </if>
-      <if test="memberAreainfo != null" >
-        member_areainfo = #{memberAreainfo,jdbcType=VARCHAR},
-      </if>
-      <if test="isDel != null" >
-        is_del = #{isDel,jdbcType=INTEGER},
-      </if>
-      <if test="signCode != null" >
-        sign_code = #{signCode,jdbcType=VARCHAR},
-      </if>
-      <if test="signCodeState != null" >
-        sign_code_state = #{signCodeState,jdbcType=VARCHAR},
-      </if>
-      <if test="memberMobile != null" >
-        member_mobile = #{memberMobile,jdbcType=VARCHAR},
-      </if>
-      <if test="memberGradeid != null" >
-        member_gradeid = #{memberGradeid,jdbcType=INTEGER},
-      </if>
-      <if test="memberGrow != null" >
-        member_grow = #{memberGrow,jdbcType=INTEGER},
-      </if>
-      <if test="memberGrowGrade != null" >
-        member_grow_grade = #{memberGrowGrade,jdbcType=INTEGER},
-      </if>
-      <if test="isUpgrade != null" >
-        is_upgrade = #{isUpgrade,jdbcType=CHAR},
-      </if>
-      <if test="memberType != null" >
-        member_type = #{memberType,jdbcType=VARCHAR},
-      </if>
-      <if test="inviteCode != null" >
-        invite_code = #{inviteCode,jdbcType=VARCHAR},
-      </if>
-      <if test="wechat != null" >
-        wechat = #{wechat,jdbcType=VARCHAR},
-      </if>
-      <if test="profession != null" >
-        profession = #{profession,jdbcType=VARCHAR},
-      </if>
-      <if test="beInviteUser != null" >
-        be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
-      </if>
-      <if test="wxState != null" >
-        WX_state = #{wxState,jdbcType=VARCHAR},
-      </if>
-      <if test="openId != null" >
-        open_id = #{openId,jdbcType=VARCHAR},
-      </if>
-      <if test="unionid != null" >
-        unionid = #{unionid,jdbcType=VARCHAR},
-      </if>
-      <if test="consumptionIntegral != null" >
-        consumption_integral = #{consumptionIntegral,jdbcType=INTEGER},
-      </if>
-      <if test="integral != null" >
-        integral = #{integral,jdbcType=INTEGER},
-      </if>
-      <if test="totalIntegral != null" >
-        total_integral = #{totalIntegral,jdbcType=INTEGER},
-      </if>
-      <if test="isLqlb != null" >
-        is_lqlb = #{isLqlb,jdbcType=INTEGER},
-      </if>
-      <if test="growthVal != null" >
-        growth_val = #{growthVal,jdbcType=INTEGER},
-      </if>
-      <if test="loginName != null" >
-        LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
-      </if>
-      <if test="idcard != null" >
-        idcard = #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="idcardImgx != null" >
-        idcard_imgx = #{idcardImgx,jdbcType=VARCHAR},
-      </if>
-      <if test="idcardImgy != null" >
-        idcard_imgy = #{idcardImgy,jdbcType=VARCHAR},
-      </if>
-      <if test="isSub != null" >
-        is_sub = #{isSub,jdbcType=INTEGER},
-      </if>
-      <if test="auditState != null" >
-        audit_state = #{auditState,jdbcType=INTEGER},
-      </if>
-      <if test="payPassword != null" >
-        pay_password = #{payPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="systemType != null" >
-        system_type = #{systemType,jdbcType=INTEGER},
-      </if>
-      <if test="cid != null" >
-        cid = #{cid,jdbcType=VARCHAR},
-      </if>
-      <if test="auditTime != null" >
-        audit_time = #{auditTime,jdbcType=BIGINT},
-      </if>
-      <if test="sourceRegistration != null" >
-        source_registration = #{sourceRegistration,jdbcType=VARCHAR},
-      </if>
-      <if test="memberInfo != null" >
-        member_info = #{memberInfo,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="memberPrivacy != null" >
-        member_privacy = #{memberPrivacy,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="userIcon != null" >
-        user_icon = #{userIcon,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where user_id = #{userId}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember"
+            useGeneratedKeys="true" keyProperty="memberId">
+        insert into shop_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberName != null">
+                member_name,
+            </if>
+            <if test="memberTruename != null">
+                member_truename,
+            </if>
+            <if test="memberAvatar != null">
+                member_avatar,
+            </if>
+            <if test="memberSex != null">
+                member_sex,
+            </if>
+            <if test="memberBirthday != null">
+                member_birthday,
+            </if>
+            <if test="memberPasswd != null">
+                member_passwd,
+            </if>
+            <if test="memberEmail != null">
+                member_email,
+            </if>
+            <if test="memberQq != null">
+                member_qq,
+            </if>
+            <if test="memberWw != null">
+                member_ww,
+            </if>
+            <if test="memberLoginNum != null">
+                member_login_num,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="memberLoginTime != null">
+                member_login_time,
+            </if>
+            <if test="memberOldLoginTime != null">
+                member_old_login_time,
+            </if>
+            <if test="memberLoginIp != null">
+                member_login_ip,
+            </if>
+            <if test="memberOldLoginIp != null">
+                member_old_login_ip,
+            </if>
+            <if test="memberOpenid != null">
+                member_openid,
+            </if>
+            <if test="memberConsumePoints != null">
+                member_consume_points,
+            </if>
+            <if test="memberRankPoints != null">
+                member_rank_points,
+            </if>
+            <if test="availablePredeposit != null">
+                available_predeposit,
+            </if>
+            <if test="freezePredeposit != null">
+                freeze_predeposit,
+            </if>
+            <if test="consumptionPredeposit != null">
+                consumption_predeposit,
+            </if>
+            <if test="withdrawPredeposit != null">
+                withdraw_predeposit,
+            </if>
+            <if test="totalPredeposit != null">
+                total_predeposit,
+            </if>
+            <if test="redEnvelope != null">
+                red_envelope,
+            </if>
+            <if test="informAllow != null">
+                inform_allow,
+            </if>
+            <if test="isBuy != null">
+                is_buy,
+            </if>
+            <if test="isAllowtalk != null">
+                is_allowtalk,
+            </if>
+            <if test="memberState != null">
+                member_state,
+            </if>
+            <if test="memberCredit != null">
+                member_credit,
+            </if>
+            <if test="memberSnsvisitnum != null">
+                member_snsvisitnum,
+            </if>
+            <if test="memberAreaid != null">
+                member_areaid,
+            </if>
+            <if test="memberCityid != null">
+                member_cityid,
+            </if>
+            <if test="memberProvinceid != null">
+                member_provinceid,
+            </if>
+            <if test="memberAreainfo != null">
+                member_areainfo,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+            <if test="signCode != null">
+                sign_code,
+            </if>
+            <if test="signCodeState != null">
+                sign_code_state,
+            </if>
+            <if test="memberMobile != null">
+                member_mobile,
+            </if>
+            <if test="memberGradeid != null">
+                member_gradeid,
+            </if>
+            <if test="memberGrow != null">
+                member_grow,
+            </if>
+            <if test="memberGrowGrade != null">
+                member_grow_grade,
+            </if>
+            <if test="isUpgrade != null">
+                is_upgrade,
+            </if>
+            <if test="memberType != null">
+                member_type,
+            </if>
+            <if test="inviteCode != null">
+                invite_code,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="wechat != null">
+                wechat,
+            </if>
+            <if test="profession != null">
+                profession,
+            </if>
+            <if test="beInviteUser != null">
+                be_invite_user,
+            </if>
+            <if test="registTime != null">
+                regist_time,
+            </if>
+            <if test="wxState != null">
+                WX_state,
+            </if>
+            <if test="openId != null">
+                open_id,
+            </if>
+            <if test="unionid != null">
+                unionid,
+            </if>
+            <if test="consumptionIntegral != null">
+                consumption_integral,
+            </if>
+            <if test="integral != null">
+                integral,
+            </if>
+            <if test="totalIntegral != null">
+                total_integral,
+            </if>
+            <if test="isLqlb != null">
+                is_lqlb,
+            </if>
+            <if test="growthVal != null">
+                growth_val,
+            </if>
+            <if test="loginName != null">
+                LOGIN_NAME,
+            </if>
+            <if test="unReadMsgs != null">
+                un_read_msgs,
+            </if>
+            <if test="idcard != null">
+                idcard,
+            </if>
+            <if test="idcardImgx != null">
+                idcard_imgx,
+            </if>
+            <if test="idcardImgy != null">
+                idcard_imgy,
+            </if>
+            <if test="isSub != null">
+                is_sub,
+            </if>
+            <if test="auditState != null">
+                audit_state,
+            </if>
+            <if test="payPassword != null">
+                pay_password,
+            </if>
+            <if test="systemType != null">
+                system_type,
+            </if>
+            <if test="cid != null">
+                cid,
+            </if>
+            <if test="auditTime != null">
+                audit_time,
+            </if>
+            <if test="sourceRegistration != null">
+                source_registration,
+            </if>
+            <if test="memberInfo != null">
+                member_info,
+            </if>
+            <if test="memberPrivacy != null">
+                member_privacy,
+            </if>
+            <if test="userIcon != null">
+                user_icon,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberName != null">
+                #{memberName,jdbcType=VARCHAR},
+            </if>
+            <if test="memberTruename != null">
+                #{memberTruename,jdbcType=VARCHAR},
+            </if>
+            <if test="memberAvatar != null">
+                #{memberAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="memberSex != null">
+                #{memberSex,jdbcType=VARCHAR},
+            </if>
+            <if test="memberBirthday != null">
+                #{memberBirthday,jdbcType=BIGINT},
+            </if>
+            <if test="memberPasswd != null">
+                #{memberPasswd,jdbcType=VARCHAR},
+            </if>
+            <if test="memberEmail != null">
+                #{memberEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="memberQq != null">
+                #{memberQq,jdbcType=VARCHAR},
+            </if>
+            <if test="memberWw != null">
+                #{memberWw,jdbcType=VARCHAR},
+            </if>
+            <if test="memberLoginNum != null">
+                #{memberLoginNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+            <if test="memberLoginTime != null">
+                #{memberLoginTime,jdbcType=BIGINT},
+            </if>
+            <if test="memberOldLoginTime != null">
+                #{memberOldLoginTime,jdbcType=BIGINT},
+            </if>
+            <if test="memberLoginIp != null">
+                #{memberLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOldLoginIp != null">
+                #{memberOldLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOpenid != null">
+                #{memberOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="memberConsumePoints != null">
+                #{memberConsumePoints,jdbcType=INTEGER},
+            </if>
+            <if test="memberRankPoints != null">
+                #{memberRankPoints,jdbcType=INTEGER},
+            </if>
+            <if test="availablePredeposit != null">
+                #{availablePredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="freezePredeposit != null">
+                #{freezePredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="consumptionPredeposit != null">
+                #{consumptionPredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawPredeposit != null">
+                #{withdrawPredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="totalPredeposit != null">
+                #{totalPredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="redEnvelope != null">
+                #{redEnvelope,jdbcType=DECIMAL},
+            </if>
+            <if test="informAllow != null">
+                #{informAllow,jdbcType=INTEGER},
+            </if>
+            <if test="isBuy != null">
+                #{isBuy,jdbcType=INTEGER},
+            </if>
+            <if test="isAllowtalk != null">
+                #{isAllowtalk,jdbcType=INTEGER},
+            </if>
+            <if test="memberState != null">
+                #{memberState,jdbcType=INTEGER},
+            </if>
+            <if test="memberCredit != null">
+                #{memberCredit,jdbcType=INTEGER},
+            </if>
+            <if test="memberSnsvisitnum != null">
+                #{memberSnsvisitnum,jdbcType=INTEGER},
+            </if>
+            <if test="memberAreaid != null">
+                #{memberAreaid,jdbcType=INTEGER},
+            </if>
+            <if test="memberCityid != null">
+                #{memberCityid,jdbcType=INTEGER},
+            </if>
+            <if test="memberProvinceid != null">
+                #{memberProvinceid,jdbcType=INTEGER},
+            </if>
+            <if test="memberAreainfo != null">
+                #{memberAreainfo,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=INTEGER},
+            </if>
+            <if test="signCode != null">
+                #{signCode,jdbcType=VARCHAR},
+            </if>
+            <if test="signCodeState != null">
+                #{signCodeState,jdbcType=VARCHAR},
+            </if>
+            <if test="memberMobile != null">
+                #{memberMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="memberGradeid != null">
+                #{memberGradeid,jdbcType=INTEGER},
+            </if>
+            <if test="memberGrow != null">
+                #{memberGrow,jdbcType=INTEGER},
+            </if>
+            <if test="memberGrowGrade != null">
+                #{memberGrowGrade,jdbcType=INTEGER},
+            </if>
+            <if test="isUpgrade != null">
+                #{isUpgrade,jdbcType=CHAR},
+            </if>
+            <if test="memberType != null">
+                #{memberType,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteCode != null">
+                #{inviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="profession != null">
+                #{profession,jdbcType=VARCHAR},
+            </if>
+            <if test="beInviteUser != null">
+                #{beInviteUser,jdbcType=VARCHAR},
+            </if>
+            <if test="registTime != null">
+                #{registTime,jdbcType=DATE},
+            </if>
+            <if test="wxState != null">
+                #{wxState,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="unionid != null">
+                #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="consumptionIntegral != null">
+                #{consumptionIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="integral != null">
+                #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="totalIntegral != null">
+                #{totalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="isLqlb != null">
+                #{isLqlb,jdbcType=INTEGER},
+            </if>
+            <if test="growthVal != null">
+                #{growthVal,jdbcType=INTEGER},
+            </if>
+            <if test="loginName != null">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="unReadMsgs != null">
+                #{unReadMsgs,jdbcType=INTEGER},
+            </if>
+            <if test="idcard != null">
+                #{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="idcardImgx != null">
+                #{idcardImgx,jdbcType=VARCHAR},
+            </if>
+            <if test="idcardImgy != null">
+                #{idcardImgy,jdbcType=VARCHAR},
+            </if>
+            <if test="isSub != null">
+                #{isSub,jdbcType=INTEGER},
+            </if>
+            <if test="auditState != null">
+                #{auditState,jdbcType=INTEGER},
+            </if>
+            <if test="payPassword != null">
+                #{payPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="systemType != null">
+                #{systemType,jdbcType=INTEGER},
+            </if>
+            <if test="cid != null">
+                #{cid,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                #{auditTime,jdbcType=BIGINT},
+            </if>
+            <if test="sourceRegistration != null">
+                #{sourceRegistration,jdbcType=VARCHAR},
+            </if>
+            <if test="memberInfo != null">
+                #{memberInfo,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="memberPrivacy != null">
+                #{memberPrivacy,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="userIcon != null">
+                #{userIcon,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+        update shop_member
+        <set>
+            <if test="memberName != null">
+                member_name = #{memberName,jdbcType=VARCHAR},
+            </if>
+            <if test="memberTruename != null">
+                member_truename = #{memberTruename,jdbcType=VARCHAR},
+            </if>
+            <if test="memberAvatar != null">
+                member_avatar = #{memberAvatar,jdbcType=VARCHAR},
+            </if>
+            <if test="memberSex != null">
+                member_sex = #{memberSex,jdbcType=VARCHAR},
+            </if>
+            <if test="memberBirthday != null">
+                member_birthday = #{memberBirthday,jdbcType=BIGINT},
+            </if>
+            <if test="memberPasswd != null">
+                member_passwd = #{memberPasswd,jdbcType=VARCHAR},
+            </if>
+            <if test="memberEmail != null">
+                member_email = #{memberEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="memberQq != null">
+                member_qq = #{memberQq,jdbcType=VARCHAR},
+            </if>
+            <if test="memberWw != null">
+                member_ww = #{memberWw,jdbcType=VARCHAR},
+            </if>
+            <if test="memberLoginNum != null">
+                member_login_num = #{memberLoginNum,jdbcType=INTEGER},
+            </if>
+            <if test="memberLoginTime != null">
+                member_login_time = #{memberLoginTime,jdbcType=BIGINT},
+            </if>
+            <if test="memberOldLoginTime != null">
+                member_old_login_time = #{memberOldLoginTime,jdbcType=BIGINT},
+            </if>
+            <if test="memberLoginIp != null">
+                member_login_ip = #{memberLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOldLoginIp != null">
+                member_old_login_ip = #{memberOldLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="memberOpenid != null">
+                member_openid = #{memberOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="memberConsumePoints != null">
+                member_consume_points = #{memberConsumePoints,jdbcType=INTEGER},
+            </if>
+            <if test="memberRankPoints != null">
+                member_rank_points = #{memberRankPoints,jdbcType=INTEGER},
+            </if>
+            <if test="availablePredeposit != null">
+                available_predeposit = #{availablePredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="freezePredeposit != null">
+                freeze_predeposit = #{freezePredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="consumptionPredeposit != null">
+                consumption_predeposit = #{consumptionPredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawPredeposit != null">
+                withdraw_predeposit = #{withdrawPredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="totalPredeposit != null">
+                total_predeposit = #{totalPredeposit,jdbcType=DECIMAL},
+            </if>
+            <if test="redEnvelope != null">
+                red_envelope = #{redEnvelope,jdbcType=DECIMAL},
+            </if>
+            <if test="informAllow != null">
+                inform_allow = #{informAllow,jdbcType=INTEGER},
+            </if>
+            <if test="isBuy != null">
+                is_buy = #{isBuy,jdbcType=INTEGER},
+            </if>
+            <if test="isAllowtalk != null">
+                is_allowtalk = #{isAllowtalk,jdbcType=INTEGER},
+            </if>
+            <if test="memberState != null">
+                member_state = #{memberState,jdbcType=INTEGER},
+            </if>
+            <if test="memberCredit != null">
+                member_credit = #{memberCredit,jdbcType=INTEGER},
+            </if>
+            <if test="memberSnsvisitnum != null">
+                member_snsvisitnum = #{memberSnsvisitnum,jdbcType=INTEGER},
+            </if>
+            <if test="memberAreaid != null">
+                member_areaid = #{memberAreaid,jdbcType=INTEGER},
+            </if>
+            <if test="memberCityid != null">
+                member_cityid = #{memberCityid,jdbcType=INTEGER},
+            </if>
+            <if test="memberProvinceid != null">
+                member_provinceid = #{memberProvinceid,jdbcType=INTEGER},
+            </if>
+            <if test="memberAreainfo != null">
+                member_areainfo = #{memberAreainfo,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=INTEGER},
+            </if>
+            <if test="signCode != null">
+                sign_code = #{signCode,jdbcType=VARCHAR},
+            </if>
+            <if test="signCodeState != null">
+                sign_code_state = #{signCodeState,jdbcType=VARCHAR},
+            </if>
+            <if test="memberMobile != null">
+                member_mobile = #{memberMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="memberGradeid != null">
+                member_gradeid = #{memberGradeid,jdbcType=INTEGER},
+            </if>
+            <if test="memberGrow != null">
+                member_grow = #{memberGrow,jdbcType=INTEGER},
+            </if>
+            <if test="memberGrowGrade != null">
+                member_grow_grade = #{memberGrowGrade,jdbcType=INTEGER},
+            </if>
+            <if test="isUpgrade != null">
+                is_upgrade = #{isUpgrade,jdbcType=CHAR},
+            </if>
+            <if test="memberType != null">
+                member_type = #{memberType,jdbcType=VARCHAR},
+            </if>
+            <if test="inviteCode != null">
+                invite_code = #{inviteCode,jdbcType=VARCHAR},
+            </if>
+            <if test="wechat != null">
+                wechat = #{wechat,jdbcType=VARCHAR},
+            </if>
+            <if test="profession != null">
+                profession = #{profession,jdbcType=VARCHAR},
+            </if>
+            <if test="beInviteUser != null">
+                be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
+            </if>
+            <if test="wxState != null">
+                WX_state = #{wxState,jdbcType=VARCHAR},
+            </if>
+            <if test="openId != null">
+                open_id = #{openId,jdbcType=VARCHAR},
+            </if>
+            <if test="unionid != null">
+                unionid = #{unionid,jdbcType=VARCHAR},
+            </if>
+            <if test="consumptionIntegral != null">
+                consumption_integral = #{consumptionIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="integral != null">
+                integral = #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="totalIntegral != null">
+                total_integral = #{totalIntegral,jdbcType=INTEGER},
+            </if>
+            <if test="isLqlb != null">
+                is_lqlb = #{isLqlb,jdbcType=INTEGER},
+            </if>
+            <if test="growthVal != null">
+                growth_val = #{growthVal,jdbcType=INTEGER},
+            </if>
+            <if test="loginName != null">
+                LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="idcard != null">
+                idcard = #{idcard,jdbcType=VARCHAR},
+            </if>
+            <if test="idcardImgx != null">
+                idcard_imgx = #{idcardImgx,jdbcType=VARCHAR},
+            </if>
+            <if test="idcardImgy != null">
+                idcard_imgy = #{idcardImgy,jdbcType=VARCHAR},
+            </if>
+            <if test="isSub != null">
+                is_sub = #{isSub,jdbcType=INTEGER},
+            </if>
+            <if test="auditState != null">
+                audit_state = #{auditState,jdbcType=INTEGER},
+            </if>
+            <if test="payPassword != null">
+                pay_password = #{payPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="systemType != null">
+                system_type = #{systemType,jdbcType=INTEGER},
+            </if>
+            <if test="cid != null">
+                cid = #{cid,jdbcType=VARCHAR},
+            </if>
+            <if test="auditTime != null">
+                audit_time = #{auditTime,jdbcType=BIGINT},
+            </if>
+            <if test="sourceRegistration != null">
+                source_registration = #{sourceRegistration,jdbcType=VARCHAR},
+            </if>
+            <if test="memberInfo != null">
+                member_info = #{memberInfo,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="memberPrivacy != null">
+                member_privacy = #{memberPrivacy,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="userIcon != null">
+                user_icon = #{userIcon,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
       member_truename = #{memberTruename,jdbcType=VARCHAR},
@@ -898,7 +902,7 @@
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
     where member_id = #{memberId}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" >
+    <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
       member_truename = #{memberTruename,jdbcType=VARCHAR},
@@ -973,16 +977,16 @@
   </update>
 
 
-  <select id="selectLitemallLogin" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from shop_member
-    where 1=1
-    <if test="username != null and username != ''">
-      and LOGIN_NAME = #{username}
-    </if>
-  </select>
-  <insert id="AddLitemallUser" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+    <select id="selectLitemallLogin" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from shop_member
+        where 1=1
+        <if test="username != null and username != ''">
+            and LOGIN_NAME = #{username}
+        </if>
+    </select>
+    <insert id="AddLitemallUser" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     INSERT INTO `shop_member` (
         `member_id`,
         `LOGIN_NAME`,
@@ -1003,7 +1007,7 @@
   </insert>
 
 
-  <insert id="AddShopMember" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+    <insert id="AddShopMember" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     INSERT INTO `shop_member` (
         `member_id`,
         `LOGIN_NAME`,
@@ -1011,7 +1015,12 @@
         `member_mobile`,
         `regist_time`,
         `user_id`,
-        member_passwd
+        member_passwd,
+        open_id,
+        unionid,
+        member_sex,
+        wechat,
+        WX_state
       )
       VALUES
         (
@@ -1021,25 +1030,29 @@
           #{memberMobile},
           #{registTime},
           #{userId},
-          #{memberPasswd}
+          #{memberPasswd},
+          #{openId},
+          #{unionid},
+          #{memberSex},
+          #{wechat},
+          #{wxState}
         ) ;
   </insert>
 
 
-  <select id="selectLitemallByPhone" resultType="int">
+    <select id="selectLitemallByPhone" resultType="int">
     select count(member_mobile) from shop_member
     where member_mobile = #{phone}
   </select>
 
 
-
-  <select id="findObjectByPhone"  resultType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
+    <select id="findObjectByPhone" resultType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     select * from shop_member
     where member_mobile = #{phone}
   </select>
 
 
-  <select id="findShopMemberByUserIdAndMerchantType" resultType="int" parameterType="java.lang.String">
+    <select id="findShopMemberByUserIdAndMerchantType" resultType="int" parameterType="java.lang.String">
     select count(member_id) from shop_member
     where user_id = #{userId} And merchant_type = 1 or merchant_type = 2 and user_id = #{userId}
   </select>
