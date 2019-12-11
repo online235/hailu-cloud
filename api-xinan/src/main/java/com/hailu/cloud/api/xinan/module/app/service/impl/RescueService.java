@@ -25,9 +25,6 @@ public class RescueService {
     @Resource
     private RescueMapper rescueMapper;
 
-    @Autowired
-    private RescueInfoService rescueInfoService;
-
     /**
      * 添加救助
      * @param rescue
@@ -45,7 +42,7 @@ public class RescueService {
      * @param numberId
      * @return
      */
-    public int deleteByPrimaryKey(String numberId){
+    public int deleteByPrimaryKey(Long numberId){
         return rescueMapper.deleteByPrimaryKey(numberId);
     }
 
@@ -78,7 +75,7 @@ public class RescueService {
      * @param numberId
      * @return
      */
-    public void updateByPrimaryKeySelective(String numberId, String examine){
+    public void updateByPrimaryKeySelective(Long numberId, String examine){
         Rescue rescue = new Rescue();
         rescue.setNumberId(numberId);
         rescue.setExamine(examine);

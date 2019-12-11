@@ -23,10 +23,7 @@ public class RescuePicturesServiceBackstage {
      * @param MutualAid
      * @return
      */
-    public List<RescuePictures> findRescuePicturesList(String MutualAid){
-        if (StringUtils.isBlank(MutualAid)) {
-            return null;
-        }
+    public List<RescuePictures> findRescuePicturesList(Long MutualAid){
         return rescuePicturesBackstageMapper.selectByPrimaryMutualAid(MutualAid);
     }
 }

@@ -15,7 +15,7 @@ public class Helppictures implements Serializable {
     /**
      * 编号
      */
-    private String numberId;
+    private Long numberId;
 
     /**
      * 图片路径

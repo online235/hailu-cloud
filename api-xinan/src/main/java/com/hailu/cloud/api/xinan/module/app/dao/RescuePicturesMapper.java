@@ -22,12 +22,6 @@ public interface RescuePicturesMapper {
      *
      * @mbggenerated 2019-11-12
      */
-    int insert(RescuePictures record);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
     int insertSelective(RescuePictures record);
 
     /**
@@ -48,10 +42,4 @@ public interface RescuePicturesMapper {
      * @mbggenerated 2019-11-12
      */
     int updateByPrimaryKeySelective(RescuePictures record);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int updateByPrimaryKey(RescuePictures record);
 }

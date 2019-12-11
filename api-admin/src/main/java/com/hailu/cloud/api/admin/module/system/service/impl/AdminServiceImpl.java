@@ -84,11 +84,12 @@ public class AdminServiceImpl implements IAdminService {
             String nickName,
             String account,
             Integer enableStatus,
+            Integer accountType,
             int pageNum,
             int pageSize) {
 
         Page page = PageHelper.startPage(pageNum, pageSize);
-        List<SysAdminModel> datas = adminMapper.accountList(nickName, account, enableStatus);
+        List<SysAdminModel> datas = adminMapper.accountList(nickName, account, enableStatus, accountType);
 
         Map<Long, SysAdminModel> mapping = new HashMap<>(datas.size());
         datas.forEach(admin -> mapping.put(admin.getId(), admin));

@@ -41,7 +41,7 @@ public interface RescuePicturesBackstageMapper {
      * @param MutualAid
      * @return
      */
-    List<RescuePictures> selectByPrimaryMutualAid(String MutualAid);
+    List<RescuePictures> selectByPrimaryMutualAid(Long MutualAid);
 
     /**
      *

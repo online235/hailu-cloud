@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Max;
 
 @RestController
 @RequestMapping("/app/xaRescue")
@@ -87,8 +88,10 @@ public class RescueController {
     @PostMapping("/rescueList")
     @ResponseBody
     public Object findXaRescueList(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "20") Integer size) throws BusinessException {
+            @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
+            @Max(value = 200, message = "每页最多显示200条数据")
+            @RequestParam(value = "size", defaultValue = "20", required = false)
+                    Integer size) throws BusinessException {
         return rescueService.findXaRescueList(page,size);
     }
 

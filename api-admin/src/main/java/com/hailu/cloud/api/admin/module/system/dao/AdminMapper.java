@@ -50,7 +50,8 @@ public interface AdminMapper {
     List<SysAdminModel> accountList(
             @Param("nickName") String nickName,
             @Param("account") String account,
-            @Param("enableStatus") Integer enableStatus);
+            @Param("enableStatus") Integer enableStatus,
+            @Param("accountType") Integer accountType);
 
     /**
      * 变更账号启用状态

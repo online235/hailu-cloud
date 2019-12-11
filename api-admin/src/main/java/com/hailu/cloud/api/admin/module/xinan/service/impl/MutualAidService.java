@@ -1,10 +1,9 @@
-package com.hailu.cloud.api.xinan.module.app.service.impl;
+package com.hailu.cloud.api.admin.module.xinan.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.hailu.cloud.api.xinan.module.app.dao.MutualaidMapper;
-import com.hailu.cloud.api.xinan.module.app.entity.MutualAid;
-import com.hailu.cloud.api.xinan.module.app.model.MutualAidModel;
+import com.hailu.cloud.api.admin.module.xinan.dao.MutualaidMapper;
+import com.hailu.cloud.api.admin.module.xinan.entity.MutualAid;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.stereotype.Service;
 
@@ -21,24 +20,13 @@ public class MutualAidService {
     @Resource
     private MutualaidMapper mutualAidMapper;
 
-    /**
-     * 添加互助信息
-     * @param mutualAid
-     * @return
-     */
-    public int insertSelective(MutualAid mutualAid){
-        if(mutualAid != null){
-            return mutualAidMapper.insertSelective(mutualAid);
-        }
-        return 0;
-    }
 
     /**
      * 删除互助信息
      * @param numberId
      * @return
      */
-    public int deleteByPrimaryKey(String numberId){
+    public int deleteByPrimaryKey(Long numberId){
         return mutualAidMapper.deleteByPrimaryKey(numberId);
     }
 
@@ -48,9 +36,9 @@ public class MutualAidService {
      * @param size
      * @return
      */
-    public PageInfoModel<List<MutualAidModel>> findMutualAidList(Integer page, Integer size, Integer rescueType ){
+    public PageInfoModel<List<MutualAid>> findMutualAidList(Integer page, Integer size, Integer rescueType, String diseaseName){
         Page objects = PageHelper.startPage(page, size);
-        List<MutualAidModel> data = mutualAidMapper.findMutualaidList(rescueType);
+        List<MutualAid> data = mutualAidMapper.findMutualaidList(rescueType,diseaseName);
         return new PageInfoModel<>(objects.getPages(), objects.getTotal(), data);
     }
 
@@ -62,5 +50,17 @@ public class MutualAidService {
     public MutualAid findMutualAid(Long numberId){
         return mutualAidMapper.findMutualAid(numberId);
     }
+
+    /**
+     * 更改审核状态
+     * @param examine
+     * @param numberId
+     * @return
+     */
+    public void updateMutualAidOfExamine(Integer examine, Long numberId){
+        mutualAidMapper.updateMutualAidOfExamine(examine, numberId);
+    }
+
+
 
 }

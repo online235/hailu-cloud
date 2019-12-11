@@ -82,7 +82,7 @@ public class SysAdminModel {
      * 账号类型（管理员-1、政府-2）
      */
     @ApiModelProperty("账号类型（管理员-1、政府-2）")
-    private String accountType;
+    private Integer accountType;
 
     /**
      * 创建人

@@ -102,7 +102,7 @@
     where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
 
-  <select id="selectByPrimaryMutualAid" resultType="com.hailu.cloud.api.admin.module.xinan.entity.RescuePictures" parameterType="java.lang.String">
+  <select id="selectByPrimaryMutualAid" resultType="com.hailu.cloud.api.admin.module.xinan.entity.RescuePictures" parameterType="java.lang.Long">
     select
     <include refid="Base_Column_List"/>
     from xa_rescue_pictures

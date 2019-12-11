@@ -1,6 +1,6 @@
-package com.hailu.cloud.api.xinan.module.app.dao;
+package com.hailu.cloud.api.admin.module.xinan.dao;
 
-import com.hailu.cloud.api.xinan.module.app.entity.Helppictures;
+import com.hailu.cloud.api.admin.module.xinan.entity.Helppictures;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -41,5 +41,5 @@ public interface HelppicturesMapper {
      * 查询互助者图片
      * @return
      */
-    List<Helppictures> findHelppicturesList(@Param("numberId") Long numberId);
+    List<Helppictures> findHelppicturesList(@Param("mutualAid") Long mutualAid);
 }

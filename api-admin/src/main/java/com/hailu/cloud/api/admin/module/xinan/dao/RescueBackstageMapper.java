@@ -35,7 +35,7 @@ public interface RescueBackstageMapper {
      *
      * @mbggenerated 2019-11-12
      */
-    Rescue selectByPrimaryKey(String numberId);
+    Rescue selectByPrimaryKey(Long numberId);
 
     /**
      *
@@ -60,6 +60,7 @@ public interface RescueBackstageMapper {
      * @return
      */
     List<RescueVo> findXaRescueVo();
+
 
     List<Rescue> findXaRescueList();
 

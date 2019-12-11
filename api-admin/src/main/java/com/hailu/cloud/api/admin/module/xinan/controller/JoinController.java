@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @BelongsProject: shopping-mall
@@ -63,7 +64,7 @@ public class JoinController {
             @ApiImplicitParam(name = "memberStatus", value = "会员状态（1-代付款2-待审核3-观察期4-驳回   会员卡还有很多状态，后期再增加）", required = true, paramType = "query", dataType = "int")
     })
     public void updInsureByMemberStatus(
-            @NotBlank(message = "编号不能为空") Integer memberStatus,
+            @NotNull(message = "编号不能为空") Integer memberStatus,
             @NotBlank(message = "修改状态不能为空") String id) throws BusinessException {
 
         insuredService.updInsureByMemberStatus(memberStatus,id);

@@ -43,6 +43,9 @@
             <if test="account != null and account != ''">
                 and account like concat('%', #{account}, '%')
             </if>
+            <if test="accountType != null">
+                and account_type = #{accountType}
+            </if>
             <if test="enableStatus != null">
                 and enable_status = #{enableStatus}
             </if>

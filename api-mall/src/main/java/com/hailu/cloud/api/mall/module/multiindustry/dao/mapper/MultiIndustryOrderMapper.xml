@@ -176,6 +176,7 @@
     <if test="state != null and state != 0">
       and state = #{state}
     </if>
+    ORDER BY order_time desc
   </select>
 
 </mapper>

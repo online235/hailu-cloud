@@ -16,7 +16,7 @@ public class Rescue implements Serializable {
     /**
      * 编号
      */
-    private String numberId;
+    private Long numberId;
 
     /**
      * 发起用户编号

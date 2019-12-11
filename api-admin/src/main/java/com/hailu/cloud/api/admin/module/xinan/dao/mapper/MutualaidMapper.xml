@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.MutualaidMapper" >
+  <sql id="Base_Column_List" >
+    number_id, member_id, target_amount, title, hospital_name, hospital_account, disease_name, 
+    rescue_type, cash, province_id, city_id, examine, createdat, updatedat
+  </sql>
+  <sql id="Blob_Column_List" >
+    explain, help_times
+  </sql>
+  <select id="findMutualAid" resultType="com.hailu.cloud.api.admin.module.xinan.entity.MutualAid" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from xa_mutualaid
+    where number_id = #{numberId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from xa_mutualaid
+    where number_id = #{numberId}
+  </delete>
+
+  <select id="findMutualaidList" resultType="com.hailu.cloud.api.admin.module.xinan.entity.MutualAid">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List"/>
+    from xa_mutualaid
+    where 1=1
+    <if test="rescueType != null">
+      And rescue_type = #{rescueType}
+    </if>
+    <if test="diseaseName != null">
+      And disease_name = CONCAT('%', #{diseaseName}, '%')
+    </if>
+    group by createdat
+  </select>
+
+  <update id="updateMutualAidOfExamine">
+    update xa_mutualaid set examine = #{examine}
+    where number_id = #{numberId}
+  </update>
+</mapper>

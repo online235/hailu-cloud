@@ -26,12 +26,6 @@ public interface DonationMapper {
      *
      * @mbggenerated 2019-10-22
      */
-    int insertSelective(Donation record);
-
-    /**
-     *
-     * @mbggenerated 2019-10-22
-     */
     Donation selectByPrimaryKey(String numberid);
 
     /**
@@ -39,10 +33,4 @@ public interface DonationMapper {
      * @mbggenerated 2019-10-22
      */
     int updateByPrimaryKeySelective(Donation record);
-
-    /**
-     *
-     * @mbggenerated 2019-10-22
-     */
-    int updateByPrimaryKey(Donation record);
 }

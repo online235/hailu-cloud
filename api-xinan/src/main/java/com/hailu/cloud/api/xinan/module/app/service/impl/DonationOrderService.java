@@ -23,21 +23,8 @@ public class DonationOrderService {
     private OrderService orderService;
 
     public Order donationOrder(String rescueId, Integer itemType, String from, BigDecimal money, String invitationMember){
-        String itemTypeDisPlay = "";
-        DonationOrderEnum donationOrderEnum = DonationOrderEnum.of(itemType);
-        switch (donationOrderEnum){
-            case GOVERNMENT_CHARITY:
-                itemTypeDisPlay = "政府慈善";
-                break;
-            case RESCUE:
-                itemTypeDisPlay = "救助";
-                break;
-            case MUTUAL_AID:
-                itemTypeDisPlay = "互助";
-                break;
-            default:
-                break;
-        }
+        //拿到捐赠类型
+        String itemTypeDisPlay = String.valueOf(DonationOrderEnum.of(itemType));
         MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
         return orderService.buildDonationOrder(memberLoginInfoModel.getUserId(), rescueId, itemTypeDisPlay, from, money, invitationMember);
     }

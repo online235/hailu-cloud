@@ -56,7 +56,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
         record.setTotalType(storeInformation.getStoreTotalType());
         record.setId(Long.parseLong(num));
         record.setOrderTime(new Date());
-        record.setOrderNumber(sdf.format(new Date())+(System.currentTimeMillis() / 1000) +basicFeignClient.uuid().getData());
+        record.setOrderNumber(basicFeignClient.uuid().getData() + sdf.format(new Date()) + (System.currentTimeMillis() / 1000));
         record.setExchangeCode(RandomUtil.randomNumbers(10));
         record.setProductTitle(storeInformation.getShopName());
         record.setState(1);

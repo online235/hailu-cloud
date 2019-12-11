@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.RescuePicturesMapper" >
+<mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.HelppicturesMapper" >
   <sql id="Base_Column_List" >
     number_id, picture, picture_name, mutuala_id, picture_type, createdat
   </sql>
-  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.xinan.module.app.entity.RescuePictures" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures" >
     select 
     <include refid="Base_Column_List" />
-    from xa_rescue_pictures
+    from xa_helppictures
     where number_id = #{numberId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from xa_rescue_pictures
+    delete from xa_helppictures
     where number_id = #{numberId}
   </delete>
-  <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.RescuePictures" useGeneratedKeys="true" keyProperty="numberId" >
-    insert into xa_rescue_pictures
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures" useGeneratedKeys="true" keyProperty="numberId" >
+    insert into xa_helppictures
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="numberId != null" >
         number_id,
@@ -41,48 +41,48 @@
         #{numberId},
       </if>
       <if test="picture != null" >
-        #{picture,jdbcType=VARCHAR},
+        #{picture},
       </if>
       <if test="pictureName != null" >
-        #{pictureName,jdbcType=VARCHAR},
+        #{pictureName},
       </if>
       <if test="mutualaId != null" >
         #{mutualaId},
       </if>
       <if test="pictureType != null" >
-        #{pictureType,jdbcType=CHAR},
+        #{pictureType},
       </if>
       <if test="createdat != null" >
-        #{createdat,jdbcType=TIMESTAMP},
+        #{createdat},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.RescuePictures" >
-    update xa_rescue_pictures
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures" >
+    update xa_helppictures
     <set >
       <if test="picture != null" >
-        picture = #{picture,jdbcType=VARCHAR},
+        picture = #{picture,
       </if>
       <if test="pictureName != null" >
-        picture_name = #{pictureName,jdbcType=VARCHAR},
+        picture_name = #{pictureName},
       </if>
       <if test="mutualaId != null" >
         mutuala_id = #{mutualaId},
       </if>
       <if test="pictureType != null" >
-        picture_type = #{pictureType,jdbcType=CHAR},
+        picture_type = #{pictureType},
       </if>
       <if test="createdat != null" >
-        createdat = #{createdat,jdbcType=TIMESTAMP},
+        createdat = #{createdat},
       </if>
     </set>
-    where number_id = #{numberId,jdbcType=VARCHAR}
+    where number_id = #{numberId}
   </update>
 
-  <select id="selectByPrimaryMutualAid" resultType="com.hailu.cloud.api.xinan.module.app.entity.RescuePictures" parameterType="java.lang.String">
+  <select id="findHelppicturesList" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures">
     select
     <include refid="Base_Column_List"/>
-    from xa_rescue_pictures
-    where mutuala_id = #{MutualAid}
+    from xa_helppictures
+    where mutual_aid = #{mutualAid}
   </select>
 </mapper>

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hailu.cloud.api.xinan.module.app.entity.Rescue;
 import com.hailu.cloud.api.xinan.module.app.entity.RescuePictures;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class RescueInfoService {
     @Autowired
     private RescuePicturesService rescuePicturesService;
 
+    @Autowired
+    private BasicFeignClient basicFeignClient;
+
     /**
      * 保存救助信息和图片路径
      * @param rescue
@@ -37,7 +41,7 @@ public class RescueInfoService {
      */
     public void insRescueAndRictures(Rescue rescue, String[] picture) throws BusinessException {
         Date date = new Date();
-        String numberId = IdUtil.simpleUUID();
+        Long numberId = basicFeignClient.uuid().getData();
         rescue.setNumberId(numberId);
         rescue.setCreatedat(date);
         rescue.setUpdatedat(date);
@@ -49,7 +53,7 @@ public class RescueInfoService {
                     RescuePictures rescuePictures = new RescuePictures();
                     rescuePictures.setMutualaId(numberId);
                     rescuePictures.setCreatedat(date);
-                    rescuePictures.setNumberId(IdUtil.simpleUUID());
+                    rescuePictures.setNumberId(basicFeignClient.uuid().getData());
                     rescuePictures.setPicture(pictureFor);
                     rescuePicturesService.insertSelective(rescuePictures);
                 }catch (Exception e){

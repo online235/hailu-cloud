@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.RescueMapper" >
-  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.Rescue" >
-    <id column="number_id" property="numberId" jdbcType="VARCHAR" />
-    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
-    <result column="target_amount" property="targetAmount" jdbcType="DECIMAL" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="help_times" property="helpTimes" jdbcType="BIGINT" />
-    <result column="cash" property="cash" jdbcType="DECIMAL" />
-    <result column="rescue_type" property="rescueType" jdbcType="CHAR" />
-    <result column="province_id" property="provinceId" jdbcType="BIGINT" />
-    <result column="city_id" property="cityId" jdbcType="BIGINT" />
-    <result column="examine" property="examine" jdbcType="CHAR" />
-    <result column="createdat" property="createdat" jdbcType="TIMESTAMP" />
-    <result column="updatedat" property="updatedat" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.xinan.module.app.entity.Rescue" extends="BaseResultMap" >
-    <result column="Instructions" property="instructions" jdbcType="LONGVARCHAR" />
-  </resultMap>
   <sql id="Base_Column_List" >
     number_id, member_id, target_amount, title, help_times, cash, rescue_type, province_id, 
     city_id, examine, createdat, updatedat
@@ -25,28 +8,18 @@
   <sql id="Blob_Column_List" >
     Instructions
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.xinan.module.app.entity.Rescue" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from xa_rescue
-    where number_id = #{numberId,jdbcType=VARCHAR}
+    where number_id = #{numberId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from xa_rescue
-    where number_id = #{numberId,jdbcType=VARCHAR}
+    where number_id = #{numberId}
   </delete>
-  <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Rescue" useGeneratedKeys="true" keyProperty="numberId" >
-    insert into xa_rescue (member_id, target_amount, title, 
-      help_times, cash, rescue_type, 
-      province_id, city_id, createdat,examine,
-      updatedat, Instructions)
-    values (#{memberId,jdbcType=VARCHAR}, #{targetAmount,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, 
-      #{helpTimes,jdbcType=BIGINT}, #{cash,jdbcType=DECIMAL}, #{rescueType,jdbcType=CHAR}, 
-      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{createdat,jdbcType=TIMESTAMP},#{examine,jdbcType=CHAR},
-      #{updatedat,jdbcType=TIMESTAMP}, #{instructions,jdbcType=LONGVARCHAR})
-  </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Rescue" useGeneratedKeys="true" keyProperty="numberId" >
     insert into xa_rescue
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -92,7 +65,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="numberId != null" >
-        #{numberId,jdbcType=VARCHAR},
+        #{numberId},
       </if>
       <if test="memberId != null" >
         #{memberId,jdbcType=VARCHAR},
@@ -136,7 +109,7 @@
     update xa_rescue
     <set >
       <if test="memberId != null" >
-        member_id = #{memberId,jdbcType=VARCHAR},
+        member_id = #{memberId},
       </if>
       <if test="targetAmount != null" >
         target_amount = #{targetAmount,jdbcType=DECIMAL},
@@ -174,46 +147,16 @@
     </set>
     where number_id = #{numberId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Rescue" >
-    update xa_rescue
-    set member_id = #{memberId,jdbcType=VARCHAR},
-      target_amount = #{targetAmount,jdbcType=DECIMAL},
-      title = #{title,jdbcType=VARCHAR},
-      help_times = #{helpTimes,jdbcType=BIGINT},
-      cash = #{cash,jdbcType=DECIMAL},
-      rescue_type = #{rescueType,jdbcType=CHAR},
-      province_id = #{provinceId,jdbcType=BIGINT},
-      city_id = #{cityId,jdbcType=BIGINT},
-      examine = #{examine,jdbcType=CHAR},
-      createdat = #{createdat,jdbcType=TIMESTAMP},
-      updatedat = #{updatedat,jdbcType=TIMESTAMP},
-      Instructions = #{instructions,jdbcType=LONGVARCHAR}
-    where number_id = #{numberId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Rescue" >
-    update xa_rescue
-    set member_id = #{memberId,jdbcType=VARCHAR},
-      target_amount = #{targetAmount,jdbcType=DECIMAL},
-      title = #{title,jdbcType=VARCHAR},
-      help_times = #{helpTimes,jdbcType=BIGINT},
-      cash = #{cash,jdbcType=DECIMAL},
-      rescue_type = #{rescueType,jdbcType=CHAR},
-      province_id = #{provinceId,jdbcType=BIGINT},
-      city_id = #{cityId,jdbcType=BIGINT},
-      examine = #{examine,jdbcType=CHAR},
-      createdat = #{createdat,jdbcType=TIMESTAMP},
-      updatedat = #{updatedat,jdbcType=TIMESTAMP}
-    where number_id = #{numberId,jdbcType=VARCHAR}
-  </update>
   <select id="findXaRescueVo" resultType="com.hailu.cloud.api.xinan.module.app.model.RescueVo">
     select DISTINCT xr.number_id as numberId,xr.title as title ,xr.rescue_type as rescueType,xr.help_times as helpTimes,xr.member_id as memberId,xrp.picture as picture
     from xa_rescue xr INNER JOIN xa_rescue_pictures xrp ON xr.number_id = xrp.mutuala_id
-    where xr.examine = 1
+    where xr.examine = 2
     group by xr.number_id
   </select>
-  <select id="findXaRescueList" resultMap="BaseResultMap">
+  <select id="findXaRescueList" resultType="com.hailu.cloud.api.xinan.module.app.entity.Rescue">
     select
-    <include refid="Base_Column_List"/>,
+    <include refid="Base_Column_List"/>
+    ,
     <include refid="Blob_Column_List"/>
     from xa_rescue
   </select>

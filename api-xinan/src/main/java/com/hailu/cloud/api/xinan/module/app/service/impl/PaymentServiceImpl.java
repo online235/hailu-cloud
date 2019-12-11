@@ -5,10 +5,7 @@ import cn.hutool.core.util.IdUtil;
 import com.hailu.cloud.api.xinan.constant.Constant;
 import com.hailu.cloud.api.xinan.feigns.MallFeignClient;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
-import com.hailu.cloud.api.xinan.module.app.entity.Insured;
-import com.hailu.cloud.api.xinan.module.app.entity.Order;
-import com.hailu.cloud.api.xinan.module.app.entity.Pay;
-import com.hailu.cloud.api.xinan.module.app.entity.PayExpand;
+import com.hailu.cloud.api.xinan.module.app.entity.*;
 import com.hailu.cloud.api.xinan.module.app.service.IPaymentService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
@@ -61,6 +58,9 @@ public class PaymentServiceImpl implements IPaymentService {
 
     @Autowired
     private PaymentFeignClient paymentFeignClient;
+
+    @Autowired
+    private DonationService donationService;
 
     @Autowired
     private RedisStandAloneClient redisKit;
@@ -515,7 +515,7 @@ public class PaymentServiceImpl implements IPaymentService {
 //            //交易状态
 //            String tradeStatus = (String) params.get("tradeStatus");
 //            //金额
-//            BigDecimal money = BigDecimal.valueOf((double)params.get("money"));
+            BigDecimal money = BigDecimal.valueOf((double)params.get("money"));
 
             //根据订单号获取订单
             Pay pay = xinAnPayService.findByPayOrderNo(outTradeNo);
@@ -524,11 +524,11 @@ public class PaymentServiceImpl implements IPaymentService {
                 throw new BusinessException("订单不存在");
             }
 
-//            //判断金额是否正确
-//            if(money.compareTo(pay.getMoney()) != 0){
-//                log.warn("订单号：{}，付款金额和订单金额不一致",outTradeNo);
-//                throw new BusinessException("付款金额和订单金额不一致");
-//            }
+            //判断金额是否正确
+            if(money.compareTo(pay.getMoney()) != 0){
+                log.warn("订单号：{}，付款金额和订单金额不一致",outTradeNo);
+                throw new BusinessException("付款金额和订单金额不一致");
+            }
             //支付时间
             pay.setPayTime(System.currentTimeMillis());
             //第三方交易号
@@ -546,6 +546,29 @@ public class PaymentServiceImpl implements IPaymentService {
             //将订单状态改成已支付 订单状态（1-未付款2-已付款3-已取消）
             order.setOrderStatus(2);
             xinAnOrderService.saveEntity(order);
+
+            Donation donation = new Donation();
+            //要捐赠的表编号
+            donation.setDonation(order.getRescueId());
+
+            //捐赠类型
+            switch (order.getItemType()){
+                case "GOVERNMENT_CHARITY":
+                    donation.setDonationType(1);
+                    break;
+                case "RESCUE" :
+                    donation.setDonationType(2);
+                    break;
+                case "MUTUAL_AID" :
+                    donation.setDonationType(3);
+                    break;
+            }
+            //捐赠金额
+            donation.setDonationMoney(money);
+
+            donationService.insOrderDonation(donation);
+
+
 
         }catch (Exception e){
             log.warn("处理支付订单出现错误：",e.getMessage());

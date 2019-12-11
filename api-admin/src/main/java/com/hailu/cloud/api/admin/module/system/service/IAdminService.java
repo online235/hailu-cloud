@@ -61,6 +61,7 @@ public interface IAdminService {
             String nickName,
             String account,
             Integer enableStatus,
+            Integer accountType,
             int pageNum,
             int pageSize);
 

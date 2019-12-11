@@ -17,13 +17,7 @@ public interface RescueMapper {
      *
      * @mbggenerated 2019-11-12
      */
-    int deleteByPrimaryKey(String numberId);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int insert(Rescue record);
+    int deleteByPrimaryKey(Long numberId);
 
     /**
      *
@@ -44,23 +38,15 @@ public interface RescueMapper {
     int updateByPrimaryKeySelective(Rescue record);
 
     /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int updateByPrimaryKeyWithBLOBs(Rescue record);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int updateByPrimaryKey(Rescue record);
-
-    /**
-     * 查询救助列表
+     * 查询审核通过救助列表
      * @return
      */
     List<RescueVo> findXaRescueVo();
 
+    /**
+     * 救助列表
+     * @return
+     */
     List<Rescue> findXaRescueList();
 
 

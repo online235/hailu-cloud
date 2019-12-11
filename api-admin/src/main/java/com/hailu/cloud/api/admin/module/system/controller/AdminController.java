@@ -53,7 +53,8 @@ public class AdminController {
             @ApiImplicitParam(name = "nickName", value = "昵称", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "account", value = "账号", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "enableStatus", value = "启用状态", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "accountType", value = "账号类型（管理员-1、政府-2）", paramType = "query", dataType = "Int"),
+            @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "pageSize", value = "每页显示数量", defaultValue = "10", paramType = "query", dataType = "String"),
     })
     @GetMapping("/list")
@@ -61,12 +62,13 @@ public class AdminController {
             String nickName,
             String account,
             Integer enableStatus,
+            Integer accountType,
             @Pattern(regexp = "^\\d*$", message = "请输入数字")
             @RequestParam(name = "pageNum", defaultValue = "1") String pageNum,
             @Range(min = 10, max = 200, message = "每页显示数量只能在10~200之间")
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
 
-        return adminService.accountList(nickName, account, enableStatus, Integer.parseInt(pageNum), pageSize);
+        return adminService.accountList(nickName, account, enableStatus, accountType, Integer.parseInt(pageNum), pageSize);
     }
 
     @ApiOperation(value = "添加账号", notes = "<pre>" +

@@ -23,9 +23,6 @@ public class RescueServiceBackstage {
     @Resource
     private RescueBackstageMapper rescueBackstageMapper;
 
-    @Autowired
-    private RescueInfoServiceBackstage rescueInfoServiceBackstage;
-
 
     /**
      * 删除救助信息
@@ -41,10 +38,8 @@ public class RescueServiceBackstage {
      * @param numberId
      * @return
      */
-    public Rescue findRescueById(String numberId){
-        if (StringUtils.isBlank(numberId)){
-            return null;
-        }
+    public Rescue findRescueById(Long numberId){
+
         return rescueBackstageMapper.selectByPrimaryKey(numberId);
     }
 
@@ -65,7 +60,7 @@ public class RescueServiceBackstage {
      * @param numberId
      * @return
      */
-    public void updateByPrimaryKeySelective(String numberId, String examine){
+    public void updateByPrimaryKeySelective(Long numberId, String examine){
         Rescue rescue = new Rescue();
         rescue.setNumberId(numberId);
         rescue.setExamine(examine);

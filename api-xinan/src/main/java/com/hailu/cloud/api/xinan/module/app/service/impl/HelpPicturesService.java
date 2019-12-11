@@ -6,6 +6,7 @@ import com.hailu.cloud.api.xinan.module.app.entity.Helppictures;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -28,5 +29,14 @@ public class HelpPicturesService {
             return helpPicturesMapper.insertSelective(helpPictures);
         }
         return 0;
+    }
+
+    /**
+     * 查询互助者图片
+     * @param numberId
+     * @return
+     */
+    public List<Helppictures> findHelpPicturesList(Long numberId){
+        return helpPicturesMapper.findHelppicturesList(numberId);
     }
 }

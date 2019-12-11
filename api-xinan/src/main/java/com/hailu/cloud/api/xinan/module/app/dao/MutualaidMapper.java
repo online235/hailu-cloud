@@ -1,7 +1,11 @@
 package com.hailu.cloud.api.xinan.module.app.dao;
 
-import com.hailu.cloud.api.xinan.module.app.entity.Mutualaid;
+import com.hailu.cloud.api.xinan.module.app.entity.MutualAid;
+import com.hailu.cloud.api.xinan.module.app.model.MutualAidModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -20,35 +24,24 @@ public interface MutualaidMapper {
      *
      * @mbggenerated 2019-11-12
      */
-    int insert(Mutualaid record);
+    int insertSelective(MutualAid record);
+
+    /**
+     * 互助详细信息
+     * @mbggenerated 2019-11-12
+     */
+    MutualAid findMutualAid(@Param("numberId") Long numberId);
 
     /**
      *
      * @mbggenerated 2019-11-12
      */
-    int insertSelective(Mutualaid record);
+    int updateByPrimaryKeySelective(MutualAid record);
 
     /**
-     *
-     * @mbggenerated 2019-11-12
+     * 查询互助列表
+     * @param rescueType
+     * @return
      */
-    Mutualaid selectByPrimaryKey(String numberId);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int updateByPrimaryKeySelective(Mutualaid record);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int updateByPrimaryKeyWithBLOBs(Mutualaid record);
-
-    /**
-     *
-     * @mbggenerated 2019-11-12
-     */
-    int updateByPrimaryKey(Mutualaid record);
+    List<MutualAidModel> findMutualaidList(@Param("rescueType") Integer rescueType);
 }

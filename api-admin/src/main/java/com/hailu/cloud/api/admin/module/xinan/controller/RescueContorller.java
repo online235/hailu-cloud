@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.admin.module.xinan.controller;
 
-import com.hailu.cloud.api.admin.module.xinan.service.impl.RescueInfoServiceBackstage;
+import com.hailu.cloud.api.admin.module.xinan.entity.RescuePictures;
+import com.hailu.cloud.api.admin.module.xinan.service.impl.RescuePicturesServiceBackstage;
 import com.hailu.cloud.api.admin.module.xinan.service.impl.RescueServiceBackstage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -12,7 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 @RestController
 @Validated
@@ -21,17 +24,17 @@ import javax.validation.constraints.Pattern;
 public class RescueContorller {
 
     @Autowired
-    private RescueInfoServiceBackstage rescueInfoServiceBackstage;
+    private RescueServiceBackstage rescueServiceBackstage;
 
     @Autowired
-    private RescueServiceBackstage rescueServiceBackstage;
+    private RescuePicturesServiceBackstage rescuePicturesServiceBackstage;
 
 
     @ApiOperation(value = "救助详情", notes = "<pre>" +
             "{\n" +
             "  'code': 0,\n" +
             "  'msg': '成功',\n" +
-            "  'data': [\n" +
+            "  'data': \n" +
             "    {\n" +
             "      'instructions': '太爽了',                                     //救助详细说明\n" +
             "      'targetAmount': 10000000,                                    //目标金额\n" +
@@ -44,26 +47,34 @@ public class RescueContorller {
             "      'examine': 审核中,                                             //审核\n" +
             "      'createdat': '2019-11-14 16:33:37',                          //创建时间\n" +
             "      'cash': null,                                                //现金额\n" +
-            "      'imageList': [                                               //图片数组\n" +
-            "        '/aadd/sdsd/rrr.jpg',\n" +
-            "        '/aadd/sdsd/qqq.jpg',\n" +
-            "        '/aadd/sdsd/www.jpg',\n" +
-            "        '/aadd/sdsd/aaa.jpg'\n" +
-            "      ],\n" +
             "      'memberId': '5075b82803bc4065975fbb545a89a91a',              //发起用户编号\n" +
             "      'updatedat': '2019-11-14 16:33:37'                           //更新时间\n" +
             "    }\n" +
-            "  ],\n" +
             "  'serverTime': 1573799041109\n" +
             "}</pre>")
     @GetMapping("/rescueDetails")
     @ResponseBody
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "Long")
     })
-    public Object findRescue(@NotBlank(message = "救助编号不能为空") String numberId) {
-        return rescueInfoServiceBackstage.findRescue(numberId);
+    public Object findRescuePicturesList(@NotNull(message = "救助编号不能为空") Long numberId) {
+        return rescueServiceBackstage.findRescueById(numberId);
     }
+
+    @ApiOperation(value = "救助图片列表", notes = "<pre>" +
+            "" +
+            "</pre>")
+    @GetMapping("/rescuePictureList")
+    @ResponseBody
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "Long")
+    })
+    public List<RescuePictures> findRescue(@NotNull(message = "救助编号不能为空") Long numberId) {
+
+        return rescuePicturesServiceBackstage.findRescuePicturesList(numberId);
+    }
+
+
 
     @ApiOperation(notes = "<pre>" +
             "{\n" +
@@ -87,18 +98,18 @@ public class RescueContorller {
             "}" +
             "</pre>", value = "救助审核列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "pageSize", value = "每页显示数量", defaultValue = "10", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示数量", defaultValue = "10", paramType = "query", dataType = "Integer"),
     })
     @PostMapping("/rescueList")
     @ResponseBody
     public Object findXaRescueList(
             @Pattern(regexp = "^\\d*$", message = "请输入数字")
-            @RequestParam(name = "pageNum", defaultValue = "1") String pageNum,
+            @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
             @Range(min = 10, max = 200, message = "每页显示数量只能在10~200之间")
-            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize) {
 
-        return rescueServiceBackstage.findXaRescueListAll(Integer.parseInt(pageNum), pageSize);
+        return rescueServiceBackstage.findXaRescueListAll(pageNum, pageSize);
     }
 
     @ApiOperation(value = "更改救助审核状态", notes = "<pre>" +
@@ -109,11 +120,11 @@ public class RescueContorller {
     @PostMapping("/changeState")
     @ResponseBody
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "examine", value = "审核(2-审核通过、3-审核不通过)", required = true, paramType = "query", dataType = "String")
     })
     public void updateExamineByNumberId(
-            @NotBlank(message = "编号不能为空") String numberId,
+            @NotNull(message = "编号不能为空") Long numberId,
             @NotBlank(message = "审核状态不能为空") String examine) {
 
         rescueServiceBackstage.updateByPrimaryKeySelective(numberId, examine);
