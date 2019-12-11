@@ -144,7 +144,7 @@ public class XinAnLoginController {
     })
     public MemberLoginInfoModel wetChatSubmitPhone(
             @Pattern(regexp = "^((13[0-9])|(14[579])|(15([0-3,5-9]))|(16[6])|(17[0135678])|(18[0-9]|19[89]))\\d{8}$", message = "手机号不正确") String phone,
-            @NotBlank(message = "验证码不能为空") String code,@NotEmpty String accessToken) throws BusinessException, AccessTokenExpiredException {
+            @NotBlank(message = "验证码不能为空") String code, @NotEmpty String accessToken) throws BusinessException, AccessTokenExpiredException {
 
 
         MemberLoginInfoModel memberLoginInfoModel = memberService.getMemberLoginInfoModel(accessToken);
@@ -153,7 +153,8 @@ public class XinAnLoginController {
 
 
     /**
-     *微信登录设置密码
+     * 微信登录设置密码
+     *
      * @return
      */
     @ApiOperation(value = "微信登录设置密码")
@@ -168,8 +169,24 @@ public class XinAnLoginController {
             throw new BusinessException("密码不能为空");
         }
         MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
-        return memberService.wetChatUpdatePassword(password,memberLoginInfoModel);
+        return memberService.wetChatUpdatePassword(password, memberLoginInfoModel);
 
+    }
+
+
+    /**
+     * 解除微信绑定
+     *
+     * @return
+     */
+    @ApiOperation(value = "解除微信绑定")
+    @PostMapping("relieveWetChat")
+    public void relieveWetChat() {
+
+        MemberLoginInfoModel memberLoginInfoModel = RequestUtils.getMemberLoginInfo();
+        String userId = memberLoginInfoModel.getUserId();
+        ShopMember shopMember = memberService.selectByPrimaryByuserId(userId);
+        memberService.relieveWetChatShopMember(shopMember, memberLoginInfoModel);
     }
 
 

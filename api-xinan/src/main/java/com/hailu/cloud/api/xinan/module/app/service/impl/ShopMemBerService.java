@@ -283,6 +283,7 @@ public class ShopMemBerService {
         shopMember.setMemberPasswd(SecureUtil.sha256(password + "&key=" + signKey));
         //更新密码
         memberMapper.updateByPrimaryKeySelective(shopMember);
+        BeanUtil.copyProperties(shopMember, memberLoginInfoModel, CopyOptions.create().ignoreNullValue());
         RedisCacheUtils.updateUserInfo(redisStandAloneClient, memberLoginInfoModel);
         return memberLoginInfoModel;
 
@@ -328,5 +329,25 @@ public class ShopMemBerService {
     public ShopMember findObjectByPhone(String phone) {
         return memberMapper.findObjectByPhone(phone);
     }
+
+
+
+    /**
+     * 解除微信绑定
+     *
+     * @param shopMember
+     */
+    public void relieveWetChatShopMember(ShopMember shopMember,MemberLoginInfoModel memberLoginInfoModel) {
+
+        shopMember.setWechat(null);
+        shopMember.setWxState(null);
+        shopMember.setUnionid(null);
+        shopMember.setOpenId(null);
+        memberMapper.updateByPrimaryKeySelective(shopMember);
+        BeanUtil.copyProperties(shopMember, memberLoginInfoModel, CopyOptions.create().ignoreNullValue());
+        RedisCacheUtils.updateUserInfo(redisStandAloneClient, memberLoginInfoModel);
+
+    }
+
 
 }
