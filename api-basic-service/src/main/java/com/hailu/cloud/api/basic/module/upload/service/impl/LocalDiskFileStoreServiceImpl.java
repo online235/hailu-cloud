@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.awt.*;
 import java.io.*;
 
 /**
@@ -58,12 +59,31 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(getStoreFilePath(options.getPath(), options.getPicName()));
-            if (isCompressImage(options.getIsImageCompress(), options.getCompressQuality(), options.getPicName())) {
-                // 压缩图片存储
-                Img.from(in).setQuality(options.getCompressQuality()).write(outputStream);
-            } else {
+            if (!isImg(options.getPicName())) {
                 IOUtils.copy(in, outputStream);
+                return getStoreFileRelativePath(options.getPath(), options.getPicName());
             }
+            if (options.isCut() || options.isImageCompress() || options.isZoom()) {
+                Img img = Img.from(in);
+                if (verifyCompressImageParams(options.isImageCompress(), options.getCompressQuality())) {
+                    // 压缩图片
+                    log.info("图片压缩");
+                    img = img.setQuality(options.getCompressQuality());
+                }
+                if (verifyCutImageParams(options.isCut(), options.getCutWidth(), options.getCutHeight())) {
+                    // 图片裁剪
+                    log.info("图片裁剪");
+                    img.cut(new Rectangle(0, 0, options.getCutWidth(), options.getCutHeight()));
+                }
+                if (verifyZoomImageParams(options.isZoom(), options.getZoomWidth(), options.getZoomHeight())) {
+                    // 图片缩放
+                    log.info("图片缩放");
+                    img.scale(options.getZoomWidth(), options.getZoomHeight());
+                }
+                img.write(outputStream);
+                return getStoreFileRelativePath(options.getPath(), options.getPicName());
+            }
+            IOUtils.copy(in, outputStream);
             return getStoreFileRelativePath(options.getPath(), options.getPicName());
         } catch (IOException e) {
             throw new BusinessException("图片上传失败", e);
@@ -72,24 +92,78 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
         }
     }
 
-    private boolean isCompressImage(
-            Boolean imageCompress,
-            Double compressQuality,
-            String picName) throws BusinessException {
+    /**
+     * 验证图片压缩参数
+     *
+     * @param isImageCompress 是否压缩
+     * @param compressQuality 压缩比例 0 ~ 1 之间的小数，如：0.5， 0.66
+     * @return
+     * @throws BusinessException
+     */
+    private boolean verifyCompressImageParams(
+            boolean isImageCompress,
+            Double compressQuality) throws BusinessException {
 
-        String jpgSuffix = ".jpg";
-        String jpegSuffix = ".jpeg";
-        if (!picName.endsWith(jpgSuffix) && !picName.endsWith(jpegSuffix)) {
-            // 如果非jpg， jpeg则不压缩
-            return false;
-        }
-        if (imageCompress == null || !imageCompress) {
+        if (!isImageCompress) {
             return false;
         }
         if (compressQuality == null || compressQuality <= 0 || compressQuality >= 1) {
             throw new BusinessException("图片输出质量只能在0~1之间，但是不包括0和1");
         }
         return true;
+    }
+
+    /**
+     * 验证图片缩放参数
+     *
+     * @param isZoom 是否缩放
+     * @param width  缩放宽度
+     * @param height 缩放高度
+     * @return
+     * @throws BusinessException
+     */
+    private boolean verifyZoomImageParams(
+            boolean isZoom,
+            int width,
+            int height) throws BusinessException {
+
+        if (!isZoom) {
+            return false;
+        }
+        if (width <= 0 || height <= 0) {
+            throw new BusinessException("缩放宽高不能为0");
+        }
+        return true;
+    }
+
+    /**
+     * 验证图片裁剪参数
+     *
+     * @param isCut  是否裁剪
+     * @param width  裁剪宽度
+     * @param height 裁剪高度
+     * @return
+     * @throws BusinessException
+     */
+    private boolean verifyCutImageParams(
+            boolean isCut,
+            int width,
+            int height) throws BusinessException {
+
+        if (!isCut) {
+            return false;
+        }
+        if (width <= 0 || height <= 0) {
+            throw new BusinessException("裁剪宽高不能为0");
+        }
+        return true;
+    }
+
+    private boolean isImg(String picName) {
+        String jpgSuffix = ".jpg";
+        String jpegSuffix = ".jpeg";
+        // 如果非jpg， jpeg则不压缩
+        return picName.endsWith(jpgSuffix) || picName.endsWith(jpegSuffix);
     }
 
     private void closeStream(Closeable... closeables) {

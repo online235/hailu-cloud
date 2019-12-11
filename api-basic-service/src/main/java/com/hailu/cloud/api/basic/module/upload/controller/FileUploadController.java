@@ -45,7 +45,13 @@ public class FileUploadController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "businessCode", required = true, value = "业务标识", paramType = "path", dataType = "String"),
             @ApiImplicitParam(name = "isImageCompress", value = "是否启用图片压缩", paramType = "query", dataType = "Boolean"),
-            @ApiImplicitParam(name = "compressQuality", value = "图片输出质量，只有启用图片压缩后该参数才生效", paramType = "query", dataType = "Double")
+            @ApiImplicitParam(name = "compressQuality", value = "图片输出质量", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "isCut", value = "是否裁剪图片", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "cutWidth", value = "裁剪宽度", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "cutHeight", value = "裁剪高度", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "isZoom", value = "是否缩放图片", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "zoomWidth", value = "裁剪宽度", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "zoomHeight", value = "裁剪高度", paramType = "query", dataType = "Double")
     })
     @PostMapping(value = "/multi/{businessCode}")
     public List<String> multiFileUpload(
@@ -56,12 +62,24 @@ public class FileUploadController {
             @NotBlank(message = "业务标识不能为空")
             @PathVariable("businessCode") String businessCode,
             @RequestParam(value = "isImageCompress", required = false, defaultValue = "false") Boolean isImageCompress,
-            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") Double compressQuality) throws BusinessException {
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") Double compressQuality,
+            @RequestParam(value = "isCut", required = false, defaultValue = "false") boolean isCut,
+            @RequestParam(value = "cutWidth", required = false, defaultValue = "0") int cutWidth,
+            @RequestParam(value = "cutHeight", required = false, defaultValue = "0") int cutHeight,
+            @RequestParam(value = "isZoom", required = false, defaultValue = "false") boolean isZoom,
+            @RequestParam(value = "zoomWidth", required = false, defaultValue = "0") int zoomWidth,
+            @RequestParam(value = "zoomHeight", required = false, defaultValue = "0") int zoomHeight) throws BusinessException {
 
         UploadOptions options = UploadOptions.builder()
                 .businessCode(businessCode)
                 .isImageCompress(isImageCompress)
                 .compressQuality(compressQuality)
+                .isCut(isCut)
+                .cutWidth(cutWidth)
+                .cutHeight(cutHeight)
+                .isZoom(isZoom)
+                .zoomWidth(zoomWidth)
+                .zoomHeight(zoomHeight)
                 .build();
 
         return fileUploadService.multi(options, files);
@@ -77,7 +95,13 @@ public class FileUploadController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "businessCode", required = true, value = "业务标识", paramType = "path", dataType = "String"),
             @ApiImplicitParam(name = "isImageCompress", value = "是否启用图片压缩", paramType = "query", dataType = "Boolean"),
-            @ApiImplicitParam(name = "compressQuality", value = "图片输出质量，只有启用图片压缩后该参数才生效", paramType = "query", dataType = "Double")
+            @ApiImplicitParam(name = "compressQuality", value = "图片输出质量", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "isCut", value = "是否裁剪图片", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "cutWidth", value = "裁剪宽度", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "cutHeight", value = "裁剪高度", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "isZoom", value = "是否缩放图片", paramType = "query", dataType = "Boolean"),
+            @ApiImplicitParam(name = "zoomWidth", value = "裁剪宽度", paramType = "query", dataType = "Double"),
+            @ApiImplicitParam(name = "zoomHeight", value = "裁剪高度", paramType = "query", dataType = "Double")
     })
     @PostMapping(value = "/single/{businessCode}")
     public String singleFileUpload(
@@ -87,12 +111,24 @@ public class FileUploadController {
             @NotBlank(message = "业务标识不能为空")
             @PathVariable("businessCode") String businessCode,
             @RequestParam(value = "isImageCompress", required = false, defaultValue = "false") boolean isImageCompress,
-            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") double compressQuality) throws BusinessException {
+            @RequestParam(value = "compressQuality", required = false, defaultValue = "1") double compressQuality,
+            @RequestParam(value = "isCut", required = false, defaultValue = "false") boolean isCut,
+            @RequestParam(value = "cutWidth", required = false, defaultValue = "0") int cutWidth,
+            @RequestParam(value = "cutHeight", required = false, defaultValue = "0") int cutHeight,
+            @RequestParam(value = "isZoom", required = false, defaultValue = "false") boolean isZoom,
+            @RequestParam(value = "zoomWidth", required = false, defaultValue = "0") int zoomWidth,
+            @RequestParam(value = "zoomHeight", required = false, defaultValue = "0") int zoomHeight) throws BusinessException {
 
         UploadOptions options = UploadOptions.builder()
                 .businessCode(businessCode)
                 .isImageCompress(isImageCompress)
                 .compressQuality(compressQuality)
+                .isCut(isCut)
+                .cutWidth(cutWidth)
+                .cutHeight(cutHeight)
+                .isZoom(isZoom)
+                .zoomWidth(zoomWidth)
+                .zoomHeight(zoomHeight)
                 .build();
         return fileUploadService.single(options, file);
     }
