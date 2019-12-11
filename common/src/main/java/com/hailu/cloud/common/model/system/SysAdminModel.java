@@ -60,7 +60,7 @@ public class SysAdminModel {
      */
     @NotBlank(message = "密码不能为空")
     @ApiModelProperty(value = "密码", required = true)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[\\s\\S]{8,20}$", message = "密码强度不够，请输入大小写字母数字组合，长度8~20位，如：a123456780.A!@=+")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[\\s\\S]{6,50}$", message = "密码强度不够，请输入大小写字母数字组合，长度6~50位，如：a123456780.A!@=+")
     private String pwd;
 
     /**
