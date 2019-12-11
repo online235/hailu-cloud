@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 本地磁盘文件存储
@@ -159,11 +161,30 @@ public class LocalDiskFileStoreServiceImpl implements IFileStoreService {
         return true;
     }
 
+
+    private static final List<String> IMG_SUFFIX = new ArrayList<>();
+
+    static {
+        IMG_SUFFIX.add(".jpg");
+        IMG_SUFFIX.add(".jpeg");
+        IMG_SUFFIX.add(".png");
+    }
+
+    /**
+     * 判断是否为图片
+     *
+     * @param picName 文件名
+     * @return
+     */
     private boolean isImg(String picName) {
-        String jpgSuffix = ".jpg";
-        String jpegSuffix = ".jpeg";
+        String lowerCase = picName.toLowerCase();
         // 如果非jpg， jpeg则不压缩
-        return picName.endsWith(jpgSuffix) || picName.endsWith(jpegSuffix);
+        for (String imgSuffix : IMG_SUFFIX) {
+            if (lowerCase.endsWith(imgSuffix)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void closeStream(Closeable... closeables) {
