@@ -14,6 +14,7 @@ import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -37,6 +38,13 @@ public class RoleServiceImpl implements IRoleService {
         AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
         model.setCreateBy(loginInfoModel.getAccount());
         roleMapper.addRole(model);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delRole(Long id) {
+        roleMapper.unlinkMenus(id);
+        roleMapper.delRole(id);
     }
 
     @Override
@@ -82,6 +90,7 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void changeMenus(Long id, String menuIds) throws BusinessException {
          Set<Long> menuSet = Arrays.stream(menuIds.split(","))
                 .map(StringUtils::trim)

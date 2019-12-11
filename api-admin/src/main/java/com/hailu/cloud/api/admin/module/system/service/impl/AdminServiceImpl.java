@@ -14,10 +14,10 @@ import com.hailu.cloud.common.model.system.SysAdminModel;
 import com.hailu.cloud.common.model.system.SysRoleModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -47,13 +47,20 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public void addAccount(SysAdminModel model) throws BusinessException {
         SysAdminModel existAccount = searchAccount(model.getAccount(), 1);
-        if( existAccount != null ){
+        if (existAccount != null) {
             throw new BusinessException("账号已存在");
         }
         model.setId(basicFeignClient.uuid().getData());
         model.setPwd(SecureUtil.sha256(model.getPwd() + "&key=" + signKey));
         model.setEnableStatus(1);
         adminMapper.addAccount(model);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delAccount(Long id) {
+        adminMapper.unlinkRoles(id);
+        adminMapper.delAccount(id);
     }
 
     @Override
@@ -93,7 +100,7 @@ public class AdminServiceImpl implements IAdminService {
 
         Map<Long, SysAdminModel> mapping = new HashMap<>(datas.size());
         datas.forEach(admin -> mapping.put(admin.getId(), admin));
-        roleMapper.adminRoleList(mapping.keySet()).forEach(role->{
+        roleMapper.adminRoleList(mapping.keySet()).forEach(role -> {
             SysRoleModel sysAdminModel = new SysRoleModel();
             sysAdminModel.setId(role.getRoleId());
             sysAdminModel.setRoleName(role.getRoleName());
@@ -104,10 +111,10 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public void changeStatus(Long id, int enableStatus) throws BusinessException {
-        if( enableStatus == 1 ){
+        if (enableStatus == 1) {
             SysAdminModel existsAccount = adminMapper.checkAccountIsRepeat(id);
-            if( existsAccount != null ){
-                if( existsAccount.getId().compareTo(id) == 0 ){
+            if (existsAccount != null) {
+                if (existsAccount.getId().compareTo(id) == 0) {
                     return;
                 }
                 throw new BusinessException("系统中已存在一个相同的账号，并且该账号目前为启用状态");
@@ -118,13 +125,14 @@ public class AdminServiceImpl implements IAdminService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void changeRoles(Long id, String roleIds) throws BusinessException {
         Set<Long> roleSet = Arrays.stream(roleIds.split(","))
                 .map(StringUtils::trim)
                 .filter(StringUtils::isNotBlank)
                 .map(Long::valueOf)
                 .collect(Collectors.toSet());
-        if( roleSet.isEmpty() ){
+        if (roleSet.isEmpty()) {
             throw new BusinessException("请选择角色");
         }
         adminMapper.unlinkRoles(id);

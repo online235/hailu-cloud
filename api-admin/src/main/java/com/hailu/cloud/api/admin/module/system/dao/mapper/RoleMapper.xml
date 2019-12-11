@@ -8,6 +8,11 @@
 		values (#{id}, #{roleName}, #{enableStatus}, #{createBy}, NOW())
 	</insert>
 
+    <!-- 删除角色 -->
+    <delete id="delRole">
+        delete from sys_role where id = #{id}
+    </delete>
+
     <!-- 编辑角色 -->
     <update id="updateRole">
 		update sys_role set

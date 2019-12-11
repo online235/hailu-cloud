@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -20,6 +19,13 @@ public interface AdminMapper {
      * @param model
      */
     void addAccount(SysAdminModel model);
+
+    /**
+     * 删除账号
+     *
+     * @param id
+     */
+    void delAccount(Long id);
 
     /**
      * 修改自己的密码

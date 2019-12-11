@@ -23,6 +23,13 @@ public interface RoleMapper {
     void addRole(SysRoleModel model);
 
     /**
+     * 删除角色
+     *
+     * @param id
+     */
+    void delRole(@Param("id") Long id);
+
+    /**
      * 添加角色
      *
      * @param model

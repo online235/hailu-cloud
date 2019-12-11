@@ -19,6 +19,13 @@ public interface IRoleService {
     void addRole(SysRoleModel model);
 
     /**
+     * 删除角色
+     *
+     * @param id
+     */
+    void delRole(Long id);
+
+    /**
      * 添加角色
      *
      * @param model

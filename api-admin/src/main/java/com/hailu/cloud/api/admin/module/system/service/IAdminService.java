@@ -20,6 +20,13 @@ public interface IAdminService {
     void addAccount(SysAdminModel model) throws BusinessException;
 
     /**
+     * 删除账号
+     *
+     * @param id
+     */
+    void delAccount(Long id);
+
+    /**
      * 修改自己的密码
      *
      * @param oldPwd 旧密码

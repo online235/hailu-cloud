@@ -84,6 +84,19 @@ public class AdminController {
         adminService.addAccount(model);
     }
 
+    @ApiOperation(value = "删除账号", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': ''\n" +
+            "}" +
+            "</pre>")
+    @DeleteMapping("/del-account")
+    public void delAccount(@NotNull(message = "请选择要删除的账号") Long id) {
+
+        adminService.delAccount(id);
+    }
+
     @ApiOperation(value = "修改密码", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +

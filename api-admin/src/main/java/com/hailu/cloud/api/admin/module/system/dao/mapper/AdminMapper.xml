@@ -8,6 +8,11 @@
 		values (#{id}, #{nickName}, #{account}, #{avatar}, #{pwd}, #{enableStatus}, #{phone}, #{cityCode}, #{accountType}, #{createBy}, NOW())
 	</insert>
 
+    <!-- 删除账号 -->
+    <delete id="delAccount">
+        delete from sys_admin where id = #{id}
+    </delete>
+
     <!-- 变更账号启用状态 -->
     <update id="changeStatus">
 		update sys_admin set enable_status=#{enableStatus}, update_by=#{updateBy}, update_time=NOW() where id = #{id}

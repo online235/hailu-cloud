@@ -77,6 +77,21 @@ public class RoleController {
         roleService.addRole(model);
     }
 
+
+    @ApiOperation(value = "删除角色", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': ''\n" +
+            "}" +
+            "</pre>")
+    @DeleteMapping("/del-role")
+    public void delRole(@NotNull(message = "请选择要删除的角色") Long id){
+
+        roleService.delRole(id);
+    }
+
+
     @ApiOperation(value = "编辑角色", notes = "<pre>" +
             "{\n" +
             "    'code': 200,\n" +
