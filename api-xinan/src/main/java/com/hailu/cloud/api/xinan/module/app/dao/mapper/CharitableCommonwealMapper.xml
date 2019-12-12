@@ -3,7 +3,7 @@
 <mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.CharitableCommonwealMapper" >
 
   <sql id="Base_Column_List" >
-    id, users_id, commonweal_title, default_picture, state, cratedat, updatedat
+    id, admin_id, commonweal_title, default_picture, state, cratedat, updatedat
   </sql>
   <sql id="Blob_Column_List" >
     article
@@ -23,6 +23,6 @@
     ,
     <include refid="Base_Column_List"/>
     from xa_charitable_commonweal
-    where id = #{id}
+    where id = #{Id}
   </select>
 </mapper>

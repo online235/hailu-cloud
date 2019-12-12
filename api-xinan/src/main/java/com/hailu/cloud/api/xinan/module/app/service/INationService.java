@@ -21,6 +21,12 @@ public interface INationService {
      */
     Object findListByParentId(Long parentId);
 
+    /**
+     * 根据区code查询父code
+     * @param Code
+     * @return
+     */
+    String findCodeBySonCode(String Code);
 
     /**
      * 根据省名称查找该数据

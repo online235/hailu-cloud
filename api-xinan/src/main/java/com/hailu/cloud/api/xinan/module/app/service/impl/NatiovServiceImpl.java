@@ -48,6 +48,11 @@ public class NatiovServiceImpl implements INationService {
     }
 
     @Override
+    public String findCodeBySonCode(String Code) {
+        return nationMapper.findCodeBySonCode(Code);
+    }
+
+    @Override
     public Nation findNationByProvince(String provinceName) {
         return nationMapper.findNationByProvince(provinceName);
     }

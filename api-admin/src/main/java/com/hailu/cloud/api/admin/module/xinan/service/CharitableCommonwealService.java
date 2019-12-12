@@ -22,12 +22,6 @@ public interface CharitableCommonwealService {
     PageInfoModel<List<CharitableCommonweal>> findCharitableCommonwealByAdminId(Integer page, Integer size);
 
     /**
-     * 超级管理员获取公益列表
-     * @return
-     */
-    PageInfoModel<List<CharitableCommonweal>> findCharitableCommonwealList( Integer page, Integer size);
-
-    /**
      * 根据编号查询详细信息
      * @param Id
      * @return
@@ -41,8 +35,8 @@ public interface CharitableCommonwealService {
     CharitableCommonweal updateByPrimaryKeySelective(CharitableCommonweal record);
 
     /**
-     * 添加公益
+     * 添加公益或者根据编号更改信息
      * @mbggenerated 2019-12-02
      */
-    CharitableCommonweal insertSelective(CharitableCommonwealDto record);
+    CharitableCommonweal insertAndUpdate(CharitableCommonwealDto record);
 }

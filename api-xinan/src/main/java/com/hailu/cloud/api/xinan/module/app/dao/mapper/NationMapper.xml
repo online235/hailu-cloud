@@ -208,5 +208,12 @@
         </if>
     </select>
 
+    <select id="findCodeBySonCode" resultType="java.lang.String">
+        select CODE from sys_nation
+        where ID = (
+            select PARENT_ID from sys_nation
+            where CODE = #{Code}  and DISTRICT != ''
+        )
+    </select>
 
 </mapper>

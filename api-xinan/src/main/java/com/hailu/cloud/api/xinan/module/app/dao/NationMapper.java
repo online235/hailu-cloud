@@ -80,5 +80,11 @@ public interface NationMapper {
     List<Nation> findListByCodeArray(Object parameter);
 
 
+    /**
+     * 根据区code查询父code
+     * @param Code
+     * @return
+     */
+    String findCodeBySonCode(@Param("Code") String Code);
 
 }

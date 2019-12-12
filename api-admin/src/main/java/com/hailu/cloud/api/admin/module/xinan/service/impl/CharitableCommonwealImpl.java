@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,16 +37,17 @@ public class CharitableCommonwealImpl implements CharitableCommonwealService {
     public PageInfoModel<List<CharitableCommonweal>> findCharitableCommonwealByAdminId( Integer page, Integer size) {
         AdminLoginInfoModel adminLoginInfoModel = RequestUtils.getAdminLoginInfo();
         Page pageData = PageHelper.startPage(page,size);
-        List<CharitableCommonweal> orders = charitableCommonwealMapper.findCharitableCommonwealByAdminId(adminLoginInfoModel.getId());
+        List<CharitableCommonweal> orders ;
+        if (adminLoginInfoModel.getAccountType() == 2){
+            orders = charitableCommonwealMapper.findCharitableCommonwealByAdminId(adminLoginInfoModel.getId());
+        }else if (adminLoginInfoModel.getAccountType() == 1){
+            orders = charitableCommonwealMapper.findCharitableCommonwealList();
+        }else{
+            return null;
+        }
         return new PageInfoModel(pageData.getPages(), pageData.getTotal(), orders);
     }
 
-    @Override
-    public PageInfoModel<List<CharitableCommonweal>> findCharitableCommonwealList(Integer page, Integer size) {
-        Page pageData = PageHelper.startPage(page,size);
-        List<CharitableCommonweal> orders = charitableCommonwealMapper.findCharitableCommonwealList();
-        return new PageInfoModel(pageData.getPages(), pageData.getTotal(), orders);
-    }
 
     @Override
     public CharitableCommonweal findCharitableCommonwealById(Long Id) {
@@ -59,7 +61,7 @@ public class CharitableCommonwealImpl implements CharitableCommonwealService {
     }
 
     @Override
-    public CharitableCommonweal insertSelective(CharitableCommonwealDto recordDto) {
+    public CharitableCommonweal insertAndUpdate(CharitableCommonwealDto recordDto) {
         CharitableCommonweal record = new CharitableCommonweal();
         BeanUtils.copyProperties(recordDto,record);
         return saveEntity(record);
@@ -78,6 +80,7 @@ public class CharitableCommonwealImpl implements CharitableCommonwealService {
             charitableCommonwealMapper.insertSelective(record);
             return record;
         }
+        record.setUpdatedat(new Date());
         charitableCommonwealMapper.updateByPrimaryKeySelective(record);
         return record;
     }

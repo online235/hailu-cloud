@@ -56,7 +56,7 @@ public class AdminLoginInfoModel extends LoginModel {
     /**
      * 账号类型（管理员-1、政府-2）
      */
-    private String accountType;
+    private Integer accountType;
 
     /**
      * 允许访问的前端路由

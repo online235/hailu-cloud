@@ -45,7 +45,7 @@ public class GovernmentController {
     @PostMapping("/addGovernment")
     @ResponseBody
     @ApiImplicitParam(name = "commonwealArticle", value = "公益文章", required = true, paramType = "query", dataType = "String")
-    public Government insertSelective(String commonwealArticle) throws BusinessException {
+    public Government insertSelective(@RequestBody String commonwealArticle) throws BusinessException {
 
         return governmentUsersService.insertSelective(commonwealArticle);
     }

@@ -1,6 +1,8 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
+import com.hailu.cloud.api.xinan.module.app.entity.CharitableCommonweal;
 import com.hailu.cloud.api.xinan.module.app.service.CharitableCommonwealService;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -40,7 +43,7 @@ public class CharitableCommonwealController {
             @ApiImplicitParam(name = "page", value = "第N页", defaultValue = "1", required = true, paramType = "query"),
             @ApiImplicitParam(name = "size", value = "页面大小", defaultValue = "20", required = true, paramType = "query")
     })
-    public Object findCommonwealArticle(
+    public PageInfoModel<List<CharitableCommonweal>> findCommonwealArticle(
             @NotNull(message = "政府编号不能为空") Long adminId,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
@@ -57,7 +60,7 @@ public class CharitableCommonwealController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Id", value = "公益编号", required = true, paramType = "query")
     })
-    public Object findCharitableCommonwealById(@NotNull(message = "编号不能为空") Long Id){
+    public CharitableCommonweal findCharitableCommonwealById(@NotNull(message = "编号不能为空") Long Id){
 
         return charitableCommonwealService.findCharitableCommonwealById(Id);
     }
