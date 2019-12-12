@@ -129,10 +129,15 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- 加密解密 依赖包 -->
+            <!-- hutool 工具包 -->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-crypto</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-http</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
 
