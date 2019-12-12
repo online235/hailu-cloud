@@ -2,6 +2,7 @@ server:
   port: 30100
   servlet:
     context-path: /api/v2/admin
+  max-http-header-size: 20KB
 spring:
   application:
     name: service-api-admin

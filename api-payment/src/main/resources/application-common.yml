@@ -2,6 +2,7 @@ server:
   port: 30700
   servlet:
     context-path: /api/v2/payment
+  max-http-header-size: 20KB
 spring:
   application:
     name: service-api-payment

@@ -2,6 +2,7 @@ server:
   port: 30500
   servlet:
     context-path: /api/v2/scheduling
+  max-http-header-size: 20KB
 spring:
   application:
     name: service-api-scheduling
