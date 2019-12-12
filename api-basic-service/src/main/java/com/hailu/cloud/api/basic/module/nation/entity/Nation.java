@@ -16,4 +16,6 @@ public class Nation {
     private String city;
     //区县
     private String district;
+    //code
+    private String code;
 }

@@ -71,7 +71,7 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
             }else if(StringUtils.isNotBlank(nation.getDistrict())){
                 value = nation.getDistrict();
             }
-            redisClient.hashSet(dictKey, String.valueOf(nation.getId()), value);
+            redisClient.hashSet(dictKey, nation.getCode(), value);
         });
         log.debug("省市区字典注入耗时：" + timer.interval() + " ms");
         log.info("所有字典数据已缓存到Redis");

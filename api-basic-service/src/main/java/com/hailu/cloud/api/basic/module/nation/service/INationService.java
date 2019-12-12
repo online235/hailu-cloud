@@ -7,4 +7,6 @@ import java.util.List;
 public interface INationService {
 
     List<Nation> findAll();
+
+    String findByName(String name);
 }

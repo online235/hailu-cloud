@@ -23,6 +23,7 @@ mapping:
         - ${api-version}/basic/upload
         - ${api-version}/basic/sms
         - ${api-version}/basic/debug
+        - ${api-version}/basic/nation
         # 心安接口
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/app/xinan/updatePassword

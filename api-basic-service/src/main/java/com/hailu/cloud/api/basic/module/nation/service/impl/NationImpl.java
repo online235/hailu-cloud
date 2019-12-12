@@ -3,10 +3,16 @@ package com.hailu.cloud.api.basic.module.nation.service.impl;
 import com.hailu.cloud.api.basic.module.nation.dao.NationMapper;
 import com.hailu.cloud.api.basic.module.nation.entity.Nation;
 import com.hailu.cloud.api.basic.module.nation.service.INationService;
+import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 地址信息
@@ -18,9 +24,25 @@ public class NationImpl implements INationService {
     @Resource
     private NationMapper nationMapper;
 
+    @Autowired
+    private RedisStandAloneClient redisClient;
 
     @Override
     public List<Nation> findAll() {
         return nationMapper.findAll();
+    }
+
+
+    @Override
+    public String findByName(String name) {
+        Map<String,String> nationMap = redisClient.hashGetAll(Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION);
+        AtomicReference<String> nationId = new AtomicReference<>();
+        nationMap.forEach((key,value) ->{
+            if(StringUtils.equals(name,value)){
+                nationId.set(key);
+                return;
+            }
+        });
+        return nationId.get();
     }
 }
