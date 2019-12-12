@@ -59,7 +59,12 @@ public class AdminLoginInfoModel extends LoginModel {
     private String accountType;
 
     /**
-     * 拥有的菜单
+     * 允许访问的前端路由
      */
     private List<SysMenuModel> menus;
+
+    /**
+     * 允许访问的后端接口
+     */
+    private List<String> apis;
 }

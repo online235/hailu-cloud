@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,22 +41,21 @@ public class SysMenuModel {
     private String menuName;
 
     /**
-     * 菜单URL路径
+     * 前端路由
      */
-    @ApiModelProperty(value = "菜单URL路径", required = true)
+    @ApiModelProperty(value = "前端路由", required = true)
     private String url;
 
     /**
-     * 菜单权限编码
+     * 后端接口
      */
-    @ApiModelProperty(value = "菜单权限编码", required = true)
-    private String permissionCode;
+    @ApiModelProperty(value = "后端接口", required = true)
+    private String api;
 
     /**
      * 菜单类型
      */
-    @NotNull(message = "菜单类型不能为空")
-    @ApiModelProperty(value = "菜单类型：0菜单，1按钮", required = true)
+    @ApiModelProperty(value = "菜单类型：0菜单，1按钮, 2接口", required = true)
     private Integer menuType;
 
     @DictName(code = "MENU_TYPE", joinField = "menuType")

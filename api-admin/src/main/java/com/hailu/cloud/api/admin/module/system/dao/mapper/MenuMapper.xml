@@ -4,8 +4,8 @@
 
     <!-- 添加菜单 -->
     <insert id="addMenu">
-		insert into sys_menu(id, menu_name, parent_id, url, menu_type, enable_status, permission_code, create_by, create_time)
-		values (#{id}, #{menuName}, #{parentId}, #{url}, #{menuType}, #{enableStatus}, #{permissionCode}, #{createBy}, NOW())
+		insert into sys_menu(id, menu_name, parent_id, url, api, enable_status, menu_type, create_by, create_time)
+		values (#{id}, #{menuName}, #{parentId}, #{url}, #{api}, #{enableStatus}, #{menuType}, #{createBy}, NOW())
 	</insert>
 
     <!-- 变更账号启用状态 -->
@@ -14,9 +14,9 @@
 		menu_name=#{menuName},
 		parent_id=#{parentId},
 		url=#{url},
-		menu_type=#{menuType},
+		api=#{api},
 		enable_status=#{enableStatus},
-		permission_code=#{permissionCode},
+		menu_type=#{menuType},
 		update_by=#{updateBy},
 		update_time=NOW()
 		where id = #{id}
@@ -47,7 +47,7 @@
 
     <!-- 查询菜单列表 -->
     <select id="menuList" resultType="com.hailu.cloud.common.model.system.SysMenuModel">
-        SELECT id, menu_name, parent_id, url, menu_type, enable_status, permission_code
+        SELECT id, menu_name, parent_id, url, api, enable_status, menu_type
         FROM sys_menu
         <where>
             <if test="menuName != null and menuName != ''">

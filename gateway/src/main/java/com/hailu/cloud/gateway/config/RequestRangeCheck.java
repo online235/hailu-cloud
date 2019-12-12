@@ -68,12 +68,12 @@ public class RequestRangeCheck {
                 break;
             case ADMIN:
                 AdminLoginInfoModel adminLoginInfoModel = (AdminLoginInfoModel) authInfo.getUserInfo();
-                if (adminLoginInfoModel.getMenus() == null || adminLoginInfoModel.getMenus().isEmpty()) {
+                if (adminLoginInfoModel.getApis() == null || adminLoginInfoModel.getApis().isEmpty()) {
                     return RequestUtils.getDataBuffer(response, ApiResponseEnum.PERMISSION_DENIED);
                 }
                 boolean allow = false;
-                for (SysMenuModel menu : adminLoginInfoModel.getMenus()) {
-                    if (requestPath.contains(menu.getUrl())) {
+                for (String api : adminLoginInfoModel.getApis()) {
+                    if (requestPath.endsWith(api)) {
                         allow = true;
                         break;
                     }

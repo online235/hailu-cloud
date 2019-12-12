@@ -350,7 +350,10 @@ public class AuthServiceImpl implements IAuthService {
                 Map<Long, SysMenuModel> mapping = new HashMap<>(menus.size());
                 menus.forEach(menu -> mapping.put(menu.getId(), menu));
                 menus.stream()
+                        // 过滤父类菜单
                         .filter(menu -> menu.getParentId() != null && menu.getParentId() != 0)
+                        // 只保留菜单和按钮类型的数据
+                        .filter(menu -> menu.getMenuType() != 2)
                         .forEach(menu -> {
                             if (!mapping.containsKey(menu.getParentId())) {
                                 return;
@@ -358,8 +361,22 @@ public class AuthServiceImpl implements IAuthService {
                             SysMenuModel parent = mapping.get(menu.getParentId());
                             parent.getChildren().add(menu);
                         });
-                List<SysMenuModel> menuTree = menus.stream().filter(menu -> menu.getParentId() == 0).collect(Collectors.toList());
-                loginInfoModel.setMenus(menuTree);
+
+                // 生成前端路由列表
+                List<SysMenuModel> routes = menus.stream()
+                        .filter(menu -> menu.getParentId() == 0)
+                        .collect(Collectors.toList());
+                loginInfoModel.setMenus(routes);
+
+                // 生成允许访问的api列表
+                List<String> apis = menus.stream()
+                        .filter(menu -> menu.getMenuType() == 2)
+                        .filter(menu -> StringUtils.isNotBlank(menu.getApi()))
+                        .map(SysMenuModel::getApi)
+                        .distinct()
+                        .collect(Collectors.toList());
+                loginInfoModel.setApis(apis);
+
                 return loginInfoModel;
             }
 

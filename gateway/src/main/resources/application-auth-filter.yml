@@ -69,7 +69,7 @@ mapping:
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
-    debug: true
+    debug: false
     # 不允许访问的路径 【0，1】具体看 LoginTypeEnum
     notAllow:
       0:
@@ -77,10 +77,4 @@ mapping:
         - ${api-version}/merchant
       1:
         - ${api-version}/admin
-        - ${api-version}/xinan
-      3:
-        - ${api-version}/admin
-        - ${api-version}/basic-service
-        - ${api-version}/mall
-        - ${api-version}/payment
         - ${api-version}/xinan

@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.system.entity;
+
 import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -26,14 +28,14 @@ public class SysMenu {
     private String menuName;
 
     /**
-     * 菜单URL路径
+     * 前端路由
      */
     private String url;
 
     /**
-     * 菜单权限编码
+     * 后端接口
      */
-    private String permissionCode;
+    private String api;
 
     /**
      * 菜单类型
