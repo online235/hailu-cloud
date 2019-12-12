@@ -49,7 +49,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public void updateRole(SysRoleModel model) throws BusinessException {
-        if( model.getId() == null ){
+        if (model.getId() == null) {
             throw new BusinessException("角色ID不能为空");
         }
         AdminLoginInfoModel loginInfoModel = RequestUtils.getAdminLoginInfo();
@@ -68,17 +68,17 @@ public class RoleServiceImpl implements IRoleService {
         List<SysRoleModel> datas = roleMapper.roleList(roleName, enableStatus);
 
         Map<Long, SysRoleModel> mapping = new HashMap<>(datas.size());
-        datas.forEach(item-> mapping.put(item.getId(), item));
+        datas.forEach(item -> mapping.put(item.getId(), item));
         List<LkRoleMenuModel> lk = roleMapper.findBindMenus(mapping.keySet());
 
-        lk.forEach(item->{
-            List<Long> menuIds = Arrays.stream(item.getMenuId().split(","))
-                    .map(StringUtils::trim)
-                    .filter(StringUtils::isNotBlank)
-                    .map(Long::valueOf)
-                    .collect(Collectors.toList());
-            mapping.get(item.getRoleId()).setMenuIds(menuIds);
-        });
+        lk.stream()
+                .collect(Collectors.groupingBy(LkRoleMenuModel::getRoleId))
+                .forEach((key, value) -> {
+                    List<Long> menuIds = value.stream()
+                            .map(LkRoleMenuModel::getMenuId)
+                            .collect(Collectors.toList());
+                    mapping.get(key).setMenuIds(menuIds);
+                });
 
         return new PageInfoModel<>(page.getPages(), page.getTotal(), datas);
     }
@@ -92,12 +92,12 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void changeMenus(Long id, String menuIds) throws BusinessException {
-         Set<Long> menuSet = Arrays.stream(menuIds.split(","))
+        Set<Long> menuSet = Arrays.stream(menuIds.split(","))
                 .map(StringUtils::trim)
                 .filter(StringUtils::isNotBlank)
                 .map(Long::valueOf)
                 .collect(Collectors.toSet());
-        if( menuSet.isEmpty() ){
+        if (menuSet.isEmpty()) {
             throw new BusinessException("请选择菜单");
         }
         roleMapper.unlinkMenus(id);

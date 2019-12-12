@@ -74,17 +74,9 @@
 
     <!-- 查询账号列表 -->
     <select id="findBindMenus" resultType="com.hailu.cloud.api.admin.module.system.model.LkRoleMenuModel">
-        SELECT
-        role_id,
-        GROUP_CONCAT(menu_id) as menu_id
-        FROM
-        lk_role_menu
-        WHERE
-        role_id IN
+        select lrm.role_id, lrm.menu_id from lk_role_menu lrm where lrm.role_id IN
         <foreach collection="roleIds" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-        GROUP BY
-        role_id
     </select>
 </mapper>

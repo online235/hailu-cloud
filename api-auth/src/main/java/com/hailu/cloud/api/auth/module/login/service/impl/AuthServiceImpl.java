@@ -372,7 +372,7 @@ public class AuthServiceImpl implements IAuthService {
                 List<String> apis = menus.stream()
                         .filter(menu -> menu.getMenuType() == 2)
                         .filter(menu -> StringUtils.isNotBlank(menu.getApi()))
-                        .map(SysMenuModel::getApi)
+                        .map(menu -> StringUtils.trim(menu.getApi()))
                         .distinct()
                         .collect(Collectors.toList());
                 loginInfoModel.setApis(apis);

@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.admin.module.system.controller;
 
+import com.hailu.cloud.api.admin.module.system.model.ChangeMenuParams;
 import com.hailu.cloud.api.admin.module.system.service.IRoleService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -135,12 +136,10 @@ public class RoleController {
             @ApiImplicitParam(name = "id", value = "角色ID", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "menuIds", value = "菜单ID，多个菜单用逗号隔开", required = true, paramType = "query", dataType = "String"),
     })
-    @GetMapping("/change-menus")
-    public void changeRoles(
-            @NotNull(message = "角色ID不能为空") Long id,
-            @NotNull(message = "菜单不能为空") String menuIds) throws BusinessException {
+    @PostMapping("/change-menus")
+    public void changeRoles(@RequestBody @Valid ChangeMenuParams params) throws BusinessException {
 
-        roleService.changeMenus(id, menuIds);
+        roleService.changeMenus(params.getId(), params.getMenuIds());
     }
 
 }
