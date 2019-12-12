@@ -12,10 +12,6 @@
     </sql>
 
     <sql id="where_set">
-
-        <if test="id != null">
-            id = #{id},
-        </if>
         <if test="helpMenber != null">
             help_menber = #{helpMenber},
         </if>
@@ -39,7 +35,7 @@
             create_time = #{createTime},
         </if>
         <if test="updateTime != null">
-            update_time = #{updateTime},
+            update_time = #{updateTime}
         </if>
     </sql>
 
@@ -57,7 +53,7 @@
             and periods_number = #{periodsNumber}
         </if>
         <if test="timeDate != null">
-            and date_format(time_date,'%Y-%m')<![CDATA[=]]>date_format(#{timeDate},'%Y-%m')
+            and date_format(time_date,'%Y-%m')<![CDATA[=]]>#{timeDate}
         </if>
 
         ORDER BY time_date desc

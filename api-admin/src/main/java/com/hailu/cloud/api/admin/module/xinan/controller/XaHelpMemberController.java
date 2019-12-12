@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.admin.module.xinan.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
 import com.hailu.cloud.api.admin.module.xinan.entity.XaStatistics;
 import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
@@ -58,7 +59,7 @@ public class XaHelpMemberController {
     public PageInfoModel<List<XaHelpMemberModel>> findXaHelpMemberModelList(
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
-            @RequestParam(value = "size", defaultValue = "20", required = false) Integer size, Date timeDate, Integer periodsNumber) {
+            @RequestParam(value = "size", defaultValue = "20", required = false) Integer size, String timeDate, Integer periodsNumber) {
 
         Map map = new HashMap();
         map.put("timeDate", timeDate);
