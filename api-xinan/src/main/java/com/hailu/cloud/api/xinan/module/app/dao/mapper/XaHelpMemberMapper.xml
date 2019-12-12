@@ -77,7 +77,7 @@
             and periods_number = #{periodsNumber}
         </if>
         <if test="timeDate != null">
-            and date_format(time_date,'%Y%m')<![CDATA[=]]>#{timeDate}
+            and date_format(time_date,'%Y-%m')<![CDATA[=]]>#{timeDate}
         </if>
         ORDER BY time_date desc
     </select>

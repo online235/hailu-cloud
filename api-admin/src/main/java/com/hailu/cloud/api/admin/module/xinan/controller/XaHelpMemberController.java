@@ -70,7 +70,7 @@ public class XaHelpMemberController {
     @ApiOperation(value = "插入救助案例")
     @PostMapping("/insertXaHelpMember")
     @ResponseBody
-    public void insertXaHelpMember(@ModelAttribute XaHelpMemberParameter xaHelpMemberParameter, BindingResult result) throws BusinessException {
+    public void insertXaHelpMember(@RequestBody XaHelpMemberParameter xaHelpMemberParameter, BindingResult result) throws BusinessException {
 
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
@@ -85,7 +85,7 @@ public class XaHelpMemberController {
     @ApiOperation(value = "更新救助案例数据")
     @PostMapping("/updateXaHelpMember")
     @ResponseBody
-    public void updateXaHelpMember(@ModelAttribute XaHelpMemberParameterUpdate xaHelpMemberParameterUpdate) throws BusinessException {
+    public void updateXaHelpMember(@RequestBody XaHelpMemberParameterUpdate xaHelpMemberParameterUpdate) throws BusinessException {
 
         if (xaHelpMemberParameterUpdate.getId() == null) {
             throw new BusinessException("id不能为空！");

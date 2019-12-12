@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.hailu.cloud.api.xinan.module.app.model.HomeDataListModel;
 import com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel;
 import com.hailu.cloud.api.xinan.module.app.model.XaStatisticsModel;
@@ -11,8 +12,10 @@ import jodd.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import sun.text.resources.cldr.FormatData;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
 import java.util.*;
 
 @Service
@@ -35,6 +38,7 @@ public class HomeDateService {
 
     /**
      * 获取首页数据
+     *
      * @return
      */
     public HomeDataListModel getHomeDateListModel() {
@@ -66,27 +70,27 @@ public class HomeDateService {
         if (!CollectionUtils.isEmpty(xaStatistics)) {
             xaStatisticsModel = xaStatistics.get(0);
             map.put("periodsNumber", xaStatisticsModel.getPeriodsNumber());
-            map.put("timeDate", xaStatisticsModel.getTimeDate());
+            map.put("timeDate", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
             //本期历史案例
             xaHelpMemberModels = xaHelpMenberService.findListByParameter(map);
             //上一期数据
             if (xaStatisticsModel.getPeriodsNumber() > 1) {
                 map.clear();
                 map.put("periodsNumber", xaStatisticsModel.getPeriodsNumber() - 1);
-                map.put("timeDate", xaStatisticsModel.getTimeDate());
+                map.put("timeDate", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
                 xaStatisticLastList = xaStatisticsService.findListByParameter(map);
             } else {
                 map.clear();
                 //上个月期数数据
                 map.put("periodsNumber", 2);
-                map.put("timeDateLast", xaStatisticsModel.getTimeDate());
+                map.put("timeDateLast", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
                 xaStatisticLastList = xaStatisticsService.findListByParameter(map);
             }
             if (!CollectionUtils.isEmpty(xaStatisticLastList)) {
                 xaStatisticsModelLast = xaStatisticLastList.get(0);
                 map.clear();
                 map.put("periodsNumber", xaStatisticsModelLast.getPeriodsNumber());
-                map.put("timeDate", xaStatisticsModelLast.getTimeDate());
+                map.put("timeDate", DateUtil.format(xaStatisticsModelLast.getTimeDate(), "YYYY-MM"));
                 xaHelpMemberModelsLast = xaHelpMenberService.findListByParameter(map);
             }
         }
@@ -105,33 +109,28 @@ public class HomeDateService {
     }
 
 
-
     /**
      * 获取该期的统计数据和案例
+     *
      * @param timeDate
      * @param periodsNumber
      * @return
      */
-    public XaStatisticsModel getXaHelpMemberList(Date timeDate, Integer periodsNumber) {
+    public XaStatisticsModel getXaHelpMemberList(String timeDate, Integer periodsNumber) {
 
-        XaStatisticsModel xaStatisticsModel = new XaStatisticsModel();
-        List<XaHelpMemberModel> xaHelpMemberModels = new ArrayList<>();
         Map map = new HashMap();
-        map.put("periodsNumber", timeDate);
-        map.put("timeDate", periodsNumber);
+        map.put("periodsNumber", periodsNumber);
+        map.put("timeDate", timeDate);
         List<XaStatisticsModel> xaStatistics = xaStatisticsService.findListByParameter(map);
-        if (!CollectionUtils.isEmpty(xaStatistics)) {
-            xaStatisticsModel = xaStatistics.get(0);
-            map.put("periodsNumber", xaStatisticsModel.getPeriodsNumber());
-            map.put("timeDate", xaStatisticsModel.getTimeDate());
-            //本期历史案例
-            xaHelpMemberModels = xaHelpMenberService.findListByParameter(map);
-        }
+        XaStatisticsModel xaStatisticsModel = xaStatistics.get(0);
+        map.put("periodsNumber", periodsNumber);
+        map.put("timeDate", timeDate);
+        //本期历史案例
+        List<XaHelpMemberModel> xaHelpMemberModels = xaHelpMenberService.findListByParameter(map);
         xaStatisticsModel.setXaHelpMemberModelList(xaHelpMemberModels);
         return xaStatisticsModel;
 
     }
-
 
 
 }

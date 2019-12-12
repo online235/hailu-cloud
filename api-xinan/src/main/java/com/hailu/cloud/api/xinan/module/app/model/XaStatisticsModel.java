@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.xinan.module.app.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -51,6 +52,7 @@ public class XaStatisticsModel {
      * 本期时间（yyyy-MM）
      */
     @ApiModelProperty("本期时间（yyyy-MM）")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date timeDate;
 
     /**

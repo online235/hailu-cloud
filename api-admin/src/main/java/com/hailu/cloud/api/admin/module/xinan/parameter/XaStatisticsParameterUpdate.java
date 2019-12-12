@@ -1,8 +1,10 @@
 package com.hailu.cloud.api.admin.module.xinan.parameter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -50,6 +52,8 @@ public class XaStatisticsParameterUpdate {
      * 本期时间（yyyy-MM）
      */
     @ApiParam(name="timeDate",value = " 本期时间（yyyy-MM）")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date timeDate;
 
     /**

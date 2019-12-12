@@ -15,9 +15,6 @@
 
     <sql id="where_set">
 
-        <if test="id != null">
-            id = #{id},
-        </if>
         <if test="name != null">
             name = #{name},
         </if>
@@ -56,7 +53,7 @@
             create_time = #{createTime},
         </if>
         <if test="updateTime != null">
-            update_time = #{updateTime},
+            update_time = #{updateTime}
         </if>
     </sql>
 
@@ -76,7 +73,7 @@
             and periods_number = #{periodsNumber}
         </if>
         <if test="timeDate != null">
-            and date_format(time_date,'%Y%m')<![CDATA[=]]>#{timeDate}
+            and date_format(time_date,'%Y-%m')<![CDATA[=]]>date_format(#{timeDate},'%Y-%m')
         </if>
         ORDER BY time_date desc
     </select>

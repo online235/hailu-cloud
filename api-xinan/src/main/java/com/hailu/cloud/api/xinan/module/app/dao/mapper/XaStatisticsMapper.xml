@@ -57,10 +57,10 @@
             and periods_number = #{periodsNumber}
         </if>
         <if test="timeDate != null">
-            and date_format(time_date,'%Y%m')<![CDATA[=]]>#{timeDate}
+            and date_format(time_date,'%Y-%m')<![CDATA[=]]>#{timeDate}
         </if>
         <if test="timeDateLast != null">
-            and PERIOD_DIFF( #{timeDateLast} , date_format( time_date, '%Y%m' ) ) =1
+            and PERIOD_DIFF(#{timeDateLast}, date_format(time_date, '%Y-%m' ) ) =1
         </if>
         ORDER BY time_date desc
     </select>

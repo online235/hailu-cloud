@@ -1,8 +1,10 @@
 package com.hailu.cloud.api.admin.module.xinan.parameter;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,11 +18,6 @@ import java.util.Date;
 @ApiModel
 public class XaHelpMemberParameter {
 
-    /**
-     * id
-     */
-    @ApiParam(name = "id", value = " id")
-    private Long id;
 
     /**
      * 姓名
@@ -55,7 +52,9 @@ public class XaHelpMemberParameter {
     /**
      * 本期时间（yyyy-MM）
      */
-    @ApiParam(name="id",value = " 本期时间（yyyy-MM）",required = true)
+    @ApiParam(name="timeDate",value = " 本期时间（yyyy-MM-dd）",required = true)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date timeDate;
 
     /**

@@ -67,7 +67,7 @@ public class XaStatisticsController {
     @ApiOperation(value = "插入期数统计数据")
     @PostMapping("/insertXaStatistics")
     @ResponseBody
-    public void insertXaStatistics(@ModelAttribute XaStatisticsParameter xaStatisticsParameter, BindingResult result) throws BusinessException {
+    public void insertXaStatistics(@RequestBody XaStatisticsParameter xaStatisticsParameter, BindingResult result) throws BusinessException {
 
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
@@ -82,7 +82,7 @@ public class XaStatisticsController {
     @ApiOperation(value = "更新期数统计数据")
     @PostMapping("/updateXaStatistics")
     @ResponseBody
-    public void updateXaStatistics(@ModelAttribute XaStatisticsParameterUpdate xaStatisticsParameterUpdate) throws BusinessException {
+    public void updateXaStatistics(@RequestBody XaStatisticsParameterUpdate xaStatisticsParameterUpdate) throws BusinessException {
 
         if (xaStatisticsParameterUpdate.getId() == null) {
             throw new BusinessException("id不能为空！");
