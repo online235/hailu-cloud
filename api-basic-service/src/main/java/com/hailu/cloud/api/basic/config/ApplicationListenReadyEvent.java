@@ -62,6 +62,7 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
         TimeInterval timer = DateUtil.timer();
         log.info("加载省市区地址到Redis");
         String dictKey = Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION;
+        String dictKeyDesc = Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION_DESC;
         nationService.findAll().forEach(nation -> {
             String value = null;
             if(StringUtils.isNotBlank(nation.getProvince())){
@@ -72,6 +73,7 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
                 value = nation.getDistrict();
             }
             redisClient.hashSet(dictKey, nation.getCode(), value);
+            redisClient.hashSet(dictKeyDesc, value,nation.getCode());
         });
         log.debug("省市区字典注入耗时：" + timer.interval() + " ms");
         log.info("所有字典数据已缓存到Redis");

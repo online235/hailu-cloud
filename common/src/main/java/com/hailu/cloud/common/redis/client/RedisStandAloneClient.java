@@ -13,6 +13,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.Map;
+
 /**
  * redis工具库-单机模式
  *
@@ -380,6 +382,31 @@ public class RedisStandAloneClient {
         return handle(jedis -> {
             jedis.select(db);
             return jedis.hget(key, field);
+        });
+    }
+
+    /**
+     *根据redis库查询信息Map
+     * @param key
+     * @return
+     */
+    public Map<String,String> hashGetAll(String key){
+        return hashGetAll(RedisEnum.DB_0.ordinal(), key);
+    }
+
+
+
+    /**
+     *  根据redis库查询信息Map
+     *  =
+     * @param db        redis db
+     * @param key       redis key
+     * @return
+     */
+    public Map<String,String> hashGetAll(int db,String key){
+        return handle(jedis -> {
+            jedis.select(db);
+            return jedis.hgetAll(key);
         });
     }
 

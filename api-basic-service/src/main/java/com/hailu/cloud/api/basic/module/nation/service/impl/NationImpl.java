@@ -35,14 +35,6 @@ public class NationImpl implements INationService {
 
     @Override
     public String findByName(String name) {
-        Map<String,String> nationMap = redisClient.hashGetAll(Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION);
-        AtomicReference<String> nationId = new AtomicReference<>();
-        nationMap.forEach((key,value) ->{
-            if(StringUtils.equals(name,value)){
-                nationId.set(key);
-                return;
-            }
-        });
-        return nationId.get();
+        return redisClient.hashGet(Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION_DESC,name);
     }
 }
