@@ -84,6 +84,9 @@ public class SysAdminModel {
     @ApiModelProperty("账号类型（管理员-1、政府-2）")
     private Integer accountType;
 
+    @DictName(code = "ADMIN_ACCOUNT_TYPE", joinField = "accountType")
+    private String accountTypeDisplay;
+
     /**
      * 创建人
      */
