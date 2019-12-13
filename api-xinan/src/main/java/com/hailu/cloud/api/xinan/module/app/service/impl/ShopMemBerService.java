@@ -148,7 +148,7 @@ public class ShopMemBerService {
         shopMember.setOpenId(memberLoginInfoModel.getWeChatOpenId());
         shopMember.setUnionid(memberLoginInfoModel.getWeChatUnionId());
         shopMember.setWechat(memberLoginInfoModel.getWeChatNickname());
-        shopMember.setWxState("1_app");
+        shopMember.setWxState("1");
         shopMember.setMemberLoginTime(addtime);
         memberMapper.updateByPrimaryKeySelective(shopMember);
         return shopMember;

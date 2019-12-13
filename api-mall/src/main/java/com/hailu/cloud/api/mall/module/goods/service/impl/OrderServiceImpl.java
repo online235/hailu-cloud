@@ -959,15 +959,14 @@ public class OrderServiceImpl implements IOrderService {
         for (Map m : orderCount){
             if(m.get("orderStatus") != null){
                 int orderStatus = (int) m.get("orderStatus");
-                int count = (int) m.get("count");
                 if(orderStatus == 1){
-                    map.put("notPaymentNum", count);
+                    map.put("notPaymentNum", m.get("count"));
                 }else if(orderStatus == 2){
-                    map.put("notDeliverGoods", count);
+                    map.put("notDeliverGoods", m.get("count"));
                 }else if(orderStatus == 3){
-                    map.put("notSignFor", count);
+                    map.put("notSignFor", m.get("count"));
                 }else if(orderStatus == 4){
-                    map.put("notEvaluate", count);
+                    map.put("notEvaluate", m.get("count"));
                 }
             }
         }
