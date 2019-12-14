@@ -171,8 +171,8 @@ public class LocalCircleEntryService {
 
         String vericodeRedisKey = Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType;
         String redisCode = redisClient.stringGet(vericodeRedisKey);
-        if (!code.equals(redisCode) && !code.equals("111111")) {
-            throw new BusinessException("验证码不正确或已过期");
+        if (!code.equals(redisCode)) {
+            throw new BusinessException("无效验证码");
         }
         // 删除redis里的验证码
         redisClient.deleteKey(vericodeRedisKey);

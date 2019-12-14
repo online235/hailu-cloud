@@ -155,8 +155,8 @@ public class McUserService {
         }
         //拿到验证码
         String verCode = redisClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + loginType);
-        if (!verCode.equals(code) && !code.equals("1111")) {
-            throw new BusinessException("手机号码与当前用户不匹配");
+        if (!verCode.equals(code)) {
+            throw new BusinessException("无效验证码");
         }
         Map<String, Object> stringObjectMap = new HashMap<>();
         stringObjectMap.put("numberId", numberId);

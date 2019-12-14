@@ -9,7 +9,6 @@ import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.AccessTokenExpiredException;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -25,7 +24,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 
 /**
@@ -44,7 +42,6 @@ public class ShopMemBerService {
 
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
-
 
 
     /**
@@ -113,6 +110,7 @@ public class ShopMemBerService {
 
     /**
      * 微信绑定账号,保存操作
+     *
      * @param phone
      * @param addtime
      * @return
@@ -140,10 +138,11 @@ public class ShopMemBerService {
 
     /**
      * 微信绑定账号，更新操作
+     *
      * @param addtime
      * @return
      */
-    public ShopMember updateLitemallWetchatUser(ShopMember shopMember,long addtime, MemberLoginInfoModel memberLoginInfoModel) {
+    public ShopMember updateLitemallWetchatUser(ShopMember shopMember, long addtime, MemberLoginInfoModel memberLoginInfoModel) {
 
         shopMember.setOpenId(memberLoginInfoModel.getWeChatOpenId());
         shopMember.setUnionid(memberLoginInfoModel.getWeChatUnionId());
@@ -180,14 +179,10 @@ public class ShopMemBerService {
             // 账号已存在
             throw new BusinessException("账号已存在");
         }
-        // 万能验证码，前期测试时使用
-        if (!code.equals("111111")) {
-            String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
-
-            if (!code.equals(veriCode)) {
-                // 验证码不正确
-                throw new BusinessException("无效验证码");
-            }
+        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
+        if (!code.equals(veriCode)) {
+            // 验证码不正确
+            throw new BusinessException("无效验证码");
         }
         // 注册账号
         ShopMember ShopMember = addLitemallUser(phone, System.currentTimeMillis(), password);
@@ -203,7 +198,7 @@ public class ShopMemBerService {
 
     public MemberLoginInfoModel getMemberLoginInfoModel(String accessToken) throws AccessTokenExpiredException, BusinessException {
 
-        if(StringUtils.isBlank(accessToken)){
+        if (StringUtils.isBlank(accessToken)) {
             throw new BusinessException("accessToken不能为空");
         }
         DecodedJWT decodedJwt = JwtUtil.verifierToken(accessToken);
@@ -228,12 +223,10 @@ public class ShopMemBerService {
     public MemberLoginInfoModel verification(String phone, String code, MemberLoginInfoModel memberLoginInfoModel) throws BusinessException {
 
         // 万能验证码，前期测试时使用
-        if (!code.equals("111111")) {
-            String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
-            if (!code.equals(veriCode)) {
-                // 验证码不正确
-                throw new BusinessException("无效验证码");
-            }
+        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
+        if (!code.equals(veriCode)) {
+            // 验证码不正确
+            throw new BusinessException("无效验证码");
         }
         ShopMember shopMember = this.findObjectByPhone(phone);
         memberLoginInfoModel.setHasPwd(false);
@@ -243,7 +236,7 @@ public class ShopMemBerService {
                 memberLoginInfoModel.setHasPwd(true);
             }
             //更新操作绑定微信
-            shopMember = updateLitemallWetchatUser(shopMember,System.currentTimeMillis(),memberLoginInfoModel);
+            shopMember = updateLitemallWetchatUser(shopMember, System.currentTimeMillis(), memberLoginInfoModel);
         } else {
             //账号不存在，注册账号绑定微信
             shopMember = addLitemallWetchatUser(phone, System.currentTimeMillis(), memberLoginInfoModel);
@@ -266,16 +259,15 @@ public class ShopMemBerService {
     /**
      * 用户字符id获取用户
      */
-    public ShopMember selectByPrimaryByuserId(String userId){
+    public ShopMember selectByPrimaryByuserId(String userId) {
         return memberMapper.selectByPrimaryByuserId(userId);
     }
 
 
     /**
      * 心安微信登录设置密码
-     *
      */
-    public MemberLoginInfoModel wetChatUpdatePassword(String password,MemberLoginInfoModel memberLoginInfoModel){
+    public MemberLoginInfoModel wetChatUpdatePassword(String password, MemberLoginInfoModel memberLoginInfoModel) {
 
         String userId = memberLoginInfoModel.getUserId();
         ShopMember shopMember = this.selectByPrimaryByuserId(userId);
@@ -304,14 +296,11 @@ public class ShopMemBerService {
             // 账号已存在
             throw new BusinessException("手机号码不存在，重新登录");
         }
-        // 万能验证码，前期测试时使用
-        if (!code.equals("111111")) {
-            String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
+        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + 0);
 
-            if (!code.equals(veriCode)) {
-                // 验证码不正确
-                throw new BusinessException("无效验证码");
-            }
+        if (!code.equals(veriCode)) {
+            // 验证码不正确
+            throw new BusinessException("无效验证码");
         }
         // 账号加入密码
         shopMember.setMemberPasswd(SecureUtil.sha256(password + "&key=" + signKey));
@@ -331,13 +320,12 @@ public class ShopMemBerService {
     }
 
 
-
     /**
      * 解除微信绑定
      *
      * @param shopMember
      */
-    public void relieveWetChatShopMember(ShopMember shopMember,MemberLoginInfoModel memberLoginInfoModel) {
+    public void relieveWetChatShopMember(ShopMember shopMember, MemberLoginInfoModel memberLoginInfoModel) {
 
         shopMember.setWechat(null);
         shopMember.setWxState(null);

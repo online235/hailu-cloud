@@ -97,8 +97,8 @@ public class McUserAppContrller {
         if(shopInformationEntryParameter.getIdCard().length() != 18){
             throw new BusinessException("身份证长度不符合");
         }
-        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + shopInformationEntryParameter.getMoli() + 0);
-        if (!shopInformationEntryParameter.getCode().equals(veriCode) && !shopInformationEntryParameter.getCode().equals("111111")) {
+        String veriCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + shopInformationEntryParameter.getMoli() + 1);
+        if (!shopInformationEntryParameter.getCode().equals(veriCode) ) {
             // 验证码不存在
             throw new BusinessException("无效验证码");
         }

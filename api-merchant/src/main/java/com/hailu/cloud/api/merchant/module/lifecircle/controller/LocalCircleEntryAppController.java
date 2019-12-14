@@ -109,8 +109,8 @@ public class LocalCircleEntryAppController {
             throw new BusinessException("身份证长度不符合");
         }
         String val = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
-        if (!registerInformation.getCode().equals(val) && !registerInformation.getCode().equals("111111")) {
-            throw new BusinessException("验证码不正确或输入手机号码有误！");
+        if (!registerInformation.getCode().equals(val)) {
+            throw new BusinessException("无效验证码");
         }
         localCircleEntryService.setLocalCircleEntry(registerInformation, 1);
 

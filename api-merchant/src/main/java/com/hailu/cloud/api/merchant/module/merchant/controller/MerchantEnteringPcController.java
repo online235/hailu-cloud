@@ -91,13 +91,11 @@ public class MerchantEnteringPcController {
             @NotBlank(message = "验证码不能为空") String code) throws Exception {
 
         String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + phone + "1");
-        if(!code.equals("1111")) {
-            if (!varCode.equals(code)) {
-                // 验证码不存在
-                throw new BusinessException("无效验证码");
-            }
+        if (!varCode.equals(code)) {
+            // 验证码不存在
+            throw new BusinessException("无效验证码");
         }
-        mcUserService.insertSelective(landingaccount,landingpassword,phone,2);
+        mcUserService.insertSelective(landingaccount, landingpassword, phone, 2);
         ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin("1", phone, code);
         if (loginInfo.getCode() == ApiResponseEnum.SUCCESS.getResponseCode()) {
             return loginInfo.getData();
@@ -123,7 +121,7 @@ public class MerchantEnteringPcController {
             @ApiImplicitParam(name = "code", value = "验证码", required = true, paramType = "query", dataType = "String")
     })
     public Object updfindMcUserByPassWord(String random, String phone, String code) throws BusinessException {
-        return mcUserService.findMcUserByPhone(random,phone,code,"1");
+        return mcUserService.findMcUserByPhone(random, phone, code, "1");
     }
 
     @ApiOperation(value = "重置密码", notes = "<pre>" +
@@ -132,15 +130,15 @@ public class MerchantEnteringPcController {
             "  'msg': '成功',\n" +
             "  'data': null,\n" +
             "  'serverTime': 1573007770382\n" +
-            "}"+
-            "</pre>"+
+            "}" +
+            "</pre>" +
             "<pre>" +
             "{\n" +
             "  'code': 312,\n" +
             "  'msg': '密码与未更改前一致',\n" +
             "  'data': null,\n" +
             "  'serverTime': 1573007880259\n" +
-            "}"+
+            "}" +
             "</pre>")
     @PostMapping("resetPassword")
     @ResponseBody
@@ -148,31 +146,31 @@ public class MerchantEnteringPcController {
             @ApiImplicitParam(name = "numberId", value = "编号", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "passWord", value = "重置密码", required = true, paramType = "query", dataType = "String")
     })
-    public void updMcUserByPassWord(String numberId, String passWord){
-        mcUserService.updMcUserByPassWord(passWord,numberId);
+    public void updMcUserByPassWord(String numberId, String passWord) {
+        mcUserService.updMcUserByPassWord(passWord, numberId);
     }
 
     @ApiOperation(value = "验证账号是否存在", notes = "<pre>" +
-            ""+
+            "" +
             "</pre>")
     @PostMapping("/existsLandingAccount")
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "landingAccount", value = "账号", required = true, paramType = "query", dataType = "String"),
     })
-    public boolean existsUser(@NotBlank(message = "账号不能为空") String landingAccount){
+    public boolean existsUser(@NotBlank(message = "账号不能为空") String landingAccount) {
         return mcUserService.exists(landingAccount);
     }
 
     @ApiOperation(value = "验证手机号码是否绑定", notes = "<pre>" +
-            ""+
+            "" +
             "</pre>")
     @PostMapping("/isBindPhone")
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "phone", value = "手机号码", required = true, paramType = "query", dataType = "String"),
     })
-    public Object isBindPhone(@NotBlank(message = "手机号码不能为空") String phone){
+    public Object isBindPhone(@NotBlank(message = "手机号码不能为空") String phone) {
         return mcUserService.isBind(phone);
     }
 
