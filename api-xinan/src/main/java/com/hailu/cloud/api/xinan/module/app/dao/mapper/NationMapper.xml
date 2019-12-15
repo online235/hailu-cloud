@@ -215,5 +215,9 @@
             where CODE = #{Code}  and DISTRICT != ''
         )
     </select>
+    <select id="findCityNameByCode" resultType="java.lang.String">
+        select CITY from sys_nation
+        where CODE = #{code}
+    </select>
 
 </mapper>

@@ -87,4 +87,11 @@ public interface NationMapper {
      */
     String findCodeBySonCode(@Param("Code") String Code);
 
+    /**
+     * 根据code查询城市名称
+     * @param code
+     * @return
+     */
+    String findCityNameByCode(@Param("code") String code);
+
 }

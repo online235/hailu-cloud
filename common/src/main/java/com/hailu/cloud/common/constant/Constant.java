@@ -132,6 +132,7 @@ public final class Constant {
     public static final String API_NAME_ADMIN = "/admin";
     public static final String API_NAME_AUTH = "/auth";
     public static final String API_NAME_PAYMENT = "/payment";
+    public static final String API_NAME_XINAN = "/xinan";
     public static final String API_NAME_MALL = "/mall";
     public static final String API_VERSION = API_VERSION_V2;
 

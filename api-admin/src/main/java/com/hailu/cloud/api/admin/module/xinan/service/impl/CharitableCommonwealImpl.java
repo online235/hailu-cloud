@@ -80,7 +80,6 @@ public class CharitableCommonwealImpl implements CharitableCommonwealService {
             charitableCommonwealMapper.insertSelective(record);
             return record;
         }
-        record.setUpdatedat(new Date());
         charitableCommonwealMapper.updateByPrimaryKeySelective(record);
         return record;
     }

@@ -4,7 +4,7 @@
 
     <!-- 根据账号查询 -->
     <select id="searchAccount" resultType="com.hailu.cloud.common.model.auth.AdminLoginInfoModel">
-		SELECT id, nick_name, account, avatar, pwd, enable_status, phone, account_type
+		SELECT id, nick_name, account, avatar, pwd, enable_status, phone, account_type, city_code
 		FROM sys_admin
 		WHERE account = #{account}
 	</select>

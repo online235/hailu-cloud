@@ -25,6 +25,7 @@ mapping:
         - ${api-version}/basic/debug
         - ${api-version}/basic/nation
         - ${api-version}/basic/version/findDetail
+        - ${api-version}/basic/version
         # 心安接口
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/app/xinan/updatePassword

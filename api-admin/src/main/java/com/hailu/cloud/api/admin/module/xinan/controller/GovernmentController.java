@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.admin.module.xinan.controller;
 
+import com.hailu.cloud.api.admin.feigns.NationFeignClient;
 import com.hailu.cloud.api.admin.module.xinan.entity.Government;
 import com.hailu.cloud.api.admin.module.xinan.service.GovernmentService;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -30,6 +31,9 @@ public class GovernmentController {
 
     @Autowired
     private GovernmentService governmentUsersService;
+
+    @Autowired
+    private NationFeignClient findCityNameByCode;
 
     @ApiOperation(value = "查询账号下详细信息", notes = "<pre>" +
             "" +
@@ -76,5 +80,16 @@ public class GovernmentController {
         return governmentUsersService.findGovernmentList(page,size);
     }
 
+    @GetMapping("/findCityNameByCode")
+    @ApiOperation(value = "获取当个城市名称", notes = "<pre>{\n" +
+            "")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = "城市code",required = true, dataType = "String", paramType = "query"),
+    })
+    public Object findCityNameByCode(String code) {
+
+        log.info("查询城市地址ID为：{}",code);
+        return findCityNameByCode.findCityNameByCode(code);
+    }
 
 }
