@@ -73,7 +73,7 @@ public class RequestRangeCheck {
                 }
                 boolean allow = false;
                 for (String api : adminLoginInfoModel.getApis()) {
-                    if (requestPath.endsWith(api.trim())) {
+                    if (requestPath.contains(api.trim())) {
                         allow = true;
                         break;
                     }
