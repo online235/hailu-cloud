@@ -254,9 +254,9 @@
 
 
     <select id="selectMcStoreInformationList"
-            resultType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation">
+            resultType="com.hailu.cloud.api.admin.module.merchant.model.McStoreInformationModel">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Base_Column_List"/>
         from mc_store_information
         where 1=1
         <if test="mcNumberId != null">

@@ -5,12 +5,12 @@
 
     <sql id="base_column">
         id, name, age, province, province_code, disease, time_date,
-         periods_number, share_times, help_days, sex, gain_money, create_time, update_time
+         periods_number, share_times, help_days, sex, gain_money, create_time, update_time ,image_url
     </sql>
 
     <sql id="set_column">
         #{id},#{name},#{age},#{province},#{provinceCode},#{disease},#{timeDate},#{periodsNumber},#{shareTimes},#{helpDays}
-        ,#{sex},#{gainMoney},#{createTime},#{updateTime}
+        ,#{sex},#{gainMoney},#{createTime},#{updateTime},#{imageUrl}
     </sql>
 
     <sql id="where_set">
@@ -52,11 +52,14 @@
         <if test="gainMoney != null">
             gain_money = #{gainMoney},
         </if>
+        <if test="imageUrl != null">
+            image_url = #{imageUrl},
+        </if>
         <if test="createTime != null">
             create_time = #{createTime},
         </if>
         <if test="updateTime != null">
-            update_time = #{updateTime},
+            update_time = #{updateTime}
         </if>
     </sql>
 
@@ -64,7 +67,7 @@
     <select id="findListByParameter" resultType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel">
         select
         id, name, age, province, province_code, disease, time_date,
-        periods_number, share_times, help_days, sex, gain_money
+        periods_number, share_times, help_days, sex, gain_money,image_url
         from xa_help_member
         where 1=1
         <if test="id != null">

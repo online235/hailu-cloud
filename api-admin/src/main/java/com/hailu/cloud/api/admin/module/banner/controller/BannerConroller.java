@@ -48,7 +48,7 @@ public class BannerConroller {
             @ApiImplicitParam(name = "bannerSpace", value = "广告所在的位置1.心安    2.商城   3、美食", required = false, paramType = "query"),
 
     })
-    public PageInfoModel<List<SysBannerModel>> findXaHelpMemberModelList(
+    public PageInfoModel<List<SysBannerModel>> findBannerModelList(
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false) Integer size, String title, Integer bannerSpace) {
@@ -68,9 +68,9 @@ public class BannerConroller {
     }
 
     @ApiOperation(value = "插入广告")
-    @PostMapping("/insertXaHelpMember")
+    @PostMapping("/insertBanner")
     @ResponseBody
-    public void insertXaHelpMember(@RequestBody SysBannerParameter sysBannerParameter) throws BusinessException {
+    public void insertBanner(@RequestBody SysBannerParameter sysBannerParameter) throws BusinessException {
 
         SysBanner sysBanner = new SysBanner();
         BeanUtils.copyProperties(sysBannerParameter, sysBanner);
@@ -79,9 +79,9 @@ public class BannerConroller {
 
 
     @ApiOperation(value = "更新广告")
-    @PostMapping("/updateXaHelpMember")
+    @PostMapping("/updateBanner")
     @ResponseBody
-    public void updateXaHelpMember(@RequestBody SysBannerParameter sysBannerParameter) throws BusinessException {
+    public void updateBanner(@RequestBody SysBannerParameter sysBannerParameter) throws BusinessException {
 
         if (sysBannerParameter.getId() == null) {
             throw new BusinessException("id不能为空！");

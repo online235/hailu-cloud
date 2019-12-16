@@ -71,7 +71,7 @@ mapping:
         - ${api-version}/mall/ManagementType
         # 商户接口
         - ${api-version}/merchant/life-circle
-        - ${api-version}/merchant/app/merchantLogin
+#        - ${api-version}/merchant/app/merchantLogin
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制

@@ -5,14 +5,11 @@ package com.hailu.cloud.api.admin.module.merchant.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.merchant.dao.McStoreInformationAdminMapper;
-import com.hailu.cloud.api.admin.module.merchant.entity.LocalCircleEntry;
 import com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation;
-import com.hailu.cloud.api.admin.module.merchant.parmeter.LocalCircleListParameter;
+import com.hailu.cloud.api.admin.module.merchant.model.McStoreInformationModel;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McStoreInformationListParameter;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
-import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
@@ -57,10 +54,10 @@ public class McStoreInformationAdminService {
     /**
      * 查询店铺信息列表
      */
-    public Object selectLocalCircleEntryList(McStoreInformationListParameter mcStoreInformationListParameter) {
+    public PageInfoModel<List<McStoreInformationModel>> selectLocalCircleEntryList(McStoreInformationListParameter mcStoreInformationListParameter) {
 
         Page pageData = PageHelper.startPage(mcStoreInformationListParameter.getPageNum(), mcStoreInformationListParameter.getPageSize());
-        List<McStoreInformation> result = mcStoreInformationAdminMapper.selectMcStoreInformationList(mcStoreInformationListParameter);
+        List<McStoreInformationModel> result = mcStoreInformationAdminMapper.selectMcStoreInformationList(mcStoreInformationListParameter);
         return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), result);
     }
 

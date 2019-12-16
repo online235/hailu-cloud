@@ -2,6 +2,7 @@ package com.hailu.cloud.api.admin.module.merchant.dao;
 
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation;
+import com.hailu.cloud.api.admin.module.merchant.model.McStoreInformationModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -64,7 +65,7 @@ public interface McStoreInformationAdminMapper {
      * @param parameter
      * @return
      */
-    List<McStoreInformation> selectMcStoreInformationList(Object parameter);
+    List<McStoreInformationModel> selectMcStoreInformationList(Object parameter);
 
 
 

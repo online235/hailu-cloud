@@ -1,10 +1,12 @@
 package com.hailu.cloud.api.admin.module.merchant.controller;
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation;
+import com.hailu.cloud.api.admin.module.merchant.model.McStoreInformationModel;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McStoreInformationListParameter;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.UpdateMcStoreInformtionPaarameter;
 import com.hailu.cloud.api.admin.module.merchant.service.impl.McStoreInformationAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,6 +23,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: zhangmugui
@@ -38,79 +41,9 @@ public class McStoreInformationController {
     private McStoreInformationAdminService mcStoreInformationAdminService;
 
 
-    @ApiOperation(value = "显示店铺信息列表", notes = "<pre>" +
-            "{\n" +
-            "    'code': 200,\n" +
-            "    'message': '请求成功',\n" +
-            "    'data': {\n" +
-            "        'totalPage': 1,\n" +
-            "        'total': 8,\n" +
-            "        'datas': [{\\n\" +\n" +
-            "                'areaCode': 'string',                  //地区code\\n\" +\n" +
-            "                'businessStateDisplay': 0,              //营业状态\\n\" +\n" +
-            "                 'cityCode': 'string',\\n\" +\n" +
-            "                 'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\\n\" +\n" +
-            "                  'createdat': '2019-11-29T03:07:58.480Z',     //创建时间\\n\" +\n" +
-            "                  'detailAddress': 'string',             //详细地址\\n\" +\n" +
-            "                  'id': 0,                               //店铺id\\n\" +\n" +
-            "                  'mcNumberId': 'string',                //商户id\\n\" +\n" +
-            "                  'openingTime': '2019-11-29T03:07:58.480Z',   //开店时间\\n\" +\n" +
-            "                  'perCapitaPrice': 0,                   //人均价格\\n\" +\n" +
-            "                  'phone': 'string',                     //店铺联系电话\\n\" +\n" +
-            "                  'provinceCode': 'string',              //省id\\t\\t\\n\" +\n" +
-            "                  'shopName': 'string',                  //店铺名字\\n\" +\n" +
-            "                  'storeDetails': 'string',              //店铺详情\\n\" +\n" +
-            "                  'storeSonTypeId': 0,                     //店铺子类型id\\n\" +\n" +
-            "                 'storeTotalTypeId': 0,                   //店铺总类型id\\n\" +\n" +
-            "                 'toExamineDisplay': 0,                 //审核状态\\n\" +\n" +
-            "                 'updatedat': '2019-11-29T03:07:58.480Z',    //更新时间\\n\" +\n" +
-            "                 'weekDay': 'string',                   //每周营业日用，“；”隔开（例1,2,3,4:）\\n\" +\n" +
-            "                 'weekDayDisplay': 'string'             //周一，周二\\n\" +\n" +
-            "                 }, {\n" +
-            "                'id': 5819938384165405,\n" +
-            "                'mcNumberId': '5819938384165401',\n" +
-            "                'shopName': '虾米',\n" +
-            "                'phone': '13125676567',\n" +
-            "                'provinceCode': '110000',\n" +
-            "                'cityCode': '110100',\n" +
-            "                'areaCode': '110101',\n" +
-            "                'detailAddress': '九号',\n" +
-            "                'storeTotalType': 5444781580777984,\n" +
-            "                'createdat': '2019-11-26T09:39:08.000+0000',\n" +
-            "                'updatedat': '2019-11-26T09:39:08.000+0000',\n" +
-            "                'toExamine': 1\n" +
-            "            }, {\n" +
-            "                'id': 5819938384165406,\n" +
-            "                'mcNumberId': '5819938384165402',\n" +
-            "                'shopName': '虾米',\n" +
-            "                'phone': '13125676567',\n" +
-            "                'provinceCode': '110000',\n" +
-            "                'cityCode': '110100',\n" +
-            "                'areaCode': '110101',\n" +
-            "                'detailAddress': '九号',\n" +
-            "                'storeTotalType': 5444781580777984,\n" +
-            "                'createdat': '2019-11-26T09:39:08.000+0000',\n" +
-            "                'updatedat': '2019-11-26T09:39:08.000+0000',\n" +
-            "                'toExamine': 1\n" +
-            "            }, {\n" +
-            "                'id': 6157634482787336,\n" +
-            "                'mcNumberId': '6157634482787334',\n" +
-            "                'shopName': '测试',\n" +
-            "                'phone': '13123243341',\n" +
-            "                'provinceCode': '110000',\n" +
-            "                'cityCode': '110100',\n" +
-            "                'areaCode': '110101',\n" +
-            "                'detailAddress': '发送到',\n" +
-            "                'createdat': '2019-11-27T06:54:08.000+0000',\n" +
-            "                'updatedat': '2019-11-27T06:54:08.000+0000',\n" +
-            "                'toExamine': 1\n" +
-            "            }\n" +
-            "        ]\n" +
-            "    }\n" +
-            "}\n" +
-            "</pre>")
+    @ApiOperation(value = "显示店铺信息列表")
     @PostMapping("mcStoreInformationList")
-    public Object selectMcStoreInformationList(@ModelAttribute McStoreInformationListParameter mcStoreInformationListParameter, HttpServletRequest request) {
+    public PageInfoModel<List<McStoreInformationModel>> selectMcStoreInformationList(@ModelAttribute McStoreInformationListParameter mcStoreInformationListParameter, HttpServletRequest request) {
 
         mcStoreInformationListParameter.setAccountType(1);
         return mcStoreInformationAdminService.selectLocalCircleEntryList(mcStoreInformationListParameter);

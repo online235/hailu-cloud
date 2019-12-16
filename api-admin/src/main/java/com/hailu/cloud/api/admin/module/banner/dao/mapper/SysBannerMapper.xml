@@ -3,7 +3,7 @@
 
 
     <sql id="base_column">
-            id, title, content, start_time, end_time, sort, banner_image, type, "space", subtitle,
+            id, title, content, start_time, end_time, sort, banner_image, type, space, subtitle,
              title_image, banner_space, target_id, banner_url, target_name, create_time, update_time
     </sql>
 

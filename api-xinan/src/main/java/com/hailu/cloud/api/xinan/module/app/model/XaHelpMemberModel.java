@@ -90,6 +90,11 @@ public class XaHelpMemberModel {
     @ApiModelProperty("获取金额")
     private BigDecimal gainMoney;
 
+    /**
+     * 图片
+     */
+    @ApiModelProperty("图片")
+    private String imageUrl;
 
 
 }
