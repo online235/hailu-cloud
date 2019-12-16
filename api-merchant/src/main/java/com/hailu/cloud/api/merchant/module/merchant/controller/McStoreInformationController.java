@@ -1,15 +1,19 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
-import com.hailu.cloud.api.merchant.module.lifecircle.entity.McManagementType;
-import com.hailu.cloud.api.merchant.module.lifecircle.service.McManagementTypeService;
+import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
+import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
+import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreInformationModel;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreAlbumService;
+import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -20,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.tags.Param;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotEmpty;
@@ -45,6 +48,25 @@ public class McStoreInformationController {
 
     @Autowired
     private BasicFeignClient uuidFeignClient;
+
+    @Resource
+    private McInfoService mcInfoService;
+
+
+
+    @ApiOperation(value = "提交店铺资料")
+    @PostMapping("/submitShopInformation")
+    public void submitShopInformation(@ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter,BindingResult result) throws BusinessException  {
+
+        if (result.hasErrors()) {
+            throw new BusinessException("必填信息不能为空！");
+        }
+        if(shopInformationEntryParameter.getIdCard().length() != 18){
+            throw new BusinessException("身份证长度不符合");
+        }
+        mcInfoService.submitShopInformation(shopInformationEntryParameter);
+
+    }
 
 
     @ApiOperation(value = "更改信息店铺信息", notes = "<prep>" +
@@ -310,6 +332,8 @@ public class McStoreInformationController {
         mcStoreInformation.setStoreDetails(storeDetails);
         mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
     }
+
+
 
     @ApiOperation(value = "获取编辑详情", notes = "<prep>" +
             "{\n" +

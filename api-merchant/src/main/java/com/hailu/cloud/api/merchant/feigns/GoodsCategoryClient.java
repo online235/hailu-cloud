@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.merchant.feigns;
 
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.GoodsClass;
+import com.hailu.cloud.api.merchant.module.merchant.model.GoodsClass;
 import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

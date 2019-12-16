@@ -1,10 +1,10 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.hailu.cloud.api.merchant.feigns.GoodsClient;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.Area;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.Goods;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.GoodsData;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.GoodsDetailData;
+import com.hailu.cloud.api.merchant.module.merchant.model.Area;
+import com.hailu.cloud.api.merchant.module.merchant.model.Goods;
+import com.hailu.cloud.api.merchant.module.merchant.model.GoodsData;
+import com.hailu.cloud.api.merchant.module.merchant.model.GoodsDetailData;
 import com.hailu.cloud.common.response.ApiResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

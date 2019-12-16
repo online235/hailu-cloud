@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.hailu.cloud.api.merchant.feigns.GoodsCategoryClient;
-import com.hailu.cloud.api.merchant.module.merchant.model.bak.GoodsClass;
+import com.hailu.cloud.api.merchant.module.merchant.model.GoodsClass;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

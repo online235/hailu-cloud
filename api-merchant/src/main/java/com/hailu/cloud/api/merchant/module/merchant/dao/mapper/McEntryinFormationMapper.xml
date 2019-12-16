@@ -430,6 +430,12 @@
     where mc_number_id = #{mcnumberid}
   </select>
 
-
+    <select id="findMcEntryInformationByMcNumberId"
+            resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation">
+    select
+      <include refid="Base_Column_List"/>
+     from mc_entry_information
+    where mc_number_id = #{mcNumberId}
+  </select>
 
 </mapper>

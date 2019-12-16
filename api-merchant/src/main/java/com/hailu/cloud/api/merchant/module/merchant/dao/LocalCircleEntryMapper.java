@@ -1,9 +1,16 @@
 package com.hailu.cloud.api.merchant.module.merchant.dao;
 
-import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
+
+import com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry;
 import org.apache.ibatis.annotations.Param;
 
-public interface McEntryInformationMapper {
+import java.util.List;
+
+/**
+ * @author zhangmugui
+ */
+public interface LocalCircleEntryMapper {
+
     /**
      *
      * @mbggenerated 2019-11-19
@@ -14,33 +21,33 @@ public interface McEntryInformationMapper {
      *
      * @mbggenerated 2019-11-19
      */
-    int insert(McEntryInformation record);
+    int insert(LocalCircleEntry record);
 
     /**
      *
      * @mbggenerated 2019-11-19
      */
-    int insertSelective(McEntryInformation record);
+    int insertSelective(LocalCircleEntry record);
 
     /**
      *
      * @mbggenerated 2019-11-19
      */
-    McEntryInformation selectByPrimaryKey(String numberId);
+    LocalCircleEntry selectByPrimaryKey(String numberId);
 
     /**
      *
      * @mbggenerated 2019-11-19
      */
-    int updateByPrimaryKeySelective(McEntryInformation record);
+    int updateByPrimaryKeySelective(LocalCircleEntry record);
 
     /**
      *
      * @mbggenerated 2019-11-19
      */
-    int updateByPrimaryKey(McEntryInformation record);
+    int updateByPrimaryKey(LocalCircleEntry record);
 
-     /**
+    /**
      * 查询审核是否通过
      * @param memberid
      * @param toexamine
@@ -50,6 +57,14 @@ public interface McEntryInformationMapper {
 
 
     /**
+     * 查询列表
+     * @param shopname
+     * @param phone
+     * @return
+     */
+    List<LocalCircleEntry> selectMcEntryinFormationList(@Param("shopname") String shopname, @Param("phone") String phone);
+
+    /**
      * 根据商户id查询入驻信息是否存在
      * @param mcnumberid
      * @return
@@ -57,10 +72,9 @@ public interface McEntryInformationMapper {
     int selectMcEntryinFormationById(@Param("mcnumberid") String mcnumberid);
 
 
-    /**
-     * 根据商户id查询入驻信息
-     * @return
-     */
-    McEntryInformation findMcEntryInformationByMcNumberId(@Param("mcNumberId") String mcNumberId);
+
+    LocalCircleEntry findLocalCircleEntryByUserId(@Param("mcNumberId") String mcNumberId);
+
+
 
 }

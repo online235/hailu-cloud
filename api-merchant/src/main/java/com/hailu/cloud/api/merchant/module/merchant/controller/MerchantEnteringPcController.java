@@ -1,18 +1,10 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
-import com.hailu.cloud.api.merchant.feigns.AuthFeignClient;
-import com.hailu.cloud.api.merchant.module.lifecircle.service.impl.McUserService;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
-import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
-import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.MerchantEnteringService;
-import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
-import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.response.ApiResponse;
-import com.hailu.cloud.common.response.ApiResponseEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,7 +13,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

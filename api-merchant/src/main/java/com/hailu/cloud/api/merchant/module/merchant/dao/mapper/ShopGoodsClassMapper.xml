@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.ShopGoodsClassMapper" >
+  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" >
+    <id column="gc_id" property="gcId" jdbcType="INTEGER" />
+    <result column="gc_name" property="gcName" jdbcType="VARCHAR" />
+    <result column="gc_pic" property="gcPic" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+    <result column="gc_parent_id" property="gcParentId" jdbcType="INTEGER" />
+    <result column="gc_sort" property="gcSort" jdbcType="INTEGER" />
+    <result column="gc_show" property="gcShow" jdbcType="INTEGER" />
+    <result column="gc_title" property="gcTitle" jdbcType="VARCHAR" />
+    <result column="gc_keywords" property="gcKeywords" jdbcType="VARCHAR" />
+    <result column="gc_description" property="gcDescription" jdbcType="VARCHAR" />
+    <result column="gc_idpath" property="gcIdpath" jdbcType="VARCHAR" />
+    <result column="expen_scale" property="expenScale" jdbcType="REAL" />
+    <result column="is_relate" property="isRelate" jdbcType="INTEGER" />
+    <result column="is_recommend" property="isRecommend" jdbcType="REAL" />
+    <result column="class_icon_pc" property="classIconPc" jdbcType="VARCHAR" />
+    <result column="classification" property="classification" jdbcType="VARCHAR" />
+    <result column="classification_no" property="classificationNo" jdbcType="VARCHAR" />
+    <result column="after_sales_img" property="afterSalesImg" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    gc_id, gc_name, gc_pic, type_id, type_name, gc_parent_id, gc_sort, gc_show, gc_title, 
+    gc_keywords, gc_description, gc_idpath, expen_scale, is_relate, is_recommend, class_icon_pc, 
+    classification, classification_no, after_sales_img, is_del
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from shop_goods_class
+    where gc_id = #{gcId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_goods_class
+    where gc_id = #{gcId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" >
+    insert into shop_goods_class (gc_id, gc_name, gc_pic, 
+      type_id, type_name, gc_parent_id, 
+      gc_sort, gc_show, gc_title, 
+      gc_keywords, gc_description, gc_idpath, 
+      expen_scale, is_relate, is_recommend, 
+      class_icon_pc, classification, classification_no, 
+      after_sales_img, is_del, content
+      )
+    values (#{gcId,jdbcType=INTEGER}, #{gcName,jdbcType=VARCHAR}, #{gcPic,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{gcParentId,jdbcType=INTEGER}, 
+      #{gcSort,jdbcType=INTEGER}, #{gcShow,jdbcType=INTEGER}, #{gcTitle,jdbcType=VARCHAR}, 
+      #{gcKeywords,jdbcType=VARCHAR}, #{gcDescription,jdbcType=VARCHAR}, #{gcIdpath,jdbcType=VARCHAR}, 
+      #{expenScale,jdbcType=REAL}, #{isRelate,jdbcType=INTEGER}, #{isRecommend,jdbcType=REAL}, 
+      #{classIconPc,jdbcType=VARCHAR}, #{classification,jdbcType=VARCHAR}, #{classificationNo,jdbcType=VARCHAR}, 
+      #{afterSalesImg,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" >
+    insert into shop_goods_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gcId != null" >
+        gc_id,
+      </if>
+      <if test="gcName != null" >
+        gc_name,
+      </if>
+      <if test="gcPic != null" >
+        gc_pic,
+      </if>
+      <if test="typeId != null" >
+        type_id,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+      <if test="gcParentId != null" >
+        gc_parent_id,
+      </if>
+      <if test="gcSort != null" >
+        gc_sort,
+      </if>
+      <if test="gcShow != null" >
+        gc_show,
+      </if>
+      <if test="gcTitle != null" >
+        gc_title,
+      </if>
+      <if test="gcKeywords != null" >
+        gc_keywords,
+      </if>
+      <if test="gcDescription != null" >
+        gc_description,
+      </if>
+      <if test="gcIdpath != null" >
+        gc_idpath,
+      </if>
+      <if test="expenScale != null" >
+        expen_scale,
+      </if>
+      <if test="isRelate != null" >
+        is_relate,
+      </if>
+      <if test="isRecommend != null" >
+        is_recommend,
+      </if>
+      <if test="classIconPc != null" >
+        class_icon_pc,
+      </if>
+      <if test="classification != null" >
+        classification,
+      </if>
+      <if test="classificationNo != null" >
+        classification_no,
+      </if>
+      <if test="afterSalesImg != null" >
+        after_sales_img,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gcId != null" >
+        #{gcId,jdbcType=INTEGER},
+      </if>
+      <if test="gcName != null" >
+        #{gcName,jdbcType=VARCHAR},
+      </if>
+      <if test="gcPic != null" >
+        #{gcPic,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gcParentId != null" >
+        #{gcParentId,jdbcType=INTEGER},
+      </if>
+      <if test="gcSort != null" >
+        #{gcSort,jdbcType=INTEGER},
+      </if>
+      <if test="gcShow != null" >
+        #{gcShow,jdbcType=INTEGER},
+      </if>
+      <if test="gcTitle != null" >
+        #{gcTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="gcKeywords != null" >
+        #{gcKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="gcDescription != null" >
+        #{gcDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="gcIdpath != null" >
+        #{gcIdpath,jdbcType=VARCHAR},
+      </if>
+      <if test="expenScale != null" >
+        #{expenScale,jdbcType=REAL},
+      </if>
+      <if test="isRelate != null" >
+        #{isRelate,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommend != null" >
+        #{isRecommend,jdbcType=REAL},
+      </if>
+      <if test="classIconPc != null" >
+        #{classIconPc,jdbcType=VARCHAR},
+      </if>
+      <if test="classification != null" >
+        #{classification,jdbcType=VARCHAR},
+      </if>
+      <if test="classificationNo != null" >
+        #{classificationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="afterSalesImg != null" >
+        #{afterSalesImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" >
+    update shop_goods_class
+    <set >
+      <if test="gcName != null" >
+        gc_name = #{gcName,jdbcType=VARCHAR},
+      </if>
+      <if test="gcPic != null" >
+        gc_pic = #{gcPic,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="gcParentId != null" >
+        gc_parent_id = #{gcParentId,jdbcType=INTEGER},
+      </if>
+      <if test="gcSort != null" >
+        gc_sort = #{gcSort,jdbcType=INTEGER},
+      </if>
+      <if test="gcShow != null" >
+        gc_show = #{gcShow,jdbcType=INTEGER},
+      </if>
+      <if test="gcTitle != null" >
+        gc_title = #{gcTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="gcKeywords != null" >
+        gc_keywords = #{gcKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="gcDescription != null" >
+        gc_description = #{gcDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="gcIdpath != null" >
+        gc_idpath = #{gcIdpath,jdbcType=VARCHAR},
+      </if>
+      <if test="expenScale != null" >
+        expen_scale = #{expenScale,jdbcType=REAL},
+      </if>
+      <if test="isRelate != null" >
+        is_relate = #{isRelate,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommend != null" >
+        is_recommend = #{isRecommend,jdbcType=REAL},
+      </if>
+      <if test="classIconPc != null" >
+        class_icon_pc = #{classIconPc,jdbcType=VARCHAR},
+      </if>
+      <if test="classification != null" >
+        classification = #{classification,jdbcType=VARCHAR},
+      </if>
+      <if test="classificationNo != null" >
+        classification_no = #{classificationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="afterSalesImg != null" >
+        after_sales_img = #{afterSalesImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where gc_id = #{gcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" >
+    update shop_goods_class
+    set gc_name = #{gcName,jdbcType=VARCHAR},
+      gc_pic = #{gcPic,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      gc_parent_id = #{gcParentId,jdbcType=INTEGER},
+      gc_sort = #{gcSort,jdbcType=INTEGER},
+      gc_show = #{gcShow,jdbcType=INTEGER},
+      gc_title = #{gcTitle,jdbcType=VARCHAR},
+      gc_keywords = #{gcKeywords,jdbcType=VARCHAR},
+      gc_description = #{gcDescription,jdbcType=VARCHAR},
+      gc_idpath = #{gcIdpath,jdbcType=VARCHAR},
+      expen_scale = #{expenScale,jdbcType=REAL},
+      is_relate = #{isRelate,jdbcType=INTEGER},
+      is_recommend = #{isRecommend,jdbcType=REAL},
+      class_icon_pc = #{classIconPc,jdbcType=VARCHAR},
+      classification = #{classification,jdbcType=VARCHAR},
+      classification_no = #{classificationNo,jdbcType=VARCHAR},
+      after_sales_img = #{afterSalesImg,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where gc_id = #{gcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.GoodsClass" >
+    update shop_goods_class
+    set gc_name = #{gcName,jdbcType=VARCHAR},
+      gc_pic = #{gcPic,jdbcType=VARCHAR},
+      type_id = #{typeId,jdbcType=INTEGER},
+      type_name = #{typeName,jdbcType=VARCHAR},
+      gc_parent_id = #{gcParentId,jdbcType=INTEGER},
+      gc_sort = #{gcSort,jdbcType=INTEGER},
+      gc_show = #{gcShow,jdbcType=INTEGER},
+      gc_title = #{gcTitle,jdbcType=VARCHAR},
+      gc_keywords = #{gcKeywords,jdbcType=VARCHAR},
+      gc_description = #{gcDescription,jdbcType=VARCHAR},
+      gc_idpath = #{gcIdpath,jdbcType=VARCHAR},
+      expen_scale = #{expenScale,jdbcType=REAL},
+      is_relate = #{isRelate,jdbcType=INTEGER},
+      is_recommend = #{isRecommend,jdbcType=REAL},
+      class_icon_pc = #{classIconPc,jdbcType=VARCHAR},
+      classification = #{classification,jdbcType=VARCHAR},
+      classification_no = #{classificationNo,jdbcType=VARCHAR},
+      after_sales_img = #{afterSalesImg,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=VARCHAR}
+    where gc_id = #{gcId,jdbcType=INTEGER}
+  </update>
+  <select id="findGoodsClassList" resultType="com.hailu.cloud.api.merchant.module.merchant.model.GoodsClassVo" parameterType="java.lang.String">
+    select
+    gc_id as gcId, gc_parent_id as gcParentId, gc_name as gcName
+    from shop_goods_class
+    where
+    <if test="gcParentId != null">
+        gc_parent_id = #{gcParentId,jdbcType=INTEGER}
+    </if>
+    <if test="gcParentId == null">
+      gc_parent_id = 0
+    </if>
+  </select>
+</mapper>
