@@ -3,7 +3,7 @@ package com.hailu.cloud.api.admin.module.merchant.controller;
 import com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McStoreInformationListParameter;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.UpdateMcStoreInformtionPaarameter;
-import com.hailu.cloud.api.admin.module.merchant.service.McStoreInformationAdminService;
+import com.hailu.cloud.api.admin.module.merchant.service.impl.McStoreInformationAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 

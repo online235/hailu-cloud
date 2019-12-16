@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.merchant.dao.McSysTagMapper" >
+  <sql id="Base_Column_List" >
+    id, tag_group_id, tag_name, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mc_sys_tag
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mc_sys_tag
+    where id = #{id}
+  </delete>
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag" useGeneratedKeys="true" keyProperty="id" >
+    insert into mc_sys_tag
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tagGroupId != null" >
+        tag_group_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="tagName != null" >
+        tag_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tagGroupId != null" >
+        #{tagGroupId},
+      </if>
+      <if test="state != null" >
+        #{state},
+      </if>
+      <if test="tagName != null" >
+        #{tagName},
+      </if>
+      <if test="createTime != null" >
+        #{createTime},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag" >
+    update mc_sys_tag
+    <set >
+      <if test="tagGroupId != null" >
+        tag_group_id = #{tagGroupId},
+      </if>
+      <if test="state != null" >
+        state = #{state},
+      </if>
+      <if test="tagName != null" >
+        tag_name = #{tagName},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime},
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+</mapper>

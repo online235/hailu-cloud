@@ -1,10 +1,12 @@
 package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 
+import com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
+import com.hailu.cloud.api.mall.module.multiindustry.service.McShopTagService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -36,8 +38,9 @@ public class StoreInformationController {
 
     @Autowired
     private StoreInformationService storeInformationService;
+
     @Resource
-    private McStoreAlbumMallService mcStoreAlbumMallService;
+    private McShopTagService mcShopTagService;
 
 
     @ApiOperation(value = "店铺查询-分页", notes = "<pre>" +
@@ -75,7 +78,9 @@ public class StoreInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "storeTotalType", value = "经营父类型ID", required = true, paramType = "query"),
             @ApiImplicitParam(name = "storeSonType", value = "经营子类型ID", paramType = "query"),
-            @ApiImplicitParam(name = "cityCode", value = "市Id", paramType = "query"),
+            @ApiImplicitParam(name = "cityCode", value = "市code", paramType = "query"),
+            @ApiImplicitParam(name = "areaCode", value = "区code", paramType = "query"),
+            @ApiImplicitParam(name = "tagId", value = "标签编号", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "页面大小", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "第N页", paramType = "query")
     })
@@ -84,15 +89,17 @@ public class StoreInformationController {
             @NotNull(message = "经营父类型ID不能为空") Long storeTotalType,
             Long storeSonType,
             String cityCode,
+            String areaCode,
+            Integer tagId,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false)
                     Integer size) throws ParseException {
 
-        return storeInformationService.findStoreInformationList(storeTotalType, storeSonType, cityCode, size, page);
+        return storeInformationService.findStoreInformationList(storeTotalType, storeSonType, cityCode, areaCode, tagId, size, page);
     }
 
-    @ApiOperation(value = "店铺详细信息" )
+    @ApiOperation(value = "根据编号查询店铺详细信息" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "店铺编号", required = true, paramType = "query")
     })
@@ -102,6 +109,18 @@ public class StoreInformationController {
 
 
         return storeInformationService.findStoreInformationLeftAlbum(id);
+    }
+
+    @ApiOperation(value = "根据店铺编号查询店铺下的标签" )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
+    })
+    @GetMapping("/shopLabel")
+    public List<McShopTag> findMcShopTagListByStoreId(
+            @NotNull(message = "编号不能为空") Long storeId) {
+
+
+        return mcShopTagService.findMcShopTagListByStoreId(storeId);
     }
 
 

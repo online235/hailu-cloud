@@ -78,7 +78,7 @@
       <if test="state != null" >
         state = #{state,jdbcType=INTEGER},
       </if>
-      <if test="update != null" >
+      <if test="updatedat != null" >
         updatedat = #{updatedat,jdbcType=TIMESTAMP},
       </if>
       <if test="article != null" >

@@ -4,7 +4,7 @@ package com.hailu.cloud.api.admin.module.merchant.controller;
 import com.hailu.cloud.api.admin.module.merchant.entity.LocalCircleEntry;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.LocalCircleListParameter;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.UpdateLocalCircleEntryParameter;
-import com.hailu.cloud.api.admin.module.merchant.service.LocalCircleEntryAdminService;
+import com.hailu.cloud.api.admin.module.merchant.service.impl.LocalCircleEntryAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;

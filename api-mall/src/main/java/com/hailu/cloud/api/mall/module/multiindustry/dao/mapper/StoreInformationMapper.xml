@@ -46,16 +46,27 @@
     <select id="findStoreInformationList"
             resultType="com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult">
         select
-        store.*,management.management_name as storeTotalTypeName,
+        store.*,
+        management.management_name as storeTotalTypeName,
         management1.management_name as storeTypeName
-        from mc_store_information store left join mc_management_type management on  management.management_id = store.store_total_type
+        from mc_store_information store
+
+        left join mc_management_type management on management.management_id = store.store_total_type
         left join mc_management_type management1 on management1.management_id = store.store_son_type
-        where store_total_type = #{storeTotalType} And to_examine = 2
+        left join mc_shop_tag shoptag on store.id = shoptag.store_id
+
+        where store.store_total_type = #{storeTotalType} And store.to_examine = 2
         <if test="storeSonType != null">
-            and store_son_type = #{storeSonType}
+            and store.store_son_type = #{storeSonType}
         </if>
         <if test="cityCode != null">
-            and city_code = #{cityCode}
+            and store.city_code = #{cityCode}
+        </if>
+        <if test="areaCode != null">
+            and store.area_code = #{areaCode}
+        </if>
+        <if test="tagId != null">
+            and shoptag.tag_id = #{tagId}
         </if>
     </select>
 

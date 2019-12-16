@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.admin.module.merchant.controller;
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McEntryInformation;
-import com.hailu.cloud.api.admin.module.merchant.service.McEntryinFormationService;
+import com.hailu.cloud.api.admin.module.merchant.service.impl.McEntryinFormationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;

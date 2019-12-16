@@ -14,6 +14,12 @@ import lombok.Data;
 public class CharitableCommonwealDto {
 
     /**
+     * 编号
+     */
+    @ApiModelProperty("编号")
+    private Long id;
+
+    /**
      * 政府用户编号
      */
     @ApiModelProperty("政府用户编号")
