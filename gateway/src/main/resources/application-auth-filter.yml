@@ -37,6 +37,9 @@ mapping:
         - ${api-version}/xinan/app/xinanhelp/MutualAidDetails
         - ${api-version}/xinan/app/xinanhelp/MutualAidPictur
         - ${api-version}/xinan/app/home
+        - ${api-version}/xinan/app/xinan/CommonwealArticle
+        - ${api-version}/xinan/app/xinan/publicInterestList
+        - ${api-version}/xinan/app/xinan/detailed
         # 商户接口
         - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin
