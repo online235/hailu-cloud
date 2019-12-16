@@ -2,6 +2,7 @@ package com.hailu.cloud.api.mall.module.user.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.crypto.SecureUtil;
 import com.hailu.cloud.api.mall.constant.Constant;
 import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
 import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
@@ -70,7 +71,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
      * @throws Exception
      */
     String passwdSign(String account, String loginPwd){
-        return DigestUtils.md5Hex(DigestUtils.sha1("passwd=" + loginPwd + "&key=" + signKey));
+        return SecureUtil.sha256(loginPwd + "&key=" + signKey);
     }
 
     // 帐号是否可注册 true 表示可注册 (该用户不存在)
@@ -185,7 +186,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
      * @return
      */
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Boolean updateUserInfo(UserInfoVo userInfoVo) throws Exception {
         Boolean result = false;
 
@@ -200,7 +201,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
             user.setUserIcon(imgPath);
             isUpdate = true;
         } else if (user.getUserIcon() != null && !user.getUserIcon().equals(userInfoVo.getUserIcon())) {
-            //String imgPath = PictureUploadUtil.uploadPicture("img", userInfoVo.getUserIcon());
             user.setUserIcon(userInfoVo.getUserIcon());
             isUpdate = true;
         }
@@ -588,7 +588,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateWeCartBind(String unionid, String userId, String openId, String state) throws BusinessException {
         if (userInfoDao.findUnionid(unionid) != 0) {
             throw new BusinessException("该微信已经绑定过");

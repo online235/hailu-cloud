@@ -121,81 +121,6 @@ public class IncomeServiceImpl implements IIncomeService {
         return price.subtract(BigDecimal.valueOf(Const.TRANSFEROUTTHRESHOLD));
     }
 
-//
-//    @Override
-//    public void editInvitation(String parentId) {
-//        try {
-//            //获取邀请者信息
-//            UserInfo invitationMember = userInfoMapper.byIdFindUser(parentId);
-//            if (invitationMember == null) {
-//                log.info("分红 邀请人ID为：{}，查询不到该用户", parentId);
-//                return;
-//            }
-//            //判断刚用户是否为普通用户
-//            if (invitationMember.getMerchantType() == 1) {
-//                //区域代理
-//                addAccountByInvitation(parentId, new BigDecimal(260), "分享收益");
-//            } else if (invitationMember.getMerchantType() == 2) {
-//                //服务商   服务商得到200   上级区域代理得到60
-//                addAccountByInvitation(parentId, new BigDecimal(200), "分享收益");
-//                addAccountByInvitation(invitationMember.getSuperiorMember(), new BigDecimal(60), "名下服务商分享收益");
-//            } else {
-//                log.info("分红 邀请人ID为：{}，为普通用户，不参与分红", parentId);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
-//    /**
-//     *
-//     * @param userId 用户ID
-//     * @param money 金额
-//     * @param from  来源
-//     * @param relevanceId  操作ID
-//     */
-//    @Override
-//    public void addAccountByInvitation(String userId,BigDecimal money, String from,String relevanceId){
-//
-//        try {
-//            if (userId == null) {
-//                return;
-//            }
-//            Income income = incomeMapper.findIncome(userId);
-//
-//            if (income == null) {
-//                income = new Income();
-//                income.setMemberId(userId);
-//            }
-//
-//            //增加总金额
-//            BigDecimal totalMoney = income.getPrice();
-//            totalMoney = totalMoney == null ? new BigDecimal("0") : totalMoney;
-//            BigDecimal afterMoney = totalMoney.add(money);
-//            income.setPrice(afterMoney);
-//
-//            //增加累计金额
-//            BigDecimal totalPrice = income.getTotalPrice();
-//            totalPrice = totalPrice == null ? new BigDecimal("0") : totalPrice;
-//            income.setTotalPrice(totalPrice.add(money));
-//            int status = saveEntity(income);
-//            if (status != 1) {
-//                addAccountByInvitation(userId, money, from,relevanceId);
-//                return;
-//            }
-//            //修改成会员
-//            // userInfoMapper.updateMerchantMoney(userId, 1);
-//
-//            //添加资金流向
-//            if(StringUtils.isBlank(relevanceId)){
-//                relevanceId = userId;
-//            }
-//            incomeDetailLogService.addAccountDetailLog(relevanceId, money, totalMoney, afterMoney, from, 2, userId);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     public void addAccountByInvitation(String userId,BigDecimal money, String from,String relevanceId,Integer type){
         try {
@@ -232,8 +157,6 @@ public class IncomeServiceImpl implements IIncomeService {
                 addAccountByInvitation(userId, money, from,relevanceId,type);
                 return;
             }
-            //修改成会员
-            // userInfoMapper.updateMerchantMoney(userId, 1);
 
             //添加资金流向
             if(StringUtils.isBlank(relevanceId)){

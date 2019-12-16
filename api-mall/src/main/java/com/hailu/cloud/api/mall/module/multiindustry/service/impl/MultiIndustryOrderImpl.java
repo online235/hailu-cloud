@@ -43,11 +43,6 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
 
         StoreInformation storeInformation = storeInformationMapper.findStoreInformation(record.getStoreId());
 
-        /*boolean boo = StoreUtil.storeStatus(storeInformation.getOpeningTime(),storeInformation.getClosingTime(),storeInformation.getWeekDay());
-        if (!boo){
-            throw new BusinessException("店铺休息中");
-        }*/
-
         SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
 
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();

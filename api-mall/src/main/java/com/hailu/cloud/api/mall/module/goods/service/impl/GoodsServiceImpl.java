@@ -321,7 +321,7 @@ public class GoodsServiceImpl implements IGoodsService {
                     String[] ss = s.split(",");
                     sl = ss.length;
                     String[] sps = sp.split(",");
-                    String gsId = "";
+                    StringBuilder gsId = new StringBuilder();
                     String specInfo = "";
                     for (int j = 0; j < sl; j++) {
                         Map<String, Object> map = new HashMap<>();
@@ -336,10 +336,10 @@ public class GoodsServiceImpl implements IGoodsService {
                         map1.put("specId", specId);
                         map1.put("specGoodsStorage", specVo.getSpecGoodsStorage());
                         mapList.add(map);
-                        if (StringUtils.isEmpty(gsId)) {
-                            gsId = specId;
+                        if (StringUtils.isEmpty(gsId.toString())) {
+                            gsId = new StringBuilder(specId);
                         } else {
-                            gsId = gsId + "," + specId;
+                            gsId.append(",").append(specId);
                         }
                         if (StringUtils.isEmpty(specInfo)) {
                             specInfo = name;
@@ -366,7 +366,7 @@ public class GoodsServiceImpl implements IGoodsService {
                     specGoodsId.put("originalPrice", originalPrice);
                     specGoodsId.put("specSalenum", specSalenum);
                     specGoodsId.put("specGoodsStorage", specStorage);
-                    specGoodsId.put("gsId", gsId);
+                    specGoodsId.put("gsId", gsId.toString());
                     specGoodsId.put("specGoodsSerial", specVo.getSpecGoodsSerial());
                     maplist5.add(specGoodsId);
                 }

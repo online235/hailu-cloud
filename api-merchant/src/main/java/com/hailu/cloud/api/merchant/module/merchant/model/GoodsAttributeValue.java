@@ -33,19 +33,6 @@ public class GoodsAttributeValue extends BaseModel {
      */
     private Integer attrValueSort;
 
-    /**
-     * 0:未删除;1.已删除
-     */
-    //private int isDel;
-    /**
-     * 创建时间
-     */
-    //private Long createdTime;
-    /**
-     * 更新时间
-     */
-    // private Long updatedTime;
-
     private Integer delSign;
 
     /**

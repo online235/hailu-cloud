@@ -66,7 +66,6 @@ public class McUserService {
         //生成时间戳
         long time = System.currentTimeMillis();
         String numberId = String.valueOf(uuidFeignClient.uuid().getData());
-//        request.setAttribute(Constant.MEMBERID,numberId);
         //密码加密
         McUser mcUser = new McUser();
         mcUser.setLandingAccount(landingAccount);
@@ -109,7 +108,6 @@ public class McUserService {
         //生成时间戳
         long time = System.currentTimeMillis();
         String numberId = String.valueOf(uuidFeignClient.uuid().getData());
-//        request.setAttribute(Constant.MEMBERID,numberId);
         //密码加密
         String password = SecureUtil.sha256(landingPassword + "&key=" + signKey);
         mcUser.setLandingPassword(password);

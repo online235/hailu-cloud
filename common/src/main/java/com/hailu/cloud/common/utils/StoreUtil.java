@@ -35,13 +35,6 @@ public class StoreUtil {
                 break;
             }
         }
-        /*if (wee){
-            int compareTo = new Date().compareTo(date);
-            int compareToTwo = new Date().compareTo(dates);
-            if (compareTo == 1 && compareToTwo == -1){
-                return true;
-            }
-        }*/
         if (dateCompare(openDate) && !dateCompare(closeDate) && wee){
             return true;
         }

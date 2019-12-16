@@ -1122,7 +1122,7 @@ public class OrderServiceImpl implements IOrderService {
                 String[] sis = sii.split(":");
                 String spec1 = sns[1].substring(1, sns[1].length() - 1);
                 String spec2 = sis[1].substring(1, sis[1].length() - 1);
-                if (spec.equals("")) {
+                if ("".equals(spec)) {
                     spec = spec1 + ":" + spec2;
                 } else {
                     spec = spec + " " + spec1 + ":" + spec2;

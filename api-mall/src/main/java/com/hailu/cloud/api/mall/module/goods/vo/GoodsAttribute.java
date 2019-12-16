@@ -1,7 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.vo;
 
 import lombok.Data;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
  * 商品属性实体类
  */
 @Data
-@ToString
 public class GoodsAttribute extends BaseEntity implements Serializable{
     private static final long serialVersionUID = 6503609381963026112L;
 
@@ -50,14 +48,6 @@ public class GoodsAttribute extends BaseEntity implements Serializable{
      * 0:未删除;1.已删除
      */
     private int isDel;
-    /**
-     * 创建时间
-     */
-    //private Long createdTime;
-    /**
-     * 更新时间
-     */
-    //private Long updatedTime;
 
     /**
      * 自定义属性值id

@@ -60,7 +60,7 @@ public class GoodsEvaluateTO {
     }
 
     public void setGevalImage(String gevalImage) {
-        if (StringUtils.isNotEmpty(gevalImage) && !gevalImage.equals("null")) {
+        if (StringUtils.isNotEmpty(gevalImage) && !"null".equals(gevalImage)) {
             StringBuilder sb = new StringBuilder();
             for (String str : gevalImage.split(",")) {
                 sb.append(str).append(",");

@@ -28,23 +28,6 @@ public class XaHelpMenberServiceImpl implements XaHelpMenberService {
         return xaHelpMemberMapper.findListByParameter(parameter);
     }
 
-//    @Override
-//    public int insert(XaHelpMember xaHelpMember) {
-//
-//        xaHelpMember.setId(uuidFeign.uuid().getData());
-//        xaHelpMember.setCreateTime(new Date());
-//        xaHelpMember.setUpdateTime(new Date());
-//        return xaHelpMemberMapper.insert(xaHelpMember);
-//    }
-//
-//    @Override
-//    public int update(XaHelpMember xaHelpMember) {
-//
-//        xaHelpMember.setUpdateTime(new Date());
-//        return xaHelpMemberMapper.update(xaHelpMember);
-//    }
-
-
     /**
      * 查询信息列表分页
      */

@@ -127,7 +127,7 @@ public class LedgerFixedAmountServiceImpl implements ILedgerService {
             if(parentFlag){
                 UserInfoVo parentUserInfo = userInfoService.userInfoQueryByUserId(superiorMember);
                 //0代表是区域代理为海露，不参与分销，自动划入账号中
-                if(!parentUserInfo.getSuperiorMember().equals("0")){
+                if(!"0".equals(parentUserInfo.getSuperiorMember())){
                     iIncomeService.addAccountByInvitation(parentUserInfo.getSuperiorMember(),parentMoney,"旗下商家购买商品分销",String.valueOf(orderId),1);
                 }
             }

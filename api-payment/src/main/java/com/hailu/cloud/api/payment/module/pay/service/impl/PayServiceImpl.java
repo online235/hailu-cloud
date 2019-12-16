@@ -43,7 +43,6 @@ public class PayServiceImpl extends AbstractPayService {
         sortedMap.put("appid", payParams.get(CredentFactory.APPID_FIELD));
         //内容
         sortedMap.put("body", payRequest.getGoodsName());
-//        sortedMap.put("detail", payRequest.getBody());
         sortedMap.put("mch_id", payParams.get(CredentFactory.MCH_ID_FIELD));
         //随机字符串
         sortedMap.put("nonce_str", RandomUtil.randomNumbers(32));

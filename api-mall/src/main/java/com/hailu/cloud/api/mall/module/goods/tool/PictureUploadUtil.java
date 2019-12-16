@@ -80,20 +80,6 @@ public class PictureUploadUtil {
     }
 
     /**
-     * 多图片
-     */
-    public static String uploadPictureMany(String wenjianjia, String pictures) {
-        String p = "";
-        if (StringUtils.isNotEmpty(pictures)) {
-            String[] ps = pictures.split(",");
-            for (String s : ps) {
-                p = PictureUploadUtil.uploadPicture(wenjianjia, s) + "," + p;
-            }
-        }
-        return p;
-    }
-
-    /**
      * 根据图片url 获取到并且保存在本地
      *
      * @param urlString url
@@ -107,7 +93,6 @@ public class PictureUploadUtil {
             URLConnection con = url.openConnection();
             con.setConnectTimeout(5 * 1000);
             @Cleanup InputStream is = con.getInputStream();
-            //String image=urlString.substring(urlString.lastIndexOf("/")+1,urlString.length());
             String image = System.currentTimeMillis() + RandomUtil.randomNumbers(5) + ".png";
             path = File.separator + savePath + File.separator + image;
             File file = new File(Const.IMAGES + File.separator + savePath + File.separator + image);

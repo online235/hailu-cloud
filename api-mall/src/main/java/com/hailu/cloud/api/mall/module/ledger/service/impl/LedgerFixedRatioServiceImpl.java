@@ -89,8 +89,6 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
     @Override
     public void editInvitationProvider(UserInfo parentUserInfoVo, BigDecimal money) {
         try {
-            //获取邀请人信息
-            //UserInfoVo parentUserInfoVo = userInfoMapper.userInfoQueryByUserId(invitationUserId);
             //邀请奖金
             BigDecimal moneyPrice = BigDecimal.valueOf(0);
             //祖级邀请奖金
@@ -102,7 +100,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
             } else if (parentUserInfoVo.getMerchantType() == 2) {
                 //如果上级为服务商，则获取百分之三十的提成
                 moneyPrice = money.multiply(BigDecimal.valueOf(0.30));
-                if (!parentUserInfoVo.getSuperiorMember().equals("0")) {
+                if (!"0".equals(parentUserInfoVo.getSuperiorMember())) {
                     //如果祖级的区域代理不为海露，则获取百分之十五的提成
                     parentFlag = true;
                     parentMoney = money.multiply(BigDecimal.valueOf(0.15));
@@ -159,7 +157,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
                 BigDecimal money = BigDecimal.valueOf(0);
                 UserInfo userInfoParent = userInfoMapper.byIdFindUser(invitaionUserId);
                 //0代表是区域代理为海露，不参与分销，自动划入账号中
-                if (userInfoParent.getSuperiorMember().equals("0")) {
+                if ("0".equals(userInfoParent.getSuperiorMember())) {
                     continue;
                 }
                 if (userInfoParent.getMerchantType() == 1) {
@@ -169,7 +167,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
                     //分享人为服务商，获取百分之85，他的上级区域代理获取百分之十五
                     money = commission.multiply(serviceAgent);
                     UserInfo userInfoGrand = userInfoMapper.byIdFindUser(userInfoParent.getSuperiorMember());
-                    if (!userInfoGrand.getSuperiorMember().equals("0")) {
+                    if (!"0".equals(userInfoGrand.getSuperiorMember())) {
                         iIncomeService.addAccountByInvitation(userInfoGrand.getUserId(), commission.multiply(regionalAgent), "旗下商家购买商品分销", String.valueOf(orderId), 1);
                     }
                 }

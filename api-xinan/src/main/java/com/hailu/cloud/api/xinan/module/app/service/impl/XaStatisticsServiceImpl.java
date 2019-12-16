@@ -29,22 +29,6 @@ public class XaStatisticsServiceImpl implements XaStatisticsService {
         return xaStatisticsMapper.findListByParameter(parameter);
     }
 
-//
-//    @Override
-//    public int insert(XaStatistics xaStatistics) {
-//        xaStatistics.setId(uuidFeign.uuid().getData());
-//        xaStatistics.setCreateTime(new Date());
-//        xaStatistics.setUpdateTime(new Date());
-//        return xaStatisticsMapper.insert(xaStatistics);
-//    }
-//
-//    @Override
-//    public int update(XaStatistics xaStatistics) {
-//        xaStatistics.setUpdateTime(new Date());
-//        return xaStatisticsMapper.update(xaStatistics);
-//    }
-
-
     /**
      * 查询信息列表分页
      */

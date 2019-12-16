@@ -216,7 +216,6 @@ public class WechatUtil {
             inputStream = null;
             httpUrlConn.disconnect();
             jsonObject = JSONObject.parseObject(buffer.toString());
-            // jsonObject = JSONObject.fromObject(buffer.toString());
         } catch (ConnectException ce) {
             System.out.println("Weixin server connection timed out.");
         } catch (Exception e) {

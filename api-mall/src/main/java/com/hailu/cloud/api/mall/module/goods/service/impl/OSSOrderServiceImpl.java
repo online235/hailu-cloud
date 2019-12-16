@@ -95,11 +95,11 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
                             // 是否預定
                             if (ol.getIsReserve() == 1) {
                                 // 第一階段是否支付
-                                if (ol.getOneIsPay() == 0 && money == new BigDecimal(ol.getReserveOneAmount())) {
+                                if (ol.getOneIsPay() == 0 && money.equals(new BigDecimal(ol.getReserveOneAmount()))) {
                                     otp.setOneIsPay(1);
                                     otp.setPaymentState(0);// 是否支付
                                     op.setPayAmount(ol.getReserveOneAmount());
-                                } else if(money == new BigDecimal(ol.getReserveTwoAmount())){
+                                } else if(money.equals(new BigDecimal(ol.getReserveTwoAmount()))){
                                     otp.setTwoIsPay(1);
                                     otp.setOrderState(2);
                                     op.setPayAmount(ol.getReserveTwoAmount());

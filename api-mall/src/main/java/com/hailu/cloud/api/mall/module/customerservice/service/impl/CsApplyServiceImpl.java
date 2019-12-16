@@ -248,8 +248,6 @@ public class CsApplyServiceImpl implements ICsApplyService {
         }
         //支付方式
         csApplyVo.setPayType(payType);
-        //private     String         payType;//1支付宝 ,2微信 ,3微信 	//支付方式
-        //（5）取消申请，（6）商城拒绝）
         Integer tpStatue = csApplyVo.getTpState();
         if (tpStatue == 5) {
             List<CsApplyProgressVo> csApplyProgressList = csApplyProressDao.findByApplyProgressId2(csApplyId);
@@ -313,7 +311,6 @@ public class CsApplyServiceImpl implements ICsApplyService {
             //差价原因          //差价原因
             csApplyVo.setCauseDifference(csApplyEntity.getCauseDifference());
 
-            //private     String         payType;//1支付宝 ,2微信 ,3微信 	//支付方式
             List<CsApplyProgressVo> csApplyProgressList = csApplyProressDao.findByApplyProgressId(csApplyEntity.getCsApplyId());
             csApplyVo.setCsApplyProgressList(csApplyProgressList);
             return csApplyVo;

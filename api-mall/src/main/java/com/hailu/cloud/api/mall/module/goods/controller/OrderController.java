@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -53,6 +52,8 @@ public class OrderController {
 
     /**
      * 微信公众号签名认证接口
+     *
+     * @throws
      * @Title: test
      * @Description: TODO
      * @param: @param signature
@@ -61,10 +62,9 @@ public class OrderController {
      * @param: @param echostr
      * @param: @return
      * @return: String
-     * @throws
      */
     @RequestMapping("/wxToken")
-    public String test(String signature,String timestamp,String nonce,String echostr) {
+    public String test(String signature, String timestamp, String nonce, String echostr) {
         return echostr;
     }
 
@@ -133,7 +133,7 @@ public class OrderController {
             @RequestParam(value = "cartId") int cartId,
             @RequestParam(value = "specId", required = false) Integer specId,
             @RequestParam(value = "goodsNum", required = false) Integer goodsNum,
-            @RequestParam(value = "isSelected", required = false) Integer isSelected){
+            @RequestParam(value = "isSelected", required = false) Integer isSelected) {
 
         ShoppingCartVo shoppingCart = new ShoppingCartVo();
         shoppingCart.setGoodsNum(goodsNum);
@@ -142,7 +142,7 @@ public class OrderController {
         shoppingCart.setIsSelected(isSelected);
         try {
             orderService.updateShoppingCart(shoppingCart);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
     }
@@ -247,7 +247,6 @@ public class OrderController {
     }
 
 
-
     /**
      * 订单支付
      */
@@ -266,11 +265,11 @@ public class OrderController {
             "  \"serverTime\": 1572316303756\n" +
             "}", value = "支付接口")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="orderSn", value = "订单号(商城订单传)", required = false, paramType="query",dataType = "String"),
-            @ApiImplicitParam(name="payType", value = "支付类型（1-支付宝、2-微信、3-微信H5）", required = true, paramType="query",dataType = "int"),
-            @ApiImplicitParam(name="openid", value = "openId(公众号支付)", required = false, paramType="query",dataType = "String")
+            @ApiImplicitParam(name = "orderSn", value = "订单号(商城订单传)", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "payType", value = "支付类型（1-支付宝、2-微信、3-微信H5）", required = true, paramType = "query", dataType = "int"),
+            @ApiImplicitParam(name = "openid", value = "openId(公众号支付)", required = false, paramType = "query", dataType = "String")
     })
-    @RequestMapping(value = "/orderPay",method = {RequestMethod.POST,RequestMethod.GET})
+    @RequestMapping(value = "/orderPay", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public Map<String, Object> orderPay(@NotBlank(message = "订单号不能为空") String orderSn, Integer payType, String openid) throws BusinessException {
         return ossOrderService.createOrder(orderSn, payType, openid);
@@ -558,10 +557,7 @@ public class OrderController {
      */
     @GetMapping("/logistics")
     public Object logistics(@RequestParam(value = "orderNumber") String orderNumber) throws Exception {
-        //		log.info("物流查询|orderNumber={}", orderNumber);
-        //Map<String, Object> data = new HashMap<>();
-       Object result = new Object();
-        //OrderVo order=orderService.orderVo(orderNumber);
+        Object result = new Object();
         Map<String, Object> order = orderService.getExpress(orderNumber);
         if (order != null) {
             String shippingCode = (String) order.get("shippingCode");
@@ -576,7 +572,6 @@ public class OrderController {
                 JSONObject jsStr = new JSONObject();
                 jsStr.put("ShipperCode", eName);
                 jsStr.put("ShipperMobile", eMobile);
-                //tracesByJsonStr=tracesByJsonStr.replace("\"", "");
                 System.out.println("我是物流信息:" + jsStr);
                 return jsStr;
             }
@@ -604,13 +599,13 @@ public class OrderController {
         Map<String, Object> freight;
         if (cartIds != null) {
             List<CartVo> cartVos = orderService.getShoppingCartByIds(cartIds.split(","));
-            if(cartVos != null && cartVos.size() >0){
+            if (cartVos != null && cartVos.size() > 0) {
                 Map<String, Object> countCartAmount = orderService.getOrderPrice(cartVos.get(0).getUserId(), null, null, null, cartIds, null, null, null, null);
                 List<OrderAmount> orderAmounts = (List<OrderAmount>) (countCartAmount.get("listMap"));
                 freight = goodsToService.getGoodsFreight(cityName, cartIds, couponId, cartVos, orderAmounts);
-            }else {
+            } else {
                 freight = Maps.newHashMap();
-                freight.put("freight",0.00);
+                freight.put("freight", 0.00);
             }
         } else {
             freight = goodsToService.getFreight(goodsAmount, cityName, goodsId, goodsNum, specId, type, couponId);
@@ -650,6 +645,7 @@ public class OrderController {
 
     /**
      * 获取购买服务商的价格
+     *
      * @return
      */
     @ApiOperation(notes = "{\n" +
@@ -662,12 +658,12 @@ public class OrderController {
             "}", value = "获取购买服务商的价格")
     @PostMapping("/findPoviderPrice")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="merchantCityId", value = "服务商购买的城市", required = true, paramType="query",dataType = "String"),
+            @ApiImplicitParam(name = "merchantCityId", value = "服务商购买的城市", required = true, paramType = "query", dataType = "String"),
     })
-    public Object findPoviderPrice(Long merchantCityId){
-        log.info("获取购买服务商的价格，城市ID为：{}",merchantCityId);
+    public Object findPoviderPrice(Long merchantCityId) {
+        log.info("获取购买服务商的价格，城市ID为：{}", merchantCityId);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("price",userInfoService.findPoviderPrice(merchantCityId));
+        jsonObject.put("price", userInfoService.findPoviderPrice(merchantCityId));
         return jsonObject;
     }
 }

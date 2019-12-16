@@ -107,43 +107,6 @@ public class RegisterInformation {
     @ApiParam(name = "thirdPartyLinks", value = "第三方链接",required = false)
     private String thirdPartyLinks;
 
-
-//
-//    /**
-//     * (账号)开户类型（1、借记卡；2、信用卡 ）
-//     */
-//    @ApiParam(name = "bankType", value = "开户类型（1、借记卡；2、信用卡 ）", required = true)
-//    private Integer bankType;
-//
-//    /**
-//     * 开户支行
-//     */
-//    @ApiParam(name = "bankBranch", value = "开户支行", required = true)
-//    private String bankBranch;
-
-
-//    /**
-//     * 开票方式（1、平台代开；2、商家代开；3、各开各票）
-//     */
-//    @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）", required = true)
-//    private Integer billingMethod;
-
-
-//    /**
-//     * 开户行
-//     */
-//    @ApiParam(name = "bank", value = "开户行", required = true)
-//    private String bank;
-
-
-//    /**
-//     * 银行卡号
-//     */
-//    @ApiParam(name = "bankNumber", value = "银行卡号", required = true)
-//    private String bankNumber;
-
-
-
     /**
      * 注册验证码
      */
