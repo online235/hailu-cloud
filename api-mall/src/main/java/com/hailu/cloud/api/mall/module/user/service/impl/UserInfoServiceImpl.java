@@ -1,7 +1,5 @@
 package com.hailu.cloud.api.mall.module.user.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.crypto.SecureUtil;
 import com.hailu.cloud.api.mall.constant.Constant;
 import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
@@ -19,7 +17,6 @@ import com.hailu.cloud.common.utils.RedisCacheUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,7 +67,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
      * @return
      * @throws Exception
      */
-    String passwdSign(String account, String loginPwd){
+    String passwdSign(String account, String loginPwd) {
         return SecureUtil.sha256(loginPwd + "&key=" + signKey);
     }
 
@@ -187,80 +184,14 @@ public class UserInfoServiceImpl implements IUserInfoService {
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public Boolean updateUserInfo(UserInfoVo userInfoVo) throws Exception {
-        Boolean result = false;
+    public void updateUserInfo(String userIcon, String nickName, String sex) {
+        MemberLoginInfoModel loginInfoModel = RequestUtils.getMemberLoginInfo();
 
-        UserInfoVo user = userInfoDao.getUser(userInfoVo.getUserId());
-        if (user == null) {
-            throw new BusinessException(BusinessCode.USER_NOT_EXISTS.getDescription());
-        }
-
-        boolean isUpdate = false;
-        if (user.getUserIcon() == null && StringUtils.isNoneBlank(userInfoVo.getUserIcon())) {
-            String imgPath = PictureUploadUtil.uploadPicture("img", userInfoVo.getUserIcon());
-            user.setUserIcon(imgPath);
-            isUpdate = true;
-        } else if (user.getUserIcon() != null && !user.getUserIcon().equals(userInfoVo.getUserIcon())) {
-            user.setUserIcon(userInfoVo.getUserIcon());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getUserName())) {
-            user.setUserName(userInfoVo.getUserName());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getNickName())) {
-            user.setNickName(userInfoVo.getNickName());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getUserMobile())) {
-            user.setUserMobile(userInfoVo.getUserMobile());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getQq())) {
-            user.setQq(userInfoVo.getQq());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getWechat())) {
-            user.setWechat(userInfoVo.getWechat());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getEmail())) {
-            user.setEmail(userInfoVo.getEmail());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getProfession())) {
-            user.setProfession(userInfoVo.getProfession());
-            isUpdate = true;
-        }
-
-        if (StringUtils.isNotBlank(userInfoVo.getBirthday())) {
-            user.setBirthday(userInfoVo.getBirthday());
-            isUpdate = true;
-        }
-        if (StringUtils.isNotBlank(userInfoVo.getSex())) {
-            user.setSex(userInfoVo.getSex());
-            isUpdate = true;
-        }
-        if (StringUtils.isNotBlank(userInfoVo.getWechat())) {
-            user.setWechat(userInfoVo.getWechat());
-            isUpdate = true;
-        }
-        if (isUpdate) {
-            userInfoDao.updateUserInfo(user);
-            MemberLoginInfoModel model = RequestUtils.getMemberLoginInfo();
-            BeanUtil.copyProperties(user, model, CopyOptions.create().ignoreNullValue());
-            RedisCacheUtils.updateUserInfo(redisClient, model);
-            return true;
-        }
-
-        return result;
+        userInfoDao.updateUserInfo(userIcon, nickName, sex, loginInfoModel.getUserId());
+        loginInfoModel.setUserIcon(userIcon);
+        loginInfoModel.setMemberName(nickName);
+        loginInfoModel.setMemberSex(sex);
+        RedisCacheUtils.updateUserInfo(redisClient, loginInfoModel);
     }
 
     /**
@@ -525,7 +456,6 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
 
-
     @Override
     public Boolean WXunbundle(String phone) {
         int rows = userInfoDao.WXunbundle(phone);
@@ -701,14 +631,14 @@ public class UserInfoServiceImpl implements IUserInfoService {
     @Override
     public UserInfo findById(String userId) {
         UserInfo userInfo = userInfoDao.byIdFindUser(userId);
-        if(userInfo != null){
+        if (userInfo != null) {
             return userInfo;
         }
         return null;
     }
 
     @Override
-    public void editMerchantTypeAndSuperiorMember(String userId,int merchantType,  String superiorMember,Long cityId) {
-        userInfoDao.editMerchantTypeAndSuperiorMember(userId,merchantType,superiorMember,cityId);
+    public void editMerchantTypeAndSuperiorMember(String userId, int merchantType, String superiorMember, Long cityId) {
+        userInfoDao.editMerchantTypeAndSuperiorMember(userId, merchantType, superiorMember, cityId);
     }
 }

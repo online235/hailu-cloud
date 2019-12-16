@@ -36,8 +36,12 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping(value = "upUserInfo", method = RequestMethod.POST)
-    public Boolean updateUserInfo(@ModelAttribute UserInfoVo userInfoVo) throws Exception {
-        return userInfoService.updateUserInfo(userInfoVo);
+    public Boolean updateUserInfo(
+            @RequestParam(name = "userIcon", required = false) String userIcon,
+            @RequestParam(name = "nickName", required = false) String nickName,
+            @RequestParam(name = "sex", required = false) String sex
+    ) throws Exception {
+        return userInfoService.updateUserInfo(userIcon, nickName, sex);
     }
 
     /**

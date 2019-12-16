@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Map;
 
 /**
- * @author leiqi
- * @Description 微信登录app或网页接口
+ * 原商城接口：获取微信用户信息接口
  */
 @Slf4j
 @Controller

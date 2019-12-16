@@ -59,10 +59,13 @@ public interface UserInfoMapper {
     /**
      * 修改个人信息
      *
-     * @param userInfoVo
      * @return
      */
-    int updateUserInfo(UserInfoVo userInfoVo);
+    int updateUserInfo(
+            @Param("userIcon") String userIcon,
+            @Param("nickName") String nickName,
+            @Param("sex") String sex,
+            @Param("userId") String userId);
 
 
     /**

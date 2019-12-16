@@ -51,10 +51,12 @@ public interface IUserInfoService {
     /**
      * 修改个人信息
      *
-     * @param userInfoVo
+     * @param userIcon
+     * @param nickName
+     * @param sex
      * @return
      */
-    Boolean updateUserInfo(UserInfoVo userInfoVo) throws Exception;
+    void updateUserInfo(String userIcon, String nickName, String sex) throws Exception;
 
     /**
      * 修改个人密码

@@ -33,13 +33,7 @@ import java.util.List;
 public class LedgerFixedAmountServiceImpl implements ILedgerService {
 
     @Resource
-    private IncomeTransferOutMapper incomeTransferOutMapper;
-
-    @Resource
     private IIncomeService iIncomeService;
-
-    @Resource
-    private IncomeDetailLogService incomeDetailLogService;
 
     @Resource
     private UserInfoMapper userInfoMapper;

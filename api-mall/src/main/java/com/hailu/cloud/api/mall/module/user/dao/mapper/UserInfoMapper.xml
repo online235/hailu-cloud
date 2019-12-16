@@ -157,45 +157,18 @@
         FOR UPDATE
     </select>
 
-    <update id="updateUserInfo" parameterType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
+    <update id="updateUserInfo">
         UPDATE shop_member u
         <set>
             <trim suffixOverrides=",">
-                <if test="userName !=null">
-                    u.member_truename = #{userName},
-                </if>
                 <if test="userIcon !=null">
                     u.user_icon = #{userIcon},
                 </if>
                 <if test="nickName !=null">
                     u.member_name = #{nickName},
                 </if>
-                <if test="userMobile !=null">
-                    u.member_mobile = #{userMobile},
-                </if>
-                <if test="qq !=null">
-                    u.member_qq = #{qq},
-                </if>
-                <if test="wechat !=null">
-                    u.wechat = #{wechat},
-                </if>
-                <if test="email !=null">
-                    u.member_email = #{email},
-                </if>
-                <if test="profession !=null">
-                    u.profession = #{profession},
-                </if>
-                <if test="beInviteUser !=null">
-                    u.be_invite_user = #{beInviteUser},
-                </if>
-                <if test="birthday !=null">
-                    u.member_birthday = #{birthday},
-                </if>
                 <if test="sex !=null">
                     u.member_sex = #{sex},
-                </if>
-                <if test="wechat !=null">
-                    u.wechat = #{wechat},
                 </if>
             </trim>
         </set>
