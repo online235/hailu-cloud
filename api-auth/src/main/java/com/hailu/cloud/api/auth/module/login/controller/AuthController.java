@@ -65,6 +65,24 @@ public class AuthController {
             "    }\n" +
             "}\n" +
             "商户登录返回\n" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': {\n" +
+            "        'accessToken': 'xxx=',\n" +
+            "        'refreshToken': 'xxx=',\n" +
+            "        'numberid': '1996830535',                      // 商户ID\n" +
+            "        'landingaccount': 'www123',                    // 商户账号\n" +
+            "        'networkname': 'www123',                       // 昵称\n" +
+            "        'accounttype': 2,                              // 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户\n" +
+            "        'phone': '13927555292',                        // 手机号码\n" +
+            "        'stores': [{\n" +
+            "                'storeId': '905121572403341381',       // 店铺ID\n" +
+            "                'toExamine': 2                         // 审核状态 1：审核中, 2：审核通过, 3：审核不通过\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "}\n" +
             "管理员登录返回\n" +
             "{\n" +
             "    'code': 200,\n" +
@@ -114,6 +132,24 @@ public class AuthController {
             "    }\n" +
             "}\n" +
             "商户登录返回\n" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "    'data': {\n" +
+            "        'accessToken': 'xxx=',\n" +
+            "        'refreshToken': 'xxx=',\n" +
+            "        'numberid': '1996830535',                      // 商户ID\n" +
+            "        'landingaccount': 'www123',                    // 商户账号\n" +
+            "        'networkname': 'www123',                       // 昵称\n" +
+            "        'accounttype': 2,                              // 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户\n" +
+            "        'phone': '13927555292',                        // 手机号码\n" +
+            "        'stores': [{\n" +
+            "                'storeId': '905121572403341381',       // 店铺ID\n" +
+            "                'toExamine': 2                         // 审核状态 1：审核中, 2：审核通过, 3：审核不通过\n" +
+            "            }\n" +
+            "        ]\n" +
+            "    }\n" +
+            "}\n" +
             "管理员登录返回\n" +
             "{\n" +
             "    'code': 200,\n" +
