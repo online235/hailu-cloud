@@ -11,6 +11,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.hailu.cloud.api.mall.util.Const;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -83,7 +84,7 @@ public class PictureUploadUtil {
      */
     public static String uploadPictureMany(String wenjianjia, String pictures) {
         String p = "";
-        if (StringUtil.isNotEmpty(pictures)) {
+        if (StringUtils.isNotEmpty(pictures)) {
             String[] ps = pictures.split(",");
             for (String s : ps) {
                 p = PictureUploadUtil.uploadPicture(wenjianjia, s) + "," + p;

@@ -1,8 +1,8 @@
 package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 商品评价
@@ -53,14 +53,14 @@ public class GoodsEvaluateTO {
     private int gevalScores;
 
     public void setGevalFrommemberimg(String gevalFrommemberimg) {
-        if (StringUtil.isNotEmpty(gevalFrommemberimg) && !("http").equals(gevalFrommemberimg.substring(0, 4))) {
+        if (StringUtils.isNotEmpty(gevalFrommemberimg) && !("http").equals(gevalFrommemberimg.substring(0, 4))) {
             gevalFrommemberimg = Const.PRO_URL + gevalFrommemberimg;
         }
         this.gevalFrommemberimg = gevalFrommemberimg;
     }
 
     public void setGevalImage(String gevalImage) {
-        if (StringUtil.isNotEmpty(gevalImage) && !gevalImage.equals("null")) {
+        if (StringUtils.isNotEmpty(gevalImage) && !gevalImage.equals("null")) {
             StringBuilder sb = new StringBuilder();
             for (String str : gevalImage.split(",")) {
                 sb.append(str).append(",");

@@ -21,7 +21,6 @@ import com.hailu.cloud.api.mall.module.goods.service.IComputeCommission;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.service.ISerialNumberService;
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
 import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
@@ -189,7 +188,7 @@ public class OrderServiceImpl implements IOrderService {
                 List<OrderGoods> og = this.findByOrderId(ol.getOrderId());
                 if (og.size() > 0) {
                     for (OrderGoods orderGoods : og) {
-                        if (StringUtil.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
+                        if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
                             orderGoods.setGoodsImage(Const.PRO_URL + orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = this.getGoodsCompl(orderGoods.getRecId());
@@ -859,7 +858,7 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     public Map<String, Object> getOrderInfo(Integer orderId) throws BusinessException {
-        if (!StringUtil.isNotEmpty(orderId)) {
+        if (orderId == null) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
 
@@ -872,7 +871,7 @@ public class OrderServiceImpl implements IOrderService {
                 List<OrderGoods> ogList = orderDao.findByOrderId(orderInfo.getOrderId());
                 if (ogList.size() > 0) {
                     for (OrderGoods orderGoods : ogList) {
-                        if (StringUtil.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
+                        if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
                             orderGoods.setGoodsImage(Const.PRO_URL + orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = orderDao.getGoodsCompl(orderGoods.getRecId());
@@ -1215,11 +1214,11 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getOrderPrice(String userId, Integer goodsId, Integer goodsSpecId, Integer goodsNum, String cartIds, Integer isActivity, Integer isLimitTime, Integer isReserve, Integer type) throws BusinessException {
         Map<String, Object> result = Maps.newHashMap();
-        if (!StringUtil.isNotEmpty(userId)) {
+        if (StringUtils.isEmpty(userId)) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
         //购物车
-        if (StringUtil.isNotEmpty(cartIds)) {
+        if (StringUtils.isNotEmpty(cartIds)) {
             //result=countCartAmount(userId , cartIds);
             result = calculationAmount(userId, cartIds);
         } else {

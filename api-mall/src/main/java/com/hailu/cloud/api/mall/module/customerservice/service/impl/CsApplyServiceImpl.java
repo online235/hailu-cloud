@@ -8,10 +8,10 @@ import com.hailu.cloud.api.mall.module.customerservice.vo.*;
 import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderInfo;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderToVo;
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.AddressVo;
 import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -131,7 +131,7 @@ public class CsApplyServiceImpl implements ICsApplyService {
         } catch (Exception e) {
         }
         String goodsImges = cSOrderGoods.getGoodsImage();
-        if (StringUtil.isNotEmpty(goodsImges) && !("http").equals(goodsImges.substring(0, 4))) {
+        if (StringUtils.isNotEmpty(goodsImges) && !("http").equals(goodsImges.substring(0, 4))) {
             cyApplyGoods.setGoodsImage(Const.PRO_URL + goodsImges);
         }
         cyApplyGoods.setGoodsImage(goodsImges);

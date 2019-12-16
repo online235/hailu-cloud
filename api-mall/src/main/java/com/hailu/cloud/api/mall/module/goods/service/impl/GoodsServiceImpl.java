@@ -5,17 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
-import com.hailu.cloud.api.mall.module.goods.entity.HomeRecommend;
-import com.hailu.cloud.api.mall.module.goods.entity.ModuleSettings;
-import com.hailu.cloud.api.mall.module.goods.entity.ModuleSettingsVo;
-import com.hailu.cloud.api.mall.module.goods.entity.Navigation;
+import com.hailu.cloud.api.mall.module.goods.entity.Brand;
+import com.hailu.cloud.api.mall.module.goods.entity.Spec;
+import com.hailu.cloud.api.mall.module.goods.entity.*;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsParameterVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.*;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods;
 import com.hailu.cloud.api.mall.module.goods.service.IComputeCommission;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsService;
 import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
@@ -26,9 +24,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.hailu.cloud.api.mall.module.goods.entity.Brand;
-import com.hailu.cloud.api.mall.module.goods.entity.Spec;
-import com.hailu.cloud.api.mall.module.goods.vo.SpecVo;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -77,7 +72,7 @@ public class GoodsServiceImpl implements IGoodsService {
         }
         if (myQuestionList.size() > 0) {
             for (AskReplyQuestionVo ask : myQuestionList) {
-                if (StringUtil.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
+                if (StringUtils.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
                     ask.setGoodsImg(Const.PRO_URL + ask.getGoodsImg());
                 }
             }
@@ -126,7 +121,7 @@ public class GoodsServiceImpl implements IGoodsService {
         List<AskReplyVo> askReply = goodsDao.myQuestAllAnswers(askReplyId, page, rows);
         if (askReply.size() > 0) {
             for (AskReplyVo askReplyVo : askReply) {
-                if (StringUtil.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
+                if (StringUtils.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
                     askReplyVo.setUserImg(Const.PRO_URL + askReplyVo.getUserImg());
                 }
             }
@@ -144,17 +139,17 @@ public class GoodsServiceImpl implements IGoodsService {
         List<AskReplyQuestionVo> askreply = goodsDao.getIssue(goodsId, page, rows);
         if (askreply.size() > 0) {
             for (AskReplyQuestionVo ask : askreply) {
-                if (StringUtil.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
+                if (StringUtils.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
                     ask.setGoodsImg(Const.PRO_URL + ask.getGoodsImg());
                 }
-                if (StringUtil.isNotEmpty(ask.getUserImg()) && !("http").equals(ask.getUserImg().substring(0, 4))) {
+                if (StringUtils.isNotEmpty(ask.getUserImg()) && !("http").equals(ask.getUserImg().substring(0, 4))) {
                     ask.setUserImg(Const.PRO_URL + ask.getUserImg());
                 }
                 //得到问题的最新一条回答
                 List<AskReplyVo> askReply = goodsDao.myQuestAllAnswers(ask.getAskReplyId(), 0, 1);
                 if (askReply.size() > 0) {
                     for (AskReplyVo askReplyVo : askReply) {
-                        if (StringUtil.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
+                        if (StringUtils.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
                             askReplyVo.setUserImg(Const.PRO_URL + askReplyVo.getUserImg());
                         }
                     }

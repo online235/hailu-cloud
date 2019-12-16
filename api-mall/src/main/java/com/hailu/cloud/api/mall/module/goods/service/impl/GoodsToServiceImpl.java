@@ -15,7 +15,6 @@ import com.hailu.cloud.api.mall.module.goods.service.IComputeCommission;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.util.Const;
@@ -183,10 +182,10 @@ public class GoodsToServiceImpl implements IGoodsToService {
      */
     @Override
     public List<GoodsListVo> verifyByGcIdQueryGoods(Integer page, Integer row, Integer gcId, Integer conditions, String goodsName, String oby, Integer isBigClass) throws Exception {
-        if (!StringUtil.isNotEmpty(page)) {
+        if (page == null) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
-        if (!StringUtil.isNotEmpty(row)) {
+        if (row == null) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
         if (StringUtils.isNotBlank(goodsName)) {
@@ -226,10 +225,10 @@ public class GoodsToServiceImpl implements IGoodsToService {
             for (RecommendVo recomm : homelist) {
                 recomm.setTitleColor(RecommendVo.color(recomm.getTitleColor()));
                 String recommImg = recomm.getRecommImg();
-                if (StringUtil.isNotEmpty(recommImg) && !("http").equals(recommImg.substring(0, 4))) {
+                if (StringUtils.isNotEmpty(recommImg) && !("http").equals(recommImg.substring(0, 4))) {
                     recomm.setRecommImg(Const.PRO_URL + recommImg);
                 }
-                if (StringUtil.isNotEmpty(recomm.getCoverImg()) && !("http").equals(recomm.getCoverImg().substring(0, 4))) {
+                if (StringUtils.isNotEmpty(recomm.getCoverImg()) && !("http").equals(recomm.getCoverImg().substring(0, 4))) {
                     recomm.setCoverImg(Const.PRO_URL + recomm.getCoverImg());
                 }
 
@@ -249,7 +248,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                                 newGoodsVo.setHasBeen((Integer) price.get("hasBeen"));
                             }
                             //拼接商品路劲
-                            if (StringUtil.isNotEmpty(newGoodsVo.getShowImg()) && !("http").equals(newGoodsVo.getShowImg().substring(0, 4))) {
+                            if (StringUtils.isNotEmpty(newGoodsVo.getShowImg()) && !("http").equals(newGoodsVo.getShowImg().substring(0, 4))) {
                                 newGoodsVo.setShowImg(Const.PRO_URL + newGoodsVo.getShowImg());
                             }
                         }
@@ -301,7 +300,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
     @Override
     public GoodsInfoVo verifyGoodsInfo(Integer goodsId, Integer activityType, Integer isReserve, String userId) throws Exception {
 
-        if (!StringUtil.isNotEmpty(goodsId)) {
+        if (goodsId == null) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
 
@@ -336,11 +335,11 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 maplist5 = (List<Map<String, Object>>) map.get("goodsSpec");
             }
             //拼接图片路径
-            if (StringUtil.isNotEmpty(goodsInfo.getGoodsImage()) && !("http").equals(goodsInfo.getGoodsImage().substring(0, 4))) {
+            if (StringUtils.isNotEmpty(goodsInfo.getGoodsImage()) && !("http").equals(goodsInfo.getGoodsImage().substring(0, 4))) {
                 goodsInfo.setGoodsImage(Const.PRO_URL + goodsInfo.getGoodsImage());
             }
             //拼接商品多图路径图片路径
-            if (StringUtil.isNotEmpty(goodsInfo.getGoodsImageMore())) {
+            if (StringUtils.isNotEmpty(goodsInfo.getGoodsImageMore())) {
                 StringBuilder imgPath = new StringBuilder();
                 for (String str : goodsInfo.getGoodsImageMore().split(",")) {
                     if (imgPath.length() > 0) {
@@ -351,7 +350,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 goodsInfo.setGoodsImageMore(imgPath.toString());
             }
             //商品详情路径
-            if (StringUtil.isNotEmpty(goodsInfo.getGoodsBody()) && !goodsInfo.getGoodsBody().contains("http")) {
+            if (StringUtils.isNotEmpty(goodsInfo.getGoodsBody()) && !goodsInfo.getGoodsBody().contains("http")) {
                 StringBuilder imgPath = new StringBuilder();
                 for (String str : goodsInfo.getGoodsBody().split(",")) {
                     if (imgPath.length() > 0) {
@@ -484,7 +483,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 newGoodsVo.setGoodsPrice(((BigDecimal) price.get("gprice")).doubleValue());
                 newGoodsVo.setHasBeen((Integer) price.get("hasBeen"));
                 //拼接商品路劲
-                if (StringUtil.isNotEmpty(newGoodsVo.getShowImg()) && !("http").equals(newGoodsVo.getShowImg().substring(0, 4))) {
+                if (StringUtils.isNotEmpty(newGoodsVo.getShowImg()) && !("http").equals(newGoodsVo.getShowImg().substring(0, 4))) {
                     newGoodsVo.setShowImg(Const.PRO_URL + newGoodsVo.getShowImg());
                 }
             }
@@ -525,7 +524,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 while (it.hasNext()) {
                     GoodsClassVo x = it.next();
                     if (pid == x.getParentId()) {
-                        if (!StringUtil.isNotEmpty(map1.get("name"))) {
+                        if (map1.get("name") == null || StringUtils.isEmpty(String.valueOf(map1.get("name")))) {
                             //得到父类id
                             GoodsClassVo gc = goodsToDao.getGoodsClass(x.getParentId());
                             if(gc != null){

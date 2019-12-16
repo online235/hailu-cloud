@@ -7,13 +7,13 @@ import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.ActGoodsPriceVo;
 import com.hailu.cloud.api.mall.module.goods.vo.HotVo;
 import com.hailu.cloud.api.mall.module.goods.vo.NewGoodsVo;
 import com.hailu.cloud.api.mall.module.goods.vo.SshtVo;
 import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,21 +44,20 @@ public class GoodsToController {
             @RequestParam(value = "goodsId", required = false) Integer goodsId) throws BusinessException {
 
         Map<String, Object> map = new HashMap<>();
-        if (StringUtil.isNotEmpty(images)) {
-            StringBuilder imgpath = new StringBuilder();
-            for (String iu : images.split(",")) {
-                String img = PictureUploadUtil.uploadPicture("img", iu);
-                if (imgpath.length() > 0) {
-                    imgpath.append(",");
-                }
-                imgpath.append(img);
-            }
-            map.put("imgpath", imgpath.toString());
-            map.put("goodsId", goodsId);
-            return map;
-        } else {
+        if (StringUtils.isEmpty(images)) {
             throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
         }
+        StringBuilder imgpath = new StringBuilder();
+        for (String iu : images.split(",")) {
+            String img = PictureUploadUtil.uploadPicture("img", iu);
+            if (imgpath.length() > 0) {
+                imgpath.append(",");
+            }
+            imgpath.append(img);
+        }
+        map.put("imgpath", imgpath.toString());
+        map.put("goodsId", goodsId);
+        return map;
     }
 
     /**
@@ -113,10 +112,6 @@ public class GoodsToController {
         data.put("names", keys);
         return data;
     }
-
-
-
-
 
 
     /**

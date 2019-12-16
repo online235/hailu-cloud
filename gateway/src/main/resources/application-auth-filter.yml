@@ -44,6 +44,8 @@ mapping:
         - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin
         - ${api-version}/merchant/merchant/pc/register
+        - ${api-version}/merchant/life-circle
+        - ${api-version}/merchant/app/merchantLogin
         # 商城接口
         - ${api-version}/mall/payment/callback/weixin
         - ${api-version}/mall/api/capacity
@@ -69,9 +71,6 @@ mapping:
         - ${api-version}/mall/app/multiIndustry/shopEnquiry
         - ${api-version}/mall/app/multiIndustry
         - ${api-version}/mall/ManagementType
-        # 商户接口
-        - ${api-version}/merchant/life-circle
-#        - ${api-version}/merchant/app/merchantLogin
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
@@ -84,3 +83,4 @@ mapping:
       1:
         - ${api-version}/admin
         - ${api-version}/xinan
+        - ${api-version}/mall

@@ -2,12 +2,10 @@ package com.hailu.cloud.api.mall.module.goods.controller;
 
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
-import com.hailu.cloud.api.mall.module.goods.tool.StringUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.RecommendVo;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +40,8 @@ public class CategoryController {
             @RequestParam(value = "goodsName", required = false) String goodsName,
             @RequestParam(value = "oby", required = false) String oby,
             @RequestParam(value = "gcId", required = false) Integer gcId,
-            @RequestParam(value = "isBigClass", required = false) Integer isBigClass) throws Exception {
+            @RequestParam(value = "isBigClass", required = false, defaultValue = "0") Integer isBigClass) throws Exception {
 
-        if (!StringUtil.isNotEmpty(isBigClass)) {
-            isBigClass = 0;
-        }
         return goodsToService.verifyByGcIdQueryGoods(page, row, gcId, conditions, goodsName, oby, isBigClass);
     }
 
