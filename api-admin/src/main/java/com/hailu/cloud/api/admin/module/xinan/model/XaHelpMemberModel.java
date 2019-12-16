@@ -80,6 +80,13 @@ public class XaHelpMemberModel {
     @ApiModelProperty("性别：1男；2女")
     private Integer sex;
 
+
+    /**
+     * 图片
+     */
+    @ApiModelProperty("图片")
+    private String imageUrl;
+
     /**
      * 获取金额
      */

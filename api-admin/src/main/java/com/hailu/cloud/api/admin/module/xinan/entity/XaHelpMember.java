@@ -72,6 +72,12 @@ public class XaHelpMember {
     private BigDecimal gainMoney;
 
     /**
+     * 图片
+     */
+    private String imageUrl;
+
+
+    /**
      * 创建时间
      */
     private Date createTime;
