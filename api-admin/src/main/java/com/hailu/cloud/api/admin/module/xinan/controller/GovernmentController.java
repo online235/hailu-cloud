@@ -86,10 +86,10 @@ public class GovernmentController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = "城市code",required = true, dataType = "String", paramType = "query"),
     })
-    public Object findCityNameByCode(String code) {
+    public String findCityNameByCode(String code) {
 
         log.info("查询城市地址ID为：{}",code);
-        return findCityNameByCode.findCityNameByCode(code);
+        return findCityNameByCode.findCityNameByCode(code).getData();
     }
 
 }

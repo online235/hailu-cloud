@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.admin.feigns;
 
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,6 @@ public interface NationFeignClient {
 
 
     @GetMapping(Constant.API_VERSION + Constant.API_NAME_XINAN + "/nation/findCityNameByCode")
-    Object findCityNameByCode(
+    ApiResponse<String> findCityNameByCode(
             @RequestParam("code") String code);
 }
