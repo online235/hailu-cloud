@@ -69,10 +69,10 @@
         <if test="name != null">
             and name = #{name}
         </if>
-        <if test="periodsNumber != null">
+        <if test="periodsNumber != null and periodsNumber != ''">
             and periods_number = #{periodsNumber}
         </if>
-        <if test="timeDate != null">
+        <if test="timeDate != null and timeDate != ''">
             and date_format(time_date,'%Y-%m')<![CDATA[=]]>#{timeDate}
         </if>
         ORDER BY time_date desc
@@ -87,7 +87,7 @@
         )
     </insert>
 
-    <insert id="update" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">
+    <insert id="update" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="id">
         update xa_help_member
         set
         <include refid="where_set" />

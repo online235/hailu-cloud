@@ -1,0 +1,119 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.banner.dao.SysBannerMapper">
+
+
+    <sql id="base_column">
+            id, title, content, start_time, end_time, sort, banner_image, type, "space", subtitle,
+             title_image, banner_space, target_id, banner_url, target_name, create_time, update_time
+    </sql>
+
+    <sql id="set_column">
+        #{id},#{title},#{content},#{startTime},#{endTime},#{sort},#{bannerImage},#{type},#{space},#{subtitle},
+        #{titleImage},#{bannerSpace},#{targetId},#{bannerUrl},#{targetName},#{createTime},#{updateTime}
+    </sql>
+
+
+    <sql id="where_set">
+
+        <if test="title != null">
+            title = #{title},
+        </if>
+        <if test="content != null">
+            content = #{content},
+        </if>
+
+        <if test="startTime != null">
+            start_time = #{startTime},
+        </if>
+        <if test="endTime != null">
+            end_time = #{endTime},
+        </if>
+        <if test="sort != null">
+            sort = #{sort},
+        </if>
+        <if test="bannerImage != null">
+            banner_image = #{bannerImage},
+        </if>
+        <if test="type != null">
+            type = #{type},
+        </if>
+        <if test="space != null">
+            space = #{space},
+        </if>
+        <if test="subtitle != null">
+            subtitle = #{subtitle},
+        </if>
+        <if test="titleImage != null">
+            title_image = #{titleImage},
+        </if>
+        <if test="bannerSpace != null">
+            banner_space = #{bannerSpace},
+        </if>
+        <if test="targetId != null">
+            target_id = #{targetId},
+        </if>
+        <if test="bannerUrl != null">
+            banner_url = #{bannerUrl}
+        </if>
+        <if test="targetName != null">
+            target_name = #{targetName}
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime}
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime}
+        </if>
+    </sql>
+
+    <select id="findListByParameter" resultType="com.hailu.cloud.api.admin.module.banner.model.SysBannerModel">
+
+        select id, title, content, start_time, end_time, sort, banner_image,
+        type, "space", subtitle, title_image, banner_space,
+        target_id, banner_url, target_name
+        from sys_banner where 1=1
+        <if test="startTime != null and startTime != ''">
+            and date_format(start_time,'%Y-%m')<![CDATA[>=]]> #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and date_format(end_time,'%Y-%m')<![CDATA[<=]]> #{endTime}
+        </if>
+        <if test="title != null ">
+            AND title = #{title}
+        </if>
+        <if test="bannerSpace != null ">
+            AND banner_space = #{bannerSpace}
+        </if>
+        <if test="id != null ">
+            AND id = #{id}
+        </if>
+    </select>
+
+    <select id="findSysBannerModelById" resultType="com.hailu.cloud.api.admin.module.banner.model.SysBannerModel">
+
+        select id, title, content, start_time, end_time, sort, banner_image,
+        type, "space", subtitle, title_image, banner_space,
+        target_id, banner_url, target_name
+        from sys_banner where id = #{id}
+    </select>
+
+
+    <insert id="insertBannerModel">
+        insert into sys_banner (
+        <include refid="base_column" />
+        )
+        values (
+        <include refid="set_column" />
+        )
+    </insert>
+
+
+    <insert id="update" parameterType="com.hailu.cloud.api.admin.module.banner.entity.SysBanner"  useGeneratedKeys="true" keyProperty="id">
+        update sys_banner
+        set
+        <include refid="where_set" />
+        where id = #{id}
+    </insert>
+
+
+</mapper>

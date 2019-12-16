@@ -49,10 +49,10 @@
         <if test="id != null">
             and id = #{id}
         </if>
-        <if test="periodsNumber != null">
+        <if test="periodsNumber != null and periodsNumber != ''">
             and periods_number = #{periodsNumber}
         </if>
-        <if test="timeDate != null">
+        <if test="timeDate != null and timeDate != ''">
             and date_format(time_date,'%Y-%m')<![CDATA[=]]>#{timeDate}
         </if>
 
