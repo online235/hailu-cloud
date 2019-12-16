@@ -252,6 +252,14 @@ public class AuthServiceImpl implements IAuthService {
                     exists = true;
                     List<StoreInformationModel> storeList = merchantMapper.findUserStore(Long.valueOf(loginInfoModel.getNumberid()));
                     loginInfoModel.setStores(storeList);
+                    Integer toExamine = 0;//0 资料填写  1 审核中','2 审核通过','3 审核不通过
+                    // 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
+                    if (loginInfoModel.getAccounttype() == 1) {
+                        toExamine = merchantMapper.findLifeExamine(Long.valueOf(loginInfoModel.getNumberid()));
+                    } else if (loginInfoModel.getAccounttype() == 2) {
+                        toExamine = merchantMapper.findEntryExamine(Long.valueOf(loginInfoModel.getNumberid()));
+                    }
+                    loginInfoModel.setToExamine(toExamine);
                 }
                 return exists;
             }
@@ -403,6 +411,14 @@ public class AuthServiceImpl implements IAuthService {
                     exists = true;
                     List<StoreInformationModel> storeList = merchantMapper.findUserStore(Long.valueOf(loginInfoModel.getNumberid()));
                     loginInfoModel.setStores(storeList);
+                    Integer toExamine = 0;//0 资料填写  1 审核中','2 审核通过','3 审核不通过
+                    // 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
+                    if (loginInfoModel.getAccounttype() == 1) {
+                        toExamine = merchantMapper.findLifeExamine(Long.valueOf(loginInfoModel.getNumberid()));
+                    } else if (loginInfoModel.getAccounttype() == 2) {
+                        toExamine = merchantMapper.findEntryExamine(Long.valueOf(loginInfoModel.getNumberid()));
+                    }
+                    loginInfoModel.setToExamine(toExamine);
                 }
                 return exists;
             }

@@ -38,4 +38,21 @@ public interface MerchantMapper {
      */
     MerchantUserLoginInfoModel findUserByAccount(@Param("account") String account);
 
+
+    /**
+     * 百货审核状态
+     * @param userId
+     * @return
+     */
+    Integer findEntryExamine(@Param("userId") Long userId);
+
+
+    /**
+     * 生活圈审核状态
+     * @param userId
+     * @return
+     */
+    Integer findLifeExamine(@Param("userId") Long userId);
+
+
 }

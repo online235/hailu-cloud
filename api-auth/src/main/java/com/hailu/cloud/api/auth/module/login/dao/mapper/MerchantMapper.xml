@@ -40,4 +40,24 @@
             mu.landing_account = #{account}
     </select>
 
+
+    <select id="findEntryExamine" resultType="int">
+        SELECT
+            to_examine
+        FROM
+            mc_entry_information
+        WHERE
+            mc_number_id = #{userId}
+    </select>
+
+
+    <select id="findLifeExamine" resultType="int">
+        SELECT
+            to_examine
+        FROM
+            local_circle_entry
+        WHERE
+            mc_number_id = #{userId}
+    </select>
+
 </mapper>

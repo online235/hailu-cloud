@@ -47,6 +47,12 @@ public class MerchantUserLoginInfoModel extends LoginModel {
     private String phone;
 
     /**
+     * 入驻审核状态 '0 资料填写  1 审核中','2 审核通过','3 审核不通过
+     */
+    private Integer toExamine;
+
+
+    /**
      * 店铺列表
      */
     private List<StoreInformationModel> stores;
