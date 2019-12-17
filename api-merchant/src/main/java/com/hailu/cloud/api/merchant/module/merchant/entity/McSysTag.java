@@ -1,6 +1,7 @@
-package com.hailu.cloud.api.admin.module.merchant.entity;
+package com.hailu.cloud.api.merchant.module.merchant.entity;
 
 import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +11,8 @@ import java.util.Date;
 
 @Data
 @ApiModel
-public class McShopTag implements Serializable {
+@InjectDict
+public class McSysTag implements Serializable {
     /**
      * 编号
      */
@@ -18,16 +20,10 @@ public class McShopTag implements Serializable {
     private Long id;
 
     /**
-     * 标签编号
+     * 标签组编号
      */
-    @ApiModelProperty(value = "标签编号")
-    private Long tagId;
-
-    /**
-     * 店铺编号
-     */
-    @ApiModelProperty(value = "店铺编号")
-    private Long storeId;
+    @ApiModelProperty(value = "标签组编号")
+    private Long tagGroupId;
 
     /**
      * 状态(启用-1、禁用-2)
@@ -35,8 +31,15 @@ public class McShopTag implements Serializable {
     @ApiModelProperty(value = "状态(启用-1、禁用-2)")
     private Integer state;
 
+
     @DictName(code = "ENABLE_STATUS", joinField = "state")
     private Integer stateDisplay;
+
+    /**
+     * 标签名称
+     */
+    @ApiModelProperty(value = "标签名称")
+    private String tagName;
 
     /**
      * 创建时间
@@ -45,7 +48,13 @@ public class McShopTag implements Serializable {
     private Date createTime;
 
     /**
-     * mc_shop_tag
+     * 修改时间
+     */
+    @ApiModelProperty(value = "修改时间")
+    private Date updateTime;
+
+    /**
+     * mc_sys_tag
      */
     private static final long serialVersionUID = 1L;
 }

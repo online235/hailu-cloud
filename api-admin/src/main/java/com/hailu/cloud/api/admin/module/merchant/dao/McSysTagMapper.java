@@ -2,6 +2,9 @@ package com.hailu.cloud.api.admin.module.merchant.dao;
 
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McSysTag;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface McSysTagMapper {
     /**
@@ -27,4 +30,10 @@ public interface McSysTagMapper {
      * @mbggenerated 2019-12-16
      */
     int updateByPrimaryKeySelective(McSysTag record);
+
+    /**
+     * 查询标签列表
+     * @return
+     */
+    List<McSysTag> findMcSysTagList(@Param("tagName") String tagName);
 }

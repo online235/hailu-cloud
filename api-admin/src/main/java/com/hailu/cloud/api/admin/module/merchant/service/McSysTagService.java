@@ -2,6 +2,9 @@ package com.hailu.cloud.api.admin.module.merchant.service;
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McSysTag;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McSysTagParameter;
+import com.hailu.cloud.common.model.page.PageInfoModel;
+
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -39,4 +42,10 @@ public interface McSysTagService {
      * @return
      */
     void deleteByPrimaryKey(Long id , Integer deleteType);
+
+    /**
+     * 查询标签列表
+     * @return
+     */
+    PageInfoModel<List<McSysTag>> findMcSysTagList(String tagName, Integer page, Integer size);
 }

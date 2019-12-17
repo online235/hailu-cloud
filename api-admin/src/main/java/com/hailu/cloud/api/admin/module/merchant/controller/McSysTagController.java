@@ -3,16 +3,20 @@ package com.hailu.cloud.api.admin.module.merchant.controller;
 import com.hailu.cloud.api.admin.module.merchant.entity.McSysTag;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McSysTagParameter;
 import com.hailu.cloud.api.admin.module.merchant.service.McSysTagService;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * @Author: QiuFeng:WANG
@@ -64,7 +68,7 @@ public class McSysTagController {
     @ApiOperation(value = "删除标签")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "标签编号", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "deleteType", value = "删除状态(回收站-1、永久删除-2)", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "deleteType", value = "删除状态(停用-1、永久删除-2)", required = true, paramType = "query"),
     })
     @PostMapping("/delTag")
     public void deleteByPrimaryKey(
@@ -73,6 +77,22 @@ public class McSysTagController {
             @RequestParam(defaultValue = "1") Integer deleteType) {
 
         mcSysTagService.deleteByPrimaryKey(id, deleteType);
+    }
+    @ApiOperation(value = "标签列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "tagName", value = "标签名称",  paramType = "query"),
+    })
+    @PostMapping("/findMcSysTagList")
+    public PageInfoModel<List<McSysTag>> findMcSysTagList(
+            String tagName,
+            @Pattern(regexp = "^\\d*$", message = "请输入数字")
+            @RequestParam(name = "page", defaultValue = "1") Integer page,
+            @Range(min = 10, max = 200, message = "每页显示数量只能在10~200之间")
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer size) {
+
+        return mcSysTagService.findMcSysTagList(tagName, page, size);
     }
 
 

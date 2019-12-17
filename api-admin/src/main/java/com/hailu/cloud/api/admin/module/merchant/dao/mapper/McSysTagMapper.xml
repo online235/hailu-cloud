@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.admin.module.merchant.dao.McSysTagMapper" >
   <sql id="Base_Column_List" >
-    id, tag_group_id, tag_name, create_time, update_time
+    id, tag_group_id, state, tag_name, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag" parameterType="java.lang.Long" >
     select 
@@ -72,4 +72,14 @@
     </set>
     where id = #{id}
   </update>
+
+  <select id="findMcSysTagList" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag">
+    select
+    <include refid="Base_Column_List"/>
+    from mc_sys_tag
+    where 1=1
+    <if test="tagName">
+      and tag_name like concat('%',#{tagName},'%')
+    </if>
+  </select>
 </mapper>

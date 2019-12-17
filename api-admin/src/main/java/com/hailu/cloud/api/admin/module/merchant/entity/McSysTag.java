@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,6 +11,7 @@ import java.util.Date;
 
 @Data
 @ApiModel
+@InjectDict
 public class McSysTag implements Serializable {
     /**
      * 编号
@@ -23,10 +26,14 @@ public class McSysTag implements Serializable {
     private Long tagGroupId;
 
     /**
-     * 状态(正常-1、删除-2)
+     * 状态(启用-1、禁用-2)
      */
-    @ApiModelProperty(value = "状态(正常-1、删除-2)")
+    @ApiModelProperty(value = "状态(启用-1、禁用-2)")
     private Integer state;
+
+
+    @DictName(code = "ENABLE_STATUS", joinField = "state")
+    private Integer stateDisplay;
 
     /**
      * 标签名称
