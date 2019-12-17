@@ -101,4 +101,12 @@ public class XaHelpMemberParameterUpdate {
     @ApiModelProperty(name = "gainMoney", value = " 获取金额")
     private BigDecimal gainMoney;
 
+
+
+    /**
+     * 已经分摊金钱
+     */
+    @ApiModelProperty("已经分摊金钱")
+    private BigDecimal apportionmentMoney;
+
 }

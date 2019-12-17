@@ -58,6 +58,11 @@ public class McManagementType implements Serializable {
     @ApiModelProperty(value = "经营名称",dataType = "String")
     private String managementName;
 
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注",dataType = "String")
+    private String remarks;
 
 
 }

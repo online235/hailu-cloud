@@ -56,6 +56,13 @@ public class McManagementTypeVo {
     private String managementName;
 
 
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注",dataType = "String")
+    private String remarks;
+
+
 
     /**
      * 子类列表

@@ -96,5 +96,11 @@ public class XaHelpMemberModel {
     @ApiModelProperty("图片")
     private String imageUrl;
 
+    /**
+     * 已经分摊金钱
+     */
+    @ApiModelProperty("已经分摊金钱")
+    private BigDecimal apportionmentMoney;
+
 
 }

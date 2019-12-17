@@ -7,7 +7,7 @@
     <select id="findListByParameter" resultType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel">
         select
         id, name, age, province, province_code, disease, time_date,
-        periods_number, share_times, help_days, sex, gain_money,image_url
+        periods_number, share_times, help_days, sex, gain_money,image_url,apportionment_money
         from xa_help_member
         where 1=1
         <if test="id != null">

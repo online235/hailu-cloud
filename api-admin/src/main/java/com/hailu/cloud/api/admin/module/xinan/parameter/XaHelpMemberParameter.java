@@ -95,4 +95,12 @@ public class XaHelpMemberParameter {
     @ApiModelProperty(name="gainMoney",value = " 获取金额",required = true)
     private BigDecimal gainMoney;
 
+
+    /**
+     * 已经分摊金钱
+     */
+    @ApiModelProperty("已经分摊金钱")
+    private BigDecimal apportionmentMoney;
+
+
 }

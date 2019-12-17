@@ -53,13 +53,13 @@
             target_id = #{targetId},
         </if>
         <if test="bannerUrl != null">
-            banner_url = #{bannerUrl}
+            banner_url = #{bannerUrl},
         </if>
         <if test="targetName != null">
-            target_name = #{targetName}
+            target_name = #{targetName},
         </if>
         <if test="createTime != null">
-            create_time = #{createTime}
+            create_time = #{createTime},
         </if>
         <if test="updateTime != null">
             update_time = #{updateTime}

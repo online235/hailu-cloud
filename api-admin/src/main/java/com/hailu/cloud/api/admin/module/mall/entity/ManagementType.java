@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.mall.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -40,6 +42,11 @@ public class ManagementType implements Serializable {
      * 链接地址
      */
     private String url;
+
+    /**
+     * 备注
+     */
+    private String remarks;
 
     /**
      * mc_management_type

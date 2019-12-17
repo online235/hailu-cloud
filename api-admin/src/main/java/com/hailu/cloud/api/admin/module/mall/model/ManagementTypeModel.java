@@ -64,4 +64,13 @@ public class ManagementTypeModel {
     @ApiParam(name="url",value = "链接地址")
     @ApiModelProperty(value = "链接地址")
     private String url;
+
+    /**
+     * 备注
+     */
+    @ApiParam(name="remarks",value = "备注")
+    @ApiModelProperty(value = "备注")
+    private String remarks;
+
+
 }

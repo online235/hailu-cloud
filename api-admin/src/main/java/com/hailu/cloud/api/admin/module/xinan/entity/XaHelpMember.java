@@ -1,4 +1,5 @@
 package com.hailu.cloud.api.admin.module.xinan.entity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import java.util.Date;
 import java.math.BigDecimal;
@@ -86,5 +87,12 @@ public class XaHelpMember {
      * 更新时间
      */
     private Date updateTime;
+
+
+    /**
+     * 已经分摊金钱
+     */
+    private BigDecimal apportionmentMoney;
+
 
 }

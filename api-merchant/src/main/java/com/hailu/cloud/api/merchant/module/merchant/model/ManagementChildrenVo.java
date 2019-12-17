@@ -53,5 +53,12 @@ public class ManagementChildrenVo {
     private String managementName;
 
 
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注",dataType = "String")
+    private String remarks;
+
+
 
 }

@@ -105,4 +105,12 @@ public class XaHelpMemberModel {
     @ApiModelProperty("更新时间")
     private Date updateTime;
 
+
+    /**
+     * 已经分摊金钱
+     */
+    @ApiModelProperty("已经分摊金钱")
+    private BigDecimal apportionmentMoney;
+
+
 }
