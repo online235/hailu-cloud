@@ -52,7 +52,7 @@ public class McUserRegisterController {
             "")
     @PostMapping("register")
     @ResponseBody
-    public Object register(@ModelAttribute McUserParameter mcUserParameter,BindingResult result) throws Exception {
+    public Object register(@RequestBody McUserParameter mcUserParameter,BindingResult result) throws Exception {
 
         String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + mcUserParameter.getPhone() + "1");
         if (!varCode.equals(mcUserParameter.getCode())) {

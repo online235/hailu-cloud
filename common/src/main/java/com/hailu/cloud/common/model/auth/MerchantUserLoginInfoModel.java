@@ -1,6 +1,9 @@
 package com.hailu.cloud.common.model.auth;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import com.hailu.cloud.common.model.merchant.StoreInformationModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +17,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@InjectDict
 public class MerchantUserLoginInfoModel extends LoginModel {
 
     /**
@@ -51,6 +55,9 @@ public class MerchantUserLoginInfoModel extends LoginModel {
      */
     private Integer toExamine;
 
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    @ApiModelProperty(value="审核(''0 资料填写  审核中-1'',''审核通过-2'',''审核不通过-3'')'")
+    private String toExamineDisplay;
 
     /**
      * 店铺列表

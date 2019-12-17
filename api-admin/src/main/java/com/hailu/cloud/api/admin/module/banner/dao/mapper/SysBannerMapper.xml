@@ -3,12 +3,12 @@
 
 
     <sql id="base_column">
-            id, title, content, start_time, end_time, sort, banner_image, type, space, subtitle,
+            id, title, content, start_time, end_time, sort, banner_image, type, space_content, subtitle,
              title_image, banner_space, target_id, banner_url, target_name, create_time, update_time
     </sql>
 
     <sql id="set_column">
-        #{id},#{title},#{content},#{startTime},#{endTime},#{sort},#{bannerImage},#{type},#{space},#{subtitle},
+        #{id},#{title},#{content},#{startTime},#{endTime},#{sort},#{bannerImage},#{type},#{spaceContent},#{subtitle},
         #{titleImage},#{bannerSpace},#{targetId},#{bannerUrl},#{targetName},#{createTime},#{updateTime}
     </sql>
 
@@ -37,8 +37,8 @@
         <if test="type != null">
             type = #{type},
         </if>
-        <if test="space != null">
-            space = #{space},
+        <if test="spaceContent != null">
+            space_content = #{spaceContent},
         </if>
         <if test="subtitle != null">
             subtitle = #{subtitle},
@@ -69,7 +69,7 @@
     <select id="findListByParameter" resultType="com.hailu.cloud.api.admin.module.banner.model.SysBannerModel">
 
         select id, title, content, start_time, end_time, sort, banner_image,
-        type, space, subtitle, title_image, banner_space,
+        type, space_content, subtitle, title_image, banner_space,
         target_id, banner_url, target_name
         from sys_banner where 1=1
         <if test="startTime != null and startTime != ''">
@@ -92,7 +92,7 @@
     <select id="findSysBannerModelById" resultType="com.hailu.cloud.api.admin.module.banner.model.SysBannerModel">
 
         select id, title, content, start_time, end_time, sort, banner_image,
-        type, space, subtitle, title_image, banner_space,
+        type, space_content, subtitle, title_image, banner_space,
         target_id, banner_url, target_name
         from sys_banner where id = #{id}
     </select>

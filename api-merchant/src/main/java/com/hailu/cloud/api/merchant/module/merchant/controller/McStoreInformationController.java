@@ -2,6 +2,7 @@ package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
+import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
@@ -13,7 +14,9 @@ import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformat
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -53,15 +56,22 @@ public class McStoreInformationController {
     private McInfoService mcInfoService;
 
 
+    @ApiOperation(value = "获取当前店铺已填资料")
+    @PostMapping("/getRegisterShopInformation")
+    public RegisterShopInformationResult getRegisterShopInformation() throws BusinessException {
 
-    @ApiOperation(value = "提交店铺资料")
+        return mcInfoService.getRegisterShopInformationResult();
+    }
+
+
+    @ApiOperation(value = "提交补充店铺资料")
     @PostMapping("/submitShopInformation")
-    public void submitShopInformation(@ModelAttribute ShopInformationEntryParameter shopInformationEntryParameter,BindingResult result) throws BusinessException  {
+    public void submitShopInformation(@RequestBody ShopInformationEntryParameter shopInformationEntryParameter, BindingResult result) throws BusinessException {
 
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
         }
-        if(shopInformationEntryParameter.getIdCard().length() != 18){
+        if (shopInformationEntryParameter.getIdCard().length() != 18) {
             throw new BusinessException("身份证长度不符合");
         }
         mcInfoService.submitShopInformation(shopInformationEntryParameter);
@@ -332,7 +342,6 @@ public class McStoreInformationController {
         mcStoreInformation.setStoreDetails(storeDetails);
         mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
     }
-
 
 
     @ApiOperation(value = "获取编辑详情", notes = "<prep>" +

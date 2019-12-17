@@ -67,7 +67,7 @@ public class SysBannerModel {
      * 广告位 1首页banner 2首页内容广告
      */
     @ApiModelProperty("广告位 1首页banner 2首页内容广告")
-    private Integer space;
+    private Integer spaceContent;
 
     /**
      * 副标题

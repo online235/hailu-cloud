@@ -2,7 +2,8 @@ package com.hailu.cloud.api.merchant.module.merchant.parameter;
 
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,52 +17,52 @@ import javax.validation.constraints.NotNull;
 public class ShopInformationEntryParameter {
 
 
-    @ApiParam(name="mcType",value="1、个体店 ； 2、个体工商店")
+    @ApiModelProperty(name="mcType",value="1、个体店 ； 2、个体工商店")
     private Integer mcType;
 
-    @ApiParam(name = "shopName", value = "店铺名称", required = true)
+    @ApiModelProperty(name = "shopName", value = "店铺名称", required = true)
     @NotEmpty
     private String shopName;
 
-    @ApiParam(name = "phone", value = "店铺电话", required = true)
+    @ApiModelProperty(name = "phone", value = "店铺电话", required = true)
     @NotEmpty
     private String phone;
 
-    @ApiParam(name = "firstManagementTypeId", value = "一级经营类型id")
+    @ApiModelProperty(name = "firstManagementTypeId", value = "一级经营类型id")
     private Long firstManagementTypeId;
 
 
-    @ApiParam(name = "secondManagementTypeId", value = "二级经营类型id")
+    @ApiModelProperty(name = "secondManagementTypeId", value = "二级经营类型id")
     private Long secondManagementTypeId;
 
 
-    @ApiParam(name = "provinceCode", value = "省的code值", required = true)
+    @ApiModelProperty(name = "provinceCode", value = "省的code值", required = true)
     @NotEmpty
     private String provinceCode;
 
 
-    @ApiParam(name = "cityCode", value = "城市的code值", required = true)
+    @ApiModelProperty(name = "cityCode", value = "城市的code值", required = true)
     @NotEmpty
     private String cityCode;
 
 
-    @ApiParam(name = "areaCode", value = "区的code值", required = true)
+    @ApiModelProperty(name = "areaCode", value = "区的code值", required = true)
     @NotEmpty
     private String areaCode;
 
 
-    @ApiParam(name = "detailAddress", value = "详细地址", required = true)
+    @ApiModelProperty(name = "detailAddress", value = "详细地址", required = true)
     @NotEmpty
     private String detailAddress;
 
 
-    @ApiParam(name = "nameOfLegalPerson", value = "经营者姓名", required = true)
+    @ApiModelProperty(name = "nameOfLegalPerson", value = "经营者姓名", required = true)
     @NotEmpty
     private String nameOfLegalPerson;
 
 
 
-    @ApiParam(name = "idCard", value = "经营者身份证号码", required = true)
+    @ApiModelProperty(name = "idCard", value = "经营者身份证号码", required = true)
     @NotEmpty
     private String idCard;
 
@@ -69,14 +70,14 @@ public class ShopInformationEntryParameter {
     /**
      * 身份证正面
      */
-    @ApiParam(name = "idcardImgx", value = "身份证正面", required = true)
+    @ApiModelProperty(name = "idcardImgx", value = "身份证正面", required = true)
     @NotEmpty
     private String idcardImgx;
 
     /**
      * 身份证反面
      */
-    @ApiParam(name = "idcardImgy", value = "身份证反面", required = true)
+    @ApiModelProperty(name = "idcardImgy", value = "身份证反面", required = true)
     @NotEmpty
     private String idcardImgy;
 
@@ -84,79 +85,79 @@ public class ShopInformationEntryParameter {
     /**
      * 营业执照注册号
      */
-    @ApiParam(name = "businessLicenseNumber", value = "营业执照注册号", required = true)
+    @ApiModelProperty(name = "businessLicenseNumber", value = "营业执照注册号", required = true)
     private String businessLicenseNumber;
 
 
     /**
      * 营业执照正面照
      */
-    @ApiParam(name = "licensePositive", value = "营业执照正面照", required = true)
+    @ApiModelProperty(name = "licensePositive", value = "营业执照正面照", required = true)
     private String licensePositive;
 
     /**
      * 附件数组字符串（用；隔开）
      */
-    @ApiParam(name = "enclosures", value = "附件数组字符串（用；隔开）", required = false)
+    @ApiModelProperty(name = "enclosures", value = "附件数组字符串（用；隔开）", required = false)
     private String enclosures;
 
 
     /**
      * 第三方链接
      */
-    @ApiParam(name = "thirdPartyLinks", value = "第三方链接", required = false)
+    @ApiModelProperty(name = "thirdPartyLinks", value = "第三方链接", required = false)
     private String thirdPartyLinks;
 
 
     /**
      *开户类型（1、储蓄卡；2、借记卡 ）
      */
-    @ApiParam(name = "bankType", value = "开户类型（1、储蓄卡；2、借记卡 ）")
+    @ApiModelProperty(name = "bankType", value = "开户类型（1、储蓄卡；2、借记卡 ）")
     private Integer bankType;
 
     /**
      * 开户支行
      */
-    @ApiParam(name = "bankBranch", value = "开户支行")
+    @ApiModelProperty(name = "bankBranch", value = "开户支行")
     private String bankBranch;
 
 
     /**
      * 开户账号
      */
-    @ApiParam(name = "accountNumber", value = "开户账号")
+    @ApiModelProperty(name = "accountNumber", value = "开户账号")
     private String accountNumber;
 
     /**
      * 开户省份code
      */
-    @ApiParam(name = "bankProvince", value = "开户省份code")
+    @ApiModelProperty(name = "bankProvince", value = "开户省份code")
     private String bankProvince;
 
     /**
      * 开户市区code
      */
-    @ApiParam(name = "bankCity", value = "开户市区code")
+    @ApiModelProperty(name = "bankCity", value = "开户市区code")
     private String bankCity;
 
     /**
      * 开票方式（1、平台代开；2、商家代开；3、各开各票）
      */
-    @ApiParam(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）")
+    @ApiModelProperty(name = "billingMethod", value = "开票方式（1、平台代开；2、商家代开；3、各开各票）")
     private Integer billingMethod;
 
 
     /**
      * 开户行
      */
-    @ApiParam(name = "bank", value = "开户行")
+    @ApiModelProperty(name = "bank", value = "开户行")
     private String bank;
 
 
     /**
      * 银行卡号
      */
-    @ApiParam(name = "bankNumber", value = "银行卡号")
+    @ApiModelProperty(name = "bankNumber", value = "银行卡号")
     private Long bankNumber;
 
 

@@ -4,6 +4,7 @@ import com.hailu.cloud.api.merchant.module.merchant.dao.LocalCircleEntryMapper;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McUserMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
+import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
@@ -65,6 +66,7 @@ public class McInfoService {
 
 
     /**
+     * 提交店铺资料
      *
      * @param shopInformationEntryParameter
      */
@@ -75,9 +77,9 @@ public class McInfoService {
         MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
         String mcNumberId = merchantUserLoginInfoModel.getNumberid();
         //账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
-        if(merchantUserLoginInfoModel.getAccounttype() == 1){
+        if (merchantUserLoginInfoModel.getAccounttype() == 1) {
             LocalCircleEntry localCircleEntry = localCircleEntryMapper.findLocalCircleEntryByUserId(mcNumberId);
-            if(localCircleEntry == null){
+            if (localCircleEntry == null) {
                 throw new BusinessException("数据状态不正确");
             }
             BeanUtils.copyProperties(shopInformationEntryParameter, localCircleEntry);
@@ -85,9 +87,9 @@ public class McInfoService {
             mcStoreInformation.setStoreTotalType(shopInformationEntryParameter.getFirstManagementTypeId());
             mcStoreInformation.setStoreSonType(shopInformationEntryParameter.getSecondManagementTypeId());
             localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
-        }else if(merchantUserLoginInfoModel.getAccounttype() == 2){
+        } else if (merchantUserLoginInfoModel.getAccounttype() == 2) {
             McEntryInformation mcEntryInformation = mcEntryinFormationMapper.findMcEntryInformationByMcNumberId(mcNumberId);
-            if(mcEntryInformation == null){
+            if (mcEntryInformation == null) {
                 throw new BusinessException("数据状态不正确");
             }
             BeanUtils.copyProperties(shopInformationEntryParameter, mcEntryInformation);
@@ -96,11 +98,11 @@ public class McInfoService {
             mcStoreInformation.setStoreTotalType(mcEntryInformation.getFirstManagementTypeId());
         }
         BeanUtils.copyProperties(shopInformationEntryParameter, mcStoreInformation);
+        mcStoreInformation.setMcNumberId(mcNumberId);
         mcStoreInformation.setAccountType(merchantUserLoginInfoModel.getAccounttype());
         mcStoreInformationService.insertSelective(mcStoreInformation);
 
     }
-
 
 
     /**
@@ -153,5 +155,23 @@ public class McInfoService {
         }
     }
 
+    /**
+     * 获取当前店铺资料
+     */
+    public RegisterShopInformationResult getRegisterShopInformationResult(){
+
+        RegisterShopInformationResult registerShopInformationResult = new RegisterShopInformationResult();
+        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
+        String mcNumberId = merchantUserLoginInfoModel.getNumberid();
+        //账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
+        if (merchantUserLoginInfoModel.getAccounttype() == 1) {
+            LocalCircleEntry localCircleEntry = localCircleEntryMapper.findLocalCircleEntryByUserId(mcNumberId);
+            BeanUtils.copyProperties(localCircleEntry, registerShopInformationResult);
+        } else if (merchantUserLoginInfoModel.getAccounttype() == 2) {
+            McEntryInformation mcEntryInformation = mcEntryinFormationMapper.findMcEntryInformationByMcNumberId(mcNumberId);
+            BeanUtils.copyProperties(mcEntryInformation, registerShopInformationResult);
+        }
+        return registerShopInformationResult;
+    }
 
 }
