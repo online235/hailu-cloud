@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +51,7 @@ public class McShopTagController {
             @ApiImplicitParam(name = "tagId", value = "标签编号", allowMultiple = true,  required = true, paramType = "query"),
             @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
     })
-    @GetMapping("/addShopTag")
+    @PostMapping("/addShopTag")
     public List<McShopTag> addMcSHopTag(
             @NotNull(message = "标签编号不能为空") Long[] tagId,
             @NotNull(message = "店铺编号不能为空") Long storeId) {
@@ -64,7 +65,7 @@ public class McShopTagController {
             @ApiImplicitParam(name = "tagId", value = "标签编号", allowMultiple = true,  required = true, paramType = "query"),
             @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
     })
-    @GetMapping("/updShopTag")
+    @PostMapping("/updShopTag")
     public List<McShopTag> updateMcShopTag(
             @NotNull(message = "标签编号不能为空") Long[] tagId,
             @NotNull(message = "店铺编号不能为空") Long storeId) {

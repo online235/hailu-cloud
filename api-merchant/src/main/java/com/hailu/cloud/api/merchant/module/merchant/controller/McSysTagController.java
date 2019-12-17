@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -41,7 +38,7 @@ public class McSysTagController {
             @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query")
     })
-    @PostMapping("/findMcSysTagList")
+    @GetMapping("/findMcSysTagList")
     public PageInfoModel<List<McSysTag>> findMcSysTagList(
             @Pattern(regexp = "^\\d*$", message = "请输入数字")
             @RequestParam(name = "page", defaultValue = "1") Integer page,
