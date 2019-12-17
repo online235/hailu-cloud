@@ -69,7 +69,7 @@
     <select id="findListByParameter" resultType="com.hailu.cloud.api.admin.module.banner.model.SysBannerModel">
 
         select id, title, content, start_time, end_time, sort, banner_image,
-        type, "space", subtitle, title_image, banner_space,
+        type, space, subtitle, title_image, banner_space,
         target_id, banner_url, target_name
         from sys_banner where 1=1
         <if test="startTime != null and startTime != ''">
@@ -92,7 +92,7 @@
     <select id="findSysBannerModelById" resultType="com.hailu.cloud.api.admin.module.banner.model.SysBannerModel">
 
         select id, title, content, start_time, end_time, sort, banner_image,
-        type, "space", subtitle, title_image, banner_space,
+        type, space, subtitle, title_image, banner_space,
         target_id, banner_url, target_name
         from sys_banner where id = #{id}
     </select>

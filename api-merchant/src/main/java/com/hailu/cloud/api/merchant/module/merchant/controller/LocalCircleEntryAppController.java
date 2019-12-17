@@ -92,7 +92,7 @@ public class LocalCircleEntryAppController {
     @PostMapping("businessType")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "prentId", value = "父类编号id", paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "mcType", value = "入驻商户类型", paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "mcType", value = "入驻商户类型,1 生活圈 ，2 百货", paramType = "query", dataType = "int",required = true)
     })
     public List<McManagementType> findGoodsList(Long parentId, Integer mcType) {
 

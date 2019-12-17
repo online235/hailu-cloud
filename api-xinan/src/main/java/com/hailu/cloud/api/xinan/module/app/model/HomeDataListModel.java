@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author zhangmugui
  */
@@ -13,12 +15,12 @@ import lombok.Data;
 public class HomeDataListModel {
 
 
-    @ApiModelProperty("互助会员数A")
-    private String helpMemberNumA;
+    @ApiModelProperty("加入心安人数")
+    private String helpMemberNum;
 
 
-    @ApiModelProperty("互助会员数B")
-    private String helpMemberNumB;
+    @ApiModelProperty("最新三条救助案例")
+    private List<XaHelpMemberModel> xaHelpMemberModels;
 
 
     @ApiModelProperty("最新一期期数统计和案例")
@@ -26,12 +28,13 @@ public class HomeDataListModel {
 
 
 
-    @ApiModelProperty("上一期期数统计和案例")
-    private XaStatisticsModel xaStatisticsModelLast;
-
-
     @ApiModelProperty("已划拨互助金额")
     private String helpMoneyCount;
+
+
+    @ApiModelProperty("轮播图列表")
+    private List<BannerResult> bannerResultList;
+
 
 
 }

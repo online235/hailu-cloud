@@ -1,0 +1,41 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.SysBannerMapper">
+
+
+    <select id="findListByParameter" resultType="com.hailu.cloud.api.xinan.module.app.model.BannerResult">
+
+        select
+        id, title, content, banner_image,
+        type,target_id, banner_url, target_name
+        from sys_banner where 1=1
+        <if test="nowTime != null and nowTime != ''">
+            and date_format(start_time,'%Y-%m')<![CDATA[<=]]> #{nowTime}
+        </if>
+        <if test="nowTime != null and nowTime != ''">
+            and date_format(end_time,'%Y-%m')<![CDATA[>=]]> #{nowTime}
+        </if>
+        <if test="title != null ">
+            AND title = #{title}
+        </if>
+        <if test="bannerSpace != null ">
+            AND banner_space = #{bannerSpace}
+        </if>
+        <if test="id != null ">
+            AND id = #{id}
+        </if>
+    </select>
+
+    <select id="findSysBannerModelById" resultType="com.hailu.cloud.api.xinan.module.app.model.SysBannerModel">
+
+        select
+        id, title, content, start_time, end_time,
+        sort, banner_image,type, space, subtitle, title_image, banner_space,
+        target_id, banner_url, target_name
+        from sys_banner where id = #{id}
+    </select>
+
+
+
+
+
+</mapper>

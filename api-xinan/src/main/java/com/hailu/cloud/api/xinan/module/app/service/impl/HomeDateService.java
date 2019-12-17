@@ -2,9 +2,11 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.hailu.cloud.api.xinan.module.app.model.BannerResult;
 import com.hailu.cloud.api.xinan.module.app.model.HomeDataListModel;
 import com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel;
 import com.hailu.cloud.api.xinan.module.app.model.XaStatisticsModel;
+import com.hailu.cloud.api.xinan.module.app.service.SysBannerService;
 import com.hailu.cloud.api.xinan.module.app.service.XaHelpMenberService;
 import com.hailu.cloud.api.xinan.module.app.service.XaStatisticsService;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
@@ -28,10 +30,11 @@ public class HomeDateService {
     private XaHelpMenberService xaHelpMenberService;
     @Resource
     private XaStatisticsService xaStatisticsService;
+    @Resource
+    private SysBannerService sysBannerService;
 
-    private String helpMemberNumA;
+    private String helpMemberNum;
 
-    private String helpMemberNumB;
 
     private String helpMoneyCount;
 
@@ -44,66 +47,45 @@ public class HomeDateService {
     public HomeDataListModel getHomeDateListModel() {
 
         HomeDataListModel homeDataListModel = new HomeDataListModel();
-        helpMemberNumA = redisStandAloneClient.stringGet("helpMemberNumA");
-        helpMemberNumB = redisStandAloneClient.stringGet("helpMemberNumB");
+        helpMemberNum = redisStandAloneClient.stringGet("helpMemberNum");
         helpMoneyCount = redisStandAloneClient.stringGet("helpMoneyCount");
-        if (StringUtil.isBlank(helpMemberNumA)) {
-            helpMemberNumA = "998657";
-        }
-        if (StringUtil.isBlank(helpMemberNumB)) {
-            helpMemberNumB = "998688";
+        if (StringUtil.isBlank(helpMemberNum)) {
+            helpMemberNum = "998657";
         }
         if (StringUtil.isBlank(helpMoneyCount)) {
             helpMoneyCount = "123546765";
         }
-        helpMemberNumA = String.valueOf(Long.parseLong(helpMemberNumA) + 10L);
-        helpMemberNumB = String.valueOf(Long.parseLong(helpMemberNumB) + 10L);
+        helpMemberNum = String.valueOf(Long.parseLong(helpMemberNum) + 10L);
         helpMoneyCount = String.valueOf(Long.parseLong(helpMoneyCount) + 10L);
         Map map = new HashMap();
         List<XaStatisticsModel> xaStatistics = xaStatisticsService.findListByParameter(map);
-        List<XaStatisticsModel> xaStatisticLastList = xaStatisticsService.findListByParameter(map);
         XaStatisticsModel xaStatisticsModel = new XaStatisticsModel();
-        List<XaHelpMemberModel> xaHelpMemberModels = new ArrayList<>();
-        XaStatisticsModel xaStatisticsModelLast = new XaStatisticsModel();//上一期统计数据
-        List<XaHelpMemberModel> xaHelpMemberModelsLast = new ArrayList<>();//上一期案例
+        List<XaHelpMemberModel> xaHelpMemberModelList = new ArrayList<>();
         //最新期数统计
         if (!CollectionUtils.isEmpty(xaStatistics)) {
             xaStatisticsModel = xaStatistics.get(0);
             map.put("periodsNumber", xaStatisticsModel.getPeriodsNumber());
             map.put("timeDate", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
             //本期历史案例
-            xaHelpMemberModels = xaHelpMenberService.findListByParameter(map);
-            //上一期数据
-            if (xaStatisticsModel.getPeriodsNumber() > 1) {
-                map.clear();
-                map.put("periodsNumber", xaStatisticsModel.getPeriodsNumber() - 1);
-                map.put("timeDate", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
-                xaStatisticLastList = xaStatisticsService.findListByParameter(map);
-            } else {
-                map.clear();
-                //上个月期数数据
-                map.put("periodsNumber", 2);
-                map.put("timeDateLast", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
-                xaStatisticLastList = xaStatisticsService.findListByParameter(map);
-            }
-            if (!CollectionUtils.isEmpty(xaStatisticLastList)) {
-                xaStatisticsModelLast = xaStatisticLastList.get(0);
-                map.clear();
-                map.put("periodsNumber", xaStatisticsModelLast.getPeriodsNumber());
-                map.put("timeDate", DateUtil.format(xaStatisticsModelLast.getTimeDate(), "YYYY-MM"));
-                xaHelpMemberModelsLast = xaHelpMenberService.findListByParameter(map);
-            }
+            xaHelpMemberModelList = xaHelpMenberService.findListByParameter(map);
         }
-        //最新案例
-        xaStatisticsModel.setXaHelpMemberModelList(xaHelpMemberModels);
-        xaStatisticsModelLast.setXaHelpMemberModelList(xaHelpMemberModelsLast);
-        homeDataListModel.setXaStatisticsModelLast(xaStatisticsModelLast);
+        xaStatisticsModel.setXaHelpMemberModelList(xaHelpMemberModelList);
+        //最新三条历史案例
+        map.clear();
+        map.put("num",0);
+        map.put("size",3);
+        List<XaHelpMemberModel> xaHelpMemberModels = xaHelpMenberService.findListByParameter(map);
+        //轮播图
+        map.clear();
+        map.put("bannerSpace",1);
+        map.put("nowTime",DateUtil.format(new Date(),"YYYY-MM-dd"));
+        List<BannerResult> bannerResultList = sysBannerService.findListByParameter(map);
+        homeDataListModel.setBannerResultList(bannerResultList);
+        homeDataListModel.setXaHelpMemberModels(xaHelpMemberModels);
         homeDataListModel.setXaStatisticsModel(xaStatisticsModel);
-        homeDataListModel.setHelpMemberNumA(helpMemberNumA);
-        homeDataListModel.setHelpMemberNumB(helpMemberNumB);
+        homeDataListModel.setHelpMemberNum(helpMemberNum);
         homeDataListModel.setHelpMoneyCount(helpMoneyCount);
-        redisStandAloneClient.stringSet("helpMemberNumA", helpMemberNumA, 3600 * 24 * 30);
-        redisStandAloneClient.stringSet("helpMemberNumB", helpMemberNumB, 3600 * 24 * 30);
+        redisStandAloneClient.stringSet("helpMemberNum", helpMemberNum, 3600 * 24 * 30);
         redisStandAloneClient.stringSet("helpMoneyCount", helpMoneyCount, 3600 * 24 * 30);
         return homeDataListModel;
     }
