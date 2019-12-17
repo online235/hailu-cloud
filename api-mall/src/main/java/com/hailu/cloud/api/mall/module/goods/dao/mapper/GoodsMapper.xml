@@ -153,31 +153,8 @@
     <select id="findNavigationList" resultType="com.hailu.cloud.api.mall.module.goods.entity.Navigation">
 		SELECT * FROM shop_navigation where is_del='1' order by sort
 	</select>
-    <!--首页有推荐 begin-->
-    <resultMap id="HRResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.HomeRecommend">
-        <id column="hr_id" property="hrId" jdbcType="INTEGER"/>
-        <collection property="homeRecommendGoods" column="hr_id" select="findHomeRecommendGoods"/>
-    </resultMap>
-    <select id="findHomeRecommend" resultMap="HRResultMap">
-		SELECT * FROM shop_home_recommend ORDER BY hr_sort LIMIT #{page},#{rows}
-	</select>
-    <!--end -->
     <select id="findModuleSettings" resultType="com.hailu.cloud.api.mall.module.goods.entity.ModuleSettings">
 		SELECT * FROM shop_module_settings WHERE ms_show_site=#{show} and ms_state='1' order by ms_sort
-	</select>
-    <!--会员特惠-->
-    <resultMap id="SpecialResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOffer">
-        <id column="so_id" property="soId" jdbcType="INTEGER"/>
-        <collection property="offerSettingList" column="so_id" select="findSpecialSetting"/>
-    </resultMap>
-    <resultMap id="SpecialSettingResultMap"
-               type="com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOfferSetting">
-        <id column="sos_id" property="sosId" jdbcType="INTEGER"/>
-        <collection property="offerGoodsList" column="sos_id" select="findSpecialOfferGoods2"/>
-    </resultMap>
-    <select id="findSpecialOfferGoods" resultMap="SpecialResultMap">
-		SELECT so.* FROM shop_special_offer so
-		WHERE so.so_state='2' and so.is_del='1'
 	</select>
     <!--每周精选-->
     <resultMap id="WeekFeaturedResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.goods.WeekFeatured">

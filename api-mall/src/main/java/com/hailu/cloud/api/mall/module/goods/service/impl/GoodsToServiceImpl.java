@@ -1,11 +1,10 @@
 package com.hailu.cloud.api.mall.module.goods.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsParameterVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.*;
@@ -50,6 +49,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
 
     @Autowired
     private IComputeCommission computeCommission;
+
     /**
      * 添加商品评价
      */
@@ -183,10 +183,10 @@ public class GoodsToServiceImpl implements IGoodsToService {
     @Override
     public List<GoodsListVo> verifyByGcIdQueryGoods(Integer page, Integer row, Integer gcId, Integer conditions, String goodsName, String oby, Integer isBigClass) throws Exception {
         if (page == null) {
-            throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
+            throw new BusinessException("参数为空");
         }
         if (row == null) {
-            throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
+            throw new BusinessException("参数为空");
         }
         if (StringUtils.isNotBlank(goodsName)) {
             this.verifyHotByName(goodsName.trim());
@@ -194,13 +194,14 @@ public class GoodsToServiceImpl implements IGoodsToService {
         page = (page - 1) * row;
         //根据分类id得到商品属性
         List<GoodsListVo> goodsList = goodsToDao.findByGcIdQueryGoods(page, row, gcId, conditions, goodsName, oby, isBigClass);
-        if(goodsList.size() > 0){
+        if (goodsList.size() > 0) {
             breakDown(goodsList);
         }
         return goodsList;
     }
+
     private void breakDown(List<GoodsListVo> goodsList) {
-        for(GoodsListVo goodsListVo : goodsList) {
+        for (GoodsListVo goodsListVo : goodsList) {
             goodsListVo.setIsActivity(0);
             goodsListVo.setActivltyType(2);
             //根据商品默认规格id得到价格
@@ -232,46 +233,23 @@ public class GoodsToServiceImpl implements IGoodsToService {
                     recomm.setCoverImg(Const.PRO_URL + recomm.getCoverImg());
                 }
 
-                //是否首发
-                Integer isPublish = recomm.getIsPublish();
                 //显示数量
                 Integer showNum = recomm.getShowNum();
-                if (isPublish == 1) {
-                    //新品首发
-                    List<NewGoodsVo> newGoods = goodsToDao.getNewGoods();
-                    if (newGoods.size() > 0) {
-                        for (NewGoodsVo newGoodsVo : newGoods) {
-                            //根据商品规格id得到相应的价钱
-                            Map<String, Object> price = goodsToDao.getPriceAndNum(newGoodsVo.getSpecId());
-                            if( price != null ){
-                                newGoodsVo.setGoodsPrice(((BigDecimal) price.get("gprice")).doubleValue());
-                                newGoodsVo.setHasBeen((Integer) price.get("hasBeen"));
-                            }
-                            //拼接商品路劲
-                            if (StringUtils.isNotEmpty(newGoodsVo.getShowImg()) && !("http").equals(newGoodsVo.getShowImg().substring(0, 4))) {
-                                newGoodsVo.setShowImg(Const.PRO_URL + newGoodsVo.getShowImg());
-                            }
-                        }
+                Integer gcBigId = recomm.getGcBigId();
+                List<GoodsListVo> goods = goodsToDao.getGcRecommend(gcBigId, showNum, recomm.getRecommendId());
+                if (goods.size() > 0) {
+                    for (GoodsListVo goodsList : goods) {
+                        goodsList.setIsActivity(0);
+                        goodsList.setActivltyType(2);
+                        //商品价格
+                        GoodsListVo price = goodsToDao.findBySpecId(goodsList.getSpecId());
+                        goodsList.setSpecGoodsPrice(price.getSpecGoodsPrice());
+                        goodsList.setSpecGoodsVipPrice(price.getSpecGoodsVipPrice());
+                        goodsList.setSpecGoodsPurchasePrice(price.getSpecGoodsPurchasePrice());
+                        goodsList.setCommission(computeCommission.compute(price.getCommission(), merchantType));
                     }
-                    recomm.setNewGoods(newGoods);
-                } else {
-                    Integer gcBigId = recomm.getGcBigId();
-                    List<GoodsListVo> goods = goodsToDao.getGcRecommend(gcBigId, showNum, recomm.getRecommendId());
-                    if (goods.size() > 0) {
-                        for (GoodsListVo goodsList : goods) {
-                            goodsList.setIsActivity(0);
-                            goodsList.setActivltyType(2);
-                            //商品价格
-                            GoodsListVo price = goodsToDao.findBySpecId(goodsList.getSpecId());
-                            goodsList.setSpecGoodsPrice(price.getSpecGoodsPrice());
-                            goodsList.setSpecGoodsVipPrice(price.getSpecGoodsVipPrice());
-                            goodsList.setSpecGoodsPurchasePrice(price.getSpecGoodsPurchasePrice());
-                            goodsList.setCommission(computeCommission.compute(price.getCommission(),merchantType));
-                        }
-                    }
-                    recomm.setGoodsList(goods);
-                    //map.put("goods",goods);
                 }
+                recomm.setGoodsList(goods);
             }
         }
         return homelist;
@@ -301,7 +279,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
     public GoodsInfoVo verifyGoodsInfo(Integer goodsId, Integer activityType, Integer isReserve, String userId) throws Exception {
 
         if (goodsId == null) {
-            throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
+            throw new BusinessException("参数为空");
         }
 
         GoodsInfoVo goodsInfo = goodsToDao.getGoodsInfo(goodsId);
@@ -361,8 +339,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 goodsInfo.setGoodsBody(imgPath.toString());
             }
         }
-        Integer actType = 3;
-
 
         //页面显示的规格
         goodsInfo.setSpec(maplist2);
@@ -377,118 +353,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
             goodsInfo.setIsCompl(0);
         }
         return goodsInfo;
-    }
-
-
-    @Override
-    public ActPriceVo getGoodsNum(int goodsId, int specId) {
-        return goodsToDao.getGoodsNum(goodsId, specId);
-    }
-
-    @Override
-    public void updateGoodsStorage(int goodsId, int specId, int goodsStorage, int specSalenum) {
-        goodsToDao.updateGoodsStorage(goodsId, specId, goodsStorage, specSalenum);
-
-    }
-
-
-    /**
-     * 马宗旭
-     *
-     * @param goodsRuleId 规格ID
-     * @return 规格名称
-     */
-    @Override
-    public String getGoodeSpecName(Integer goodsRuleId) {
-        return goodsToDao.getGoodeSpecName(goodsRuleId);
-    }
-
-    /**
-     * 根据商品id获取商品
-     *
-     * @param id
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public GoodsListVo getGoods2(int id) throws Exception {
-        return goodsToDao.getGoods2(id);
-    }
-
-    /**
-     * @author 黄亮
-     * 根据商品id和规格id得到常规活动
-     */
-    @Override
-    public NormalActVo findByGoodsIdSpecId(int goodsId, int specId) throws Exception {
-
-        return goodsToDao.findByGoodsIdSpecId(goodsId, specId);
-    }
-
-    /**
-     * @author 黄亮
-     * 得到活动详情
-     */
-    @Override
-    public ActPriceVo getByGoodsIdAndSpecId(int goodsId, int specId) {
-
-        return goodsToDao.getByGoodsIdAndSpecId(goodsId, specId);
-    }
-
-
-    /**
-     * @author 刘信
-     * 获取众筹预定列表
-     */
-    @Override
-    public List<ActGoodsPriceVo> getshowActivity(int activityType, String sessionID) throws Exception {
-
-        List<ActGoodsPriceVo> list = goodsToDao.selectShow(activityType);
-        if (list.size() > 0) {
-            for (ActGoodsPriceVo l : list) {
-                l.setHasBeen(l.getHasBeen() + l.getVirtual());
-                int goodsId = l.getGoodsId();
-                ActGoodsPriceVo act = goodsToDao.selectShow2(goodsId);
-                l.setGoodsName(act.getGoodsName());
-                l.setGoodsDescription(act.getGoodsDescription());
-            }
-        }
-
-        return list;
-    }
-
-    /**
-     * @author 黄亮
-     * 根据规格id和商品id商品类型id得到活动
-     */
-    @Override
-    public ActPriceVo findByGoodsIdAndActType(int goodsId, int actType, int goodsSpecId) {
-
-        return goodsToDao.findByGoodsIdAndActType(goodsId, actType, goodsSpecId);
-    }
-
-
-
-    /**
-     * @author 黄亮
-     * 得到新品首发
-     */
-    @Override
-    public List<NewGoodsVo> getNewGoods() {
-        List<NewGoodsVo> newGoods = goodsToDao.getNewGoods();
-        if (newGoods.size() > 0) {
-            for (NewGoodsVo newGoodsVo : newGoods) {
-                //根据商品规格id得到相应的价钱
-                Map<String, Object> price = goodsToDao.getPriceAndNum(newGoodsVo.getSpecId());
-                newGoodsVo.setGoodsPrice(((BigDecimal) price.get("gprice")).doubleValue());
-                newGoodsVo.setHasBeen((Integer) price.get("hasBeen"));
-                //拼接商品路劲
-                if (StringUtils.isNotEmpty(newGoodsVo.getShowImg()) && !("http").equals(newGoodsVo.getShowImg().substring(0, 4))) {
-                    newGoodsVo.setShowImg(Const.PRO_URL + newGoodsVo.getShowImg());
-                }
-            }
-        }
-        return newGoods;
     }
 
     /**
@@ -516,8 +380,8 @@ public class GoodsToServiceImpl implements IGoodsToService {
         List<Map<String, Object>> map = new ArrayList<>();
         if (goodsClassList != null && goodsClassList.size() > 0) {
             for (int i = 0; i < goodsClassList.size(); ) {
-                int pid = 0;
-                Map<String, Object> map1 = new HashMap<String, Object>();
+                int pid;
+                Map<String, Object> map1 = new HashMap<>(10);
                 List<GoodsClassVo> gg = new ArrayList<>();
                 pid = goodsClassList.get(0).getParentId();
                 Iterator<GoodsClassVo> it = goodsClassList.iterator();
@@ -527,7 +391,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                         if (map1.get("name") == null || StringUtils.isEmpty(String.valueOf(map1.get("name")))) {
                             //得到父类id
                             GoodsClassVo gc = goodsToDao.getGoodsClass(x.getParentId());
-                            if(gc != null){
+                            if (gc != null) {
                                 map1.put("name", gc.getGcName());
                             }
                         }
@@ -541,7 +405,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
         }
         return map;
     }
-
 
 
     /**
@@ -559,7 +422,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
     public Map<String, Object> getFreight(double couAndGoAmount, String cityName, Integer goodsId, Integer goodsNum, Integer specId, Integer type, Integer couponId) {
 
         couAndGoAmount = (couAndGoAmount < 0) ? 0 : couAndGoAmount;
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         //运费
         BigDecimal freight = BigDecimal.valueOf(0);
 
@@ -612,32 +475,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
     }
 
     /**
-     * 获取订单中的运费
-     *
-     * @param cityName
-     * @param cartIds
-     * @param cGoodsId
-     * @param cPrice
-     * @param orderAmounts
-     * @param goodsAmount
-     * @param cartVoList
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public BigDecimal getOrderFreight(
-            String cityName,
-            String cartIds,
-            Integer cGoodsId,
-            Double cPrice,
-            List<OrderAmount> orderAmounts,
-            BigDecimal goodsAmount,
-            List<CartVo> cartVoList) {
-
-        return getFreight(cartIds, cityName, cartVoList, orderAmounts, cGoodsId, cPrice, goodsAmount);
-    }
-
-    /**
      * @param cartIds
      * @param couponId
      * @param cartVos
@@ -664,9 +501,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
             goodsAmount = goodsAmount.add(oa.getGoodsPrice());
         }
         BigDecimal freight = getFreight(cartIds, cityName, cartVos, orderAmounts, cGoodsId, cPrice, goodsAmount);
-        Map<String, Object> map = new HashMap<>();
-        map.put("freight", freight.doubleValue());
-        return map;
+        return ImmutableMap.of("freight", freight.doubleValue());
     }
 
     /**
@@ -783,7 +618,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
     public Map<String, Object> findGoodsFreight(int goodsId, String cityName) {
         BigDecimal freight = BigDecimal.valueOf(0);
         //根据商品id得到字段是否免邮
-        //		  int transport=goodsToDao.getTransport(goodsId);
         GoodsInfoVo goodsInfo = goodsToDao.getGoodsInfo(goodsId);
         if (goodsInfo.getTransportId() != 0) {
             //根据模板id得到对应的和省名运费
@@ -795,9 +629,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 freight = BigDecimal.valueOf(freightVo.getSprice());
             }
         }
-        Map<String, Object> result = new HashMap<>();
-        result.put("freight", freight.doubleValue());
-        return result;
+        return ImmutableMap.of("freight", freight.doubleValue());
     }
 
     /**
@@ -808,13 +640,13 @@ public class GoodsToServiceImpl implements IGoodsToService {
     public Map<String, Object> analysisJSON(List<SpecVo> list) {
         List<Map<String, Object>> mapList = new LinkedList<>();
         List<Map<String, Object>> maplist1 = new LinkedList<>();
-        List<Map<String, Object>> maplist2 = new LinkedList<>();
+        List<Map<String, Object>> maplist2;
         List<Map<String, Object>> maplist4 = new LinkedList<>();
         List<Map<String, Object>> maplist5 = new LinkedList<>();
         int sl = 0;
 
         for (SpecVo specVo : list) {
-            Map<String, Object> specGoodsId = new HashMap<String, Object>();
+            Map<String, Object> specGoodsId = new HashMap<>(10);
             //加入购物车的规格id
             specGoodsId.put("specGoodsId", specVo.getSpecGoodsId());
             String s = specVo.getSpecName();
@@ -827,8 +659,8 @@ public class GoodsToServiceImpl implements IGoodsToService {
             String pid = "0";
             StringBuilder gsId = new StringBuilder();
             for (int j = 0; j < sl; j++) {
-                Map<String, Object> map = new HashMap<>();
-                Map<String, Object> map1 = new HashMap<>();
+                Map<String, Object> map = new HashMap<>(10);
+                Map<String, Object> map1 = new HashMap<>(20);
                 String[] sStr = ss[j].split(":");
                 String[] spStr = sps[j].split(":");
                 map.put("name", sStr[1].substring(1, sStr[1].length() - 1));
@@ -841,13 +673,13 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 map1.put("specGoodsPurchasePrice", specVo.getSpecGoodsPurchasePrice());
 
                 // 计算提成
-                Object modelMerchant =  RequestUtils.getRequest().getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
+                Object modelMerchant = RequestUtils.getRequest().getAttribute(Constant.REQUEST_ATTRIBUTE_CURRENT_USER);
                 Integer merchantType = null;
-                if( modelMerchant != null){
+                if (modelMerchant != null) {
                     AuthInfo<MemberLoginInfoModel> authInfo = (AuthInfo<MemberLoginInfoModel>) modelMerchant;
                     merchantType = authInfo.getUserInfo().getMerchantType();
                 }
-                map1.put("commission", computeCommission.compute(specVo.getCommission(),merchantType));
+                map1.put("commission", computeCommission.compute(specVo.getCommission(), merchantType));
 
                 map1.put("specSalenum", specVo.getSpecSalenum());
                 map1.put("specGoodsStorage", specVo.getSpecGoodsStorage());
@@ -872,7 +704,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                     }
                 }
                 if (!flag) {
-                    map1 = new HashMap<>();
+                    map1 = new HashMap<>(1);
                 }
                 maplist4.add(map1);
             }
@@ -881,7 +713,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
         }
         int item = 0;
         for (int l = 0; l < sl; l++) {
-            Map<String, Object> map3 = new HashMap<>();
+            Map<String, Object> map3 = new HashMap<>(10);
             map3.put("leven", item);
             map3.put("name", "");
             maplist2 = new ArrayList<>();
@@ -906,116 +738,10 @@ public class GoodsToServiceImpl implements IGoodsToService {
             maplist1.add(map3);
         }
 
-        Map<String, Object> map10 = new HashMap<>(2);
+        Map<String, Object> map10 = new HashMap<>(10);
         map10.put("spec", maplist1);
         map10.put("goodsSpec", maplist5);
         return map10;
-    }
-
-    /**
-     * 优化过后的规格使用
-     *
-     * @return
-     * @Author huangl
-     */
-    public static String specIndex(List<SpecVo> list) {
-        String jsonStr1 = "{\"1\":\"颜色\",\"2\":\"内存\",\"3\":\"CPU\"}";
-        String jsonStr2 = "{\"319\":\"red\",\"315\":\"32G\",\"317\":\"1000CPU\"}";
-        try {
-            List<String> superArray = getValueArray(jsonStr1);
-            List<String> childArray = getValueArray(jsonStr2);
-            for (int i = 0; i < superArray.size(); i++) {
-                System.out.println(superArray.get(i) + " - " + childArray.get(i));
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return "";
-    }
-
-    public static List<String> getValueArray(String jsonStr) throws Exception {
-        List<String> result = new ArrayList<String>();
-        Iterator<Entry<String, JsonNode>> tmp = trans(jsonStr);
-        while (tmp.hasNext()) {
-            Entry<String, JsonNode> node = tmp.next();
-            result.add(node.getValue().asText());
-        }
-        return result;
-    }
-
-    public static Iterator<Entry<String, JsonNode>> trans(String jsonStr) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readTree(jsonStr).fields();
-    }
-
-    /**
-     * 拼接服务申请
-     *
-     * @return
-     */
-    @Override
-    public String getApplyForOdd() {
-        String returnStr = "";
-        try {
-            /*
-             * 返回数据组装
-             */
-            String tempStr = "";
-
-            System.out.println("最大订单号" + tempStr);
-            String yd = "";
-            /*
-             * 当天日期组合
-             */
-            Calendar c = Calendar.getInstance();
-            // 年
-            yd = String.valueOf(c.get(Calendar.YEAR));
-            // 月
-            String month = String.valueOf(c.get(Calendar.MONTH) + 1);
-            // 日
-            String date = String.valueOf(c.get(Calendar.DATE));
-
-            yd = month.length() >= 2 ? yd + month : yd + "0" + month;
-            yd = date.length() >= 2 ? yd + date : yd + "0" + date;
-
-            if (tempStr.length() > 0) {
-                String code = tempStr;
-
-                // 年月日
-                String d = code.substring(2, 10);
-                if (d.equals(yd)) {
-                    // 当天已有过编码
-                    String s = code.substring(10);
-                    int i = Integer.parseInt(s);
-                    s = String.valueOf(++i);
-
-                    if (s.length() == 1) {
-                        s = "0000" + s;
-                    } else if (s.length() == 2) {
-                        s = "000" + s;
-                    } else if (s.length() == 3) {
-                        s = "00" + s;
-                    } else if (s.length() == 4) {
-                        s = "0" + s;
-                    }
-                    returnStr = d + s;
-                } else {
-                    returnStr = yd + "00001";
-                }
-            } else {
-                returnStr = yd + "00001";
-            }
-
-            System.out.println(" ****** orderCode ******   " + returnStr);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-        }
-        // returnStr = "ZU" + returnStr; //测试环境
-        // 生产环境
-        returnStr = "SQ" + returnStr;
-        return returnStr;
     }
 
     @Override
@@ -1041,54 +767,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
     }
 
     @Override
-    public GoodsWVo findGoodsByIdWT(int goodsId) {
-        return goodsToDao.findGoodsByIdWT(goodsId);
-    }
-
-
-
-    @Override
-    public Map<String, Object> getReserveAndNew() {
-        List<Map<String, Object>> maps = goodsToDao.getReserveAndNew();
-        Map<String, Object> map = new HashMap<String, Object>();
-        for (int i = 0; i < maps.size(); i++) {
-            if ((long) maps.get(i).get("apId") == 19) {
-                map.put("reserveImg", Const.PRO_URL + maps.get(i).get("resUrl"));
-                continue;
-            } else {
-                map.put("newGoodsImg", Const.PRO_URL + maps.get(i).get("resUrl"));
-                continue;
-            }
-        }
-        return map;
-    }
-
-    @Override
-    public String getSpecGoodsSpec(Integer goodsSpecId) {
-        String json = goodsToDao.getSpecGoodsSpec(goodsSpecId);
-        Map<String, String> map = (Map<String, String>) JSON.parse(json);
-        Iterator<Entry<String, String>> it = map.entrySet().iterator();
-        StringBuilder s = new StringBuilder();
-        boolean b = false;
-        while (it.hasNext()) {
-            Entry<String, String> entry = it.next();
-            if (b) {
-                s.append(":").append(entry.getValue());
-                continue;
-            }
-            s.append(entry.getValue());
-            b = true;
-        }
-        return s.toString();
-    }
-
-
-    @Override
-    public GoodsInfoVo getGoodsInfo(Integer goodsId) {
-        return goodsToDao.getGoodsInfo(goodsId);
-    }
-
-    @Override
     public List<GoodsListVo> getRecommend(String type) {
         List<GoodsListVo> goodsListVos = goodsToDao.getRecommend(type);
         return goodsListVos;
@@ -1099,7 +777,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
         List<GoodsListVo> parentClassList = goodsToDao.getParentClassList(parentId);
         return parentClassList;
     }
-
 
     @Override
     public Map<String, Object> getGoodsClass() {
@@ -1121,8 +798,4 @@ public class GoodsToServiceImpl implements IGoodsToService {
         return result;
     }
 
-    @Override
-    public List<GoodsListVo> getGoodsRecommend(String type, int page, int rows) {
-        return goodsToDao.getGoodsRecommend(type, page, rows);
-    }
 }

@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
@@ -261,9 +262,7 @@ public class McStoreInformationController {
         if (storeId == null) {
             throw new BusinessException("店铺id不能为空！");
         }
-        Map<String, Object> map = new HashMap<>(4);
-        map.put("storeId", storeId);
-        return mcStoreAlbumService.findListByParam(map);
+        return mcStoreAlbumService.findListByParam(ImmutableMap.of("storeId", storeId));
 
     }
 

@@ -88,7 +88,6 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
                         if (ol.getPaymentState() == 0) {
                             OrderToPay otp = new OrderToPay();
                             otp.setOrderId(ol.getOrderId());
-                            // otp.setPaymentId(op.getPayId());
                             otp.setPaymentName(payType == 1? "支付宝":"微信");
                             otp.setPaymentState(1);
                             otp.setPaymentTime(System.currentTimeMillis());
@@ -136,7 +135,7 @@ public class OSSOrderServiceImpl implements IOSSOrderService {
 
         PayRequest payRequest = new PayRequest();
         log.info("订单支付|payType={}|orderNumber={}",payType,orderSn);
-        Map<String, Object> data = new HashMap<>();
+        Map<String, Object> data = new HashMap<>(10);
         //获取根据订单编号得到订单的信息
         OrderToVo ol = orderService.findByOrderSn(orderSn);
         if (ol != null) {

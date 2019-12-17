@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.mall.module.goods.controller;
 
-import com.hailu.cloud.api.mall.module.goods.entity.HomeRecommend;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoTo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.SearchGoodsParam;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOffer;
@@ -121,31 +120,6 @@ public class GoodsController {
             @RequestParam(value = "rows") int rows) {
 
         return goodsService.goodsAllEvaluate(goodsId, page <= 1 ? 0 : (page - 1) * rows, rows);
-    }
-
-    /**
-     * 得到小程序首页
-     */
-    @GetMapping("/findXHome")
-    public Map<String, Object> findXHome() {
-        return goodsService.findXHome();
-    }
-
-    /**
-     * 得到首页推荐
-     */
-    @GetMapping("/findHomeRecommend")
-    public List<HomeRecommend> findHomeRecommend(@RequestParam int page) {
-        int rows = 10;
-        return goodsService.findHomeRecommend(page > 1 ? (page - 1) * rows : 0, rows);
-    }
-
-    /**
-     * 会员特惠
-     */
-    @GetMapping("/findSpecialOfferGoods")
-    public SpecialOffer findSpecialOfferGoods() {
-        return goodsService.findSpecialOfferGoods();
     }
 
     /**

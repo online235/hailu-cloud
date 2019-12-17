@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.mall.module.customerservice.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity;
 import com.hailu.cloud.api.mall.module.customerservice.service.ICsApplyService;
 import com.hailu.cloud.api.mall.module.customerservice.service.ICsReasonService;
@@ -14,9 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Administrator
@@ -95,9 +96,7 @@ public class CsApplyController {
                 ol.setOrderGoods(og);
             }
         }
-        Map<String, Object> data = new HashMap<>();
-        data.put("orders", orders);
-        return data;
+        return ImmutableMap.of("orders", orders);
     }
 
 
@@ -174,10 +173,8 @@ public class CsApplyController {
      * 返回申请售后订单明细商品显示
      */
     @GetMapping("/getCyApplyGoods")
-    public CsApplyGoods getCyApplyGoods(
-            @RequestParam("orderGoodsId") int orderGoodsId) throws BusinessException {
+    public CsApplyGoods getCyApplyGoods(@RequestParam("orderGoodsId") int orderGoodsId) throws BusinessException {
 
-        CsApplyGoods responseData = new CsApplyGoods();
         CsApplyGoods csApplyGoods = csApplyService.getCyApplyGoods(orderGoodsId);
         if (csApplyGoods == null) {
             throw new BusinessException("没有该订单明细");
@@ -196,18 +193,14 @@ public class CsApplyController {
 
         page = (page - 1) * row;
         List<CsApplyListVo> orders = csApplyService.getCsApplyList(userId, page, row);
-        //跟据订单id得到订单中的商品  getCsApplyList
-        Map<String, Object> data = new HashMap<>();
-        data.put("orders", orders);
-        return data;
+        return ImmutableMap.of("orders", orders);
     }
 
     /***
      * 获取售后申请详情接口
      */
     @GetMapping("/csApplyById")
-    public CsApplyVo csApplyById(
-            @RequestParam(value = "csApplyId") Integer csApplyId) {
+    public CsApplyVo csApplyById(@RequestParam(value = "csApplyId") Integer csApplyId) {
         return csApplyService.csApplyById(csApplyId);
     }
 
@@ -215,8 +208,7 @@ public class CsApplyController {
      * 获取售后申请详情接口
      */
     @PostMapping("/cancelCsApply")
-    public Boolean cancelCsApply(
-            @RequestParam(value = "csApplyId") Integer csApplyId) throws BusinessException {
+    public Boolean cancelCsApply(@RequestParam(value = "csApplyId") Integer csApplyId) throws BusinessException {
         return csApplyService.cancelCsApply(csApplyId);
     }
 
@@ -233,10 +225,10 @@ public class CsApplyController {
             @RequestParam("userId") String userId) throws Exception {
 
         CsReasonVo csReasons = csReasonService.findCsReason(csReasonId);
-        String reason = "";
-        if (csReasons != null && csReasons.getReason() != null) {
-            reason = csReasons.getReason();
-        }
+        String reason = Optional.ofNullable(csReasons)
+                .filter(item -> StringUtils.isNotBlank(item.getReason()))
+                .map(item -> csReasons.getReason())
+                .orElse("");
         CsApplyEntity csApplyEntity = new CsApplyEntity();
         csApplyEntity.setReturnMode(0);
         csApplyEntity.setCsType(3);

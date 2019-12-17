@@ -63,7 +63,7 @@ public class CategoryController {
     }
 
     /**
-     * 得到分類推薦
+     * 得到分类推荐
      */
     @PostMapping("/findClassifyRecommend")
     public List<Map<String, Object>> findClassifyRecommend() throws Exception {
@@ -95,14 +95,6 @@ public class CategoryController {
             @RequestParam(defaultValue = "0", required = false) int parentId) {
         log.info("获取商品分类");
         return goodsToService.getParentClassList(parentId);
-    }
-
-    /**
-     * 新品首发和众筹预定
-     */
-    @PostMapping("/getReserveAndNew")
-    public Map<String, Object> getReserveAndNew() {
-        return goodsToService.getReserveAndNew();
     }
 
 }

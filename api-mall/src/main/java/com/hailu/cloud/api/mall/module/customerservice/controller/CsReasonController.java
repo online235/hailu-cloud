@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.mall.module.customerservice.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.mall.module.customerservice.service.ICsReasonService;
 import com.hailu.cloud.api.mall.module.customerservice.vo.CsReasonVo;
 import lombok.extern.slf4j.Slf4j;
@@ -27,18 +28,13 @@ public class CsReasonController {
      *
      * @param reasonType
      * @return
-     * @throws Exception
      */
     @RequestMapping(value = "/getCsReasons", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getCsReasons(
-            @RequestParam(value = "reasonType", required = true) Integer reasonType) throws Exception {
+    public Map<String, Object> getCsReasons(@RequestParam(value = "reasonType") Integer reasonType) {
 
         List<CsReasonVo> csReasons = csReasonService.findByCsReasonType(reasonType);
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("csReasons", csReasons);
-        return data;
+        return ImmutableMap.of("csReasons", csReasons);
     }
 
     /**
@@ -46,15 +42,11 @@ public class CsReasonController {
      *
      * @param reasonId
      * @return
-     * @throws Exception
      */
     @RequestMapping(value = "/findCsReason", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> findCsReason(
-            @RequestParam(value = "reasonId", required = true) Integer reasonId) throws Exception {
+    public Map<String, Object> findCsReason(@RequestParam(value = "reasonId") Integer reasonId) {
         CsReasonVo csReasons = csReasonService.findCsReason(reasonId);
-        Map<String, Object> data = new HashMap<>();
-        data.put("csReasons", csReasons);
-        return data;
+        return ImmutableMap.of("csReasons", csReasons);
     }
 }

@@ -49,7 +49,7 @@ public class IncomeServiceImpl implements IIncomeService {
         //当前金额
         BigDecimal money = income.getPrice();
         BigDecimal afterMoney = money.subtract(price);
-        if(afterMoney.compareTo(computeAvailableTransferOutAmount(money)) > -1){
+        if (afterMoney.compareTo(computeAvailableTransferOutAmount(money)) > -1) {
             log.warn("提现人：{}，剩余提现金额为：{}，不足够提现", computeAvailableTransferOutAmount(money));
             return false;
         }
@@ -83,14 +83,10 @@ public class IncomeServiceImpl implements IIncomeService {
         JSONObject resultJs = new JSONObject();
         BigDecimal price = BigDecimal.valueOf(0);
         BigDecimal totalPrice = BigDecimal.valueOf(0);
-        BigDecimal freezePrice = BigDecimal.valueOf(0);
         if (income != null) {
             //余额
             price = income.getPrice();
             totalPrice = income.getTotalPrice();
-            //可提现金额
-            BigDecimal transferOut = BigDecimal.valueOf(Const.TRANSFEROUTTHRESHOLD);
-            freezePrice = income.getFreezePrice() == null ? BigDecimal.valueOf(0) : income.getFreezePrice();
         }
         //累计收入
         resultJs.put("totalPrice", totalPrice);
@@ -122,7 +118,7 @@ public class IncomeServiceImpl implements IIncomeService {
     }
 
     @Override
-    public void addAccountByInvitation(String userId,BigDecimal money, String from,String relevanceId,Integer type){
+    public void addAccountByInvitation(String userId, BigDecimal money, String from, String relevanceId, Integer type) {
         try {
             if (userId == null) {
                 return;
@@ -138,12 +134,12 @@ public class IncomeServiceImpl implements IIncomeService {
             totalMoney = totalMoney == null ? new BigDecimal("0") : totalMoney;
             BigDecimal afterMoney = totalMoney.add(money);
             //校验增加金额是否需要放进冻结金额
-            if(type == 1){
+            if (type == 1) {
                 //增加收入冻结金额
                 BigDecimal inFreezePrice = income.getInFreezePrice();
-                inFreezePrice = inFreezePrice == null ? BigDecimal.valueOf(0):inFreezePrice;
+                inFreezePrice = inFreezePrice == null ? BigDecimal.valueOf(0) : inFreezePrice;
                 income.setInFreezePrice(inFreezePrice.add(money));
-            }else {
+            } else {
                 //增加总金额
                 income.setPrice(afterMoney);
             }
@@ -154,12 +150,12 @@ public class IncomeServiceImpl implements IIncomeService {
             income.setTotalPrice(totalPrice.add(money));
             int status = saveEntity(income);
             if (status != 1) {
-                addAccountByInvitation(userId, money, from,relevanceId,type);
+                addAccountByInvitation(userId, money, from, relevanceId, type);
                 return;
             }
 
             //添加资金流向
-            if(StringUtils.isBlank(relevanceId)){
+            if (StringUtils.isBlank(relevanceId)) {
                 relevanceId = userId;
             }
             incomeDetailLogService.addAccountDetailLog(relevanceId, money, totalMoney, afterMoney, from, 2, userId);

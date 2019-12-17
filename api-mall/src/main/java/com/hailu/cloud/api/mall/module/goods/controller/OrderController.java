@@ -2,6 +2,7 @@ package com.hailu.cloud.api.mall.module.goods.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.entity.order.*;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
@@ -74,9 +75,7 @@ public class OrderController {
     @GetMapping("/regionList")
     public Map<String, Object> regionList(@RequestParam int pid) throws Exception {
         List<RegionVo> regionList = orderService.regionList(pid);
-        Map<String, Object> data = new HashMap<>();
-        data.put("regionList", regionList);
-        return data;
+        return ImmutableMap.of("regionList", regionList);
     }
 
     /**
@@ -96,9 +95,7 @@ public class OrderController {
         } else {
             orderService.addShoppingCart(shoppingCart);
         }
-        Map<String, Object> data = new HashMap<>();
-        data.put("msg", "添加成功");
-        return data;
+        return ImmutableMap.of("msg", "添加成功");
     }
 
     /**
@@ -108,12 +105,7 @@ public class OrderController {
     public Map<String, Object> shoppingCartList() throws Exception {
         MemberLoginInfoModel loginInfoModel = RequestUtils.getMemberLoginInfo();
         List<ShoppingCartVo> shoppingCartList = orderService.shoppingList(loginInfoModel.getUserId());
-        shoppingCartList.forEach(item -> {
-//            item.get
-        });
-        Map<String, Object> data = new HashMap<>();
-        data.put("shoppingCartList", shoppingCartList);
-        return data;
+        return ImmutableMap.of("shoppingCartList", shoppingCartList);
     }
 
     /**
@@ -162,9 +154,7 @@ public class OrderController {
     @GetMapping("/shoppingAddressList")
     public Map<String, Object> shoppingAddressList(@RequestParam String userId) throws Exception {
         List<ShoppingAddressVo> shoppingAddressList = orderService.shoppingAddressVoList(userId);
-        Map<String, Object> data = new HashMap<>();
-        data.put("shoppingAddressList", shoppingAddressList);
-        return data;
+        return ImmutableMap.of("shoppingAddressList", shoppingAddressList);
     }
 
     /**
@@ -288,9 +278,7 @@ public class OrderController {
 
         page = (page - 1) * row;
         List<OrderListVo> orders = orderService.getOrdersList(userId, orderStatus, evaluateState, page, row);
-        Map<String, Object> data = new HashMap<>();
-        data.put("orders", orders);
-        return data;
+        return ImmutableMap.of("orders", orders);
     }
 
     /**
@@ -315,12 +303,12 @@ public class OrderController {
      * 改变订单状态
      */
     @PostMapping("/upOrderStatus")
-    public Map<String, Object> getOrders(
+    public void getOrders(
             @RequestParam(value = "orderId") int orderId, //订单id
             @RequestParam(value = "orderStatus") Integer orderStatus //订单状态
     ) throws Exception {
 
-        return orderService.updateOrderStatus(orderId, orderStatus);
+        orderService.updateOrderStatus(orderId, orderStatus);
 
     }
 
@@ -381,7 +369,7 @@ public class OrderController {
                     List<Map<String, String>> times = new ArrayList<>();
                     String[] strs = orderSevice.getTime().split(",");
                     for (int j = 0; j < strs.length; j++) {
-                        Map<String, String> map = new HashMap<>();
+                        Map<String, String> map = new HashMap<>(10);
                         if (j == 0 && "0".equals(orderSevice.getState())) {
                             map.put("state", j + "");
                             map.put("time", strs[j]);
@@ -400,9 +388,7 @@ public class OrderController {
                 orderSevice.setPicture(imgPath.toString());
             }
         }
-        Map<String, Object> data = new HashMap<>();
-        data.put("orderServices", orderServices);
-        return data;
+        return ImmutableMap.of("orderServices", orderServices);
     }
 
 
@@ -472,9 +458,7 @@ public class OrderController {
             }
             orderSevice.setPicture(imgPath.toString());
         }
-        Map<String, Object> data = new HashMap<>();
-        data.put("orderService", orderSevice);
-        return data;
+        return ImmutableMap.of("orderService", orderSevice);
     }
 
     /**

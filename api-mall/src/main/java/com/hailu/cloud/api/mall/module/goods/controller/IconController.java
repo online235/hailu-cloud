@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.goods.controller;
 
 
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.mall.module.goods.service.IconService;
 import com.hailu.cloud.api.mall.module.goods.vo.IconVo;
 import com.hailu.cloud.api.mall.util.Const;
@@ -33,10 +34,8 @@ public class IconController {
         for (IconVo iconVo : iconList) {
             iconVo.setIconPath(Const.PRO_URL + iconVo.getIconPath());
         }
-        Map<String, Object> data = new HashMap<>();
         // 商品分类
-        data.put("iconList", iconList);
-        return data;
+        return ImmutableMap.of("iconList", iconList);
     }
 
 }

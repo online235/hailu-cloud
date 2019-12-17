@@ -1,6 +1,8 @@
 package com.hailu.cloud.api.mall.module.goods.vo;
 
-import com.hailu.cloud.api.mall.module.goods.tool.DateUtils;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.format.FastDateFormat;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -59,13 +61,12 @@ public class ActPriceVo {
     private BigDecimal specGoodsVipPrice;
 
 
-
     public void setMwStartDate(Long mwStartDate) {
         if (mwStartDate != null && StringUtils.isNotEmpty(this.mwStartTime)) {
             String[] str = this.mwStartTime.split("-");
-            String string = DateUtils.longToString(mwStartDate);
-            this.startTime = DateUtils.stringToLong(string + " " + str[0], DateUtils.DATE_TIME_YYYYMMDDHH);
-            this.endTime = DateUtils.stringToLong(string + " " + str[1], DateUtils.DATE_TIME_YYYYMMDDHH);
+            String string = DateUtil.format(DateUtil.date(mwStartDate), DatePattern.NORM_DATE_FORMAT);
+            this.startTime = DateUtil.parse(string + " " + str[0], FastDateFormat.getInstance("yyyy-MM-dd HH")).getTime();
+            this.endTime = DateUtil.parse(string + " " + str[1], FastDateFormat.getInstance("yyyy-MM-dd HH")).getTime();
         }
         this.mwStartDate = mwStartDate;
     }
@@ -73,9 +74,9 @@ public class ActPriceVo {
     public void setMwStartTime(String mwStartTime) {
         if (this.mwStartDate != null && StringUtils.isNotEmpty(mwStartTime)) {
             String[] str = mwStartTime.split("-");
-            String string = DateUtils.longToString(mwStartDate);
-            this.startTime = DateUtils.stringToLong(string + " " + str[0], DateUtils.DATE_TIME_YYYYMMDDHH);
-            this.endTime = DateUtils.stringToLong(string + " " + str[1], DateUtils.DATE_TIME_YYYYMMDDHH);
+            String string = DateUtil.format(DateUtil.date(mwStartDate), DatePattern.NORM_DATE_FORMAT);
+            this.startTime = DateUtil.parse(string + " " + str[0], FastDateFormat.getInstance("yyyy-MM-dd HH")).getTime();
+            this.endTime = DateUtil.parse(string + " " + str[1], FastDateFormat.getInstance("yyyy-MM-dd HH")).getTime();
         }
         this.mwStartTime = mwStartTime;
     }

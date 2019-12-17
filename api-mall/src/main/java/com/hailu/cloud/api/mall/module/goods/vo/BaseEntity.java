@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.goods.vo;
 
-import com.hailu.cloud.api.mall.module.goods.tool.DateUtils;
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -53,29 +54,29 @@ public class BaseEntity {
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
         if (null != createTime) {
-            createTimeStr = DateUtils.getTimestampByLong(createTime);
-            createTimeSt = DateUtils.longToString(createTime);
+            createTimeStr = new Timestamp(createTime);
+            createTimeSt = DateUtil.format(DateUtil.date(createTime), DatePattern.NORM_DATE_FORMAT);
         }
     }
 
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
         if (null != updateTime) {
-            updateTimeStr = DateUtils.getTimestampByLong(updateTime);
+            updateTimeStr = new Timestamp(updateTime);
         }
     }
 
     public void setStartTime(Long startTime) {
         this.startTime = startTime;
         if (null != startTime) {
-            this.startTimeStr = DateUtils.getTimestampByLong(startTime);
+            this.startTimeStr = new Timestamp(startTime);
         }
     }
 
     public void setEndTime(Long endTime) {
         this.endTime = endTime;
         if (null != endTime) {
-            this.endTimeStr = DateUtils.getTimestampByLong(endTime);
+            this.endTimeStr = new Timestamp(endTime);
         }
     }
 

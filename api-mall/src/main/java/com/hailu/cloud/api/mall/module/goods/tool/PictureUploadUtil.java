@@ -7,11 +7,12 @@
  */
 package com.hailu.cloud.api.mall.module.goods.tool;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.format.FastDateFormat;
 import cn.hutool.core.util.RandomUtil;
 import com.hailu.cloud.api.mall.util.Const;
 import lombok.Cleanup;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,10 +36,10 @@ public class PictureUploadUtil {
      * @param logo
      * @return
      */
-    public static String uploadPicture(String wenjianjia, String logo){
+    public static String uploadPicture(String wenjianjia, String logo) {
         String picture = null;
         FileOutputStream out = null;
-        File file = null;
+        File file;
         try {
 
             byte[] photoimg = Base64.getMimeDecoder().decode(logo);
@@ -49,31 +50,27 @@ public class PictureUploadUtil {
                 }
             }
 
-            Date date = new Date();
-            int year = DateUtils.getYear(date);
-            int month = DateUtils.getMonth(date);
-            int day = DateUtils.getDay(date);
-
+            String datePath = DateUtil.format(new Date(), FastDateFormat.getInstance("yyyy/MM/dd"));
             String image = System.currentTimeMillis() + RandomUtil.randomNumbers(5) + ".png";
-            String imagePath = wenjianjia +"/" + year +"/"+month+"/"+day+"/";
+            String imagePath = wenjianjia + "/" + datePath + "/";
             file = new File(Const.IMAGES + File.separator + imagePath);
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.mkdirs();
             }
-            out = new FileOutputStream(Const.IMAGES + File.separator + imagePath+image);
+            out = new FileOutputStream(Const.IMAGES + File.separator + imagePath + image);
             out.write(photoimg);
             out.flush();
-            picture = "/" + imagePath +image;
-            log.info("上传图片地址：{}",picture);
+            picture = "/" + imagePath + image;
+            log.info("上传图片地址：{}", picture);
         } catch (Exception e) {
-            log.error("上传图片错误"+e.getMessage(), e);
-        }finally {
+            log.error("上传图片错误" + e.getMessage(), e);
+        } finally {
             try {
-                if(null != out){
+                if (null != out) {
                     out.close();
                 }
-            }catch (Exception e){
-                log.error("上传图片关闭流错误"+e.getMessage(), e);
+            } catch (Exception e) {
+                log.error("上传图片关闭流错误" + e.getMessage(), e);
             }
         }
         return picture;

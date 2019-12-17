@@ -169,7 +169,7 @@ public interface IOrderService {
      * @author 黄亮
      * 更改订单状态
      */
-    Map<String, Object> updateOrderStatus(int orderId, Integer orderStatus) throws Exception;
+    void updateOrderStatus(int orderId, Integer orderStatus) throws Exception;
 
     /**
      * @param userId

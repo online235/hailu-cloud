@@ -96,7 +96,7 @@ public class LocalCircleEntryAppController {
     })
     public List<McManagementType> findGoodsList(Long parentId, Integer mcType) {
 
-        Map<String, Object> map = new HashMap<>(4);
+        Map<String, Object> map = new HashMap<>(10);
         if (parentId == null) {
             if (mcType == 1) {
                 map.put("isLifeCircle", 1);//生活圈过滤百货经营类型

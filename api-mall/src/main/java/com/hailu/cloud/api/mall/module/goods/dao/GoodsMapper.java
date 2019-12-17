@@ -124,15 +124,6 @@ public interface GoodsMapper {
     List<Navigation> findNavigationList();
 
     /**
-     * 得到首页推荐
-     *
-     * @author HuangL
-     * @email huangl96@163.com
-     * @date 5:59 PM 9/4/2019
-     */
-    List<HomeRecommend> findHomeRecommend(@Param("page") int page, @Param("rows") int rows);
-
-    /**
      * 得到首页模块设置
      *
      * @author HuangL
@@ -140,16 +131,6 @@ public interface GoodsMapper {
      * @date 4:33 PM 9/5/2019
      */
     List<ModuleSettings> findModuleSettings(String show);
-
-    /**
-     * 得到会员特惠商品
-     *
-     * @author HuangL
-     * @email huangl96@163.com
-     * @date 6:48 PM 9/5/2019
-     */
-    SpecialOffer findSpecialOfferGoods();
-
 
     /**
      * 更改库存

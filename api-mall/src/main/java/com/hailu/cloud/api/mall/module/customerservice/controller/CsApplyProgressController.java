@@ -1,12 +1,12 @@
 package com.hailu.cloud.api.mall.module.customerservice.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.mall.module.customerservice.service.ICsApplyProgressService;
 import com.hailu.cloud.api.mall.module.customerservice.vo.CsApplyProgressVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,31 +26,26 @@ public class CsApplyProgressController {
      */
     @RequestMapping(value = "/getCsApplyProgresss", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getCsApplyProgresss(
-            @RequestParam(value = "csApplyId", required = true) Integer csApplyId) throws Exception {
+    public Map<String, Object> getCsApplyProgresss(@RequestParam(value = "csApplyId") Integer csApplyId) {
 
         List<CsApplyProgressVo> csReasons = csApplyProgressService.findByApplyProgressId(csApplyId);
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("csReasons", csReasons);
-        return data;
+        return ImmutableMap.of("csReasons", csReasons);
     }
 
 
     /**
      * @param
      * @return
-     * @throws Exception
      * @author 黄亮
      * 添加问题或回答问题
      */
     @RequestMapping(value = "/addApplyProgress", method = RequestMethod.POST)
     @ResponseBody
     public void addApplyProgress(
-            @RequestParam(value = "csApplyId", required = true) int csApplyId,
-            @RequestParam(value = "auditContent", required = true) String auditContent,
-            @RequestParam(value = "createName", required = true) String createName,
-            @RequestParam(value = "updateName", required = true) String updateName) throws Exception {
+            @RequestParam(value = "csApplyId") int csApplyId,
+            @RequestParam(value = "auditContent") String auditContent,
+            @RequestParam(value = "createName") String createName,
+            @RequestParam(value = "updateName") String updateName) {
 
         CsApplyProgressVo vo = new CsApplyProgressVo();
         vo.setCsApplyId(csApplyId);

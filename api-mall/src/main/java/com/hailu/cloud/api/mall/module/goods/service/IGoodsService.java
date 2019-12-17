@@ -1,7 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.service;
 
 
-import com.hailu.cloud.api.mall.module.goods.entity.HomeRecommend;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoTo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.SearchGoodsParam;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOffer;
@@ -66,33 +65,6 @@ public interface IGoodsService {
      * 根据商品id得到对应的列表
      */
     List<AskReplyQuestionVo> findAskByGoodsId(int goodsId, int page, int rows);
-
-    /**
-     * 得到小程序首页
-     *
-     * @return 返回小程序首页数据
-     * @author huangl
-     * @date 4:15 PM 9/4/2019
-     */
-    Map<String, Object> findXHome();
-
-    /**
-     * 获取首页推荐
-     *
-     * @param page
-     * @param rows
-     * @return
-     */
-    List<HomeRecommend> findHomeRecommend(int page, int rows);
-
-    /**
-     * 获取会员特惠商品
-     *
-     * @return 返回特惠商品
-     */
-    SpecialOffer findSpecialOfferGoods();
-
-
 
     /**
      * 商品搜索

@@ -2,12 +2,12 @@ package com.hailu.cloud.api.mall.module.goods.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.entity.Brand;
 import com.hailu.cloud.api.mall.module.goods.entity.Spec;
-import com.hailu.cloud.api.mall.module.goods.entity.*;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsParameterVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.*;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods;
@@ -20,7 +20,6 @@ import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,13 +86,10 @@ public class GoodsServiceImpl implements IGoodsService {
      */
     @Override
     public Map<String, Object> goodsAllEvaluate(int goodsId, int page, int rows) {
-        Map<String, Object> map = new HashMap<String, Object>();
         // 得到问题及商品信息
         List<GoodsEvaluateTO> list = goodsDao.goodsAllEevaluate(goodsId, page, rows);
         int count = goodsDao.getCountEvaluate(goodsId);
-        map.put("goodsEvaluate", list);
-        map.put("evaluate", count);
-        return map;
+        return ImmutableMap.of("goodsEvaluate", list, "evaluate", count);
     }
 
     /**
@@ -161,53 +157,6 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     @Override
-    public Map<String, Object> findXHome() {
-        Map<String, Object> map = Maps.newHashMap();
-        List<Navigation> navigations = goodsDao.findNavigationList();
-        List<Navigation> homeNavigations = new ArrayList<>();
-        if (navigations != null) {
-            for (int i = 0; i < navigations.size(); ) {
-                boolean f = true;
-                Navigation navigation = navigations.get(i);
-                if ("1".equalsIgnoreCase(navigation.getNavType())) {
-                    homeNavigations.add(navigation);
-                    navigations.remove(navigation);
-                    f = false;
-                }
-                if (f) {
-                    i++;
-                }
-            }
-        }
-        map.put("homeNavigations", homeNavigations);
-        map.put("bottomNavigations", navigations);
-        List<ModuleSettings> moduleSettings = goodsDao.findModuleSettings("2");
-        List<ModuleSettingsVo> moduleSettingsVos = new ArrayList<>();
-        moduleSettings.forEach(ms -> {
-
-            int page = 0;
-            int rows = 10;
-            ms.setList(this.findHomeRecommend(page, rows));
-
-            ModuleSettingsVo msv = new ModuleSettingsVo();
-            BeanUtils.copyProperties(ms, msv);
-            moduleSettingsVos.add(msv);
-        });
-        map.put("module", moduleSettingsVos);
-        return map;
-    }
-
-    @Override
-    public List<HomeRecommend> findHomeRecommend(int page, int rows) {
-        return goodsDao.findHomeRecommend(page, rows);
-    }
-
-    @Override
-    public SpecialOffer findSpecialOfferGoods() {
-        return goodsDao.findSpecialOfferGoods();
-    }
-
-    @Override
     public Map<String, Object> verifySearchGoods(SearchGoodsParam searchGoodsParam) {
         Map<String, Object> result = Maps.newHashMap();
         if (StringUtils.isNotBlank(searchGoodsParam.getName())) {
@@ -254,7 +203,6 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public GoodsInfoTo verifyGoodsInfo(Integer goodsId, Integer goodsSpecId, Integer type, String userId) {
-
         GoodsInfoTo goodsInfo = goodsToDao.findGoodsInfo(goodsId);
         if (goodsInfo != null) {
             Integer[] actType = new Integer[2];
@@ -266,51 +214,49 @@ public class GoodsServiceImpl implements IGoodsService {
             }
             List<ActGoodsPriceVo> res = goodsToDao.getActivity(goodsId, actType);
             if (spec.size() > 0) {
-                Map<String, Object> map = analysisJSON(spec, res);
+                Map<String, Object> map = analysisJson(spec, res);
                 goodsInfo.setSpec((List<Map<String, Object>>) map.get("spec"));
                 goodsInfo.setSpecGoods((List<Map<String, Object>>) map.get("goodsSpec"));
             }
             goodsInfo.setEvaluateTOS(goodsDao.goodsAllEevaluate(goodsInfo.getGoodsId(), 0, 1));
             List<GoodsParameterVo> goodsParameterVos = goodsToDao.goodsParameters(goodsId);
-            if (goodsParameterVos.size() > 0) {
-                for (int i = 0; i < goodsParameterVos.size(); i++) {
-                    String a = goodsParameterVos.get(i).getParameterValue();
-                    if (a.indexOf("&le;") != -1 || a.indexOf("&ge;") != -1 || a.indexOf("&plusmn;") != -1) {
-                        String parameterValue = HtmlReplace.htmlReplace(a);
-                        goodsParameterVos.get(i).setParameterValue(parameterValue);
-                        goodsInfo.setGoodsParameter(goodsParameterVos);
-                    } else {
-                        goodsInfo.setGoodsParameter(goodsParameterVos);
-                    }
+            goodsParameterVos.forEach(item -> {
+                boolean containsHtml = item.getParameterValue().contains("&le;") ||
+                        item.getParameterValue().contains("&ge;") ||
+                        item.getParameterValue().contains("&plusmn;");
+                if (containsHtml) {
+                    String parameterValue = HtmlReplace.htmlReplace(item.getParameterValue());
+                    item.setParameterValue(parameterValue);
+                    goodsInfo.setGoodsParameter(goodsParameterVos);
+                } else {
+                    goodsInfo.setGoodsParameter(goodsParameterVos);
                 }
-            }
+            });
         }
         return goodsInfo;
     }
 
     /**
      * 计算规格
-     *
+     * TODO 这块可能是个重构的大坑
      * @param list    规格list
      * @param actList 活动list
      * @return
      */
-    private static Map<String, Object> analysisJSON(List<SpecVo> list, List<ActGoodsPriceVo> actList) {
-        Map<String, Object> map10 = new HashMap<>();
+    private static Map<String, Object> analysisJson(List<SpecVo> list, List<ActGoodsPriceVo> actList) {
         try {
             List<Map<String, Object>> mapList = new LinkedList<>();
             List<Map<String, Object>> maplist1 = new LinkedList<>();
-            List<Map<String, Object>> maplist2 = null;
+            List<Map<String, Object>> maplist2;
             List<Map<String, Object>> maplist4 = new LinkedList<>();
             List<Map<String, Object>> maplist5 = new LinkedList<>();
             int sl = 0;
             for (SpecVo specVo : list) {
-                Map<String, Object> specGoodsId = new HashMap<String, Object>();
+                Map<String, Object> specGoodsId = new HashMap<>(10);
                 specGoodsId.put("goodsSpecId", specVo.getSpecGoodsId());
                 BigDecimal specGoodsPrice = specVo.getSpecGoodsPrice();
                 Integer specSalenum = specVo.getSpecSalenum();
                 Integer specStorage = specVo.getSpecGoodsStorage();
-                BigDecimal originalPrice = specGoodsPrice;
                 Long actRemainingTime = null;
 
                 if (StringUtils.isNotEmpty(specVo.getSpecName())) {
@@ -324,8 +270,8 @@ public class GoodsServiceImpl implements IGoodsService {
                     StringBuilder gsId = new StringBuilder();
                     String specInfo = "";
                     for (int j = 0; j < sl; j++) {
-                        Map<String, Object> map = new HashMap<>();
-                        Map<String, Object> map1 = new HashMap<>();
+                        Map<String, Object> map = new HashMap<>(10);
+                        Map<String, Object> map1 = new HashMap<>(10);
                         String[] sStr = ss[j].split(":");
                         String[] spStr = sps[j].split(":");
                         String specId = spStr[0].substring(1, spStr[0].length() - 1);
@@ -348,22 +294,23 @@ public class GoodsServiceImpl implements IGoodsService {
                         }
                         boolean flag = true;
                         for (Map<String, Object> oMap : maplist4) {
-                            if (!oMap.isEmpty()) {
-                                if (oMap.get("specId").equals(map1.get("specId"))) {
-                                    flag = false;
-                                    break;
-                                }
+                            if (oMap.isEmpty()) {
+                                continue;
+                            }
+                            if (oMap.get("specId").equals(map1.get("specId"))) {
+                                flag = false;
+                                break;
                             }
                         }
                         if (!flag) {
-                            map1 = new HashMap<>();
+                            map1 = new HashMap<>(10);
                         }
                         maplist4.add(map1);
                     }
                     specGoodsId.put("specInfo", specInfo);
                     specGoodsId.put("actRemainingTime", actRemainingTime);
                     specGoodsId.put("specGoodsPrice", specGoodsPrice);
-                    specGoodsId.put("originalPrice", originalPrice);
+                    specGoodsId.put("originalPrice", specGoodsPrice);
                     specGoodsId.put("specSalenum", specSalenum);
                     specGoodsId.put("specGoodsStorage", specStorage);
                     specGoodsId.put("gsId", gsId.toString());
@@ -373,7 +320,7 @@ public class GoodsServiceImpl implements IGoodsService {
             }
             int item = 0;
             for (int l = 0; l < sl; l++) {
-                Map<String, Object> map3 = new HashMap<>();
+                Map<String, Object> map3 = new HashMap<>(10);
                 map3.put("leven", item);
                 map3.put("name", "");
                 maplist2 = new ArrayList<>();
@@ -397,12 +344,10 @@ public class GoodsServiceImpl implements IGoodsService {
                 map3.put("specList", maplist2);
                 maplist1.add(map3);
             }
-            map10.put("spec", maplist1);
-            map10.put("goodsSpec", maplist5);
+            return ImmutableMap.of("spec", maplist1, "goodsSpec", maplist5);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return map10;
     }
 
     /**
@@ -413,9 +358,9 @@ public class GoodsServiceImpl implements IGoodsService {
     @Override
     public PageInfoModel<List<GoodsAndGoodsSpecVo>> findGoodsList(String userid, Integer page, Integer size) {
         MemberLoginInfoModel loginInfoModel = null;
-        if( RequestUtils.getAuthInfo().getLoginType() == 0 ){
+        if (RequestUtils.getAuthInfo().getLoginType() == 0) {
             loginInfoModel = RequestUtils.getMemberLoginInfo();
-            if( loginInfoModel.getMerchantType() == 0 ){
+            if (loginInfoModel.getMerchantType() == 0) {
                 return null;
             }
         }

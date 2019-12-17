@@ -23,14 +23,6 @@ public interface ISerialNumberService {
     /**
      * @Author HuangL
      * @Email huangl96@163.com
-     * @Description 得到交易流水号
-     * @Date 2019/1/25 18:19
-     */
-    List<SerialNumber> verifySerialNumber(int code, Integer goodsNum);
-
-    /**
-     * @Author HuangL
-     * @Email huangl96@163.com
      * @Description 更改掉订单顺序
      * @Date 2019/1/28 15:51
      */

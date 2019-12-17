@@ -1,15 +1,13 @@
 package com.hailu.cloud.api.mall.module.goods.controller;
 
 
-import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsCommentVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
-import com.hailu.cloud.api.mall.module.goods.vo.ActGoodsPriceVo;
 import com.hailu.cloud.api.mall.module.goods.vo.HotVo;
-import com.hailu.cloud.api.mall.module.goods.vo.NewGoodsVo;
 import com.hailu.cloud.api.mall.module.goods.vo.SshtVo;
 import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +41,8 @@ public class GoodsToController {
             @RequestParam("images") String images,
             @RequestParam(value = "goodsId", required = false) Integer goodsId) throws BusinessException {
 
-        Map<String, Object> map = new HashMap<>();
         if (StringUtils.isEmpty(images)) {
-            throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
+            throw new BusinessException("参数为空");
         }
         StringBuilder imgpath = new StringBuilder();
         for (String iu : images.split(",")) {
@@ -55,9 +52,7 @@ public class GoodsToController {
             }
             imgpath.append(img);
         }
-        map.put("imgpath", imgpath.toString());
-        map.put("goodsId", goodsId);
-        return map;
+        return ImmutableMap.of("imgpath", imgpath.toString(), "goodsId", goodsId);
     }
 
     /**
@@ -75,7 +70,6 @@ public class GoodsToController {
             @RequestParam String goodsComments//商品评价list
     ) throws Exception {
 
-        Boolean result = true;
         GoodsCommentVo goodsCommentVo = new GoodsCommentVo();
         goodsCommentVo.setUserId(userId);
         goodsCommentVo.setLogisticsScore(logisticsScore);
@@ -107,10 +101,8 @@ public class GoodsToController {
                 keys.add(map);
             }
         }
-        Map<String, Object> data = new HashMap<>();
         // 分类商品
-        data.put("names", keys);
-        return data;
+        return ImmutableMap.of("names", keys);
     }
 
 
@@ -125,25 +117,6 @@ public class GoodsToController {
             @RequestParam(value = "userId", required = false) String userId) throws Exception {
 
         return goodsToService.verifyGoodsInfo(goodsId, activityType, isReserve, userId);
-    }
-
-    /**
-     * 得到众筹预定
-     */
-    @GetMapping("/getReserve")
-    public List<ActGoodsPriceVo> getshowActivity(
-            @RequestParam(value = "activitytype", defaultValue = "3") int activityType,
-            @RequestParam(value = "sessionID", required = false) String sessionId) throws Exception {
-
-        return goodsToService.getshowActivity(activityType, sessionId);
-    }
-
-    /**
-     * 得到新品首发
-     */
-    @GetMapping("/getNewGoods")
-    public List<NewGoodsVo> getNewGoods() {
-        return goodsToService.getNewGoods();
     }
 
     /**
@@ -166,7 +139,6 @@ public class GoodsToController {
     @PostMapping("/addSsht")
     public Boolean addSsht(@ModelAttribute SshtVo ssht) {
         return goodsToService.addSsht(ssht);
-
     }
 
     /**
@@ -175,15 +147,6 @@ public class GoodsToController {
     @PostMapping("/getCartRecommend")
     public List<GoodsListVo> getCartRecommend() {
         return goodsToService.getRecommend("2");
-    }
-
-    /**
-     * 获取商品推荐
-     */
-    @GetMapping("/getGoodsRecommend")
-    public List<GoodsListVo> getGoodsRecommend(@RequestParam int page) {
-        int rows = 10;
-        return goodsToService.getGoodsRecommend("2", page > 1 ? (page - 1) * rows : 0, rows);
     }
 
 }

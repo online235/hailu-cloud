@@ -1,14 +1,16 @@
 package com.hailu.cloud.api.mall.module.goods.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.hailu.cloud.api.mall.module.goods.dao.SerialNumberMapper;
 import com.hailu.cloud.api.mall.module.goods.entity.SerialNumber;
 import com.hailu.cloud.api.mall.module.goods.service.ISerialNumberService;
-import com.hailu.cloud.api.mall.module.goods.tool.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,13 +39,13 @@ public class SerialNumberServiceImpl implements ISerialNumberService {
      */
     private List<SerialNumber> verifySerialNumber1(int code, int serial) {
         List<SerialNumber> list = new ArrayList<>();
-        SerialNumber serialNumber = null;
+        SerialNumber serialNumber;
         SerialNumber s = serialNumberMapper.verifySerialNumber(code, serial);
-        String nowStr = DateUtils.getNow("yyyyMMdd");
+        String nowStr = DateUtil.format(new Date(), DatePattern.PURE_DATE_FORMAT);
         String sn = s.getSerialNumber().toString();
         String tempStr = sn.substring(0, 8);
         if (nowStr.equalsIgnoreCase(tempStr)) {
-            String number = sn.substring(8, sn.length());
+            String number = sn.substring(8);
             for (int i = 0; i < serial; i++) {
                 serialNumber = new SerialNumber();
                 int n = serial - i;
@@ -66,11 +68,6 @@ public class SerialNumberServiceImpl implements ISerialNumberService {
             }
         }
         return list;
-    }
-
-    @Override
-    public List<SerialNumber> verifySerialNumber(int code, Integer goodsNum) {
-        return verifySerialNumber1(code, goodsNum);
     }
 
     @Override

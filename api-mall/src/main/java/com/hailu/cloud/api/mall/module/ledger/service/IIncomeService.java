@@ -31,15 +31,7 @@ public interface IIncomeService {
      */
     JSONObject findIncome(String memberId);
 
-    /**
-     * 处理购买海露会员邀请人购买成功得到分红
-     * @param
-     */
-//    void editInvitation(String parentId);
-
-    public int saveEntity(Income income);
-
-
+    int saveEntity(Income income);
 
     /**
      * 增加金额

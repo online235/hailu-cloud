@@ -3,11 +3,11 @@ package com.hailu.cloud.api.mall.module.goods.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.hailu.cloud.api.mall.constant.Constant;
-import com.hailu.cloud.api.mall.module.common.enums.BusinessCode;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
@@ -119,7 +119,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> addShoppingAddress(ShoppingAddressVo savo) {
-        Map<String, Object> responseData = new HashMap<>();
+        Map<String, Object> responseData = new HashMap<>(10);
         try {
             responseData = updateShoppingAddress(responseData, savo);
 
@@ -150,7 +150,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public Map<String, Object> updataShoppingAddress(ShoppingAddressVo shoppingAddressVo) {
-        Map<String, Object> responseData = new HashMap<>();
+        Map<String, Object> responseData = new HashMap<>(10);
         try {
             responseData = updateShoppingAddress(responseData, shoppingAddressVo);
 
@@ -319,7 +319,6 @@ public class OrderServiceImpl implements IOrderService {
      */
     private Map<String, Object> calculationAmount(String userId, String cartIds) throws BusinessException {
 
-        Map<String, Object> result = new HashMap<>();
         Map<String, Object> data = Maps.newHashMap();
         List<OrderAmount> listMap = new ArrayList<>();
         //用户信息
@@ -329,7 +328,6 @@ public class OrderServiceImpl implements IOrderService {
         List<CartVo> shoppingCartVos = orderDao.getShoppingCartByIds(cartIds.split(","));
         for (CartVo cartVo : shoppingCartVos) {
             int goodsId = cartVo.getGoodsId();
-            OrderAmount oa = new OrderAmount(goodsId, cartVo.getSpecId(), cartVo.getGoodsNum());
             Goods goods = goodsMapper.findById(goodsId);
             //判断用户是否为服务商且改商品是否参与推销
             if (userInfo != null && goods != null && userInfo.getMerchantType() == 2 && goods.getIsPopularize() == 1) {
@@ -362,9 +360,9 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> addBuyOrder(OrderParam orderParam) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(10);
         try {
-            Map<String, Object> calculationAmount = null;
+            Map<String, Object> calculationAmount;
 
             //判断用户是否为服务商且改商品是否参与推销
             UserInfo userInfo = userInfoDao.byIdFindUser(orderParam.getUserId());
@@ -398,11 +396,9 @@ public class OrderServiceImpl implements IOrderService {
             addOrder(order, orderParam, oa);
             order.setAmount(order.getIsReserve() == 1 ? order.getReserveOneAmount() : order.getAmount());
 
-            return new HashMap<String, Object>() {{
-                put("orderId", order.getOrderId());
-                put("orderSn", order.getOrderSn());
-                put("orderAmount", order.getAmount());
-            }};
+            return ImmutableMap.of("orderId", order.getOrderId(),
+                    "orderSn", order.getOrderSn(),
+                    "orderAmount", order.getAmount());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(JSONObject.toJSONString(result));
@@ -415,9 +411,7 @@ public class OrderServiceImpl implements IOrderService {
      * @param goodsSpecId 商品规格ID
      */
     public Map<String, Object> calculationAmount(int goodsId, int goodsSpecId, int goodsNum, boolean isMember) throws BusinessException {
-        //TODO
         Map<String, Object> result = new HashMap<>();
-        Map<String, Object> data = Maps.newHashMap();
         OrderAmount oa = new OrderAmount(goodsId, goodsSpecId, goodsNum);
         List<OrderAmount> listMap = new ArrayList<>();
         //获取到商品的库存
@@ -431,9 +425,7 @@ public class OrderServiceImpl implements IOrderService {
 
         calculationAmount(result, actp, listMap, oa, goodsNum, null);
 
-        data.put("redEnvelope", "0");
-        data.put("listMap", listMap);
-        return data;
+        return ImmutableMap.of("redEnvelope", "0", "listMap", listMap);
     }
 
     /**
@@ -629,7 +621,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> addCartOrder(OrderParam orderParam) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(10);
         try {
             Map<String, Object> calculationAmount = calculationAmount(orderParam.getUserId(), orderParam.getCartIdStr());
 
@@ -647,19 +639,16 @@ public class OrderServiceImpl implements IOrderService {
                 }
             });
             BigDecimal disAmount = BigDecimal.ZERO;
-            Integer cG = null;
             order.setOrderAmount(oa.getGoodsPrice().doubleValue());
             order.setCouponId(orderParam.getCouponId());
             order.setCouponPrice(disAmount.doubleValue());
             List<CartVo> cartVos = orderDao.getShoppingCartByIds(orderParam.getCartIdStr().split(","));
             result = updateGoodsRepertory(result, cartVos);
 
-            addCartOrder(order, orderParam, oa, cartVos, orderAmounts, cG);
-            return new HashMap<String, Object>() {{
-                put("orderId", order.getOrderId());
-                put("orderSn", order.getOrderSn());
-                put("orderAmount", order.getOrderAmount());
-            }};
+            addCartOrder(order, orderParam, oa, cartVos, orderAmounts);
+            return ImmutableMap.of("orderId", order.getOrderId(),
+                    "orderSn", order.getOrderSn(),
+                    "orderAmount", order.getOrderAmount());
         } catch (Exception e) {
             log.error("购物车异常：" + e.getMessage(), e);
             throw new RuntimeException(JSONObject.toJSONString(result));
@@ -696,10 +685,14 @@ public class OrderServiceImpl implements IOrderService {
      * @param oa
      * @param cartVos
      * @param orderAmounts
-     * @param cG
      */
     @Transactional(rollbackFor = Exception.class)
-    protected void addCartOrder(OrderToVo order, OrderParam orderParam, OrderAmount oa, List<CartVo> cartVos, List<OrderAmount> orderAmounts, Integer cG) {
+    protected void addCartOrder(
+            OrderToVo order,
+            OrderParam orderParam,
+            OrderAmount oa,
+            List<CartVo> cartVos,
+            List<OrderAmount> orderAmounts) {
 
         //先添加订单的收货地址 ,然后在添加订单
         ShoppingAddressVo sa = new ShoppingAddressVo();
@@ -779,8 +772,7 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, Object> updateOrderStatus(int orderId, Integer orderStatus) throws Exception {
-        Map<String, Object> result = new HashMap<>();
+    public void updateOrderStatus(int orderId, Integer orderStatus) {
         try {
             Map<String, Object> resultMap = Maps.newHashMap();
             resultMap.put("coupon", "0");
@@ -798,19 +790,18 @@ public class OrderServiceImpl implements IOrderService {
             }
             //完成订单
             if (orderStatus == 4) {
-                for (int i = 0; i < ogList.size(); i++) {
+                for (OrderGoods orderGoods : ogList) {
                     //得到这件商品以前的销售情况
-                    Integer salenum = goodsToDao.getGoodsSalenum(ogList.get(i).getGoodsId());
-                    int newSalenum = salenum + ogList.get(i).getGoodsNum();
-                    goodsToDao.updateGoodsSalenum(ogList.get(i).getGoodsId(), newSalenum);
+                    Integer salenum = goodsToDao.getGoodsSalenum(orderGoods.getGoodsId());
+                    int newSalenum = salenum + orderGoods.getGoodsNum();
+                    goodsToDao.updateGoodsSalenum(orderGoods.getGoodsId(), newSalenum);
                 }
             }
             orderDao.updateOrderStatus(orderId, orderStatus, System.currentTimeMillis(), newIntegeal);
         } catch (Exception e) {
             log.error("确认收货异常：" + e.getMessage(), e);
-            throw new RuntimeException(JSONObject.toJSONString(result));
+            throw new RuntimeException(e.getMessage());
         }
-        return result;
     }
 
     /**
@@ -859,7 +850,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public Map<String, Object> getOrderInfo(Integer orderId) throws BusinessException {
         if (orderId == null) {
-            throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
+            throw new BusinessException("参数为空");
         }
 
         //得到订单详情
@@ -954,17 +945,17 @@ public class OrderServiceImpl implements IOrderService {
     public Map<String, Object> getOrderCount(String userId) {
         Map<String, Object> map = Maps.newHashMap();
 
-        List<Map<String,Object>> orderCount = orderDao.findCountStatusByUserId(userId);
-        for (Map m : orderCount){
-            if(m.get("orderStatus") != null){
+        List<Map<String, Object>> orderCount = orderDao.findCountStatusByUserId(userId);
+        for (Map m : orderCount) {
+            if (m.get("orderStatus") != null) {
                 int orderStatus = (int) m.get("orderStatus");
-                if(orderStatus == 1){
+                if (orderStatus == 1) {
                     map.put("notPaymentNum", m.get("count"));
-                }else if(orderStatus == 2){
+                } else if (orderStatus == 2) {
                     map.put("notDeliverGoods", m.get("count"));
-                }else if(orderStatus == 3){
+                } else if (orderStatus == 3) {
                     map.put("notSignFor", m.get("count"));
-                }else if(orderStatus == 4){
+                } else if (orderStatus == 4) {
                     map.put("notEvaluate", m.get("count"));
                 }
             }
@@ -1213,9 +1204,9 @@ public class OrderServiceImpl implements IOrderService {
      */
     @Override
     public Map<String, Object> getOrderPrice(String userId, Integer goodsId, Integer goodsSpecId, Integer goodsNum, String cartIds, Integer isActivity, Integer isLimitTime, Integer isReserve, Integer type) throws BusinessException {
-        Map<String, Object> result = Maps.newHashMap();
+        Map<String, Object> result;
         if (StringUtils.isEmpty(userId)) {
-            throw new BusinessException(BusinessCode.BASE_PARAM_EMPTY.getDescription());
+            throw new BusinessException("参数为空");
         }
         //购物车
         if (StringUtils.isNotEmpty(cartIds)) {

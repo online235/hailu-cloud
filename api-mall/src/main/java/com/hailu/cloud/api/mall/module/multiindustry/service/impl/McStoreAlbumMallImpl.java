@@ -77,7 +77,7 @@ public class McStoreAlbumMallImpl implements McStoreAlbumMallService {
     @Override
     public void deleteStoreAlbumByStoreId(Long storeId){
 
-        Map map = new HashMap();
+        Map map = new HashMap(1);
         map.put("storeId",storeId);
         List<McStoreAlbum> mcStoreAlbumList = mcStoreAlbumMallMapper.findListByParam(map);
         if(mcStoreAlbumList.size()>0){

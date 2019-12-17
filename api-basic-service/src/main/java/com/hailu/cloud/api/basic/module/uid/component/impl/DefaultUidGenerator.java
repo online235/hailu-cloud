@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.basic.module.uid.component.impl;
 
 import cn.hutool.core.date.DateUtil;
+import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.basic.module.uid.component.BitsAllocator;
 import com.hailu.cloud.api.basic.module.uid.component.UidGenerator;
 import com.hailu.cloud.api.basic.module.uid.component.exception.UidGenerateException;
@@ -121,13 +122,10 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
         Date thatTime = new Date(TimeUnit.SECONDS.toMillis(epochSeconds + deltaSeconds));
         String thatTimeStr = DateUtil.formatDateTime(thatTime);
 
-        // format as string
-        Map<String, Object> result = new HashMap<>(4);
-        result.put("uid", uid);
-        result.put("timestamp", thatTimeStr);
-        result.put("workerId", workerId);
-        result.put("sequence", sequence);
-        return result;
+        return ImmutableMap.of("uid", uid,
+                "timestamp", thatTimeStr,
+                "workerId", workerId,
+                "sequence", sequence);
     }
 
     /**

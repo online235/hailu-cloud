@@ -17,7 +17,7 @@ import java.util.Map;
 @Service
 public class UseManualServiceImpl implements IUseManualService {
 
-    @Autowired(required = true)
+    @Autowired
     private UseManualMapper useManualDao;
 
     @Override

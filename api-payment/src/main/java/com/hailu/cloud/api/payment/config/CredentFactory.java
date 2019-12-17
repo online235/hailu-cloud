@@ -58,7 +58,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> xinAnWeChatPayParams() {
-        Map<String, String> map = new HashMap<>(4);
+        Map<String, String> map = new HashMap<>(10);
         map.put(APPID_FIELD, xinAnWeChatAppId);
         map.put(DEVICEINFO_FIELD, xinAnWeChatDeviceInfo);
         map.put(MCH_ID_FIELD, xinAnWeChatMchId);
@@ -94,7 +94,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> xinAnAliPayParams() {
-        Map<String, String> map = new HashMap<>(6);
+        Map<String, String> map = new HashMap<>(10);
         map.put(APPID_FIELD, xinAnAliPayAppId);
         map.put(PID_FIELD, xinAnAliPayPid);
         map.put(SELLER_ID_FIELD, xinAnAliPaySellerId);
@@ -129,7 +129,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> haiLuJsApiWecatPayParams() {
-        Map<String, String> map = new HashMap<>(5);
+        Map<String, String> map = new HashMap<>(10);
         map.put(APPID_FIELD, haiLuWeChatJsApiAppId);
         map.put(DEVICEINFO_FIELD, haiLuWeChatJsApiDeviceInfo);
         map.put(MCH_ID_FIELD, haiLuWeChatJsApiMchId);
@@ -160,7 +160,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> haiLuAppWecatPayParams() {
-        Map<String, String> map = new HashMap<>(4);
+        Map<String, String> map = new HashMap<>(10);
         map.put(APPID_FIELD, haiLuAppWeCatAppId);
         map.put(DEVICEINFO_FIELD, haiLuAppWeCatDeviceInfo);
         map.put(MCH_ID_FIELD, haiLuAppWeCatMchId);
@@ -196,7 +196,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> haiLuAliPayParams() {
-        Map<String, String> map = new HashMap<>(6);
+        Map<String, String> map = new HashMap<>(10);
         map.put(APPID_FIELD, haiLuAliPayAppId);
         map.put(PID_FIELD, haiLuAliPayPid);
         map.put(SELLER_ID_FIELD, haiLuAliPaySellerId);

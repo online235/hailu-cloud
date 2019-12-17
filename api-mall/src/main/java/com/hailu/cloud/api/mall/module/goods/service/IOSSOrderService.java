@@ -11,13 +11,6 @@ import java.util.Map;
  */
 public interface IOSSOrderService {
 
-//    /**
-//     * @Author HuangL
-//     * @Description 得到微信签名发送验证
-//     * @Date 2018-10-30_09:16
-//     */
-//    Map<String, Object> sendUrlWeChat(String url);
-
     /**
      * @Author HuangL
      * @Email huangl96@163.com

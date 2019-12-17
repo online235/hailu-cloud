@@ -70,15 +70,6 @@
     <sql id="userInfoVoSimpleData">
         member_id AS userId
     </sql>
-    <!--登录 -->
-    <select id="userLoginQuery" resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
-        SELECT
-        <include refid="userInfoVoData"/>
-        FROM shop_member
-        WHERE (member_name = #{account} OR member_mobile=#{account})
-        AND member_passwd = #{loginPwd}
-        AND is_del = 0
-    </select>
     <!--通过主键查询 返回结果 只有0或者1条 -->
     <select id="userInfoQueryByUserId" parameterType="String"
             resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
@@ -96,13 +87,6 @@
         FROM shop_member
         WHERE
         unionid = #{unionid}
-    </select>
-
-    <select id="verifyAccountState" resultType="Integer">
-        SELECT member_id id
-        FROM shop_member
-        WHERE  member_mobile=#{account}
-        AND is_del = 0
     </select>
 
     <insert id="addMember" parameterType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
@@ -175,50 +159,6 @@
         WHERE u.user_Id = #{userId}
     </update>
 
-    <update id="realName" parameterType="com.hailu.cloud.api.mall.module.user.vo.RealNameVo">
-        UPDATE shop_member u
-        <set>
-            <trim suffixOverrides=",">
-                <if test="userName !=null">
-                    u.member_truename = #{userName},
-                </if>
-                <if test="idCard !=null">
-                    u.idcard = #{idCard},
-                </if>
-                <if test="idcardImgx !=null">
-                    u.idcard_imgx = #{idcardImgx},
-                </if>
-                <if test="idcardImgy !=null">
-                    u.idcard_imgy = #{idcardImgy},
-                </if>
-                <if test="isSub !=null">
-                    u.is_sub = #{isSub},
-                </if>
-                u.audit_state=0,
-                <if test="auditTime !=null">
-                    u.audit_time = #{auditTime}
-                </if>
-            </trim>
-        </set>
-        WHERE u.user_Id = #{userId}
-    </update>
-
-    <select id="getRealName" parameterType="String" resultType="com.hailu.cloud.api.mall.module.user.vo.RealNameVo">
-	SELECT
-		user_Id AS userId,
-		member_truename AS userName,
-		idcard AS idCard,
-		idcard_imgx AS idcardImgx,
-		idcard_imgy AS idcardImgy,
-		audit_state AS auditState,
-		is_sub AS isSub,
-		audit_time AS auditTime
-		FROM
-		shop_member
-		WHERE
-		user_Id=#{userId}
-	</select>
-
     <select id="getUserInfoVo" parameterType="String"
             resultType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
 	SELECT
@@ -236,11 +176,6 @@
 		WHERE
 		member_mobile = #{account}
 	</select>
-    <update id="updatePwd" parameterType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
-        UPDATE shop_member u SET
-            u.member_passwd = #{loginPasswd}
-        WHERE  u.member_mobile=#{loginName}
-    </update>
 
     <update id="upUserInfoByPhone" parameterType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
         UPDATE shop_member
@@ -317,11 +252,6 @@
     update shop_member set pay_password=#{payPwd}  where user_id=#{userId}
     </update>
 
-
-
-    <update id="getRedPacketByUserId">
-        UPDATE shop_user_redpacket SET delete_status=1,update_date=#{2} WHERE  user_id=#{0} AND redpacket_id=#{1}
-    </update>
     <!-- @authod huangl得到用户余额 -->
     <select id="getAvailablePredeposit" parameterType="String" resultType="Double">
     	SELECT available_predeposit from shop_member where user_id=#{userId}
@@ -402,11 +332,6 @@
     <update id="WXunbundle">
         UPDATE shop_member SET unionid=NUll WHERE user_id=#{0}
     </update>
-
-    <update id="updateUserPhone">
-        UPDATE shop_member SET member_mobile=#{0} WHERE user_id=#{1}
-    </update>
-
 
     <!-- @authod huangl绑定微信 -->
     <update id="updateWeCartBind" parameterType="map">

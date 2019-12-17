@@ -1,20 +1,15 @@
 package com.hailu.cloud.api.mall.module.user.controller;
 
-import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
 import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.module.user.service.IUserFeedbackService;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
-import com.hailu.cloud.api.mall.module.user.vo.RealNameVo;
 import com.hailu.cloud.api.mall.module.user.vo.UserFeedbackVO;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
-import com.hailu.cloud.api.mall.util.Const;
+import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -23,25 +18,26 @@ public class UserController {
 
     @Autowired
     private IUserInfoService userInfoService;
+
     @Autowired
     private IUserFeedbackService userFeedbackService;
-
-    public static final String REGEX_MOBILE = "^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
 
     /**
      * 用户信息更新
      *
-     * @param userInfoVo
+     * @param userIcon
+     * @param nickName
+     * @param sex
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "upUserInfo", method = RequestMethod.POST)
-    public Boolean updateUserInfo(
+    public void updateUserInfo(
             @RequestParam(name = "userIcon", required = false) String userIcon,
             @RequestParam(name = "nickName", required = false) String nickName,
-            @RequestParam(name = "sex", required = false) String sex
-    ) throws Exception {
-        return userInfoService.updateUserInfo(userIcon, nickName, sex);
+            @RequestParam(name = "sex", required = false) String sex) throws Exception {
+
+        userInfoService.updateUserInfo(userIcon, nickName, sex);
     }
 
     /**
@@ -50,94 +46,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "getUserInfoVo", method = RequestMethod.POST)
-    public UserInfoVo login(@RequestParam(value = "userId") String userId) throws Exception {
-        log.info("获取用户信息|userId={}", userId);
-        UserInfoVo userInfo = userInfoService.userInfoQueryByUserId(userId);
-        if (userInfo != null) {
-            if (userInfo.getNickName().matches(REGEX_MOBILE)) {
-                String str = userInfo.getNickName();
-                userInfo.setNickName(str.substring(0, 3) + "****" + str.substring(7, userInfo.getNickName().length()));
-            }
-            if (StringUtils.isNotBlank(userInfo.getUserName()) && userInfo.getUserName().matches(REGEX_MOBILE)) {
-                String str = userInfo.getUserName();
-                userInfo.setUserName(str.substring(0, 3) + "****" + str.substring(7, userInfo.getUserName().length()));
-            }
-            if (userInfo.getPayPassword() == null) {//设置密码状态
-                userInfo.setUpdatePwState(0);//设置
-            } else {
-                userInfo.setUpdatePwState(1);//修改
-            }
-            if (StringUtils.isNotEmpty(userInfo.getUnionid())) {
-                userInfo.setIsBindWeChat(1);//绑定了
-            }
-            if (userInfo.getUserIcon() != null && userInfo.getUserIcon().length() > 0) {
-                if (userInfo.getUserIcon().indexOf("http") == -1) {
-                    userInfo.setUserIcon(Const.PRO_URL + userInfo.getUserIcon());
-                }
-
-            }
-
-        }
-        return userInfo;
-    }
-
-    @RequestMapping(value = "realName", method = RequestMethod.POST)
-    public void realName(
-            @RequestParam(value = "userId") String userId,
-            @RequestParam(value = "userName", required = false) String userName,
-            @RequestParam(value = "idcard", required = false) String idcard,
-            @RequestParam(value = "idcardImgx", required = false) String idcardImgx,
-            @RequestParam(value = "idcardImgy", required = false) String idcardImgy) throws Exception {
-
-        log.info("用户實名認證|userId={}|userName={}|idcard={}|idcardImgx={}|idcardImgy={}", userId, userName, idcard, idcardImgx, idcardImgy);
-        RealNameVo realNameVo = new RealNameVo();
-        if (StringUtils.isNoneBlank(userId)) {
-            realNameVo.setUserId(userId);
-        }
-        if (StringUtils.isNoneBlank(userName)) {
-            realNameVo.setUserName(userName);
-        }
-        if (StringUtils.isNoneBlank(idcard)) {
-            realNameVo.setIdCard(idcard);
-        }
-        if (StringUtils.isNoneBlank(idcardImgx)) {
-            idcardImgx = PictureUploadUtil.uploadPicture("img", idcardImgx);
-            realNameVo.setIdcardImgx(idcardImgx);
-        }
-        if (StringUtils.isNoneBlank(idcardImgy)) {
-            idcardImgy = PictureUploadUtil.uploadPicture("img", idcardImgy);
-            realNameVo.setIdcardImgy(idcardImgy);
-        }
-
-        userInfoService.realName(realNameVo);
-    }
-
-    @RequestMapping(value = "getRealName", method = RequestMethod.GET)
-    public Map<String, Object> getRealName(@RequestParam(value = "userId") String userId) throws Exception {
-        log.info("用户实名认证信息|userId={}", userId);
-        RealNameVo realNameVo = userInfoService.getRealName(userId);
-        Map<String, Object> data = new HashMap<>();
-        data.put("realNameVo", realNameVo);
-        return data;
-    }
-
-    /**
-     * 修改用户密码
-     *
-     * @param userId
-     * @param oldPwd
-     * @param newPwd
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(value = "updatePwd", method = RequestMethod.POST)
-    public Boolean updatePwd(
-            @RequestParam String userId,
-            @RequestParam String loginName,
-            @RequestParam String oldPwd,
-            @RequestParam String newPwd) throws Exception {
-
-        return userInfoService.updatePwd(userId, loginName, oldPwd, newPwd);
+    public MemberLoginInfoModel userInfo() {
+        return RequestUtils.getMemberLoginInfo();
     }
 
     /**
@@ -168,33 +78,6 @@ public class UserController {
     @RequestMapping(value = "save/weChatUser", method = RequestMethod.POST)
     public UserInfo saveWeChatUser(@RequestParam(value = "userId", required = true) String userId) {
         return userInfoService.saveWeChatUset(userId);
-    }
-
-    /**
-     * @Author WangTao
-     * @Date 18:01 2018/3/10 0010
-     * @param: TODO 说明:验证是否可以修改手机号码
-     **/
-    @RequestMapping(value = "/verifyAccountIfUpdate", method = RequestMethod.POST)
-
-    public Integer verifyAccountIfUpdate(@RequestParam String phone, @RequestParam String msg) {
-        try {
-            Integer state = userInfoService.verifyAccountIfUpdate(phone, msg);
-            return state;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        }
-        return null;
-    }
-
-    /**
-     * @Author WangTao
-     * @Date 18:02 2018/3/10 0010
-     * @param: TODO 说明:修改用户手机号
-     **/
-    @RequestMapping(value = "/updateUserPhone", method = RequestMethod.POST)
-    public Integer updateUserPhone(@RequestParam String phone, @RequestParam String msg, @RequestParam String userId) {
-        return userInfoService.updateUserPhone(phone, msg, userId);
     }
 
     /**

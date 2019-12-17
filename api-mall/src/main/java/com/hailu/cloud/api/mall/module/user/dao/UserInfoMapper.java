@@ -21,25 +21,6 @@ import java.util.List;
 public interface UserInfoMapper {
 
     /**
-     * 用户登录查询
-     *
-     * @param account
-     * @param loginPwd
-     * @return
-     * @throws Exception
-     */
-    UserInfoVo userLoginQuery(@Param("account") String account, @Param("loginPwd") String loginPwd) throws Exception;
-
-    /**
-     * 验证帐号是否可注册
-     *
-     * @param account
-     * @return
-     * @throws Exception
-     */
-    Integer verifyAccountState(@Param("account") String account) throws Exception;
-
-    /**
      * 注册
      *
      * @param userInfoVo
@@ -67,33 +48,6 @@ public interface UserInfoMapper {
             @Param("sex") String sex,
             @Param("userId") String userId);
 
-
-    /**
-     * 实名认证
-     *
-     * @param realNameVo
-     * @throws Exception
-     */
-    void realName(RealNameVo realNameVo) throws Exception;
-
-    /**
-     * 获取实名认证信息
-     *
-     * @param userId
-     * @return
-     * @throws Exception
-     */
-    RealNameVo getRealName(String userId) throws Exception;
-
-    /**
-     * 修改密码
-     *
-     * @param userInfo
-     * @return
-     */
-    int updatePwd(UserInfo userInfo);
-
-
     /**
      * 邀请码是否有效
      *
@@ -102,11 +56,9 @@ public interface UserInfoMapper {
      */
     UserInfo isExistInviteCode(String inviteCode) throws Exception;
 
-
     String getPhone(String userId) throws Exception;
 
     int saveWeChatUser(UserInfo user);
-
 
     UserInfo byIdFindUser(String userId);
 
@@ -197,8 +149,6 @@ public interface UserInfoMapper {
      */
     String getRecordTo(String userId);
 
-    int getRedPacketByUserId(String userId, int redPacketId, Long time);
-
     /**
      * 更改记录
      *
@@ -223,14 +173,6 @@ public interface UserInfoMapper {
     int addUserRedPacket(String userId, int redPacketId, long time, Double balance, String userMobile);
 
     int WXunbundle(String phone);
-
-    /**
-     * @Author WangTao
-     * @Date 18:10 2018/3/10 0010
-     * @param: TODO 说明:更新用户手机号
-     **/
-    int updateUserPhone(String phone, String userId);
-
 
     /**
      * 绑定微信账号

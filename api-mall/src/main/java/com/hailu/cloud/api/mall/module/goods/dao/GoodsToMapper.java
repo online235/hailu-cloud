@@ -192,14 +192,6 @@ public interface GoodsToMapper {
      */
     GoodsListVo getCouponsGoods(int goodsId);
 
-
-    /**
-     * @return
-     * @author 黄亮
-     * 得到新品首发
-     */
-    List<NewGoodsVo> getNewGoods();
-
     /**
      * @param goodsId
      * @return
@@ -312,19 +304,6 @@ public interface GoodsToMapper {
             @Param("goodsId") int goodsId,
             @Param("actType") int actType,
             @Param("goodsSpecId") int goodsSpecId);
-
-
-    /**
-     * @param activityType 查询众筹页面数据
-     * @author刘信
-     */
-    public List<ActGoodsPriceVo> selectShow(int activityType) throws Exception;
-
-    /**
-     * @param goodsId 查询众筹页面数据2
-     * @author刘信
-     */
-    public ActGoodsPriceVo selectShow2(int goodsId) throws Exception;
 
     /**
      * @param complGoodsId
@@ -448,14 +427,6 @@ public interface GoodsToMapper {
      */
     ActGoodsPriceVo getReserveAct(int reserveId);
 
-    /**
-     * 得到新品首发和众筹预定封面
-     *
-     * @return
-     * @Author huangl
-     */
-    List<Map<String, Object>> getReserveAndNew();
-
     String getSpecGoodsSpec(Integer goodsSpecId);
 
     /**
@@ -487,19 +458,6 @@ public interface GoodsToMapper {
      * @Date 2018-10-17_16:44
      */
     List<GoodsListVo> getRecommend(String type);
-
-
-    /**
-     * 得到商品推荐
-     *
-     * @Author HuangL
-     * @Email huangl96@163.com
-     * @Date 3:20 PM 9/4/2019
-     */
-    List<GoodsListVo> getGoodsRecommend(
-            @Param("type") String type,
-            @Param("page") int page,
-            @Param("rows") int rows);
 
     /**
      * 得到商品详情

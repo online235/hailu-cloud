@@ -435,23 +435,6 @@
 		WHERE goods_id=#{goodsId} and goods_show=1 and is_del=0
 	</select>
 
-    <!-- 得到新品首发 -->
-    <select id="getNewGoods" resultType="com.hailu.cloud.api.mall.module.goods.vo.NewGoodsVo">
-		SELECT
-		n.goods_id AS goodsId,
-		n.spec_name AS specName,
-		n.spec_id AS specId,
-		g.goods_name AS goodsName,
-		g.goods_subtitle AS goodsSubtitle,
-		g.goods_description AS goodsDescription,
-		g.store_id AS storeId,
-		g.store_name AS storeName,
-		g.goods_image  AS showImg
-		FROM shop_new_goods n
-		INNER JOIN shop_goods g ON n.goods_id=g.goods_id AND g.goods_show=1 and g.is_del=0
-		WHERE type=1 AND is_start=1 ORDER BY sort
-	</select>
-
     <!-- 得到商品详情 -->
     <select id="getGoodsInfo" resultType="com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoVo">
 		SELECT
@@ -573,44 +556,6 @@
 		WHERE goods_id=#{goodsId} AND goods_spec_id=#{specId}
 	</update>
 
-    <!-- 根据活动类型得到众筹预定 -->
-    <select id="selectShow" resultType="com.hailu.cloud.api.mall.module.goods.vo.ActGoodsPriceVo">
-		SELECT
-		ga.goods_id AS goodsId,
-		ga.goods_spec_id AS goodsSpecId,
-		ga.activity_price AS activityPrice,
-		ga.activity_repertory AS activityRepertory,
-		ga.discount_price AS discountPrice,
-		ga.spec_price AS specPrice,
-		ga.remark AS remark ,
-		ga.reserve_one_pay_price AS onePayPrice,
-		ga.pledge_price AS pledgePrice,
-		ga.reserve_two_pay_price AS twoPayPrice,
-		ga.has_been AS hasBeen,
-		ga.virtual ,
-		a.act_state AS actState,
-		a.reserve_pay_type AS reservePayType,
-		a.activity_start_time AS actStartTime,
-		a.activity_end_time AS actEndTime  ,
-		a.reserve_two_start_time AS towStartTime,
-		a.reserve_two_end_time AS towEndTime ,
-		a.act_id AS actId
-		FROM (
-		SELECT act_state,act_id,reserve_pay_type,activity_start_time,activity_end_time,reserve_two_start_time,reserve_two_end_time FROM shop_goods_activity WHERE
-		act_state=2 AND activity_type=#{activityType}) a
-		INNER JOIN
-		shop_goods_act_price ga
-		ON a.act_id=ga.act_id
-	</select>
-    <!-- 根据活动类型得到众筹预定2 -->
-    <select id="selectShow2" parameterType="int" resultType="com.hailu.cloud.api.mall.module.goods.vo.ActGoodsPriceVo">
-	SELECT
-	goods_name as goodsName,
-	goods_image as goodsImage ,
-	goods_description AS goodsDescription
-	FROM shop_goods
-	WHERE goods_id=#{goodsId} and is_del=0
-	</select>
     <!--根据商品id和规格id得到活动 -->
     <select id="findByGoodsIdSpecId" resultType="com.hailu.cloud.api.mall.module.goods.vo.NormalActVo">
 		SELECT
@@ -828,10 +773,6 @@
 		FROM shop_goods_activity ga
 		WHERE act_id=#{reserveId}
 	</select>
-    <!-- @authod huangl得到新品首发 -->
-    <select id="getReserveAndNew" resultType="map">
-		SELECT ap_id AS apId, res_url AS resUrl FROM shop_adv WHERE ap_id IN(18,19)
-	</select>
 
     <select id="getSpecGoodsSpec" resultType="String">
 		SELECT spec_goods_spec FROM shop_goods_spec WHERE goods_spec_id=#{goodsSpecId}
@@ -908,24 +849,6 @@
 		order by sr.sort
 	</select>
 
-    <select id="getGoodsRecommend" resultType="com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo">
-		SELECT
-			g.goods_id AS goodsId,
-			g.goods_name AS goodsName,
-			g.goods_subtitle AS goodsSubtitle,
-			g.goods_image AS goodsImage,
-			g.goods_description AS goodsDescription,
-			g.store_id AS storeId,
-			g.store_name AS storeName,
-			g.spec_id AS specId ,
-			g.gc_id AS gcId,
-			g.gc_big_id AS gcBigId
-		FROM shop_recommend sr
-		inner join shop_goods g on sr.goods_id=g.goods_id
-		WHERE sr.type=#{type} and g.goods_show=1 AND g.is_del=0
-		AND EXISTS(SELECT * FROM shop_goods_spec gs WHERE gs. goods_id =g.goods_id  AND gs.spec_isopen=1)
-		order by sr.sort limit #{page},#{rows}
-	</select>
     <!--小程序商品详情-->
     <resultMap id="GoodsResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoTo">
         <id column="goods_id" property="goodsId" jdbcType="INTEGER"/>
