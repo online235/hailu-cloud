@@ -56,11 +56,11 @@ public interface McEntryInformationMapper {
 
     /**
      * 查询列表
-     * @param shopname
+     * @param shopName
      * @param phone
      * @return
      */
-    List<McEntryInformation> selectMcEntryinFormationList(@Param("shopname") String shopname, @Param("phone") String phone);
+    List<McEntryInformation> selectMcEntryinFormationList(@Param("shopName") String shopName, @Param("phone") String phone);
 
     /**
      * 根据商户id查询入驻信息是否存在

@@ -39,9 +39,9 @@ public class StoreInformationImpl implements StoreInformationService {
 
 
     @Override
-    public PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, String areaCode, Integer tagId, Integer size, Integer page) throws ParseException {
+    public PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, String areaCode, Integer tagId, String shopName, Integer size, Integer page) throws ParseException {
         Page p = PageHelper.startPage(page, size);
-        List<StoreInformationListResult> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType ,cityCode, areaCode, tagId);
+        List<StoreInformationListResult> datas = storeInformationMapper.findStoreInformationList(storeTotalType, storeSonType ,cityCode, areaCode, tagId, shopName);
         List<StoreInformationListResult> data = new ArrayList<>();
         for (StoreInformationListResult storeInformationListResult : datas){
             if(storeInformationListResult.getBusinessState() == 1){

@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @InjectDict
-public class McOrderModel extends MultiIndustryOrder {
+public class McOrderModel<C> extends MultiIndustryOrder<C> {
 
     /**
      * 店铺默认头像

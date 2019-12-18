@@ -39,4 +39,10 @@ public interface CharitableCommonwealService {
      * @mbggenerated 2019-12-02
      */
     CharitableCommonweal insertAndUpdate(CharitableCommonwealDto record);
+
+    /**
+     * 删除公益
+     * @mbggenerated 2019-12-02
+     */
+    void deleteByPrimaryKey(Long id);
 }

@@ -16,7 +16,7 @@ public interface MultiIndustryOrderService {
      * @param record
      * @return
      */
-    McOrderModel insertSelective(MultiIndustryOrder record, HttpServletRequest request) throws BusinessException, ParseException;
+    McOrderModel insertSelective(MultiIndustryOrder record);
 
 
     /**

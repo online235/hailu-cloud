@@ -67,6 +67,11 @@ public class CharitableCommonwealImpl implements CharitableCommonwealService {
         return saveEntity(record);
     }
 
+    @Override
+    public void deleteByPrimaryKey(Long id) {
+        charitableCommonwealMapper.deleteByPrimaryKey(id);
+    }
+
     private CharitableCommonweal saveEntity(CharitableCommonweal record){
         record.setUpdatedat(new Date());
         if(record.getId() == null){

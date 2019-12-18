@@ -36,7 +36,7 @@ public class McShopTag implements Serializable {
     private Integer state;
 
     @DictName(code = "ENABLE_STATUS", joinField = "state")
-    private Integer stateDisplay;
+    private String stateDisplay;
 
     /**
      * 创建时间

@@ -17,10 +17,10 @@ public interface McSysTagService {
 
     /**
      * 添加一个标签
-     * @param record
+     * @param tagName
      * @return
      */
-    McSysTag insertSelective(McSysTagParameter record);
+    McSysTag insertSelective(String tagName);
 
     /**
      * 根据编号查询一个标签

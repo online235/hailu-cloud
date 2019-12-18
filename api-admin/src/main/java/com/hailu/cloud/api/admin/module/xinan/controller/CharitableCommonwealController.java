@@ -74,5 +74,15 @@ public class CharitableCommonwealController {
         return charitableCommonwealService.insertAndUpdate(record);
     }
 
+    @ApiOperation(value = "根据编号删除公益", notes = "<pre>" +
+            "" +
+            "</pre>")
+    @PostMapping("/delCharitable")
+    @ApiImplicitParam(name = "Id", value = "公益编号", required = true, paramType = "query")
+    @ResponseBody
+    public void deleteByPrimaryKey(@NotNull(message = "编号吧不能为空") Long id){
+        charitableCommonwealService.deleteByPrimaryKey(id);
+    }
+
 
 }

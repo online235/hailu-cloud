@@ -19,12 +19,6 @@ public interface MultiIndustryOrderMapper {
      *
      * @mbggenerated 2019-11-25
      */
-    int insert(MultiIndustryOrder record);
-
-    /**
-     *
-     * @mbggenerated 2019-11-25
-     */
     int insertSelective(MultiIndustryOrder record);
 
     /**
@@ -40,15 +34,9 @@ public interface MultiIndustryOrderMapper {
     McOrderModel selectDefaultHead(Long id);
 
     /**
-     *
-     * @mbggenerated 2019-11-25
-     */
-    int updateByPrimaryKeySelective(MultiIndustryOrder record);
-
-    /**
      * 根据用户编号查询多行业订单
      * @param memberId
      * @return
      */
-    List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId,@Param("state")   Integer state);
+    List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId,@Param("state") Integer state);
 }

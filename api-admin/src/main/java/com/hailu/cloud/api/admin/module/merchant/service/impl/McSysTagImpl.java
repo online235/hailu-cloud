@@ -33,9 +33,9 @@ public class McSysTagImpl implements McSysTagService {
     private BasicFeignClient basicFeignClient;
 
     @Override
-    public McSysTag insertSelective(McSysTagParameter record) {
+    public McSysTag insertSelective(String tagName) {
         McSysTag mcSysTag = new McSysTag();
-        BeanUtils.copyProperties(record, mcSysTag);
+        mcSysTag.setTagName(tagName);
         return addOrChange(mcSysTag);
     }
 

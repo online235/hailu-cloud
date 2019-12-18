@@ -33,7 +33,7 @@ public class McSysTag implements Serializable {
 
 
     @DictName(code = "ENABLE_STATUS", joinField = "state")
-    private Integer stateDisplay;
+    private String stateDisplay;
 
     /**
      * 标签名称

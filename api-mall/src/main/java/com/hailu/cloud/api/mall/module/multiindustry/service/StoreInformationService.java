@@ -18,7 +18,7 @@ public interface StoreInformationService {
      * @param storeSonType
      * @return
      */
-    PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, String areaCode, Integer tagId, Integer size, Integer page) throws ParseException;
+    PageInfoModel<List<StoreInformationListResult>> findStoreInformationList(Long storeTotalType, Long storeSonType, String cityCode, String areaCode, Integer tagId, String shopName, Integer size, Integer page) throws ParseException;
 
     /**
      * 店铺详细信息

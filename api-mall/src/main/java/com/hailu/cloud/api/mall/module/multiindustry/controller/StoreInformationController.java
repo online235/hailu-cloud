@@ -80,6 +80,7 @@ public class StoreInformationController {
             @ApiImplicitParam(name = "storeSonType", value = "经营子类型ID", paramType = "query"),
             @ApiImplicitParam(name = "cityCode", value = "市code", paramType = "query"),
             @ApiImplicitParam(name = "areaCode", value = "区code", paramType = "query"),
+            @ApiImplicitParam(name = "shopName", value = "店铺名称", paramType = "query"),
             @ApiImplicitParam(name = "tagId", value = "标签编号", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "页面大小", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "第N页", paramType = "query")
@@ -91,12 +92,13 @@ public class StoreInformationController {
             String cityCode,
             String areaCode,
             Integer tagId,
+            String shopName,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false)
                     Integer size) throws ParseException {
 
-        return storeInformationService.findStoreInformationList(storeTotalType, storeSonType, cityCode, areaCode, tagId, size, page);
+        return storeInformationService.findStoreInformationList(storeTotalType, storeSonType, cityCode, areaCode, tagId, shopName, size, page);
     }
 
     @ApiOperation(value = "根据编号查询店铺详细信息" )

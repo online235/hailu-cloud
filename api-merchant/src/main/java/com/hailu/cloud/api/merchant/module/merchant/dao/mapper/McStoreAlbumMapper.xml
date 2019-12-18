@@ -13,6 +13,12 @@
         <if test="albumUrl != null">
             album_url,
         </if>
+        <if test="albumType != null">
+            album_type,
+        </if>
+        <if test="defaultRotation != null">
+            default_rotation,
+        </if>
         <if test="createTime != null">
             create_time,
         </if>
@@ -32,6 +38,12 @@
         <if test="albumUrl != null">
             #{albumUrl},
         </if>
+        <if test="albumType != null">
+            #{albumType},
+        </if>
+        <if test="defaultRotation != null">
+            #{defaultRotation},
+        </if>
         <if test="createTime != null">
             #{createTime},
         </if>
@@ -49,6 +61,12 @@
         </if>
         <if test="albumUrl != null">
             album_url = #{albumUrl},
+        </if>
+        <if test="albumUrl != null">
+            album_type = #{albumType},
+        </if>
+        <if test="albumUrl != null">
+            default_rotation = #{defaultRotation},
         </if>
         <if test="createTime != null">
             create_time = #{createTime},
@@ -74,11 +92,13 @@
         insert into mc_store_album( id,
         store_id,
         album_url,
+        album_type,
+        default_rotation,
         create_time,
         update_time)
         values
         <foreach collection="mcStoreAlbumList" item="item" index="index" separator=",">
-            (#{item.id}, #{item.storeId},#{item.albumUrl},now(),now())
+            (#{item.id}, #{item.storeId},#{item.albumUrl},#{albumType},#{defaultRotation},now(),now())
         </foreach>
     </insert>
 
@@ -105,6 +125,8 @@
         id,
         store_id,
         album_url,
+        album_type,
+        default_rotation,
         create_time,
         update_time
         FROM mc_store_album
@@ -123,6 +145,8 @@
         id,
         store_id,
         album_url,
+        album_type,
+        default_rotation,
         create_time,
         update_time
         FROM mc_store_album

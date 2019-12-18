@@ -4,6 +4,7 @@ import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 @Data
 @InjectDict
-public class MultiIndustryOrder implements Serializable {
+public class MultiIndustryOrder<C> implements Serializable {
     /**
      * 编号
      */
@@ -75,8 +76,47 @@ public class MultiIndustryOrder implements Serializable {
     /**
      * 手机好码
      */
-    @ApiModelProperty(value = "店铺默认头像", dataType = "String")
+    @ApiModelProperty(value = "手机号码", dataType = "String")
     private String phone;
+
+    /**
+     * 使用时间
+     */
+    @DateTimeFormat(pattern = "HH:mm")
+    @ApiModelProperty(value = "使用时间", dataType = "Date")
+    private Date useTime;
+
+    /**
+     * 使用日期
+     */
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    @ApiModelProperty(value = "使用日期", dataType = "Date")
+    private Date useDate;
+
+    /**
+     * 使用人数
+     */
+    @ApiModelProperty(value = "使用人数", dataType = "Integer")
+    private Integer useNumber;
+
+    /**
+     * 到期时间
+     */
+    @DateTimeFormat(pattern = "yyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "到期时间", dataType = "Date")
+    private Date dueTime;
+
+    /**
+     * 订单类型（美食-MS、酒店-JD）
+     */
+    @ApiModelProperty(value = "订单类型（美食-MS、酒店-JD）", dataType = "Date")
+    private String orderType;
+
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注", dataType = "String")
+    private String remarks;
 
     /**
      * 兑换码
@@ -99,6 +139,18 @@ public class MultiIndustryOrder implements Serializable {
      */
     @ApiModelProperty(value = "下单时间", dataType = "Date")
     private Date orderTime;
+
+    /**
+     * 其他字段（保存json格式）
+     */
+    @ApiModelProperty(value = "其他字段（保存json格式）", dataType = "String")
+    private String other;
+
+    /**
+     * 其他字段
+     */
+    @ApiModelProperty(value = "其他字段")
+    private C otherField;
 
     /**
      * mc_order

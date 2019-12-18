@@ -31,9 +31,9 @@ public class McEntryinFormationService {
      * 商家后台审核列表
      * @return
      */
-    public PageInfoModel<List<McEntryInformation>> selectMcEntryinFormationList(String shopname, String phone, Integer page, Integer szie) {
+    public PageInfoModel<List<McEntryInformation>> selectMcEntryinFormationList(String shopName, String phone, Integer page, Integer szie) {
         Page pageData = PageHelper.startPage(page, szie);
-        List<McEntryInformation> datas = mcEntryinFormationMapper.selectMcEntryinFormationList(shopname, phone);
+        List<McEntryInformation> datas = mcEntryinFormationMapper.selectMcEntryinFormationList(shopName, phone);
         return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), datas);
     }
 

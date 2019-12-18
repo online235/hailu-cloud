@@ -22,7 +22,8 @@ public interface StoreInformationMapper {
             @Param("storeSonType") Long storeSonType,
             @Param("cityCode") String cityCode,
             @Param("areaCode") String areaCode,
-            @Param("tagId") Integer tagId);
+            @Param("tagId") Integer tagId,
+            @Param("shopName") String shopName);
 
     /**
      * 店铺详细信息

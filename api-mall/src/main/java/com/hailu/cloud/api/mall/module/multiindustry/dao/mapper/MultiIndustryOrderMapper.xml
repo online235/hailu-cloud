@@ -3,7 +3,7 @@
 <mapper namespace="com.hailu.cloud.api.mall.module.multiindustry.dao.MultiIndustryOrderMapper" >
   <sql id="Base_Column_List" >
     id, order_number, total_type, store_id, member_id, product_title, brief_introduction, purchase_quantity,
-    price, member_name, phone, exchange_code, state, order_time
+    price, member_name, phone, use_time, use_date, use_number, due_time, order_type, remarks, exchange_code, state, order_time, other
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder" parameterType="java.lang.Long" >
     select 
@@ -19,18 +19,6 @@
     delete from mc_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder" useGeneratedKeys="true" keyProperty="id" >
-    insert into mc_order (order_number, total_type, store_id, member_id,
-      product_title, brief_introduction, purchase_quantity, 
-      price, member_name, phone, 
-      exchange_code, state, order_time
-      )
-    values (#{orderNumber,jdbcType=VARCHAR}, #{totalType,jdbcType=INTEGER}, #{storeId,jdbcType=BIGINT}, #{memberId,jdbcType=VARCHAR},
-      #{productTitle,jdbcType=VARCHAR}, #{briefIntroduction,jdbcType=VARCHAR}, #{purchaseQuantity,jdbcType=BIGINT}, 
-      #{price,jdbcType=DECIMAL}, #{memberName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{exchangeCode,jdbcType=VARCHAR}, #{state,jdbcType=BIGINT}, #{orderTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder" useGeneratedKeys="true" keyProperty="id" >
     insert into mc_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -67,6 +55,24 @@
       <if test="phone != null" >
         phone,
       </if>
+      <if test="useTime != null" >
+        use_time,
+      </if>
+      <if test="useDate != null" >
+        use_date,
+      </if>
+      <if test="useNumber != null" >
+        use_number,
+      </if>
+      <if test="dueTime != null" >
+        due_time,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
       <if test="exchangeCode != null" >
         exchange_code,
       </if>
@@ -76,97 +82,76 @@
       <if test="orderTime != null" >
         order_time,
       </if>
+      <if test="other != null" >
+        other,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=BIGINT},
+        #{id},
       </if>
       <if test="orderNumber != null" >
-        #{orderNumber,jdbcType=VARCHAR},
+        #{orderNumber},
       </if>
       <if test="storeId != null" >
-        #{storeId,jdbcType=BIGINT},
+        #{storeId},
       </if>
       <if test="totalType != null" >
-        #{totalType,jdbcType=INTEGER},
+        #{totalType},
       </if>
       <if test="memberId != null" >
-        #{memberId,jdbcType=VARCHAR},
+        #{memberId},
       </if>
       <if test="productTitle != null" >
-        #{productTitle,jdbcType=VARCHAR},
+        #{productTitle},
       </if>
       <if test="briefIntroduction != null" >
-        #{briefIntroduction,jdbcType=VARCHAR},
+        #{briefIntroduction},
       </if>
       <if test="purchaseQuantity != null" >
-        #{purchaseQuantity,jdbcType=BIGINT},
+        #{purchaseQuantity},
       </if>
       <if test="price != null" >
-        #{price,jdbcType=DECIMAL},
+        #{price},
       </if>
       <if test="memberName != null" >
-        #{memberName,jdbcType=VARCHAR},
+        #{memberName},
       </if>
       <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
+        #{phone},
+      </if>
+      <if test="useTime != null" >
+        #{useTime},
+      </if>
+      <if test="useDate != null" >
+        #{useDate},
+      </if>
+      <if test="useNumber != null" >
+        #{useNumber},
+      </if>
+      <if test="dueTime != null" >
+        #{dueTime},
+      </if>
+      <if test="orderType != null" >
+        #{orderType},
+      </if>
+      <if test="remarks != null" >
+        #{remarks},
       </if>
       <if test="exchangeCode != null" >
-        #{exchangeCode,jdbcType=VARCHAR},
+        #{exchangeCode},
       </if>
       <if test="state != null" >
-        #{state,jdbcType=BIGINT},
+        #{state},
       </if>
       <if test="orderTime != null" >
-        #{orderTime,jdbcType=TIMESTAMP},
+        #{orderTime},
+      </if>
+      <if test="other != null" >
+        #{other},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder" >
-    update mc_order
-    <set >
-      <if test="orderNumber != null" >
-        order_number = #{orderNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="totalType != null" >
-        total_type = #{totalType,jdbcType=INTEGER},
-      </if>
-      <if test="totalType != null" >
-        store_id = #{storeId,jdbcType=BIGINT},
-      </if>
-      <if test="memberId != null" >
-        member_id = #{memberId,jdbcType=VARCHAR},
-      </if>
-      <if test="productTitle != null" >
-        product_title = #{productTitle,jdbcType=VARCHAR},
-      </if>
-      <if test="briefIntroduction != null" >
-        brief_introduction = #{briefIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseQuantity != null" >
-        purchase_quantity = #{purchaseQuantity,jdbcType=BIGINT},
-      </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DECIMAL},
-      </if>
-      <if test="memberName != null" >
-        member_name = #{memberName,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="exchangeCode != null" >
-        exchange_code = #{exchangeCode,jdbcType=VARCHAR},
-      </if>
-      <if test="state != null" >
-        state = #{state,jdbcType=BIGINT},
-      </if>
-      <if test="orderTime != null" >
-        order_time = #{orderTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
 
   <select id="findOrderListByMemberId" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.MultiIndustryOrder">
     select

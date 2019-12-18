@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -49,12 +46,12 @@ public class McShopTagController {
     @ApiOperation(value = "根据店铺编号添加标签" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tagId", value = "标签编号", allowMultiple = true,  required = true, paramType = "query"),
-            @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
+            @ApiImplicitParam(name = " storeId", value = "店铺编号", required = true, paramType = "query")
     })
     @PostMapping("/addShopTag")
     public List<McShopTag> addMcSHopTag(
-            @NotNull(message = "标签编号不能为空") Long[] tagId,
-            @NotNull(message = "店铺编号不能为空") Long storeId) {
+            @NotNull(message = "标签编号不能为空") @RequestBody Long[] tagId,
+            @NotNull(message = "店铺编号不能为空") @RequestBody Long storeId) {
 
 
         return mcShopTagService.addMcSHopTag(tagId, storeId);
@@ -67,8 +64,8 @@ public class McShopTagController {
     })
     @PostMapping("/updShopTag")
     public List<McShopTag> updateMcShopTag(
-            @NotNull(message = "标签编号不能为空") Long[] tagId,
-            @NotNull(message = "店铺编号不能为空") Long storeId) {
+            @NotNull(message = "标签编号不能为空") @RequestBody Long[] tagId,
+            @NotNull(message = "店铺编号不能为空") @RequestBody Long storeId) {
 
 
         return mcShopTagService.updateMcShopTag(tagId, storeId);

@@ -68,6 +68,9 @@
         <if test="tagId != null">
             and shoptag.tag_id = #{tagId}
         </if>
+        <if test="shopName != null">
+            and shoptag.shop_name like concat('%' ,#{shopName}, '%')
+        </if>
     </select>
 
     <select id="findStoreInformation"

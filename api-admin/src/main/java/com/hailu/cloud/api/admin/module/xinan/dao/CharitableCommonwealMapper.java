@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface CharitableCommonwealMapper {
     /**
-     *
+     * 删除公益
      * @mbggenerated 2019-12-02
      */
     int deleteByPrimaryKey(Long id);

@@ -104,7 +104,6 @@ public class RescueContorller {
     @PostMapping("/rescueList")
     @ResponseBody
     public Object findXaRescueList(
-            @Pattern(regexp = "^\\d*$", message = "请输入数字")
             @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
             @Range(min = 10, max = 200, message = "每页显示数量只能在10~200之间")
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize) {

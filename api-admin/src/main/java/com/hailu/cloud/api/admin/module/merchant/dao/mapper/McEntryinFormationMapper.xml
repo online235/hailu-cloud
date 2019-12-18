@@ -103,7 +103,7 @@
         <if test="remarks != null">
             remarks,
         </if>
-        <if test="createdat != null">
+        <if test="dateTime != null">
             date_time,
         </if>
         <if test="updateDateTime != null">
@@ -222,8 +222,8 @@
         <if test="remarks != null">
             #{remarks,jdbcType=VARCHAR},
         </if>
-        <if test="createdat != null">
-            #{createdat,jdbcType=BIGINT},
+        <if test="dateTime != null">
+            #{dateTime,jdbcType=BIGINT},
         </if>
         <if test="updateDateTime != null">
             #{updateDateTime,jdbcType=BIGINT},
@@ -336,7 +336,7 @@
         <if test="remarks != null">
             remarks = #{remarks,jdbcType=VARCHAR},
         </if>
-        <if test="createdat != null">
+        <if test="dateTime != null">
             date_time = #{createdat,jdbcType=BIGINT},
         </if>
         <if test="updateDateTime != null">
@@ -428,11 +428,11 @@
     <select id="selectMcEntryinFormationList"
             resultType="com.hailu.cloud.api.admin.module.merchant.entity.McEntryInformation">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="Base_Column_List"/>
         from mc_entry_information
         where 1=1
-        <if test="shopname != null">
-            and shop_name like concat('%',#{shopname},'%')
+        <if test="shopName != null">
+            and shop_name like concat('%',#{shopName},'%')
         </if>
         <if test="phone != null">
             and phone like concat('%',#{phone},'%')
