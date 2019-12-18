@@ -2,7 +2,6 @@ package com.hailu.cloud.api.mall.module.goods.controller;
 
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoTo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.SearchGoodsParam;
-import com.hailu.cloud.api.mall.module.goods.entity.goods.SpecialOffer;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsService;
 import com.hailu.cloud.api.mall.module.goods.vo.AskReplyAnswerVo;
