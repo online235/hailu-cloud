@@ -115,7 +115,7 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
             if (StringUtils.isBlank(accessToken)) {
                 return chain.filter(exchange);
             }
-            AuthInfo authInfo = verifyToken(accessToken);
+            AuthInfo authInfo = RequestUtils.verifyToken(redisClient, accessToken);
             if (authInfo == null) {
                 return chain.filter(exchange);
             }
@@ -147,7 +147,7 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
         }
 
         // 校验token是否有效
-        AuthInfo authInfo = verifyToken(accessToken);
+        AuthInfo authInfo = RequestUtils.verifyToken(redisClient, accessToken);
         if (authInfo == null) {
             DataBuffer dataBuffer = RequestUtils.getDataBuffer(response, ApiResponseEnum.ACCESS_TOKEN_EXPIRED);
             return response.writeWith(Mono.just(dataBuffer));
@@ -292,39 +292,6 @@ public class ApiAuthFilter implements GlobalFilter, Ordered {
             long newExpireTime = System.currentTimeMillis() + ((weChatLoginModel.getExpiresIn() - 30) * 1000);
             callback.accept(weChatLoginModel.getAccessToken(), newExpireTime);
         }
-    }
-
-    /**
-     * 验证token是否有效
-     *
-     * @param accessToken jwt token
-     * @return
-     */
-    private AuthInfo verifyToken(String accessToken) {
-        // 1. 验证token
-        DecodedJWT tokenDecode = JwtUtil.verifierToken(accessToken);
-        if (tokenDecode == null) {
-            // 验证token失败
-            return null;
-        }
-        // 2. 根据token获取授权信息
-        String token = tokenDecode.getClaim(Constant.JWT_TOKEN).asString();
-        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + token;
-        String redisUserInfoJsonValue = redisClient.stringGet(accessTokenRedisKey);
-        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
-            // redis缓存已过期，说明token已失效
-            return null;
-        }
-        // 转换成对应用户实体
-        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, tokenDecode);
-        // 判断accessToken有效期
-        Date current = new Date();
-        Date expire = DateUtil.date(authInfo.getAccessTokenExpire());
-        if (DateUtil.compare(expire, current) > 0) {
-            return authInfo;
-        }
-        // token已过期
-        return null;
     }
 
     // endregion

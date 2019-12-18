@@ -1,15 +1,21 @@
 package com.hailu.cloud.common.utils;
 
+import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.response.ApiResponseEnum;
+import com.hailu.cloud.common.security.AuthInfoParseTool;
+import com.hailu.cloud.common.security.JwtUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,6 +25,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * request工具类
@@ -109,5 +116,39 @@ public final class RequestUtils {
         apiResponse.setMessage(message);
         response.setStatusCode(HttpStatus.BAD_REQUEST);
         return response.bufferFactory().wrap(JSON.toJSONString(apiResponse).getBytes());
+    }
+
+
+    /**
+     * 验证token是否有效
+     *
+     * @param accessToken jwt token
+     * @return
+     */
+    public static AuthInfo verifyToken(RedisStandAloneClient redisClient, String accessToken) {
+        // 1. 验证token
+        DecodedJWT tokenDecode = JwtUtil.verifierToken(accessToken);
+        if (tokenDecode == null) {
+            // 验证token失败
+            return null;
+        }
+        // 2. 根据token获取授权信息
+        String token = tokenDecode.getClaim(Constant.JWT_TOKEN).asString();
+        String accessTokenRedisKey = Constant.REDIS_KEY_AUTH_INFO + token;
+        String redisUserInfoJsonValue = redisClient.stringGet(accessTokenRedisKey);
+        if (StringUtils.isBlank(redisUserInfoJsonValue)) {
+            // redis缓存已过期，说明token已失效
+            return null;
+        }
+        // 转换成对应用户实体
+        AuthInfo authInfo = AuthInfoParseTool.parse(redisUserInfoJsonValue, tokenDecode);
+        // 判断accessToken有效期
+        Date current = new Date();
+        Date expire = DateUtil.date(authInfo.getAccessTokenExpire());
+        if (DateUtil.compare(expire, current) > 0) {
+            return authInfo;
+        }
+        // token已过期
+        return null;
     }
 }

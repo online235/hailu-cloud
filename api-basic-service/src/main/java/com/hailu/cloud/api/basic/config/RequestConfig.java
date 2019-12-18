@@ -1,9 +1,12 @@
 package com.hailu.cloud.api.basic.config;
 
 import com.hailu.cloud.common.filter.RequestHeaderUserInfoParseFilter;
+import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import javax.annotation.Resource;
 
 /**
  * @Author xuzhijie
@@ -12,9 +15,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RequestConfig {
 
+    @Resource
+    private RedisStandAloneClient redisClient;
+
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
-        RequestHeaderUserInfoParseFilter filter = new RequestHeaderUserInfoParseFilter();
+        RequestHeaderUserInfoParseFilter filter = new RequestHeaderUserInfoParseFilter(redisClient);
         FilterRegistrationBean register = new FilterRegistrationBean();
         register.setFilter(filter);
         register.addUrlPatterns("/*");
