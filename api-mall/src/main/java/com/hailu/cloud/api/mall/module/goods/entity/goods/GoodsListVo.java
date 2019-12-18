@@ -35,7 +35,7 @@ public class GoodsListVo {
     /**
      * 店铺id
      */
-    private Integer storeId;
+    private String storeId;
     /**
      * 店铺名
      */
