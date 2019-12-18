@@ -47,16 +47,8 @@ public class HomeDateService {
     public HomeDataListModel getHomeDateListModel() {
 
         HomeDataListModel homeDataListModel = new HomeDataListModel();
-        helpMemberNum = redisStandAloneClient.stringGet("helpMemberNum");
-        helpMoneyCount = redisStandAloneClient.stringGet("helpMoneyCount");
-        if (StringUtil.isBlank(helpMemberNum)) {
-            helpMemberNum = "998657";
-        }
-        if (StringUtil.isBlank(helpMoneyCount)) {
-            helpMoneyCount = "123546765";
-        }
-        helpMemberNum = String.valueOf(Long.parseLong(helpMemberNum) + 10L);
-        helpMoneyCount = String.valueOf(Long.parseLong(helpMoneyCount) + 10L);
+        String helpMemberNum = redisStandAloneClient.stringGet("helpMemberNum");
+        String helpMoneyCount = redisStandAloneClient.stringGet("helpMoneyCount");
         Map map = new HashMap();
         List<XaStatisticsModel> xaStatistics = xaStatisticsService.findListByParameter(map);
         XaStatisticsModel xaStatisticsModel = new XaStatisticsModel();
@@ -85,8 +77,6 @@ public class HomeDateService {
         homeDataListModel.setXaStatisticsModel(xaStatisticsModel);
         homeDataListModel.setHelpMemberNum(helpMemberNum);
         homeDataListModel.setHelpMoneyCount(helpMoneyCount);
-        redisStandAloneClient.stringSet("helpMemberNum", helpMemberNum, 3600 * 24 * 30);
-        redisStandAloneClient.stringSet("helpMoneyCount", helpMoneyCount, 3600 * 24 * 30);
         return homeDataListModel;
     }
 
