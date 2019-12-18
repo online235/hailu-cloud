@@ -149,12 +149,12 @@ public class LocalCircleEntry implements Serializable {
     /**
      * 创建时间
      */
-    private Long createdat;
+    private Long dateTime;
 
     /**
      * 更改时间
      */
-    private Long updatedat;
+    private Long updateDateTime;
 
     /**
      * 附件数组字符串（用；隔开）

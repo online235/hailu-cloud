@@ -130,8 +130,8 @@ public class McInfoService {
                 throw new BusinessException("信息已存在");
             }
             mcEntryInformation.setNumberId(numberId);
-            mcEntryInformation.setCreatedat(time);
-            mcEntryInformation.setUpdatedat(time);
+            mcEntryInformation.setDateTime(time);
+            mcEntryInformation.setUpdateDateTime(time);
             mcEntryInformation.setToExamine(0);
             mcEntryInformation.setMcNumberId(mcNumberId);
             mcEntryInformation.setFirstManagementTypeId(mcManagementType.getManagementId());
@@ -142,9 +142,9 @@ public class McInfoService {
             BeanUtils.copyProperties(mcUserParameter, localCircleEntry);
             localCircleEntry.setMcNumberId(mcNumberId);
             localCircleEntry.setNumberId(numberId);
-            localCircleEntry.setCreatedat(time);
+            localCircleEntry.setDateTime(time);
             localCircleEntry.setToExamine(0);
-            localCircleEntry.setUpdatedat(time);
+            localCircleEntry.setUpdateDateTime(time);
             Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
             if (result <= 0) {
                 throw new BusinessException("插入数据失败");

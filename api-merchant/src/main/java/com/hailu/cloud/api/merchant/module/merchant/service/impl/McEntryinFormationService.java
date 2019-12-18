@@ -44,8 +44,8 @@ public class McEntryinFormationService {
         //生成随机ID
         String numberid = String.valueOf(basicFeignClient.uuid().getData());
         mcEntryinFormation.setNumberId(numberid);
-        mcEntryinFormation.setCreatedat(time);
-        mcEntryinFormation.setUpdatedat(time);
+        mcEntryinFormation.setDateTime(time);
+        mcEntryinFormation.setUpdateDateTime(time);
         mcEntryinFormation.setToExamine(Mceunm.IN_AUDIT.getKey());
         int result = mcEntryinFormationMapper.insertSelective(mcEntryinFormation);
         if (result > 0) {
@@ -72,7 +72,7 @@ public class McEntryinFormationService {
      * @return
      */
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation){
-        mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
+        mcEntryinFormation.setUpdateDateTime(System.currentTimeMillis());
         mcEntryinFormation.setToExamine(1);
         mcEntryinFormation.setNumberId(null);
         mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);

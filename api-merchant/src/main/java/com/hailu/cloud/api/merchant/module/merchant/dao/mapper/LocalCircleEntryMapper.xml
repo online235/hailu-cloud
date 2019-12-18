@@ -3,18 +3,18 @@
 <mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.LocalCircleEntryMapper">
 
 
-    <sql id="Base_Column_List">
+    <sql id="base_column">
     number_id, mc_number_id, shop_name, real_name, phone, id_card, idcard_imgx,
     idcard_imgy, idcardtermof_validity, long_term_certificate, first_management_type_id, business_license_number,
     business_name, name_of_legal_person, license_date, long_term_license, license_positive,
     third_party_links, invitation_code, service_provider_or_not, to_examine, city_code,
-    province_code, area_code, detail_address, remarks, createdat, updatedat ,enclosures ,second_management_type_id
+    province_code, area_code, detail_address, remarks, date_time, update_date_time ,enclosures ,second_management_type_id
   </sql>
 
 
     <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="base_column"/>
         from local_circle_entry
         where number_id = #{numberId,jdbcType=VARCHAR}
     </select>
@@ -34,7 +34,7 @@
       long_term_license, license_positive, third_party_links,
       invitation_code, service_provider_or_not, to_examine, city_code,
       city_code, province_code, remarks, area_code, detail_address,enclosures,second_management_type_id
-      createdat, updatedat)
+      date_time, update_date_time)
     values (#{numberId,jdbcType=VARCHAR}, #{mcNumberId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},
       #{realName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
       #{idcardImgx,jdbcType=VARCHAR}, #{idcardImgy,jdbcType=VARCHAR}, #{idcardtermofValidity,jdbcType=VARCHAR},
@@ -43,7 +43,7 @@
       #{longTermLicense,jdbcType=BIGINT}, #{licensePositive,jdbcType=VARCHAR}, #{thirdPartyLinks,jdbcType=VARCHAR},
       #{invitationCode,jdbcType=VARCHAR}, #{serviceProviderOrNot,jdbcType=BIGINT}, #{toExamine,jdbcType=VARCHAR}, #{cityCode},
       #{cityCode,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{areaCode}, #{detail_address},#{enclosures},#{secondManagementTypeId},
-      #{createdat,jdbcType=BIGINT}, #{updatedat,jdbcType=BIGINT})
+      #{dateTime,jdbcType=BIGINT}, #{updateDateTime,jdbcType=BIGINT})
   </insert>
 
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry"
@@ -129,11 +129,11 @@
             <if test="remarks != null">
                 remarks,
             </if>
-            <if test="createdat != null">
-                createdat,
+            <if test="dateTime != null">
+                date_time,
             </if>
-            <if test="updatedat != null">
-                updatedat,
+            <if test="updateDateTime != null">
+                update_date_time,
             </if>
 
             <if test="enclosures != null">
@@ -224,11 +224,11 @@
             <if test="remarks != null">
                 #{remarks,jdbcType=VARCHAR},
             </if>
-            <if test="createdat != null">
-                #{createdat,jdbcType=BIGINT},
+            <if test="dateTime != null">
+                #{dateTime,jdbcType=BIGINT},
             </if>
-            <if test="updatedat != null">
-                #{updatedat,jdbcType=BIGINT},
+            <if test="updateDateTime != null">
+                #{updateDateTime,jdbcType=BIGINT},
             </if>
 
             <if test="enclosures != null">
@@ -320,11 +320,11 @@
             <if test="remarks != null">
                 remarks = #{remarks,jdbcType=VARCHAR},
             </if>
-            <if test="createdat != null">
-                createdat = #{createdat,jdbcType=BIGINT},
+            <if test="dateTime != null">
+                date_time = #{dateTime,jdbcType=BIGINT},
             </if>
-            <if test="updatedat != null">
-                updatedat = #{updatedat,jdbcType=BIGINT},
+            <if test="updateDateTime != null">
+                update_date_time = #{updateDateTime,jdbcType=BIGINT},
             </if>
 
             <if test="enclosures != null">
@@ -364,8 +364,8 @@
       area_code = #{areaCode,jdbcType=VARCHAR},
       detail_address = #{detailAddress,jdbcType=BIGINT},
       remarks = #{remarks,jdbcType=VARCHAR},
-      createdat = #{createdat,jdbcType=BIGINT},
-      updatedat = #{updatedat,jdbcType=BIGINT},
+      date_time = #{dateTime,jdbcType=BIGINT},
+      update_date_time = #{updateDateTime,jdbcType=BIGINT},
        enclosures = #{enclosures},
        second_management_type_id = #{secondManagementTypeId}
     where number_id = #{numberId,jdbcType=VARCHAR}
@@ -379,7 +379,7 @@
     <select id="selectMcEntryinFormationList"
             resultType="com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry">
         select
-        <include refid="Base_Column_List"></include>
+        <include refid="base_column"></include>
         from local_circle_entry
         where 1=1
         <if test="shopname != null">
@@ -398,7 +398,7 @@
 
     <select id="findLocalCircleEntryByUserId"
             resultType="com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry">
-    select   <include refid="Base_Column_List"></include>
+    select   <include refid="base_column"></include>
     from local_circle_entry
     where mc_number_id = #{mcNumberId}
   </select>

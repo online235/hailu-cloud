@@ -1,7 +1,10 @@
 package com.hailu.cloud.api.merchant.module.merchant.entity;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -166,12 +169,18 @@ public class McEntryInformation implements Serializable {
     /**
      * 创建时间
      */
-    private Long createdat;
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @ApiModelProperty(value = "创建时间")
+    private Long dateTime;
 
     /**
      * 更改时间
      */
-    private Long updatedat;
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @ApiModelProperty(value = "更改时间")
+    private Long updateDateTime;
+
+
 
     /**
      *开户类型（1、借记卡；2、信用卡 ）

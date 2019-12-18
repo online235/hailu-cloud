@@ -62,8 +62,8 @@ public class LocalCircleEntryService {
         //生成随机ID
         String numberid = String.valueOf(uuidFeign.uuid().getData());
         localCircleEntry.setNumberId(numberid);
-        localCircleEntry.setCreatedat(time);
-        localCircleEntry.setUpdatedat(time);
+        localCircleEntry.setDateTime(time);
+        localCircleEntry.setUpdateDateTime(time);
         localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
         int result = localCircleEntryMapper.insertSelective(localCircleEntry);
         if (result > 0) {
@@ -132,8 +132,8 @@ public class LocalCircleEntryService {
         String numberid = String.valueOf(uuidFeign.uuid().getData());
         localCircleEntry.setMcNumberId(mcNumberId);
         localCircleEntry.setNumberId(numberid);
-        localCircleEntry.setCreatedat(time);
-        localCircleEntry.setUpdatedat(time);
+        localCircleEntry.setDateTime(time);
+        localCircleEntry.setUpdateDateTime(time);
         localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
         Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
         if (result <= 0) {

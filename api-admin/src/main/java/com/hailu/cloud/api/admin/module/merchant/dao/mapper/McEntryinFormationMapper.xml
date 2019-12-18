@@ -8,7 +8,7 @@
         idcard_imgx,idcard_imgy,idcardtermof_validity,long_term_certificate,first_management_type_id,
         second_management_type_id,business_license_number,business_name,name_of_legal_person,license_date,
         long_term_license,license_positive,third_party_links,invitation_code,service_provider_or_not,
-        to_examine,province_code,city_code,area_code,detail_address,remarks,createdat,updatedat,
+        to_examine,province_code,city_code,area_code,detail_address,remarks,date_time,update_date_time,
         bank,bank_number,bank_city,bank_province,enclosures,account_number
   </sql>
 
@@ -17,7 +17,7 @@
      #{idcardImgy},#{idcardtermofValidity},#{longTermCertificate},#{firstManagementTypeId},#{secondManagementTypeId},
     #{businessLicenseNumber},#{businessName},#{nameOfLegalPerson},#{licenseDate},#{longTermLicense},#{licensePositive},
     #{thirdPartyLinks},#{invitationCode},#{serviceProviderOrNot},#{toExamine},#{cityCode},#{provinceCode},#{areaCode},
-    #{detailAddress},#{remarks},#{createdat},#{updatedat},#{bankType},#{bank},#{bankNumber},#{bankProvince},#{bankCity},
+    #{detailAddress},#{remarks},#{dateTime},#{updateDateTime},#{bankType},#{bank},#{bankNumber},#{bankProvince},#{bankCity},
     #{enclosures},#{billingMethod},#{accountNumber}
   </sql>
 
@@ -104,10 +104,10 @@
             remarks,
         </if>
         <if test="createdat != null">
-            createdat,
+            date_time,
         </if>
-        <if test="updatedat != null">
-            updatedat,
+        <if test="updateDateTime != null">
+            update_date_time,
         </if>
         <if test="bank != null">
             bank,
@@ -225,8 +225,8 @@
         <if test="createdat != null">
             #{createdat,jdbcType=BIGINT},
         </if>
-        <if test="updatedat != null">
-            #{updatedat,jdbcType=BIGINT},
+        <if test="updateDateTime != null">
+            #{updateDateTime,jdbcType=BIGINT},
         </if>
         <if test="bank != null">
             #{bank},
@@ -337,10 +337,10 @@
             remarks = #{remarks,jdbcType=VARCHAR},
         </if>
         <if test="createdat != null">
-            createdat = #{createdat,jdbcType=BIGINT},
+            date_time = #{createdat,jdbcType=BIGINT},
         </if>
-        <if test="updatedat != null">
-            updatedat = #{updatedat,jdbcType=BIGINT},
+        <if test="updateDateTime != null">
+            update_date_time = #{updateDateTime,jdbcType=BIGINT},
         </if>
         <if test="bank != null">
             bank = #{bank},

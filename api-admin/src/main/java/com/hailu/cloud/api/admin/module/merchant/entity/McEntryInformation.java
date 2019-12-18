@@ -203,14 +203,14 @@ public class McEntryInformation implements Serializable {
      */
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     @ApiModelProperty(value = "创建时间")
-    private Long createdat;
+    private Long dateTime;
 
     /**
      * 更改时间
      */
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
     @ApiModelProperty(value = "更改时间")
-    private Long updatedat;
+    private Long updateDateTime;
 
     /**
      * 开户类型（1、借记卡；2、信用卡 ）
@@ -286,16 +286,16 @@ public class McEntryInformation implements Serializable {
 
 
 
-    public void setCreatedat(Long createdat) {
-        this.createdat = createdat;
-        this.createTime = DateUtil.date(createdat);
+    public void setCreatedat(Long dateTime) {
+        this.dateTime = dateTime;
+        this.createTime = DateUtil.date(dateTime);
     }
 
 
 
-    public void setUpdatedat(Long updatedat) {
-        this.updatedat = updatedat;
-        this.updateTime = DateUtil.date(updatedat);
+    public void setUpdatedat(Long updateDateTime) {
+        this.updateDateTime = updateDateTime;
+        this.updateTime = DateUtil.date(updateDateTime);
     }
 
 

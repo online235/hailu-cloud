@@ -190,7 +190,7 @@ public class LocalCircleEntry implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    private Long createdat;
+    private Long dateTime;
 
 
 
@@ -198,7 +198,7 @@ public class LocalCircleEntry implements Serializable {
      * 更改时间
      */
     @ApiModelProperty(value = "更改时间")
-    private Long updatedat;
+    private Long updateDateTime;
 
 
     /**
@@ -221,16 +221,16 @@ public class LocalCircleEntry implements Serializable {
 
 
 
-    public void setCreatedat(Long createdat) {
-        this.createdat = createdat;
-        this.createTime = DateUtil.date(createdat);
+    public void setCreatedat(Long dateTime) {
+        this.dateTime = dateTime;
+        this.createTime = DateUtil.date(dateTime);
     }
 
 
 
-    public void setUpdatedat(Long updatedat) {
-        this.updatedat = updatedat;
-        this.updateTime = DateUtil.date(updatedat);
+    public void setUpdatedat(Long updateDateTime) {
+        this.updateDateTime = updateDateTime;
+        this.updateTime = DateUtil.date(updateDateTime);
     }
 
 
