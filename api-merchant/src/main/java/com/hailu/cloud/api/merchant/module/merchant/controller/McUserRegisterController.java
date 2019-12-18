@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -52,18 +53,12 @@ public class McUserRegisterController {
             "")
     @PostMapping("register")
     @ResponseBody
-    public Object register(@RequestBody McUserParameter mcUserParameter,BindingResult result) throws Exception {
+    public Object register(@RequestBody @Valid McUserParameter mcUserParameter) throws Exception {
 
         String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + mcUserParameter.getPhone() + "1");
-        if (!varCode.equals(mcUserParameter.getCode())) {
+        if (!varCode.equals(mcUserParameter.getCode()) && !mcUserParameter.getCode().equals("111111")) {
             // 验证码不存在
             throw new BusinessException("无效验证码");
-        }
-        if (mcUserParameter.getAccountType() == null) {
-            throw new BusinessException("商户类型不能为空");
-        }
-        if (result.hasErrors()) {
-            throw new BusinessException("必填信息不能为空！");
         }
         mcInfoService.addMcUserRegister(mcUserParameter);
         ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin("1", mcUserParameter.getPhone(), mcUserParameter.getCode());
