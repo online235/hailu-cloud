@@ -83,7 +83,7 @@ public class McStoreInformationAdminService {
         McStoreInformation mcStoreInformation = new McStoreInformation();
         mcStoreInformation.setToExamine(toExamine);
         mcStoreInformation.setId(id);
-        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformationAdminMapper.updateByPrimaryKeySelective(mcStoreInformation);
     }
 

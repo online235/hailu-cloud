@@ -28,7 +28,7 @@ public interface MerchantMapper {
      * @param userId 用户ID
      * @return
      */
-    List<StoreInformationModel> findUserStore(@Param("userId") Long userId);
+    List<StoreInformationModel> findUserStore(@Param("userId") String userId);
 
     /**
      * 根据手机号查找账号
@@ -44,7 +44,7 @@ public interface MerchantMapper {
      * @param userId
      * @return
      */
-    Integer findEntryExamine(@Param("userId") Long userId);
+    Integer findEntryExamine(@Param("userId") String userId);
 
 
     /**
@@ -52,7 +52,7 @@ public interface MerchantMapper {
      * @param userId
      * @return
      */
-    Integer findLifeExamine(@Param("userId") Long userId);
+    Integer findLifeExamine(@Param("userId") String userId);
 
 
 }

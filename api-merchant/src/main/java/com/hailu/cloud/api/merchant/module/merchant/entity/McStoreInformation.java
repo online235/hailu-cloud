@@ -115,12 +115,12 @@ public class McStoreInformation {
     /**
      * 创建时间
      */
-    private java.util.Date createdat;
+    private java.util.Date dateTime;
 
     /**
      * 更新时间
      */
-    private java.util.Date updatedat;
+    private java.util.Date updateDateTime;
 
 
     /**
@@ -151,6 +151,16 @@ public class McStoreInformation {
     @DictName(code = "ACCOUNT_TYPE", joinField = "accountType")
     private String accountTypeString;
 
+    /**
+     *店铺位置经度
+     */
+    private java.math.BigDecimal longitude;
+
+
+    /**
+     *店铺纬度
+     */
+    private java.math.BigDecimal latitude;
 
 
 }

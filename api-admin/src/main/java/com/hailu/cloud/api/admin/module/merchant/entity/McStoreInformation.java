@@ -117,12 +117,12 @@ public class McStoreInformation {
     /**
      * 创建时间
      */
-    private java.util.Date createdat;
+    private java.util.Date dateTime;
 
     /**
      * 更新时间
      */
-    private java.util.Date updatedat;
+    private java.util.Date updateDateTime;
 
 
     /**

@@ -50,8 +50,8 @@ public class McStoreInformationService {
         //生成随机ID
         Long id = uuidFeign.uuid().getData();
         mcStoreInformation.setId(id);
-        mcStoreInformation.setCreatedat(new Date());
-        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformation.setDateTime(new Date());
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
         mcStoreInformation.setBusinessState(2);//1-营业中，2-休息中
         mcStoreInformation.setOpeningTime("9:00");//默认开店时间
@@ -81,7 +81,7 @@ public class McStoreInformationService {
      */
     public void updateMcEntryInformation(McStoreInformation mcStoreInformation){
 
-        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformation.setToExamine(1);
         mcStoreInformationMapper.updateByPrimaryKeySelective(mcStoreInformation);
     }
@@ -150,7 +150,7 @@ public class McStoreInformationService {
      */
     public void updateByPrimaryKey(McStoreInformation mcStoreInformation){
 
-        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformationMapper.updateByPrimaryKey(mcStoreInformation);
     }
 

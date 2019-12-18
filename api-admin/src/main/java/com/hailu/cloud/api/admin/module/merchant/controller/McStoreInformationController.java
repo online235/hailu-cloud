@@ -109,7 +109,7 @@ public class McStoreInformationController {
     public void updateMcEntryInformation(@ModelAttribute UpdateMcStoreInformtionPaarameter updateMcStoreInformtionPaarameter) throws BusinessException {
         McStoreInformation mcStoreInformation = new McStoreInformation();
         BeanUtils.copyProperties(updateMcStoreInformtionPaarameter, mcStoreInformation);
-        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformationAdminService.updateMcStoreInformation(mcStoreInformation);
     }
 

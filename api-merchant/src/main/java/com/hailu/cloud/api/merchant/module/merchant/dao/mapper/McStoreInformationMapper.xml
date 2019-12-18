@@ -5,14 +5,14 @@
 
     <sql id="Base_Column_List">
         id,mc_number_id,shop_name,phone,province_code,city_code,area_code,detail_address,store_details,
-        per_capita_price,store_son_type,store_total_type,business_state,closing_time,opening_time,createdat,
-        updatedat,to_examine,week_day,default_head,account_type
+        per_capita_price,store_son_type,store_total_type,business_state,closing_time,opening_time,date_time,
+        update_date_time,to_examine,week_day,default_head,account_type,longitude,latitude
   </sql>
 
     <sql id="Base_where_List">
      #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{detailAddress},
      #{storeDetails},#{perCapitaPrice},#{storeSonType},
-     #{storeTotalType},#{businessState},#{closingTime},#{openingTime},#{createdat},#{updatedat},#{toExamine},#{weekDay},#{defaultHead},#{accountType}
+     #{storeTotalType},#{businessState},#{closingTime},#{openingTime},#{dateTime},#{updateDateTime},#{toExamine},#{weekDay},#{defaultHead},#{accountType},#{longitude},#{latitude}
   </sql>
 
     <sql id="set_column">
@@ -61,11 +61,17 @@
         <if test="openingTime != null">
             opening_time,
         </if>
-        <if test="createdat != null">
-            createdat,
+        <if test="longitude != null">
+            longitude,
         </if>
-        <if test="updatedat != null">
-            updatedat,
+        <if test="latitude != null">
+            latitude,
+        </if>
+        <if test="dateTime != null">
+            date_time,
+        </if>
+        <if test="updateDateTime != null">
+            update_date_time,
         </if>
         <if test="toExamine != null">
             to_examine,
@@ -73,8 +79,14 @@
         <if test="weekDay != null">
             week_day,
         </if>
+        <if test="latitude != null">
+            latitude,
+        </if>
+        <if test="longitude != null">
+            longitude,
+        </if>
         <if test="defaultHead != null">
-            default_head
+            default_head,
         </if>
         <if test="accountType != null">
             account_type
@@ -129,17 +141,23 @@
         <if test="openingTime != null">
             #{openingTime},
         </if>
-        <if test="createdat != null">
-            #{createdat},
+        <if test="dateTime != null">
+            #{dateTime},
         </if>
-        <if test="updatedat != null">
-            #{updatedat},
+        <if test="updateDateTime != null">
+            #{updateDateTime},
         </if>
         <if test="toExamine != null">
             #{toExamine},
         </if>
         <if test="weekDay != null">
             #{weekDay},
+        </if>
+        <if test="latitude != null">
+            #{latitude},
+        </if>
+        <if test="longitude != null">
+            #{longitude},
         </if>
         <if test="defaultHead != null">
             #{defaultHead}
@@ -192,8 +210,8 @@
         <if test="openingTime != null">
             opening_time = #{openingTime},
         </if>
-        <if test="updatedat != null">
-            updatedat = #{updatedat},
+        <if test="updateDateTime != null">
+            update_date_time = #{updateDateTime},
         </if>
         <if test="toExamine != null">
             to_examine = #{toExamine},
@@ -201,8 +219,14 @@
         <if test="weekDay != null">
             week_day = #{weekDay},
         </if>
+        <if test="latitude != null">
+            latitude = #{latitude},
+        </if>
+        <if test="longitude != null">
+            longitude = #{longitude},
+        </if>
         <if test="defaultHead != null">
-            default_head = #{defaultHead}
+            default_head = #{defaultHead},
         </if>
         <if test="accountType != null">
             account_type = #{accountType}

@@ -207,7 +207,7 @@
                 #{serviceProviderOrNot,jdbcType=BIGINT},
             </if>
             <if test="toExamine != null">
-                #{toExamine,jdbcType=CHAR},
+                #{toExamine},
             </if>
             <if test="cityCode != null">
                 #{cityCode,jdbcType=VARCHAR},
@@ -234,8 +234,6 @@
             <if test="enclosures != null">
                 #{enclosures},
             </if>
-
-
             <if test="secondManagementTypeId != null">
                 #{secondManagementTypeId},
             </if>

@@ -62,11 +62,10 @@ public class MerchantEnteringPcController {
             @ApiImplicitParam(name="idcardimgy", value = "证件照反面" , required = true, paramType = "query")
     })
     public void addMcEntryinFormation(McEntryInformation mcEntryinFormation, HttpServletRequest request) throws BusinessException {
-        MerchantUserLoginInfoModel loginInfo = RequestUtils.getMerchantUserLoginInfo();
+
         if (mcEntryinFormation == null) {
             throw new BusinessException("信息为空");
         }
-        mcEntryinFormation.setMcNumberId(loginInfo.getNumberid());
         merchantEnteringService.insertSelective(mcEntryinFormation);
     }
 

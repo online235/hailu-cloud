@@ -237,7 +237,7 @@ public class McStoreInformationController {
         McStoreInformation mcStoreInformation = new McStoreInformation();
         mcStoreInformation.setId(id);
         mcStoreInformation.setDefaultHead(defaultHead);
-        mcStoreInformation.setUpdatedat(new Date());
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
 
     }

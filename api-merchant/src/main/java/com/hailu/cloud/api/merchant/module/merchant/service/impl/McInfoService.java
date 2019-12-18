@@ -133,7 +133,6 @@ public class McInfoService {
             mcEntryInformation.setCreatedat(time);
             mcEntryInformation.setUpdatedat(time);
             mcEntryInformation.setToExamine(0);
-            mcEntryInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
             mcEntryInformation.setMcNumberId(mcNumberId);
             mcEntryInformation.setFirstManagementTypeId(mcManagementType.getManagementId());
             mcEntryinFormationMapper.insertSelective(mcEntryInformation);
@@ -146,7 +145,6 @@ public class McInfoService {
             localCircleEntry.setCreatedat(time);
             localCircleEntry.setToExamine(0);
             localCircleEntry.setUpdatedat(time);
-            localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
             Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
             if (result <= 0) {
                 throw new BusinessException("插入数据失败");
@@ -158,7 +156,7 @@ public class McInfoService {
     /**
      * 获取当前店铺资料
      */
-    public RegisterShopInformationResult getRegisterShopInformationResult(){
+    public RegisterShopInformationResult getRegisterShopInformationResult() {
 
         RegisterShopInformationResult registerShopInformationResult = new RegisterShopInformationResult();
         MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();

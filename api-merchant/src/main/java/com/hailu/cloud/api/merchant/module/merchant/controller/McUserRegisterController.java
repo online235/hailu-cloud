@@ -56,7 +56,7 @@ public class McUserRegisterController {
     public Object register(@RequestBody @Valid McUserParameter mcUserParameter) throws Exception {
 
         String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + mcUserParameter.getPhone() + "1");
-        if (!varCode.equals(mcUserParameter.getCode()) && !mcUserParameter.getCode().equals("111111")) {
+        if (!mcUserParameter.getCode().equals(varCode) && !mcUserParameter.getCode().equals("111111")) {
             // 验证码不存在
             throw new BusinessException("无效验证码");
         }
