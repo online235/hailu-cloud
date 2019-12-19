@@ -3,6 +3,9 @@ package com.hailu.cloud.api.admin.module.xinan.service.impl;
 
 import com.hailu.cloud.api.admin.module.xinan.dao.HelppicturesMapper;
 import com.hailu.cloud.api.admin.module.xinan.entity.Helppictures;
+import com.hailu.cloud.api.admin.module.xinan.parameter.HelpPictureParameter;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +21,9 @@ public class HelpPicturesService {
 
     @Resource
     private HelppicturesMapper helpPicturesMapper;
+    @Autowired
+    private BasicFeignClient uuidFeign;
+
 
     /**
      * 查询互助者图片
@@ -27,4 +33,13 @@ public class HelpPicturesService {
     public List<Helppictures> findHelpPicturesList(Long mutualAid){
         return helpPicturesMapper.findHelppicturesList(mutualAid);
     }
+
+
+    public void sertHelpPictures(HelpPictureParameter helpPictureParameter){
+
+
+
+    }
+
+
 }

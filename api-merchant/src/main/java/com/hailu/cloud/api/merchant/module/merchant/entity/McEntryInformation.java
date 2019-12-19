@@ -26,7 +26,7 @@ public class McEntryInformation implements Serializable {
     private String mcNumberId;
 
     /**
-     * 商户类型 1、个体店 ； 2、个体工商店
+     * 商户类型 1、个体店 ； 2、个体工商店 ;3 企业店
      */
     private Integer mcType;
 
@@ -34,7 +34,7 @@ public class McEntryInformation implements Serializable {
      * 商户类型 1、个体店 ； 2、个体工商店
      */
     @DictName(code = "MC_TYPE", joinField = "mcType")
-    private Integer mcTypeDisPlay;
+    private String mcTypeDisPlay;
 
     /**
      * 店铺名称

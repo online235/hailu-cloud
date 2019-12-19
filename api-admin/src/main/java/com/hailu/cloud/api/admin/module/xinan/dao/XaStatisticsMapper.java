@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.admin.module.xinan.dao;
 
-import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
 import com.hailu.cloud.api.admin.module.xinan.entity.XaStatistics;
-import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
 import com.hailu.cloud.api.admin.module.xinan.model.XaStatisticsModel;
 
 import java.util.List;

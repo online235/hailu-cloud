@@ -1,16 +1,12 @@
 package com.hailu.cloud.api.admin.module.xinan.controller;
 
 
-import cn.hutool.core.date.DateUtil;
 import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
-import com.hailu.cloud.api.admin.module.xinan.entity.XaStatistics;
 import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
-import com.hailu.cloud.api.admin.module.xinan.model.XaStatisticsModel;
+import com.hailu.cloud.api.admin.module.xinan.parameter.HelpPictureParameter;
 import com.hailu.cloud.api.admin.module.xinan.parameter.XaHelpMemberParameter;
 import com.hailu.cloud.api.admin.module.xinan.parameter.XaHelpMemberParameterUpdate;
-import com.hailu.cloud.api.admin.module.xinan.parameter.XaStatisticsParameter;
 import com.hailu.cloud.api.admin.module.xinan.service.XaHelpMenberService;
-import com.hailu.cloud.api.admin.module.xinan.service.XaStatisticsService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
@@ -26,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,7 +66,7 @@ public class XaHelpMemberController {
     @ApiOperation(value = "插入救助案例")
     @PostMapping("/insertXaHelpMember")
     @ResponseBody
-    public void insertXaHelpMember(@RequestBody XaHelpMemberParameter xaHelpMemberParameter, BindingResult result) throws BusinessException {
+    public void insertXaHelpMember(@RequestBody XaHelpMemberParameter xaHelpMemberParameter, @RequestBody HelpPictureParameter helpPictureParameter, BindingResult result) throws BusinessException {
 
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");

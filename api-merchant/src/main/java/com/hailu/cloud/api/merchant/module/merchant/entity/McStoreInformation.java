@@ -89,7 +89,7 @@ public class McStoreInformation {
 
 
     /**
-     * 营业状态(1-营业中，2-休息中)
+     * 营业状态(1-营业中，2-(筹建中或休息中)
      */
     private Integer businessState;
 

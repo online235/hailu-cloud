@@ -56,7 +56,7 @@ public class McEntryinFormationService {
         McEntryInformation mcEntryinFormation = new McEntryInformation();
         mcEntryinFormation.setNumberId(numberId);
         mcEntryinFormation.setToExamine(toExamine);
-        mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
+        mcEntryinFormation.setUpdateDateTime(System.currentTimeMillis());
         mcEntryinFormation.setMcNumberId(null);
         mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);
     }
@@ -67,7 +67,7 @@ public class McEntryinFormationService {
      * @return
      */
     public void updateMcEntryInformation(McEntryInformation mcEntryinFormation) {
-        mcEntryinFormation.setUpdatedat(System.currentTimeMillis());
+        mcEntryinFormation.setUpdateDateTime(System.currentTimeMillis());
         mcEntryinFormation.setToExamine(1);
         mcEntryinFormation.setNumberId(null);
         mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryinFormation);

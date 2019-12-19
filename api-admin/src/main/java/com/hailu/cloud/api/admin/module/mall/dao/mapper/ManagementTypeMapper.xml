@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.admin.module.mall.dao.ManagementTypeMapper" >
   <sql id="Base_Column_List" >
-    management_id, parent_id, picture_code, picture_Colour, management_name,sort,url,remarks
+    management_id, parent_id, picture_code, picture_Colour, management_name,sort,url,remarks,management_type
   </sql>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType" useGeneratedKeys="true" keyProperty="managementId" >
     insert into mc_management_type
@@ -31,6 +31,9 @@
       <if test="remarks != null" >
         remarks,
       </if>
+      <if test="managementType != null" >
+        management_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="managementId != null" >
@@ -56,6 +59,9 @@
       </if>
       <if test="remarks != null" >
         #{remarks},
+      </if>
+      <if test="managementType != null" >
+        #{managementType},
       </if>
     </trim>
   </insert>

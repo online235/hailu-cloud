@@ -49,6 +49,12 @@ public class ManagementType implements Serializable {
     private String remarks;
 
     /**
+     * 经营项目类型
+     */
+    private String managementType;
+
+
+    /**
      * mc_management_type
      */
     private static final long serialVersionUID = 1L;

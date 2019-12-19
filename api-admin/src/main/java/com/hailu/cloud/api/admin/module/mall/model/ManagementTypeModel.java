@@ -73,4 +73,12 @@ public class ManagementTypeModel {
     private String remarks;
 
 
+    /**
+     * 经营项目类型
+     */
+    @ApiParam(name="managementType",value = "经营项目类型  1   生活圈百货；2  百货")
+    @ApiModelProperty(value = "经营项目类型  1   生活圈百货；2  百货")
+    private String managementType;
+
+
 }

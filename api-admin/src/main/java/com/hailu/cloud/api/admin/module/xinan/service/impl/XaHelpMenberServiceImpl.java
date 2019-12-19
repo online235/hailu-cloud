@@ -7,11 +7,12 @@ import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
 import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
 import com.hailu.cloud.api.admin.module.xinan.service.XaHelpMenberService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.processing.SupportedSourceVersion;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +33,11 @@ public class XaHelpMenberServiceImpl implements XaHelpMenberService {
     @Override
     public int insert(XaHelpMember xaHelpMember) {
 
+        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
         xaHelpMember.setId(uuidFeign.uuid().getData());
         xaHelpMember.setCreateTime(new Date());
         xaHelpMember.setUpdateTime(new Date());
+        xaHelpMember.setMenberId(Long.valueOf(merchantUserLoginInfoModel.getNumberid()));
         return xaHelpMemberMapper.insert(xaHelpMember);
     }
 

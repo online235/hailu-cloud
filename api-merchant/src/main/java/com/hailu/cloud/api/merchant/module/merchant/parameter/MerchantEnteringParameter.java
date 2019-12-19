@@ -3,18 +3,13 @@ package com.hailu.cloud.api.merchant.module.merchant.parameter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
-/**
- * @Author zhangmugui
- */
 @Data
 @ApiModel
-public class ShopInformationEntryParameter {
+public class MerchantEnteringParameter {
 
 
     @ApiModelProperty(name = "mcType", value = "1、个体店 ； 2、个体工商店 ； 3、企业店")
@@ -31,10 +26,6 @@ public class ShopInformationEntryParameter {
     @ApiModelProperty(name = "firstManagementTypeId", value = "一级经营类型id")
     private Long firstManagementTypeId;
 
-
-    @ApiModelProperty(name = "secondManagementTypeId", value = "二级经营类型id")
-    private Long secondManagementTypeId;
-
     /**
      * 身份证正面
      */
@@ -48,6 +39,7 @@ public class ShopInformationEntryParameter {
     @ApiModelProperty(name = "idcardImgy", value = "身份证反面", required = true)
     @NotEmpty
     private String idcardImgy;
+
 
     /**
      * 营业执照正面照
@@ -64,6 +56,11 @@ public class ShopInformationEntryParameter {
 
 
 //
+//
+//    @ApiModelProperty(name = "secondManagementTypeId", value = "二级经营类型id")
+//    private Long secondManagementTypeId;
+
+
 //    @ApiModelProperty(name = "provinceCode", value = "省的code值", required = true)
 //    @NotEmpty
 //    private String provinceCode;

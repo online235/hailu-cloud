@@ -44,6 +44,9 @@
         <if test="parentId != null" >
             and parent_id = #{parentId}
         </if>
+        <if test="managementType != null" >
+            and management_type = #{managementType}
+        </if>
         <if test="isLifeCircle != null">
             and management_name != "百货购物"
         </if>
@@ -65,6 +68,9 @@
         WHERE 1=1
         <if test="parentName != null" >
             and management_name = #{parentName}
+        </if>
+        <if test="managementType != null" >
+            and management_type = #{managementType}
         </if>
     </select>
 
@@ -109,6 +115,9 @@
         </if>
         <if test="managementId != null" >
             and management.management_id = #{managementId}
+        </if>
+        <if test="managementType != null" >
+            and management.management_type = #{managementType}
         </if>
 
     </select>

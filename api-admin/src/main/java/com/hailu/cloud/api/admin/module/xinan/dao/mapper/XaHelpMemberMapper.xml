@@ -4,29 +4,39 @@
 
 
     <sql id="base_column">
-        id, name, age, province, province_code, disease, time_date,
-         periods_number, share_times, help_days, sex, gain_money, create_time, update_time ,image_url,apportionment_money
+             id, menber_id, name, age, province, province_code, city_code, city, disease, time_date, periods_number,
+        share_times, help_days, image_url, sex, gain_money, create_time, update_time, apportionment_money,
+        target_amount, title, explain, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
     </sql>
 
     <sql id="set_column">
-        #{id},#{name},#{age},#{province},#{provinceCode},#{disease},#{timeDate},#{periodsNumber},#{shareTimes},#{helpDays}
-        ,#{sex},#{gainMoney},#{createTime},#{updateTime},#{imageUrl},#{apportionmentMoney}
+        #{id},#{menberId},#{name},#{age},#{province},#{provinceCode},#{cityCode},#{city},#{disease},#{timeDate},#{periodsNumber},
+        #{shareTimes},#{helpDays},#{sex},#{gainMoney},#{createTime},#{updateTime},#{imageUrl},#{apportionmentMoney},
+        #{targetAmount},#{title},#{explain},#{hospitalName},#{hospitalAccount},#{diseaseName},#{rescueType},#{helpTimes},#{cash},#{toExamine}
     </sql>
 
     <sql id="where_set">
 
+        <if test="menberId != null">
+            menber_id = #{menberId},
+        </if>
         <if test="name != null">
             name = #{name},
         </if>
         <if test="age != null">
             age = #{age},
         </if>
-
         <if test="province != null">
             province = #{province},
         </if>
         <if test="provinceCode != null">
             province_code = #{provinceCode},
+        </if>
+        <if test="cityCode != null">
+            city_code = #{cityCode},
+        </if>
+        <if test="city != null">
+            city = #{city},
         </if>
         <if test="disease != null">
             disease = #{disease},
@@ -55,8 +65,38 @@
         <if test="apportionmentMoney != null">
             apportionment_money = #{apportionmentMoney}
         </if>
+        <if test="title != null">
+            title = #{title},
+        </if>
+        <if test="targetAmount != null">
+            target_amount = #{targetAmount},
+        </if>
+        <if test="explain != null">
+            explain = #{explain},
+        </if>
+        <if test="hospitalName != null">
+            hospital_name = #{hospitalName},
+        </if>
+        <if test="hospitalAccount != null">
+            hospital_account = #{hospitalAccount},
+        </if>
+        <if test="diseaseName != null">
+            disease_name = #{diseaseName},
+        </if>
+        <if test="rescueType != null">
+            rescue_type = #{rescueType},
+        </if>
+        <if test="helpTimes != null">
+            help_times = #{helpTimes},
+        </if>
+        <if test="toExamine != null">
+            to_examine = #{toExamine},
+        </if>
         <if test="createTime != null">
             create_time = #{createTime},
+        </if>
+        <if test="cash != null">
+            cash = #{cash},
         </if>
         <if test="updateTime != null">
             update_time = #{updateTime}
@@ -67,7 +107,7 @@
 
     <select id="findListByParameter" resultType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel">
         select
-        <include refid="base_column" />
+        <include refid="base_column"/>
         from xa_help_member
         where 1=1
         <if test="id != null">
@@ -85,19 +125,21 @@
         ORDER BY time_date desc
     </select>
 
-    <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">
+    <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel"
+            useGeneratedKeys="true" keyProperty="memberId">
         insert into xa_help_member (
-        <include refid="base_column" />
+        <include refid="base_column"/>
         )
         values (
-        <include refid="set_column" />
+        <include refid="set_column"/>
         )
     </insert>
 
-    <insert id="update" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="id">
+    <insert id="update" parameterType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel"
+            useGeneratedKeys="true" keyProperty="id">
         update xa_help_member
         set
-        <include refid="where_set" />
+        <include refid="where_set"/>
         where id = #{id}
     </insert>
 
