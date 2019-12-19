@@ -15,6 +15,13 @@ public interface StoreInformationMapper {
      * 分类查询商铺列表
      * @param storeTotalType
      * @param storeSonType
+     * @param cityCode
+     * @param areaCode
+     * @param tagId
+     * @param shopName
+     * @param priceRanking
+     * @param startingPrice
+     * @param closingPrice
      * @return
      */
     List<StoreInformationListResult> findStoreInformationList(
@@ -23,7 +30,10 @@ public interface StoreInformationMapper {
             @Param("cityCode") String cityCode,
             @Param("areaCode") String areaCode,
             @Param("tagId") Integer tagId,
-            @Param("shopName") String shopName);
+            @Param("shopName") String shopName,
+            @Param("priceRanking") Integer priceRanking,
+            @Param("startingPrice") double startingPrice,
+            @Param("closingPrice") double closingPrice);
 
     /**
      * 店铺详细信息

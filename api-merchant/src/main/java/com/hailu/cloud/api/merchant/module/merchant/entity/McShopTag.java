@@ -30,9 +30,9 @@ public class McShopTag implements Serializable {
     private Long storeId;
 
     /**
-     * 状态(启用-1、禁用-2)
+     * 状态(启用-1、禁用-0)
      */
-    @ApiModelProperty(value = "状态(启用-1、禁用-2)")
+    @ApiModelProperty(value = "状态(启用-1、禁用-0)")
     private Integer state;
 
     @DictName(code = "ENABLE_STATUS", joinField = "state")

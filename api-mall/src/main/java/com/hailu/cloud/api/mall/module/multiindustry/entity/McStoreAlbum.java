@@ -34,6 +34,18 @@ public class McStoreAlbum {
     @ApiModelProperty(value = "相册路径")
     private String albumUrl;
 
+    /**
+     * 图片类型（环境-1、其他-2）
+     */
+    @ApiModelProperty(value = "图片类型（环境-1、其他-2）")
+    private String albumType;
+
+    /**
+     * 图片是否为首页轮播（是-1、否-2）
+     */
+    @ApiModelProperty(value = "图片是否为首页轮播（是-1、否-2）")
+    private String defaultRotation;
+
 
     /**
      * 创新时间

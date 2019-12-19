@@ -20,6 +20,8 @@
         <result property="businessState" column="business_state"/>
         <result property="closingTime" column="closing_time"/>
         <result property="openingTime" column="opening_time"/>
+        <result property="dateTime" column="date_time"/>
+        <result property="updateDateTime" column="update_date_time"/>
         <result property="toExamine" column="to_examine"/>
         <result property="defaultHead" column="default_head"/>
         <result property="weekDay" column="week_day"/>
@@ -69,6 +71,15 @@
         <if test="shopName != null">
             and shoptag.shop_name like concat('%' ,#{shopName}, '%')
         </if>
+        <if test="startingPrice != null and closingPrice != null">
+            and store.per_capita_price <![CDATA[>=]]> #{startingPrice} and store.per_capita_price <![CDATA[<=]]> #{closingPrice}
+        </if>
+        <if test="priceRanking == 1 or priceRanking == 2 ">
+            ORDER BY store.per_capita_price
+            <if test="priceRanking == 2 ">
+                desc
+            </if>
+        </if>
     </select>
 
     <select id="findStoreInformation"
@@ -84,10 +95,10 @@
     select
     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,  store.detail_address,
      store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
-     store.closing_time,  store.opening_time, store.to_examine,  store.default_head,  store.week_day,
+     store.closing_time,  store.opening_time,  store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
      album.id as id1,album.store_id,album.album_url,album.create_time as create_time1,album.update_time as update_time1
     from mc_store_information as store left join mc_store_album as album ON album.store_id = store.id
-    where store.id = #{id} and store.to_examine = 2
+    where store.id = #{id} and store.to_examine = 2 and default_rotation = 1
   </select>
 
 

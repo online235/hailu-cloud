@@ -40,7 +40,7 @@
   </update>
 
   <update id="updateMcShopTagByStoreId">
-    update mc_shop_tag set state = 2
+    update mc_shop_tag set state = 0
     where store_id = #{storeId}
   </update>
 

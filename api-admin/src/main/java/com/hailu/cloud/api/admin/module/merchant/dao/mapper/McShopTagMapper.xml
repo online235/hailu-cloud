@@ -7,10 +7,11 @@
   </sql>
 
 
-  <select id="findMcShopTagListByStoreId" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McShopTag" >
-    select
-    <include refid="Base_Column_List" />
-    from mc_shop_tag
+  <select id="findMcShopTagListByStoreId" resultType="com.hailu.cloud.api.admin.module.merchant.model.McShopTagModel" >
+    select sht.*,syt.tag_name as tagName
+    from mc_shop_tag sht
+    INNER JOIN mc_sys_tag syt
+    on sht.tag_id = syt.id
     where store_id = #{storeId}
   </select>
 

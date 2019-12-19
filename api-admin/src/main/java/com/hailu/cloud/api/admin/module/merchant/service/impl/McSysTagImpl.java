@@ -56,7 +56,7 @@ public class McSysTagImpl implements McSysTagService {
         if (deleteType == 1){
             McSysTag record = new McSysTag();
             record.setId(id);
-            record.setState(2);
+            record.setState(0);
             addOrChange(record);
             return;
         }
