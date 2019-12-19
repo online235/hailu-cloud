@@ -12,7 +12,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=海露基础服务
+        tags: management.context-path=${server.servlet.context-path}/actuator,desc=海露基础服务
   mail:
     properties:
       mail:
@@ -89,3 +89,9 @@ mybatis:
     map-underscore-to-camel-case: true
   type-aliases-package: com.hailu.cloud.api.*.module.*.entity
   mapper-locations: classpath*:/com/hailu/cloud/api/**/*Mapper.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

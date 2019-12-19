@@ -12,7 +12,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=海露任务调度
+        tags: management.context-path=${server.servlet.context-path}/actuator,desc=海露任务调度
 
 feign:
   hystrix:
@@ -27,3 +27,9 @@ hystrix:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
