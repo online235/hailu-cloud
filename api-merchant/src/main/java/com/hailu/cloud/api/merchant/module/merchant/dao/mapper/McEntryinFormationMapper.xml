@@ -101,7 +101,7 @@
         <if test="remarks != null">
             remarks,
         </if>
-        <if test="createdat != null">
+        <if test="dateTime != null">
             date_time,
         </if>
         <if test="updateDateTime != null">
@@ -220,8 +220,8 @@
         <if test="remarks != null">
             #{remarks,jdbcType=VARCHAR},
         </if>
-        <if test="createdat != null">
-            #{createdat,jdbcType=BIGINT},
+        <if test="dateTime != null">
+            #{dateTime,jdbcType=BIGINT},
         </if>
         <if test="updateDateTime != null">
             #{updateDateTime,jdbcType=BIGINT},
@@ -334,8 +334,8 @@
         <if test="remarks != null">
             remarks = #{remarks,jdbcType=VARCHAR},
         </if>
-        <if test="createdat != null">
-            date_time = #{createdat,jdbcType=BIGINT},
+        <if test="dateTime != null">
+            date_time = #{dateTime,jdbcType=BIGINT},
         </if>
         <if test="updateDateTime != null">
             update_date_time = #{updateDateTime,jdbcType=BIGINT},

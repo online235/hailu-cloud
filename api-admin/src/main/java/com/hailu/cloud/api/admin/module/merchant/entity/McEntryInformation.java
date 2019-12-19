@@ -286,14 +286,14 @@ public class McEntryInformation implements Serializable {
 
 
 
-    public void setCreatedat(Long dateTime) {
+    public void setDateTime(Long dateTime) {
         this.dateTime = dateTime;
         this.createTime = DateUtil.date(dateTime);
     }
 
 
 
-    public void setUpdatedat(Long updateDateTime) {
+    public void setUpdateDateTime(Long updateDateTime) {
         this.updateDateTime = updateDateTime;
         this.updateTime = DateUtil.date(updateDateTime);
     }

@@ -116,17 +116,6 @@ public class StoreInformationResultModel{
     @ApiModelProperty("开发时间")
     private String openingTime;
 
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty("创建时间")
-    private Date createdat;
-
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty("更新时间")
-    private Date updatedat;
 
     /**
      * 审核('审核中-1','审核通过-2','审核不通过-3')

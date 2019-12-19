@@ -115,13 +115,13 @@ public class StoreInformation implements Serializable {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    private Date createdat;
+    private Date dateTime;
 
     /**
      * 更新时间
      */
     @ApiModelProperty("更新时间")
-    private Date updatedat;
+    private Date updateDateTime;
 
     /**
      * 审核('审核中-1','审核通过-2','审核不通过-3')
