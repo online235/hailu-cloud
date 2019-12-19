@@ -12,7 +12,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=网关
+        tags: management.context-path=${server.servlet.context-path}/actuator,desc=网关
 
 mapping:
   swaggerDocs:
@@ -50,3 +50,9 @@ wechat:
   config:
     appId: wx28a66e8b774bd3f2
     secret: 17edb75ac4bcb2601c53a82277486e94
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

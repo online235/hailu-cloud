@@ -12,7 +12,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=海露商城接口
+        tags: management.context-path=${server.servlet.context-path}/actuator,desc=海露商城接口
   cache:
     ehcache:
       config: classpath:ehcache.xml
@@ -53,3 +53,9 @@ hystrix:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

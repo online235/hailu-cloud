@@ -6,6 +6,7 @@ import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
@@ -44,17 +45,21 @@ public class GlobalApiResponseHandler implements HandlerMethodReturnValueHandler
             ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest) throws Exception {
 
+        //回调不封装参数
+        if (WEIXIN_CALLBACK_PATTERN.matcher(webRequest.getContextPath()).matches()) {
+            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+            return;
+        }
+        if( ((ServletWebRequest) webRequest).getRequest().getRequestURI().contains("/actuator") ){
+            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
+            return;
+        }
         if (returnValue != null) {
             // 注入字典
             dictLoader.load(returnValue);
-            log.info("返回参数："+returnValue.toString());
+            log.info("返回参数：" + returnValue.toString());
         }
-        //回调不封装参数
-        if(!WEIXIN_CALLBACK_PATTERN.matcher(webRequest.getContextPath()).matches()){
-            proxyObject.handleReturnValue(ApiResponse.result(returnValue), returnType, mavContainer, webRequest);
-        }else {
-            proxyObject.handleReturnValue(returnValue, returnType, mavContainer, webRequest);
-        }
+        proxyObject.handleReturnValue(ApiResponse.result(returnValue), returnType, mavContainer, webRequest);
     }
 
 }

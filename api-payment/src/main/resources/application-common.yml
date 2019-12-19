@@ -12,7 +12,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=支付接口
+        tags: management.context-path=${server.servlet.context-path}/actuator,desc=支付接口
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -34,3 +34,9 @@ mybatis:
     map-underscore-to-camel-case: true
   type-aliases-package: com.hailu.cloud.api.*.module.*.entity
   mapper-locations: classpath*:/com/hailu/cloud/api/**/*Mapper.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

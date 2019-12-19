@@ -12,7 +12,7 @@ spring:
         register: true
         heartbeat:
           enabled: true
-        tags: desc=登录授权认证接口
+        tags: management.context-path=${server.servlet.context-path}/actuator,desc=登录授权认证接口
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -53,3 +53,9 @@ wechat:
   config:
     appId: wx28a66e8b774bd3f2
     secret: 17edb75ac4bcb2601c53a82277486e94
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
