@@ -45,7 +45,7 @@ public class RescueInfoService {
         rescue.setNumberId(numberId);
         rescue.setCreatedat(date);
         rescue.setUpdatedat(date);
-        rescue.setExamine("1");
+        rescue.setToExamine("1");
         int result = rescueService.insertSelective(rescue);
         if (result > 0){
             for (String pictureFor : picture){
@@ -96,7 +96,7 @@ public class RescueInfoService {
         //城市Id
         jsonObject.put("cityId", rescue.getCityId());
         //审核
-        jsonObject.put("examine", rescue.getExamine());
+        jsonObject.put("toExamine", rescue.getToExamine());
         //救助详细说明
         jsonObject.put("instructions", rescue.getInstructions());
         //创建时间

@@ -38,7 +38,7 @@ public class MutualAidInfoService {
             mutualAid.setNumberId(basicFeignClient.uuid().getData());
             mutualAid.setCreatedat(date);
             mutualAid.setUpdatedat(date);
-            mutualAid.setExamine(1);
+            mutualAid.setToExamine(1);
             //添加互助信息
             mutualAidService.insertSelective(mutualAid);
                 for (String pictureFor: picture) {

@@ -3,7 +3,7 @@
 <mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.RescueMapper" >
   <sql id="Base_Column_List" >
     number_id, member_id, target_amount, title, help_times, cash, rescue_type, province_id, 
-    city_id, examine, createdat, updatedat
+    city_id, to_examine, createdat, updatedat
   </sql>
   <sql id="Blob_Column_List" >
     Instructions
@@ -50,8 +50,8 @@
       <if test="cityId != null" >
         city_id,
       </if>
-      <if test="examine != null" >
-        examine,
+      <if test="toExamine != null" >
+        to_examine,
       </if>
       <if test="createdat != null" >
         createdat,
@@ -91,8 +91,8 @@
       <if test="cityId != null" >
         #{cityId,jdbcType=BIGINT},
       </if>
-      <if test="examine != null" >
-        #{examine,jdbcType=CHAR},
+      <if test="toExamine != null" >
+        #{toExamine,jdbcType=CHAR},
       </if>
       <if test="createdat != null" >
         #{createdat,jdbcType=TIMESTAMP},
@@ -132,8 +132,8 @@
       <if test="cityId != null" >
         city_id = #{cityId,jdbcType=BIGINT},
       </if>
-      <if test="examine != null" >
-        examine = #{examine,jdbcType=CHAR},
+      <if test="toExamine != null" >
+        to_examine = #{toExamine,jdbcType=CHAR},
       </if>
       <if test="createdat != null" >
         createdat = #{createdat,jdbcType=TIMESTAMP},
@@ -150,7 +150,7 @@
   <select id="findXaRescueVo" resultType="com.hailu.cloud.api.xinan.module.app.model.RescueVo">
     select DISTINCT xr.number_id as numberId,xr.title as title ,xr.rescue_type as rescueType,xr.help_times as helpTimes,xr.member_id as memberId,xrp.picture as picture
     from xa_rescue xr INNER JOIN xa_rescue_pictures xrp ON xr.number_id = xrp.mutuala_id
-    where xr.examine = 2
+    where xr.to_examine = 2
     group by xr.number_id
   </select>
   <select id="findXaRescueList" resultType="com.hailu.cloud.api.xinan.module.app.entity.Rescue">
