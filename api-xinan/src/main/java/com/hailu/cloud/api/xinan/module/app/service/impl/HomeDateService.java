@@ -3,6 +3,7 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.hailu.cloud.api.xinan.module.app.entity.Helppictures;
+import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.api.xinan.module.app.model.*;
 import com.hailu.cloud.api.xinan.module.app.service.SysBannerService;
 import com.hailu.cloud.api.xinan.module.app.service.XaHelpMenberService;
@@ -33,6 +34,8 @@ public class HomeDateService {
     private SysBannerService sysBannerService;
     @Resource
     private HelpPicturesService helpPicturesService;
+    @Resource
+    private ShopMemBerService shopMemBerService;
 
 
     /**
@@ -103,27 +106,33 @@ public class HomeDateService {
 
     /**
      * 获取救助详情，图片
+     *
      * @param xaHelpMemberId
      * @return
      */
     public XaHelpMemberDetailModel getXaHelpMemberDetailModel(Long xaHelpMemberId) {
 
         XaHelpMemberDetailModel xaHelpMemberDetailModel = new XaHelpMemberDetailModel();
-        List<String>  pictureImages = new ArrayList<>();
-        List<String>  pictureHelpImages = new ArrayList<>();
-        List<String>  pictureHelpVideos = new ArrayList<>();
+        List<String> pictureImages = new ArrayList<>();
+        List<String> pictureHelpImages = new ArrayList<>();
+        List<String> pictureHelpVideos = new ArrayList<>();
         XaHelpMemberModel xaHelpMemberModel = xaHelpMenberService.findXaHelpMemberModelById(xaHelpMemberId);
+        Long submitPersonId = xaHelpMemberModel.getMenberId();//发起用户id
+        ShopMember shopMember = new ShopMember();
+        if(submitPersonId != null){
+            shopMember = shopMemBerService.selectByPrimaryByuserId(submitPersonId.toString());
+        }
         xaHelpMemberDetailModel.setXaHelpMemberModel(xaHelpMemberModel);
         Map map = new HashMap();
-        map.put("mutualaId",xaHelpMemberId);
+        map.put("mutualaId", xaHelpMemberId);
         List<Helppictures> helppicturesList = helpPicturesService.findListByParameter(map);
-        if(!CollectionUtils.isEmpty(helppicturesList)){
-            for(Helppictures helppictures:helppicturesList){
-                if(helppictures.getPictureType() == 1){
+        if (!CollectionUtils.isEmpty(helppicturesList)) {
+            for (Helppictures helppictures : helppicturesList) {
+                if (helppictures.getPictureType() == 1) {
                     pictureImages.add(helppictures.getPicture());
-                }else  if(helppictures.getPictureType() == 2){
+                } else if (helppictures.getPictureType() == 2) {
                     pictureHelpImages.add(helppictures.getPicture());
-                }else  if(helppictures.getPictureType() == 3){
+                } else if (helppictures.getPictureType() == 3) {
                     pictureHelpVideos.add(helppictures.getPicture());
                 }
             }
@@ -132,7 +141,10 @@ public class HomeDateService {
         xaHelpMemberDetailModel.setPictureHelpImages(pictureHelpImages);
         xaHelpMemberDetailModel.setPictureHelpVideos(pictureHelpVideos);
         xaHelpMemberDetailModel.setPictureImages(pictureImages);
-
+        if (shopMember != null) {
+            xaHelpMemberDetailModel.setHeadImage(shopMember.getUserIcon());
+            xaHelpMemberDetailModel.setNickName(shopMember.getMemberName());
+        }
         return xaHelpMemberDetailModel;
     }
 

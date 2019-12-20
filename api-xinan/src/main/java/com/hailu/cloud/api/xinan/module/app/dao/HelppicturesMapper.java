@@ -52,4 +52,6 @@ public interface HelppicturesMapper {
     List<Helppictures> findListByParameter(Object parameter);
 
 
+
+
 }

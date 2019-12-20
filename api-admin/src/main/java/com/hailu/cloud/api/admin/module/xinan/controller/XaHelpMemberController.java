@@ -2,6 +2,7 @@ package com.hailu.cloud.api.admin.module.xinan.controller;
 
 
 import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
+import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberDetailModel;
 import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
 import com.hailu.cloud.api.admin.module.xinan.parameter.HelpPictureParameter;
 import com.hailu.cloud.api.admin.module.xinan.parameter.XaHelpMemberParameter;
@@ -105,14 +106,12 @@ public class XaHelpMemberController {
     @PostMapping("/getXaHelpMemberModelDetail")
     @ResponseBody
     @ApiImplicitParam(name = "id", value = "期数id", required = true, paramType = "query")
-    public XaHelpMemberModel getXaHelpMemberModelDetail(@NotNull Long id) throws BusinessException {
+    public XaHelpMemberDetailModel getXaHelpMemberModelDetail(@NotNull Long id) throws BusinessException {
 
         if (id == null) {
             throw new BusinessException("id不能为空！");
         }
-        Map map = new HashMap(2);
-        map.put("id", id);
-        return xaHelpMenberService.findListByParameter(map).get(0);
+        return xaHelpMenberService.getXaHelpMemberDetailModel(id);
 
     }
 

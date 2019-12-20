@@ -44,4 +44,6 @@ public interface MutualaidMapper {
      * @return
      */
     List<MutualAidModel> findMutualaidList(@Param("rescueType") Integer rescueType);
+
+
 }

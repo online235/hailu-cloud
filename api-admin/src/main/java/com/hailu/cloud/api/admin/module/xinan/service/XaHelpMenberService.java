@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.admin.module.xinan.service;
 
 import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
+import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberDetailModel;
 import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 
@@ -31,6 +32,13 @@ public interface XaHelpMenberService {
 
 
     /**
+     * 查询详情
+     * @return
+     */
+    XaHelpMemberModel findXaHelpMemberModelById(Long id);
+
+
+    /**
      * 分页操作
      * @param pageNum
      * @param size
@@ -38,6 +46,16 @@ public interface XaHelpMenberService {
      * @return
      */
     PageInfoModel<List<XaHelpMemberModel>> findListByParameterNewPage(Integer pageNum, Integer size, Object parameter);
+
+
+
+    /**
+     * 获取救助详情，图片
+     * @param xaHelpMemberId
+     * @return
+     */
+   XaHelpMemberDetailModel getXaHelpMemberDetailModel(Long xaHelpMemberId);
+
 
 
 }

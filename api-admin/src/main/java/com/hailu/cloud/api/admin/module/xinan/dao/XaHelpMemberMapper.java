@@ -34,4 +34,12 @@ public interface XaHelpMemberMapper {
     int update(XaHelpMember xaHelpMember);
 
 
+
+    /**
+     * 查询详情
+     * @return
+     */
+    XaHelpMemberModel findXaHelpMemberModelById(Long id);
+
+
 }

@@ -96,4 +96,27 @@
     </delete>
 
 
+    <select id="findListByParameter" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures">
+        select
+        <include refid="Base_Column_List"/>
+        from xa_helppictures
+        where 1=1
+        <if test="picture != null" >
+            and picture = #{picture}
+        </if>
+        <if test="pictureName != null" >
+            and picture_name = #{pictureName}
+        </if>
+        <if test="mutualaId != null" >
+            and mutuala_id = #{mutualaId}
+        </if>
+        <if test="pictureType != null" >
+            and picture_type = #{pictureType}
+        </if>
+        <if test="dateTime != null" >
+            and date_format(date_time,'%Y-%m')<![CDATA[=]]> #{dateTime}
+        </if>
+    </select>
+
+
 </mapper>

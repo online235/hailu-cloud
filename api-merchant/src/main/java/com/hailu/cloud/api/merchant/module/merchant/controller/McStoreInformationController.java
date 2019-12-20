@@ -2,8 +2,10 @@ package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
+import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
+import com.hailu.cloud.api.merchant.module.merchant.result.ShopExamineResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
@@ -75,6 +77,18 @@ public class McStoreInformationController {
         mcInfoService.submitShopInformation(shopInformationEntryParameter);
 
     }
+
+
+    @ApiOperation(value = "查看商户入驻状态")
+    @PostMapping("/getShopToExamine")
+    public ShopExamineResult getShopToExamine(){
+
+        McStoreInformation  mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
+        ShopExamineResult shopExamineResult = new ShopExamineResult();
+        shopExamineResult.setToExamine(mcStoreInformation.getToExamine());
+        return shopExamineResult;
+    }
+
 
 
     @ApiOperation(value = "更改信息店铺信息", notes = "<prep>" +

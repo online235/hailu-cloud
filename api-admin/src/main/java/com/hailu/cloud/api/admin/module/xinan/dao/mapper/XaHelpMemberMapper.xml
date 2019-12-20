@@ -143,4 +143,13 @@
         where id = #{id}
     </insert>
 
+    <select id="findXaHelpMemberModelById" resultType="com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel">
+        select
+        id, menber_id, name, age, province, province_code, city_code, city, disease, time_date, periods_number,
+        share_times, help_days, image_url, sex, gain_money, create_time, update_time, apportionment_money,
+        target_amount, title, content, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
+        from xa_help_member
+        where id = #{id}
+    </select>
+
 </mapper>

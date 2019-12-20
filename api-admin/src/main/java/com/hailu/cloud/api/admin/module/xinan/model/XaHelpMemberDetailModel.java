@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.xinan.module.app.model;
+package com.hailu.cloud.api.admin.module.xinan.model;
 
 
 import io.swagger.annotations.ApiModel;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @ApiModel
-public class XaHelpMemberDetailModel{
+public class XaHelpMemberDetailModel {
 
 
     @ApiModelProperty("病历图片路径")
@@ -29,13 +29,6 @@ public class XaHelpMemberDetailModel{
 
     @ApiModelProperty("详情")
     private XaHelpMemberModel xaHelpMemberModel;
-
-    @ApiModelProperty("发起人昵称")
-    private String nickName;
-
-
-    @ApiModelProperty("发起人头像")
-    private String headImage;
 
 
 }

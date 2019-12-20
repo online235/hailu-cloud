@@ -41,6 +41,8 @@ public class StoreUtil {
         return false;
     }
 
+
+
     public static boolean dateCompare(String date) throws ParseException {
         SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
         Date time = null;
@@ -48,9 +50,32 @@ public class StoreUtil {
         boolean boo = false;
             time= sdf.parse(date);
             now = sdf.parse(sdf.format(new Date()));
-            if (time.before(now)) { //time时间是否在当前时间之前，为true则time时间已过
+            if (time.before(now)) { //time时间是否在当前时间之前
                 boo = true;
             }
         return boo;
+    }
+
+
+
+    public static boolean timeSlotStatus(String timeSlot)throws ParseException{
+
+        SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
+        String[] timeStr = timeSlot.split("-");
+        String frontTime = timeStr[0];
+        String afterTime = timeStr[1];
+        boolean result = false;
+        boolean frontResult = dateCompare(frontTime);
+        boolean afterResult = dateCompare(afterTime);
+        if(frontResult && !afterResult){
+            result = true;
+        }
+        return result;
+    }
+
+
+    public static void main(String[] args) throws ParseException {
+        System.out.println(DateUtil.dayOfWeek(new Date()));
+        System.out.println(dateCompare("9:00"));
     }
 }

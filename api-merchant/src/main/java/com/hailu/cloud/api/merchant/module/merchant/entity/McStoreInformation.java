@@ -124,7 +124,7 @@ public class McStoreInformation {
 
 
     /**
-     * 审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')'
+     * 审核(''提交资料-0 审核中-1'',''审核通过-2'',''审核不通过-3'')'
      */
     private Integer toExamine;
 

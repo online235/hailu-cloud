@@ -52,4 +52,13 @@ public interface HelppicturesMapper {
     int deleteHelppictures(@Param("mutualaId") Long mutualaId);
 
 
+
+    /**
+     * 根据参数查列表
+     * @param parameter
+     * @return
+     */
+    List<Helppictures> findListByParameter(Object parameter);
+
+
 }
