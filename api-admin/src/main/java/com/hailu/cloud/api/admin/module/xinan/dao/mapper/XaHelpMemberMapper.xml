@@ -63,7 +63,7 @@
             image_url = #{imageUrl},
         </if>
         <if test="apportionmentMoney != null">
-            apportionment_money = #{apportionmentMoney}
+            apportionment_money = #{apportionmentMoney},
         </if>
         <if test="title != null">
             title = #{title},

@@ -191,6 +191,11 @@ public class XaHelpMemberModel {
     @ApiModelProperty("审核(审核中-1、审核通过-2、审核不通过-3)")
     private Integer toExamine;
 
+    @ApiModelProperty("发起人昵称")
+    private String nickName;
 
+
+    @ApiModelProperty("发起人头像")
+    private String headImage;
 
 }

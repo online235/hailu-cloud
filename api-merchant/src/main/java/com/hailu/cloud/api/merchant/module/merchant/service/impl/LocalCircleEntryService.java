@@ -104,49 +104,49 @@ public class LocalCircleEntryService {
     }
 
 
-    /**
-     * 插入入驻信息
-     */
-    /**
-     * 生活圈添加入驻信息
-     *
-     * @param registerInformation
-     * @return
-     */
-    @Transactional(rollbackFor = Exception.class)
-    public void setLocalCircleEntry(RegisterInformation registerInformation, Integer accountType) throws BusinessException {
-
-        String mcNumberId = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), accountType);
-        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
-        BeanUtils.copyProperties(registerInformation, localCircleEntry);
-        if (localCircleEntry == null) {
-            throw new BusinessException("入驻信息为空");
-        }
-        boolean boo = selectMcEntryinFormationById(mcNumberId);
-        if (boo) {
-            throw new BusinessException("入驻信息以填写");
-        }
-        //生成时间戳
-        long time = System.currentTimeMillis();
-        //生成随机ID
-        String numberid = String.valueOf(uuidFeign.uuid().getData());
-        localCircleEntry.setMcNumberId(mcNumberId);
-        localCircleEntry.setNumberId(numberid);
-        localCircleEntry.setDateTime(time);
-        localCircleEntry.setUpdateDateTime(time);
-        localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
-        Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
-        if (result <= 0) {
-            throw new BusinessException("插入数据失败");
-        }
-        McStoreInformation mcStoreInformation = new McStoreInformation();
-        BeanUtils.copyProperties(localCircleEntry, mcStoreInformation);
-        mcStoreInformation.setStoreTotalType(localCircleEntry.getFirstManagementTypeId());
-        mcStoreInformation.setStoreSonType(localCircleEntry.getSecondManagementTypeId());
-        mcStoreInformation.setAccountType(accountType);
-        mcStoreInformationService.insertSelective(mcStoreInformation);
-
-    }
+//    /**
+//     * 插入入驻信息
+//     */
+//    /**
+//     * 生活圈添加入驻信息
+//     *
+//     * @param registerInformation
+//     * @return
+//     */
+//    @Transactional(rollbackFor = Exception.class)
+//    public void setLocalCircleEntry(RegisterInformation registerInformation, Integer accountType) throws BusinessException {
+//
+//        String mcNumberId = mcUserService.insertSelective(registerInformation.getLandingAccount(), registerInformation.getLandingPassword(), registerInformation.getMoli(), accountType);
+//        LocalCircleEntry localCircleEntry = new LocalCircleEntry();
+//        BeanUtils.copyProperties(registerInformation, localCircleEntry);
+//        if (localCircleEntry == null) {
+//            throw new BusinessException("入驻信息为空");
+//        }
+//        boolean boo = selectMcEntryinFormationById(mcNumberId);
+//        if (boo) {
+//            throw new BusinessException("入驻信息以填写");
+//        }
+//        //生成时间戳
+//        long time = System.currentTimeMillis();
+//        //生成随机ID
+//        String numberid = String.valueOf(uuidFeign.uuid().getData());
+//        localCircleEntry.setMcNumberId(mcNumberId);
+//        localCircleEntry.setNumberId(numberid);
+//        localCircleEntry.setDateTime(time);
+//        localCircleEntry.setUpdateDateTime(time);
+//        localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
+//        Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
+//        if (result <= 0) {
+//            throw new BusinessException("插入数据失败");
+//        }
+//        McStoreInformation mcStoreInformation = new McStoreInformation();
+//        BeanUtils.copyProperties(localCircleEntry, mcStoreInformation);
+//        mcStoreInformation.setStoreTotalType(localCircleEntry.getFirstManagementTypeId());
+//        mcStoreInformation.setStoreSonType(localCircleEntry.getSecondManagementTypeId());
+//        mcStoreInformation.setAccountType(accountType);
+//        mcStoreInformationService.insertSelective(mcStoreInformation);
+//
+//    }
 
 
     /**

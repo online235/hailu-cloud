@@ -122,7 +122,6 @@ public class HomeDateService {
         if(submitPersonId != null){
             shopMember = shopMemBerService.selectByPrimaryByuserId(submitPersonId.toString());
         }
-        xaHelpMemberDetailModel.setXaHelpMemberModel(xaHelpMemberModel);
         Map map = new HashMap();
         map.put("mutualaId", xaHelpMemberId);
         List<Helppictures> helppicturesList = helpPicturesService.findListByParameter(map);
@@ -137,14 +136,14 @@ public class HomeDateService {
                 }
             }
         }
-        xaHelpMemberDetailModel.setXaHelpMemberModel(xaHelpMemberModel);
         xaHelpMemberDetailModel.setPictureHelpImages(pictureHelpImages);
         xaHelpMemberDetailModel.setPictureHelpVideos(pictureHelpVideos);
         xaHelpMemberDetailModel.setPictureImages(pictureImages);
         if (shopMember != null) {
-            xaHelpMemberDetailModel.setHeadImage(shopMember.getUserIcon());
-            xaHelpMemberDetailModel.setNickName(shopMember.getMemberName());
+            xaHelpMemberModel.setHeadImage(shopMember.getUserIcon());
+            xaHelpMemberModel.setNickName(shopMember.getMemberName());
         }
+        xaHelpMemberDetailModel.setXaHelpMemberModel(xaHelpMemberModel);
         return xaHelpMemberDetailModel;
     }
 

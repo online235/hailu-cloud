@@ -73,8 +73,6 @@ public class HomeController {
     @ApiImplicitParam(name = "xaHelpMemberId", value = "案例id", required = true, paramType = "query")
     public XaHelpMemberDetailModel getXaHelpMemberDetail(@NotNull Long xaHelpMemberId) {
 
-
-
         return homeDateService.getXaHelpMemberDetailModel(xaHelpMemberId);
     }
 

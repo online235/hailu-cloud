@@ -30,12 +30,6 @@ public class XaHelpMemberDetailModel{
     @ApiModelProperty("详情")
     private XaHelpMemberModel xaHelpMemberModel;
 
-    @ApiModelProperty("发起人昵称")
-    private String nickName;
-
-
-    @ApiModelProperty("发起人头像")
-    private String headImage;
 
 
 }

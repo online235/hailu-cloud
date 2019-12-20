@@ -115,7 +115,8 @@ public class McInfoService {
     @Transactional(rollbackFor = Exception.class)
     public void addMcUserRegister(McUserParameter mcUserParameter) throws BusinessException {
 
-        String mcNumberId = mcUserService.insertSelective(mcUserParameter.getLandingAccount(), mcUserParameter.getLandingPassword(), mcUserParameter.getPhone(), mcUserParameter.getAccountType());
+        String mcNumberId = mcUserService.insertSelective(mcUserParameter.getLandingAccount(), mcUserParameter.getLandingPassword(),
+                mcUserParameter.getPhone(), mcUserParameter.getAccountType(),mcUserParameter.getNickName());
         long time = System.currentTimeMillis();
         //生成随机ID
         String numberId = String.valueOf(uuidFeignClient.uuid().getData());

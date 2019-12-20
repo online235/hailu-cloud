@@ -19,6 +19,13 @@ public class McUser implements Serializable {
      */
     private String landingAccount;
 
+
+    /**
+     * 昵称
+     */
+    private String nickName;
+
+
     /**
      * 登陆密码
      */

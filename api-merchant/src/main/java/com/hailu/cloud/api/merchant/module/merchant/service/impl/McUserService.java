@@ -50,7 +50,7 @@ public class McUserService {
      * @throws UnsupportedEncodingException
      * @throws NoSuchAlgorithmException
      */
-    public String insertSelective(String landingAccount, String landingPassword, String phone, Integer accountType) throws BusinessException {
+    public String insertSelective(String landingAccount, String landingPassword, String phone, Integer accountType,String nickName) throws BusinessException {
 
         boolean user;
         //判断账号是否存在
@@ -72,6 +72,7 @@ public class McUserService {
         String password = SecureUtil.sha256(landingPassword + "&key=" + signKey);
         mcUser.setNumberId(numberId);
         mcUser.setPhone(phone);
+        mcUser.setNickName(nickName);
         mcUser.setLandingPassword(password);
         mcUser.setNetworkName(mcUser.getLandingAccount());
         mcUser.setAccountType(accountType);

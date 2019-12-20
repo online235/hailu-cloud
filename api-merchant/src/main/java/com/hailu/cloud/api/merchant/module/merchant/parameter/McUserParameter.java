@@ -22,6 +22,14 @@ public class McUserParameter {
     @NotEmpty(message = "验证码不能为空")
     private String code;
 
+
+    /**
+     * 联系人昵称
+     */
+    @ApiModelProperty(name = "nickName", value = "联系人昵称", required = true)
+    private String nickName;
+
+
     /**
      * 注册登陆账号
      */
