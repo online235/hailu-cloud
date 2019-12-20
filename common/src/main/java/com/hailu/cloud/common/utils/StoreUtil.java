@@ -42,6 +42,32 @@ public class StoreUtil {
     }
 
 
+    /**
+     *
+     * @param businessTime  "06:00-12：00,14:00-16：00"
+     * @param weekDay  1,2,3
+     * @return
+     * @throws ParseException
+     */
+    public static boolean storeBusinessTimeStatus(String businessTime, String weekDay) throws ParseException {
+        //获取当前日期、星期一、星期二
+        int datet = DateUtil.dayOfWeek(new Date());
+        //字符串分割
+        String[] s1=weekDay.split(",");
+        boolean wee = false;
+        for (String s2 : s1){
+            int i = Integer.parseInt(s2);
+            if (datet == i){
+                wee = true;
+                break;
+            }
+        }
+        if (businessTimeStatus(businessTime) && wee){
+            return true;
+        }
+        return false;
+    }
+
 
     public static boolean dateCompare(String date) throws ParseException {
         SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
@@ -57,7 +83,32 @@ public class StoreUtil {
     }
 
 
+    /**
+     * 经营时间判断
+     * @param businessTime
+     * @return
+     * @throws ParseException
+     */
+    public static boolean businessTimeStatus(String businessTime) throws ParseException{
 
+        String[] businessTimeStr = businessTime.split(",");
+        boolean result = false;
+        for(int i = 0;i<businessTimeStr.length;i++){
+            result = timeSlotStatus(businessTimeStr[i]);
+            if(result == true){
+                return result;
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 该时间段在不在当前时间内
+     * @param timeSlot
+     * @return
+     * @throws ParseException
+     */
     public static boolean timeSlotStatus(String timeSlot)throws ParseException{
 
         SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
@@ -72,6 +123,7 @@ public class StoreUtil {
         }
         return result;
     }
+
 
 
     public static void main(String[] args) throws ParseException {

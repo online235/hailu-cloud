@@ -60,13 +60,12 @@ public class McStoreInformationModel {
 
 
 
-    @ApiParam(name = "closingTime", value = "关闭时间")
-    private String closingTime;
+    /**
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”
+     */
+    @ApiModelProperty("经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”")
+    private String businessTime;
 
-
-
-    @ApiParam(name = "openingTime", value = "开店时间")
-    private String openingTime;
 
 
     @ApiParam(name = "toExamine", value = "审核中-1'',''审核通过-2'',''审核不通过-3")

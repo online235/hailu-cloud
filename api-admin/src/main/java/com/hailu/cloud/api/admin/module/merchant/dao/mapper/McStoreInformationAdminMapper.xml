@@ -5,14 +5,14 @@
 
     <sql id="Base_Column_List">
         id,mc_number_id,shop_name,phone,province_code,city_code,area_code,detail_address,store_details,
-        per_capita_price,store_son_type,store_total_type,business_state,closing_time,opening_time,date_time,
+        per_capita_price,store_son_type,store_total_type,business_state,business_time,date_time,
         update_date_time,to_examine,week_day,default_head,account_type,longitude,latitude
   </sql>
 
     <sql id="Base_where_List">
      #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{detailAddress},
      #{storeDetails},#{perCapitaPrice},#{storeSonType},
-     #{storeTotalType},#{businessState},#{closingTime},#{openingTime},#{dateTime},#{updateDateTime},#{toExamine},#{weekDay},#{defaultHead},#{accountType},#{longitude},#{latitude}
+     #{storeTotalType},#{businessState},#{businessTime},#{dateTime},#{updateDateTime},#{toExamine},#{weekDay},#{defaultHead},#{accountType},#{longitude},#{latitude}
   </sql>
 
     <sql id="set_column">
@@ -55,11 +55,8 @@
         <if test="businessState != null">
             business_state,
         </if>
-        <if test="closingTime != null">
-            closing_time,
-        </if>
-        <if test="openingTime != null">
-            opening_time,
+        <if test="businessTime != null">
+            business_time,
         </if>
         <if test="longitude != null">
             longitude,
@@ -135,11 +132,8 @@
         <if test="businessState != null">
             #{businessState},
         </if>
-        <if test="closingTime != null">
-            #{closingTime},
-        </if>
-        <if test="openingTime != null">
-            #{openingTime},
+        <if test="businessTime != null">
+            #{businessTime},
         </if>
         <if test="dateTime != null">
             #{dateTime},
@@ -204,11 +198,8 @@
         <if test="businessState != null">
             business_state = #{businessState},
         </if>
-        <if test="closingTime != null">
-            closing_time = #{closingTime},
-        </if>
-        <if test="openingTime != null">
-            opening_time = #{openingTime},
+        <if test="businessTime != null">
+            business_time = #{businessTime},
         </if>
         <if test="updateDateTime != null">
             update_date_time = #{updateDateTime},

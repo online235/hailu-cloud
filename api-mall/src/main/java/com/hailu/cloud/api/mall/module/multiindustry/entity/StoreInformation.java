@@ -100,16 +100,11 @@ public class StoreInformation implements Serializable {
     private String businessStateDisplay;
 
     /**
-     * 关闭时间
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”
      */
-    @ApiModelProperty("关闭时间")
-    private String closingTime;
+    @ApiModelProperty("经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”")
+    private String businessTime;
 
-    /**
-     * 开发时间
-     */
-    @ApiModelProperty("开发时间")
-    private String openingTime;
 
     /**
      * 创建时间

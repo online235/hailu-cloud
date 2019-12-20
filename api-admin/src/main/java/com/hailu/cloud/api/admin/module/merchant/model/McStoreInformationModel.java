@@ -95,17 +95,14 @@ public class McStoreInformationModel {
     @ApiModelProperty("营业状态(1-营业中，2-休息中)")
     private Integer businessState;
 
-    /**
-     * 关闭时间
-     */
-    @ApiModelProperty("关闭时间")
-    private String closingTime;
 
     /**
-     * 开发时间
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”
      */
-    @ApiModelProperty("开发时间")
-    private String openingTime;
+    @ApiModelProperty("经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”")
+    private String businessTime;
+
+
 
     /**
      * 创建时间

@@ -104,17 +104,14 @@ public class StoreInformationResultModel{
     @ApiModelProperty("营业状态(营业中，休息中)")
     private String businessStateDisplay;
 
-    /**
-     * 关闭时间
-     */
-    @ApiModelProperty("关闭时间")
-    private String closingTime;
+
 
     /**
-     * 开发时间
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”
      */
-    @ApiModelProperty("开发时间")
-    private String openingTime;
+    @ApiModelProperty("经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”")
+    private String businessTime;
+
 
     
     /**

@@ -119,18 +119,10 @@ public class McStoreInformationResult {
     private String businessStateDisplay;
 
     /**
-     * 关闭时间
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”
      */
-    @ApiModelProperty(value="关闭时间")
-    private String closingTime;
-
-
-    /**
-     * 开店时间
-     */
-    @ApiModelProperty(value="开店时间")
-    private String openingTime;
-
+    @ApiModelProperty("经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”")
+    private String businessTime;
 
 
     /**

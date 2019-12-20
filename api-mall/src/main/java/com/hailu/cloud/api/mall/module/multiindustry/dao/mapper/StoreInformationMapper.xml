@@ -18,8 +18,7 @@
         <result property="storeSonType" column="store_son_type"/>
         <result property="storeTotalType" column="store_total_type"/>
         <result property="businessState" column="business_state"/>
-        <result property="closingTime" column="closing_time"/>
-        <result property="openingTime" column="opening_time"/>
+        <result property="businessTime" column="business_time"/>
         <result property="dateTime" column="date_time"/>
         <result property="updateDateTime" column="update_date_time"/>
         <result property="toExamine" column="to_examine"/>
@@ -40,7 +39,7 @@
     <sql id="Base_Column_List">
     id, mc_number_id, shop_name, phone, province_code, city_code, area_code, detail_address,
     store_details, per_capita_price, store_son_type, store_total_type, business_state,
-    closing_time, opening_time, date_time, update_date_time, to_examine, default_head, week_day
+    business_time, date_time, update_date_time, to_examine, default_head, week_day
   </sql>
 
     <select id="findStoreInformationList"
@@ -95,7 +94,7 @@
     select
     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,  store.detail_address,
      store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
-     store.closing_time,  store.opening_time,  store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
+     store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
      album.id as id1,album.store_id,album.album_url,album.create_time as create_time1,album.update_time as update_time1
     from mc_store_information as store left join mc_store_album as album ON album.store_id = store.id
     where store.id = #{id} and store.to_examine = 2 and default_rotation = 1

@@ -66,7 +66,7 @@ public class StoreInformationImpl implements StoreInformationService {
         List<StoreInformationListResult> data = new ArrayList<>();
         for (StoreInformationListResult storeInformationListResult : datas){
             if(storeInformationListResult.getBusinessState() == 1){
-                storeInformationListResult.setBusinessState(StoreUtil.storeStatus(storeInformationListResult.getOpeningTime(),storeInformationListResult.getClosingTime(),storeInformationListResult.getWeekDay()) == true ? 1 : 2);
+                storeInformationListResult.setBusinessState(StoreUtil.storeBusinessTimeStatus(storeInformationListResult.getBusinessTime(),storeInformationListResult.getWeekDay()) == true ? 1 : 2);
             }
             data.add(storeInformationListResult);
         }

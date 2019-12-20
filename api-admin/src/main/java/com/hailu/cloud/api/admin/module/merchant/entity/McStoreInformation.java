@@ -5,6 +5,7 @@ import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -101,16 +102,11 @@ public class McStoreInformation {
 
 
 
-    /**
-     * 关闭时间
-     */
-    private String closingTime;
-
 
     /**
-     * 开店时间
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”
      */
-    private String openingTime;
+    private String businessTime;
 
 
 

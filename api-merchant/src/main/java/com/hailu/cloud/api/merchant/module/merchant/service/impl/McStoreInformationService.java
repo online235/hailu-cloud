@@ -54,8 +54,7 @@ public class McStoreInformationService {
         mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
         mcStoreInformation.setBusinessState(2);//1-营业中，2-休息中
-        mcStoreInformation.setOpeningTime("9:00");//默认开店时间
-        mcStoreInformation.setClosingTime("17:00");//默认关店时间
+        mcStoreInformation.setBusinessTime("09:00-12:00");//默认开店时间
         mcStoreInformation.setWeekDay("1");//默认关店时间
         int result = mcStoreInformationMapper.insertSelective(mcStoreInformation);
         if (result <= 0) {
