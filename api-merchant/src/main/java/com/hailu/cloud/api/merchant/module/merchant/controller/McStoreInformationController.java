@@ -59,7 +59,7 @@ public class McStoreInformationController {
 
     @ApiOperation(value = "获取当前店铺已填资料")
     @PostMapping("/getRegisterShopInformation")
-    public RegisterShopInformationResult getRegisterShopInformation() throws BusinessException {
+    public RegisterShopInformationResult getRegisterShopInformation(){
 
         return mcInfoService.getRegisterShopInformationResult();
     }

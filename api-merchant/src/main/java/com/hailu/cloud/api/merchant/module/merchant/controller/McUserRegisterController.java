@@ -130,6 +130,8 @@ public class McUserRegisterController {
         return mcUserService.exists(landingAccount);
     }
 
+
+
     @ApiOperation(value = "验证手机号码是否绑定", notes = "<pre>" +
             "" +
             "</pre>")

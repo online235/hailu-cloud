@@ -25,6 +25,7 @@ public class HelpPicturesService {
      * @return
      */
     public int insertSelective(Helppictures helpPictures){
+
         if (helpPictures != null){
             return helpPicturesMapper.insertSelective(helpPictures);
         }
@@ -39,4 +40,18 @@ public class HelpPicturesService {
     public List<Helppictures> findHelpPicturesList(Long numberId){
         return helpPicturesMapper.findHelppicturesList(numberId);
     }
+
+
+    /**
+     * 根据参数查列表
+     * @param parameter
+     * @return
+     */
+    public List<Helppictures> findListByParameter(Object parameter){
+        return helpPicturesMapper.findListByParameter(parameter);
+    }
+
+
+
+
 }

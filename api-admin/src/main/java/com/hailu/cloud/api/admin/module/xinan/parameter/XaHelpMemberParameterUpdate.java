@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel
-public class XaHelpMemberParameterUpdate {
+public class XaHelpMemberParameterUpdate extends HelpPictureParameter{
 
     /**
      * id
@@ -139,7 +139,7 @@ public class XaHelpMemberParameterUpdate {
      * 救助说明
      */
     @ApiModelProperty("救助说明")
-    private String explain;
+    private String content;
 
     /**
      * 医院名字

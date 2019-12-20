@@ -15,19 +15,19 @@ public interface XaHelpMenberService {
      */
     List<XaHelpMemberModel> findListByParameter(Object parameter);
 
-//    /**
-//     * 插入方法
-//     * @param xaHelpMember
-//     * @return
-//     */
-//    int insert(XaHelpMember xaHelpMember);
-//
-//    /**
-//     * 更新方法
-//     * @param xaHelpMember
-//     * @return
-//     */
-//    int update(XaHelpMember xaHelpMember);
+    /**
+     * 插入方法
+     * @param xaHelpMember
+     * @return
+     */
+    Long insert(XaHelpMember xaHelpMember);
+
+    /**
+     * 更新方法
+     * @param xaHelpMember
+     * @return
+     */
+    int update(XaHelpMember xaHelpMember);
 
 
     /**
@@ -38,6 +38,13 @@ public interface XaHelpMenberService {
      * @return
      */
     PageInfoModel<List<XaHelpMemberModel>> findListByParameterNewPage(Integer pageNum, Integer size, Object parameter);
+
+
+    /**
+     * 查询详情
+     * @return
+     */
+    XaHelpMemberModel findXaHelpMemberModelById(Long id);
 
 
 }

@@ -43,9 +43,9 @@ public class MutualAidInfoService {
             mutualAidService.insertSelective(mutualAid);
                 for (String pictureFor: picture) {
                         Helppictures helpPictures = new Helppictures();
-                        helpPictures.setMutualaId(numberId);
+                        helpPictures.setMutualaId(mutualAid.getNumberId());
                         helpPictures.setNumberId(basicFeignClient.uuid().getData());
-                        helpPictures.setCreatedat(date);
+                        helpPictures.setDateTime(date);
                         helpPictures.setPicture(pictureFor);
                         helpPicturesService.insertSelective(helpPictures);
                 }

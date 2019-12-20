@@ -9,6 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.hailu.cloud.api.auth.module.login.dao.AdminMapper;
 import com.hailu.cloud.api.auth.module.login.dao.MemberMapper;
 import com.hailu.cloud.api.auth.module.login.dao.MerchantMapper;
+import com.hailu.cloud.api.auth.module.login.model.MerchantLocalLifeResult;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.api.auth.module.login.service.ILoginCallback;
 import com.hailu.cloud.common.constant.Constant;
@@ -255,7 +256,11 @@ public class AuthServiceImpl implements IAuthService {
                     Integer toExamine = 0;//0 资料填写  1 审核中','2 审核通过','3 审核不通过
                     // 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
                     if (loginInfoModel.getAccounttype() == 1) {
-                        toExamine = merchantMapper.findLifeExamine(loginInfoModel.getNumberid());
+                        MerchantLocalLifeResult merchantLocalLifeResult = merchantMapper.findLifeExamine(loginInfoModel.getNumberid());
+                        toExamine = merchantLocalLifeResult.getToExamine();
+                        if(toExamine == 0){
+                            loginInfoModel.setFirstManagementTypeId(merchantLocalLifeResult.getFirstManagementTypeId());
+                        }
                     } else if (loginInfoModel.getAccounttype() == 2) {
                         toExamine = merchantMapper.findEntryExamine(loginInfoModel.getNumberid());
                     }
@@ -414,7 +419,11 @@ public class AuthServiceImpl implements IAuthService {
                     Integer toExamine = 0;//0 资料填写  1 审核中','2 审核通过','3 审核不通过
                     // 账号类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
                     if (loginInfoModel.getAccounttype() == 1) {
-                        toExamine = merchantMapper.findLifeExamine(loginInfoModel.getNumberid());
+                        MerchantLocalLifeResult merchantLocalLifeResult = merchantMapper.findLifeExamine(loginInfoModel.getNumberid());
+                        toExamine = merchantLocalLifeResult.getToExamine();
+                        if(toExamine == 0){
+                            loginInfoModel.setFirstManagementTypeId(merchantLocalLifeResult.getFirstManagementTypeId());
+                        }
                     } else if (loginInfoModel.getAccounttype() == 2) {
                         toExamine = merchantMapper.findEntryExamine(loginInfoModel.getNumberid());
                     }

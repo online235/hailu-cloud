@@ -45,6 +45,15 @@ public class MerchantUserLoginInfoModel extends LoginModel {
      */
     private int accounttype;
 
+
+    /**
+     * 一级经营类型id
+     * 是商户登陆，且需要填写资料的时候返回，其他不返回
+     */
+    @ApiModelProperty(name = "firstManagementTypeId", value = "一级经营类型id")
+    private Long firstManagementTypeId;
+
+
     /**
      * 手机号码
      */

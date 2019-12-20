@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.HelppicturesMapper" >
   <sql id="Base_Column_List" >
-    number_id, picture, picture_name, mutuala_id, picture_type, createdat
+    number_id, picture, picture_name, mutuala_id, picture_type, date_time
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.xinan.module.app.entity.Helppictures" >
     select 
@@ -32,8 +32,8 @@
       <if test="pictureType != null" >
         picture_type,
       </if>
-      <if test="createdat != null" >
-        createdat,
+      <if test="dateTime != null" >
+        date_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -52,8 +52,8 @@
       <if test="pictureType != null" >
         #{pictureType},
       </if>
-      <if test="createdat != null" >
-        #{createdat},
+      <if test="dateTime != null" >
+        #{dateTime},
       </if>
     </trim>
   </insert>
@@ -61,7 +61,7 @@
     update xa_helppictures
     <set >
       <if test="picture != null" >
-        picture = #{picture,
+        picture = #{picture},
       </if>
       <if test="pictureName != null" >
         picture_name = #{pictureName},
@@ -72,8 +72,8 @@
       <if test="pictureType != null" >
         picture_type = #{pictureType},
       </if>
-      <if test="createdat != null" >
-        createdat = #{createdat},
+      <if test="dateTime != null" >
+        date_time = #{dateTime},
       </if>
     </set>
     where number_id = #{numberId}
@@ -85,4 +85,29 @@
     from xa_helppictures
     where number_id = #{numberId}
   </select>
+
+
+  <select id="findListByParameter" resultType="com.hailu.cloud.api.xinan.module.app.entity.Helppictures">
+    select
+    <include refid="Base_Column_List"/>
+    from xa_helppictures
+    where 1=1
+    <if test="picture != null" >
+      and picture = #{picture}
+    </if>
+    <if test="pictureName != null" >
+      and picture_name = #{pictureName}
+    </if>
+    <if test="mutualaId != null" >
+      and mutuala_id = #{mutualaId}
+    </if>
+    <if test="pictureType != null" >
+       and picture_type = #{pictureType}
+    </if>
+    <if test="dateTime != null" >
+      and date_format(date_time,'%Y-%m')<![CDATA[=]]> #{dateTime}
+    </if>
+  </select>
+
+
 </mapper>

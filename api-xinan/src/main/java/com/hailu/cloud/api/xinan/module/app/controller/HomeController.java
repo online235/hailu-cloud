@@ -2,6 +2,7 @@ package com.hailu.cloud.api.xinan.module.app.controller;
 
 import cn.hutool.core.date.DateUtil;
 import com.hailu.cloud.api.xinan.module.app.model.HomeDataListModel;
+import com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberDetailModel;
 import com.hailu.cloud.api.xinan.module.app.model.XaStatisticsModel;
 import com.hailu.cloud.api.xinan.module.app.service.impl.HomeDateService;
 import com.hailu.cloud.common.exception.BusinessException;
@@ -44,7 +45,7 @@ public class HomeController {
     @ApiOperation(value = "首页数据")
     @PostMapping("/homeData")
     @ResponseBody
-    public HomeDataListModel findHelpPicturesList(){
+    public HomeDataListModel findHelpPicturesList() {
 
         return homeDateService.getHomeDateListModel();
     }
@@ -57,16 +58,23 @@ public class HomeController {
             @ApiImplicitParam(name = "timeDate", value = "时间（yyyy-MM）", required = true, paramType = "query"),
             @ApiImplicitParam(name = "periodsNumber", value = "期数", required = true, paramType = "query")
     })
-    public XaStatisticsModel getXaHelpMemberList( String timeDate, @NotNull Integer periodsNumber) throws BusinessException {
+    public XaStatisticsModel getXaHelpMemberList(String timeDate, @NotNull Integer periodsNumber) throws BusinessException {
 
-        if(timeDate == null || periodsNumber == null){
+        if (timeDate == null || periodsNumber == null) {
             throw new BusinessException("参数不能为空！");
         }
-        return homeDateService.getXaHelpMemberList(timeDate,periodsNumber);
+        return homeDateService.getXaHelpMemberList(timeDate, periodsNumber);
     }
 
 
+    @ApiOperation(value = "查看案例详情")
+    @PostMapping("/getXaHelpMemberDetail")
+    @ResponseBody
+    @ApiImplicitParam(name = "xaHelpMemberId", value = "案例id", required = true, paramType = "query")
+    public XaHelpMemberDetailModel getXaHelpMemberDetail(@NotNull Long xaHelpMemberId) {
 
+        return homeDateService.getXaHelpMemberDetailModel(xaHelpMemberId);
+    }
 
 
 }

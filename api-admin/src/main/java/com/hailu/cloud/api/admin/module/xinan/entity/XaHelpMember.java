@@ -119,7 +119,7 @@ public class XaHelpMember {
     /**
      * 救助说明
      */
-    private String explain;
+    private String content;
 
     /**
      * 医院名字

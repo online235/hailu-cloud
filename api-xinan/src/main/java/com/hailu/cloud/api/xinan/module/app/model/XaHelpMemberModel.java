@@ -24,6 +24,12 @@ public class XaHelpMemberModel {
     private Long id;
 
     /**
+     * 发起用户id
+     */
+    @ApiModelProperty("发起用户id")
+    private Long menberId;
+
+    /**
      * 姓名
      */
     @ApiModelProperty("姓名")
@@ -48,6 +54,18 @@ public class XaHelpMemberModel {
     private String provinceCode;
 
     /**
+     * 城市
+     */
+    @ApiModelProperty("城市")
+    private String cityCode;
+
+    /**
+     * 城市
+     */
+    @ApiModelProperty("城市")
+    private String city;
+
+    /**
      * 病名
      */
     @ApiModelProperty("病名")
@@ -57,7 +75,6 @@ public class XaHelpMemberModel {
      * 本期时间（yyyy-MM）
      */
     @ApiModelProperty("本期时间（yyyy-MM）")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date timeDate;
 
     /**
@@ -79,6 +96,12 @@ public class XaHelpMemberModel {
     private Integer helpDays;
 
     /**
+     * 图片
+     */
+    @ApiModelProperty("图片")
+    private String imageUrl;
+
+    /**
      * 性别：1男；2女
      */
     @ApiModelProperty("性别：1男；2女")
@@ -91,16 +114,83 @@ public class XaHelpMemberModel {
     private BigDecimal gainMoney;
 
     /**
-     * 图片
+     * 创建时间
      */
-    @ApiModelProperty("图片")
-    private String imageUrl;
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty("更新时间")
+    private Date updateTime;
 
     /**
      * 已经分摊金钱
      */
     @ApiModelProperty("已经分摊金钱")
     private BigDecimal apportionmentMoney;
+
+    /**
+     * 目标金额
+     */
+    @ApiModelProperty("目标金额")
+    private BigDecimal targetAmount;
+
+    /**
+     * 筹款标题
+     */
+    @ApiModelProperty("筹款标题")
+    private String title;
+
+    /**
+     * 救助说明
+     */
+    @ApiModelProperty("救助说明")
+    private String content;
+
+    /**
+     * 医院名字
+     */
+    @ApiModelProperty("医院名字")
+    private String hospitalName;
+
+    /**
+     * 医院收款账号
+     */
+    @ApiModelProperty("医院收款账号")
+    private String hospitalAccount;
+
+    /**
+     * 确诊病名
+     */
+    @ApiModelProperty("确诊病名")
+    private String diseaseName;
+
+    /**
+     * 救助类型 （助学-1,助残-2,助老-3,疾病-4,扶贫-5,公益-6,救灾-7 ,医疗-8,就业-9,自然-10）
+     */
+    @ApiModelProperty("救助类型 （助学-1,助残-2,助老-3,疾病-4,扶贫-5,公益-6,救灾-7 ,医疗-8,就业-9,自然-10）")
+    private Integer rescueType;
+
+    /**
+     * 帮助次数
+     */
+    @ApiModelProperty("帮助次数")
+    private Integer helpTimes;
+
+    /**
+     * 现金额
+     */
+    @ApiModelProperty("现金额")
+    private BigDecimal cash;
+
+    /**
+     * 审核(审核中-1、审核通过-2、审核不通过-3)
+     */
+    @ApiModelProperty("审核(审核中-1、审核通过-2、审核不通过-3)")
+    private Integer toExamine;
+
 
 
 }

@@ -1,88 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.HelppicturesMapper" >
-  <sql id="Base_Column_List" >
-    number_id, picture, picture_name, mutuala_id, picture_type, createdat
+<mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.HelppicturesMapper">
+    <sql id="Base_Column_List">
+    number_id, picture, picture_name, mutuala_id, picture_type, date_time
   </sql>
-  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures" >
-    select 
-    <include refid="Base_Column_List" />
-    from xa_helppictures
-    where number_id = #{numberId}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures">
+        select
+        <include refid="Base_Column_List"/>
+        from xa_helppictures
+        where number_id = #{numberId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from xa_helppictures
     where number_id = #{numberId}
   </delete>
-  <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures" useGeneratedKeys="true" keyProperty="numberId" >
-    insert into xa_helppictures
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="numberId != null" >
-        number_id,
-      </if>
-      <if test="picture != null" >
-        picture,
-      </if>
-      <if test="pictureName != null" >
-        picture_name,
-      </if>
-      <if test="mutualaId != null" >
-        mutuala_id,
-      </if>
-      <if test="pictureType != null" >
-        picture_type,
-      </if>
-      <if test="createdat != null" >
-        createdat,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="numberId != null" >
-        #{numberId},
-      </if>
-      <if test="picture != null" >
-        #{picture},
-      </if>
-      <if test="pictureName != null" >
-        #{pictureName},
-      </if>
-      <if test="mutualaId != null" >
-        #{mutualaId},
-      </if>
-      <if test="pictureType != null" >
-        #{pictureType},
-      </if>
-      <if test="createdat != null" >
-        #{createdat},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures" >
-    update xa_helppictures
-    <set >
-      <if test="picture != null" >
-        picture = #{picture,
-      </if>
-      <if test="pictureName != null" >
-        picture_name = #{pictureName},
-      </if>
-      <if test="mutualaId != null" >
-        mutuala_id = #{mutualaId},
-      </if>
-      <if test="pictureType != null" >
-        picture_type = #{pictureType},
-      </if>
-      <if test="createdat != null" >
-        createdat = #{createdat},
-      </if>
-    </set>
-    where number_id = #{numberId}
-  </update>
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures"
+            useGeneratedKeys="true" keyProperty="numberId">
+        insert into xa_helppictures
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="numberId != null">
+                number_id,
+            </if>
+            <if test="picture != null">
+                picture,
+            </if>
+            <if test="pictureName != null">
+                picture_name,
+            </if>
+            <if test="mutualaId != null">
+                mutuala_id,
+            </if>
+            <if test="pictureType != null">
+                picture_type,
+            </if>
+            <if test="dateTime != null">
+                date_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="numberId != null">
+                #{numberId},
+            </if>
+            <if test="picture != null">
+                #{picture},
+            </if>
+            <if test="pictureName != null">
+                #{pictureName},
+            </if>
+            <if test="mutualaId != null">
+                #{mutualaId},
+            </if>
+            <if test="pictureType != null">
+                #{pictureType},
+            </if>
+            <if test="dateTime != null">
+                #{dateTime},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures">
+        update xa_helppictures
+        <set>
+            <if test="picture != null">
+                picture = #{picture,
+            </if>
+            <if test="pictureName != null">
+                picture_name = #{pictureName},
+            </if>
+            <if test="mutualaId != null">
+                mutuala_id = #{mutualaId},
+            </if>
+            <if test="pictureType != null">
+                picture_type = #{pictureType},
+            </if>
+            <if test="createdat != null">
+                createdat = #{createdat},
+            </if>
+        </set>
+        where number_id = #{numberId}
+    </update>
 
-  <select id="findHelppicturesList" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures">
-    select
-    <include refid="Base_Column_List"/>
-    from xa_helppictures
-    where mutual_aid = #{mutualAid}
-  </select>
+    <select id="findHelppicturesList" resultType="com.hailu.cloud.api.admin.module.xinan.entity.Helppictures">
+        select
+        <include refid="Base_Column_List"/>
+        from xa_helppictures
+        where mutuala_id = #{mutualaId}
+    </select>
+
+
+    <delete id="deleteHelppictures">
+        <if test="mutualaId != null and mutualaId != ''">
+            delete from xa_helppictures
+            where mutuala_id = #{mutualaId}
+        </if>
+    </delete>
+
+
 </mapper>

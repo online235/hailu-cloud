@@ -20,7 +20,7 @@ public interface XaHelpMenberService {
      * @param xaHelpMember
      * @return
      */
-    int insert(XaHelpMember xaHelpMember);
+    Long insert(XaHelpMember xaHelpMember);
 
     /**
      * 更新方法

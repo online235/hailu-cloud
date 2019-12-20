@@ -7,6 +7,7 @@ import com.hailu.cloud.api.admin.module.xinan.entity.XaHelpMember;
 import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberModel;
 import com.hailu.cloud.api.admin.module.xinan.service.XaHelpMenberService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
@@ -31,14 +32,15 @@ public class XaHelpMenberServiceImpl implements XaHelpMenberService {
     }
 
     @Override
-    public int insert(XaHelpMember xaHelpMember) {
+    public Long insert(XaHelpMember xaHelpMember) {
 
-        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
+        AdminLoginInfoModel adminLoginInfo = RequestUtils.getAdminLoginInfo();
         xaHelpMember.setId(uuidFeign.uuid().getData());
         xaHelpMember.setCreateTime(new Date());
         xaHelpMember.setUpdateTime(new Date());
-        xaHelpMember.setMenberId(Long.valueOf(merchantUserLoginInfoModel.getNumberid()));
-        return xaHelpMemberMapper.insert(xaHelpMember);
+        xaHelpMember.setMenberId(adminLoginInfo.getId());
+        xaHelpMemberMapper.insert(xaHelpMember);
+        return xaHelpMember.getId();
     }
 
     @Override

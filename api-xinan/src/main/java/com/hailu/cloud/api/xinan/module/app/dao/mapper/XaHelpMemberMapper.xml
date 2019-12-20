@@ -3,11 +3,114 @@
 <mapper namespace="com.hailu.cloud.api.xinan.module.app.dao.XaHelpMemberMapper">
 
 
+    <sql id="base_column">
+             id, menber_id, name, age, province, province_code, city_code, city, disease, time_date, periods_number,
+        share_times, help_days, image_url, sex, gain_money, create_time, update_time, apportionment_money,
+        target_amount, title, content, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
+    </sql>
+
+    <sql id="set_column">
+         #{id},#{menberId},#{name},#{age},#{province},#{provinceCode},#{cityCode},#{city},#{disease},#{timeDate},#{periodsNumber},
+        #{shareTimes},#{helpDays},#{sex},#{gainMoney},#{createTime},#{updateTime},#{imageUrl},#{apportionmentMoney},
+        #{targetAmount},#{title},#{content},#{hospitalName},#{hospitalAccount},#{diseaseName},#{rescueType},#{helpTimes},#{cash},#{toExamine}
+    </sql>
+
+    <sql id="where_set">
+
+        <if test="menberId != null">
+            menber_id = #{menberId},
+        </if>
+        <if test="name != null">
+            name = #{name},
+        </if>
+        <if test="age != null">
+            age = #{age},
+        </if>
+        <if test="province != null">
+            province = #{province},
+        </if>
+        <if test="provinceCode != null">
+            province_code = #{provinceCode},
+        </if>
+        <if test="cityCode != null">
+            city_code = #{cityCode},
+        </if>
+        <if test="city != null">
+            city = #{city},
+        </if>
+        <if test="disease != null">
+            disease = #{disease},
+        </if>
+        <if test="timeDate != null">
+            time_date = #{timeDate},
+        </if>
+        <if test="periodsNumber != null">
+            periods_number = #{periodsNumber},
+        </if>
+        <if test="shareTimes != null">
+            share_times = #{shareTimes},
+        </if>
+        <if test="helpDays != null">
+            help_days = #{helpDays},
+        </if>
+        <if test="sex != null">
+            sex = #{sex},
+        </if>
+        <if test="gainMoney != null">
+            gain_money = #{gainMoney},
+        </if>
+        <if test="imageUrl != null">
+            image_url = #{imageUrl},
+        </if>
+        <if test="apportionmentMoney != null">
+            apportionment_money = #{apportionmentMoney}
+        </if>
+        <if test="title != null">
+            title = #{title},
+        </if>
+        <if test="targetAmount != null">
+            target_amount = #{targetAmount},
+        </if>
+        <if test="content != null">
+            content = #{content},
+        </if>
+        <if test="hospitalName != null">
+            hospital_name = #{hospitalName},
+        </if>
+        <if test="hospitalAccount != null">
+            hospital_account = #{hospitalAccount},
+        </if>
+        <if test="diseaseName != null">
+            disease_name = #{diseaseName},
+        </if>
+        <if test="rescueType != null">
+            rescue_type = #{rescueType},
+        </if>
+        <if test="helpTimes != null">
+            help_times = #{helpTimes},
+        </if>
+        <if test="toExamine != null">
+            to_examine = #{toExamine},
+        </if>
+        <if test="createTime != null">
+            create_time = #{createTime},
+        </if>
+        <if test="cash != null">
+            cash = #{cash},
+        </if>
+        <if test="updateTime != null">
+            update_time = #{updateTime}
+        </if>
+
+    </sql>
+
+
 
     <select id="findListByParameter" resultType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel">
         select
-        id, name, age, province, province_code, disease, time_date,
-        periods_number, share_times, help_days, sex, gain_money,image_url,apportionment_money
+        id, menber_id, name, age, province, province_code, city_code, city, disease, time_date, periods_number,
+        share_times, help_days, image_url, sex, gain_money, create_time, update_time, apportionment_money,
+        target_amount, title, content, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
         from xa_help_member
         where 1=1
         <if test="id != null">
@@ -29,22 +132,29 @@
 
     </select>
 
-<!--    <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">-->
-<!--        insert into xa_help_member (-->
-<!--        <include refid="base_column" />-->
-<!--        )-->
-<!--        values (-->
-<!--        <include refid="set_column" />-->
-<!--        )-->
-<!--    </insert>-->
+    <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">
+        insert into xa_help_member (
+        <include refid="base_column" />
+        )
+        values (
+        <include refid="set_column" />
+        )
+    </insert>
 
-<!--    <insert id="update" parameterType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">-->
-<!--        update xa_help_member-->
-<!--        set-->
-<!--        <include refid="where_set" />-->
-<!--        where id = #{id}-->
-<!--    </insert>-->
+    <insert id="update" parameterType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel" useGeneratedKeys="true" keyProperty="memberId">
+        update xa_help_member
+        set
+        <include refid="where_set" />
+        where id = #{id}
+    </insert>
 
-
+    <select id="findXaHelpMemberModelById" resultType="com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel">
+        select
+        id, menber_id, name, age, province, province_code, city_code, city, disease, time_date, periods_number,
+        share_times, help_days, image_url, sex, gain_money, create_time, update_time, apportionment_money,
+        target_amount, title, content, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
+        from xa_help_member
+        where id = #{id}
+    </select>
 
 </mapper>

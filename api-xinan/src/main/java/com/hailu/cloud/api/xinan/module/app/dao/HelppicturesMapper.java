@@ -42,4 +42,14 @@ public interface HelppicturesMapper {
      * @return
      */
     List<Helppictures> findHelppicturesList(@Param("numberId") Long numberId);
+
+
+    /**
+     * 根据参数查列表
+     * @param parameter
+     * @return
+     */
+    List<Helppictures> findListByParameter(Object parameter);
+
+
 }

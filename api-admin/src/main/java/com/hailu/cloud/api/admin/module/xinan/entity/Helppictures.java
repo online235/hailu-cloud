@@ -18,37 +18,39 @@ public class Helppictures implements Serializable {
     /**
      * 编号
      */
+    @ApiModelProperty("编号")
     private Long numberId;
 
     /**
      * 图片路径
      */
-    @ApiModelProperty(value = "图片路径")
+    @ApiModelProperty("图片路径")
     private String picture;
 
     /**
      * 图片名称
      */
-    @ApiModelProperty(value = "图片名称")
+    @ApiModelProperty("图片名称")
     private String pictureName;
 
     /**
      * 互助表ID
      */
-    @ApiModelProperty(value = "互助表ID")
-    private Long mutualAid;
+    @ApiModelProperty("互助表ID")
+    private Long mutualaId;
 
     /**
-     * 图片类型
+     * 图片类型1-病历','2-互助者图片;3-视频
      */
-    @ApiModelProperty(value = "图片类型")
-    private String pictureType;
+    @ApiModelProperty("图片类型1-病历','2-互助者图片;3-视频")
+    private Integer pictureType;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "创建时间")
-    private Date createdat;
+    @ApiModelProperty("创建时间")
+    private Date dateTime;
+
 
     /**
      * xa_helppictures

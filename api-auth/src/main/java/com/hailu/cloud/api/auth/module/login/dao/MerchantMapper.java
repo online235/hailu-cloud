@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.auth.module.login.dao;
 
+import com.hailu.cloud.api.auth.module.login.model.MerchantLocalLifeResult;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.merchant.StoreInformationModel;
 import org.apache.ibatis.annotations.Mapper;
@@ -52,7 +53,7 @@ public interface MerchantMapper {
      * @param userId
      * @return
      */
-    Integer findLifeExamine(@Param("userId") String userId);
+    MerchantLocalLifeResult findLifeExamine(@Param("userId") String userId);
 
 
 }

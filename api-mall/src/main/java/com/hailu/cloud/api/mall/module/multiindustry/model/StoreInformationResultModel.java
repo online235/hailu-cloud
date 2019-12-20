@@ -124,8 +124,7 @@ public class StoreInformationResultModel{
     private Date dateTime;
 
     
-     * 更新时间
-     */
+
     @ApiModelProperty("更新时间")
     private Date updateDateTime;
 

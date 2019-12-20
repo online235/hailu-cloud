@@ -2,10 +2,8 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 
 import cn.hutool.core.date.DateUtil;
-import com.hailu.cloud.api.xinan.module.app.model.BannerResult;
-import com.hailu.cloud.api.xinan.module.app.model.HomeDataListModel;
-import com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel;
-import com.hailu.cloud.api.xinan.module.app.model.XaStatisticsModel;
+import com.hailu.cloud.api.xinan.module.app.entity.Helppictures;
+import com.hailu.cloud.api.xinan.module.app.model.*;
 import com.hailu.cloud.api.xinan.module.app.service.SysBannerService;
 import com.hailu.cloud.api.xinan.module.app.service.XaHelpMenberService;
 import com.hailu.cloud.api.xinan.module.app.service.XaStatisticsService;
@@ -19,6 +17,7 @@ import sun.text.resources.cldr.FormatData;
 import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class HomeDateService {
@@ -32,11 +31,8 @@ public class HomeDateService {
     private XaStatisticsService xaStatisticsService;
     @Resource
     private SysBannerService sysBannerService;
-
-    private String helpMemberNum;
-
-
-    private String helpMoneyCount;
+    @Resource
+    private HelpPicturesService helpPicturesService;
 
 
     /**
@@ -64,13 +60,13 @@ public class HomeDateService {
         xaStatisticsModel.setXaHelpMemberModelList(xaHelpMemberModelList);
         //最新三条历史案例
         map.clear();
-        map.put("num",0);
-        map.put("size",3);
+        map.put("num", 0);
+        map.put("size", 3);
         List<XaHelpMemberModel> xaHelpMemberModels = xaHelpMenberService.findListByParameter(map);
         //轮播图
         map.clear();
-        map.put("bannerSpace",1);
-        map.put("nowTime",DateUtil.format(new Date(),"YYYY-MM-dd"));
+        map.put("bannerSpace", 1);
+        map.put("nowTime", DateUtil.format(new Date(), "YYYY-MM-dd"));
         List<BannerResult> bannerResultList = sysBannerService.findListByParameter(map);
         homeDataListModel.setBannerResultList(bannerResultList);
         homeDataListModel.setXaHelpMemberModels(xaHelpMemberModels);
@@ -102,6 +98,42 @@ public class HomeDateService {
         xaStatisticsModel.setXaHelpMemberModelList(xaHelpMemberModels);
         return xaStatisticsModel;
 
+    }
+
+
+    /**
+     * 获取救助详情，图片
+     * @param xaHelpMemberId
+     * @return
+     */
+    public XaHelpMemberDetailModel getXaHelpMemberDetailModel(Long xaHelpMemberId) {
+
+        XaHelpMemberDetailModel xaHelpMemberDetailModel = new XaHelpMemberDetailModel();
+        List<String>  pictureImages = new ArrayList<>();
+        List<String>  pictureHelpImages = new ArrayList<>();
+        List<String>  pictureHelpVideos = new ArrayList<>();
+        XaHelpMemberModel xaHelpMemberModel = xaHelpMenberService.findXaHelpMemberModelById(xaHelpMemberId);
+        xaHelpMemberDetailModel.setXaHelpMemberModel(xaHelpMemberModel);
+        Map map = new HashMap();
+        map.put("mutualaId",xaHelpMemberId);
+        List<Helppictures> helppicturesList = helpPicturesService.findListByParameter(map);
+        if(!CollectionUtils.isEmpty(helppicturesList)){
+            for(Helppictures helppictures:helppicturesList){
+                if(helppictures.getPictureType() == 1){
+                    pictureImages.add(helppictures.getPicture());
+                }else  if(helppictures.getPictureType() == 2){
+                    pictureHelpImages.add(helppictures.getPicture());
+                }else  if(helppictures.getPictureType() == 3){
+                    pictureHelpVideos.add(helppictures.getPicture());
+                }
+            }
+        }
+        xaHelpMemberDetailModel.setXaHelpMemberModel(xaHelpMemberModel);
+        xaHelpMemberDetailModel.setPictureHelpImages(pictureHelpImages);
+        xaHelpMemberDetailModel.setPictureHelpVideos(pictureHelpVideos);
+        xaHelpMemberDetailModel.setPictureImages(pictureImages);
+
+        return xaHelpMemberDetailModel;
     }
 
 

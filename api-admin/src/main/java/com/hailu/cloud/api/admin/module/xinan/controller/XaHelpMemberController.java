@@ -7,6 +7,7 @@ import com.hailu.cloud.api.admin.module.xinan.parameter.HelpPictureParameter;
 import com.hailu.cloud.api.admin.module.xinan.parameter.XaHelpMemberParameter;
 import com.hailu.cloud.api.admin.module.xinan.parameter.XaHelpMemberParameterUpdate;
 import com.hailu.cloud.api.admin.module.xinan.service.XaHelpMenberService;
+import com.hailu.cloud.api.admin.module.xinan.service.impl.HelpPicturesService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
@@ -40,6 +41,8 @@ public class XaHelpMemberController {
 
     @Resource
     private XaHelpMenberService xaHelpMenberService;
+    @Resource
+    private HelpPicturesService helpPicturesService;
 
     @ApiOperation(value = "查询救助历史案例列表")
     @PostMapping("/list")
@@ -66,16 +69,18 @@ public class XaHelpMemberController {
     @ApiOperation(value = "插入救助案例")
     @PostMapping("/insertXaHelpMember")
     @ResponseBody
-    public void insertXaHelpMember(@RequestBody XaHelpMemberParameter xaHelpMemberParameter, @RequestBody HelpPictureParameter helpPictureParameter, BindingResult result) throws BusinessException {
-
+    public void insertXaHelpMember(@RequestBody XaHelpMemberParameter xaHelpMemberParameter, BindingResult result) throws BusinessException {
         if (result.hasErrors()) {
             throw new BusinessException("必填信息不能为空！");
         }
         XaHelpMember xaHelpMember = new XaHelpMember();
         BeanUtils.copyProperties(xaHelpMemberParameter, xaHelpMember);
-        xaHelpMenberService.insert(xaHelpMember);
-    }
+        Long xaHelpMemberId = xaHelpMenberService.insert(xaHelpMember);
+        HelpPictureParameter helpPictureParameter = new HelpPictureParameter();
+        BeanUtils.copyProperties(xaHelpMemberParameter,helpPictureParameter);
+        helpPicturesService.sertHelpPictures(helpPictureParameter,xaHelpMemberId);
 
+    }
 
 
     @ApiOperation(value = "更新救助案例数据")
@@ -89,8 +94,11 @@ public class XaHelpMemberController {
         XaHelpMember xaHelpMember = new XaHelpMember();
         BeanUtils.copyProperties(xaHelpMemberParameterUpdate, xaHelpMember);
         xaHelpMenberService.update(xaHelpMember);
-    }
+        HelpPictureParameter helpPictureParameter = new HelpPictureParameter();
+        BeanUtils.copyProperties(xaHelpMemberParameterUpdate,helpPictureParameter);
+        helpPicturesService.sertHelpPictures(helpPictureParameter,xaHelpMember.getId());
 
+    }
 
 
     @ApiOperation(value = "查询单条救助案例详情")
@@ -102,12 +110,11 @@ public class XaHelpMemberController {
         if (id == null) {
             throw new BusinessException("id不能为空！");
         }
-        Map map = new HashMap();
+        Map map = new HashMap(2);
         map.put("id", id);
         return xaHelpMenberService.findListByParameter(map).get(0);
 
     }
-
 
 
 }

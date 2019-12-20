@@ -57,8 +57,7 @@ public class MutualAidController {
             @ApiImplicitParam(name="hospitalName", value = "医院名称" , required = true, paramType = "query", dataType = "String", defaultValue = "神经病医院"),
             @ApiImplicitParam(name="hospitalAccount", value = "医院收款账号" , required = true, paramType = "query", dataType = "String", defaultValue = "123456789123456789"),
             @ApiImplicitParam(name="diseaseName", value = "确诊病名" , required = true, paramType = "query", dataType = "String", defaultValue = "艾滋"),
-
-            @ApiImplicitParam(name="picture", value = "图片路径" , required = true, paramType = "query", allowMultiple=true, dataType = "String")
+            @ApiImplicitParam(name="picture", value = "图片路径" ,  paramType = "query", allowMultiple=true, dataType = "String")
 
     })
     public void insHelpANDMtualAid(MutualAid mutualAid, String[] picture) throws BusinessException {

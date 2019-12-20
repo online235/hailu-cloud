@@ -41,5 +41,15 @@ public interface HelppicturesMapper {
      * 查询互助者图片
      * @return
      */
-    List<Helppictures> findHelppicturesList(@Param("mutualAid") Long mutualAid);
+    List<Helppictures> findHelppicturesList(@Param("mutualaId") Long mutualaId);
+
+
+    /**
+     * 批量删除相册
+     * @param mutualaId
+     * @return
+     */
+    int deleteHelppictures(@Param("mutualaId") Long mutualaId);
+
+
 }

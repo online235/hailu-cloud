@@ -51,9 +51,9 @@
     </select>
 
 
-    <select id="findLifeExamine" resultType="int">
+    <select id="findLifeExamine" resultType="com.hailu.cloud.api.auth.module.login.model.MerchantLocalLifeResult">
         SELECT
-            to_examine
+            to_examine,first_management_type_id
         FROM
             local_circle_entry
         WHERE

@@ -5,14 +5,14 @@
 
     <sql id="base_column">
              id, menber_id, name, age, province, province_code, city_code, city, disease, time_date, periods_number,
-        share_times, help_days, image_url, sex, gain_money, create_time, update_time, apportionment_money,
-        target_amount, title, explain, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
+        share_times, help_days, sex, gain_money, create_time, update_time,image_url, apportionment_money,
+        target_amount, title, content, hospital_name, hospital_account, disease_name, rescue_type, help_times, cash, to_examine
     </sql>
 
     <sql id="set_column">
         #{id},#{menberId},#{name},#{age},#{province},#{provinceCode},#{cityCode},#{city},#{disease},#{timeDate},#{periodsNumber},
         #{shareTimes},#{helpDays},#{sex},#{gainMoney},#{createTime},#{updateTime},#{imageUrl},#{apportionmentMoney},
-        #{targetAmount},#{title},#{explain},#{hospitalName},#{hospitalAccount},#{diseaseName},#{rescueType},#{helpTimes},#{cash},#{toExamine}
+        #{targetAmount},#{title},#{content},#{hospitalName},#{hospitalAccount},#{diseaseName},#{rescueType},#{helpTimes},#{cash},#{toExamine}
     </sql>
 
     <sql id="where_set">
@@ -71,8 +71,8 @@
         <if test="targetAmount != null">
             target_amount = #{targetAmount},
         </if>
-        <if test="explain != null">
-            explain = #{explain},
+        <if test="content != null">
+            content = #{content},
         </if>
         <if test="hospitalName != null">
             hospital_name = #{hospitalName},

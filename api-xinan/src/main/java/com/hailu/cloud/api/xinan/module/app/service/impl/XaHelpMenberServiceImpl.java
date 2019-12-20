@@ -7,7 +7,9 @@ import com.hailu.cloud.api.xinan.module.app.entity.XaHelpMember;
 import com.hailu.cloud.api.xinan.module.app.model.XaHelpMemberModel;
 import com.hailu.cloud.api.xinan.module.app.service.XaHelpMenberService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
+import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,33 @@ public class XaHelpMenberServiceImpl implements XaHelpMenberService {
         List<XaHelpMemberModel> result = xaHelpMemberMapper.findListByParameter(parameter);
         return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), result);
     }
+
+
+    @Override
+    public XaHelpMemberModel findXaHelpMemberModelById(Long id) {
+        return xaHelpMemberMapper.findXaHelpMemberModelById(id);
+    }
+
+
+    @Override
+    public Long insert(XaHelpMember xaHelpMember) {
+
+        MerchantUserLoginInfoModel merchantUserLoginInfoModel = RequestUtils.getMerchantUserLoginInfo();
+        xaHelpMember.setId(uuidFeign.uuid().getData());
+        xaHelpMember.setCreateTime(new Date());
+        xaHelpMember.setUpdateTime(new Date());
+        xaHelpMember.setMenberId(Long.valueOf(merchantUserLoginInfoModel.getNumberid()));
+        xaHelpMemberMapper.insert(xaHelpMember);
+        return xaHelpMember.getId();
+    }
+
+    @Override
+    public int update(XaHelpMember xaHelpMember) {
+
+        xaHelpMember.setUpdateTime(new Date());
+        return xaHelpMemberMapper.update(xaHelpMember);
+    }
+
 
 
 }

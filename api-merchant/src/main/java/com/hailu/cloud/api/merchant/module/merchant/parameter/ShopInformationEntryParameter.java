@@ -62,6 +62,9 @@ public class ShopInformationEntryParameter {
     @ApiModelProperty(name = "businessState", value = "营业状态(1-营业中，2-(筹建中或休息中)")
     private Integer businessState;
 
+    @ApiModelProperty("店铺头像")
+    private String defaultHead;
+
 
 //
 //    @ApiModelProperty(name = "provinceCode", value = "省的code值", required = true)
