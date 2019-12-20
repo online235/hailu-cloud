@@ -17,18 +17,54 @@
 	</select>
 
 	<!-- 返回所有字典 -->
-	<select id="findAll" resultType="com.hailu.cloud.common.model.dict.SysDictModel">
+	<select id="findList" resultType="com.hailu.cloud.common.model.dict.SysDictModel">
 		select
+			id,
 			`code`,
+			`desc`,
 			`name`,
 			`value`
 		from sys_dict
+		<where>
+			<if test="code != null and code != ''">
+				and `code` = #{code}
+			</if>
+		</where>
+		order by `code`, `value`
 	</select>
+
+	<!-- 返回所有字典 -->
+	<select id="findById" resultType="com.hailu.cloud.common.model.dict.SysDictModel">
+		select
+			id,
+			`code`,
+			`desc`,
+			`name`,
+			`value`
+		from sys_dict
+		where id = #{id}
+	</select>
+
+	<!-- 更新字典 -->
+	<update id="update">
+		update sys_dict set `code` = #{code}, `desc` = #{desc}, `name` = #{name}, `value` = #{value} where id = #{id}
+	</update>
 
 	<!-- 添加字典项 -->
 	<insert id="addDict">
 		insert into sys_dict(id, `code`, `desc`, `name`, `value`)
 		values(#{id}, #{code}, #{desc}, #{name}, #{value})
 	</insert>
+
+	<!-- 查询字典分类列表 -->
+	<select id="findCategory" resultType="com.hailu.cloud.common.model.dict.SysDictModel">
+		select distinct `code`, `desc` from sys_dict
+	</select>
+
+	<!-- 查询字典分类列表 -->
+	<delete id="deleteDict" >
+		delete from sys_dict where id = #{id}
+	</delete>
+
 
 </mapper>

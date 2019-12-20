@@ -1,10 +1,10 @@
 package com.hailu.cloud.api.basic.module.dict.service.impl;
 
 import com.hailu.cloud.api.basic.module.dict.dao.SysDictMapper;
-import com.hailu.cloud.common.model.dict.SysDictModel;
 import com.hailu.cloud.api.basic.module.dict.service.ISysDictService;
 import com.hailu.cloud.api.basic.module.uid.component.UidGenerator;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.dict.SysDictModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -34,19 +34,39 @@ public class SysDictServiceImpl implements ISysDictService {
     }
 
     @Override
-    public List<SysDictModel> findAll() {
-        return dictMapper.findAll();
+    public List<SysDictModel> findList(String code) {
+        return dictMapper.findList(code);
+    }
+
+    @Override
+    public SysDictModel findById(Long id) {
+        return dictMapper.findById(id);
+    }
+
+    @Override
+    public void update(Long id, String code, String desc, String name, String value) {
+        dictMapper.update(id, code, desc, name, value);
     }
 
     @Override
     public SysDictModel addDict(SysDictModel dictModel) throws BusinessException {
         SysDictModel exists = dictMapper.find(dictModel.getCode(), dictModel.getValue());
-        if( exists != null ){
+        if (exists != null) {
             throw new BusinessException("字典项已存在");
         }
         dictModel.setId(uidGenerator.uuid());
         dictMapper.addDict(dictModel);
         return dictModel;
+    }
+
+    @Override
+    public List<SysDictModel> findCategory() {
+        return dictMapper.findCategory();
+    }
+
+    @Override
+    public void deleteDict(Long id) {
+        dictMapper.deleteDict(id);
     }
 
 }

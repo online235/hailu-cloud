@@ -27,7 +27,30 @@ public interface SysDictMapper {
      *
      * @return
      */
-    List<SysDictModel> findAll();
+    List<SysDictModel> findList(@Param("code") String code);
+
+    /**
+     * 根据ID查询字典
+     *
+     * @return
+     */
+    SysDictModel findById(@Param("id") Long id);
+
+    /**
+     * 更新字典
+     *
+     * @param id
+     * @param code
+     * @param desc
+     * @param name
+     * @param value
+     */
+    void update(
+            @Param("id") Long id,
+            @Param("code") String code,
+            @Param("desc") String desc,
+            @Param("name") String name,
+            @Param("value") String value);
 
     /**
      * 添加字典项
@@ -35,4 +58,18 @@ public interface SysDictMapper {
      * @param dictModel
      */
     void addDict(SysDictModel dictModel);
+
+    /**
+     * 查询字典分类列表
+     *
+     * @return
+     */
+    List<SysDictModel> findCategory();
+
+    /**
+     * 删除字典
+     *
+     * @return
+     */
+    void deleteDict(@Param("id") Long id);
 }

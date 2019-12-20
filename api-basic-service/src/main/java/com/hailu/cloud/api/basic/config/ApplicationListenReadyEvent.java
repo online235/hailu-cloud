@@ -53,7 +53,7 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
         file.mkdirs();
         log.info("资源目录：{}", file.getAbsolutePath());
         log.info("加载字典数据到Redis");
-        dictService.findAll().forEach(item->{
+        dictService.findList(null).forEach(item->{
             String dictKey = Constant.REDIS_KEY_DICT_CACHE + item.getCode();
             redisClient.hashSet(dictKey, item.getValue(), item.getName());
         });

@@ -25,7 +25,21 @@ public interface ISysDictService {
      *
      * @return
      */
-    List<SysDictModel> findAll();
+    List<SysDictModel> findList(String code);
+
+    /**
+     * 返回所有字典
+     *
+     * @return
+     */
+    SysDictModel findById(Long id);
+
+    /**
+     * 返回所有字典
+     *
+     * @return
+     */
+    void update(Long id, String code, String desc, String name, String value);
 
     /**
      * 添加字典项
@@ -36,4 +50,17 @@ public interface ISysDictService {
      */
     SysDictModel addDict(SysDictModel dictModel) throws BusinessException;
 
+    /**
+     * 查询字典分类列表
+     *
+     * @return
+     */
+    List<SysDictModel> findCategory();
+
+    /**
+     * 删除字典
+     *
+     * @return
+     */
+    void deleteDict(Long id);
 }
