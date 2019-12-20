@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.merchant.dao.McCouponMapper" >
+  <sql id="Base_Column_List" >
+    id, number_id, store_total_type, shop_number_id, volume_name book_value, sales_price,
+    valid_period_type, time_after_order, start_time, end_time, text_introduction, to_examine, shelf_state, date_time,
+    update_date_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    other_json
+  </sql>
+
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McCoupon">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mc_coupon
+    where id = #{id} and number_id = #{numberId}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mc_coupon
+    where id = #{id}
+  </delete>
+
+  <select id="findMcCouponList" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McCoupon">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mc_coupon
+    where 1=1
+    <if test="storeTotalType != null">
+      and store_total_type = #{storeTotalType}
+    </if>
+    <if test="volumeName != null">
+      and volume_name like concat('%',#{volumeName},'%')
+    </if>
+  </select>
+
+  <update id="updMcCouponById">
+    update mc_coupon
+    <set>
+        <if test="toExamine != null">
+            to_examine = #{toExamine},
+        </if>
+        <if test="state == 1 and toExamine != 3">
+          shelf_state = 2
+        </if>
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>

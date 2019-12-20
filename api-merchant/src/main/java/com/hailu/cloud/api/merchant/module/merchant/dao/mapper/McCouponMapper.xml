@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McCouponMapper" >
+  <sql id="Base_Column_List" >
+    id, number_id, store_total_type, shop_number_id, book_value, sales_price,
+    valid_period_type, time_after_order, start_time, end_time, text_introduction, to_examine, shelf_state, date_time,
+    update_date_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    other_json
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McCoupon">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mc_coupon
+    where id = #{id} and number_id = #{numberId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mc_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McCoupon" useGeneratedKeys="true" keyProperty="id" >
+    insert into mc_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="numberId != null" >
+        number_id,
+      </if>
+      <if test="storeTotalType != null" >
+        store_total_type,
+      </if>
+      <if test="shopNumberId != null" >
+        shop_number_id,
+      </if>
+      <if test="bookValue != null" >
+        book_value,
+      </if>
+      <if test="salesPrice != null" >
+        sales_price,
+      </if>
+      <if test="validPeriodType != null" >
+        valid_period_type,
+      </if>
+      <if test="timeAfterOrder != null" >
+        time_after_order,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="textIntroduction != null" >
+        text_introduction,
+      </if>
+      <if test="shelfState != null" >
+        shelf_state,
+      </if>
+      <if test="toExamine != null" >
+        to_examine,
+      </if>
+      <if test="dateTime != null" >
+        date_time,
+      </if>
+      <if test="updateDateTime != null" >
+        update_date_time,
+      </if>
+      <if test="otherJson != null" >
+        other_json,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="numberId != null" >
+        #{numberId,jdbcType=BIGINT},
+      </if>
+      <if test="storeTotalType != null" >
+        #{storeTotalType,jdbcType=BIGINT},
+      </if>
+      <if test="shopNumberId != null" >
+        #{shopNumberId,jdbcType=BIGINT},
+      </if>
+      <if test="bookValue != null" >
+        #{bookValue,jdbcType=DECIMAL},
+      </if>
+      <if test="salesPrice != null" >
+        #{salesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="validPeriodType != null" >
+        #{validPeriodType,jdbcType=INTEGER},
+      </if>
+      <if test="timeAfterOrder != null" >
+        #{timeAfterOrder,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="textIntroduction != null" >
+        #{textIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfState != null" >
+        #{shelfState,jdbcType=VARCHAR},
+      </if>
+      <if test="toExamine != null" >
+        #{toExamine,jdbcType=VARCHAR},
+      </if>
+      <if test="dateTime != null" >
+        #{dateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDateTime != null" >
+        #{updateDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="otherJson != null" >
+        #{otherJson,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McCoupon" >
+    update mc_coupon
+    <set >
+      <if test="numberId != null" >
+        number_id = #{numberId,jdbcType=BIGINT},
+      </if>
+      <if test="storeTotalType != null" >
+        store_total_type = #{storeTotalType,jdbcType=BIGINT},
+      </if>
+      <if test="shopNumberId != null" >
+        shop_number_id = #{shopNumberId,jdbcType=BIGINT},
+      </if>
+      <if test="bookValue != null" >
+        book_value = #{bookValue,jdbcType=DECIMAL},
+      </if>
+      <if test="salesPrice != null" >
+        sales_price = #{salesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="validPeriodType != null" >
+        valid_period_type = #{validPeriodType,jdbcType=INTEGER},
+      </if>
+      <if test="timeAfterOrder != null" >
+        time_after_order = #{timeAfterOrder,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="textIntroduction != null" >
+        text_introduction = #{textIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="shelfState != null" >
+        shelf_state = #{shelfState,jdbcType=VARCHAR},
+      </if>
+      <if test="toExamine != null" >
+        to_examine = #{toExamine,jdbcType=VARCHAR},
+      </if>
+      <if test="dateTime != null" >
+        date_time = #{dateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDateTime != null" >
+        update_date_time = #{updateDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="otherJson != null" >
+        other_json = #{otherJson,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findMcCouponList" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McCoupon">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mc_coupon
+    where 1=1
+    <if test="shelfState != null and shelfState != 0">
+      and shelf_state = #{shelfState}
+    </if>
+    <if test="toExamine != null and toExamine != 0">
+      and to_examine = #{toExamine}
+    </if>
+    <if test="volumeName != null">
+      and volume_name like concat('%',#{volumeName},'%')
+    </if>
+  </select>
+
+  <update id="updShelfStateById">
+    update mc_coupon
+    <set>
+      <if test="shelfState == 3">
+        shelf_state = 3
+      </if>
+      <if test="shelfState != 3">
+        to_examine = 1
+      </if>
+    </set>
+    where id = #{id}
+  </update>
+
+</mapper>

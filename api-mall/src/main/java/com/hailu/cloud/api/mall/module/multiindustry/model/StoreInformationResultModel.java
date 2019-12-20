@@ -120,8 +120,10 @@ public class StoreInformationResultModel{
     @ApiModelProperty("创建时间")
     private Date dateTime;
 
+    
     /**
-
+     * 更新时间
+     */
     @ApiModelProperty("更新时间")
     private Date updateDateTime;
 

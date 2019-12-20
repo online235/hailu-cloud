@@ -53,12 +53,12 @@ public class MutualAidService {
 
     /**
      * 更改审核状态
-     * @param examine
+     * @param toExamine
      * @param numberId
      * @return
      */
-    public void updateMutualAidOfExamine(Integer examine, Long numberId){
-        mutualAidMapper.updateMutualAidOfExamine(examine, numberId);
+    public void updateMutualAidOfExamine(Integer toExamine, Long numberId){
+        mutualAidMapper.updateMutualAidOfExamine(toExamine, numberId);
     }
 
 

@@ -11,7 +11,7 @@
     <result column="rescue_type" property="rescueType" jdbcType="CHAR" />
     <result column="province_id" property="provinceId" jdbcType="BIGINT" />
     <result column="city_id" property="cityId" jdbcType="BIGINT" />
-    <result column="examine" property="examine" jdbcType="CHAR" />
+    <result column="to_examine" property="toExamine" jdbcType="CHAR" />
     <result column="createdat" property="createdat" jdbcType="TIMESTAMP" />
     <result column="updatedat" property="updatedat" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -20,7 +20,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     number_id, member_id, target_amount, title, help_times, cash, rescue_type, province_id, 
-    city_id, examine, createdat, updatedat
+    city_id, to_examine, createdat, updatedat
   </sql>
   <sql id="Blob_Column_List" >
     Instructions
@@ -40,11 +40,11 @@
   <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Rescue" useGeneratedKeys="true" keyProperty="numberId" >
     insert into xa_rescue (member_id, target_amount, title, 
       help_times, cash, rescue_type, 
-      province_id, city_id, createdat,examine,
+      province_id, city_id, createdat,to_examine,
       updatedat, Instructions)
     values (#{memberId,jdbcType=VARCHAR}, #{targetAmount,jdbcType=DECIMAL}, #{title,jdbcType=VARCHAR}, 
       #{helpTimes,jdbcType=BIGINT}, #{cash,jdbcType=DECIMAL}, #{rescueType,jdbcType=CHAR}, 
-      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{createdat,jdbcType=TIMESTAMP},#{examine,jdbcType=CHAR},
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{createdat,jdbcType=TIMESTAMP},#{toExamine,jdbcType=CHAR},
       #{updatedat,jdbcType=TIMESTAMP}, #{instructions,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.Rescue" useGeneratedKeys="true" keyProperty="numberId" >
@@ -77,8 +77,8 @@
       <if test="cityId != null" >
         city_id,
       </if>
-      <if test="examine != null" >
-        examine,
+      <if test="toExamine != null" >
+        to_examine,
       </if>
       <if test="createdat != null" >
         createdat,
@@ -118,8 +118,8 @@
       <if test="cityId != null" >
         #{cityId,jdbcType=BIGINT},
       </if>
-      <if test="examine != null" >
-        #{examine,jdbcType=CHAR},
+      <if test="toExamine != null" >
+        #{toExamine,jdbcType=CHAR},
       </if>
       <if test="createdat != null" >
         #{createdat,jdbcType=TIMESTAMP},
@@ -159,8 +159,8 @@
       <if test="cityId != null" >
         city_id = #{cityId,jdbcType=BIGINT},
       </if>
-      <if test="examine != null" >
-        examine = #{examine,jdbcType=CHAR},
+      <if test="toExamine != null" >
+        to_examine = #{toExamine,jdbcType=CHAR},
       </if>
       <if test="createdat != null" >
         createdat = #{createdat,jdbcType=TIMESTAMP},
@@ -184,7 +184,7 @@
       rescue_type = #{rescueType,jdbcType=CHAR},
       province_id = #{provinceId,jdbcType=BIGINT},
       city_id = #{cityId,jdbcType=BIGINT},
-      examine = #{examine,jdbcType=CHAR},
+      to_examine = #{toExamine,jdbcType=CHAR},
       createdat = #{createdat,jdbcType=TIMESTAMP},
       updatedat = #{updatedat,jdbcType=TIMESTAMP},
       Instructions = #{instructions,jdbcType=LONGVARCHAR}
@@ -200,7 +200,7 @@
       rescue_type = #{rescueType,jdbcType=CHAR},
       province_id = #{provinceId,jdbcType=BIGINT},
       city_id = #{cityId,jdbcType=BIGINT},
-      examine = #{examine,jdbcType=CHAR},
+      to_examine = #{toExamine,jdbcType=CHAR},
       createdat = #{createdat,jdbcType=TIMESTAMP},
       updatedat = #{updatedat,jdbcType=TIMESTAMP}
     where number_id = #{numberId,jdbcType=VARCHAR}
@@ -208,7 +208,7 @@
   <select id="findXaRescueVo" resultType="com.hailu.cloud.api.admin.module.xinan.model.RescueVo">
     select DISTINCT xr.number_id as numberId,xr.title as title ,xr.rescue_type as rescueType,xr.help_times as helpTimes,xr.member_id as memberId,xrp.picture as picture
     from xa_rescue xr INNER JOIN xa_rescue_pictures xrp ON xr.number_id = xrp.mutuala_id
-    where xr.examine = 1
+    where xr.to_examine = 1
     group by xr.number_id
   </select>
   <select id="findXaRescueList" resultMap="BaseResultMap">

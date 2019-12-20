@@ -60,10 +60,10 @@ public class RescueServiceBackstage {
      * @param numberId
      * @return
      */
-    public void updateByPrimaryKeySelective(Long numberId, String examine){
+    public void updateByPrimaryKeySelective(Long numberId, String toExamine){
         Rescue rescue = new Rescue();
         rescue.setNumberId(numberId);
-        rescue.setExamine(examine);
+        rescue.setToExamine(toExamine);
         rescueBackstageMapper.updateByPrimaryKeySelective(rescue);
     }
 

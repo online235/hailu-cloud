@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
-import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;

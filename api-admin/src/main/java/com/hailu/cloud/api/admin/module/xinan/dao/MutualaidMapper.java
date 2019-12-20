@@ -34,9 +34,9 @@ public interface MutualaidMapper {
 
     /**
      * 更改审核状态
-     * @param examine
+     * @param toExamine
      * @param numberId
      * @return
      */
-    int updateMutualAidOfExamine(@Param("examine") Integer examine, @Param("numberId") Long numberId);
+    int updateMutualAidOfExamine(@Param("toExamine") Integer toExamine, @Param("numberId") Long numberId);
 }

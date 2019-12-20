@@ -81,13 +81,13 @@ public class MutualAidController {
     @PostMapping("/changeAuditStatus")
     @ResponseBody
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "examine", value = "审核(审核中-1、审核通过-2、审核不通过-3)", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "toExamine", value = "审核(审核中-1、审核通过-2、审核不通过-3)", required = true, paramType = "query"),
             @ApiImplicitParam(name = "numberId", value = "编号", required = true, paramType = "query")
     })
     public void updateMutualAidOfExamine(
-            @NotNull(message = "修改的状态不能为空") Integer examine,
+            @NotNull(message = "修改的状态不能为空") Integer toExamine,
             @NotNull(message = "编号不能为空") Long numberId){
 
-        mutualAidService.updateMutualAidOfExamine(examine,numberId);
+        mutualAidService.updateMutualAidOfExamine(toExamine,numberId);
     }
 }

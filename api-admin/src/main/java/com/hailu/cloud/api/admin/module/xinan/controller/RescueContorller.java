@@ -120,13 +120,13 @@ public class RescueContorller {
     @ResponseBody
     @ApiImplicitParams({
             @ApiImplicitParam(name = "numberId", value = "救助编号", required = true, paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "examine", value = "审核(2-审核通过、3-审核不通过)", required = true, paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "toExamine", value = "审核(2-审核通过、3-审核不通过)", required = true, paramType = "query", dataType = "String")
     })
     public void updateExamineByNumberId(
             @NotNull(message = "编号不能为空") Long numberId,
-            @NotBlank(message = "审核状态不能为空") String examine) {
+            @NotBlank(message = "审核状态不能为空") String toExamine) {
 
-        rescueServiceBackstage.updateByPrimaryKeySelective(numberId, examine);
+        rescueServiceBackstage.updateByPrimaryKeySelective(numberId, toExamine);
     }
 
 }

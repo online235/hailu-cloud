@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McCouponPictureMapper" >
+  <sql id="Base_Column_List" >
+    id, coupon_id, picture_type, picture_path, date_time, state
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McCouponPicture" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from mc_coupon_picture
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey">
+    delete from mc_coupon_picture
+    where id = #{id} and coupon_id = #{couponId}
+  </delete>
+
+  <insert id="insertList" parameterType="java.util.ArrayList">
+    insert into mc_coupon_picture (id,coupon_id, picture_type, picture_path,
+      date_time,state)
+    values
+    <foreach collection="list" item="cp" index="index" separator=",">
+      (#{cp.id, #{cp.couponId}, #{cp.pictureType}, #{cp.picturePath}, #{cp.dateTime}, #{cp.state})
+    </foreach>
+  </insert>
+
+  <insert id="insertMcCouponPicture" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McCouponPicture">
+    insert into mc_coupon_picture (id,coupon_id, picture_type, picture_path,
+      date_time,state)
+    values
+      (#{id}, #{couponId}, #{pictureType}, #{picturePath}, #{dateTime}, #{state})
+  </insert>
+
+  <update id="updMcCouponPictureById">
+    update mc_coupon_picture set state = 0
+    where id = #{id} and coupon_id = #{couponId}
+  </update>
+
+  <select id="findMcCouponPictureListByCouponId" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McCouponPicture">
+    select
+    <include refid="Base_Column_List"/>
+    from mc_coupon_picture
+    where coupon_id = #{couponId} and state = 1
+  </select>
+
+</mapper>

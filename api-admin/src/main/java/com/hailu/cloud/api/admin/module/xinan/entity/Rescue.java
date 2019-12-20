@@ -61,7 +61,7 @@ public class Rescue implements Serializable {
     /**
      * 审核
      */
-    private String examine;
+    private String toExamine;
 
     /**
      * 创建时间

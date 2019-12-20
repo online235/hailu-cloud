@@ -3,7 +3,7 @@
 <mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.MutualaidMapper" >
   <sql id="Base_Column_List" >
     number_id, member_id, target_amount, title, hospital_name, hospital_account, disease_name, 
-    rescue_type, cash, province_id, city_id, examine, createdat, updatedat
+    rescue_type, cash, province_id, city_id, to_examine, createdat, updatedat
   </sql>
   <sql id="Blob_Column_List" >
     explain, help_times
@@ -38,7 +38,7 @@
   </select>
 
   <update id="updateMutualAidOfExamine">
-    update xa_mutualaid set examine = #{examine}
+    update xa_mutualaid set to_examine = #{toExamine}
     where number_id = #{numberId}
   </update>
 </mapper>
