@@ -132,34 +132,7 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "根据店铺id查看店铺信息", notes = "<pre>" +
-            "{\n" +
-            "    'code': 200,\n" +
-            "    'message': '请求成功',                   \n" +
-            "    'data': {\n" +
-            "        'areaCode': 'string',                  //地区code\n" +
-            "        'businessStateDisplay': 0,              //营业状态\n" +
-            "        'cityCode': 'string',\n" +
-            "        'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\n" +
-            "        'createdat': '2019-11-29T03:07:58.480Z',     //创建时间\n" +
-            "        'detailAddress': 'string',             //详细地址\n" +
-            "        'id': 0,                               //店铺id\n" +
-            "        'mcNumberId': 'string',                //商户id\n" +
-            "        'openingTime': '2019-11-29T03:07:58.480Z',   //开店时间\n" +
-            "        'perCapitaPrice': 0,                   //人均价格\n" +
-            "        'phone': 'string',                     //店铺联系电话\n" +
-            "        'provinceCode': 'string',              //省id\t\t\n" +
-            "        'shopName': 'string',                  //店铺名字\n" +
-            "        'storeDetails': 'string',              //店铺详情\n" +
-            "        'storeSonTypeDisPlay': 0,                     //店铺子类型\n" +
-            "        'storeTotalTypeDisPlay': 0,                   //店铺总类型\n" +
-            "        'toExamineDisplay': 0,                 //审核状态\n" +
-            "        'updatedat': '2019-11-29T03:07:58.480Z',    //更新时间\n" +
-            "        'weekDay': 'string',                   //每周营业日用，“；”隔开（例1,2,3,4:）\n" +
-            "        'weekDayDisplay': 'string'             //周一，周二\n" +
-            "    }\n" +
-            "}"
-            + "</pre>")
+    @ApiOperation(value = "根据店铺id查看店铺信息")
     @PostMapping("storeInformationById")
     @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
     public McStoreInformationResult findMcStoreInformation(@RequestParam(value = "id") Long id) {
@@ -181,36 +154,7 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "商户查看店铺信息", notes = "<pre>" +
-            "{\n" +
-            "    'code': 200,\n" +
-            "    'message': '请求成功',                   \n" +
-            "    'data': {\n" +
-            "        'areaCode': 'string',                  //地区code\n" +
-            "        'defaultHead': 'string',                  //店铺头像\n" +
-            "        'businessState': ''                    // 营业状态(1-营业中，2-休息中)\n  " +
-            "        'businessStateDisplay': 0,              //营业状态\n" +
-            "        'cityCode': 'string',\n" +
-            "        'closingTime': '2019-11-29T03:07:58.480Z',   //关闭时间\n" +
-            "        'createdat': '2019-11-29T03:07:58.480Z',     //创建时间\n" +
-            "        'detailAddress': 'string',             //详细地址\n" +
-            "        'id': 0,                               //店铺id\n" +
-            "        'mcNumberId': 'string',                //商户id\n" +
-            "        'openingTime': '2019-11-29T03:07:58.480Z',   //开店时间\n" +
-            "        'perCapitaPrice': 0,                   //人均价格\n" +
-            "        'phone': 'string',                     //店铺联系电话\n" +
-            "        'provinceCode': 'string',              //省id\t\t\n" +
-            "        'shopName': 'string',                  //店铺名字\n" +
-            "        'storeDetails': 'string',              //店铺详情\n" +
-            "        'storeSonTypeDisPlay': 0,                     //店铺子类型\n" +
-            "        'storeTotalTypeDisPlay': 0,                   //店铺总类型\n" +
-            "        'toExamineDisplay': 0,                 //审核状态\n" +
-            "        'updatedat': '2019-11-29T03:07:58.480Z',    //更新时间\n" +
-            "        'weekDay': 'string',                   //每周营业日用，“；”隔开（例1,2,3,4:）\n" +
-            "        'weekDayDisplay': 'string'             //周一，周二\n" +
-            "    }\n" +
-            "}"
-            + "</pre>")
+    @ApiOperation(value = "商户查看店铺信息")
     @PostMapping("storeInformation")
     public McStoreInformationResult findMcStoreInformation() {
 
@@ -254,6 +198,7 @@ public class McStoreInformationController {
     }
 
 
+
     @ApiOperation(value = "相册列表", notes = "<prep>"
             + "{\n" +
             "    'code': 200,\n" +
@@ -278,6 +223,7 @@ public class McStoreInformationController {
     }
 
 
+
     @ApiOperation(value = "保存店铺相册", notes = "<prep>"
             + "{\n" +
             "    'code': 200,\n" +
@@ -299,6 +245,7 @@ public class McStoreInformationController {
         mcStoreAlbumService.insertSelective(mcStoreAlbum);
 
     }
+
 
 
     @ApiOperation(value = "保存店铺相册，多张保存", notes = "<prep>"
@@ -375,6 +322,7 @@ public class McStoreInformationController {
         McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(id);
         return mcStoreInformation.getStoreDetails();
     }
+
 
 
     @ApiOperation(value = "删除店铺相册", notes = "<prep>"

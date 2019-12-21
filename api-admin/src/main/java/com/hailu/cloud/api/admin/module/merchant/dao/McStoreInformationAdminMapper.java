@@ -56,7 +56,7 @@ public interface McStoreInformationAdminMapper {
     Integer selectMcEntryinFormationById(@Param("mcNumberId") String mcNumberId);
 
 
-    McStoreInformation findMcStoreInformation(Long id);
+    McStoreInformation findMcStoreInformation(@Param("id") Long id);
 
 
 

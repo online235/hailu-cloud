@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McStoreExamineMapper">
+
+
+    <sql id="set_column">
+        <if test="id != null">
+            id,
+        </if>
+        <if test="storeId != null">
+            store_id,
+        </if>
+        <if test="shopPhone != null">
+            shop_phone,
+        </if>
+        <if test="shopAddressDetail != null">
+            shop_address_detail,
+        </if>
+        <if test="areaCode != null">
+            area_code,
+        </if>
+        <if test="phoneVoucher != null">
+            phone_voucher,
+        </if>
+        <if test="addressVoucher != null">
+            address_voucher,
+        </if>
+        <if test="addressRemarks != null">
+            address_remarks,
+        </if>
+        <if test="phoneRemarks != null">
+            phone_remarks,
+        </if>
+        <if test="phoneToExamine != null">
+            phone_to_examine,
+        </if>
+        <if test="addressToExamine != null">
+            address_to_examine,
+        </if>
+        <if test="dateTime != null">
+            date_time,
+        </if>
+    </sql>
+
+
+    <sql id="set_where_column">
+        <if test="id != null">
+            #{id},
+        </if>
+        <if test="storeId != null">
+            #{storeId},
+        </if>
+        <if test="shopPhone != null">
+            #{shopPhone},
+        </if>
+        <if test="shopAddressDetail != null">
+            #{shopAddressDetail},
+        </if>
+        <if test="areaCode != null">
+            #{areaCode},
+        </if>
+        <if test="phoneVoucher != null">
+            #{phoneVoucher},
+        </if>
+        <if test="addressVoucher != null">
+            #{addressVoucher},
+        </if>
+        <if test="addressRemarks != null">
+            #{addressRemarks},
+        </if>
+        <if test="phoneRemarks != null">
+            #{phoneRemarks},
+        </if>
+        <if test="phoneToExamine != null">
+            #{phoneToExamine},
+        </if>
+        <if test="addressToExamine != null">
+            #{addressToExamine},
+        </if>
+        <if test="dateTime != null">
+            #{dateTime},
+        </if>
+    </sql>
+
+    <sql id="update_where_column">
+        <if test="storeId != null and storeId != ''">
+            store_id = #{storeId},
+        </if>
+        <if test="shopPhone != null and shopPhone != ''">
+            shop_phone= #{shopPhone},
+        </if>
+        <if test="shopAddressDetail != null and shopAddressDetail != ''">
+            shop_address_detail= #{shopAddressDetail},
+        </if>
+        <if test="areaCode != null and areaCode != ''">
+            area_code= #{areaCode},
+        </if>
+        <if test="phoneVoucher != null and phoneVoucher != ''">
+            phone_voucher= #{phoneVoucher},
+        </if>
+        <if test="addressVoucher != null and addressVoucher != ''">
+            address_voucher= #{addressVoucher},
+        </if>
+        <if test="addressRemarks != null and addressRemarks != ''">
+            address_remarks= #{addressRemarks},
+        </if>
+        <if test="phoneRemarks != null and phoneRemarks != ''">
+            phone_remarks= #{phoneRemarks},
+        </if>
+        <if test="phoneToExamine != null and phoneToExamine != ''">
+            phone_to_examine= #{phoneToExamine},
+        </if>
+        <if test="addressToExamine != null and addressToExamine != ''">
+            address_to_examine= #{addressToExamine},
+        </if>
+        <if test="dateTime != null and dateTime != ''">
+            date_time= #{dateTime},
+        </if>
+    </sql>
+
+
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreExamine"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into mc_store_examine
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="set_column"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="set_where_column"/>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreExamine">
+        update mc_store_examine
+        <set>
+            <include refid="update_where_column"/>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="findListByParam" resultType="com.hailu.cloud.api.merchant.module.merchant.model.McStoreExamineModel">
+        SELECT
+        id, store_id, shop_phone, shop_address_detail, area_code,
+        phone_voucher, address_voucher, address_remarks, phone_remarks,
+        phone_to_examine, address_to_examine, date_time
+        FROM mc_store_examine
+        WHERE 1=1
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+        <if test="phoneToExamine != null">
+            and phone_to_examine = #{phoneToExamine}
+        </if>
+        <if test="addressToExamine != null">
+            and address_to_examine = #{addressToExamine}
+        </if>
+    </select>
+
+
+    <select id="findObjectById" resultType="com.hailu.cloud.api.merchant.module.merchant.model.McStoreExamineModel">
+        SELECT
+        id, store_id, shop_phone, shop_address_detail, area_code,
+        phone_voucher, address_voucher, address_remarks,
+        phone_remarks, phone_to_examine, address_to_examine, date_time
+        FROM mc_store_examine
+        WHERE 1=1
+        <if test="id != null">
+            and id = #{id}
+        </if>
+    </select>
+
+
+    <select id="findObjectByStoreId" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreExamine">
+        SELECT
+        id, store_id, shop_phone, shop_address_detail, area_code,
+        phone_voucher, address_voucher, address_remarks,
+        phone_remarks, phone_to_examine, address_to_examine, date_time
+        FROM mc_store_examine
+        WHERE 1=1
+        <if test="storeId != null">
+            and store_id = #{storeId}
+        </if>
+    </select>
+
+
+    <delete id="deleteById" parameterType="long">
+    delete from mc_store_examine
+    where id = #{id}
+    </delete>
+
+
+</mapper>
