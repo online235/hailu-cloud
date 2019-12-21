@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface IPaymentService {
 
-    Map<String, Object> createOrder(Integer payType, Double moneyPrice, String insuredIds ) throws BusinessException;
+    Map<String, Object> createOrder(Integer payType, Double moneyPrice, String insuredIds) throws BusinessException;
 
     void callback(Map<String, Object> params) throws BusinessException;
 

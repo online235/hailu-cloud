@@ -27,7 +27,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, member_id, rescue_id, item_name, item_type, order_no, status, froms, pay_type, insured_name,province_Id,city_id,area_id,address,
-    insured_value, money, create_date, create_by, update_date, update_by, order_status,invitation_member,choose_city_id
+    insured_value, money, create_date, create_by, update_date, update_by, order_status,choose_city_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
@@ -44,14 +44,14 @@
       order_no, status, froms,
       pay_type, insured_name, insured_value,
       money, create_date, create_by,
-      update_date, update_by, order_status,province_Id,city_id,area_id,address,choose_city_id,invitation_member
+      update_date, update_by, order_status,province_Id,city_id,area_id,address,choose_city_id
       )
     values (#{id,jdbcType=VARCHAR},#{memberId,jdbcType=VARCHAR}, #{rescueId,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR},
       #{orderNo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{froms,jdbcType=VARCHAR},
       #{payType,jdbcType=INTEGER}, #{insuredName,jdbcType=VARCHAR}, #{insuredValue,jdbcType=VARCHAR},
       #{money,jdbcType=DECIMAL}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
       #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER},
-      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR},#{chooseCityId,jdbcType=BIGINT},#{invitationMember,jdbcType=VARCHAR}
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR},#{chooseCityId,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Order" useGeneratedKeys="true" keyProperty="id" >
@@ -260,7 +260,6 @@
     <result column="pay_type" property="payType" jdbcType="INTEGER" />
     <result column="insured_name" property="insuredName" jdbcType="VARCHAR" />
     <result column="insured_value" property="insuredValue" jdbcType="VARCHAR" />
-    <result column="invitation_member" property="invitationMember" jdbcType="VARCHAR" />
     <result column="money" property="money" jdbcType="DECIMAL" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="create_by" property="createBy" jdbcType="VARCHAR" />
@@ -272,7 +271,7 @@
   </resultMap>
 
   <select id="findByMemberIdAndOrderStatus" resultMap="BaseResultMapVo">
-    select i.member_relation,o.insured_name,o.insured_value,o.money,o.id,o.invitation_member,i.id as insuredId
+    select i.member_relation,o.insured_name,o.insured_value,o.money,o.id,i.id as insuredId
     from xa_order o left join xa_insured i on o.insured_value = i.value and o.insured_name = i.name
     where o.member_id = #{memberId,jdbcType=VARCHAR} and order_status = #{orderStatus,jdbcType=INTEGER}  and o.status = 1
     <if test="itemName != null">

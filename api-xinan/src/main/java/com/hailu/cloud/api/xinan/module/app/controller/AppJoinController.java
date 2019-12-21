@@ -13,11 +13,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -46,6 +44,9 @@ public class AppJoinController {
 
     @Autowired
     private IDCardCheck idCardCheck;
+
+    @Value("${xinan.ios.price}")
+    private Double price;
 
 
     /**
@@ -82,6 +83,7 @@ public class AppJoinController {
             @ApiImplicitParam(name = "type", value = "参保人证件类型(1-身份证、2-护照、3-军官证、4-士兵证、5-港澳台居民往来通行证、6-临时身份证、7-户口簿、8-警官证、9-其他、10-外国人永久居留证、11-边民出入通行证)", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "isYearEnjoy", value = "是否享受年费机制(1-是、2-否)", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "photoUrl", value = "图片地址（享受年费的时候必须上传）", paramType = "query", dataType = "String"),
+
     })
     public Object saveInsourd(
             @NotBlank(message = "名称不能为空") String name,
@@ -89,7 +91,8 @@ public class AppJoinController {
             @NotNull(message = "参保人关系不能为空") Integer memberRelation,
             @NotNull(message = "参保人证件类型不能为空") Integer type,
             @NotNull(message = "是否享受年费机制值不能为空") Integer isYearEnjoy,
-            String photoUrl) throws BusinessException {
+            String photoUrl,
+            @RequestHeader("device_type") String deviceType) throws BusinessException {
 
         log.info("保存参保人信息:姓名" + name + " 身份证号码：" + idCard + " 身份证号码：" + idCard + " 参保人关系：" + memberRelation + " 参保人证件类型：" + type + " 是否享受年费机制：" + isYearEnjoy + " 图片地址：" + photoUrl);
         //如果身份类型为身份证，则校验身份的准确性
@@ -98,7 +101,7 @@ public class AppJoinController {
             //TODO:身份不合法
             throw new BusinessException("身份证与姓名不匹配");
         }
-        return insuredService.addOrEditInsured(name, idCard, RequestUtils.getMemberLoginInfo().getUserId(), memberRelation, type, isYearEnjoy, photoUrl);
+        return insuredService.addOrEditInsured(name, idCard, RequestUtils.getMemberLoginInfo().getUserId(), memberRelation, type, isYearEnjoy, photoUrl,deviceType);
     }
 
 
@@ -291,6 +294,17 @@ public class AppJoinController {
         MemberLoginInfoModel loginInfo = RequestUtils.getMemberLoginInfo();
         log.debug("查询参保人列表:{}", loginInfo.getUserId());
         return insuredService.findListByMemberId(loginInfo.getUserId());
+    }
+
+    @ApiOperation(value = "查询参保人价格",notes = "{\n" +
+            "  \"code\": 200,\n" +
+            "  \"message\": \"请求成功\",\n" +
+            "  \"data\": 0                      //价格\n" +
+            "}")
+    @GetMapping("/findInsurdPrice")
+    public Double findInsurdPrice(){
+        log.debug("IOS查询价格" );
+        return price;
     }
 
 }

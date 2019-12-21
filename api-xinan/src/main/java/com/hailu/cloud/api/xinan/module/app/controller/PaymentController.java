@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
@@ -45,7 +42,8 @@ public class PaymentController {
     @RequestMapping(value = "/orderPay",method = {RequestMethod.POST,RequestMethod.GET})
     public Map<String,Object> orderPay(@NotNull(message = "支付类型不能为空") Integer payType,
                                        @NotNull(message = "金额不能为空") Double money,
-                                       @NotNull(message = "参保人不能为空") String insuredIds)throws BusinessException {
+                                       @NotNull(message = "参保人不能为空") String insuredIds
+                                      )throws BusinessException {
         log.info("心安支付 支付类型：{},金额：{}, 参保人ID：{}",payType,money,insuredIds);
         return paymentService.createOrder(payType,money,insuredIds);
     }

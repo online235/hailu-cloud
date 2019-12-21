@@ -54,7 +54,7 @@ public class InsuredService {
      */
     private final double NEXTMONEY = 26;
 
-    public Object addOrEditInsured(String name, String idCard, String memberId, Integer memberRelation, Integer type, Integer isYearEnjoy, String photoUrl) throws BusinessException {
+    public Object addOrEditInsured(String name, String idCard, String memberId, Integer memberRelation, Integer type, Integer isYearEnjoy, String photoUrl,String deviceType) throws BusinessException {
 
         //返回信息
         JSONObject resultParam = new JSONObject();
@@ -99,6 +99,9 @@ public class InsuredService {
                 throw new BusinessException("该用户处于未支付状态，无法继续添加！");
             } else {
                 flag = true;
+            }
+            if(deviceType != null && StringUtils.equals("ios",deviceType)){
+                money = BigDecimal.valueOf(0.0);
             }
             //创建订单
             Order order = orderService.buildOrder(insured.getName(), insured.getValue(), memberId, MemberShopEnum.INSURD.getDesc(), "XA", "购买心安", null, money == null ? new BigDecimal(flag ? NEXTMONEY : FIRSTMONEY) : money);

@@ -40,6 +40,7 @@ mapping:
         - ${api-version}/xinan/app/xinan/CommonwealArticle
         - ${api-version}/xinan/app/xinan/publicInterestList
         - ${api-version}/xinan/app/xinan/detailed
+        - ${api-version}/xinan/app/join/findInsurdPrice
         # 商户接口
         - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin
