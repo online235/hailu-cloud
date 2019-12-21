@@ -542,14 +542,6 @@ public interface OrderMapper {
     Map<String, Object> getCartGoodsNum(String userId);
 
     /**
-     * 批量添加到购物车
-     *
-     * @param orderGoods
-     * @Author huangl
-     */
-    void addListToCart(List<OrderGoods> orderGoods);
-
-    /**
      * 清除失效宝贝
      *
      * @param userId

@@ -19,7 +19,8 @@
 				create_time ,
 				is_activity ,
 				is_compl ,
-				is_selected 
+				is_selected,
+				store_id
 		) VALUE(
 				#{goodsId},
 				#{userId},
@@ -35,7 +36,8 @@
 				#{createTime} ,
 				#{isActivity} ,
 				#{isCompl} ,
-				#{isSelected} 
+				#{isSelected} ,
+				#{storeId}
 		)
 	</insert>
     <resultMap id="ShoppingResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.order.ShoppingCartVo">
@@ -1110,48 +1112,6 @@
     <select id="getCartGoodsNum" parameterType="String" resultType="map">
 		SELECT count(cart_id) AS cartNum FROM  shop_cart WHERE user_id=#{userId}
 	</select>
-    <!-- @authod huangl批量添加购物车 -->
-    <insert id="addListToCart">
-        INSERT INTO shop_cart(
-        goods_id,
-        user_id,
-        goods_name,
-        spec_id,
-        spec_info,
-        goods_store_price,
-        goods_num,
-        goods_images,
-        first_gc_id,
-        first_gcbig_id,
-        g_type ,
-        create_time ,
-        is_activity ,
-        is_selected ,
-        is_compl
-        ) VALUES
-        <foreach collection="list" item="rc" index="index" separator=",">
-            (
-            #{rc.goodsId},
-            #{rc.buyerId},
-            #{rc.goodsName},
-            #{rc.specId},
-            #{rc.specName},
-            #{rc.goodsPrice},
-            #{rc.goodsNum},
-            #{rc.goodsImage},
-            #{rc.gcId},
-            #{rc.gcBigId},
-            #{rc.type},
-            #{rc.createTime},
-            1 ,
-            1 ,
-            0
-            )
-
-        </foreach>
-
-    </insert>
-
     <!-- @authod qinmy更新取消订单 -->
 
 
