@@ -6,12 +6,10 @@ import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsCommentVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsInfoVo;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
-import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.HotVo;
 import com.hailu.cloud.api.mall.module.goods.vo.SshtVo;
 import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,28 +30,6 @@ import java.util.Map;
 public class GoodsToController {
     @Autowired
     private IGoodsToService goodsToService;
-
-    /**
-     * 上传图片评论
-     */
-    @PostMapping("/saveImage")
-    public Map<String, Object> saveImage(
-            @RequestParam("images") String images,
-            @RequestParam(value = "goodsId", required = false) Integer goodsId) throws BusinessException {
-
-        if (StringUtils.isEmpty(images)) {
-            throw new BusinessException("参数为空");
-        }
-        StringBuilder imgpath = new StringBuilder();
-        for (String iu : images.split(",")) {
-            String img = PictureUploadUtil.uploadPicture("img", iu);
-            if (imgpath.length() > 0) {
-                imgpath.append(",");
-            }
-            imgpath.append(img);
-        }
-        return ImmutableMap.of("imgpath", imgpath.toString(), "goodsId", goodsId);
-    }
 
     /**
      * 添加商品评价

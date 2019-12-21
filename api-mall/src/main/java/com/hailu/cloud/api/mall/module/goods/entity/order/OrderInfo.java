@@ -140,9 +140,5 @@ public class OrderInfo {
      * 0_否,1_是
      */
     private String isLimit;
-    /**
-     * 红包金额
-     */
-    private BigDecimal redEnvelope;
 
 }

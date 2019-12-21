@@ -22,10 +22,6 @@ public class OrderAmount {
      */
     private Integer goodsSpecId;
     /**
-     * 健康豆数量
-     */
-    private Integer integral;
-    /**
      * 原价
      */
     private Double pledgePrice;

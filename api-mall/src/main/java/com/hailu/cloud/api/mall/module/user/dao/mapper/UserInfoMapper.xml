@@ -8,25 +8,15 @@
         member_truename AS userName,
         member_name AS nickName,
         member_mobile AS userMobile,
-        member_qq qq,
-        wechat,
-        member_email email,
-        profession,
         invite_code AS inviteCode,
         be_invite_user AS beInviteUser,
-        member_birthday AS birthday,
         regist_time AS createTime,
         is_del,
         member_sex sex,
         unionid,
         open_id,
         WX_state,
-        integral,
         available_predeposit as balance,
-        is_lqlb as isLqlb,
-        growth_val as growthVal,
-        member_grow_grade AS memberGrowGrade,
-        pay_password AS payPassword,
         merchant_type AS merchantType,
         superior_member AS superiorMember
     </sql>
@@ -41,35 +31,15 @@
 	member_truename      		AS 	   	userName                  ,
 	member_name      		AS 	   	nickName                  ,
 	member_mobile    		AS 	   	userMobile                ,
-	member_qq             		AS 	   	qq                        ,
-	wechat         		AS 	   	wechat                    ,
-	member_email          		AS 	   	email                     ,
-	PROFESSION     		AS 	   	profession                ,
-	member_birthday       		AS 	   	birthday                  ,
 	regist_time    		AS 	   	createTime                ,
-	un_read_msgs   		AS 	   	unReadMsgs                ,
 	invite_code    		AS 	   	inviteCode                ,
 	be_invite_user 		AS 	   	beInviteUserA,
 	merchant_type      AS merchantType,
 	superior_member AS superiorMember,
 	hl_member AS hlMember,
-	member_cityid AS memberCityid,
 	hl_member_timeout AS hlMemberTimeout
     </sql>
 
-    <select id="findPhone" parameterType="String" resultType="Integer">
-    	select count(*) from shop_member
-    	where member_mobile = #{phone}
-    </select>
-
-    <select id="findUnionid" parameterType="String" resultType="Integer">
-    	select count(*) from shop_member
-    	where unionid = #{unionid}
-    </select>
-
-    <sql id="userInfoVoSimpleData">
-        member_id AS userId
-    </sql>
     <!--通过主键查询 返回结果 只有0或者1条 -->
     <select id="userInfoQueryByUserId" parameterType="String"
             resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
@@ -79,66 +49,6 @@
         shop_member sm
         LEFT JOIN shop_member_info smi ON sm.user_id = smi.member_id
         where sm.user_id=#{userId}
-    </select>
-    <select id="userInfoQueryByUnionid" parameterType="String"
-            resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
-        SELECT
-        <include refid="userInfoVoData"/>
-        FROM shop_member
-        WHERE
-        unionid = #{unionid}
-    </select>
-
-    <insert id="addMember" parameterType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
-        INSERT INTO shop_member(
-          user_id,
-          login_name,
-          member_passwd,
-          user_icon,
-          member_name,
-          member_truename,
-          member_mobile,
-          regist_time,
-          invite_code,
-          is_del,
-          unionid,
-          open_id,
-          WX_state,
-          create_time,
-          cid,
-          system_type,
-          source_registration,
-          be_invite_user
-        )
-        VALUES
-          (
-            #{userId},
-            #{loginName},
-            #{loginPasswd},
-            #{userIcon},
-            #{nickName},
-            #{userName},
-            #{userMobile},
-            #{createTime},
-            #{inviteCode},
-            0,
-            #{unionid},
-            #{openId},
-            #{WXState},
-            #{createDate},
-            #{cid},
-            #{systemType},
-            #{sourceRegistration},
-            #{beInviteUser}
-          )
-    </insert>
-
-    <select id="getUser" parameterType="String" resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
-        SELECT
-        <include refid="userInfoVoData"/>
-        FROM shop_member
-        WHERE user_Id = #{userId}
-        FOR UPDATE
     </select>
 
     <update id="updateUserInfo">
@@ -159,48 +69,6 @@
         WHERE u.user_Id = #{userId}
     </update>
 
-    <select id="getUserInfoVo" parameterType="String"
-            resultType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
-	SELECT
-		user_Id AS userId,
-		member_truename AS userName,
-		idcard AS idCard,
-		idcard_imgx AS idcardImgx,
-		idcard_imgy AS idcardImgy,
-		audit_state AS auditState,
-		is_sub AS isSub,
-		audit_time AS auditTime,
-		unionid AS unionid
-		FROM
-		shop_member
-		WHERE
-		member_mobile = #{account}
-	</select>
-
-    <update id="upUserInfoByPhone" parameterType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
-        UPDATE shop_member
-        SET unionid = #{unionid},
-            open_id=#{openId},
-            WX_state=#{WXState},
-        	user_icon=#{userIcon}
-         WHERE member_mobile = #{userMobile}
-    </update>
-
-    <select id="isExistInviteCode" parameterType="String"
-            resultType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
-        SELECT
-        <include refid="userInfoVoData"/>
-        FROM shop_member
-        WHERE invite_code = #{inviteCode}
-    </select>
-
-
-    <select id="getPhone" parameterType="String" resultType="String">
-        SELECT
-       		member_mobile
-        FROM shop_member
-        WHERE user_id = #{userId}
-    </select>
     <insert id="saveWeChatUser" parameterType="com.hailu.cloud.api.mall.module.user.entity.UserInfo">
         INSERT INTO shop_member(
           user_Id,
@@ -235,126 +103,8 @@
         <include refid="userInfoId"/>
         FROM shop_member
         WHERE user_Id=#{userId}
-
-
     </select>
 
-    <!--获取用户支付密码  -->
-    <select id="getPayPwd" parameterType="String" resultType="String">
-	    SELECT
-	    	pay_password
-	    FROM shop_member
-	    WHERE user_id=#{userId}
-    </select>
-
-    <!--设置修改支付密码   -->
-    <update id="updatePayPwd" parameterType="Map">
-    update shop_member set pay_password=#{payPwd}  where user_id=#{userId}
-    </update>
-
-    <!-- @authod huangl得到用户余额 -->
-    <select id="getAvailablePredeposit" parameterType="String" resultType="Double">
-    	SELECT available_predeposit from shop_member where user_id=#{userId}
-    </select>
-    <!-- @authod huangl 更新用户余额 -->
-    <update id="updateAvailablePredeposit" parameterType="map">
-    	UPDATE shop_member SET
-    	    consumption_predeposit=consumption_predeposit-#{available},
-    	    available_predeposit=available_predeposit+#{available}
-    	WHERE user_id=#{userId}
-    </update>
-    <!-- 根据手机号码得到用户认证信息 -->
-    <select id="getRealNameByAccount" resultType="com.hailu.cloud.api.mall.module.user.vo.RealNameVo">
-        SELECT
-        user_id AS userId,
-        idcard ,
-        idcard_imgx AS idcardImgx,
-        idcard_imgy AS idcardImagy,
-        audit_state AS auditState,
-        member_truename AS userName
-        FROM shop_member
-        where audit_state=1
-        <if test="account!=null">
-            AND member_mobile=#{account}
-        </if>
-        <if test="userId!=null">
-            AND user_id=#{userId}
-        </if>
-    </select>
-    <!-- 增加记录 -->
-    <insert id="addRecord" parameterType="map">
-    	insert into shop_record_hash(
-	    	id,
-	    	hash_code
-
-    	)values(
-    		#{userId},
-    		#{string}
-    	)
-    </insert>
-    <!-- 得到记录 -->
-    <select id="getRecordTo" resultType="String">
-    	SELECT
-    		hash_code
-    	from shop_record_hash
-    	where id=#{userId}
-    </select>
-    <!-- 更改记录 -->
-    <update id="updateRecord" parameterType="map">
-    	UPDATE shop_record_hash set
-    	hash_code=#{string}
-    	where id=#{userId}
-    </update>
-
-
-
-    <update id="updateUserCid" parameterType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
-        UPDATE shop_member
-        <set>
-            <if test="cid != null">
-                cid = #{cid},
-            </if>
-            <if test="systemType != null">
-                system_type=#{systemType}
-            </if>
-        </set>
-        WHERE user_id = #{userId}
-    </update>
-
-
-
-
-    <insert id="addUserRedPacket">
-        INSERT INTO shop_user_redpacket (user_id,redpacket_id,create_date,update_date,balance,user_moblie)
-        VALUE (#{0},#{1},#{2},#{2},#{3},#{4})
-    </insert>
-
-    <update id="WXunbundle">
-        UPDATE shop_member SET unionid=NUll WHERE user_id=#{0}
-    </update>
-
-    <!-- @authod huangl绑定微信 -->
-    <update id="updateWeCartBind" parameterType="map">
-    	UPDATE shop_member set
-    		unionid=#{unionid},
-    		open_id=#{openId},
-    		WX_state=#{state}
-    	where user_id=#{userId}
-    </update>
-
-    <!--更新用户余额-->
-    <select id="updateAddBalance" parameterType="java.util.Map">
-        UPDATE shop_member SET
-            available_predeposit=available_predeposit+#{amount},
-            total_predeposit=total_predeposit+#{amount}
-        WHERE user_id=#{userId}
-    </select>
-    <select id="findByAccount" parameterType="java.lang.String"
-            resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
-        select
-        <include refid="userInfoVoData"/>
-        from shop_member where member_mobile=#{account}
-    </select>
     <!--添加用户使用记录-->
     <insert id="saveUseRecord" parameterType="java.util.Map">
         INSERT INTO shop_member_record(member_id,create_time)
@@ -362,14 +112,6 @@
     </insert>
     <select id="findUseRecord" resultType="int">
         SELECT COUNT(1) FROM shop_member_record where TO_DAYS(create_time)=TO_DAYS(NOW()) and member_id=#{sessionID}
-    </select>
-
-
-
-
-
-    <select id="findInterestsIcons" resultType="com.hailu.cloud.api.mall.module.user.entity.InterestsIcon">
-        SELECT * FROM shop_interests_icon
     </select>
 
     <update id="updateMerchantMoney">

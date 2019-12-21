@@ -315,8 +315,7 @@ public interface OrderMapper {
     void updateOrderStatus(
             @Param("orderId") int orderId,
             @Param("orderStatus") Integer orderStatus,
-            @Param("time") long time,
-            @Param("integral") Integer integral) throws Exception;
+            @Param("time") long time) throws Exception;
 
     /**
      * @param userId

@@ -18,10 +18,4 @@ public class Brand {
 
     private String brandPic;
 
-    public void setBrandPic(String brandPic) {
-        if (StringUtils.isNotEmpty(brandPic)) {
-            brandPic = Const.PRO_URL + brandPic;
-        }
-        this.brandPic = brandPic;
-    }
 }

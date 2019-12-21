@@ -129,7 +129,6 @@ public class ShopMemBerService {
         userInfo.setOpenId(memberLoginInfoModel.getWeChatOpenId());
         userInfo.setUnionid(memberLoginInfoModel.getWeChatUnionId());
         userInfo.setMemberSex(memberLoginInfoModel.getMemberSex());
-        userInfo.setWechat(memberLoginInfoModel.getWeChatNickname());
         userInfo.setWxState("1");
         memberMapper.AddShopMember(userInfo);
         return userInfo;
@@ -146,9 +145,7 @@ public class ShopMemBerService {
 
         shopMember.setOpenId(memberLoginInfoModel.getWeChatOpenId());
         shopMember.setUnionid(memberLoginInfoModel.getWeChatUnionId());
-        shopMember.setWechat(memberLoginInfoModel.getWeChatNickname());
         shopMember.setWxState("1");
-        shopMember.setMemberLoginTime(addtime);
         memberMapper.updateByPrimaryKeySelective(shopMember);
         return shopMember;
     }
@@ -327,7 +324,6 @@ public class ShopMemBerService {
      */
     public void relieveWetChatShopMember(ShopMember shopMember, MemberLoginInfoModel memberLoginInfoModel) {
 
-        shopMember.setWechat(null);
         shopMember.setWxState(null);
         shopMember.setUnionid(null);
         shopMember.setOpenId(null);

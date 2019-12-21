@@ -30,7 +30,6 @@ public class ActPriceVo {
     private int activityType; //活动类型 1 限时抢购 2, 常规活动  , 3 众筹预定 ,4_其他限购
     private String specInfo; //规格详情
     private String specName; //规格名
-    private Integer integral;
     private Integer goodsId;
     private Integer goodsSpecId;
     /**

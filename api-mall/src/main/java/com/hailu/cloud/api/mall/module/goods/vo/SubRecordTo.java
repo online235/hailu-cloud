@@ -11,6 +11,5 @@ public class SubRecordTo {
     private String smallImg; //商品图片
     private String goodsName;
     private String specName;//规格名
-    private int auditState; //审核状态  0_审核中,1_审核通过,2_审核失败,3_已取消
 
 }

@@ -38,8 +38,6 @@ public class ShopMemberController {
             @ApiImplicitParam(name="userName", value = "用户名称",  paramType="query", dataType = "String"),
             @ApiImplicitParam(name="nickName", value = "用户昵称",  paramType="query", dataType = "String"),
             @ApiImplicitParam(name="memberName", value = "会员名称",  paramType="query", dataType = "String"),
-            @ApiImplicitParam(name="profession", value = "职业",  paramType="query", dataType = "String"),
-            @ApiImplicitParam(name="memberBirthday", value = "生日",  paramType="query", dataType = "Long"),
             @ApiImplicitParam(name="memberTruename", value = "真实姓名",  paramType="query", dataType = "String"),
     })
     public void updateShopMemBer(@NotNull(message = "信息不能为空") ShopMember shopMember){

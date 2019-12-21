@@ -9,10 +9,10 @@ import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderInfo;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderToVo;
 import com.hailu.cloud.api.mall.module.goods.vo.AddressVo;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,6 +34,9 @@ public class CsApplyServiceImpl implements ICsApplyService {
 
     @Autowired
     private CsApplyProressDao csApplyProressDao;
+
+    @Value("${static.server.prefix}")
+    private String staticServerPrefix;
 
     /***
      * 返回该订单明细是否正在申请售后
@@ -132,7 +135,7 @@ public class CsApplyServiceImpl implements ICsApplyService {
         }
         String goodsImges = cSOrderGoods.getGoodsImage();
         if (StringUtils.isNotEmpty(goodsImges) && !("http").equals(goodsImges.substring(0, 4))) {
-            cyApplyGoods.setGoodsImage(Const.PRO_URL + goodsImges);
+            cyApplyGoods.setGoodsImage(this.staticServerPrefix + goodsImges);
         }
         cyApplyGoods.setGoodsImage(goodsImges);
         //服务类型

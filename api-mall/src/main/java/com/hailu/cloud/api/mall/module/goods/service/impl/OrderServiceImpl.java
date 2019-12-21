@@ -26,7 +26,6 @@ import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
 import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
@@ -34,6 +33,7 @@ import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -65,6 +65,9 @@ public class OrderServiceImpl implements IOrderService {
 
     @Autowired
     private IComputeCommission computeCommission;
+
+    @Value("${static.server.prefix}")
+    private String staticServerPrefix;
 
     private Gson gson = new Gson();
 
@@ -189,7 +192,7 @@ public class OrderServiceImpl implements IOrderService {
                 if (og.size() > 0) {
                     for (OrderGoods orderGoods : og) {
                         if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
-                            orderGoods.setGoodsImage(Const.PRO_URL + orderGoods.getGoodsImage());
+                            orderGoods.setGoodsImage(this.staticServerPrefix + orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = this.getGoodsCompl(orderGoods.getRecId());
                         orderGoods.setGoodsClmpl(goodsCompl);
@@ -251,14 +254,11 @@ public class OrderServiceImpl implements IOrderService {
      * @param actp    金额实体类
      */
     private void calculationAmount(List<OrderAmount> listMap, OrderAmount oa, ActPriceVo actp) {
-        //TODO
         OrderAmount amount = oa;
-        amount.setIntegral(actp.getIntegral());
         amount.setPledgePrice(actp.getPledgePrice());
         amount.setReserveType(actp.getReserveType());
         amount.setOnePayPrice(actp.getOnePayPrice());
         amount.setTwoPayPrice(actp.getTwoPayPrice());
-
         listMap.add(amount);
     }
 
@@ -425,7 +425,7 @@ public class OrderServiceImpl implements IOrderService {
 
         calculationAmount(result, actp, listMap, oa, goodsNum, null);
 
-        return ImmutableMap.of("redEnvelope", "0", "listMap", listMap);
+        return ImmutableMap.of("listMap", listMap);
     }
 
     /**
@@ -630,9 +630,6 @@ public class OrderServiceImpl implements IOrderService {
             }.getType());
             OrderAmount oa = new OrderAmount(true);
             orderAmounts.forEach(orderAmount -> {
-                if (orderAmount.getIntegral() != null) {
-                    oa.setIntegral(oa.getIntegral() + orderAmount.getIntegral());
-                }
                 oa.setGoodsPrice(oa.getGoodsPrice().add(orderAmount.getGoodsPrice()));
                 if (orderAmount.getPledgePrice() != null) {
                     oa.setPledgePrice(oa.getPledgePrice() + orderAmount.getPledgePrice());
@@ -781,7 +778,6 @@ public class OrderServiceImpl implements IOrderService {
             if (orderStatus.equals(orderInfo.getOrderState())) {
                 throw new BusinessException("请勿重复操作");
             }
-            Integer newIntegeal = null;
             //得到订单中的售出
             List<OrderGoods> ogList = orderDao.findByOrderId(orderInfo.getOrderId());
             //取消订单
@@ -797,7 +793,7 @@ public class OrderServiceImpl implements IOrderService {
                     goodsToDao.updateGoodsSalenum(orderGoods.getGoodsId(), newSalenum);
                 }
             }
-            orderDao.updateOrderStatus(orderId, orderStatus, System.currentTimeMillis(), newIntegeal);
+            orderDao.updateOrderStatus(orderId, orderStatus, System.currentTimeMillis());
         } catch (Exception e) {
             log.error("确认收货异常：" + e.getMessage(), e);
             throw new RuntimeException(e.getMessage());
@@ -863,7 +859,7 @@ public class OrderServiceImpl implements IOrderService {
                 if (ogList.size() > 0) {
                     for (OrderGoods orderGoods : ogList) {
                         if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
-                            orderGoods.setGoodsImage(Const.PRO_URL + orderGoods.getGoodsImage());
+                            orderGoods.setGoodsImage(this.staticServerPrefix + orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = orderDao.getGoodsCompl(orderGoods.getRecId());
                         orderGoods.setGoodsClmpl(goodsCompl);

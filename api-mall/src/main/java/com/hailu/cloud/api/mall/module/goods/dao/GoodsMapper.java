@@ -1,16 +1,14 @@
 package com.hailu.cloud.api.mall.module.goods.dao;
 
-import com.hailu.cloud.api.mall.module.goods.entity.*;
-import com.hailu.cloud.api.mall.module.goods.entity.goods.*;
+import com.hailu.cloud.api.mall.module.goods.entity.Brand;
+import com.hailu.cloud.api.mall.module.goods.entity.Spec;
+import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsEvaluateTO;
+import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsListVo;
+import com.hailu.cloud.api.mall.module.goods.entity.goods.SearchGoodsParam;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods;
-import com.hailu.cloud.api.mall.module.goods.vo.AskReplyAnswerVo;
-import com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo;
-import com.hailu.cloud.api.mall.module.goods.vo.AskReplyVo;
-import com.hailu.cloud.api.mall.module.goods.vo.GoodsAndGoodsSpecVo;
+import com.hailu.cloud.api.mall.module.goods.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import com.hailu.cloud.api.mall.module.goods.vo.Goods;
-import com.hailu.cloud.api.mall.module.goods.entity.Brand;
 
 import java.util.List;
 
@@ -115,22 +113,6 @@ public interface GoodsMapper {
      * @Author huangl
      */
     int getCountEvaluate(int goodsId);
-
-    /**
-     * 获取导航栏
-     *
-     * @return 返回全部导航栏信息
-     */
-    List<Navigation> findNavigationList();
-
-    /**
-     * 得到首页模块设置
-     *
-     * @author HuangL
-     * @email huangl96@163.com
-     * @date 4:33 PM 9/5/2019
-     */
-    List<ModuleSettings> findModuleSettings(String show);
 
     /**
      * 更改库存

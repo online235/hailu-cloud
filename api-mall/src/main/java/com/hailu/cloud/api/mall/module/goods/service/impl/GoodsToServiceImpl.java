@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
@@ -16,7 +14,6 @@ import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
 import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.AuthInfo;
@@ -25,13 +22,13 @@ import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * @author Administrator
@@ -50,6 +47,9 @@ public class GoodsToServiceImpl implements IGoodsToService {
     @Autowired
     private IComputeCommission computeCommission;
 
+    @Value("${static.server.prefix}")
+    private String staticServerPrefix;
+    
     /**
      * 添加商品评价
      */
@@ -227,10 +227,10 @@ public class GoodsToServiceImpl implements IGoodsToService {
                 recomm.setTitleColor(RecommendVo.color(recomm.getTitleColor()));
                 String recommImg = recomm.getRecommImg();
                 if (StringUtils.isNotEmpty(recommImg) && !("http").equals(recommImg.substring(0, 4))) {
-                    recomm.setRecommImg(Const.PRO_URL + recommImg);
+                    recomm.setRecommImg(this.staticServerPrefix + recommImg);
                 }
                 if (StringUtils.isNotEmpty(recomm.getCoverImg()) && !("http").equals(recomm.getCoverImg().substring(0, 4))) {
-                    recomm.setCoverImg(Const.PRO_URL + recomm.getCoverImg());
+                    recomm.setCoverImg(this.staticServerPrefix + recomm.getCoverImg());
                 }
 
                 //显示数量
@@ -314,7 +314,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
             }
             //拼接图片路径
             if (StringUtils.isNotEmpty(goodsInfo.getGoodsImage()) && !("http").equals(goodsInfo.getGoodsImage().substring(0, 4))) {
-                goodsInfo.setGoodsImage(Const.PRO_URL + goodsInfo.getGoodsImage());
+                goodsInfo.setGoodsImage(this.staticServerPrefix + goodsInfo.getGoodsImage());
             }
             //拼接商品多图路径图片路径
             if (StringUtils.isNotEmpty(goodsInfo.getGoodsImageMore())) {
@@ -323,7 +323,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                     if (imgPath.length() > 0) {
                         imgPath.append(",");
                     }
-                    imgPath.append(Const.PRO_URL).append(str);
+                    imgPath.append(this.staticServerPrefix).append(str);
                 }
                 goodsInfo.setGoodsImageMore(imgPath.toString());
             }
@@ -334,7 +334,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
                     if (imgPath.length() > 0) {
                         imgPath.append(",");
                     }
-                    imgPath.append(Const.PRO_URL).append(str);
+                    imgPath.append(this.staticServerPrefix).append(str);
                 }
                 goodsInfo.setGoodsBody(imgPath.toString());
             }
@@ -750,7 +750,7 @@ public class GoodsToServiceImpl implements IGoodsToService {
         if (sshtVos.size() > 0) {
             for (SshtVo sshtVo : sshtVos) {
                 if (StringUtils.isNotEmpty(sshtVo.getUserIcon())) {
-                    sshtVo.setUserIcon(Const.PRO_URL + sshtVo.getUserIcon());
+                    sshtVo.setUserIcon(this.staticServerPrefix + sshtVo.getUserIcon());
                 }
                 List<SshtVo> huifu = goodsToDao.findBySsPid(sshtVo.getId());
                 sshtVo.setHtReply(huifu);

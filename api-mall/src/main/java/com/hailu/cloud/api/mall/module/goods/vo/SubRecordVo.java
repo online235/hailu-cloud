@@ -15,7 +15,6 @@ public class SubRecordVo {
     private String specName;//规格名
     private String applyForOdd; //申请编号
     private long createTime;//申请时间
-    private int auditState; //审核状态  0_审核中,1_审核通过,2_审核失败,3_已取
     private long updateTime; //更新时间
 
 }

@@ -68,36 +68,19 @@ public class XinAnLoginController {
             "    \"accessToken\": \"41d5c78e3df548519a2f918d4523d6a9\"      //token\n" +
             "    \"memberId\": \"null\"      //token\n" +
             "    \"userId\": \"9de1897a-3204-4f29-8e00-9d42650c073d\"          //会员Id\n" +
-            "    \"token\": \"41d5c78e3df548519a2f918d4523d6a9\"               //token\n" +
             "    \"userIcon\": \"https://ddkj-storage.oss-cn-shenzhen.aliyuncs.com/formalServer/upload/img/adv/1571472978960.jpg\"          //用户头像 \n" +
             "    \"userName\": \"134****1225\"         //用户名\n" +
             "    \"nickName\": \"134****1225\"         //登陆名称\n" +
             "    \"userMobile\": \"13411441225\"       //手机号码\n" +
-            "    \"wechat\": \"null\"                  //微信\n" +
-            "    \"email\": \"null\"                   //电子邮箱\n" +
-            "    \"qq\"\": \"null\"                    //QQ\n" +
-            "    \"profession\": \"null\"              //职业\n" +
-            "    \"birthday\": \"null\"                //生日\n" +
             "    \"createTime\": \"null\"              //创建时间\n" +
             "    \"inviteCode\": \"null\"              //邀请码\n" +
             "    \"beInviteUser\": \"null\"            //被邀请码\n" +
             "    \"sex\": \"1\"                        //性别\n" +
             "    \"unionid\": \"null\"                 //unionid\n" +
             "    \"openId\": \"null\"                  //openId \n" +
-            "    \"integral\": \"0\"                   //用户积分 \n" +
             "    \"balance\": \"0.0\"                  //总余额 \n" +
-            "    \"isLqlb\": \"1\"                     //是否领取大礼包 0未  1已 \n" +
-            "    \"growthVal\": \"0\"                  //成长值 \n" +
-            "    \"levelName\": \"null\"               //级别名称 \n" +
-            "    \"cid\": \"1114a89792c3c8bf9ed\"      //设备唯一id \n" +
-            "    \"systemType\": \"2\"                 //0Android 1IOS \n" +
-            "    \"memberGrowGrade\": \"0\"            //会员成长等级(会员等级注册就是0) \n" +
-            "    \"memberGradeVo\": \"null\"           //会员等级 \n" +
-            "    \"payPassword\": \"null\"             //支付密码 \n" +
-            "    \"updatePwState\": \"0\"              //修改密码状态 \n" +
             "    \"isBindWeChat\": \"0\"               //是否绑定微信 \n" +
             "    \"memberSex\": \"null\"               //成员性别 \n" +
-            "    \"sourceRegistration\": \"null\"      //注册来源0_PC1_安卓2_ios3_微信4_H5 \n" +
             "    \"wxstate\": \"null\"                 //微信状态1_app,2_H5,3_pc \n" +
             "  },\n" +
             "}")

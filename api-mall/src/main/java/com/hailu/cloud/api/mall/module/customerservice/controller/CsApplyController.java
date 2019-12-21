@@ -8,11 +8,11 @@ import com.hailu.cloud.api.mall.module.customerservice.vo.*;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsCompl;
 import com.hailu.cloud.api.mall.module.goods.entity.order.OrderToVo;
 import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +36,9 @@ public class CsApplyController {
     @Autowired
     private ICsReasonService csReasonService;
 
+    @Value("${static.server.prefix}")
+    private String staticServerPrefix;
+
     /**
      * 查看 可以售后的订单
      */
@@ -55,7 +58,7 @@ public class CsApplyController {
                     // 订单状态：0:已取消;1:待付款;2:待发货;3:待收货;4:交易完成;5:已提交;6:已确认;
                     for (CSOrderGoods orderGoods : og) {
                         if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
-                            orderGoods.setGoodsImage(Const.PRO_URL + orderGoods.getGoodsImage());
+                            orderGoods.setGoodsImage(this.staticServerPrefix + orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = orderService.getGoodsCompl(orderGoods.getRecId());
                         orderGoods.setGoodsClmpl(goodsCompl);

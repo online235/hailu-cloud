@@ -45,10 +45,6 @@ public class OrderToVo {
      */
     private Double freight;
     /**
-     * 红包
-     */
-    private BigDecimal redEnvelope;
-    /**
      * 商品总金额
      */
     private BigDecimal goodsAmount;

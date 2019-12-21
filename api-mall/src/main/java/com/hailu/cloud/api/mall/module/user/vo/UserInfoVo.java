@@ -25,11 +25,6 @@ public class UserInfoVo {
     private String userId;
 
     /**
-     * 登录token值
-     */
-    private String token;
-
-    /**
      * 用户头像
      */
     private String userIcon;
@@ -48,31 +43,6 @@ public class UserInfoVo {
      * 手机号
      */
     private String userMobile;
-
-    /**
-     * QQ
-     */
-    private String qq;
-
-    /**
-     * 微信
-     */
-    private String wechat;
-
-    /**
-     * 邮箱
-     */
-    private String email;
-
-    /**
-     * 职业
-     */
-    private String profession;
-
-    /**
-     * 生日
-     */
-    private String birthday;
 
     /**
      * 创建时间
@@ -100,24 +70,11 @@ public class UserInfoVo {
      */
     private String WXState;
 
-    private int integral;
-
     private double balance;
 
-    private Integer isLqlb;
-    private String levelName;//等级名称
-
-    private String cid;//设备唯一id
-    private Integer systemType;//0Android 1IOS
-
-    private String payPassword;//支付密码
-
-    private int updatePwState;//0设置1修改
     private int isBindWeChat;//是否绑定微信
 
     private String memberSex;
-    private String sourceRegistration;//注册来源0_PC1_安卓2_ios3_微信4_H5
-
 
     private int merchantType; //商户类型 0_无，1_区域代理，2_服务商
 

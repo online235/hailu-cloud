@@ -335,10 +335,6 @@
             <if test="time!=null">
                 finnshed_time=#{time} ,
             </if>
-            <if test="integral!=null and integral!=0">
-                order_pointscount=#{integral},
-            </if>
-
         </trim>
         WHERE order_id=#{orderId}
     </update>
@@ -372,7 +368,6 @@
         is_recour ,
         reserve_discounts ,
         is_limit,
-        red_envelope
         ) VALUE(
         #{userId},
         #{userName},
@@ -399,9 +394,7 @@
         0,
         #{isRecour} ,
         #{reserveDiscounts},
-        #{isLimit},
-        #{redEnvelope}
-
+        #{isLimit}
         )
     </insert>
     <!-- 添加订单商品 -->
@@ -615,8 +608,7 @@
 			return_state AS returnState ,
 			reserve_discounts as reserveDiscounts ,
 			payment_name as paymentName ,
-			is_limit as isLimit,
-			red_envelope
+			is_limit as isLimit
 		FROM shop_order
 		WHERE order_id=#{orderId}
 	</select>

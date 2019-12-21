@@ -132,12 +132,4 @@ public class ShoppingCartVo {
      */
     private String isShare;
 
-
-    public void setGoodsImages(String goodsImages) {
-        if (StringUtils.isNotEmpty(goodsImages) && !goodsImages.contains("http")) {
-            goodsImages = Const.PRO_URL + goodsImages;
-        }
-        this.goodsImages = goodsImages;
-    }
-
 }

@@ -150,12 +150,6 @@
 		SELECT COUNT(1) FROM shop_evaluate_goods  
 		WHERE geval_goodsid = #{goodsId} 
 	</select>
-    <select id="findNavigationList" resultType="com.hailu.cloud.api.mall.module.goods.entity.Navigation">
-		SELECT * FROM shop_navigation where is_del='1' order by sort
-	</select>
-    <select id="findModuleSettings" resultType="com.hailu.cloud.api.mall.module.goods.entity.ModuleSettings">
-		SELECT * FROM shop_module_settings WHERE ms_show_site=#{show} and ms_state='1' order by ms_sort
-	</select>
     <!--每周精选-->
     <resultMap id="WeekFeaturedResultMap" type="com.hailu.cloud.api.mall.module.goods.entity.goods.WeekFeatured">
         <id column="wfs_id" property="wfsId" jdbcType="INTEGER"/>

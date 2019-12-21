@@ -15,12 +15,12 @@ import com.hailu.cloud.api.mall.module.goods.service.IComputeCommission;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsService;
 import com.hailu.cloud.api.mall.module.goods.tool.HtmlReplace;
 import com.hailu.cloud.api.mall.module.goods.vo.*;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +39,9 @@ public class GoodsServiceImpl implements IGoodsService {
     private GoodsToMapper goodsToDao;
     @Autowired
     private IComputeCommission computeCommission;
+
+    @Value("${static.server.prefix}")
+    private String staticServerPrefix;
 
     /**
      * @author Administrator 购买商品提问题
@@ -72,7 +75,7 @@ public class GoodsServiceImpl implements IGoodsService {
         if (myQuestionList.size() > 0) {
             for (AskReplyQuestionVo ask : myQuestionList) {
                 if (StringUtils.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
-                    ask.setGoodsImg(Const.PRO_URL + ask.getGoodsImg());
+                    ask.setGoodsImg(this.staticServerPrefix + ask.getGoodsImg());
                 }
             }
         }
@@ -118,7 +121,7 @@ public class GoodsServiceImpl implements IGoodsService {
         if (askReply.size() > 0) {
             for (AskReplyVo askReplyVo : askReply) {
                 if (StringUtils.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
-                    askReplyVo.setUserImg(Const.PRO_URL + askReplyVo.getUserImg());
+                    askReplyVo.setUserImg(this.staticServerPrefix + askReplyVo.getUserImg());
                 }
             }
         }
@@ -136,17 +139,17 @@ public class GoodsServiceImpl implements IGoodsService {
         if (askreply.size() > 0) {
             for (AskReplyQuestionVo ask : askreply) {
                 if (StringUtils.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
-                    ask.setGoodsImg(Const.PRO_URL + ask.getGoodsImg());
+                    ask.setGoodsImg(this.staticServerPrefix + ask.getGoodsImg());
                 }
                 if (StringUtils.isNotEmpty(ask.getUserImg()) && !("http").equals(ask.getUserImg().substring(0, 4))) {
-                    ask.setUserImg(Const.PRO_URL + ask.getUserImg());
+                    ask.setUserImg(this.staticServerPrefix + ask.getUserImg());
                 }
                 //得到问题的最新一条回答
                 List<AskReplyVo> askReply = goodsDao.myQuestAllAnswers(ask.getAskReplyId(), 0, 1);
                 if (askReply.size() > 0) {
                     for (AskReplyVo askReplyVo : askReply) {
                         if (StringUtils.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
-                            askReplyVo.setUserImg(Const.PRO_URL + askReplyVo.getUserImg());
+                            askReplyVo.setUserImg(this.staticServerPrefix + askReplyVo.getUserImg());
                         }
                     }
                 }
@@ -239,6 +242,7 @@ public class GoodsServiceImpl implements IGoodsService {
     /**
      * 计算规格
      * TODO 这块可能是个重构的大坑
+     *
      * @param list    规格list
      * @param actList 活动list
      * @return

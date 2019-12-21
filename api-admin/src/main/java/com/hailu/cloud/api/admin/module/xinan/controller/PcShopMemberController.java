@@ -42,7 +42,6 @@ public class PcShopMemberController {
             "      \"merchantType\": 0,                         //商户类型 0_无，1_区域代理，2_服务商\n" +
             "      \"hlMember\": 0,                             //是否为海露会员（0-否、1-是）\n" +
             "      \"memberId\": 114,                           //用户编号\n" +
-            "      \"memberLoginNum\": 1,                        //登录次数\n" +
             "    }\n" +
             "  ],\n" +
             "  \"limit\": 1,            //每页数量\n" +

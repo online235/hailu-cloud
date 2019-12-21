@@ -5,10 +5,10 @@ import com.hailu.cloud.api.mall.module.ledger.dao.IncomeMapper;
 import com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper;
 import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
 import com.hailu.cloud.api.mall.module.ledger.vo.Income;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,12 +36,15 @@ public class IncomeServiceImpl implements IIncomeService {
     @Resource
     BasicFeignClient basicFeignClient;
 
+    @Value("${income.transferout.threshold:100}")
+    private Integer incomeTransferoutThreshold;
+    
     @Override
     public boolean transferOut(String memberId, BigDecimal price, String bankCard, String cardholder) {
-        BigDecimal transferMoney = BigDecimal.valueOf(Const.TRANSFEROUTTHRESHOLD);
+        BigDecimal transferMoney = BigDecimal.valueOf(this.incomeTransferoutThreshold);
         if (price.compareTo(transferMoney) < 0) {
-            log.warn("提现人：{}，最小提现金额应为：{}", memberId, Const.TRANSFEROUTTHRESHOLD);
-            throw new ValidationException("最小提现金额为" + Const.TRANSFEROUTTHRESHOLD);
+            log.warn("提现人：{}，最小提现金额应为：{}", memberId, this.incomeTransferoutThreshold);
+            throw new ValidationException("最小提现金额为" + this.incomeTransferoutThreshold);
         }
         //校验金额是否足够
         Income income = incomeMapper.findIncome(memberId);
@@ -92,7 +95,7 @@ public class IncomeServiceImpl implements IIncomeService {
         resultJs.put("totalPrice", totalPrice);
         resultJs.put("price", price == null ? 0 : price);
         //可提现金额
-        BigDecimal transferOut = BigDecimal.valueOf(Const.TRANSFEROUTTHRESHOLD);
+        BigDecimal transferOut = BigDecimal.valueOf(this.incomeTransferoutThreshold);
         if (price == null || price.compareTo(transferOut) < 0) {
             resultJs.put("availableWithdrawMerchants", 0.00);
         } else {
@@ -114,7 +117,7 @@ public class IncomeServiceImpl implements IIncomeService {
      * @return
      */
     private BigDecimal computeAvailableTransferOutAmount(BigDecimal price) {
-        return price.subtract(BigDecimal.valueOf(Const.TRANSFEROUTTHRESHOLD));
+        return price.subtract(BigDecimal.valueOf(this.incomeTransferoutThreshold));
     }
 
     @Override

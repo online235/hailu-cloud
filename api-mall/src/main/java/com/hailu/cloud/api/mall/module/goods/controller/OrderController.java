@@ -8,13 +8,10 @@ import com.hailu.cloud.api.mall.module.goods.entity.order.*;
 import com.hailu.cloud.api.mall.module.goods.service.IGoodsToService;
 import com.hailu.cloud.api.mall.module.goods.service.IOSSOrderService;
 import com.hailu.cloud.api.mall.module.goods.service.IOrderService;
-import com.hailu.cloud.api.mall.module.goods.tool.PictureUploadUtil;
 import com.hailu.cloud.api.mall.module.goods.vo.RegionVo;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
-import com.hailu.cloud.api.mall.util.Const;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,6 +19,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
@@ -47,9 +45,9 @@ public class OrderController {
     private IGoodsToService goodsToService;
     @Autowired
     private IOSSOrderService ossOrderService;
-    @Autowired
-    private RedisStandAloneClient redisClient;
 
+    @Value("${static.server.prefix}")
+    private String staticServerPrefix;
 
     /**
      * 微信公众号签名认证接口
@@ -352,7 +350,7 @@ public class OrderController {
                 }
                 if (orderSevice.getSmallImg().length() > 4) {
                     if (!orderSevice.getSmallImg().contains("http")) {
-                        orderSevice.setSmallImg(Const.PRO_URL + orderSevice.getSmallImg());
+                        orderSevice.setSmallImg(this.staticServerPrefix + orderSevice.getSmallImg());
                     }
                 }
                 String imgStr = orderSevice.getPicture();
@@ -362,7 +360,7 @@ public class OrderController {
                         if (imgPath.length() > 0) {
                             imgPath.append(",");
                         }
-                        imgPath.append(Const.PRO_URL).append(ig);
+                        imgPath.append(this.staticServerPrefix).append(ig);
                     }
                 }
                 if (orderSevice.getTime() != null) {
@@ -423,7 +421,7 @@ public class OrderController {
             }
             if (orderSevice.getSmallImg().length() > 4) {
                 if (!orderSevice.getSmallImg().contains("http")) {
-                    orderSevice.setSmallImg(Const.PRO_URL + orderSevice.getSmallImg());
+                    orderSevice.setSmallImg(this.staticServerPrefix + orderSevice.getSmallImg());
                 }
             }
             String imgStr = orderSevice.getPicture();
@@ -433,7 +431,7 @@ public class OrderController {
                     if (imgPath.length() > 0) {
                         imgPath.append(",");
                     }
-                    imgPath.append(Const.PRO_URL).append(ig);
+                    imgPath.append(this.staticServerPrefix).append(ig);
                 }
             }
             if (orderSevice.getTime() != null) {
@@ -475,17 +473,7 @@ public class OrderController {
             @RequestParam(value = "addressId") String addressId) throws Exception {
 
         OrderServiceVo os = new OrderServiceVo();
-        if (picture != null) {
-            StringBuilder imgpath = new StringBuilder();
-            for (String iu : picture.split(",")) {
-                String img = PictureUploadUtil.uploadPicture("img", iu);
-                if (imgpath.length() > 0) {
-                    imgpath.append(",");
-                }
-                imgpath.append(img);
-            }
-            os.setPicture(imgpath.toString());
-        }
+        os.setPicture(picture);
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String random = (Math.random() * 10000000 + "").substring(0, 2);
         String lastRandom = (Math.random() * 10000000 + "").substring(0, 4);
