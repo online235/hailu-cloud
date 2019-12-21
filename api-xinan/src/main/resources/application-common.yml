@@ -70,5 +70,6 @@ management:
     web:
       exposure:
         include: "*"
-xinan:  ios:
+xinan:
+  ios:
     price: 0.00
