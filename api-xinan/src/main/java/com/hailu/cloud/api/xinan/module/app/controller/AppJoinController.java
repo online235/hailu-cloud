@@ -83,6 +83,7 @@ public class AppJoinController {
             @ApiImplicitParam(name = "type", value = "参保人证件类型(1-身份证、2-护照、3-军官证、4-士兵证、5-港澳台居民往来通行证、6-临时身份证、7-户口簿、8-警官证、9-其他、10-外国人永久居留证、11-边民出入通行证)", required = true, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "isYearEnjoy", value = "是否享受年费机制(1-是、2-否)", required = true, paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "photoUrl", value = "图片地址（享受年费的时候必须上传）", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "device_type", value = "来源标识", paramType = "header", dataType = "String"),
 
     })
     public Object saveInsourd(
@@ -92,7 +93,7 @@ public class AppJoinController {
             @NotNull(message = "参保人证件类型不能为空") Integer type,
             @NotNull(message = "是否享受年费机制值不能为空") Integer isYearEnjoy,
             String photoUrl,
-            @RequestHeader("device_type") String deviceType) throws BusinessException {
+            @RequestHeader(value = "device_type",required = false) String deviceType) throws BusinessException {
 
         log.info("保存参保人信息:姓名" + name + " 身份证号码：" + idCard + " 身份证号码：" + idCard + " 参保人关系：" + memberRelation + " 参保人证件类型：" + type + " 是否享受年费机制：" + isYearEnjoy + " 图片地址：" + photoUrl);
         //如果身份类型为身份证，则校验身份的准确性
