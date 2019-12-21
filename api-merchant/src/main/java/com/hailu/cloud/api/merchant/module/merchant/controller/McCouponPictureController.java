@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/app/coupon")
 @Validated
-@Api(tags = "到店卷")
+@Api(tags = "到店卷管理")
 @Slf4j
 public class McCouponPictureController {
 

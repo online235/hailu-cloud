@@ -33,14 +33,9 @@ public class McOrderModel<C> extends MultiIndustryOrder<C> {
     private String businessStateDisPlay;
 
     /**
-     * 开发时间
+     * 经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”'
      */
-    @ApiModelProperty(value = "开放时间", dataType = "String")
-    private String openingTime;
+    @ApiModelProperty(value = "经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”'", dataType = "String")
+    private String businessTime;
 
-    /**
-     * 关闭时间
-     */
-    @ApiModelProperty(value = "关闭时间", dataType = "String")
-    private String closingTime;
 }

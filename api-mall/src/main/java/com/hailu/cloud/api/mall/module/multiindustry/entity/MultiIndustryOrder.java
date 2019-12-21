@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.mall.module.multiindustry.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModelProperty;
@@ -83,6 +84,7 @@ public class MultiIndustryOrder<C> implements Serializable {
      * 使用时间
      */
     @DateTimeFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "HH:mm",timezone = "GMT+8")
     @ApiModelProperty(value = "使用时间", dataType = "Date")
     private Date useTime;
 
@@ -90,6 +92,7 @@ public class MultiIndustryOrder<C> implements Serializable {
      * 使用日期
      */
     @DateTimeFormat(pattern = "yyy-MM-dd")
+    @JsonFormat(pattern = "yyy-MM-dd",timezone = "GMT+8")
     @ApiModelProperty(value = "使用日期", dataType = "Date")
     private Date useDate;
 
@@ -103,6 +106,7 @@ public class MultiIndustryOrder<C> implements Serializable {
      * 到期时间
      */
     @DateTimeFormat(pattern = "yyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @ApiModelProperty(value = "到期时间", dataType = "Date")
     private Date dueTime;
 

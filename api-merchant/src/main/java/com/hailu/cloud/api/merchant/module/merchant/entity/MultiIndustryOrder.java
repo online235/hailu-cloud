@@ -1,10 +1,12 @@
 package com.hailu.cloud.api.merchant.module.merchant.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -77,8 +79,50 @@ public class MultiIndustryOrder implements Serializable {
     /**
      * 手机好码
      */
-    @ApiModelProperty(value = "手机好码")
+    @ApiModelProperty(value = "手机号码")
     private String phone;
+
+    /**
+     * 使用时间
+     */
+    @DateTimeFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "HH:mm",timezone = "GMT+8")
+    @ApiModelProperty(value = "使用时间")
+    private String useTime;
+
+    /**
+     * 使用日期
+     */
+    @DateTimeFormat(pattern = "yyy-MM-dd")
+    @JsonFormat(pattern = "yyy-MM-dd",timezone = "GMT+8")
+    @ApiModelProperty(value = "使用日期")
+    private String useDate;
+
+    /**
+     * 使用人数
+     */
+    @ApiModelProperty(value = "使用人数")
+    private String useNumber;
+
+    /**
+     * 到期时间
+     */
+    @DateTimeFormat(pattern = "yyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @ApiModelProperty(value = "到期时间")
+    private String dueTime;
+
+    /**
+     * 备注
+     */
+    @ApiModelProperty(value = "备注")
+    private String remarks;
+
+    /**
+     * 订单类型（美食-MS、酒店-JD）
+     */
+    @ApiModelProperty(value = "订单类型（美食-MS、酒店-JD）")
+    private String orderType;
 
     /**
      * 兑换码
