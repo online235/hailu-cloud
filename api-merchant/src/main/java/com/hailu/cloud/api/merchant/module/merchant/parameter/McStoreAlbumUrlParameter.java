@@ -25,16 +25,11 @@ public class McStoreAlbumUrlParameter {
 
 
     /**
-     *图片类型（环境-1、菜品-2、其他-3）
+     *图片类型（首页轮播图-0 、环境-1、菜品-2、其他-3）
      */
-    @ApiModelProperty(value = "图片类型（环境-1、菜品-2、其他-3）")
+    @ApiModelProperty(value = "图片类型（首页轮播图-0 、环境-1、菜品-2、其他-3）")
     private Integer albumType;
 
-    /**
-     * 图片是否为首页轮播（是-1、否-2）
-     */
-    @ApiModelProperty(value = "图片是否为首页轮播（是-1、否-2）")
-    private Integer defaultRotation;
 
 
 }

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreAlbumUrlParameter;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
+import com.hailu.cloud.api.merchant.module.merchant.parameter.StoreAlbumParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.result.ShopExamineResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
@@ -23,6 +24,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -184,26 +186,26 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "商户查看店铺信息")
-    @PostMapping("storeInformation")
-    public McStoreInformationResult findMcStoreInformation() {
-
-        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
-        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
-        if (mcStoreInformation != null) {
-            BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
-            if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
-                McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
-                mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
-
-            }
-            if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
-                McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
-                mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
-            }
-        }
-        return mcStoreInformationResult;
-    }
+//    @ApiOperation(value = "商户查看店铺信息")
+//    @PostMapping("storeInformation")
+//    public McStoreInformationResult findMcStoreInformation() {
+//
+//        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
+//        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
+//        if (mcStoreInformation != null) {
+//            BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
+//            if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
+//                McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
+//                mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
+//
+//            }
+//            if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
+//                McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
+//                mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
+//            }
+//        }
+//        return mcStoreInformationResult;
+//    }
 
 
     @ApiOperation(value = "更改店铺头像", notes = "<pre>" +
@@ -281,27 +283,26 @@ public class McStoreInformationController {
             "    'message': '请求成功',\n" +
             "}" + "</prep>")
     @PostMapping("submitStoreMoreAlbumUrls")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-            @ApiImplicitParam(name = "albumUrlsJsonString", value = "相册对象数组字符串，例：[{'albumUrl':'String','title':'String','albumType':1,'defaultRotation':1},{'albumUrl':'String','title':'String','albumType':1,'defaultRotation':1}]", paramType = "query", dataType = "String", required = true)
-    })
-    public void submitStoreMoreAlbumUrls(@NotNull @RequestParam(value = "storeId") Long storeId, String albumUrlsJsonString) throws BusinessException {
+    public void submitStoreMoreAlbumUrls(@RequestBody StoreAlbumParameter storeAlbumParameter) throws BusinessException {
 
-        if (storeId == null) {
+        if (storeAlbumParameter.getStoreId() == null) {
             throw new BusinessException("参数不能为空！");
         }
-        List<McStoreAlbumUrlParameter> mcStoreAlbumUrlParameters = JSON.parseArray(albumUrlsJsonString, McStoreAlbumUrlParameter.class);
+        List<McStoreAlbumUrlParameter> mcStoreAlbumUrlParameters = JSON.parseArray(storeAlbumParameter.getAlbumUrlsJsonString(), McStoreAlbumUrlParameter.class);
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
-        for (McStoreAlbumUrlParameter mcStoreAlbumUrlParameter : mcStoreAlbumUrlParameters) {
-            McStoreAlbum mcStoreAlbum = new McStoreAlbum();
-            BeanUtils.copyProperties(mcStoreAlbumUrlParameter, mcStoreAlbum);
-            mcStoreAlbum.setId(uuidFeignClient.uuid().getData());
-            mcStoreAlbum.setStoreId(storeId);
-            mcStoreAlbumList.add(mcStoreAlbum);
+        if(!CollectionUtils.isEmpty(mcStoreAlbumUrlParameters)){
+            for (McStoreAlbumUrlParameter mcStoreAlbumUrlParameter : mcStoreAlbumUrlParameters) {
+                McStoreAlbum mcStoreAlbum = new McStoreAlbum();
+                BeanUtils.copyProperties(mcStoreAlbumUrlParameter, mcStoreAlbum);
+                mcStoreAlbum.setId(uuidFeignClient.uuid().getData());
+                mcStoreAlbum.setStoreId(storeAlbumParameter.getStoreId());
+                mcStoreAlbumList.add(mcStoreAlbum);
+            }
+            Map map = new HashMap();
+            map.put("mcStoreAlbumList", mcStoreAlbumList);
+            mcStoreAlbumService.insertStoreAlbumList(map);
         }
-        Map map = new HashMap();
-        map.put("mcStoreAlbumList", mcStoreAlbumList);
-        mcStoreAlbumService.insertStoreAlbumList(map);
+
     }
 
 
