@@ -72,6 +72,7 @@ mapping:
         - ${api-version}/mall/app/multiIndustry/shopEnquiry
         - ${api-version}/mall/app/multiIndustry
         - ${api-version}/mall/ManagementType
+        - ${api-version}/mall/api/user/getInfoByCode
 
   login-type:
     # 开启debug后, notAllow将不对登录类型做请求限制
