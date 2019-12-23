@@ -33,7 +33,6 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
     private McStoreInformationAdminService mcStoreInformationAdminService;
 
 
-
     @Override
     public int updateByPrimaryKey(McStoreExamine mcStoreExamine) {
         return mcStoreExamineMapper.updateByPrimaryKey(mcStoreExamine);
@@ -66,66 +65,48 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
         return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), result);
     }
 
+
     /**
-     * 电话审核状态
+     * 更改审核状态
      * @param id
-     * @param phoneToExamine
+     * @param storeToExamine
+     * @param examineType
      * @throws BusinessException
      */
     @Override
-    public void updatePhoneToExamine(Long id, Integer phoneToExamine) throws BusinessException {
+    public void storeToExamine(Long id, Integer storeToExamine, Integer examineType) throws BusinessException {
 
         McStoreExamine mcStoreExamine = this.findObjectById(id);
-
-        if(mcStoreExamine == null){
+        if (mcStoreExamine == null) {
             throw new BusinessException("数据异常");
         }
         McStoreInformation mcStoreInformation = mcStoreInformationAdminService.findMcStoreInformation(mcStoreExamine.getStoreId());
-        if(mcStoreInformation == null){
+        if (mcStoreInformation == null) {
             throw new BusinessException("数据异常");
         }
-        mcStoreExamine.setPhoneToExamine(phoneToExamine);
+        if (examineType == 1) {
+            mcStoreExamine.setPhoneToExamine(storeToExamine);
+            if (storeToExamine == 2) {
+                mcStoreInformation.setPhone(mcStoreExamine.getShopPhone());
+            }
+        } else if (examineType == 2) {
+            mcStoreExamine.setAddressToExamine(storeToExamine);
+            if (storeToExamine == 2) {
+                mcStoreInformation.setDetailAddress(mcStoreExamine.getShopAddressDetail());
+                mcStoreInformation.setAreaCode(mcStoreExamine.getAreaCode());
+            }
+        } else if (examineType == 3) {
+            mcStoreExamine.setStoreNameExamine(storeToExamine);
+            if (storeToExamine == 2) {
+                mcStoreInformation.setShopName(mcStoreExamine.getStoreName());
+            }
+        }
         int result = this.updateByPrimaryKey(mcStoreExamine);
-        if(result <= 0){
+        if (result <= 0) {
             throw new BusinessException("更改审核异常");
         }
-        if(phoneToExamine == 2){
-            mcStoreInformation.setUpdateDateTime(new Date());
-            mcStoreInformation.setPhone(mcStoreExamine.getShopPhone());
-            mcStoreInformationAdminService.updateMcStoreInformation(mcStoreInformation);
-        }
-    }
-
-
-    /**
-     * 地址审核状态
-     * @param id
-     * @param addressToExamine
-     * @throws BusinessException
-     */
-    @Override
-    public void updateAddressToExamine(Long id, Integer addressToExamine) throws BusinessException {
-
-        McStoreExamine mcStoreExamine = this.findObjectById(id);
-
-        if(mcStoreExamine == null){
-            throw new BusinessException("数据异常");
-        }
-        McStoreInformation mcStoreInformation = mcStoreInformationAdminService.findMcStoreInformation(mcStoreExamine.getStoreId());
-        if(mcStoreInformation == null){
-            throw new BusinessException("数据异常");
-        }
-        mcStoreExamine.setAddressToExamine(addressToExamine);
-        int result = this.updateByPrimaryKey(mcStoreExamine);
-        if(result <= 0){
-            throw new BusinessException("更改审核异常");
-        }
-        if(addressToExamine == 2){
-            mcStoreInformation.setUpdateDateTime(new Date());
-            mcStoreInformation.setDetailAddress(mcStoreExamine.getShopAddressDetail());
-            mcStoreInformation.setAreaCode(mcStoreExamine.getAreaCode());
-            mcStoreInformationAdminService.updateMcStoreInformation(mcStoreInformation);
-        }
+        mcStoreInformation.setUpdateDateTime(new Date());
+        mcStoreInformationAdminService.updateMcStoreInformation(mcStoreInformation);
     }
 
 

@@ -2,11 +2,9 @@ package com.hailu.cloud.api.admin.module.merchant.controller;
 
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McStoreExamine;
-import com.hailu.cloud.api.admin.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.admin.module.merchant.model.McStoreExamineModel;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McStoreExamineListParameter;
 import com.hailu.cloud.api.admin.module.merchant.service.McStoreExamienService;
-import com.hailu.cloud.api.admin.module.merchant.service.impl.McStoreInformationAdminService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
@@ -14,7 +12,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,29 +47,22 @@ public class McStoreExamineAdminController {
     }
 
 
-    @ApiOperation(value = "更改电话审核状态")
-    @PostMapping("updatePhoneToExamine")
+    @ApiOperation(value = "更改审核状态")
+    @PostMapping("updateStoreToExamine")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "审核表id", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "phoneToExamine", value = "状态:审核中-1'''',''''审核通过-2'''',''''审核不通过-3", required = true, paramType = "query")
+            @ApiImplicitParam(name = "toExamine", value = "状态:审核中-1'''',''''审核通过-2'''',''''审核不通过-3", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "examineType", value = "审核类型:电话-1,地址审核-2,店铺名审核-3", required = true, paramType = "query")
     })
-    public void updatePhoneToExamine(@NotNull(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer phoneToExamine) throws BusinessException {
+    public void updateStoreToExamine(@NotNull(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer storeToExamine,@NotNull(message = "审核类型不能为空")Integer examineType) throws BusinessException {
 
-        mcStoreExamienService.updatePhoneToExamine(id, phoneToExamine);
+        if(id == null || storeToExamine == null || examineType == null){
+            throw new BusinessException("参数不能为空");
+        }
+        mcStoreExamienService.storeToExamine(id, storeToExamine,examineType);
 
     }
 
-    @ApiOperation(value = "更改地址审核状态")
-    @PostMapping("updateAddressToExamine")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "审核表id", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "phoneToExamine", value = "状态:审核中-1'''',''''审核通过-2'''',''''审核不通过-3", required = true, paramType = "query")
-    })
-    public void updateAddressToExamine(@NotNull(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer addressToExamine) throws BusinessException {
-
-        mcStoreExamienService.updateAddressToExamine(id,addressToExamine);
-
-    }
 
 
     @ApiOperation(value = "获取审批详情")

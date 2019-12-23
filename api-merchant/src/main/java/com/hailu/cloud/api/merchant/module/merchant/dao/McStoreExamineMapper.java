@@ -1,7 +1,6 @@
 package com.hailu.cloud.api.merchant.module.merchant.dao;
 
 
-import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreExamine;
 import com.hailu.cloud.api.merchant.module.merchant.model.McStoreExamineModel;
 import org.apache.ibatis.annotations.Param;

@@ -2,24 +2,18 @@ package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
-import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.result.ShopExamineResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
-import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreInformationModel;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreAlbumService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
-import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
-import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,8 +26,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.*;
 
 @RestController
@@ -61,7 +57,7 @@ public class McStoreInformationController {
 
     @ApiOperation(value = "获取当前店铺已填资料")
     @PostMapping("/getRegisterShopInformation")
-    public RegisterShopInformationResult getRegisterShopInformation(){
+    public RegisterShopInformationResult getRegisterShopInformation() {
 
         return mcInfoService.getRegisterShopInformationResult();
     }
@@ -81,30 +77,55 @@ public class McStoreInformationController {
 
     @ApiOperation(value = "查看商户入驻状态")
     @PostMapping("/getShopToExamine")
-    public ShopExamineResult getShopToExamine(){
+    public ShopExamineResult getShopToExamine() {
 
-        McStoreInformation  mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
+        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
         ShopExamineResult shopExamineResult = new ShopExamineResult();
         shopExamineResult.setToExamine(mcStoreInformation.getToExamine());
         return shopExamineResult;
     }
 
 
+    @ApiOperation(value = "根据店铺id查看店铺信息")
+    @PostMapping("storeInformationById")
+    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
+    public McStoreInformationResult findMcStoreInformation(@RequestParam(value = "id") Long id) {
 
-    @ApiOperation(value = "更改信息店铺信息", notes = "<prep>" +
+        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
+        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(id);
+        BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
+        if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
+            McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
+            mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
+
+        }
+        if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
+            McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
+            mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
+        }
+        return mcStoreInformationResult;
+
+    }
+
+
+    @ApiOperation(value = "更改店铺营业时间", notes = "<prep>" +
             "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功'\n" +
             "}\n" +
             "</prep>")
-    @PostMapping("/changeInformation")
-    @ApiImplicitParam(name = "wee", value = "每周营业日用（1星期日，2星期一）", allowMultiple = true, paramType = "query", dataType = "int")
-    public void updateBYMcEntryInformation(@ModelAttribute McStoreInformationModel mcStoreInformationModel, int[] wee, BindingResult result) throws BusinessException {
+    @PostMapping("/updateByOperatingTime")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", required = true),
+            @ApiImplicitParam(name = "businessTime", value = "经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "wee", value = "每周营业日用（1星期日，2星期一）", allowMultiple = true, paramType = "query", dataType = "int")
+    })
+    public void updateByOperatingTime(@NotNull Long storeId, String businessTime, int[] wee, BindingResult result) throws BusinessException {
 
-        if (result.hasErrors()) {
-            throw new BusinessException("必填信息不能为空！");
+        if (storeId == null) {
+            throw new BusinessException("参数异常！");
         }
-        mcStoreInformationService.updateBYMcEntryInformation(mcStoreInformationModel, wee);
+        mcStoreInformationService.updateByOperatingTime(storeId, businessTime, wee);
     }
 
 
@@ -132,25 +153,29 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "根据店铺id查看店铺信息")
-    @PostMapping("storeInformationById")
-    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
-    public McStoreInformationResult findMcStoreInformation(@RequestParam(value = "id") Long id) {
+    @ApiOperation(value = "更改人均价格、最低消费", notes = "<prep>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功'\n" +
+            "}\n" +
+            "</prep>")
+    @PostMapping("/updatePerCapitaPrice")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "perCapitaPrice", value = "人均价格", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "minPrice", value = "最低消费价格", paramType = "query", dataType = "String"),
+    })
+    public void updatePerCapitaPrice(@NotNull @RequestParam(value = "id") Long id, @NotBlank @RequestParam(value = "perCapitaPrice") String perCapitaPrice, @NotBlank @RequestParam(value = "minPrice") String minPrice) throws BusinessException {
 
-        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
-        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(id);
-        BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
-        if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
-            McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
-            mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
-
+        if (id == null || perCapitaPrice == null || minPrice == null) {
+            throw new BusinessException("参数不能为空！");
         }
-        if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
-            McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
-            mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
-        }
-        return mcStoreInformationResult;
-
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        mcStoreInformation.setId(id);
+        mcStoreInformation.setPerCapitaPrice(new BigDecimal(perCapitaPrice));
+        mcStoreInformation.setMinPrice(new BigDecimal(minPrice));
+        mcStoreInformation.setUpdateDateTime(new Date());
+        mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
     }
 
 
@@ -198,7 +223,6 @@ public class McStoreInformationController {
     }
 
 
-
     @ApiOperation(value = "相册列表", notes = "<prep>"
             + "{\n" +
             "    'code': 200,\n" +
@@ -221,7 +245,6 @@ public class McStoreInformationController {
         return mcStoreAlbumService.findListByParam(ImmutableMap.of("storeId", storeId));
 
     }
-
 
 
     @ApiOperation(value = "保存店铺相册", notes = "<prep>"
@@ -247,7 +270,6 @@ public class McStoreInformationController {
     }
 
 
-
     @ApiOperation(value = "保存店铺相册，多张保存", notes = "<prep>"
             + "{\n" +
             "    'code': 200,\n" +
@@ -267,6 +289,7 @@ public class McStoreInformationController {
         } else if (albumUrls.length > 5) {
             throw new BusinessException("图片个数超过5张！");
         }
+        //
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
         for (int i = 0; i < albumUrls.length; i++) {
             McStoreAlbum mcStoreAlbum = new McStoreAlbum();
@@ -279,29 +302,7 @@ public class McStoreInformationController {
         }
         Map map = new HashMap();
         map.put("mcStoreAlbumList", mcStoreAlbumList);
-        mcStoreAlbumService.deleteStoreAlbumByStoreId(storeId);//删除之前数据
         mcStoreAlbumService.insertStoreAlbumList(map);
-
-    }
-
-
-    @ApiOperation(value = "上传编辑信息", notes = "<prep>" +
-            "{\n" +
-            "    'code': 200,\n" +
-            "    'message': '请求成功'\n" +
-            "}\n" +
-            "</prep>")
-    @PostMapping("/submitStoreDetail")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-            @ApiImplicitParam(name = "storeDetails", value = "店铺详情", paramType = "query", dataType = "String", required = true)
-    })
-    public void submitStoreDetail(@NotNull @RequestParam(value = "id") Long id, @NotEmpty @RequestParam(value = "storeDetails") String storeDetails) {
-
-        McStoreInformation mcStoreInformation = new McStoreInformation();
-        mcStoreInformation.setId(id);
-        mcStoreInformation.setStoreDetails(storeDetails);
-        mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
     }
 
 
@@ -324,15 +325,37 @@ public class McStoreInformationController {
     }
 
 
+    @ApiOperation(value = "上传编辑信息", notes = "<prep>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功'\n" +
+            "}\n" +
+            "</prep>")
+    @PostMapping("/submitStoreDetail")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "storeDetails", value = "店铺详情", paramType = "query", dataType = "String", required = true)
+    })
+    public void submitStoreDetail(@NotNull @RequestParam(value = "id") Long id, @NotEmpty @RequestParam(value = "storeDetails") String storeDetails) throws BusinessException {
+
+        if (id == null) {
+            throw new BusinessException("参数不能为空！");
+        }
+        McStoreInformation mcStoreInformation = new McStoreInformation();
+        mcStoreInformation.setId(id);
+        mcStoreInformation.setStoreDetails(storeDetails);
+        mcStoreInformationService.updateByPrimaryKey(mcStoreInformation);
+    }
+
 
     @ApiOperation(value = "删除店铺相册", notes = "<prep>"
             + "{\n" +
             "    'code': 200,\n" +
             "    'message': '请求成功',\n" +
             "}" + "</prep>")
-    @PostMapping("deleStoreAlbumUrl")
+    @PostMapping("deleteStoreAlbumUrl")
     @ApiImplicitParam(name = "id", value = "相册id", paramType = "query", dataType = "Long", required = true)
-    public void deleStoreAlbumUrl(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
+    public void deleteStoreAlbumUrl(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
 
         if (id == null) {
             throw new BusinessException("参数不能为空！");

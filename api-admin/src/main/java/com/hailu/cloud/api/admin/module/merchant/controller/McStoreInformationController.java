@@ -95,7 +95,6 @@ public class McStoreInformationController {
     public void updateToExamineByNumberId(@NotNull(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer toExamine) {
 
         mcStoreInformationAdminService.updateMcStoreInformationStatus(id, toExamine);
-
     }
 
 

@@ -37,6 +37,18 @@
         <if test="addressToExamine != null">
             address_to_examine,
         </if>
+        <if test="storeName != null">
+            store_name,
+        </if>
+        <if test="storeNameVoucher != null">
+            store_name_voucher,
+        </if>
+        <if test="storeNameRemarks != null">
+            store_name_remarks,
+        </if>
+        <if test="storeNameExamine != null">
+            store_name_examine,
+        </if>
         <if test="dateTime != null">
             date_time,
         </if>
@@ -77,8 +89,20 @@
         <if test="addressToExamine != null">
             #{addressToExamine},
         </if>
+        <if test="storeName != null">
+            #{storeName},
+        </if>
+        <if test="storeNameVoucher != null">
+            #{storeNameVoucher},
+        </if>
+        <if test="storeNameRemarks != null">
+            #{storeNameRemarks},
+        </if>
+        <if test="storeNameExamine != null">
+            #{storeNameExamine},
+        </if>
         <if test="dateTime != null">
-            #{dateTime},
+            #{dateTime}
         </if>
     </sql>
 
@@ -113,12 +137,22 @@
         <if test="addressToExamine != null">
             address_to_examine= #{addressToExamine},
         </if>
+        <if test="storeName != null">
+            store_name= #{storeName},
+        </if>
+        <if test="storeNameVoucher != null">
+            store_name_voucher= #{storeNameVoucher},
+        </if>
+        <if test="storeNameRemarks != null">
+            store_name_remarks= #{storeNameRemarks},
+        </if>
+        <if test="storeNameExamine != null">
+            store_name_examine= #{storeNameExamine},
+        </if>
         <if test="dateTime != null">
-            date_time= #{dateTime},
+            date_time= #{dateTime}
         </if>
     </sql>
-
-
 
 
     <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreExamine">
@@ -132,8 +166,9 @@
 
     <select id="findListByParam" resultType="com.hailu.cloud.api.admin.module.merchant.model.McStoreExamineModel">
         SELECT
-        id, store_id, shop_phone, shop_address_detail, area_code,
-        phone_voucher, address_voucher, address_remarks, phone_remarks,
+        id, store_id, store_name, shop_phone, shop_address_detail,
+        area_code, store_name_voucher, phone_voucher, address_voucher,
+        address_remarks, store_name_remarks, phone_remarks, store_name_examine,
         phone_to_examine, address_to_examine, date_time
         FROM mc_store_examine
         WHERE 1=1
@@ -151,16 +186,16 @@
 
     <select id="findObjectById" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreExamine">
         SELECT
-        id, store_id, shop_phone, shop_address_detail, area_code,
-        phone_voucher, address_voucher, address_remarks,
-        phone_remarks, phone_to_examine, address_to_examine, date_time
+        id, store_id, store_name, shop_phone, shop_address_detail,
+        area_code, store_name_voucher, phone_voucher, address_voucher,
+        address_remarks, store_name_remarks, phone_remarks, store_name_examine,
+        phone_to_examine, address_to_examine, date_time
         FROM mc_store_examine
         WHERE 1=1
         <if test="id != null">
             and id = #{id}
         </if>
     </select>
-
 
 
     <delete id="deleteById" parameterType="long">

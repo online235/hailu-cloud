@@ -1,7 +1,5 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
-
 import lombok.Data;
-
 import java.util.Date;
 
 /**
@@ -23,6 +21,11 @@ public class McStoreExamine {
     private Long storeId;
 
     /**
+     * 店铺名
+     */
+    private String storeName;
+
+    /**
      * 店铺电话号码
      */
     private String shopPhone;
@@ -36,6 +39,11 @@ public class McStoreExamine {
      * 店铺地区选择
      */
     private String areaCode;
+
+    /**
+     * 店铺名凭证
+     */
+    private String storeNameVoucher;
 
     /**
      * 电话凭证
@@ -53,9 +61,19 @@ public class McStoreExamine {
     private String addressRemarks;
 
     /**
+     * 店铺名备注
+     */
+    private String storeNameRemarks;
+
+    /**
      * 电话备注
      */
     private String phoneRemarks;
+
+    /**
+     * 店铺名审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')
+     */
+    private Integer storeNameExamine;
 
     /**
      * 电话审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')

@@ -10,6 +10,7 @@ import com.hailu.cloud.api.merchant.module.merchant.service.McStoreExamienServic
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/app/store_exanime")
@@ -42,12 +44,15 @@ public class McStoreExamineController {
     }
 
 
-    @ApiOperation(value = "获取地址电话是否在审核中状态,同时返回原来数据")
+    @ApiOperation(value = "获取店铺名地址电话是否在审核中状态,同时返回原来数据")
     @PostMapping("/getExamineResult")
-    @ApiImplicitParam(name = "storeId", value = "店铺id", allowMultiple = true, paramType = "query", dataType = "Long")
-    public ExamineResult getExamineResult(Long storeId) throws BusinessException {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "storeId", value = "店铺id", allowMultiple = true, paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "examineType", value = "提交类型:电话-1,地址审核-2,店铺名审核-3", required = true, paramType = "query")
+    })
+    public ExamineResult getExamineResult(@NotNull Long storeId, @NotNull Integer examineType) throws BusinessException {
 
-        return mcStoreExamienService.getExamineResult(storeId);
+        return mcStoreExamienService.getExamineResult(storeId,examineType);
     }
 
 

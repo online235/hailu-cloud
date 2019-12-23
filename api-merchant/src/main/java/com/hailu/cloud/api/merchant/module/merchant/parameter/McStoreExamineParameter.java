@@ -20,6 +20,14 @@ public class McStoreExamineParameter {
     @ApiModelProperty(value = "店铺id",required = true)
     private Long storeId;
 
+
+    /**
+     * 店铺名
+     */
+    @ApiModelProperty("店铺名")
+    private String storeName;
+
+
     /**
      * 店铺电话号码
      */
@@ -37,6 +45,12 @@ public class McStoreExamineParameter {
      */
     @ApiModelProperty("店铺区选择")
     private String areaCode;
+
+    /**
+     * 店铺名凭证
+     */
+    @ApiModelProperty("店铺名凭证")
+    private String storeNameVoucher;
 
     /**
      * 电话凭证
@@ -57,9 +71,18 @@ public class McStoreExamineParameter {
     private String addressRemarks;
 
     /**
+     * 店铺名备注
+     */
+    @ApiModelProperty("店铺名备注")
+    private String storeNameRemarks;
+
+
+    /**
      * 电话备注
      */
     @ApiModelProperty("电话备注")
     private String phoneRemarks;
+
+
 
 }

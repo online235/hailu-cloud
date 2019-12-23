@@ -35,8 +35,6 @@ import javax.annotation.Resource;
 @Service
 public class McInfoService {
 
-    @Resource
-    private McUserMapper mcUserMapper;
 
     @Autowired
     private McUserService mcUserService;
@@ -53,8 +51,6 @@ public class McInfoService {
     @Resource
     private McStoreInformationService mcStoreInformationService;
 
-    @Resource
-    private McManagementTypeService mcManagementTypeService;
 
     @Resource
     private LocalCircleEntryMapper localCircleEntryMapper;
@@ -84,7 +80,7 @@ public class McInfoService {
                 throw new BusinessException("数据状态不正确");
             }
             BeanUtils.copyProperties(shopInformationEntryParameter, localCircleEntry);
-            localCircleEntry.setToExamine(2);
+            localCircleEntry.setToExamine(Mceunm.IN_AUDIT.getKey());
             mcStoreInformation.setStoreTotalType(shopInformationEntryParameter.getFirstManagementTypeId());
             mcStoreInformation.setStoreSonType(shopInformationEntryParameter.getSecondManagementTypeId());
             localCircleEntryMapper.updateByPrimaryKeySelective(localCircleEntry);
@@ -94,7 +90,7 @@ public class McInfoService {
                 throw new BusinessException("数据状态不正确");
             }
             BeanUtils.copyProperties(shopInformationEntryParameter, mcEntryInformation);
-            mcEntryInformation.setToExamine(2);
+            mcEntryInformation.setToExamine(Mceunm.IN_AUDIT.getKey());
             mcEntryinFormationMapper.updateByPrimaryKeySelective(mcEntryInformation);
             mcStoreInformation.setStoreTotalType(mcEntryInformation.getFirstManagementTypeId());
         }
@@ -134,7 +130,7 @@ public class McInfoService {
             mcEntryInformation.setNumberId(numberId);
             mcEntryInformation.setDateTime(time);
             mcEntryInformation.setUpdateDateTime(time);
-            mcEntryInformation.setToExamine(0);
+            mcEntryInformation.setToExamine(Mceunm.wait_AUDIT.getKey());
             mcEntryInformation.setMcNumberId(mcNumberId);
             mcEntryinFormationMapper.insertSelective(mcEntryInformation);
             //生活圈入驻
@@ -144,7 +140,7 @@ public class McInfoService {
             localCircleEntry.setMcNumberId(mcNumberId);
             localCircleEntry.setNumberId(numberId);
             localCircleEntry.setDateTime(time);
-            localCircleEntry.setToExamine(0);
+            localCircleEntry.setToExamine(Mceunm.wait_AUDIT.getKey());
             localCircleEntry.setUpdateDateTime(time);
             Integer result = localCircleEntryMapper.insertSelective(localCircleEntry);
             if (result <= 0) {

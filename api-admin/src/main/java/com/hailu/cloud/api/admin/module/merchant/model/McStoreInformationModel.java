@@ -78,6 +78,12 @@ public class McStoreInformationModel {
     private BigDecimal perCapitaPrice;
 
     /**
+     * 最低消费
+     */
+    @ApiModelProperty("最低消费")
+    private BigDecimal minPrice;
+
+    /**
      * 店铺子类型ID
      */
     @ApiModelProperty("店铺子类型ID")

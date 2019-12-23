@@ -4,7 +4,6 @@ import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreExamine;
 import com.hailu.cloud.api.merchant.module.merchant.model.McStoreExamineModel;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreExamineParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.ExamineResult;
-import com.hailu.cloud.api.merchant.module.merchant.result.ShopExamineResult;
 import com.hailu.cloud.common.exception.BusinessException;
 import org.apache.ibatis.annotations.Param;
 
@@ -71,10 +70,14 @@ public interface McStoreExamienService {
      */
     void submitStoreExamine(McStoreExamineParameter mcStoreExamineParameter) throws BusinessException;
 
+
     /**
-     * 获取地址电话是否在审核中状态,同时返回原来数据
+     * @param storeId 店铺id
+     * @param examineType 提交类型:电话-1,地址审核-2,店铺名审核-3
+     * @return
+     * @throws BusinessException
      */
-    ExamineResult getExamineResult(Long storeId) throws BusinessException;
+    ExamineResult getExamineResult(Long storeId,Integer examineType) throws BusinessException;
 
 
 

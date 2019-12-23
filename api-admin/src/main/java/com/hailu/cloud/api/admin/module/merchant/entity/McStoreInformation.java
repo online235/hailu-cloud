@@ -8,6 +8,8 @@ import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * @author zhangmugui
  */
@@ -77,6 +79,13 @@ public class McStoreInformation {
      *人均价格
      */
     private java.math.BigDecimal perCapitaPrice;
+
+
+    /**
+     * 最低消费
+     */
+    private BigDecimal minPrice;
+
 
 
     /**

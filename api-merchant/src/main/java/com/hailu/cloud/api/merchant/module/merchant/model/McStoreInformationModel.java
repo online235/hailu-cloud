@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.merchant.parameter;
+package com.hailu.cloud.api.merchant.module.merchant.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @ApiModel
 public class McStoreInformationModel {
-
 
 
     @ApiParam(name = "id", value = "编号不能为空", required = true)
@@ -54,10 +53,12 @@ public class McStoreInformationModel {
     private java.math.BigDecimal perCapitaPrice;
 
 
+    @ApiParam(name = "minPrice", value = "最低消费")
+    private java.math.BigDecimal minPrice;
+
 
     @ApiParam(name = "businessState", value = "营业状态(1-营业中，2-休息中)")
     private Integer businessState;
-
 
 
     /**

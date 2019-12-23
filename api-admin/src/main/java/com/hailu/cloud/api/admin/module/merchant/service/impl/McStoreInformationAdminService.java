@@ -77,9 +77,6 @@ public class McStoreInformationAdminService {
      */
     public void updateMcStoreInformationStatus(Long id,Integer toExamine){
 
-        if(toExamine == 2){
-
-        }
         McStoreInformation mcStoreInformation = new McStoreInformation();
         mcStoreInformation.setToExamine(toExamine);
         mcStoreInformation.setId(id);

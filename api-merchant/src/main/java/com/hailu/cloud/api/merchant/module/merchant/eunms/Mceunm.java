@@ -9,6 +9,8 @@ import lombok.Getter;
  */
 public enum Mceunm {
 
+
+    wait_AUDIT(0, "待补充资料"),
     IN_AUDIT(1, "审核中"),
     AUDIT_PASS(2, "审核通过"),
     AUDIT_FAILED(3, "审核不通过"),

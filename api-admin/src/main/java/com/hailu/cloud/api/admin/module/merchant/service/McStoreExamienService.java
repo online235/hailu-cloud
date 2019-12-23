@@ -50,21 +50,17 @@ public interface McStoreExamienService {
      */
     PageInfoModel<List<McStoreExamineModel>> selectMcStoreExamineModelList(McStoreExamineListParameter mcStoreExamineListParameter);
 
-    /**
-     * 电话审核状态
-     * @param id
-     * @param phoneToExamine
-     * @throws BusinessException
-     */
-    void updatePhoneToExamine(Long id,Integer phoneToExamine) throws BusinessException;
 
 
     /**
-     * 地址审核状态
+     * 更改审核状态
      * @param id
-     * @param addressToExamine
+     * @param storeToExamine  状态:审核中-1,审核通过-2,审核不通过-3
+     * @param examineType  审核类型:电话-1,地址审核-2,店铺名审核-3
      * @throws BusinessException
      */
-    void updateAddressToExamine(Long id,Integer addressToExamine) throws BusinessException;
+    void storeToExamine(Long id,Integer storeToExamine,Integer examineType) throws BusinessException;
+
+
 
 }

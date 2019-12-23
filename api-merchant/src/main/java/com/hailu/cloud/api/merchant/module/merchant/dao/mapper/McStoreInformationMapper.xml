@@ -6,13 +6,13 @@
     <sql id="Base_Column_List">
         id,mc_number_id,shop_name,phone,province_code,city_code,area_code,detail_address,store_details,
         per_capita_price,store_son_type,store_total_type,business_state,business_time,date_time,
-        update_date_time,to_examine,week_day,default_head,account_type,longitude,latitude
+        update_date_time,to_examine,week_day,default_head,account_type,longitude,latitude,min_price
   </sql>
 
     <sql id="Base_where_List">
      #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{detailAddress},
      #{storeDetails},#{perCapitaPrice},#{storeSonType},
-     #{storeTotalType},#{businessState},#{businessTime},#{dateTime},#{updateDateTime},#{toExamine},#{weekDay},#{defaultHead},#{accountType},#{longitude},#{latitude}
+     #{storeTotalType},#{businessState},#{businessTime},#{dateTime},#{updateDateTime},#{toExamine},#{weekDay},#{defaultHead},#{accountType},#{longitude},#{latitude},#{minPrice}
   </sql>
 
     <sql id="set_column">
@@ -87,7 +87,10 @@
             default_head,
         </if>
         <if test="accountType != null">
-            account_type
+            account_type,
+        </if>
+        <if test="minPrice != null">
+            min_price
         </if>
     </sql>
 
@@ -155,10 +158,13 @@
             #{longitude},
         </if>
         <if test="defaultHead != null">
-            #{defaultHead}
+            #{defaultHead},
         </if>
         <if test="accountType != null">
-            #{accountType}
+            #{accountType},
+        </if>
+        <if test="minPrice != null">
+            #{minPrice}
         </if>
     </sql>
 
@@ -222,7 +228,10 @@
             default_head = #{defaultHead},
         </if>
         <if test="accountType != null">
-            account_type = #{accountType}
+            account_type = #{accountType},
+        </if>
+        <if test="minPrice != null">
+            min_price = #{minPrice}
         </if>
     </sql>
 

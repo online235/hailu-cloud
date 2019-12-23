@@ -4,12 +4,10 @@ package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McStoreInformationMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
-import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreInformationModel;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -103,9 +101,11 @@ public class McStoreInformationService {
 
     /**
      * 更改店铺信息
-     * @param mcStoreInformationModel
+     * @param storeId
      */
-    public void updateBYMcEntryInformation(McStoreInformationModel mcStoreInformationModel, int[] weekDay){
+    public void updateByOperatingTime(Long storeId,String businessTime, int[] weekDay){
+
+        McStoreInformation mcStoreInformation = new McStoreInformation();
         String week = "";
         if (weekDay != null) {
             int t = 0;
@@ -116,13 +116,14 @@ public class McStoreInformationService {
                     week += ",";
                 }
             }
-            mcStoreInformationModel.setWeekDay(week);
+            mcStoreInformation.setWeekDay(week);
         }
-        McStoreInformation mcStoreInformation = new McStoreInformation();
-        BeanUtils.copyProperties(mcStoreInformationModel, mcStoreInformation);
+        mcStoreInformation.setBusinessTime(businessTime);
+        mcStoreInformation.setUpdateDateTime(new Date());
         mcStoreInformationMapper.updateByPrimaryKey(mcStoreInformation);
 
     }
+
 
     /**
      * 查看店铺信息

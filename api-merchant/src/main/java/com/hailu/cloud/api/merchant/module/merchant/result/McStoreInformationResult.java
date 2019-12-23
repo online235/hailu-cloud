@@ -91,6 +91,10 @@ public class McStoreInformationResult {
     private java.math.BigDecimal perCapitaPrice;
 
 
+    @ApiModelProperty(value="最低消费价格")
+    private java.math.BigDecimal minPrice;
+
+
     /**
      *店铺子类型名称
      */
