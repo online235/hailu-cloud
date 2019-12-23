@@ -21,3 +21,7 @@ redis:
 remote:
   server:
     address: http://127.0.0.1:8080/admin/api
+
+dev:
+  enable:
+    global-veri-code: true

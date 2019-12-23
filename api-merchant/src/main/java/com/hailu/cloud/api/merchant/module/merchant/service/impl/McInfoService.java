@@ -122,7 +122,6 @@ public class McInfoService {
         String numberId = String.valueOf(uuidFeignClient.uuid().getData());
         //百货入驻
         if (mcUserParameter.getAccountType() == 2) {
-//            McManagementType mcManagementType = mcManagementTypeService.findObjectByParentName("百货购物");
             McEntryInformation mcEntryInformation = new McEntryInformation();
             BeanUtils.copyProperties(mcUserParameter, mcEntryInformation);
             if (mcEntryInformation == null) {
@@ -137,7 +136,6 @@ public class McInfoService {
             mcEntryInformation.setUpdateDateTime(time);
             mcEntryInformation.setToExamine(0);
             mcEntryInformation.setMcNumberId(mcNumberId);
-//            mcEntryInformation.setFirstManagementTypeId(mcManagementType.getManagementId());
             mcEntryinFormationMapper.insertSelective(mcEntryInformation);
             //生活圈入驻
         } else if (mcUserParameter.getAccountType() == 1) {

@@ -45,10 +45,6 @@ public class MerchantEnteringService {
         if (mcEntryinFormation == null) {
             throw new BusinessException("入驻信息为空");
         }
-//        boolean boo = selectMcEntryinFormationById(mcEntryinFormation.getMcNumberId());
-//        if (boo){
-//            throw new BusinessException("入驻信息以填写");
-//        }
         MerchantUserLoginInfoModel loginInfo = RequestUtils.getMerchantUserLoginInfo();
         McEntryInformation mcEntryInformation1 = mcEntryinFormationMapper.findMcEntryInformationByMcNumberId(loginInfo.getNumberid());
         mcEntryinFormation.setNumberId(mcEntryInformation1.getNumberId());

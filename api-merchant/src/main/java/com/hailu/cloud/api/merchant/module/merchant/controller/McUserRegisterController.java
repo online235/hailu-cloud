@@ -1,11 +1,10 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.hailu.cloud.api.merchant.feigns.AuthFeignClient;
-import com.hailu.cloud.api.merchant.module.merchant.service.impl.LocalCircleEntryService;
-import com.hailu.cloud.api.merchant.module.merchant.service.impl.McUserService;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McUserParameter;
-import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
+import com.hailu.cloud.api.merchant.module.merchant.service.impl.LocalCircleEntryService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
+import com.hailu.cloud.api.merchant.module.merchant.service.impl.McUserService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
@@ -18,7 +17,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,17 +49,23 @@ public class McUserRegisterController {
     @Resource
     private LocalCircleEntryService localCircleEntryService;
 
+    /**
+     * 是否启用全局万能验证码
+     */
+    @Value("${dev.enable.global-veri-code:false}")
+    private boolean enableGlobalVeriCode;
 
     @ApiOperation(value = "商家注册", notes = "<pre>" +
             "")
     @PostMapping("register")
     @ResponseBody
     public Object register(@RequestBody @Valid McUserParameter mcUserParameter) throws Exception {
-
-        String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + mcUserParameter.getPhone() + "1");
-        if (!mcUserParameter.getCode().equals(varCode) && !mcUserParameter.getCode().equals("111111")) {
-            // 验证码不存在
-            throw new BusinessException("无效验证码");
+        if (!enableGlobalVeriCode) {
+            String varCode = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + mcUserParameter.getPhone() + "1");
+            if (!mcUserParameter.getCode().equals(varCode)) {
+                // 验证码不存在
+                throw new BusinessException("无效验证码");
+            }
         }
         mcInfoService.addMcUserRegister(mcUserParameter);
         ApiResponse<MerchantUserLoginInfoModel> loginInfo = authFeignClient.vericodeLogin("1", mcUserParameter.getPhone(), mcUserParameter.getCode());

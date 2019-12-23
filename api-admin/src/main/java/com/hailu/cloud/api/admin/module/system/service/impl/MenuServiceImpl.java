@@ -81,7 +81,7 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public List<SysMenuModel> menuTreeList(Boolean onlyShowEnable) {
-        Integer enableStatus = Optional.ofNullable(onlyShowEnable).map(state-> state.booleanValue() ? 1 : null).orElse(null);
+        Integer enableStatus = Optional.ofNullable(onlyShowEnable).map(state-> state ? 1 : null).orElse(null);
         List<SysMenuModel> queryData = menuMapper.menuList(null, null, enableStatus);
         Map<Long, SysMenuModel> mapping = new HashMap<>(queryData.size());
         queryData.forEach(menu -> mapping.put(menu.getId(), menu));
