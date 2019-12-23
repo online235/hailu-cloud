@@ -25,3 +25,4 @@ merchant:
       regional-agent: 0.15
       # 服务商提成
       service-agent: 0.85
+

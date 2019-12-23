@@ -10,7 +10,7 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.hailu.cloud.api.payment.config.CredentFactory;
 import com.hailu.cloud.api.payment.module.pay.service.AbstractPayService;
 import com.hailu.cloud.api.payment.tools.SendHttp;
-import com.hailu.cloud.api.payment.tools.SignUtil;
+import com.hailu.cloud.common.utils.SignUtil;
 import com.hailu.cloud.api.payment.tools.wecat.WeiXinPayConstant;
 import com.hailu.cloud.api.payment.tools.wecat.XmlUtil;
 import com.hailu.cloud.common.model.payment.PayRequest;

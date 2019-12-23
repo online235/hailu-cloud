@@ -64,6 +64,16 @@ public final class Constant {
      */
     public static final String REDIS_KEY_DICT_CACHE_NATION_DESC = "NATION_DESC";
 
+    /**
+     * 调用微信JS接口的临时票据
+     */
+    public static final String REDIS_KEY_WECHAT_TICKET = "WECHAT_TICKET:";
+
+    /**
+     * 微信公众号全局token
+     */
+    public static final String REDIS_KEY_WECHAT_PUBLIC_TOKEN = "WECHAT_GLOBAL_TOKEN:";
+
     // endregion
 
     // region request header

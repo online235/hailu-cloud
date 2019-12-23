@@ -50,4 +50,28 @@ public interface WeChatFeignClient {
     @GetMapping("/sns/userinfo")
     String userInfo(@RequestParam("access_token") String accessToken, @RequestParam("openid") String openId);
 
+    /**
+     * 获取微信临时票据
+     *
+     * @param accessToken
+     * @param type
+     * @return
+     */
+    @GetMapping("/cgi-bin/ticket/getticket")
+    String getTicket(@RequestParam("access_token") String accessToken, @RequestParam("type") String type);
+
+    /**
+     * 公众号全局token
+     *
+     * @param appId
+     * @param secret
+     * @param grantType
+     * @return
+     */
+    @GetMapping("/cgi-bin/token")
+    String weChatPublicGlobalToken(
+            @RequestParam("appid") String appId,
+            @RequestParam("secret") String secret,
+            @RequestParam("grant_type") String grantType);
+
 }

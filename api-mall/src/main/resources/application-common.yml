@@ -59,3 +59,15 @@ management:
     web:
       exposure:
         include: "*"
+
+hailu:
+  weixin:
+    #微信公众号
+    jsapi:
+      # 微信开放平台审核通过的应用APPID
+      appid: wx7200335f627f9ef8
+      secret: 75553dce6344826d06c11e373a10b2db
+
+wechat:
+  # 微信配置
+  server: https://api.weixin.qq.com
