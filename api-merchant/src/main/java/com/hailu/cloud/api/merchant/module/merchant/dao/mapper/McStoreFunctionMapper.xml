@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McStoreFunctionMapper">
+
+
+    <sql id="set_column">
+        <if test="id != null">
+            id,
+        </if>
+        <if test="storeId != null">
+            store_id,
+        </if>
+        <if test="reserveStatus != null">
+            reserve_status,
+        </if>
+        <if test="automaticStatus != null">
+            automatic_status,
+        </if>
+        <if test="maxOrderNum != null">
+            max_order_num,
+        </if>
+        <if test="appointmentSaveTime != null">
+            appointment_save_time,
+        </if>
+        <if test="dateTime != null">
+            date_time,
+        </if>
+        <if test="updateDateTime != null">
+            update_date_time
+        </if>
+    </sql>
+
+
+    <sql id="set_where_column">
+
+        <if test="id != null">
+            #{id},
+        </if>
+        <if test="storeId != null">
+            #{storeId},
+        </if>
+        <if test="reserveStatus != null">
+            #{reserveStatus},
+        </if>
+        <if test="automaticStatus != null">
+            #{automaticStatus},
+        </if>
+        <if test="maxOrderNum != null">
+            #{maxOrderNum},
+        </if>
+        <if test="appointmentSaveTime != null">
+            #{appointmentSaveTime},
+        </if>
+        <if test="dateTime != null">
+            #{dateTime},
+        </if>
+        <if test="updateDateTime != null">
+            #{updateDateTime}
+        </if>
+    </sql>
+
+
+    <sql id="update_where_column">
+
+        <if test="storeId != null">
+            store_id = #{storeId},
+        </if>
+        <if test="reserveStatus != null">
+            reserve_status=#{reserveStatus},
+        </if>
+        <if test="automaticStatus != null">
+            automatic_status = #{automaticStatus},
+        </if>
+        <if test="maxOrderNum != null">
+            max_order_num = #{maxOrderNum},
+        </if>
+        <if test="appointmentSaveTime != null">
+            appointment_save_time = #{appointmentSaveTime},
+        </if>
+        <if test="dateTime != null">
+            date_time = #{dateTime},
+        </if>
+        <if test="updateDateTime != null">
+            update_date_time = #{updateDateTime}
+        </if>
+    </sql>
+
+
+    <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into mc_store_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="set_column"/>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <include refid="set_where_column"/>
+        </trim>
+    </insert>
+
+    <update id="updateByObject" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction">
+        update mc_store_album
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="update_where_column"/>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <select id="findListByParameter"
+            parameterType="com.hailu.cloud.api.merchant.module.merchant.model.McStoreFunctionModel">
+        select id, store_id, reserve_status, automatic_status,
+        max_order_num, appointment_save_time
+        from mc_store_function
+        where 1=1
+        <if test="storeId != null and storeId != ''">
+            and store_id = #{storeId}
+        </if>
+        <if test="reserveStatus != null and reserveStatus != ''">
+            and reserve_status = #{reserveStatus}
+        </if>
+        <if test="automaticStatus != null and automaticStatus != ''">
+            and automatic_status = #{automaticStatus}
+        </if>
+        <if test="maxOrderNum != null and maxOrderNum != ''">
+            and max_order_num = #{maxOrderNum}
+        </if>
+    </select>
+
+
+    <select id="findObjectByStoreId"
+            parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction">
+        select id, store_id, reserve_status, automatic_status, max_order_num, appointment_save_time, date_time, update_date_time
+        from mc_store_function
+        where store_id = #{storeId}
+    </select>
+
+
+
+</mapper>

@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
+import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreAlbumUrlParameter;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.result.ShopExamineResult;
@@ -32,6 +34,9 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.*;
 
+/**
+ * @author zhangmugui
+ */
 @RestController
 @RequestMapping("/app/store")
 @Validated
@@ -247,27 +252,27 @@ public class McStoreInformationController {
     }
 
 
-    @ApiOperation(value = "保存店铺相册", notes = "<prep>"
-            + "{\n" +
-            "    'code': 200,\n" +
-            "    'message': '请求成功',\n" +
-            "}" + "</prep>")
-    @PostMapping("submitStoreAlbumUrl")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-            @ApiImplicitParam(name = "albumUrl", value = "相册路径", paramType = "query", dataType = "String", required = true)
-    })
-    public void submitStoreAlbumUrl(@NotNull @RequestParam(value = "storeId") Long storeId, @NotEmpty @RequestParam(value = "albumUrl") String albumUrl) throws BusinessException {
-
-        if (storeId == null || albumUrl == null) {
-            throw new BusinessException("参数不能为空！");
-        }
-        McStoreAlbum mcStoreAlbum = new McStoreAlbum();
-        mcStoreAlbum.setStoreId(storeId);
-        mcStoreAlbum.setAlbumUrl(albumUrl);
-        mcStoreAlbumService.insertSelective(mcStoreAlbum);
-
-    }
+//    @ApiOperation(value = "保存店铺相册", notes = "<prep>"
+//            + "{\n" +
+//            "    'code': 200,\n" +
+//            "    'message': '请求成功',\n" +
+//            "}" + "</prep>")
+//    @PostMapping("submitStoreAlbumUrl")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+//            @ApiImplicitParam(name = "albumUrl", value = "相册路径", paramType = "query", dataType = "String", required = true)
+//    })
+//    public void submitStoreAlbumUrl(@NotNull @RequestParam(value = "storeId") Long storeId, @NotEmpty @RequestParam(value = "albumUrl") String albumUrl) throws BusinessException {
+//
+//        if (storeId == null || albumUrl == null) {
+//            throw new BusinessException("参数不能为空！");
+//        }
+//        McStoreAlbum mcStoreAlbum = new McStoreAlbum();
+//        mcStoreAlbum.setStoreId(storeId);
+//        mcStoreAlbum.setAlbumUrl(albumUrl);
+//        mcStoreAlbumService.insertSelective(mcStoreAlbum);
+//
+//    }
 
 
     @ApiOperation(value = "保存店铺相册，多张保存", notes = "<prep>"
@@ -278,26 +283,20 @@ public class McStoreInformationController {
     @PostMapping("submitStoreMoreAlbumUrls")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-            @ApiImplicitParam(name = "albumUrls", value = "相册路径(1,2,3)", allowMultiple = true, paramType = "query", dataType = "String", required = true),
-            @ApiImplicitParam(name = "albumType", value = "图片类型（环境-1、其他-2）[数组]", allowMultiple = true, paramType = "query", dataType = "String", required = true),
-            @ApiImplicitParam(name = "defaultRotation", value = "图片是否为首页轮播（是-1、否-2）[数组]", allowMultiple = true, paramType = "query", dataType = "String", required = true)
+            @ApiImplicitParam(name = "albumUrlsJsonString", value = "相册对象数组字符串，例：[{'albumUrl':'String','title':'String','albumType':1,'defaultRotation':1},{'albumUrl':'String','title':'String','albumType':1,'defaultRotation':1}]", paramType = "query", dataType = "String", required = true)
     })
-    public void submitStoreMoreAlbumUrls(@NotNull @RequestParam(value = "storeId") Long storeId, String[] albumUrls, Integer[] albumType, Integer[] defaultRotation) throws BusinessException {
+    public void submitStoreMoreAlbumUrls(@NotNull @RequestParam(value = "storeId") Long storeId, String albumUrlsJsonString) throws BusinessException {
 
-        if (storeId == null || albumUrls.length <= 0) {
+        if (storeId == null) {
             throw new BusinessException("参数不能为空！");
-        } else if (albumUrls.length > 5) {
-            throw new BusinessException("图片个数超过5张！");
         }
-        //
+        List<McStoreAlbumUrlParameter> mcStoreAlbumUrlParameters = JSON.parseArray(albumUrlsJsonString, McStoreAlbumUrlParameter.class);
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
-        for (int i = 0; i < albumUrls.length; i++) {
+        for (McStoreAlbumUrlParameter mcStoreAlbumUrlParameter : mcStoreAlbumUrlParameters) {
             McStoreAlbum mcStoreAlbum = new McStoreAlbum();
+            BeanUtils.copyProperties(mcStoreAlbumUrlParameter, mcStoreAlbum);
             mcStoreAlbum.setId(uuidFeignClient.uuid().getData());
             mcStoreAlbum.setStoreId(storeId);
-            mcStoreAlbum.setAlbumUrl(albumUrls[i]);
-            mcStoreAlbum.setAlbumType(albumType[i]);
-            mcStoreAlbum.setDefaultRotation(defaultRotation[i]);
             mcStoreAlbumList.add(mcStoreAlbum);
         }
         Map map = new HashMap();

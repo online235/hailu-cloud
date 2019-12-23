@@ -58,7 +58,7 @@
         <if test="businessTime != null">
             business_time,
         </if>
-    
+
         <if test="longitude != null">
             longitude,
         </if>
@@ -208,7 +208,7 @@
         <if test="businessTime != null">
             business_time = #{businessTime},
         </if>
-    
+
         <if test="updateDateTime != null">
             update_date_time = #{updateDateTime},
         </if>
@@ -235,7 +235,8 @@
         </if>
     </sql>
 
-    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation" parameterType="long">
+    <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation"
+            parameterType="long">
         select
         <include refid="Base_Column_List"/>
         from mc_store_information
@@ -278,7 +279,8 @@
         where id = #{id}
     </update>
 
-    <update id="updateByPrimaryKey"  parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation">
+    <update id="updateByPrimaryKey"
+            parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation">
         update mc_store_information
         <set>
             <include refid="update_where_column"/>
@@ -291,11 +293,17 @@
     from mc_store_information
     where mc_number_id = #{mcNumberId} and to_examine = #{toExamine}
   </select>
+
+
     <select id="selectMcEntryinFormationById" resultType="integer">
     select IFNULL(count(mc_number_id),0) from mc_store_information
     where mc_number_id = #{mcNumberId}
   </select>
-    <select id="findMcStoreInformation" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation" parameterType="java.lang.String">
+
+
+    <select id="findMcStoreInformation"
+            resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation"
+            parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from mc_store_information
