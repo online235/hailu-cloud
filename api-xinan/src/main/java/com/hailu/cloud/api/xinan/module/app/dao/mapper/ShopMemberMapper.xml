@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
         <id column="member_id" property="memberId"/>
         <result column="member_name" property="memberName" jdbcType="VARCHAR"/>
-        <result column="member_truename" property="memberTruename" jdbcType="VARCHAR"/>
+        <result column="member_true_name" property="memberTrueName" jdbcType="VARCHAR"/>
         <result column="member_avatar" property="memberAvatar" jdbcType="VARCHAR"/>
         <result column="merchant_type" property="merchantType" jdbcType="BIT"/>
         <result column="superior_member" property="superiorMember" jdbcType="VARCHAR"/>
@@ -34,7 +34,7 @@
         <result column="user_icon" property="userIcon" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    member_id, member_name, member_truename, member_avatar, merchant_type, superior_member,
+    member_id, member_name, member_true_name, member_avatar, merchant_type, superior_member,
     hl_member, total_merchants_money, member_sex, member_passwd, create_time,
     available_predeposit, freeze_predeposit, consumption_predeposit, withdraw_predeposit,
     total_predeposit, is_del, member_mobile, invite_code, user_id,
@@ -67,7 +67,7 @@
   </delete>
     <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true"
             keyProperty="memberId">
-    insert into shop_member (member_name, member_truename, member_avatar, 
+    insert into shop_member (member_name, member_true_name, member_avatar,
       member_sex, member_passwd, create_time,
       available_predeposit, freeze_predeposit, 
       consumption_predeposit, withdraw_predeposit, 
@@ -76,7 +76,7 @@
       be_invite_user, regist_time,
       WX_state, open_id, unionid, LOGIN_NAME
       user_icon)
-    values (#{memberName,jdbcType=VARCHAR}, #{memberTruename,jdbcType=VARCHAR}, #{memberAvatar,jdbcType=VARCHAR}, 
+    values (#{memberName,jdbcType=VARCHAR}, #{memberTrueName,jdbcType=VARCHAR}, #{memberAvatar,jdbcType=VARCHAR},
       #{memberSex,jdbcType=VARCHAR}, #{memberPasswd,jdbcType=VARCHAR},
       #{createTime,jdbcType=BIGINT}, #{availablePredeposit,jdbcType=DECIMAL}, #{freezePredeposit,jdbcType=DECIMAL},
       #{consumptionPredeposit,jdbcType=DECIMAL}, #{withdrawPredeposit,jdbcType=DECIMAL}, 
@@ -93,8 +93,8 @@
             <if test="memberName != null">
                 member_name,
             </if>
-            <if test="memberTruename != null">
-                member_truename,
+            <if test="memberTrueName != null">
+                member_true_name,
             </if>
             <if test="memberAvatar != null">
                 member_avatar,
@@ -161,8 +161,8 @@
             <if test="memberName != null">
                 #{memberName,jdbcType=VARCHAR},
             </if>
-            <if test="memberTruename != null">
-                #{memberTruename,jdbcType=VARCHAR},
+            <if test="memberTrueName != null">
+                #{memberTrueName,jdbcType=VARCHAR},
             </if>
             <if test="memberAvatar != null">
                 #{memberAvatar,jdbcType=VARCHAR},
@@ -232,8 +232,8 @@
             <if test="memberName != null">
                 member_name = #{memberName,jdbcType=VARCHAR},
             </if>
-            <if test="memberTruename != null">
-                member_truename = #{memberTruename,jdbcType=VARCHAR},
+            <if test="memberTrueName != null">
+                member_true_name = #{memberTrueName,jdbcType=VARCHAR},
             </if>
             <if test="memberAvatar != null">
                 member_avatar = #{memberAvatar,jdbcType=VARCHAR},
@@ -292,7 +292,7 @@
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
-      member_truename = #{memberTruename,jdbcType=VARCHAR},
+      member_true_name = #{memberTrueName,jdbcType=VARCHAR},
       member_avatar = #{memberAvatar,jdbcType=VARCHAR},
       member_sex = #{memberSex,jdbcType=VARCHAR},
       member_passwd = #{memberPasswd,jdbcType=VARCHAR},
@@ -318,7 +318,7 @@
     <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
-      member_truename = #{memberTruename,jdbcType=VARCHAR},
+      member_true_name = #{memberTrueName,jdbcType=VARCHAR},
       member_avatar = #{memberAvatar,jdbcType=VARCHAR},
       member_sex = #{memberSex,jdbcType=VARCHAR},
       member_passwd = #{memberPasswd,jdbcType=VARCHAR},

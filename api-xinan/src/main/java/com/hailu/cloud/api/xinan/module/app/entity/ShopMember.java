@@ -24,7 +24,7 @@ public class ShopMember {
     /**
      * 真实姓名
      */
-    private String memberTruename;
+    private String memberTrueName;
 
     /**
      * null

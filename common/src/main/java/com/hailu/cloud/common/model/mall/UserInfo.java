@@ -113,7 +113,7 @@ public class UserInfo implements Serializable {
     /**
      * 真实姓名
      */
-    private String memberTruename;
+    private String memberTrueName;
 
     /**
      *
