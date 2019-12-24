@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.payment.module.pay.service;
 
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.payment.PayRequest;
 
+import java.io.IOException;
 import java.util.Map;
 
 public interface IPayService {
@@ -11,7 +13,7 @@ public interface IPayService {
      * @param payRequest
      * @return
      */
-    Map<String, Object> payForWeCat(PayRequest payRequest);
+    Map<String, Object> payForWeCat(PayRequest payRequest) throws BusinessException, IOException;
 
     /**
      * 支付宝支付

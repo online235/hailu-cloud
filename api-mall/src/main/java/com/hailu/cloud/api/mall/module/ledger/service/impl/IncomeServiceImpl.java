@@ -3,7 +3,9 @@ package com.hailu.cloud.api.mall.module.ledger.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.hailu.cloud.api.mall.module.ledger.dao.IncomeMapper;
 import com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper;
+import com.hailu.cloud.api.mall.module.ledger.service.IBankCardService;
 import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
+import com.hailu.cloud.api.mall.module.ledger.vo.BankCard;
 import com.hailu.cloud.api.mall.module.ledger.vo.Income;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +40,13 @@ public class IncomeServiceImpl implements IIncomeService {
 
     @Value("${income.transferout.threshold:100}")
     private Integer incomeTransferoutThreshold;
+
+    @Resource
+    private IBankCardService bankCardService;
+
     
     @Override
-    public boolean transferOut(String memberId, BigDecimal price, String bankCard, String cardholder) {
+    public boolean transferOut(String memberId, BigDecimal price,Long bankCardId) {
         BigDecimal transferMoney = BigDecimal.valueOf(this.incomeTransferoutThreshold);
         if (price.compareTo(transferMoney) < 0) {
             log.warn("提现人：{}，最小提现金额应为：{}", memberId, this.incomeTransferoutThreshold);
@@ -62,16 +68,22 @@ public class IncomeServiceImpl implements IIncomeService {
         int status = saveEntity(income);
         //乐观锁处理金额处理
         if (status != 1) {
-            return transferOut(memberId, price, bankCard, cardholder);
+            return transferOut(memberId, price,bankCardId);
         }
+
+        BankCard bankCard = bankCardService.findById(bankCardId);
+
+
         //生成提现记录
         Long id = basicFeignClient.uuid().getData();
         incomeTransferOutMapper.transferOut(
                 id,
                 memberId,
                 price,
-                bankCard,
-                cardholder
+                bankCard.getCardNo(),
+                bankCard.getName(),
+                bankCard.getBankName(),
+                bankCard.getOpenAccountBank()
         );
 
         //增加提现明细

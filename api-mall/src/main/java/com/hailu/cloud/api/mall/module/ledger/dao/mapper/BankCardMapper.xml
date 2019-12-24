@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.ledger.dao.BankCardMapper" >
+
+  <sql id="Base_Column_List" >
+    id, card_no, name, bank_name, open_account_bank, user_id, status, create_time, create_by, 
+    modify_time, modify_by
+  </sql>
+  <sql id="Base_Column_List_DTO" >
+    id, card_no, name, bank_name, open_account_bank
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.mall.module.ledger.vo.BankCard" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hl_bankcard
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="findList" resultType="com.hailu.cloud.api.mall.module.ledger.po.BankCardDto">
+    select <include refid="Base_Column_List_DTO"/>
+    from hl_bankcard
+    where status =1 and user_id = #{userId,jdbcType=VARCHAR}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hl_bankcard
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.BankCard" useGeneratedKeys="true" keyProperty="id" >
+    insert into hl_bankcard (id,card_no, name, bank_name,
+      open_account_bank, user_id, status, 
+      create_time, create_by, modify_time, 
+      modify_by)
+    values (#{id,jdbcType=BIGINT},#{cardNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR},
+      #{openAccountBank,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.BankCard" >
+    update hl_bankcard
+    <set >
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="openAccountBank != null" >
+        open_account_bank = #{openAccountBank,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null" >
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.mall.module.ledger.vo.BankCard" >
+    update hl_bankcard
+    set card_no = #{cardNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      open_account_bank = #{openAccountBank,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+</mapper>

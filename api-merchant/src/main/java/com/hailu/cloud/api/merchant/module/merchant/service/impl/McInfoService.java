@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 
+import com.hailu.cloud.api.merchant.feigns.MallFeignClient;
 import com.hailu.cloud.api.merchant.module.merchant.dao.LocalCircleEntryMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
@@ -50,6 +51,9 @@ public class McInfoService {
 
     @Resource
     private LocalCircleEntryMapper localCircleEntryMapper;
+
+    @Resource
+    private MallFeignClient mallFeignClient;
 
     /**
      * 密码加密的key
@@ -144,6 +148,7 @@ public class McInfoService {
             }
 
         }
+
     }
 
     /**

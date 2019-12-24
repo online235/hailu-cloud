@@ -3,7 +3,7 @@ package com.hailu.cloud.api.mall.module.serviceproviders.service.impl;
 import com.hailu.cloud.api.mall.module.serviceproviders.dao.ServiceProvidersMapper;
 import com.hailu.cloud.api.mall.module.serviceproviders.entity.ServiceProviders;
 import com.hailu.cloud.api.mall.module.serviceproviders.service.IServiceProvidersService;
-import com.hailu.cloud.api.mall.module.serviceproviders.vo.ServiceProvidersDto;
+import com.hailu.cloud.common.model.serviceproviders.ServiceProvidersDto;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.utils.RequestUtils;
@@ -102,8 +102,10 @@ public class ServiceProvidersServiceImpl implements IServiceProvidersService {
 
 
     @Override
-    public ServiceProvidersDto findDetail() {
-        String userId = RequestUtils.getMemberLoginInfo().getUserId();
+    public ServiceProvidersDto findDetail(String userId) {
+        if(StringUtils.isBlank(userId)){
+            userId = RequestUtils.getMemberLoginInfo().getUserId();
+        }
         ServiceProvidersDto serviceProvidersDto = new ServiceProvidersDto();
         BeanUtils.copyProperties(serviceProvidersMapper.findByUserId(userId),serviceProvidersDto);
         return serviceProvidersDto;

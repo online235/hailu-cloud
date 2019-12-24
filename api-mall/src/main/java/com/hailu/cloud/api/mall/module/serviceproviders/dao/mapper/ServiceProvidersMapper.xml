@@ -23,7 +23,7 @@
       create_time, create_by, modify_time,
       modify_by)
     values (#{id,jdbcType=BIGINT},#{userId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
-      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT},
+      #{provinceId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR},
       #{address,jdbcType=VARCHAR}, #{isService,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP},
       #{modifyBy,jdbcType=VARCHAR})
@@ -42,13 +42,13 @@
                 phone = #{phone,jdbcType=VARCHAR},
             </if>
             <if test="provinceId != null" >
-                province_id = #{provinceId,jdbcType=BIGINT},
+                province_id = #{provinceId,jdbcType=VARCHAR},
             </if>
             <if test="cityId != null" >
-                city_id = #{cityId,jdbcType=BIGINT},
+                city_id = #{cityId,jdbcType=VARCHAR},
             </if>
             <if test="areaId != null" >
-                area_id = #{areaId,jdbcType=BIGINT},
+                area_id = #{areaId,jdbcType=VARCHAR},
             </if>
             <if test="address != null" >
                 address = #{address,jdbcType=VARCHAR},

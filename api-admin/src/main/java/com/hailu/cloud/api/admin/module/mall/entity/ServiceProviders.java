@@ -30,17 +30,17 @@ public class ServiceProviders extends BaseEntity {
      * 省ID
      */
     @ApiModelProperty(value = "省ID", dataType = "Long",required = true)
-    private Long provinceId;
+    private String provinceId;
     /**
      * 市ID
      */
     @ApiModelProperty(value = "市ID", dataType = "Long",required = true)
-    private Long cityId;
+    private String cityId;
     /**
      * 区县ID
      */
     @ApiModelProperty(value = "区县ID", dataType = "Long",required = true)
-    private Long areaId;
+    private String areaId;
     /**
      * 详细地址
      */

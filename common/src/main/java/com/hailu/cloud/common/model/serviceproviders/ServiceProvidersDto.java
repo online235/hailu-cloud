@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.mall.module.serviceproviders.vo;
+package com.hailu.cloud.common.model.serviceproviders;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,19 +38,19 @@ public class ServiceProvidersDto {
      */
     @NotNull(message = "省份不能为空")
     @ApiModelProperty(value = "省ID", dataType = "Long",required = true)
-    private Long provinceId;
+    private String provinceId;
     /**
      * 市ID
      */
     @NotNull(message = "城市不能为空")
     @ApiModelProperty(value = "市ID", dataType = "Long",required = true)
-    private Long cityId;
+    private String cityId;
     /**
      * 区县ID
      */
     @NotNull(message = "区县不能为空")
     @ApiModelProperty(value = "区县ID", dataType = "Long",required = true)
-    private Long areaId;
+    private String areaId;
     /**
      * 详细地址
      */

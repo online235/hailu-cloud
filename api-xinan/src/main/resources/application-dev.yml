@@ -30,5 +30,8 @@ static:
 notify:
   # 支付通知回调地址
   server:
-    url: https://jphailus.utools.club
+    url: https://dengjunpei.utools.club
+
+chinaums:
+  key: fcAmtnx7MwismjWNhNKdHC44mNXtnEQeJkRrhKJwyrW2ysRR
 

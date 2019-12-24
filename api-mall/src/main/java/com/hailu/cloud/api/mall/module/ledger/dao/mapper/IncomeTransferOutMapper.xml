@@ -3,8 +3,8 @@
 <mapper namespace="com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper">
 
     <insert id="transferOut">
-		insert into hl_income_transfer_out(id, member_id, price, bank_card, cardholder, create_time)
-		values(#{id}, #{userId}, #{price}, #{bankCard}, #{cardholder}, NOW())
+		insert into hl_income_transfer_out(id, member_id, price, bank_card, cardholder,bank_name,open_account_bank, create_time)
+		values(#{id}, #{userId}, #{price}, #{bankCard}, #{cardholder},#{bankName},#{openAccountBank}, NOW())
 	</insert>
 
     <select id="list" resultType="com.hailu.cloud.api.mall.module.ledger.vo.IncomeTransferOutVo">

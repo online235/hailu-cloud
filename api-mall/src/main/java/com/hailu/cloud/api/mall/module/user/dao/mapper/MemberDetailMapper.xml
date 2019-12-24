@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.user.dao.MemberDetailMapper" >
+
+  <sql id="Base_Column_List" >
+    id, user_id, total_consumption, invite_member_num, invite_merchat_num, invite_partners_num, 
+    sales_performance, province_id, city_id, area_id, address, status,want_buy_type,name,phone,join_time
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_member_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from shop_member_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into shop_member_detail (id,user_id, total_consumption, invite_member_num,
+      invite_merchat_num, invite_partners_num, sales_performance, 
+      province_id, city_id, area_id, 
+      address, status,want_buy_type,name,phone,join_time)
+    values (#{id,jdbcType=BIGINT},#{userId,jdbcType=VARCHAR}, #{totalConsumption,jdbcType=DECIMAL}, #{inviteMemberNum,jdbcType=INTEGER},
+      #{inviteMerchatNum,jdbcType=INTEGER}, #{invitePartnersNum,jdbcType=INTEGER}, #{salesPerformance,jdbcType=DECIMAL}, 
+      #{provinceId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},#{wantBuyType,jdbcType=INTEGER}
+      , #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},#{joinTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into shop_member_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="totalConsumption != null" >
+        total_consumption,
+      </if>
+      <if test="inviteMemberNum != null" >
+        invite_member_num,
+      </if>
+      <if test="inviteMerchatNum != null" >
+        invite_merchat_num,
+      </if>
+      <if test="invitePartnersNum != null" >
+        invite_partners_num,
+      </if>
+      <if test="salesPerformance != null" >
+        sales_performance,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="wantBuyType != null" >
+        want_buy_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="joinTime != null" >
+        join_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalConsumption != null" >
+        #{totalConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="inviteMemberNum != null" >
+        #{inviteMemberNum,jdbcType=INTEGER},
+      </if>
+      <if test="inviteMerchatNum != null" >
+        #{inviteMerchatNum,jdbcType=INTEGER},
+      </if>
+      <if test="invitePartnersNum != null" >
+        #{invitePartnersNum,jdbcType=INTEGER},
+      </if>
+      <if test="salesPerformance != null" >
+        #{salesPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="wantBuyType != null" >
+        #{wantBuyType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="joinTime != null" >
+        #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail" >
+    update shop_member_detail
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalConsumption != null" >
+        total_consumption = #{totalConsumption,jdbcType=DECIMAL},
+      </if>
+      <if test="inviteMemberNum != null" >
+        invite_member_num = #{inviteMemberNum,jdbcType=INTEGER},
+      </if>
+      <if test="inviteMerchatNum != null" >
+        invite_merchat_num = #{inviteMerchatNum,jdbcType=INTEGER},
+      </if>
+      <if test="invitePartnersNum != null" >
+        invite_partners_num = #{invitePartnersNum,jdbcType=INTEGER},
+      </if>
+      <if test="salesPerformance != null" >
+        sales_performance = #{salesPerformance,jdbcType=DECIMAL},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="wantBuyType != null" >
+        want_buy_type = #{wantBuyType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="joinTime != null" >
+        #{joinTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findByUserId" resultType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail">
+    select <include refid="Base_Column_List"/>
+    from shop_member_detail
+    where user_id = #{userId} and status = 1
+  </select>
+  <select id="findServiceProvidersList" resultType="com.hailu.cloud.api.mall.module.user.vo.MemberDetailVo">
+    select smd.sales_performance,smd.invite_partners_num,smd.invite_member_num,smd.name,smd.phone,
+    smd.province_id,smd.city_id,smd.area_id,smd.address,smd.join_time,sm.user_id
+    from shop_member_detail smd left join shop_member sm on smd.user_id = sm.user_id
+    where sm.merchant_type = #{merchantType} and  smd.status = 1 and sm.superior_member = #{userId}
+    order by smd.join_time desc
+  </select>
+
+</mapper>

@@ -52,21 +52,14 @@ public class IncomeController {
             "</pre>")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "price", value = "提现金额", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "bankCard", value = "银行卡卡号", dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "cardholder", value = "持卡人名称", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "baneCardId", value = "银行卡ID", dataType = "Long", paramType = "query")
     })
     @PostMapping("/transfer-out")
     public void transferOut(
-            HttpServletRequest request,
             BigDecimal price,
-            String bankCard,
-            String cardholder) throws BusinessException {
+            Long baneCardId) throws BusinessException {
 
-
-        if(StringUtils.isBlank(bankCard) || bankCard.length() <15 || bankCard.length() >19){
-            throw new BusinessException("银行卡号16-19位纯数字");
-        }
-        boolean flag = incomeService.transferOut(RequestUtils.getMemberLoginInfo().getUserId(), price, bankCard, cardholder);
+        boolean flag = incomeService.transferOut(RequestUtils.getMemberLoginInfo().getUserId(), price, baneCardId);
         if (!flag) {
             throw new BusinessException("申请提现失败");
 

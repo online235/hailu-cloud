@@ -25,6 +25,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -41,9 +42,20 @@ public final class RequestUtils {
      * @return
      */
     public static HttpServletRequest getRequest() {
+        return getRequestAttributes().getRequest();
+    }
+
+    /**
+     * 获取response返回上下文
+     * @return
+     */
+    public static HttpServletResponse getResponse(){
+        return getRequestAttributes().getResponse();
+    }
+
+    public static ServletRequestAttributes getRequestAttributes(){
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-        return servletRequestAttributes.getRequest();
+        return (ServletRequestAttributes) requestAttributes;
     }
 
     /**

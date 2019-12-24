@@ -28,12 +28,7 @@ public interface INationService {
      */
     String findCodeBySonCode(String Code);
 
-    /**
-     * 根据code查询城市名称
-     * @param code
-     * @return
-     */
-    String findCityNameByCode(String code);
+
 
     /**
      * 根据省名称查找该数据
@@ -53,6 +48,5 @@ public interface INationService {
 
 
 
-
-
+    Object findParentListByCode(String code);
 }

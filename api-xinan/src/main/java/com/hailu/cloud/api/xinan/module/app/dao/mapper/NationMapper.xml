@@ -159,4 +159,14 @@
         where CODE = #{code}
     </select>
 
+
+    <select id="findListByCode" resultType="com.hailu.cloud.api.xinan.module.app.entity.Nation">
+		select id,
+			CODE,
+			PROVINCE,
+			CITY,
+			DISTRICT
+		from sys_nation where parent_id = (select id from sys_nation where code = #{code})
+	</select>
+
 </mapper>

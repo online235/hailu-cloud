@@ -34,6 +34,17 @@ public class McStoreAlbum {
     @ApiModelProperty(value = "相册路径")
     private String albumUrl;
 
+    /**
+     * 图片类型（环境-1、其他-2）
+     */
+    @ApiModelProperty(value = "图片类型（环境-1、其他-2）")
+    private Integer albumType;
+
+    /**
+     * 图片是否为首页轮播（是-1、否-2）
+     */
+    @ApiModelProperty(value = "图片是否为首页轮播（是-1、否-2）")
+    private Integer defaultRotation;
 
     /**
      * 图片标题
@@ -49,11 +60,6 @@ public class McStoreAlbum {
     private String subheading;
 
 
-    /**
-     *图片类型（环境-1、菜品-2、其他-3）
-     */
-    @ApiModelProperty(value = "图片类型（首页轮播图-0 、环境-1、菜品-2、其他-3）")
-    private Integer albumType;
 
 
 

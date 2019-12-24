@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hailu.cloud.api.xinan.module.app.dao.InsuredMapper;
@@ -8,6 +9,7 @@ import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.Insured;
 import com.hailu.cloud.api.xinan.module.app.entity.Order;
 import com.hailu.cloud.api.xinan.module.app.model.OrderVo;
+import com.hailu.cloud.common.constant.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -113,7 +115,7 @@ public class OrderService {
         //商品编号
         order.setRescueId(rescueId);
         //订单号
-        order.setOrderNo(IdUtil.simpleUUID());
+        order.setOrderNo(RandomUtil.randomString(20));
         //参保人名称
         order.setInsuredName(name);
         //参保人数据
@@ -128,15 +130,11 @@ public class OrderService {
         order.setItemType(itemType);
         //来源
         order.setFroms(from);
-        //邀请人
-        order.setInvitationMember(invitationMember);
         //省市区+详细地址
         order.setProvinceId(provinceId);
         order.setCityId(cityId);
         order.setAreaId(areaId);
         order.setAddress(address);
-        //服务商选择的城市
-        order.setChooseCityId(chooseCityId);
 
         return saveEntity(order);
     }

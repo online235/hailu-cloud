@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.admin.module.mall.service;
 
-import com.hailu.cloud.api.admin.module.mall.model.ServiceProvidersDto;
-import com.hailu.cloud.common.exception.BusinessException;
-import io.swagger.models.auth.In;
+import com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders;
 
 /**
  * @author 190726
@@ -20,25 +18,17 @@ public interface IServiceProvidersService {
     Object findListPage(Integer isService,String name, Integer page, Integer size);
 
 
-
     /**
-     * 保存服务商信息
-     * @param dto
+     * 根据ID查询消息
+     * @param id
      * @return
      */
-    Long saveServiceProvider(ServiceProvidersDto dto) throws BusinessException;
+    ServiceProviders findById(Long id);
 
     /**
-     * 查询服务商信息
+     * 保存或修改
+     * @param serviceProviders
      * @return
      */
-    ServiceProvidersDto findDetail();
-
-    /**
-     * 根据userId修改服务商状态
-     * @param userId
-     * @param isService
-     * @return
-     */
-    int updateStatusByUserId(String userId, int isService);
+    ServiceProviders edit(ServiceProviders serviceProviders);
 }

@@ -3,11 +3,13 @@ package com.hailu.cloud.api.auth.module.login.controller;
 import com.hailu.cloud.api.auth.module.login.service.IAuthService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.exception.RefreshTokenExpiredException;
+import com.hailu.cloud.common.feigns.BasicFeignClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -193,6 +195,22 @@ public class AuthController {
             @NotBlank(message = "refreshToken不能为空") String refreshToken) throws BusinessException {
 
         authService.logout(refreshToken);
+    }
+
+    @Autowired
+    private BasicFeignClient basicFeignClient;
+
+    @ApiOperation(value = "test", notes = "<pre>" +
+            "{\n" +
+            "    'code': 200,\n" +
+            "    'message': null,\n" +
+            "    'data': null\n" +
+            "}" +
+            "</pre>")
+    @GetMapping("/test")
+    public String test() throws BusinessException {
+
+        return String.valueOf(basicFeignClient.uuid().getData());
     }
 
 }

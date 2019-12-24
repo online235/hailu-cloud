@@ -91,6 +91,8 @@ public class XaHelpMember {
      */
     private BigDecimal gainMoney;
 
+
+
     /**
      * 创建时间
      */

@@ -1,8 +1,11 @@
 package com.hailu.cloud.common.utils;
 
 import cn.hutool.crypto.SecureUtil;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.*;
 
@@ -105,4 +108,60 @@ public class SignUtil {
     }
 
 
+    public static String sign(JSONObject params,String key){
+
+        // 把数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串
+        String preStr = JsonToStr(params);
+        String text = preStr + key;
+        return DigestUtils.md5Hex(getContentBytes(text)).toUpperCase();
+    }
+
+
+    // 根据编码类型获得签名内容byte[]
+    private  static byte[] getContentBytes(String content) {
+        try {
+            return content.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("签名过程中出现错误");
+        }
+    }
+
+    /**
+     * 将Json转成String
+     * @param params
+     * @return
+     */
+    public static String JsonToStr(JSONObject params){
+        if (params == null || params.size() == 0) {
+            return "";
+        }
+
+        List<String> keys = new ArrayList<>(params.size());
+
+        for (Map.Entry<String,Object> js: params.entrySet()){
+            if (StringUtils.isEmpty(js.getKey())){
+                continue;
+            }
+            keys.add(js.getKey());
+        }
+
+        //排序 ASCll
+        Collections.sort(keys);
+
+        StringBuilder buf = new StringBuilder();
+
+        for (int i = 0; i < keys.size(); i++) {
+            String key = keys.get(i);
+            Object value = params.get(key);
+
+            if (i == keys.size() - 1) {
+                // 拼接时，不包括最后一个&字符
+                buf.append(key + "=" + value);
+            } else {
+                buf.append(key + "=" + value + "&");
+            }
+        }
+
+        return buf.toString();
+    }
 }

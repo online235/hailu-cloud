@@ -1,12 +1,15 @@
 package com.hailu.cloud.api.payment.module.pay.controller;
 
+import com.hailu.cloud.api.payment.module.pay.service.impl.ChinaumsPayServiceImpl;
 import com.hailu.cloud.api.payment.module.pay.service.impl.PayServiceImpl;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.payment.PayRequest;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -24,9 +27,12 @@ public class PaymentController {
     @Resource
     private PayServiceImpl payService;
 
+    @Resource
+    private ChinaumsPayServiceImpl chinaumsPayService;
+
     @PostMapping("/gateway")
-    public Map<String,Object> gateway(@RequestBody PayRequest payRequest){
-        return payService.pay(payRequest);
+    public Map<String,Object> gateway(@RequestBody PayRequest payRequest) throws BusinessException, IOException {
+        return chinaumsPayService.pay(payRequest);
     }
 
 }

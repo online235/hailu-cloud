@@ -3,14 +3,15 @@ package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.module.app.service.IPaymentService;
 import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.utils.RequestUtils;
-import com.hailu.cloud.common.utils.wechat.WechatUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
@@ -42,19 +43,23 @@ public class PaymentController {
     @RequestMapping(value = "/orderPay",method = {RequestMethod.POST,RequestMethod.GET})
     public Map<String,Object> orderPay(@NotNull(message = "支付类型不能为空") Integer payType,
                                        @NotNull(message = "金额不能为空") Double money,
-                                       @NotNull(message = "参保人不能为空") String insuredIds
-                                      )throws BusinessException {
+                                       @NotNull(message = "参保人不能为空") String insuredIds)throws BusinessException {
         log.info("心安支付 支付类型：{},金额：{}, 参保人ID：{}",payType,money,insuredIds);
         return paymentService.createOrder(payType,money,insuredIds);
     }
 
     @RequestMapping(value = "/callbackWechat",method = {RequestMethod.POST,RequestMethod.GET})
-    public String callbackWechat() throws Exception {
+    public String callbackWechat(){
         log.info("微信回调开始");
-        paymentService.callback(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
-        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
-    }
+        try {
+            paymentService.chinaumsCallback();
+            return "SUCCESS";
+        }catch (Exception e){
+            log.error("微信回调异常{}",e);
+            return "FAILED";
+        }
 
+    }
 
     /**
      * 海露订单支付
@@ -71,32 +76,41 @@ public class PaymentController {
             @ApiImplicitParam(name="name", value = "名称", required = true, paramType="query",dataType = "String"),
             @ApiImplicitParam(name="phone", value = "手机号码", required = true, paramType="query",dataType = "String"),
             @ApiImplicitParam(name="chooseCityId", value = "服务商城市（购买服务商时必传）", required = false, paramType="query",dataType = "long"),
-            @ApiImplicitParam(name="openid", value = "openId(公众号支付)", required = false, paramType="query",dataType = "String")
+            @ApiImplicitParam(name="openid", value = "openId(公众号支付)", required = false, paramType="query",dataType = "String"),
+            @ApiImplicitParam(name="remark", value = "备注信息", required = false, paramType="query",dataType = "String"),
+            @ApiImplicitParam(name="buyType", value = "购买类型（2-城市合伙人、3-销售）", paramType="query",dataType = "String")
     })
     @PostMapping("/hlOrderPay")
     public Map<String,Object> hlOrderPay(
             @NotNull(message = "支付类型不能为空")Integer payType,
             @NotNull(message = "金额不能为空")Double money,
             @NotBlank(message = "详细地址不能为空") String address,
-            @NotNull(message = "省ID不能为空")Long provinceId,
-            @NotNull(message = "市ID不能为空")Long cityId,
-            @NotNull(message = "区县ID不能为空")Long areaId,
+            @NotNull(message = "省ID不能为空")String provinceId,
+            @NotNull(message = "市ID不能为空")String cityId,
+            @NotNull(message = "区县ID不能为空")String areaId,
             @NotBlank(message = "商品名称不能为空")String itemName,
             @NotBlank(message = "名称不能为空")String name,
             @NotBlank(message = "手机号码不能为空")String phone,
             @NotNull(message = "服务商城市不能为空")Long chooseCityId,
-            String openid)throws BusinessException {
+            String remark,
+            String openid,
+            @NotNull(message = "购买类型不能为空") Integer buyType,
+            @NotBlank(message = "邀请码不能为空") String inviteNum)throws BusinessException {
         log.info("海露支付 支付类型：{},金额：{}",payType,money);
-        return paymentService.createHlOrder(payType,money,address,provinceId,cityId,areaId,itemName,name,phone,chooseCityId,openid);
+        return paymentService.createHlOrder(payType,money,address,provinceId,cityId,areaId,itemName,name,phone,chooseCityId,openid,remark,buyType,inviteNum);
     }
 
     @RequestMapping(value = "/callbackWechatHl",method = {RequestMethod.POST,RequestMethod.GET})
     public String callbackWechatHl() throws Exception {
-        log.info("微信回调开始");
-        paymentService.callbackHl(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
-        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
+        log.info("海露微信回调开始");
+        try {
+            paymentService.chinaumsCallbackHl();
+            return "SUCCESS";
+        }catch (Exception e){
+            log.error("微信回调异常{}",e);
+            return "FAILED";
+        }
     }
-
 
     @ApiOperation(notes = "", value = "心安捐赠支付接口")
     @ApiImplicitParams({
@@ -114,9 +128,15 @@ public class PaymentController {
 
     @RequestMapping(value = "/callbackWeChatDonation",method = {RequestMethod.POST,RequestMethod.GET})
     public String callbackWeChatDonation() throws Exception {
-        log.info("微信回调开始");
-        paymentService.callbackDonation(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
-        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
+
+        log.info("捐赠微信回调开始");
+        try {
+            paymentService.chinaumsCallbackDonation();
+            return "SUCCESS";
+        }catch (Exception e){
+            log.error("捐赠回调异常{}",e);
+            return "FAILED";
+        }
     }
 
 

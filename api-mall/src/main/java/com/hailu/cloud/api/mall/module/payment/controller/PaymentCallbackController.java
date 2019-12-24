@@ -33,11 +33,15 @@ public class PaymentCallbackController {
      */
     @ResponseBody
     @RequestMapping(value = "/callback/weixin")
-    public String weixinBack(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws Exception {
+    public String weixinBack() throws Exception {
         log.info("微信回调开始");
-        ossOrderService.callback(WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream())));
-        return "<xml><return_code><![CDATA[SUCCESS]]></return_code></xml>";
-
+        try {
+            ossOrderService.chinaumsCallback();
+            return "SUCCESS";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "FAILED";
+        }
     }
 
 }

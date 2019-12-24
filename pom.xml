@@ -38,6 +38,7 @@
         <guava.version>28.1-jre</guava.version>
         <druid-spring-boot-starter.version>1.1.20</druid-spring-boot-starter.version>
         <jwt.version>3.8.3</jwt.version>
+        <poi-ooxml.version>4.1.1</poi-ooxml.version>
     </properties>
 
     <repositories>
@@ -140,6 +141,17 @@
                 <artifactId>hutool-http</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-poi</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi-ooxml.version}</version>
+            </dependency>
+
 
             <!-- 持久化 -->
             <dependency>

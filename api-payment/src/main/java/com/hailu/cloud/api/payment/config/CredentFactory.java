@@ -24,6 +24,8 @@ public class CredentFactory {
     public static final String HLJSAPIWECAT = "HLJSAPIWECAT";
     public static final String HLAPPWECAT = "HLAPPWECAT";
     public static final String HLALI = "HLALI";
+    public static final String CHINAUMSAPP = "chinaumsApp";
+    public static final String CHINAUMSJSAPI = "chinaumsJsapi";
 
     public static final String APPID_FIELD = "appId";
     public static final String APP_SECRRECT_FIELD = "appSecret";
@@ -35,6 +37,17 @@ public class CredentFactory {
     public static final String RSA_PRIVATE_KEY_FIELD = "rsaPrivateKey";
     public static final String AES_PRIVATE_KEY_FIELD = "aesPrivateKey";
     public static final String OPENID_SECRRECT_FIELD = "openIdKey";
+
+
+    /**
+     * 银联支付
+     */
+    public static final String CHINAUMS_MID_FIELD = "mid";
+    public static final String CHINAUMS_TID_FIELD = "tid";
+    public static final String CHINAUMS_MSGSRC_FIELD = "msgSrc";
+    public static final String CHINAUMS_INSTMID_FIELD = "instMid";
+    public static final String CHINAUMS_SUBAPPID_FIELD = "subAppId";
+    public static final String CHINAUMS_KEY_FIELD = "key";
 
     // endregion
 
@@ -160,7 +173,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> haiLuAppWecatPayParams() {
-        Map<String, String> map = new HashMap<>(10);
+        Map<String, String> map = new HashMap<>(4);
         map.put(APPID_FIELD, haiLuAppWeCatAppId);
         map.put(DEVICEINFO_FIELD, haiLuAppWeCatDeviceInfo);
         map.put(MCH_ID_FIELD, haiLuAppWeCatMchId);
@@ -196,7 +209,7 @@ public class CredentFactory {
      * @return
      */
     private Map<String, String> haiLuAliPayParams() {
-        Map<String, String> map = new HashMap<>(10);
+        Map<String, String> map = new HashMap<>(6);
         map.put(APPID_FIELD, haiLuAliPayAppId);
         map.put(PID_FIELD, haiLuAliPayPid);
         map.put(SELLER_ID_FIELD, haiLuAliPaySellerId);
@@ -205,6 +218,109 @@ public class CredentFactory {
         map.put(AES_PRIVATE_KEY_FIELD, haiLuAliPayAesPrivateKey);
         return map;
     }
+
+    /**
+     * -------------------------------------------银联支付---------------------------------------------------------
+     */
+
+
+    /**
+     * APP商户号
+     */
+    @Value("${chinaums.app.mid}")
+    private String chinaumsAppMid;
+
+    /**
+     * APP终端号
+     */
+    @Value("${chinaums.app.tid}")
+    private String chinaumsAppTid;
+
+    /**
+     * APP业务类型
+     */
+    @Value("${chinaums.app.instMid}")
+    private String chinaumsAppInstMid;
+
+    /**
+     * APP消息来源
+     */
+    @Value("${chinaums.app.msgSrc}")
+    private String chinaumsAppMsgSrc;
+
+    /**
+     * APP秘钥
+     */
+    @Value("${chinaums.app.key}")
+    private String chinaumsAppKey;
+
+    @Value("${chinaums.app.appid}")
+    private String chinaumsAppSubAppId;
+
+    /**
+     * 银联App支付
+     * @return
+     */
+    private Map<String,String> chinaumsAppParams(){
+        Map<String, String> map = new HashMap<>(6);
+        map.put(CHINAUMS_MID_FIELD,chinaumsAppMid);
+        map.put(CHINAUMS_TID_FIELD,chinaumsAppTid);
+        map.put(CHINAUMS_INSTMID_FIELD,chinaumsAppInstMid);
+        map.put(CHINAUMS_MSGSRC_FIELD,chinaumsAppMsgSrc);
+        map.put(CHINAUMS_KEY_FIELD,chinaumsAppKey);
+        map.put(CHINAUMS_SUBAPPID_FIELD,chinaumsAppSubAppId);
+        return map;
+    }
+
+    /**
+     * 公众号商户号
+     */
+    @Value("${chinaums.JSAPI.mid}")
+    private String chinaumsJSMid;
+
+    /**
+     * 公众号终端号
+     */
+    @Value("${chinaums.JSAPI.tid}")
+    private String chinaumsJSTid;
+
+    /**
+     * 公众号业务类型
+     */
+    @Value("${chinaums.JSAPI.instMid}")
+    private String chinaumsJSInstMid;
+
+    /**
+     * 公众号消息来源
+     */
+    @Value("${chinaums.JSAPI.msgSrc}")
+    private String chinaumsJSMsgSrc;
+
+    /**
+     * 公众号秘钥
+     */
+    @Value("${chinaums.JSAPI.key}")
+    private String chinaumsJSKey;
+
+    @Value("${chinaums.JSAPI.appid}")
+    private String chinaumsJSSubAppId;
+
+    /**
+     * 银联公众号支付
+     * @return
+     */
+    private Map<String,String> chinaumsJSParams(){
+        Map<String, String> map = new HashMap<>(6);
+        map.put(CHINAUMS_MID_FIELD,chinaumsJSMid);
+        map.put(CHINAUMS_TID_FIELD,chinaumsJSTid);
+        map.put(CHINAUMS_INSTMID_FIELD,chinaumsJSInstMid);
+        map.put(CHINAUMS_MSGSRC_FIELD,chinaumsJSMsgSrc);
+        map.put(CHINAUMS_KEY_FIELD,chinaumsJSKey);
+        map.put(CHINAUMS_SUBAPPID_FIELD,chinaumsJSSubAppId);
+        return map;
+    }
+
+
 
     // endregion
 
@@ -224,6 +340,10 @@ public class CredentFactory {
                 return haiLuJsApiWecatPayParams();
             case HLALI:
                 return haiLuAliPayParams();
+            case CHINAUMSAPP:
+                return chinaumsAppParams();
+            case CHINAUMSJSAPI:
+                return chinaumsJSParams();
             default:
                 return null;
         }

@@ -2,6 +2,7 @@ package com.hailu.cloud.gateway;
 
 import com.hailu.cloud.common.exception.GlobalExceptionHandler;
 import com.hailu.cloud.common.response.ApiResponseWrapConfig;
+import com.hailu.cloud.common.utils.ChinaumsUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,7 +23,8 @@ import org.springframework.context.annotation.FilterType;
         excludeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
                         GlobalExceptionHandler.class,
-                        ApiResponseWrapConfig.class
+                        ApiResponseWrapConfig.class,
+                        ChinaumsUtils.class
                 })
         }
 )

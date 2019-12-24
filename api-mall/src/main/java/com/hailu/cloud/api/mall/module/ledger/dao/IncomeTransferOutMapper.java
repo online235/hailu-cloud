@@ -22,6 +22,8 @@ public interface IncomeTransferOutMapper {
      * @param price      提现金额
      * @param bankCard   银行卡卡号
      * @param cardholder 持卡人名称
+     * @param bankName 银行卡名称
+     * @param openAccountBank 开户行
      * @return
      */
     boolean transferOut(
@@ -29,7 +31,9 @@ public interface IncomeTransferOutMapper {
             @Param("userId") String userId,
             @Param("price") BigDecimal price,
             @Param("bankCard") String bankCard,
-            @Param("cardholder") String cardholder);
+            @Param("cardholder") String cardholder,
+            @Param("bankName") String bankName,
+            @Param("openAccountBank") String openAccountBank);
 
     /**
      * 查询提现列表

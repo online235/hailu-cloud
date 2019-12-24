@@ -183,6 +183,18 @@ public interface IOrderService {
     List<OrderListVo> getOrdersList(String userId, Integer orderStatus, Integer evaluateState, int page, int row);
 
     /**
+     * @param userId
+     * @param orderStatus
+     * @param row
+     * @param page
+     * @param isShare    是否查看分享订单（1-是、2-否）
+     * @return
+     * @author 黄亮
+     * 得到订单列表
+     */
+    List<OrderListVo> getOrdersList(String userId, Integer orderStatus, Integer evaluateState, int page, int row,Integer isShare);
+
+    /**
      * @param orderId
      * @return
      * @author 黄亮

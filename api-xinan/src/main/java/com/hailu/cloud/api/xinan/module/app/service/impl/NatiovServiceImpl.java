@@ -46,11 +46,6 @@ public class NatiovServiceImpl implements INationService {
     }
 
     @Override
-    public String findCityNameByCode(String code) {
-        return nationMapper.findCityNameByCode(code);
-    }
-
-    @Override
     public Nation findNationByAreaName(String areaName) {
         return nationMapper.findNationByAreaName(areaName);
     }
@@ -62,5 +57,41 @@ public class NatiovServiceImpl implements INationService {
         return nationMapper.findListByCodeArray(parameter);
     }
 
+    @Cacheable(value = "areaCode", key = "#code")
+    @Override
+    public Object findParentListByCode(String code) {
+            List<Nation> nationList = null;
+            if(StringUtils.equals(code,"1")){
+                nationList = nationMapper.findByParentId(1L);
+            }else {
+                nationList = nationMapper.findListByCode(code);
+            }
+        return nationToJSOn(nationList);
+    }
+
+    /**
+     * 城市集合转JSON
+     * @param nationList
+     * @return
+     */
+    private JSONArray nationToJSOn(List<Nation> nationList){
+        JSONArray jsonArray = new JSONArray();
+        for (Nation n : nationList) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", n.getId());
+            String name = null;
+            if (StringUtils.isNotBlank(n.getProvince())) {
+                name = n.getProvince();
+            } else if (StringUtils.isNotBlank(n.getCity())) {
+                name = n.getCity();
+            } else if (StringUtils.isNotBlank(n.getDistrict())) {
+                name = n.getDistrict();
+            }
+            jsonObject.put("name", name);
+            jsonObject.put("adCode", n.getCode());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
 
 }

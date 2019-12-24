@@ -23,12 +23,17 @@ public interface IOSSOrderService {
      * 下单购买
      * @return
      */
-    Map<String,Object> createOrder(String orderNo,Integer payType,String openId) throws BusinessException;
+    Map<String,Object> createOrder(String orderNo,Integer payType,String openId,String returnUrl) throws BusinessException;
 
     /**
      * 回调
-     * @param params
      */
-    void callback(Map<String, Object> params) throws BusinessException;
+    void callback() throws BusinessException, Exception;
+
+    /**
+     * 银联支付回调
+     * @throws BusinessException
+     */
+    void chinaumsCallback() throws BusinessException;
 
 }

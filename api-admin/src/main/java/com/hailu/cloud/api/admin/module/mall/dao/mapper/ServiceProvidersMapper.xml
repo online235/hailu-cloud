@@ -89,10 +89,11 @@
         update hl_service_providers set is_service = #{isService,jdbcType=INTEGER} where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
-    <select id="findList" resultType="com.hailu.cloud.api.admin.module.mall.model.ServiceProvidersDto">
+    <select id="findList" resultType="com.hailu.cloud.api.admin.module.mall.model.ServiceProvidersModel">
         select hsp.id, hsp.user_id, hsp.name, hsp.phone, hsp.province_id, hsp.city_id, hsp.area_id, hsp.address, hsp.is_service, hsp.status,
-        hsp.create_time, xo.item_name as goods_name
-        from hl_service_providers hsp left join xa_order xo on xo.member_id = hsp.user_id and xo.item_type = '服务商' and xo.order_status = 2
+        hsp.create_time,sm.member_name as userName,ho.goods_name as goodsName
+        from hl_service_providers hsp left join hl_order ho on ho.user_id = hsp.user_id and ho.order_type = 1
+        left join shop_member sm on hsp.user_id = sm.user_id
         where hsp.status = 1
         <if test="name != null and name != ''" >
           and instr(hsp.name,#{name}) >0

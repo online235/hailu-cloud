@@ -2,6 +2,7 @@ package com.hailu.cloud.api.mall.module.goods.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsParameterVo;

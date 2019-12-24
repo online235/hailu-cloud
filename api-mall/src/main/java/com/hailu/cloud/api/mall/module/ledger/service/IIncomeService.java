@@ -19,10 +19,9 @@ public interface IIncomeService {
      *
      * @param memberId   提现人 shop_member表的user_id
      * @param price      提现金额
-     * @param bankCard   银行卡卡号
-     * @param cardholder 持卡人名称
+     * @param bankCardId   银行卡ID
      */
-    boolean transferOut(String memberId, BigDecimal price, String bankCard, String cardholder) throws ValidationException;
+    boolean transferOut(String memberId, BigDecimal price, Long bankCardId) throws ValidationException;
 
     /**
      * 获取会员账户金额

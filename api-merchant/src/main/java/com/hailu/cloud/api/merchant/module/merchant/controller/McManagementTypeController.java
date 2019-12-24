@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
-
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import io.swagger.annotations.Api;
@@ -13,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

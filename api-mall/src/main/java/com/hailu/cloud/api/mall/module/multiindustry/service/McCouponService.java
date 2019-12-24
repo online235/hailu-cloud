@@ -34,4 +34,11 @@ public interface McCouponService {
      * @mbggenerated 2019-12-20
      */
     int findMcCouponById(Long id);
+
+
+    /**
+     * 查询到店卷是否过去
+     * @mbggenerated 2019-12-20
+     */
+    int findMcCouponById(Long id);
 }

@@ -2,13 +2,21 @@ package com.hailu.cloud.api.xinan.module.app.service;
 
 import com.hailu.cloud.common.exception.BusinessException;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Map;
 
 public interface IPaymentService {
 
     Map<String, Object> createOrder(Integer payType, Double moneyPrice, String insuredIds) throws BusinessException;
 
-    void callback(Map<String, Object> params) throws BusinessException;
+    void callback() throws Exception;
+
+    /**
+     * 银联支付回调
+     * @throws Exception
+     */
+    void chinaumsCallback() throws Exception;
 
     /**
      *  海露支付
@@ -26,15 +34,18 @@ public interface IPaymentService {
      * @return
      * @throws BusinessException
      */
-    Map<String,Object> createHlOrder(Integer payType,double money,String address,Long provinceId,Long cityId,Long areaId,String itemName,String name,String phone,Long chooseCityId,String openid) throws BusinessException;
+    Map<String,Object> createHlOrder(Integer payType,double money,String address,String provinceId,String cityId,String areaId,String itemName,String name,String phone,Long chooseCityId,String openid,String remark,Integer buyType,String inviteNum) throws BusinessException;
 
     /**
      * 海露支付回调
-     * @param params
      * @throws BusinessException
      */
-    void callbackHl(Map<String,Object> params) throws BusinessException;
+    void callbackHl() throws Exception;
 
+    /**
+     * 银联海露支付回调
+     */
+    void chinaumsCallbackHl() throws Exception;
     /**
      * 心安捐赠支付
      * @param payType
@@ -46,8 +57,13 @@ public interface IPaymentService {
 
     /**
      * 心安捐赠支付回调
-     * @param params
      * @throws BusinessException
      */
-    void callbackDonation(Map<String,Object> params) throws BusinessException;
+    void callbackDonation() throws Exception;
+
+    /**
+     * 银联支付 心安捐赠
+     * @throws Exception
+     */
+    void chinaumsCallbackDonation() throws Exception;
 }

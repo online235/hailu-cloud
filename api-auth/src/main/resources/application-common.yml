@@ -54,8 +54,17 @@ wechat:
     appId: wx28a66e8b774bd3f2
     secret: 17edb75ac4bcb2601c53a82277486e94
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000

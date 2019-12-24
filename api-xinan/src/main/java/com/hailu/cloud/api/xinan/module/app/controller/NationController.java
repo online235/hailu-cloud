@@ -67,21 +67,11 @@ public class NationController {
         return nationService.findListByParentCode(parentId);
     }
 
-
-    @GetMapping("/findCityNameByCode")
-    @ApiOperation(value = "获取当个城市名称", notes = "<pre>{\n" +
-            "")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "城市code",required = true, dataType = "String", paramType = "query"),
-    })
-    public Object findCityNameByCode(
-            @NotBlank(message = "父级ID不能为空")
-            @RequestParam("code") String code) {
-
-        log.info("查询城市地址ID为：{}",code);
-        return nationService.findCityNameByCode(code);
+    @ApiImplicitParam(name = "code", value = "城市代码(如果不传默认查询省)", required = false, paramType = "query", dataType = "String")
+    @GetMapping("/findParentListByCode")
+    public Object findParentListByCode( String code){
+        log.info("查询城市地址Code为：{}",code);
+        return nationService.findParentListByCode(code);
     }
-
-
 
 }

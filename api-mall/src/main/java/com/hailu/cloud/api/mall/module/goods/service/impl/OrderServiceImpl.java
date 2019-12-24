@@ -64,6 +64,9 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private IComputeCommission computeCommission;
 
+    @Autowired
+    private RedisStandAloneClient redisClient;
+
     private Gson gson = new Gson();
 
     @Override
@@ -177,9 +180,16 @@ public class OrderServiceImpl implements IOrderService {
         return JSON.parseArray(region, RegionVo.class);
     }
 
+
+
     @Override
     public List<OrderListVo> getOrdersList(String userId, Integer orderStatus, Integer evaluateState, int page, int row) {
-        List<OrderListVo> orders = orderDao.getOrdersList(userId, orderStatus, evaluateState, page, row);
+        return getOrdersList(userId, orderStatus, evaluateState, page, row,null);
+    }
+
+    @Override
+    public List<OrderListVo> getOrdersList(String userId, Integer orderStatus, Integer evaluateState, int page, int row, Integer isShare) {
+        List<OrderListVo> orders = orderDao.getOrdersList(userId, orderStatus, evaluateState, page, row,isShare);
         if (orders.size() > 0) {
             for (int i = 0; i < orders.size(); i++) {
                 OrderListVo ol = orders.get(i);
@@ -388,6 +398,8 @@ public class OrderServiceImpl implements IOrderService {
             order.setOrderAmount(orderAmount.doubleValue());
             //店铺ID
             order.setStoreId(goods.getStoreId());
+            //邀请人用户ID
+            order.setInviterUserId(redisClient.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + orderParam.getUserId()));
             addOrder(order, orderParam, oa);
             order.setAmount(order.getIsReserve() == 1 ? order.getReserveOneAmount() : order.getAmount());
 
@@ -626,6 +638,8 @@ public class OrderServiceImpl implements IOrderService {
             List<CartVo> cartVos = orderDao.getShoppingCartByIds(orderParam.getCartIdStr().split(","));
             result = updateGoodsRepertory(result, cartVos);
 
+            //邀请人用户ID
+            order.setInviterUserId(redisClient.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + orderParam.getUserId()));
             addCartOrder(order, orderParam, oa, cartVos, orderAmounts);
             return ImmutableMap.of("orderId", order.getOrderId(),
                     "orderSn", order.getOrderSn(),

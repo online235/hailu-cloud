@@ -4,12 +4,12 @@ import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
 import com.hailu.cloud.api.mall.module.goods.vo.SpecVo;
 import com.hailu.cloud.api.mall.module.goods.vo.vm.OrderGoodsVm;
-import com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper;
 import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
 import com.hailu.cloud.api.mall.module.ledger.service.ILedgerService;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.entity.member.ShopMember;
+import com.hailu.cloud.api.mall.module.user.service.IMemberDetailService;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -32,15 +32,8 @@ import java.util.List;
 @Slf4j
 @Service
 public class LedgerFixedRatioServiceImpl implements ILedgerService {
-
-    @Resource
-    private IncomeTransferOutMapper incomeTransferOutMapper;
-
     @Resource
     private IIncomeService iIncomeService;
-
-    @Resource
-    private IncomeDetailLogService incomeDetailLogService;
 
     @Resource
     private UserInfoMapper userInfoMapper;
@@ -60,6 +53,8 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
     @Value("${merchant.commission.rate.service-agent:0.85}")
     private BigDecimal serviceAgent;
 
+    @Resource
+    private IMemberDetailService memberDetailService;
 
     @Override
     public void editInvitation(String parentId) {
@@ -117,9 +112,10 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
     }
 
     @Override
-    public void distributionGoods(Integer orderId, String userId) {
+    public void  distributionGoods(Integer orderId, String userId) {
 
         ShopMember userInfo = userInfoMapper.byIdFindUser(userId);
+        BigDecimal orderAllMoney = BigDecimal.valueOf(0);
         //如果购买者为服务商或者区代 则不参与分销
         if (userInfo.getMerchantType() == 1 || userInfo.getMerchantType() == 2) {
             return;
@@ -130,7 +126,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
         for (OrderGoodsVm o : orderGoodsList) {
             try {
                 //获取分享人ID
-                invitaionUserId = redisClient.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + userId + o.getGoodsId());
+                invitaionUserId = redisClient.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + userId);
                 //判断商品是否参与推广 且 查询是否有分享人
                 if (o.getIsPopularize() == 0 || StringUtils.isBlank(invitaionUserId)) {
                     continue;
@@ -144,7 +140,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
                 }
                 //乘以数量
                 commission = commission.multiply(BigDecimal.valueOf(o.getGoodsNum()));
-
+                orderAllMoney = orderAllMoney.add(commission);
                 //处理运费
                 BigDecimal freight = BigDecimal.valueOf(12);
                 if (commission.compareTo(freight) < -1) {
@@ -152,7 +148,6 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
                     continue;
                 }
                 commission = commission.subtract(freight);
-
                 /**处理分享人的分红**/
                 BigDecimal money = BigDecimal.valueOf(0);
                 ShopMember userInfoParent = userInfoMapper.byIdFindUser(invitaionUserId);
@@ -169,11 +164,20 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
                     ShopMember userInfoGrand = userInfoMapper.byIdFindUser(userInfoParent.getSuperiorMember());
                     if (!"0".equals(userInfoGrand.getSuperiorMember())) {
                         iIncomeService.addAccountByInvitation(userInfoGrand.getUserId(), commission.multiply(regionalAgent), "旗下商家购买商品分销", String.valueOf(orderId), 1);
+                        //销售业绩
+                        memberDetailService.addTotal(userInfoGrand.getUserId(),null,null,null,null
+                        ,commission.multiply(regionalAgent));
                     }
                 }
                 iIncomeService.addAccountByInvitation(invitaionUserId, money, "旗下商家购买商品分销", String.valueOf(orderId), 1);
+                //销售业绩
+                memberDetailService.addTotal(invitaionUserId,null,null,null,null
+                        ,money);
+
+                //销售总额
+                memberDetailService.addTotal(userId,orderAllMoney,null,null,null,null);
             } catch (Exception e) {
-                log.error("分红失败 !!   处理商品ID为{},会员ID：{}，分享者ID{}：异常信息：{}", o.getGoodsId(), userId, invitaionUserId, e.getMessage());
+                log.error("分红失败 !!   处理商品ID为{},会员ID：{}，分享者ID{}： ：{}", o.getGoodsId(), userId, invitaionUserId, e.getMessage());
             }
         }
     }

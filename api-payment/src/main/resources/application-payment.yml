@@ -85,3 +85,23 @@ hailu:
       private:
         # AES密钥
         key: pa3++t5SUdpCAOpQ8jtOUA==
+
+#银联支付信息
+chinaums:
+  baseUrl: https://qr-test2.chinaums.com/
+  app:
+    #请求地址 App下单地址
+    appUrl: netpay-route-server/api/
+    mid: 998340149000014
+    tid: 88880001
+    instMid: APPDEFAULT
+    msgSrc: WWW.TEST.COM
+    key: fcAmtnx7MwismjWNhNKdHC44mNXtnEQeJkRrhKJwyrW2ysRR
+    appid: wx83d57bea33b0e894
+  JSAPI:
+    mid: 898340149000005
+    tid: 88880001
+    instMid: YUEDANDEFAULT
+    msgSrc: WWW.TEST.COM
+    key: fcAmtnx7MwismjWNhNKdHC44mNXtnEQeJkRrhKJwyrW2ysRR
+    appid: wx7200335f627f9ef8

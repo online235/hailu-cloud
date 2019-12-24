@@ -67,4 +67,9 @@ public class PayRequest {
      * 调取支付的终端IP
      */
     private String ip;
+
+    /**
+     * 支付后跳转地址
+     */
+    private String returnUrl;
 }

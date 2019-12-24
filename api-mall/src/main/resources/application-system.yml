@@ -16,7 +16,7 @@ static:
 notify:
   # 支付通知回调地址
   server:
-    url: http://127.0.0.1:30000/api/v1/
+    url: https://dengjunpei.utools.club/api/v2/
 
 merchant:
   commission:
@@ -24,5 +24,7 @@ merchant:
       # 区域代理提成
       regional-agent: 0.15
       # 服务商提成
-      service-agent: 0.85
 
+
+chinaums:
+  key: fcAmtnx7MwismjWNhNKdHC44mNXtnEQeJkRrhKJwyrW2ysRR

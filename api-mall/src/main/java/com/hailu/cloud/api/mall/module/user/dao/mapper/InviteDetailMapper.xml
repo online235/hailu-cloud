@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.user.dao.InviteDetailMapper" >
+
+  <sql id="Base_Column_List" >
+    id, invitation_id, be_invited_id, type, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.mall.module.user.entity.InviteDetail" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from hl_invite_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from hl_invite_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hailu.cloud.api.mall.module.user.entity.InviteDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into hl_invite_detail (id,invitation_id, be_invited_id, type,
+      create_time)
+    values (#{id,jdbcType=BIGINT},#{invitationId,jdbcType=VARCHAR}, #{beInvitedId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
+      now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.mall.module.user.entity.InviteDetail" >
+    update hl_invite_detail
+    <set >
+      <if test="invitationId != null" >
+        invitation_id = #{invitationId,jdbcType=VARCHAR},
+      </if>
+      <if test="beInvitedId != null" >
+        be_invited_id = #{beInvitedId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="findDetailByType" resultType="com.hailu.cloud.api.mall.module.user.vo.MemberDetailVo">
+    select smd.name,smd.phone,smd.province_id,smd.city_id,smd.area_id,smd.address,hid.create_time as join_time,smd.total_consumption,smd.invite_merchat_num
+    ,smd.invite_partners_num,smd.invite_member_num,hid.be_invited_id as user_id,smd.sales_performance
+    from hl_invite_detail hid left join shop_member_detail smd on hid.be_invited_id = smd.user_id
+    where hid.type = #{type} and smd.status = 1 and hid.invitation_id = #{userId}
+    <if test="value != null and value != ''">
+      and
+      (
+      instr(smd.name,#{value}) >0 or smd.phone = #{value}
+      )
+    </if>
+    order by hid.create_time desc
+  </select>
+  <select id="findMemberDetail" resultType="com.hailu.cloud.api.mall.module.user.vo.MemberDetailVo">
+    select sm.member_name as name,sm.member_mobile as phone,sm.user_icon as icon,hid.create_time as join_time,smd.total_consumption
+    ,hid.be_invited_id as user_id
+    from hl_invite_detail hid left join shop_member sm on hid.be_invited_id = sm.user_id
+    left join shop_member_detail smd on hid.be_invited_id = smd.user_id
+    where hid.invitation_id = #{userId} and hid.type = #{type}
+    <if test="value != null and value != ''">
+      and
+      (
+      instr(sm.member_name,#{value}) >0 or sm.member_mobile = #{value}
+      )
+    </if>
+    <if test="memberAll != null and memberAll == 1">
+      union
+      select sm.member_name as name,sm.member_mobile as phone,sm.user_icon as icon,hid.create_time as join_time,smd.total_consumption
+      ,hid.be_invited_id as user_id
+      from hl_invite_detail hid left join shop_member sm on hid.be_invited_id = sm.user_id
+      left join shop_member_detail smd on hid.be_invited_id = smd.user_id
+      where hid.invitation_id in(SELECT be_invited_id FROM hl_invite_detail WHERE invitation_id = #{userId}) and hid.type = #{type}
+      <if test="value != null and value != ''">
+        and
+        (
+        instr(sm.member_name,#{value}) >0 or sm.member_mobile = #{value}
+        )
+      </if>
+    </if>
+    order by join_time desc
+  </select>
+
+</mapper>

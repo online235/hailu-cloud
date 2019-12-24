@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.serviceproviders.controller;
 
 import com.hailu.cloud.api.mall.module.serviceproviders.service.IServiceProvidersService;
-import com.hailu.cloud.api.mall.module.serviceproviders.vo.ServiceProvidersDto;
+import com.hailu.cloud.common.model.serviceproviders.ServiceProvidersDto;
 import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -53,9 +53,9 @@ public class ServiceProvidersController {
             "    \"address\": \"12123\"         //详细地址\n" +
             "  }")
     @GetMapping("/findDetail")
-    public ServiceProvidersDto findDetail(){
+    public ServiceProvidersDto findDetail(@RequestParam(value = "userId",required = false) String userId){
         log.info("查询服务商数据");
-        return serviceProvidersService.findDetail();
+        return serviceProvidersService.findDetail(userId);
     }
 
 

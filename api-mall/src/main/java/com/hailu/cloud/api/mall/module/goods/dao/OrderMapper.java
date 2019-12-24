@@ -324,7 +324,8 @@ public interface OrderMapper {
             @Param("orderStatus") Integer orderStatus,
             @Param("evaluateState") Integer evaluateState,
             @Param("page") int page,
-            @Param("row") int row);
+            @Param("row") int row,
+            @Param("isShare")Integer isShare);
 
     /**
      * @param orderId

@@ -116,5 +116,10 @@ public class OrderToVo {
      */
     private Integer storeId;
 
+    /**
+     * 邀请人ID
+     */
+    private String inviterUserId;
+
 
 }

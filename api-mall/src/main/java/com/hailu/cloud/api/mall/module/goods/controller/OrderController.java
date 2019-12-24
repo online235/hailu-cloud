@@ -252,12 +252,13 @@ public class OrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderSn", value = "订单号(商城订单传)", required = false, paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "payType", value = "支付类型（1-支付宝、2-微信、3-微信H5）", required = true, paramType = "query", dataType = "int"),
-            @ApiImplicitParam(name = "openid", value = "openId(公众号支付)", required = false, paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "openid", value = "openId(公众号支付)", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "returnUrl", value = "支付成功后跳转地址", required = false, paramType = "query", dataType = "String")
     })
     @RequestMapping(value = "/orderPay", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public Map<String, Object> orderPay(@NotBlank(message = "订单号不能为空") String orderSn, Integer payType, String openid) throws BusinessException {
-        return ossOrderService.createOrder(orderSn, payType, openid);
+    public Map<String, Object> orderPay(@NotBlank(message = "订单号不能为空") String orderSn, Integer payType, String openid,String returnUrl) throws BusinessException {
+        return ossOrderService.createOrder(orderSn, payType, openid,returnUrl);
     }
 
 
@@ -273,6 +274,33 @@ public class OrderController {
 
         page = (page - 1) * row;
         List<OrderListVo> orders = orderService.getOrdersList(userId, orderStatus, evaluateState, page, row);
+        return ImmutableMap.of("orders", orders);
+    }
+
+    /**
+     * 查看伙人所有订单   查看城市合伙人订单
+     * 是否查看分享订单（1-是、2-否）
+     */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户ID", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "orderStatus", value = "订单状态", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "evaluateState", value = "评价状态", required = false, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "page", value = "页数", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "row", value = "条数", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "isShare", value = "是否查看分享订单（1-是、2-否）", required = false, paramType = "query", dataType = "String"),
+    })
+    @ApiOperation(value = "查看城市合伙人订单")
+    @GetMapping("/getOrdersAsPartner")
+    public Map<String, Object> getOrdersAsPartner(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "orderStatus", required = false) Integer orderStatus,
+            @RequestParam(value = "evaluateState") int evaluateState, //评价状态 0_未评价 , 1_已评价
+            @RequestParam("page") int page, @RequestParam("row") int row,
+            @RequestParam(value = "isShare") Integer isShare
+    ) {
+
+        page = (page - 1) * row;
+        List<OrderListVo> orders = orderService.getOrdersList(userId, orderStatus, evaluateState, page, row,isShare);
         return ImmutableMap.of("orders", orders);
     }
 

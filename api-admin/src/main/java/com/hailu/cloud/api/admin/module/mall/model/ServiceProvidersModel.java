@@ -10,9 +10,11 @@ import lombok.Data;
  */
 @Data
 @InjectDict
-public class ServiceProvidersDto {
+public class ServiceProvidersModel {
 
     private Long id;
+
+    private String userName;
 
     /**
      * 服务商名称

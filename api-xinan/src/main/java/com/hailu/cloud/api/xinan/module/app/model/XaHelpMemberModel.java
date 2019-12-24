@@ -75,6 +75,7 @@ public class XaHelpMemberModel {
      * 本期时间（yyyy-MM）
      */
     @ApiModelProperty("本期时间（yyyy-MM）")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
     private Date timeDate;
 
     /**

@@ -370,6 +370,7 @@
         is_recour ,
         reserve_discounts ,
         is_limit,
+        inviter_user_id,
         ) VALUE(
         #{userId},
         #{userName},
@@ -397,6 +398,7 @@
         #{isRecour} ,
         #{reserveDiscounts},
         #{isLimit}
+        #{inviterUserId}
         )
     </insert>
     <!-- 添加订单商品 -->
@@ -547,7 +549,15 @@
         reserve_two_amount AS reserveTwoAmount ,
         reserve_id AS reserveId
         FROM shop_order
-        WHERE buyer_id=#{userId} AND delete_status=1
+        WHERE delete_status=1
+		<choose>
+			<when test="isShare != null and isShare == 1">
+				AND inviter_user_id = #{userId}
+			</when>
+			<otherwise>
+				AND buyer_id=#{userId}
+			</otherwise>
+		</choose>
         <if test="orderStatus==1 or orderStatus==2 or orderStatus==3">
             AND order_state=#{orderStatus}
         </if>

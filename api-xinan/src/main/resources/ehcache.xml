@@ -26,4 +26,16 @@
            overflowToDisk="true"
            memoryStoreEvictionPolicy="LRU">
     </cache>
+
+    <!-- 区域-省缓存 -->
+    <cache name="areaCode"
+           maxElementsInMemory="2000"
+           eternal="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="1800"
+           maxElementsOnDisk="10000"
+           diskExpiryThreadIntervalSeconds="120"
+           overflowToDisk="true"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
 </ehcache>

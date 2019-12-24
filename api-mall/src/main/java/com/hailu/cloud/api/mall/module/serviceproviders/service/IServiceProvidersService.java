@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.mall.module.serviceproviders.service;
 
-import com.hailu.cloud.api.mall.module.serviceproviders.vo.ServiceProvidersDto;
+import com.hailu.cloud.common.model.serviceproviders.ServiceProvidersDto;
 import com.hailu.cloud.common.exception.BusinessException;
 
 /**
@@ -19,7 +19,7 @@ public interface IServiceProvidersService {
      * 查询服务商信息
      * @return
      */
-    ServiceProvidersDto findDetail();
+    ServiceProvidersDto findDetail(String userId);
 
     /**
      * 根据userId修改服务商状态

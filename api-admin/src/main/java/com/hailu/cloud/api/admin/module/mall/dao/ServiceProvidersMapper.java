@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.admin.module.mall.dao;
 
 import com.hailu.cloud.api.admin.module.mall.entity.ServiceProviders;
-import com.hailu.cloud.api.admin.module.mall.model.ServiceProvidersDto;
+import com.hailu.cloud.api.admin.module.mall.model.ServiceProvidersModel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -63,5 +63,5 @@ public interface ServiceProvidersMapper {
      * @param isService
      * @return
      */
-    List<ServiceProvidersDto> findList(@Param("name") String name,@Param("isService") Integer isService);
+    List<ServiceProvidersModel> findList(@Param("name") String name, @Param("isService") Integer isService);
 }

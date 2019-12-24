@@ -2,6 +2,9 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.hailu.cloud.api.xinan.constant.Constant;
 import com.hailu.cloud.api.xinan.feigns.MallFeignClient;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.*;
@@ -10,12 +13,17 @@ import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
+import com.hailu.cloud.common.model.mall.hlorder.HlOrder;
+import com.hailu.cloud.common.model.payment.PayCallbackModel;
 import com.hailu.cloud.common.model.payment.PayRequest;
+import com.hailu.cloud.common.model.system.InvitedetailModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.utils.IPUtil;
+import com.hailu.cloud.common.utils.ChinaumsUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
+import com.hailu.cloud.common.utils.wechat.WechatUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +79,11 @@ public class PaymentServiceImpl implements IPaymentService {
     @Value("${notify.server.url}")
     private String serverUrl;
 
+    @Value("${chinaums.key}")
+    private String key;
+
+    @Resource
+    private ChinaumsUtils chinaumsUtils;
 
     @Override
     @Transactional(rollbackFor = BusinessException.class)
@@ -120,7 +133,7 @@ public class PaymentServiceImpl implements IPaymentService {
         //支付方式
         pay.setPayType(payType == 1 ? 1 : 2);
         //支付订单号
-        String orderNo = IdUtil.simpleUUID();
+        String orderNo = RandomUtil.randomString(25);
         pay.setPayOrderNo(orderNo);
         //支付状态 1-未付款 2-已付款3-已退款4-已过期
         pay.setPayStatus(moneyFlag ? 2 : 1);
@@ -151,7 +164,6 @@ public class PaymentServiceImpl implements IPaymentService {
                 //修改参保人状态
                 xinAnInsuredService.editInsurdPayStatus(order.getInsuredName(), order.getInsuredValue());
             }
-
         }
         if (moneyFlag) {
             //1代表0元，无需支付，直接成功购买
@@ -181,25 +193,35 @@ public class PaymentServiceImpl implements IPaymentService {
         return paymentFeignClient.gateway(payRequest).getData();
     }
 
+
     @Override
-    public void callback(Map<String, Object> params) throws BusinessException {
+    public void chinaumsCallback() throws Exception {
+        JSONObject params = chinaumsUtils.checkChinaumsParams(RequestUtils.getRequest(),key);
+        xinAnCallBackCommon(new PayCallbackModel(params.getString("merOrderId"), params.getString("targetOrderId"),BigDecimal.valueOf(params.getInteger("totalAmount")).divide(BigDecimal.valueOf(100)),2));
+    }
+
+    @Override
+    public void callback() throws Exception {
+        Map<String, Object> params = WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream()));
+        xinAnCallBackCommon(new PayCallbackModel((String) params.get("outTradeNo"),(String)params.get("tradeNo"),BigDecimal.valueOf((double) params.get("money")),2));
+    }
+
+    public void xinAnCallBackCommon(PayCallbackModel payCallbackModel) throws BusinessException {
         try {
             //类型  1-支付宝2-微信
-            int payType = (int) params.get("payType");
+            int payType = payCallbackModel.getPayType();
 
             //商家订单号
-            String outTradeNo = (String) params.get("outTradeNo");
+            String outTradeNo = payCallbackModel.getOrderNo();
             //第三方交易号
-            String tradeNo = (String) params.get("tradeNo");
-            //交易状态
-            String tradeStatus = (String) params.get("tradeStatus");
+            String tradeNo = payCallbackModel.getTradeNo();
             //金额
-            BigDecimal money = BigDecimal.valueOf((double) params.get("money"));
+            BigDecimal money = payCallbackModel.getMoney();
 
             //根据订单号获取订单
             Pay pay = xinAnPayService.findByPayOrderNo(outTradeNo);
 
-            if (pay == null) {
+            if(pay == null){
                 throw new BusinessException("订单不存在");
             }
 
@@ -233,13 +255,22 @@ public class PaymentServiceImpl implements IPaymentService {
     }
 
     @Override
-    public Map<String, Object> createHlOrder(Integer payType, double moneys, String address, Long provinceId, Long cityId, Long areaId, String itemName, String name, String phone, Long chooseCityId, String openid) throws BusinessException {
+    public Map<String, Object> createHlOrder(Integer payType, double moneys, String address, String provinceId, String cityId, String areaId, String itemName, String name, String phone, Long chooseCityId, String openid,String remark,Integer buyType,String inviteNum) throws BusinessException {
         String userId = RequestUtils.getMemberLoginInfo().getUserId();
         BigDecimal money = new BigDecimal(moneys).setScale(2, BigDecimal.ROUND_HALF_UP);
-
+        int orderType = 1;
         //校验如果是服务商，不可重复购买
-        if (isPovider(userId)) {
-            throw new BusinessException("您已经是服务商，无须重新购买！");
+        if (isPovider(userId,buyType)) {
+            throw new BusinessException("您已购买，无须重新购买！");
+        }
+
+        //如果购买类型为销售 判断邀请人是否为市公司
+        if(buyType == 3){
+            UserInfo userInfo = mallFeignClient.findById(inviteNum).getData();
+            if(userInfo.getMerchantType() != 1){
+                throw new BusinessException("邀请人非市公司，无法加入销售！");
+            }
+            orderType= 2;
         }
 
         BigDecimal moneyPrice = BigDecimal.valueOf(mallFeignClient.findPoviderPrice(chooseCityId).getData());
@@ -248,11 +279,10 @@ public class PaymentServiceImpl implements IPaymentService {
         if (money.compareTo(moneyPrice) != 0) {
             throw new BusinessException("金额与后台计算不一致！");
         }
+        Long memberDetailId  = mallFeignClient.addAddress(userId,provinceId,cityId,areaId,address,buyType,name,phone).getData();
 
-        //生成订单
-        Order order = xinAnOrderService.buildOrder(name, phone, userId, null, "服务商",
-                "HL", "购买海露服务商", redisKit.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + userId), money, provinceId, cityId,
-                areaId, address, chooseCityId);
+        HlOrder hlOrder = mallFeignClient.buildOrder(userId,memberDetailId,itemName,money,remark,name,null,null,provinceId,cityId
+                ,areaId,address,orderType,inviteNum,payType).getData();
 
         Pay pay = new Pay();
         //会员ID
@@ -262,7 +292,7 @@ public class PaymentServiceImpl implements IPaymentService {
         //支付方式
         pay.setPayType(payType == 1 ? 1 : 2);
         //支付订单号
-        String orderNo = IdUtil.simpleUUID();
+        String orderNo = RandomUtil.randomString(25);
         pay.setPayOrderNo(orderNo);
         //支付状态 1-未付款 2-已付款3-已退款4-已过期
         pay.setPayStatus(1);
@@ -270,22 +300,24 @@ public class PaymentServiceImpl implements IPaymentService {
         xinAnPayService.saveEntity(pay);
 
 
+
+        //订单信息
         PayExpand payExpand = new PayExpand();
         //金额
-        payExpand.setMoney(order.getMoney());
+        payExpand.setMoney(hlOrder.getMoney());
         //支付ID
         payExpand.setPayId(pay.getId());
         //支付订单号
         payExpand.setPayOrderNo(orderNo);
         //订单号
-        payExpand.setOrderNo(order.getOrderNo());
+        payExpand.setOrderNo(hlOrder.getOrderNo());
         xinAnPayExpandService.saveEntity(payExpand);
         //请求支付参数
         PayRequest payRequest = new PayRequest();
         //订单号
         payRequest.setOrderNo(orderNo);
         //金额
-        payRequest.setMoney(order.getMoney());
+        payRequest.setMoney(hlOrder.getMoney());
         //支付类型
         payRequest.setPayType(payType);
         //回调地址
@@ -307,9 +339,11 @@ public class PaymentServiceImpl implements IPaymentService {
                 payRequest.setPayParams("HLAPPWECAT");
             }
         }
-        return paymentFeignClient.gateway(payRequest).getData();
-    }
 
+        Map<String, Object> resultMap = paymentFeignClient.gateway(payRequest).getData();
+        log.info("海露支付返回数据：{}",resultMap);
+        return resultMap;
+    }
 
     /**
      * 判断是否为服务商
@@ -317,28 +351,36 @@ public class PaymentServiceImpl implements IPaymentService {
      * @param userId
      * @return
      */
-    public boolean isPovider(String userId) {
+    public boolean isPovider(String userId,Integer buyType) {
         ApiResponse<ShopMember> userInfo = mallFeignClient.findById(userId);
-        if (userInfo.getData() != null && userInfo.getData().getMerchantType() == 2) {
+        if (userInfo.getData() != null && userInfo.getData().getMerchantType() == buyType) {
             return true;
         }
         return false;
     }
 
     @Override
-    public void callbackHl(Map<String, Object> params) throws BusinessException {
+    public void chinaumsCallbackHl() throws Exception {
+        JSONObject params = chinaumsUtils.checkChinaumsParams(RequestUtils.getRequest(),key);
+        callbackHlCommon(new PayCallbackModel(params.getString("merOrderId"), params.getString("targetOrderId"),BigDecimal.valueOf(params.getInteger("totalAmount")).divide(BigDecimal.valueOf(100)),2));
+    }
 
+    @Override
+    public void callbackHl() throws Exception {
+        Map<String, Object> params = WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream()));
+            callbackHlCommon(new PayCallbackModel((String) params.get("outTradeNo"),(String)params.get("tradeNo"),BigDecimal.valueOf((double) params.get("money")),2));
+    }
+
+    public void callbackHlCommon(PayCallbackModel payCallbackModel) throws BusinessException {
         try {
             //类型  1-支付宝2-微信
-            int payType = (int) params.get("payType");
+            int payType = payCallbackModel.getPayType();
             //商家订单号
-            String outTradeNo = (String) params.get("outTradeNo");
+            String outTradeNo = payCallbackModel.getOrderNo();
             //第三方交易号
-            String tradeNo = (String) params.get("tradeNo");
-            //交易状态
-            String tradeStatus = (String) params.get("tradeStatus");
+            String tradeNo = payCallbackModel.getTradeNo();
             //金额
-            BigDecimal money = BigDecimal.valueOf((double) params.get("money"));
+            BigDecimal money = payCallbackModel.getMoney();
 
             //根据订单号获取订单
             Pay pay = xinAnPayService.findByPayOrderNo(outTradeNo);
@@ -369,18 +411,24 @@ public class PaymentServiceImpl implements IPaymentService {
             /**修改订单状态**/
             for (PayExpand p : payExpandList) {
                 //获取订单信息
-                Order order = xaOrderMapper.findByOrderNo(p.getOrderNo());
-                //支付方式
-                order.setPayType(payType);
+                HlOrder order = mallFeignClient.findByOrderNo(p.getOrderNo()).getData();
                 //将订单状态改成已支付 订单状态（1-未付款2-已付款3-已取消）
                 order.setOrderStatus(2);
-                xinAnOrderService.saveEntity(order);
+                mallFeignClient.saveHlOrder(order);
 
-                //判断是否为服务商
-                if (StringUtils.equals(order.getItemType(), "服务商")) {
-                    String invitationMember = "0";
-                    //判断是否有邀请人
-                    if (StringUtils.isNotBlank(order.getInvitationMember())) {
+                String invitationMember = "0";
+                //判断是否有邀请人
+                if (StringUtils.isNotBlank(order.getInvitationMember())) {
+
+                    //生成邀请信息
+                    InvitedetailModel invitedetailModel = new InvitedetailModel();
+                    invitedetailModel.setInvitationId(order.getInvitationMember());
+                    invitedetailModel.setBeInvitedId(order.getUserId());
+                    invitedetailModel.setType(order.getOrderType() == 1 ? 2 : 3);
+
+                    mallFeignClient.addInvitedetail(invitedetailModel);
+
+                    if(order.getOrderType() == 1){
                         //校验邀请人的身份类型
                         ShopMember parentUserInfo = mallFeignClient.findById(order.getInvitationMember()).getData();
                         if (parentUserInfo.getMerchantType() == 1) {
@@ -392,10 +440,15 @@ public class PaymentServiceImpl implements IPaymentService {
                         if (money.compareTo(BigDecimal.valueOf(30000)) == 0) {
                             mallFeignClient.editInvitationProvider(parentUserInfo, money);
                         }
+                        //更改成为服务商
+                        mallFeignClient.editMerchantTypeAndSuperiorMember(order.getUserId(), 2, invitationMember, Long.parseLong(mallFeignClient.findDetail(order.getUserId()).getData().getCityId()));
+                    }else if(order.getOrderType() == 2){
+                        //更改成为服务商
+                        mallFeignClient.editMerchantTypeAndSuperiorMember(order.getUserId(), 3, invitationMember, Long.parseLong(mallFeignClient.findDetail(order.getUserId()).getData().getCityId()));
                     }
-                    //更改成为服务商
-                    mallFeignClient.editMerchantTypeAndSuperiorMember(order.getMemberId(), 2, invitationMember, order.getChooseCityId());
+
                 }
+
             }
         } catch (Exception e) {
             log.warn("处理支付订单出现错误：" + e.getMessage(), e);
@@ -475,17 +528,28 @@ public class PaymentServiceImpl implements IPaymentService {
     }
 
     @Override
-    public void callbackDonation(Map<String, Object> params) throws BusinessException {
+    public void chinaumsCallbackDonation() throws Exception {
+        JSONObject params = chinaumsUtils.checkChinaumsParams(RequestUtils.getRequest(),key);
+        callbackDonationCommon(new PayCallbackModel(params.getString("merOrderId"), params.getString("targetOrderId"),BigDecimal.valueOf(params.getInteger("totalAmount")).divide(BigDecimal.valueOf(100)),2));
+    }
+
+    @Override
+    public void callbackDonation() throws Exception {
+        Map<String, Object> params = WechatUtil.weCatCallback(WechatUtil.xmlToMap(RequestUtils.getRequest().getInputStream()));
+        callbackDonationCommon(new PayCallbackModel((String) params.get("outTradeNo"),(String)params.get("tradeNo"),BigDecimal.valueOf((double) params.get("money")),2));
+    }
+
+    public void callbackDonationCommon(PayCallbackModel payCallbackModel) throws BusinessException {
         try {
             //类型  1-支付宝2-微信
-            int payType = (int) params.get("payType");
+            int payType = payCallbackModel.getPayType();
 
             //商家订单号
-            String outTradeNo = (String) params.get("outTradeNo");
+            String outTradeNo = payCallbackModel.getOrderNo();
             //第三方交易号
-            String tradeNo = (String) params.get("tradeNo");
+            String tradeNo = payCallbackModel.getTradeNo();
 //            //金额
-            BigDecimal money = BigDecimal.valueOf((double) params.get("money"));
+            BigDecimal money = payCallbackModel.getMoney();
 
             //根据订单号获取订单
             Pay pay = xinAnPayService.findByPayOrderNo(outTradeNo);
@@ -537,13 +601,12 @@ public class PaymentServiceImpl implements IPaymentService {
             }
             //捐赠金额
             donation.setDonationMoney(money);
-
             donationService.insOrderDonation(donation);
-
 
         } catch (Exception e) {
             log.warn("处理支付订单出现错误：", e.getMessage());
             throw new BusinessException("处理支付订单出现错误");
         }
     }
+
 }

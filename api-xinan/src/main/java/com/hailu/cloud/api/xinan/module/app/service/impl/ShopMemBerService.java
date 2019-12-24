@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.crypto.SecureUtil;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.hailu.cloud.api.xinan.feigns.MallFeignClient;
 import com.hailu.cloud.api.xinan.module.app.dao.ShopMemberMapper;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.entity.member.ShopMember;
@@ -12,6 +13,7 @@ import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.AuthInfo;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
+import com.hailu.cloud.common.model.system.InvitedetailModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.security.AuthInfoParseTool;
@@ -42,6 +44,9 @@ public class ShopMemBerService {
 
     @Autowired
     private RedisStandAloneClient redisStandAloneClient;
+
+    @Resource
+    private MallFeignClient mallFeignClient;
 
 
     /**
@@ -187,6 +192,14 @@ public class ShopMemBerService {
             int result = findShopMemberByUserIdAndMerchantType(insuredIds);
             if (result > 0) {
                 redisStandAloneClient.stringSet(RedisEnum.DB_2.ordinal(), Constant.REDIS_INVITATION_MEMBER_POVIDER_CACHE + ShopMember.getUserId(), insuredIds, 0);
+                //添加邀请日志
+                InvitedetailModel invitedetailModel = new InvitedetailModel();
+                invitedetailModel.setInvitationId(insuredIds);
+                invitedetailModel.setBeInvitedId(ShopMember.getUserId());
+                invitedetailModel.setType(0);
+                mallFeignClient.addInvitedetail(invitedetailModel);
+                //添加汇总数据
+                mallFeignClient.addTotal(insuredIds,null,1,null,null,null);
             }
         }
 

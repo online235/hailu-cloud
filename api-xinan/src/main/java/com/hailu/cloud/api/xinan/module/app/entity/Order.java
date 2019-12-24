@@ -69,12 +69,6 @@ public class Order implements Serializable {
     private BigDecimal money;
 
     /**
-     * 邀请人ID
-     */
-    private String invitationMember;
-
-
-    /**
      * 创建日期
      */
     private Date createDate;
@@ -124,9 +118,4 @@ public class Order implements Serializable {
      * 详细地址
      */
     private String address;
-
-    /**
-     * 服务商选择的城市
-     */
-    private Long chooseCityId;
 }

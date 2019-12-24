@@ -161,5 +161,19 @@ public final class Constant {
     public static final int HOUR = MINUTES * 60;
     public static final int DAY = HOUR * 24;
 
-    // endregion
+    /**
+     * 银联支付订单头部
+     */
+    public static final String CHINAUMS_ORDER_HEADER = "6692";
+
+    /**
+     * 防止银联因网络问题多次回调
+     */
+    public static final String PAY_CALLBACK_AGAIN_TIME = "PAY_CALLBACK_AGAIN:";
+
+    /**
+     * 防止银联因网络问题多次回调  时间：1秒
+     */
+    public static final int PAY_CALLBACK_AGAIN_TIME_OUT = 60;
+
 }
