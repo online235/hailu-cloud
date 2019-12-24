@@ -39,6 +39,6 @@
     </select>
 
     <update id="audit">
-        update hl_income_transfer_out set update_by=#{memberId}, update_time = NOW(), state = #{state}  where id = #{id}
+        update hl_income_transfer_out set update_by=#{memberId}, examine_time = NOW(), state = #{state}  where id = #{id}
     </update>
 </mapper>

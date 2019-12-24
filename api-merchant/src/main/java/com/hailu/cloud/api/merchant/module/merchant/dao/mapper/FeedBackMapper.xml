@@ -7,8 +7,14 @@
         <if test="id != null">
             id,
         </if>
+        <if test="handleId != null">
+            handle_id,
+        </if>
         <if test="title != null">
             title,
+        </if>
+        <if test="status != null">
+            status,
         </if>
         <if test="content != null">
             content,
@@ -44,8 +50,14 @@
         <if test="id != null">
             #{id},
         </if>
+        <if test="handleId != null">
+            #{handleId},
+        </if>
         <if test="title != null">
             #{title},
+        </if>
+        <if test="status != null">
+            #{status},
         </if>
         <if test="content != null">
             #{content},
@@ -82,8 +94,14 @@
         <if test="id != null">
             id = #{id},
         </if>
+        <if test="handleId != null">
+            handle_id = #{handleId},
+        </if>
         <if test="title != null">
             title = #{title},
+        </if>
+        <if test="status != null">
+            status = #{status},
         </if>
         <if test="content != null">
             content = #{content},

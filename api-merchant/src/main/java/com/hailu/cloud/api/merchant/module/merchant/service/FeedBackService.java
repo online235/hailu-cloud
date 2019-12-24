@@ -37,6 +37,7 @@ public class FeedBackService {
         shopFeedback.setId(basicFeignClient.uuid().getData());
         shopFeedback.setCreateTime(new Date());
         shopFeedback.setUpdateTime(new Date());
+        shopFeedback.setStatus(1);
         feedBackMapper.saveFeedBack(shopFeedback);
     }
 

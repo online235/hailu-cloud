@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.merchant.module.merchant.model;
+
 import lombok.Data;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
+
 import java.util.Date;
 
 /**
@@ -11,13 +13,19 @@ import java.util.Date;
  */
 @Data
 @ApiModel
-public class ShopFeedback {
+public class ShopFeedbackModel {
 
     /**
      * ID
      */
     @ApiModelProperty("ID")
     private Long id;
+
+    /**
+     * 处理人id
+     */
+    @ApiModelProperty("处理人id")
+    private Long handleId;
 
     /**
      * 标题
@@ -74,6 +82,12 @@ public class ShopFeedback {
      */
     @ApiModelProperty("回复")
     private String officialReply;
+
+    /**
+     * 处理状态 1、未处理；2、已经处理
+     */
+    @ApiModelProperty("处理状态 1、未处理；2、已经处理")
+    private Integer status;
 
     /**
      * 创建时间

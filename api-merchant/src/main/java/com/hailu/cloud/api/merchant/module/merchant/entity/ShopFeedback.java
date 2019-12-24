@@ -18,6 +18,11 @@ public class ShopFeedback {
     private Long id;
 
     /**
+     * 处理人id
+     */
+    private Long handleId;
+
+    /**
      * 标题
      */
     private String title;
@@ -61,6 +66,11 @@ public class ShopFeedback {
      * 回复
      */
     private String officialReply;
+
+    /**
+     * 处理状态 1、未处理；2、已经处理
+     */
+    private Integer status;
 
     /**
      * 创建时间
