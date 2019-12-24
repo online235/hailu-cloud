@@ -254,27 +254,28 @@ public class McStoreInformationController {
     }
 
 
-//    @ApiOperation(value = "保存店铺相册", notes = "<prep>"
-//            + "{\n" +
-//            "    'code': 200,\n" +
-//            "    'message': '请求成功',\n" +
-//            "}" + "</prep>")
-//    @PostMapping("submitStoreAlbumUrl")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-//            @ApiImplicitParam(name = "albumUrl", value = "相册路径", paramType = "query", dataType = "String", required = true)
-//    })
-//    public void submitStoreAlbumUrl(@NotNull @RequestParam(value = "storeId") Long storeId, @NotEmpty @RequestParam(value = "albumUrl") String albumUrl) throws BusinessException {
-//
-//        if (storeId == null || albumUrl == null) {
-//            throw new BusinessException("参数不能为空！");
-//        }
-//        McStoreAlbum mcStoreAlbum = new McStoreAlbum();
-//        mcStoreAlbum.setStoreId(storeId);
-//        mcStoreAlbum.setAlbumUrl(albumUrl);
-//        mcStoreAlbumService.insertSelective(mcStoreAlbum);
-//
-//    }
+    @ApiOperation(value = "修改相册图片", notes = "<prep>"
+            + "{\n" +
+            "    'code': 200,\n" +
+            "    'message': '请求成功',\n" +
+            "}" + "</prep>")
+    @PostMapping("submitStoreAlbumUrl")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "albumId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "albumUrl", value = "相册路径", paramType = "query", dataType = "String", required = true),
+            @ApiImplicitParam(name = "title", value = "相册标题", paramType = "query", dataType = "String", required = true),
+    })
+    public void submitStoreAlbumUrl(@NotNull @RequestParam(value = "albumId") Long albumId, @RequestParam(value = "albumUrl") String albumUrl, @RequestParam(value = "title") String title) throws BusinessException {
+
+        if (albumId == null) {
+            throw new BusinessException("参数异常");
+        }
+        McStoreAlbum mcStoreAlbum = new McStoreAlbum();
+        mcStoreAlbum.setId(albumId);
+        mcStoreAlbum.setTitle(title);
+        mcStoreAlbum.setAlbumUrl(albumUrl);
+        mcStoreAlbumService.updateByPrimaryKey(mcStoreAlbum);
+    }
 
 
     @ApiOperation(value = "保存店铺相册，多张保存", notes = "<prep>"
@@ -290,7 +291,7 @@ public class McStoreInformationController {
         }
         List<McStoreAlbumUrlParameter> mcStoreAlbumUrlParameters = JSON.parseArray(storeAlbumParameter.getAlbumUrlsJsonString(), McStoreAlbumUrlParameter.class);
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(mcStoreAlbumUrlParameters)){
+        if (!CollectionUtils.isEmpty(mcStoreAlbumUrlParameters)) {
             for (McStoreAlbumUrlParameter mcStoreAlbumUrlParameter : mcStoreAlbumUrlParameters) {
                 McStoreAlbum mcStoreAlbum = new McStoreAlbum();
                 BeanUtils.copyProperties(mcStoreAlbumUrlParameter, mcStoreAlbum);

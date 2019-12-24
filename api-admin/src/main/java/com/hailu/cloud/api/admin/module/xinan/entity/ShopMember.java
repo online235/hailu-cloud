@@ -127,7 +127,7 @@ public class ShopMember implements Serializable {
     /**
      * 真实姓名
      */
-    private String memberTruename;
+    private String memberTrueName;
 
     /**
      *

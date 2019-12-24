@@ -32,6 +32,8 @@ public class McStoreAlbumService {
 
 
     public void updateByPrimaryKey(McStoreAlbum mcStoreAlbum){
+
+        mcStoreAlbum.setUpdateTime(new Date());
         mcStoreAlbumMapper.updateByPrimaryKey(mcStoreAlbum);
     }
 
