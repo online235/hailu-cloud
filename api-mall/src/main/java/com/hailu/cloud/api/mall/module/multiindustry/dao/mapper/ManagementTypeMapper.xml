@@ -15,10 +15,7 @@
         <if test="parentId != null">
             and parent_id = #{parentId}
         </if>
-        <if test="parentId == null">
-            and parent_id = 0
-        </if>
-        <if test="managementType == null">
+        <if test="managementType != null">
             and management_type = #{managementType}
         </if>
         ORDER BY sort
