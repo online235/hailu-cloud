@@ -47,8 +47,8 @@ public class StoreInformationImpl implements StoreInformationService {
             Integer tagId,
             String shopName,
             Integer priceRanking,
-            double startingPrice,
-            double closingPrice,
+            Double startingPrice,
+            Double closingPrice,
             Integer size,
             Integer page) throws ParseException {
 
@@ -66,7 +66,7 @@ public class StoreInformationImpl implements StoreInformationService {
         List<StoreInformationListResult> data = new ArrayList<>();
         for (StoreInformationListResult storeInformationListResult : datas){
             if(storeInformationListResult.getBusinessState() == 1){
-                storeInformationListResult.setBusinessState(StoreUtil.storeBusinessTimeStatus(storeInformationListResult.getBusinessTime(),storeInformationListResult.getWeekDay()) == true ? 1 : 2);
+                storeInformationListResult.setBusinessState(StoreUtil.storeBusinessTimeStatus(storeInformationListResult.getBusinessTime(), storeInformationListResult.getWeekDay()) ? 1 : 2);
             }
             data.add(storeInformationListResult);
         }

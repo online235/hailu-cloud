@@ -1,6 +1,7 @@
 package com.hailu.cloud.common.utils;
 
 import cn.hutool.core.date.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,12 +91,14 @@ public class StoreUtil {
      * @throws ParseException
      */
     public static boolean businessTimeStatus(String businessTime) throws ParseException{
-
+        if(StringUtils.isBlank(businessTime)){
+            return false;
+        }
         String[] businessTimeStr = businessTime.split(",");
         boolean result = false;
         for(int i = 0;i<businessTimeStr.length;i++){
             result = timeSlotStatus(businessTimeStr[i]);
-            if(result == true){
+            if(result){
                 return result;
             }
         }

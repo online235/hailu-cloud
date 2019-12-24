@@ -4,6 +4,7 @@ import com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ManagementTypeService {
 
@@ -11,7 +12,7 @@ public interface ManagementTypeService {
      * 查询经营类型
      * @return
      */
-    List<ManagementType> findManagementTypeList(Object parameter);
+    List<ManagementType> findManagementTypeList(Map<String, Object> parameter);
 
 
     /**

@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: QiuFeng:WANG
@@ -19,7 +20,7 @@ public interface ManagementTypeMapper {
      * 根据父级Id查询经营类型
      * @return
      */
-    List<ManagementType> findManagementTypeList(Object parameter);
+    List<ManagementType> findManagementTypeList(Map<String, Object> parameter);
 
 
     /**

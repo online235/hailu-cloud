@@ -26,8 +26,8 @@ public interface StoreInformationService {
             Integer tagId,
             String shopName,
             Integer priceRanking,
-            double startingPrice,
-            double closingPrice,
+            Double startingPrice,
+            Double closingPrice,
             Integer size,
             Integer page) throws ParseException;
 

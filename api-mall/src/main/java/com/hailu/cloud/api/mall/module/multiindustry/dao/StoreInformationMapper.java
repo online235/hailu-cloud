@@ -32,8 +32,8 @@ public interface StoreInformationMapper {
             @Param("tagId") Integer tagId,
             @Param("shopName") String shopName,
             @Param("priceRanking") Integer priceRanking,
-            @Param("startingPrice") double startingPrice,
-            @Param("closingPrice") double closingPrice);
+            @Param("startingPrice") Double startingPrice,
+            @Param("closingPrice") Double closingPrice);
 
     /**
      * 店铺详细信息

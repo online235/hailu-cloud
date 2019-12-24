@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManagementTypeImpl implements ManagementTypeService {
@@ -15,7 +16,7 @@ public class ManagementTypeImpl implements ManagementTypeService {
     private ManagementTypeMapper managementTypeMapper;
 
     @Override
-    public List<ManagementType> findManagementTypeList(Object parameter) {
+    public List<ManagementType> findManagementTypeList(Map<String, Object> parameter) {
         return managementTypeMapper.findManagementTypeList(parameter);
     }
 

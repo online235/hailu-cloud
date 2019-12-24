@@ -62,7 +62,7 @@ public class ManagementTypeController {
         Map map = new HashMap(3);
         map.put("parentId",parentId);
         map.put("managementType",1); //经营项目类型  1 生活圈 ； 2  百货
-        return managementTypeService.findManagementTypeList(parentId);
+        return managementTypeService.findManagementTypeList(map);
     }
 
 }

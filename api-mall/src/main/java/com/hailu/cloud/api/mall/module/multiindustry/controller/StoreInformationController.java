@@ -69,8 +69,8 @@ public class StoreInformationController {
             Integer tagId,
             String shopName,
             Integer priceRanking,
-            double startingPrice,
-            double closingPrice,
+            Double startingPrice,
+            Double closingPrice,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false)
