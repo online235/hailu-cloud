@@ -97,7 +97,7 @@
      store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
      album.id as id1,album.store_id,album.album_url,album.create_time as create_time1,album.update_time as update_time1
     from mc_store_information as store left join mc_store_album as album ON album.store_id = store.id
-    where store.id = #{id} and store.to_examine = 2 and default_rotation = 1
+    where store.id = #{id} and store.to_examine = 2
   </select>
 
 

@@ -41,13 +41,6 @@ public class McStoreAlbum {
     private String albumType;
 
     /**
-     * 图片是否为首页轮播（是-1、否-2）
-     */
-    @ApiModelProperty(value = "图片是否为首页轮播（是-1、否-2）")
-    private String defaultRotation;
-
-
-    /**
      * 创新时间
      */
     @ApiModelProperty(value = "创新时间")
