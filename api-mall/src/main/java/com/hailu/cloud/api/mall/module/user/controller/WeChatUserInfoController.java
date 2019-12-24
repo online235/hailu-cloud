@@ -15,11 +15,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -63,9 +64,9 @@ public class WeChatUserInfoController {
     /**
      * 获取微信jsAPI签名
      */
-    @PostMapping(value = "/getJsApiSignature")
+    @GetMapping(value = "/getJsApiSignature")
     @ResponseBody
-    public Map<String, String> getJsApiSignature(String url) throws BusinessException {
+    public Map<String, String> getJsApiSignature(@NotBlank(message = "url不能为空") String url) throws BusinessException {
         String globalAccessTokenKey = Constant.REDIS_KEY_WECHAT_PUBLIC_TOKEN + this.appId;
         String globalTokenInfo = redisClient.stringGet(globalAccessTokenKey);
         WeChatAuthResponse weChatLoginInfoModel;
@@ -83,7 +84,7 @@ public class WeChatUserInfoController {
             weChatLoginInfoModel = JSON.parseObject(globalTokenInfo, WeChatAuthResponse.class);
         }
         // 判断是否存在票据信息
-        String ticketKey = Constant.REDIS_KEY_WECHAT_TICKET + StringUtils.defaultString(weChatLoginInfoModel.getUnionId(), weChatLoginInfoModel.getOpenId());
+        String ticketKey = Constant.REDIS_KEY_WECHAT_TICKET + this.appId;
         String redisTicket = redisClient.stringGet(ticketKey);
         if (StringUtils.isBlank(redisTicket)) {
             // 请求JSAPI临时票据信息
@@ -106,6 +107,11 @@ public class WeChatUserInfoController {
         params.put("url", url);
         String sign = SignUtil.createASCLLSign(params);
         params.put("signature", sign);
+        log.debug("==> {}", this.appId);
+        log.debug("==> {}", this.secret);
+        log.debug("==> {}", JSON.toJSONString(weChatLoginInfoModel));
+        log.debug("==> {}", redisTicket);
+        log.debug("==> {}", JSON.toJSONString(params));
         // 移除前端使用不到的字段
         params.remove("jsapi_ticket");
         return params;
