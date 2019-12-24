@@ -66,9 +66,6 @@ public class OrderServiceImpl implements IOrderService {
     @Autowired
     private IComputeCommission computeCommission;
 
-    @Value("${static.server.prefix}")
-    private String staticServerPrefix;
-
     private Gson gson = new Gson();
 
     @Override
@@ -192,7 +189,7 @@ public class OrderServiceImpl implements IOrderService {
                 if (og.size() > 0) {
                     for (OrderGoods orderGoods : og) {
                         if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
-                            orderGoods.setGoodsImage(this.staticServerPrefix + orderGoods.getGoodsImage());
+                            orderGoods.setGoodsImage(orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = this.getGoodsCompl(orderGoods.getRecId());
                         orderGoods.setGoodsClmpl(goodsCompl);
@@ -859,7 +856,7 @@ public class OrderServiceImpl implements IOrderService {
                 if (ogList.size() > 0) {
                     for (OrderGoods orderGoods : ogList) {
                         if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
-                            orderGoods.setGoodsImage(this.staticServerPrefix + orderGoods.getGoodsImage());
+                            orderGoods.setGoodsImage(orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = orderDao.getGoodsCompl(orderGoods.getRecId());
                         orderGoods.setGoodsClmpl(goodsCompl);

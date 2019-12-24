@@ -35,9 +35,6 @@ public class CsApplyServiceImpl implements ICsApplyService {
     @Autowired
     private CsApplyProressDao csApplyProressDao;
 
-    @Value("${static.server.prefix}")
-    private String staticServerPrefix;
-
     /***
      * 返回该订单明细是否正在申请售后
      */
@@ -135,7 +132,7 @@ public class CsApplyServiceImpl implements ICsApplyService {
         }
         String goodsImges = cSOrderGoods.getGoodsImage();
         if (StringUtils.isNotEmpty(goodsImges) && !("http").equals(goodsImges.substring(0, 4))) {
-            cyApplyGoods.setGoodsImage(this.staticServerPrefix + goodsImges);
+            cyApplyGoods.setGoodsImage(goodsImges);
         }
         cyApplyGoods.setGoodsImage(goodsImges);
         //服务类型

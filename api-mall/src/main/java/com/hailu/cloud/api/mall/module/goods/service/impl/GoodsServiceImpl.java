@@ -40,9 +40,6 @@ public class GoodsServiceImpl implements IGoodsService {
     @Autowired
     private IComputeCommission computeCommission;
 
-    @Value("${static.server.prefix}")
-    private String staticServerPrefix;
-
     /**
      * @author Administrator 购买商品提问题
      */
@@ -75,7 +72,7 @@ public class GoodsServiceImpl implements IGoodsService {
         if (myQuestionList.size() > 0) {
             for (AskReplyQuestionVo ask : myQuestionList) {
                 if (StringUtils.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
-                    ask.setGoodsImg(this.staticServerPrefix + ask.getGoodsImg());
+                    ask.setGoodsImg(ask.getGoodsImg());
                 }
             }
         }
@@ -121,7 +118,7 @@ public class GoodsServiceImpl implements IGoodsService {
         if (askReply.size() > 0) {
             for (AskReplyVo askReplyVo : askReply) {
                 if (StringUtils.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
-                    askReplyVo.setUserImg(this.staticServerPrefix + askReplyVo.getUserImg());
+                    askReplyVo.setUserImg(askReplyVo.getUserImg());
                 }
             }
         }
@@ -139,17 +136,17 @@ public class GoodsServiceImpl implements IGoodsService {
         if (askreply.size() > 0) {
             for (AskReplyQuestionVo ask : askreply) {
                 if (StringUtils.isNotEmpty(ask.getGoodsImg()) && !("http").equals(ask.getGoodsImg().substring(0, 4))) {
-                    ask.setGoodsImg(this.staticServerPrefix + ask.getGoodsImg());
+                    ask.setGoodsImg(ask.getGoodsImg());
                 }
                 if (StringUtils.isNotEmpty(ask.getUserImg()) && !("http").equals(ask.getUserImg().substring(0, 4))) {
-                    ask.setUserImg(this.staticServerPrefix + ask.getUserImg());
+                    ask.setUserImg(ask.getUserImg());
                 }
                 //得到问题的最新一条回答
                 List<AskReplyVo> askReply = goodsDao.myQuestAllAnswers(ask.getAskReplyId(), 0, 1);
                 if (askReply.size() > 0) {
                     for (AskReplyVo askReplyVo : askReply) {
                         if (StringUtils.isNotEmpty(askReplyVo.getUserImg()) && !("http").equals(askReplyVo.getUserImg().substring(0, 4))) {
-                            askReplyVo.setUserImg(this.staticServerPrefix + askReplyVo.getUserImg());
+                            askReplyVo.setUserImg(askReplyVo.getUserImg());
                         }
                     }
                 }

@@ -46,9 +46,6 @@ public class OrderController {
     @Autowired
     private IOSSOrderService ossOrderService;
 
-    @Value("${static.server.prefix}")
-    private String staticServerPrefix;
-
     /**
      * 微信公众号签名认证接口
      *
@@ -350,7 +347,7 @@ public class OrderController {
                 }
                 if (orderSevice.getSmallImg().length() > 4) {
                     if (!orderSevice.getSmallImg().contains("http")) {
-                        orderSevice.setSmallImg(this.staticServerPrefix + orderSevice.getSmallImg());
+                        orderSevice.setSmallImg(orderSevice.getSmallImg());
                     }
                 }
                 String imgStr = orderSevice.getPicture();
@@ -360,7 +357,7 @@ public class OrderController {
                         if (imgPath.length() > 0) {
                             imgPath.append(",");
                         }
-                        imgPath.append(this.staticServerPrefix).append(ig);
+                        imgPath.append(ig);
                     }
                 }
                 if (orderSevice.getTime() != null) {
@@ -421,7 +418,7 @@ public class OrderController {
             }
             if (orderSevice.getSmallImg().length() > 4) {
                 if (!orderSevice.getSmallImg().contains("http")) {
-                    orderSevice.setSmallImg(this.staticServerPrefix + orderSevice.getSmallImg());
+                    orderSevice.setSmallImg(orderSevice.getSmallImg());
                 }
             }
             String imgStr = orderSevice.getPicture();
@@ -431,7 +428,7 @@ public class OrderController {
                     if (imgPath.length() > 0) {
                         imgPath.append(",");
                     }
-                    imgPath.append(this.staticServerPrefix).append(ig);
+                    imgPath.append(ig);
                 }
             }
             if (orderSevice.getTime() != null) {

@@ -36,9 +36,6 @@ public class CsApplyController {
     @Autowired
     private ICsReasonService csReasonService;
 
-    @Value("${static.server.prefix}")
-    private String staticServerPrefix;
-
     /**
      * 查看 可以售后的订单
      */
@@ -58,7 +55,7 @@ public class CsApplyController {
                     // 订单状态：0:已取消;1:待付款;2:待发货;3:待收货;4:交易完成;5:已提交;6:已确认;
                     for (CSOrderGoods orderGoods : og) {
                         if (StringUtils.isNotEmpty(orderGoods.getGoodsImage()) && !("http").equals(orderGoods.getGoodsImage().substring(0, 4))) {
-                            orderGoods.setGoodsImage(this.staticServerPrefix + orderGoods.getGoodsImage());
+                            orderGoods.setGoodsImage(orderGoods.getGoodsImage());
                         }
                         List<GoodsCompl> goodsCompl = orderService.getGoodsCompl(orderGoods.getRecId());
                         orderGoods.setGoodsClmpl(goodsCompl);

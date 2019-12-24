@@ -27,14 +27,11 @@ public class IconController {
     @Autowired
     private IconService iconService;
 
-    @Value("${static.server.prefix}")
-    private String staticServerPrefix;
-
     @GetMapping("api/mall/iconList")
     public Map<String, Object> iconList() throws Exception {
         List<IconVo> iconList = iconService.iconList(2);
         for (IconVo iconVo : iconList) {
-            iconVo.setIconPath(this.staticServerPrefix + iconVo.getIconPath());
+            iconVo.setIconPath(iconVo.getIconPath());
         }
         // 商品分类
         return ImmutableMap.of("iconList", iconList);
