@@ -26,4 +26,11 @@ public interface McCouponService {
      * 到店卷列表
      */
     PageInfoModel<List<McCoupon>> findMcCouponList(Long mcNumberId, Integer page, Integer size);
+
+
+    /**
+     * 查询到店卷是否过去
+     * @mbggenerated 2019-12-20
+     */
+    int findMcCouponById(Long id);
 }

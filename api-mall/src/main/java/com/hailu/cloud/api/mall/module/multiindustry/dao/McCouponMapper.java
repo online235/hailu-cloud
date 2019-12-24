@@ -25,4 +25,10 @@ public interface McCouponMapper {
      */
     List<McCoupon> findMcCouponList(
             @Param("mcNumberId") Long mcNumberId);
+
+    /**
+     * 查询到店卷是否过去
+     * @mbggenerated 2019-12-20
+     */
+    int findMcCouponById(@Param("id") Long id);
 }

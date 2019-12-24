@@ -12,7 +12,7 @@ import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeServ
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
-import com.hailu.cloud.api.merchant.module.merchant.service.McStoreAlbumService;
+import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreAlbumService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;

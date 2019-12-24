@@ -69,7 +69,7 @@ public class McCoupon<T> implements Serializable {
      * 下单后有效时间（天）
      */
     @ApiModelProperty(value = "下单后有效时间（天）")
-    private Date timeAfterOrder;
+    private Integer timeAfterOrder;
 
     /**
      * 开始时间

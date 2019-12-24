@@ -30,4 +30,12 @@ public interface MultiIndustryOrderService {
      * @return
      */
     PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(Integer page , Integer size,Integer state);
+
+
+    /**
+     * 根据店铺Id更改订单状态
+     * @param id
+     * @return
+     */
+    void updateOrderState(Long id) throws BusinessException;
 }

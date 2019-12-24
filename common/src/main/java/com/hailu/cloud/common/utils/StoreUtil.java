@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -132,5 +133,48 @@ public class StoreUtil {
     public static void main(String[] args) throws ParseException {
         System.out.println(DateUtil.dayOfWeek(new Date()));
         System.out.println(dateCompare("9:00"));
+    }
+
+    private static String YYYY_MM_DD = "yyyyMMdd";
+
+    private static String HH_MM_DD = "HHmmss";
+
+    /**
+     * @title: dateCompare
+     * @description: 比较日期大小
+     * @param date1 日期1
+     * @param date2 日期2
+     * @param comparisonType 比较类型（1-年月日、2-时分秒）
+     * @return
+     * date1 > date2 = 1
+     * date1 < date2 = -1
+     * date1 == date2 = 0
+     */
+    public static int dateCompare(Date date1, Date date2, int comparisonType) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(comparisonType == 1 ? YYYY_MM_DD : HH_MM_DD);
+        String dateFirst = dateFormat.format(date1);
+        String dateLast = dateFormat.format(date2);
+        int dateFirstIntVal = Integer.parseInt(dateFirst);
+        int dateLastIntVal = Integer.parseInt(dateLast);
+        if (dateFirstIntVal > dateLastIntVal) {
+            return 1;
+        } else if (dateFirstIntVal < dateLastIntVal) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * 时间天数增加
+     * @param date
+     * @param num
+     * @return
+     */
+    public static Date datePlus(Date date,int num){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, num);
+        date = cal.getTime();
+        return date;
     }
 }

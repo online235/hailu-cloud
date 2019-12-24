@@ -22,7 +22,7 @@ public interface MultiIndustryOrderMapper {
     int insertSelective(MultiIndustryOrder record);
 
     /**
-     *
+     * 查询订单
      * @mbggenerated 2019-11-25
      */
     MultiIndustryOrder selectByPrimaryKey(Long id);
@@ -38,5 +38,15 @@ public interface MultiIndustryOrderMapper {
      * @param memberId
      * @return
      */
-    List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId,@Param("state") Integer state);
+    List<MultiIndustryOrder> findOrderListByMemberId(@Param("memberId") String memberId,@Param("state") Integer state,@Param("secondState") Integer secondState);
+
+
+    /**
+     * 根据店铺Id更改订单状态
+     * @param id
+     * @return
+     */
+    int updateOrderState(@Param("id") Long id, @Param("state") Integer state);
+
+
 }

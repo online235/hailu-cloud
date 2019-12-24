@@ -107,7 +107,8 @@
 
 
     <select id="findListByParameter"
-            parameterType="com.hailu.cloud.api.merchant.module.merchant.model.McStoreFunctionModel">
+            parameterType="com.hailu.cloud.api.merchant.module.merchant.model.McStoreFunctionModel"
+            resultType="com.hailu.cloud.api.merchant.module.merchant.model.McStoreFunctionModel">
         select id, store_id, reserve_status, automatic_status,
         max_order_num, appointment_save_time
         from mc_store_function
@@ -128,7 +129,7 @@
 
 
     <select id="findObjectByStoreId"
-            parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction">
+            resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction">
         select id, store_id, reserve_status, automatic_status, max_order_num, appointment_save_time, date_time, update_date_time
         from mc_store_function
         where store_id = #{storeId}

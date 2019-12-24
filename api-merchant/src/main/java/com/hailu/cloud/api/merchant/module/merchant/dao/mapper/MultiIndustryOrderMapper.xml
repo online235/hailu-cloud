@@ -10,10 +10,17 @@
     <include refid="Base_Column_List"/>
     from mc_order
     where store_id = #{storeId}
+    <if test="state != null and state != 0">
+      and state = #{state}
+    </if>
+    <if test="secondState != null and secondState != 0">
+      and state = #{secondState}
+    </if>
+    ORDER BY order_time desc
   </select>
 
   <update id="updateOrderState">
-    update mc_order set state = 2
+    update mc_order set state = #{state}
     where id = #{id}
   </update>
 

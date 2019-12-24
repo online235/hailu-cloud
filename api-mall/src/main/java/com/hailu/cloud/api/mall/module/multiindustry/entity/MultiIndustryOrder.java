@@ -11,6 +11,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @Description  ：
+ * @author       : QiuFeng:WANG
+ * @date         : 2019/12/24 0024 11:11
+ */
 @Data
 @InjectDict
 public class MultiIndustryOrder<C> implements Serializable {
@@ -129,9 +134,9 @@ public class MultiIndustryOrder<C> implements Serializable {
     private String exchangeCode;
 
     /**
-     * 订单状态(未完成-1、已完成-2)
+     * 订单状态(待确认-1、待使用-2、已完成-3、 预定失败-4、已取消-5  )
      */
-    @ApiModelProperty(value = "订单状态(未完成-1、已完成-2)", dataType = "Integer")
+    @ApiModelProperty(value = "订单状态(待确认-1、待使用-2、已完成-3、 预定失败-4、已取消-5  )", dataType = "Integer")
     private Integer state;
 
     @ApiModelProperty(value = "订单状态", dataType = "String")

@@ -13,12 +13,15 @@ public interface MultiIndustryOrderMapper {
      * @param storeId
      * @return
      */
-    List<MultiIndustryOrder> findOrderListByStoreId(@Param("storeId") Long storeId);
+    List<MultiIndustryOrder> findOrderListByStoreId(
+            @Param("storeId") Long storeId,
+            @Param("state") Integer state,
+            @Param("secondState")  Integer secondState);
 
     /**
      * 根据店铺Id更改订单状态
      * @param id
      * @return
      */
-    int updateOrderState(@Param("id") Long id);
+    int updateOrderState(@Param("id") Long id, @Param("state") Integer state);
 }

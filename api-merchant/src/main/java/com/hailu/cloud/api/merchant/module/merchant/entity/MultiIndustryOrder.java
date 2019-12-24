@@ -88,7 +88,7 @@ public class MultiIndustryOrder implements Serializable {
     @DateTimeFormat(pattern = "HH:mm")
     @JsonFormat(pattern = "HH:mm",timezone = "GMT+8")
     @ApiModelProperty(value = "使用时间")
-    private String useTime;
+    private Date useTime;
 
     /**
      * 使用日期
@@ -96,13 +96,13 @@ public class MultiIndustryOrder implements Serializable {
     @DateTimeFormat(pattern = "yyy-MM-dd")
     @JsonFormat(pattern = "yyy-MM-dd",timezone = "GMT+8")
     @ApiModelProperty(value = "使用日期")
-    private String useDate;
+    private Date useDate;
 
     /**
      * 使用人数
      */
     @ApiModelProperty(value = "使用人数")
-    private String useNumber;
+    private Integer useNumber;
 
     /**
      * 到期时间
@@ -110,7 +110,7 @@ public class MultiIndustryOrder implements Serializable {
     @DateTimeFormat(pattern = "yyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @ApiModelProperty(value = "到期时间")
-    private String dueTime;
+    private Date dueTime;
 
     /**
      * 备注
@@ -131,15 +131,15 @@ public class MultiIndustryOrder implements Serializable {
     private String exchangeCode;
 
     /**
-     * 订单状态(未完成-1、已完成-2)
+     * 订单状态(待确认-1、待使用-2、已完成-3、 预定失败-4、已取消-5)
      */
-    @ApiModelProperty(value = "订单状态(未完成-1、已完成-2)")
+    @ApiModelProperty(value = "订单状态(待确认-1、待使用-2、已完成-3、 预定失败-4、已取消-5)")
     private Integer state;
 
 
     @DictName(code = "ORDER_STATUS", joinField = "state")
     private String stateDisplay;
-
+ 
 
     /**
      * 下单时间

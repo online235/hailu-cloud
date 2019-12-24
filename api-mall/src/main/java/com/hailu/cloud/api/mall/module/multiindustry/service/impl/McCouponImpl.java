@@ -48,4 +48,9 @@ public class McCouponImpl implements McCouponService {
         return new PageInfoModel<>(pageList.getPages(), pageList.getTotal(), mcCouponsList);
     }
 
+    @Override
+    public int findMcCouponById(Long id) {
+        return mcCouponMapper.findMcCouponById(id);
+    }
+
 }

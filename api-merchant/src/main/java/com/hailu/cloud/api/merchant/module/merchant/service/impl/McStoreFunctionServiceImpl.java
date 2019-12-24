@@ -18,7 +18,7 @@ import java.util.List;
 public class McStoreFunctionServiceImpl implements McStoreFunctionService {
 
 
-    @Autowired
+    @Resource
     private McStoreFunctionMapper mcStoreFunctionMapper;
     @Resource
     private BasicFeignClient basicFeignClient;

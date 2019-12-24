@@ -2,9 +2,7 @@ package com.hailu.cloud.api.merchant.module.merchant.service;
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.MultiIndustryOrder;
 import com.hailu.cloud.common.model.page.PageInfoModel;
-import org.apache.ibatis.annotations.Param;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface MultiIndustryOrderService {
@@ -16,13 +14,13 @@ public interface MultiIndustryOrderService {
      * @param size
      * @return
      */
-    PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId( Integer page, Integer size);
+    PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId(Integer state, Integer page, Integer size);
 
     /**
      * 根据店铺Id更改订单状态
      * @param id
      * @return
      */
-    void updateOrderState(@Param("id") Long id);
+    void updateOrderState(Long id, Integer state);
 
 }

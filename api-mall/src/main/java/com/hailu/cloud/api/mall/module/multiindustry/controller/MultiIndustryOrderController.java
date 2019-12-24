@@ -20,6 +20,10 @@ import javax.validation.constraints.Max;
 import java.text.ParseException;
 import java.util.List;
 
+/**
+ * @Description  ：
+ * @author       : QiuFeng:WANG
+ */
 @RestController
 @RequestMapping("/app/multiIndustryOrder")
 @Validated
@@ -50,7 +54,7 @@ public class MultiIndustryOrderController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "第N页", required = true,  paramType = "query"),
             @ApiImplicitParam(name = "size", value = "页面大小",  required = true,  paramType = "query"),
-            @ApiImplicitParam(name = "state", value = "订单状态(全部-0、未完成-1、已完成-2)",  required = true,  paramType = "query")
+            @ApiImplicitParam(name = "state", value = "订单状态(全部-0、待确认-1、待使用-2、已完成-3)",  required = true,  paramType = "query")
     })
     @GetMapping("/userQueryOrder")
     public PageInfoModel<List<MultiIndustryOrder>> findOrderListByMemberId(
@@ -61,12 +65,20 @@ public class MultiIndustryOrderController {
         return orderService.findOrderListByMemberId(page, size,state);
     }
 
-    @ApiOperation(value = "用户查询订单详情", notes = "<pre>" +
-            "" +
-            "</pre>")
+    @ApiOperation(value = "用户查询订单详情")
     @ApiImplicitParam(name = "id", value = "编号", required = true,  paramType = "query")
     @GetMapping("/orderDetails")
     public McOrderModel findOrderListById(Long id){
+
         return orderService.selectDefaultHead(id);
+    }
+
+
+    @ApiOperation(value = "用户取消订单")
+    @ApiImplicitParam(name = "id", value = "编号", required = true,  paramType = "query")
+    @GetMapping("/cancellationOrder")
+    public void updateOrderState(Long id) throws BusinessException {
+
+        orderService.updateOrderState(id);
     }
 }

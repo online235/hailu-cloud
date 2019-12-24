@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.merchant.service;
+package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 
 
 import com.hailu.cloud.api.merchant.module.merchant.dao.McStoreAlbumMapper;

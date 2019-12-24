@@ -33,23 +33,25 @@ public class MultiIndustryOrderController {
     @ApiOperation(value = "商品查询多行业订单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "第N页", required = true, defaultValue = "1", paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "页面大小",  required = true, defaultValue = "20",  paramType = "query")
+            @ApiImplicitParam(name = "size", value = "页面大小",  required = true, defaultValue = "20",  paramType = "query"),
+            @ApiImplicitParam(name = "state", value = "订单状态(全部-0、待确认 -1、待使用-2、已完成-3)",   paramType = "query")
     })
     @PostMapping("/commodityQueryOrder")
     public PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId(
             @RequestParam(defaultValue = "1")Integer page ,
-            @RequestParam(defaultValue = "20")Integer size){
+            @RequestParam(defaultValue = "20")Integer size,
+            Integer state){
 
-        return orderService.findOrderListByStoreId(page, size);
+        return orderService.findOrderListByStoreId(page, size, state);
     }
 
-    @ApiOperation(value = "订单状态更改已完成")
+    @ApiOperation(value = "确认订单")
     @ApiImplicitParam(name = "id", value = "订单Id", required = true, paramType = "query")
     @PostMapping("/orderState")
     public void updateOrderState(
             @NotNull(message = "订单Id不能为空") Long id){
 
-        orderService.updateOrderState(id);
+        orderService.updateOrderState(id, 2);
     }
 
 

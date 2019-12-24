@@ -9,11 +9,16 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import jdk.nashorn.internal.runtime.regexp.joni.Region;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 @Disabled
 @Slf4j
@@ -81,6 +86,44 @@ public class SignatureTest {
     public void pwd(){
         String pwdMd5 = SecureUtil.sha256(123456 + "&key=" + signKey);
         log.info(pwdMd5);
+    }
+
+    @Test
+    @DisplayName("比较时间")
+    public void dateJiaBI(){
+//        Date date = new Date();
+//        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss  SSS").format(date));
+//        date.setTime(date.getTime() + 15*60*1000);
+//        System.out.println(date);
+//        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").format(date));
+        Date date = new Date();
+        Date date1 = new Date();
+        date1.setTime(date.getTime() + 15*60*1000);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HHmm");
+        String dateFirst = dateFormat.format(date);
+        System.out.println(dateFirst);
+        String dateLast = dateFormat.format(date1);
+        int dateFirstIntVal = Integer.parseInt(dateFirst);
+        int dateLastIntVal = Integer.parseInt(dateLast);
+        if (dateFirstIntVal > dateLastIntVal) {
+            System.out.println(1);
+        } else if (dateFirstIntVal < dateLastIntVal) {
+            System.out.println(-1);
+        }else{
+            System.out.println(0);
+        }
+
+    }
+
+    @Test
+    @DisplayName("时间相加")
+    public void dateJia(){
+        Date end = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(end);
+        cal.add(Calendar.DATE, 9);
+        end = cal.getTime();
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(end));
     }
 
 }
