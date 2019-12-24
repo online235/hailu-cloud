@@ -42,11 +42,10 @@ mapping:
         - ${api-version}/xinan/app/xinan/detailed
         - ${api-version}/xinan/app/join/findInsurdPrice
         # 商户接口
-        - ${api-version}/merchant/life-circle
         - ${api-version}/merchant/app/merchantLogin
         - ${api-version}/merchant/merchant/pc/register
-        - ${api-version}/merchant/life-circle
-        - ${api-version}/merchant/app/merchantLogin
+        - ${api-version}/merchant/mcManagementType/businessType
+        - ${api-version}/merchant/merchant/register
         # 商城接口
         - ${api-version}/mall/payment/callback/weixin
         - ${api-version}/mall/api/capacity

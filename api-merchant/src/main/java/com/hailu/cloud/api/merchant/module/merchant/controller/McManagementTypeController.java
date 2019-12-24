@@ -2,26 +2,18 @@ package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
-import com.hailu.cloud.api.merchant.module.merchant.parameter.RegisterInformation;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
-import com.hailu.cloud.api.merchant.module.merchant.service.impl.LocalCircleEntryService;
-import com.hailu.cloud.common.constant.Constant;
-import com.hailu.cloud.common.exception.BusinessException;
-import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,36 +30,8 @@ import java.util.Map;
 @Slf4j
 public class McManagementTypeController {
 
-
-    @Resource
-    private LocalCircleEntryService localCircleEntryService;
-
     @Autowired
     private McManagementTypeService mcManagementTypeService;
-
-    @Autowired
-    private RedisStandAloneClient redisStandAloneClient;
-
-
-//    @ApiOperation(value = "提交审核(商家注册以及入驻)")
-//    @PostMapping("submitAudit")
-//    public void register(@ModelAttribute RegisterInformation registerInformation, HttpServletRequest request, BindingResult result) throws Exception {
-//
-//
-//        if (result.hasErrors()) {
-//            throw new BusinessException("必填信息不能为空！");
-//        }
-//        if (registerInformation.getIdCard().length() != 18) {
-//            throw new BusinessException("身份证长度不符合");
-//        }
-//        String val = redisStandAloneClient.stringGet(Constant.REDIS_KEY_VERIFICATION_CODE + registerInformation.getMoli() + "1");
-//        if (!registerInformation.getCode().equals(val)) {
-//            throw new BusinessException("无效验证码");
-//        }
-//        localCircleEntryService.setLocalCircleEntry(registerInformation, 1);
-//
-//    }
-
 
     @ApiOperation(value = "获取经营类型")
     @PostMapping("/businessType")
@@ -80,9 +44,11 @@ public class McManagementTypeController {
         Map<String, Object> map = new HashMap<>(10);
         if (parentId == null) {
             if (mcType == 1) {
-                map.put("isLifeCircle", 1);//生活圈过滤百货经营类型
+                //生活圈过滤百货经营类型
+                map.put("isLifeCircle", 1);
             }
-            map.put("managementType", mcType);//经营项目类型  1 生活圈百货；2  百货
+            //经营项目类型  1 生活圈百货；2  百货
+            map.put("managementType", mcType);
             map.put("parentIdIsNull", 1);
             return mcManagementTypeService.findListByParam(map);
         } else {
