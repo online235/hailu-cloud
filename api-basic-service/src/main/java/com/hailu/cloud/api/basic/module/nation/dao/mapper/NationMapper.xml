@@ -25,5 +25,21 @@
 			DISTRICT
 		from sys_nation where parent_id = #{id}
 	</select>
+	<select id="findListByCode" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
+		select id,
+			CODE,
+			PROVINCE,
+			CITY,
+			DISTRICT
+		from sys_nation where parent_id = (select id from sys_nation where code = #{code})
+	</select>
+	<select id="findListById" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
+		select id,
+			CODE,
+			PROVINCE,
+			CITY,
+			DISTRICT
+		from sys_nation where parent_id = #{id}
+	</select>
 
 </mapper>

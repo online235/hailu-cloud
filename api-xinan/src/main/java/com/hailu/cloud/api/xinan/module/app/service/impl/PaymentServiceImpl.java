@@ -19,6 +19,7 @@ import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.utils.ChinaumsUtils;
 import com.hailu.cloud.common.utils.IPUtil;
+import com.hailu.cloud.common.utils.ChinaumsUtils;
 import com.hailu.cloud.common.utils.RequestUtils;
 import com.hailu.cloud.common.utils.wechat.WechatUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.admin.module.withdrawal.dao.HlIncomeTransferOutMapper">
+
+
+    <select id="findListByParameter"
+            resultType="com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutListModel">
+        select
+        transferOut.id, transferOut.member_id, transferOut.price, transferOut.open_account_bank,
+        transferOut.bank_name, transferOut.bank_card,transferOut.cardholder, transferOut.state,
+        transferOut.remark, transferOut.create_time, transferOut.update_by, transferOut.examine_time,
+        member.member_name,
+        member.member_mobile,
+        admin.nick_name
+        from hl_income_transfer_out as transferOut Inner join shop_member as member
+        ON member.user_id = transferOut.member_id
+        left join sys_admin as admin on admin.id = transferOut.update_by
+        where 1=1
+        <if test="state != null and state != ''">
+            and transferOut.state = #{state}
+        </if>
+        <if test="state == 0">
+            and transferOut.state = 0
+        </if>
+        <if test="memberName != null and memberName != ''">
+            and  member.member_name like CONCAT('%',#{memberName},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and  member.member_mobile like CONCAT('%',#{phone},'%')
+        </if>
+        <if test="createTime != null and createTime != ''">
+            and date_format(transferOut.create_time,'%Y-%m-%d')<![CDATA[=]]>#{createTime}
+        </if>
+        <if test="examineTime != null and examineTime != ''">
+            and date_format(transferOut.examine_time,'%Y-%m-%d')<![CDATA[=]]>#{examineTime}
+        </if>
+        <if test="createTimeStar != null and createTimeStar != ''">
+            and date_format(transferOut.create_time,'%Y-%m-%d')<![CDATA[>=]]>#{createTimeStar}
+        </if>
+        <if test="createTimeEnd != null and createTimeEnd != ''">
+            and date_format(transferOut.create_time,'%Y-%m-%d')<![CDATA[<=]]>#{createTimeEnd}
+        </if>
+    </select>
+
+
+    <select id="findById" resultType="com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutModel">
+        select
+        transferOut.id, transferOut.member_id, transferOut.price, transferOut.open_account_bank,
+        transferOut.bank_name, transferOut.bank_card,transferOut.cardholder, transferOut.state,
+        transferOut.remark, transferOut.create_time, transferOut.update_by, transferOut.examine_time,
+        member.member_name,
+        member.member_mobile,
+        member.user_icon,
+        admin.nick_name
+        from hl_income_transfer_out as transferOut Inner join shop_member as member
+        ON member.user_id = transferOut.member_id
+        left join sys_admin as admin on admin.id = transferOut.update_by
+        where transferOut.id = #{id}
+    </select>
+
+
+    <insert id="update">
+        update  hl_income_transfer_out
+        set update_by=#{updateBy}, examine_time = now(), state = #{state} ,remark = #{remark},update_time = now()
+        where id = #{id}
+    </insert>
+
+
+</mapper>
