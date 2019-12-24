@@ -9,10 +9,9 @@ public interface ManagementTypeService {
 
     /**
      * 查询经营类型
-     * @param parentId
      * @return
      */
-    List<ManagementType> findManagementTypeList(long parentId);
+    List<ManagementType> findManagementTypeList(Object parameter);
 
 
     /**

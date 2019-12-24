@@ -17,10 +17,9 @@ public interface ManagementTypeMapper {
 
     /**
      * 根据父级Id查询经营类型
-     * @param parentId
      * @return
      */
-    List<ManagementType> findManagementTypeList(@Param("parentId") long parentId);
+    List<ManagementType> findManagementTypeList(Object parameter);
 
 
     /**

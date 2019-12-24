@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Slf4j
 @Validated
 @RestController
@@ -55,6 +58,10 @@ public class ManagementTypeController {
             @ApiImplicitParam(name = "parentId", value = "父ID（）", paramType = "query", dataType = "long")
     })
     public Object find(@RequestParam(defaultValue = "0") long parentId) {
+
+        Map map = new HashMap(3);
+        map.put("parentId",parentId);
+        map.put("managementType",1); //经营项目类型  1 生活圈   ；2  百货
         return managementTypeService.findManagementTypeList(parentId);
     }
 

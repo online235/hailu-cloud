@@ -15,8 +15,8 @@ public class ManagementTypeImpl implements ManagementTypeService {
     private ManagementTypeMapper managementTypeMapper;
 
     @Override
-    public List<ManagementType> findManagementTypeList(long parentId) {
-        return managementTypeMapper.findManagementTypeList(parentId);
+    public List<ManagementType> findManagementTypeList(Object parameter) {
+        return managementTypeMapper.findManagementTypeList(parameter);
     }
 
 

@@ -12,6 +12,7 @@ public class ManagementTypeModel {
     /**
      * 经营类型id
      */
+    @ApiModelProperty("经营类型id")
     private Long managementId;
 
     /**
