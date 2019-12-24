@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.vo;
 
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Administrator
@@ -29,12 +27,5 @@ public class ActGoodsPriceVo {
     private String reserveFlow; //预约流程
     private int limitNumber; //限购数量
     private int virtual;//虚拟 数量
-
-    public void setGoodsImage(String goodsImage) {
-        if (StringUtils.isNotEmpty(goodsImage)) {
-            goodsImage = Const.PRO_URL + goodsImage;
-        }
-        this.goodsImage = goodsImage;
-    }
 
 }

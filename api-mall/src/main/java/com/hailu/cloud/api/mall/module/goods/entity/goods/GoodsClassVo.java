@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -27,10 +25,4 @@ public class GoodsClassVo {
 
     private List<GoodsClassVo> goodsList;
 
-    public void setGcPic(String gcPic) {
-        if (StringUtils.isNotEmpty(gcPic)) {
-            gcPic = Const.PRO_URL + gcPic;
-        }
-        this.gcPic = gcPic;
-    }
 }

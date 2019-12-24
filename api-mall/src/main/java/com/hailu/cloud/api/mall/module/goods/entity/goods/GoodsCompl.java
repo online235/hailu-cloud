@@ -1,9 +1,7 @@
 package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
 
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 @Data
 public class GoodsCompl {
@@ -47,12 +45,5 @@ public class GoodsCompl {
      * 赠品图
      */
     private String complImage;
-
-    public void setComplImage(String complImage) {
-        if (StringUtils.isNotEmpty(complImage)) {
-            complImage = Const.PRO_URL + complImage;
-        }
-        this.complImage = complImage;
-    }
 
 }

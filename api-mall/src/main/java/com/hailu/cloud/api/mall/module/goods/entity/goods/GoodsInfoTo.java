@@ -2,7 +2,6 @@ package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
 import com.hailu.cloud.api.mall.module.goods.vo.ActDiscounts;
 import com.hailu.cloud.api.mall.module.goods.vo.PackagingVo;
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -114,7 +113,7 @@ public class GoodsInfoTo {
             StringBuilder sb = new StringBuilder();
             for (String str : goodsImageMore.split(",")) {
                 if (StringUtils.isNotEmpty(str)) {
-                    sb.append(Const.PRO_URL).append(str).append(",");
+                    sb.append(str).append(",");
                 }
             }
             goodsImageMore = sb.substring(0, sb.length() - 1);
@@ -127,7 +126,7 @@ public class GoodsInfoTo {
             StringBuilder sb = new StringBuilder();
             for (String str : goodsBody.split(",")) {
                 if (StringUtils.isNotEmpty(str)) {
-                    sb.append(Const.PRO_URL).append(str).append(",");
+                    sb.append(str).append(",");
                 }
             }
             goodsBody = sb.substring(0, sb.length() - 1);

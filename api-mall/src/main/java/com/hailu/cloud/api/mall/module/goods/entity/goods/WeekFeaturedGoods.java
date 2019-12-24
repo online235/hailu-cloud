@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -38,17 +36,4 @@ public class WeekFeaturedGoods {
      */
     private String showImg;
 
-    public void setGoodsImage(String goodsImage) {
-        if (StringUtils.isNotEmpty(goodsImage)) {
-            goodsImage = Const.PRO_URL + goodsImage;
-        }
-        this.goodsImage = goodsImage;
-    }
-
-    public void setShowImg(String showImg) {
-        if (StringUtils.isNotEmpty(showImg)) {
-            showImg = Const.PRO_URL + showImg;
-        }
-        this.showImg = showImg;
-    }
 }

@@ -1,8 +1,6 @@
 package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Administrator
@@ -14,10 +12,4 @@ public class ClassGoodsRecommend {
     private String goodsName;
     private String goodsImage;
 
-    public void setGoodsImage(String goodsImage) {
-        if (StringUtils.isNotEmpty(goodsImage) && !goodsImage.contains("http")) {
-            goodsImage = Const.PRO_URL + goodsImage;
-        }
-        this.goodsImage = goodsImage;
-    }
 }

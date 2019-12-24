@@ -1,12 +1,8 @@
 package com.hailu.cloud.api.mall.module.goods.entity.order;
 
-import com.hailu.cloud.api.mall.module.goods.entity.goods.GoodsCompl;
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * 购物车

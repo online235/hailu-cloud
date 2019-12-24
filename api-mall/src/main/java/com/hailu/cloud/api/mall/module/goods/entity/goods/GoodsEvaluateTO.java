@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.mall.module.goods.entity.goods;
 
-import com.hailu.cloud.api.mall.util.Const;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,13 +50,6 @@ public class GoodsEvaluateTO {
      * 1-5分
      */
     private int gevalScores;
-
-    public void setGevalFrommemberimg(String gevalFrommemberimg) {
-        if (StringUtils.isNotEmpty(gevalFrommemberimg) && !("http").equals(gevalFrommemberimg.substring(0, 4))) {
-            gevalFrommemberimg = Const.PRO_URL + gevalFrommemberimg;
-        }
-        this.gevalFrommemberimg = gevalFrommemberimg;
-    }
 
     public void setGevalImage(String gevalImage) {
         if (StringUtils.isNotEmpty(gevalImage) && !"null".equals(gevalImage)) {

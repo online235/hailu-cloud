@@ -4,6 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSON;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.feigns.PaymentFeignClient;
 import com.hailu.cloud.common.feigns.WeChatFeignClient;
 import com.hailu.cloud.common.model.auth.WeChatAuthResponse;
 import com.hailu.cloud.common.model.auth.WeChatTicketModel;
@@ -32,6 +33,10 @@ import java.util.TreeMap;
 @Controller
 @RequestMapping(value = "api/user")
 public class WeChatUserInfoController {
+
+    @Autowired
+    private PaymentFeignClient paymentFeignClient;
+
     @Autowired
     private WeChatFeignClient weChatFeignClient;
 
@@ -47,17 +52,20 @@ public class WeChatUserInfoController {
     private RedisStandAloneClient redisClient;
 
     /**
-     * 绑定微信
-     *
-     * @param
-     * @param code
-     * @return
-     * @Author huangl
+     * 获取微信用户信息
      */
-    @PostMapping(value = "/getInfoByCode")
+    @RequestMapping(value = "/getInfoByCode")
     @ResponseBody
-    public Map<String, String> getInfoByCode(@RequestParam(value = "code", required = false) String code,
-                                             String url) throws BusinessException {
+    public Map<String, Object> getInfoByCode(@RequestParam(value = "code") String code) {
+        return paymentFeignClient.getInfoByCode(code).getData();
+    }
+
+    /**
+     * 获取微信jsAPI签名
+     */
+    @PostMapping(value = "/getJsApiSignature")
+    @ResponseBody
+    public Map<String, String> getJsApiSignature(String url) throws BusinessException {
         String globalAccessTokenKey = Constant.REDIS_KEY_WECHAT_PUBLIC_TOKEN + this.appId;
         String globalTokenInfo = redisClient.stringGet(globalAccessTokenKey);
         WeChatAuthResponse weChatLoginInfoModel;
