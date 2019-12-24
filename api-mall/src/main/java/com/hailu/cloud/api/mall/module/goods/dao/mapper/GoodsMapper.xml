@@ -84,23 +84,6 @@
 		ORDER BY create_time DESC 
 		LIMIT #{page},#{rows} 
 	</select>
-    <!-- 问大家 -->
-    <select id="askEveryone" parameterType="int"
-            resultType="com.hailu.cloud.api.mall.module.goods.vo.AskReplyQuestionVo">
-		SELECT ask_reply_id AS askReplyId ,
-			user_id AS userId,
-			goods_id AS goodsId,
-			pid,
-			context,
-			user_name AS userName,
-			user_img AS
-			userImg,
-			goods_name AS goodsName,
-			goods_img AS goodsImg
-		FROM
-			shop_ask_reply
-		WHERE goods_id = #{goodsId}
-	</select>
     <!-- @huangl 是否买过 -->
     <select id="isBought" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderGoods"
             resultType="int">
@@ -158,9 +141,6 @@
                     select="findWeekFeaturedGoods"/>
     </resultMap>
 
-    <update id="updatePointsMarket">
-		UPDATE shop_points_market SET pm_storage=#{storage},pm_salenum=#{salenum} WHERE pm_id=#{pmId}
-	</update>
     <!--健康豆商城 end-->
     <!-- 商品搜索 bigint -->
     <select id="findSearchGoods" parameterType="com.hailu.cloud.api.mall.module.goods.entity.goods.SearchGoodsParam"

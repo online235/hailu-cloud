@@ -87,10 +87,6 @@ public class OrderInfo {
      */
     private Integer evaluateState;
     /**
-     * 发票
-     */
-    private OrderInvoiceHVo orderInvoice;
-    /**
      * 取消订单时间
      */
     private long cancelOrderTime;

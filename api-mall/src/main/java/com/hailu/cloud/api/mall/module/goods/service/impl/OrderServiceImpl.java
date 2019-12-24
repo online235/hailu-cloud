@@ -33,7 +33,6 @@ import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
@@ -477,8 +476,6 @@ public class OrderServiceImpl implements IOrderService {
         if (repertory < 0) {
             throw new BusinessException("商品库存不足");
         }
-        int hasBeen = actp.getHasBeen() + orderParam.getGoodsNum();
-        goodsToDao.updatePointsMarketRepertory(actp.getActPriceId(), repertory, hasBeen);
         return result;
     }
 
@@ -538,15 +535,6 @@ public class OrderServiceImpl implements IOrderService {
         og.setGoodsPrice(oa.getGoodsPrice());
         this.addOrderGoods(orderParam, og);
         this.addCompl(orderParam, order, og);
-        if (orderParam.getIsInvoice() != null && 1 == orderParam.getIsInvoice()) {
-            OrderInvoiceHVo oi = new OrderInvoiceHVo(
-                    order.getOrderId(),
-                    orderParam.getInvTitle(),
-                    orderParam.getInvCompany(),
-                    orderParam.getInvCode(),
-                    orderParam.getUserId());
-            orderDao.addOrderInvoiceH(oi);
-        }
     }
 
     /**
@@ -708,10 +696,6 @@ public class OrderServiceImpl implements IOrderService {
         orderDao.addOrder(order);
         serialNumberService.updateSerialNumber(serialNumber);
         this.addCartOrderGoods(order, cartVos, orderAmounts);
-        if (orderParam.getIsInvoice() != null && 1 == orderParam.getIsInvoice()) {
-            OrderInvoiceHVo oi = new OrderInvoiceHVo(order.getOrderId(), orderParam.getInvTitle(), orderParam.getInvCompany(), orderParam.getInvCode(), orderParam.getUserId());
-            orderDao.addOrderInvoiceH(oi);
-        }
         //删除添加成功之后删除购物车
         this.deleteCarts(orderParam.getCartIdStr());
     }
@@ -866,9 +850,6 @@ public class OrderServiceImpl implements IOrderService {
                 //得到收货地址详情
                 AddressVo addres = orderDao.getAddressById(orderInfo.getAddressId());
                 orderInfo.setAddres(addres);
-                //得到发票详情
-                OrderInvoiceHVo oi = orderDao.getOrderInvoiceH(orderInfo.getOrderId());
-                orderInfo.setOrderInvoice(oi);
                 //得到判断订单支付结束时间
                 if (orderInfo.getOrderState() == 1) {
                     Long cancelTime;

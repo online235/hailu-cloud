@@ -54,11 +54,6 @@ public interface CsApplyDao {
      */
     OrderToVo findByOrderId(@Param("orderId") Integer orderId);
 
-    /***
-     * 通过key 获取val
-     */
-    String getAttributeValue(@Param("key") String key);
-
     /**
      * 获取售后申请列表
      */

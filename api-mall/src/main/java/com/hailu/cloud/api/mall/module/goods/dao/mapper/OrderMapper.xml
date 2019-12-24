@@ -614,16 +614,6 @@
 		FROM shop_order
 		WHERE order_id=#{orderId}
 	</select>
-    <!-- 根据订单id得到订单发票 -->
-    <select id="getOrderInvoiceH" parameterType="int"
-            resultType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderInvoiceHVo">
-		SELECT 
-			inv_title AS  invTitle,
-			inv_company AS invCompany,
-			inv_code AS invCode 
-		FROM shop_order_invoice 
-		WHERE order_id=#{orderId} AND inv_state=1
-	</select>
     <!-- 根据收货地址id得到收货详情 -->
     <select id="getAddressById" parameterType="int" resultType="com.hailu.cloud.api.mall.module.goods.vo.AddressVo">
 		SELECT
@@ -839,29 +829,6 @@
 			is_default=0
 		WHERE uset_id=#{userId} 
 	</update>
-    <!-- 添加订单发票 -->
-    <insert id="addOrderInvoiceH" parameterType="com.hailu.cloud.api.mall.module.goods.entity.order.OrderInvoiceHVo">
-		INSERT INTO shop_order_invoice(
-			member_id,
-			order_id,
-			inv_state,
-			inv_title,
-			inv_company,
-			inv_code,
-			is_kai ,
-			create_time
-		)VALUES(
-			#{memberId},
-			#{orderId},
-			#{invState},
-			#{invTitle},
-			#{invCompany},
-			#{invCode},
-			1 ,
-			#{createTime}
-		)
-	
-	</insert>
     <!-- 得到订单中的商品数量 -->
     <select id="getBuyNum" resultType="int">
         SELECT IFNULL(SUM(goods_num),0) as goodsNum

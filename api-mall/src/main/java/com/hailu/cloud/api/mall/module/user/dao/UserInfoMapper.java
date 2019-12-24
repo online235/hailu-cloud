@@ -38,36 +38,6 @@ public interface UserInfoMapper {
     UserInfoVo userInfoQueryByUserId(String userId) throws Exception;
 
     /**
-     * @Author HuangL
-     * @Description 添加用户使用记录
-     * @Date 2018-10-25_17:10
-     */
-    void saveUseRecord(@Param("sessionID") String sessionID);
-
-    /**
-     * @Author HuangL
-     * @Description 得到是否已有
-     * @Date 2018-10-25_18:01
-     */
-    int findUseRecord(String sessionID);
-
-    /**
-     * 更改商户的会员状态
-     *
-     * @param userId
-     */
-    void updateMerchantMoney(String userId, int hlMember);
-
-    /**
-     * 更改会员状态和生成会员卡号
-     *
-     * @param userId
-     * @param status
-     * @param memberCard
-     */
-    void editHlMember(@Param("userId") String userId, @Param("status") int status, @Param("memberCard") String memberCard, @Param("timeOut") Date timeOut);
-
-    /**
      * 根据城市地址获取到该城市服务商的人数
      *
      * @param cityId

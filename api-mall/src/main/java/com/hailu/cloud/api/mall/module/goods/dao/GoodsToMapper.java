@@ -82,15 +82,6 @@ public interface GoodsToMapper {
     List<PackagingVo> findPackagings(int goodsId);
 
     /**
-     * 项目进展
-     *
-     * @param goodsId
-     * @return
-     * @throws Exception
-     */
-    List<ProgressVo> getProgressVos(@Param("goodsId") Integer goodsId, @Param("reserveId") int reserveId) throws Exception;
-
-    /**
      * 实时话题
      *
      * @return
@@ -485,16 +476,4 @@ public interface GoodsToMapper {
      * @date 4:40 PM 9/10/2019
      */
     List<SpecVo> getSpecListById(@Param("goodsId") Integer goodsId, @Param("goodsSpecId") Integer goodsSpecId);
-
-    /**
-     * 更新健康豆商品
-     *
-     * @author HuangL
-     * @email huangl96@163.com
-     * @date 7:11 PM 9/17/2019
-     */
-    void updatePointsMarketRepertory(
-            @Param("actPriceId") int actPriceId,
-            @Param("repertory") int repertory,
-            @Param("hasBeen") int hasBeen);
 }

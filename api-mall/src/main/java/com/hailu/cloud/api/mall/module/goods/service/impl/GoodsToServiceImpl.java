@@ -22,7 +22,6 @@ import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -215,8 +214,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
      */
     @Override
     public List<RecommendVo> verifyHomeList(String sessionID, Integer merchantType) {
-        userUseRecord(sessionID);
-
         //得到首页推荐活动
         List<RecommendVo> homelist = goodsToDao.getHomeList();
         if (homelist.size() > 0) {
@@ -250,20 +247,6 @@ public class GoodsToServiceImpl implements IGoodsToService {
             }
         }
         return homelist;
-    }
-
-    /**
-     * @Author HuangL
-     * @Description 得到对应的方法用来判断存活率的
-     * @Date 2018-10-25_16:50
-     */
-    private void userUseRecord(String sessionID) {
-        if (StringUtils.isNotEmpty(sessionID)) {
-            int count = userInfoDao.findUseRecord(sessionID);
-            if (count == 0) {
-                userInfoDao.saveUseRecord(sessionID);
-            }
-        }
     }
 
     /**

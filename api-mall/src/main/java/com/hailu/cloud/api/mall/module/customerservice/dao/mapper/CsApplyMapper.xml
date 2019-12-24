@@ -142,12 +142,6 @@
 		FROM shop_order 
 		WHERE order_id =#{orderId}
 	</select>
-    <!--
-  通过key 获取 值
-   -->
-    <select id="getAttributeValue" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT attribute_value FROM t_s_sys_attribute WHERE attribute_key = #{key}
-	</select>
     <!-- 通过Id获取 申请记录 -->
     <select id="csApplyById" resultType="com.hailu.cloud.api.mall.module.customerservice.entity.CsApplyEntity">
         SELECT <include refid="csApplyDate"></include>  FROM shop_cs_apply WHERE

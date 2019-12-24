@@ -44,10 +44,9 @@
     <select id="userInfoQueryByUserId" parameterType="String"
             resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
         SELECT
-        <include refid="userInfoVoData"/>,available_commission as availableCommission
+        <include refid="userInfoVoData"/>
         FROM
         shop_member sm
-        LEFT JOIN shop_member_info smi ON sm.user_id = smi.member_id
         where sm.user_id=#{userId}
     </select>
 
@@ -104,26 +103,6 @@
         FROM shop_member
         WHERE user_Id=#{userId}
     </select>
-
-    <!--添加用户使用记录-->
-    <insert id="saveUseRecord" parameterType="java.util.Map">
-        INSERT INTO shop_member_record(member_id,create_time)
-        VALUE(#{sessionID},NOW())
-    </insert>
-    <select id="findUseRecord" resultType="int">
-        SELECT COUNT(1) FROM shop_member_record where TO_DAYS(create_time)=TO_DAYS(NOW()) and member_id=#{sessionID}
-    </select>
-
-    <update id="updateMerchantMoney">
-        update shop_member set
-        hl_member = #{hlMember}
-        WHERE user_id=#{userId}
-    </update>
-
-    <update id="editHlMember">
-        update shop_member set hl_member = #{status} , hl_member_card = #{memberCard},hl_member_timeout = #{timeOut}
-        WHERE user_id=#{userId}
-    </update>
 
     <update id="editMerchantTypeAndSuperiorMember">
         update shop_member set merchant_type = #{merchantType},superior_member = #{superiorMember},merchant_city_id = #{cityId}

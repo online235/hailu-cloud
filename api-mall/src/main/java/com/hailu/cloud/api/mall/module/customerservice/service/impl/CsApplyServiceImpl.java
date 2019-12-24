@@ -142,7 +142,7 @@ public class CsApplyServiceImpl implements ICsApplyService {
         //订单完成时间
         Long l = orderToVo.getAccomplishTime();
         //退货时间
-        String returnsTime = csApplyDao.getAttributeValue("returns_time");
+        String returnsTime = "7";
         //判断是否可已退货
         Long returns = Long.parseLong(returnsTime) * 86400000;
         long d = System.currentTimeMillis();
@@ -150,7 +150,7 @@ public class CsApplyServiceImpl implements ICsApplyService {
             csTypes.add(1);
         }
         //换货时间
-        String barterTime = csApplyDao.getAttributeValue("barter_time");
+        String barterTime = "15";
         //判断是否可已换货
         Long barter = Long.parseLong(barterTime) * 86400000;
         if ((barter + l) >= d) {

@@ -166,17 +166,6 @@
 		goods_id=#{goodsId}
 	</select>
 
-    <select id="getProgressVos" parameterType="map"
-            resultType="com.hailu.cloud.api.mall.module.goods.vo.ProgressVo">
-		select
-		id,
-		goods_id as goodsId,
-		content,
-		create_date as time
-		from t_s_progress
-		where goods_id=#{goodsId} and reserve_id=#{reserveId}
-		order by create_date desc
-	</select>
     <!-- 得到实时话题-->
     <select id="getSshtVo" parameterType="map" resultType="com.hailu.cloud.api.mall.module.goods.vo.SshtVo">
 		SELECT
@@ -915,12 +904,5 @@
     <select id="getSpecListById" resultType="com.hailu.cloud.api.mall.module.goods.vo.SpecVo">
 		SELECT * FROM shop_goods_spec WHERE goods_spec_id=#{goodsSpecId} and goods_id=#{goodsId}
 	</select>
-
-    <update id="updatePointsMarketRepertory">
-		UPDATE shop_points_market SET
-		   pm_storage=#{repertory},
-		   pm_salenum=#{hasBeen}
-		WHERE pm_id=#{actPriceId}
-	</update>
 
 </mapper>

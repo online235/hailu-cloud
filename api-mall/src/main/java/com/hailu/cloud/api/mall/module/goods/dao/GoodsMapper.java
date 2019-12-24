@@ -51,14 +51,6 @@ public interface GoodsMapper {
             , @Param("time") long time) throws Exception;
 
     /**
-     * 我的问答——问大家
-     *
-     * @param
-     * @return
-     */
-    List<AskReplyQuestionVo> askEveryone(int goodsId) throws Exception;
-
-    /**
      * 我的问答——是否购买
      *
      * @param
@@ -115,18 +107,6 @@ public interface GoodsMapper {
     int getCountEvaluate(int goodsId);
 
     /**
-     * 更改库存
-     *
-     * @author HuangL
-     * @email huangl96@163.com
-     * @date 10:14 AM 9/9/2019
-     */
-    void updatePointsMarket(
-            @Param("pmId") int pmId,
-            @Param("storage") int storage,
-            @Param("salenum") int salenum);
-
-    /**
      * 商品搜索
      *
      * @author HuangL
@@ -165,6 +145,7 @@ public interface GoodsMapper {
 
     /**
      * 根据ID查询商品信息
+     *
      * @param id
      * @return
      */

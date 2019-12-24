@@ -281,13 +281,6 @@ public interface OrderMapper {
     void addOrderGoods(OrderGoods og);
 
     /**
-     * @param oi
-     * @author 黄亮
-     * 添加订单发票
-     */
-    void addOrderInvoiceH(OrderInvoiceHVo oi);
-
-    /**
      * @param goodsId
      * @param startTime
      * @param endTime
@@ -348,14 +341,6 @@ public interface OrderMapper {
      * 得到订单详情
      */
     OrderInfo getOrderInfo(Integer orderId);
-
-    /**
-     * @param orderId
-     * @return
-     * @author 黄亮
-     * 得到订单发票
-     */
-    OrderInvoiceHVo getOrderInvoiceH(Integer orderId);
 
     /**
      * @param addressId
