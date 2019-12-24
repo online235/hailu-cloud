@@ -186,26 +186,26 @@ public class McStoreInformationController {
     }
 
 
-//    @ApiOperation(value = "商户查看店铺信息")
-//    @PostMapping("storeInformation")
-//    public McStoreInformationResult findMcStoreInformation() {
-//
-//        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
-//        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
-//        if (mcStoreInformation != null) {
-//            BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
-//            if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
-//                McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
-//                mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
-//
-//            }
-//            if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
-//                McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
-//                mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
-//            }
-//        }
-//        return mcStoreInformationResult;
-//    }
+    @ApiOperation(value = "商户查看店铺信息")
+    @PostMapping("storeInformation")
+    public McStoreInformationResult findMcStoreInformation() {
+
+        McStoreInformationResult mcStoreInformationResult = new McStoreInformationResult();
+        McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformation();
+        if (mcStoreInformation != null) {
+            BeanUtils.copyProperties(mcStoreInformation, mcStoreInformationResult);
+            if (mcStoreInformation.getStoreTotalType() != null && mcStoreInformation.getStoreTotalType() != 0) {
+                McManagementType mcManagementType = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreTotalType());
+                mcStoreInformationResult.setStoreTotalTypeDisPlay(mcManagementType.getManagementName());
+
+            }
+            if (mcStoreInformation.getStoreSonType() != null && mcStoreInformation.getStoreSonType() != 0) {
+                McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
+                mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
+            }
+        }
+        return mcStoreInformationResult;
+    }
 
 
     @ApiOperation(value = "更改店铺头像", notes = "<pre>" +
