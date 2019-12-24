@@ -7,6 +7,7 @@ import com.hailu.cloud.api.merchant.module.merchant.model.McStoreExamineModel;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreExamineParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.ExamineResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreExamienService;
+import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.BeanUtils;

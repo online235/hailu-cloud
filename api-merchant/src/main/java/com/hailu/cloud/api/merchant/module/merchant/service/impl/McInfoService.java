@@ -1,21 +1,17 @@
 package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 
 import com.hailu.cloud.api.merchant.module.merchant.dao.LocalCircleEntryMapper;
-import com.hailu.cloud.api.merchant.module.merchant.dao.McUserMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.LocalCircleEntry;
-import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
-import com.hailu.cloud.api.merchant.module.merchant.parameter.MerchantEnteringParameter;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
-import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
 import com.hailu.cloud.api.merchant.module.merchant.dao.McEntryInformationMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McEntryInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.eunms.Mceunm;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McUserParameter;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
+import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
-import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.beans.BeanUtils;

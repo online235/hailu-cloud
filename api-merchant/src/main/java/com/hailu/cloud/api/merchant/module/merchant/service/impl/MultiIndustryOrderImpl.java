@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.merchant.module.merchant.dao.MultiIndustryOrderMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.entity.MultiIndustryOrder;
+import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationService;
 import com.hailu.cloud.api.merchant.module.merchant.service.MultiIndustryOrderService;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;

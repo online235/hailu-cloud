@@ -14,7 +14,7 @@ import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreAlbumService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
-import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreInformationService;
+import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import io.swagger.annotations.Api;
@@ -259,13 +259,13 @@ public class McStoreInformationController {
             "    'code': 200,\n" +
             "    'message': '请求成功',\n" +
             "}" + "</prep>")
-    @PostMapping("submitStoreAlbumUrl")
+    @PostMapping("editStoreAlbum")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "albumId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "albumId", value = "相册id", paramType = "query", dataType = "Long", required = true),
             @ApiImplicitParam(name = "albumUrl", value = "相册路径", paramType = "query", dataType = "String", required = true),
             @ApiImplicitParam(name = "title", value = "相册标题", paramType = "query", dataType = "String", required = true),
     })
-    public void submitStoreAlbumUrl(@NotNull @RequestParam(value = "albumId") Long albumId, @RequestParam(value = "albumUrl") String albumUrl, @RequestParam(value = "title") String title) throws BusinessException {
+    public void editStoreAlbum(@NotNull @RequestParam(value = "albumId") Long albumId, @RequestParam(value = "albumUrl") String albumUrl, @RequestParam(value = "title") String title) throws BusinessException {
 
         if (albumId == null) {
             throw new BusinessException("参数异常");
@@ -293,13 +293,16 @@ public class McStoreInformationController {
         List<McStoreAlbum> mcStoreAlbumList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(mcStoreAlbumUrlParameters)) {
             for (McStoreAlbumUrlParameter mcStoreAlbumUrlParameter : mcStoreAlbumUrlParameters) {
+                if (mcStoreAlbumUrlParameter.getAlbumType() == null) {
+                    throw new BusinessException("类型不能为空！");
+                }
                 McStoreAlbum mcStoreAlbum = new McStoreAlbum();
                 BeanUtils.copyProperties(mcStoreAlbumUrlParameter, mcStoreAlbum);
                 mcStoreAlbum.setId(uuidFeignClient.uuid().getData());
                 mcStoreAlbum.setStoreId(storeAlbumParameter.getStoreId());
                 mcStoreAlbumList.add(mcStoreAlbum);
             }
-            Map map = new HashMap();
+            Map map = new HashMap(3);
             map.put("mcStoreAlbumList", mcStoreAlbumList);
             mcStoreAlbumService.insertStoreAlbumList(map);
         }
