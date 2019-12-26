@@ -55,11 +55,12 @@ public interface McStoreExamienService {
     /**
      * 更改审核状态
      * @param id
-     * @param storeToExamine  状态:审核中-1,审核通过-2,审核不通过-3
-     * @param examineType  审核类型:电话-1,地址审核-2,店铺名审核-3
+     *  @param phoneToExamine  状态:审核中-1,审核通过-2,审核不通过-3
+     *  @param addressToExamine  状态:审核中-1,审核通过-2,审核不通过-3
+     *  @param storeNameExamine  状态:审核中-1,审核通过-2,审核不通过-3
      * @throws BusinessException
      */
-    void storeToExamine(Long id,Integer storeToExamine,Integer examineType) throws BusinessException;
+    void storeToExamine(Long id,Integer phoneToExamine,Integer addressToExamine,Integer storeNameExamine) throws BusinessException;
 
 
 

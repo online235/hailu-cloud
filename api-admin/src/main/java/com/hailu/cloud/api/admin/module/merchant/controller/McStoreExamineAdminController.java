@@ -14,10 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
@@ -51,32 +48,29 @@ public class McStoreExamineAdminController {
     @PostMapping("updateStoreToExamine")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "审核表id", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "toExamine", value = "状态:审核中-1'''',''''审核通过-2'''',''''审核不通过-3", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "examineType", value = "审核类型:电话-1,地址审核-2,店铺名审核-3", required = true, paramType = "query")
+            @ApiImplicitParam(name = "phoneToExamine", value = "电话状态:审核中-1,审核通过-2,审核不通过-3", paramType = "query"),
+            @ApiImplicitParam(name = "addressToExamine", value = "地址状态:审核中-1,审核通过-2,审核不通过-3", paramType = "query"),
+            @ApiImplicitParam(name = "storeNameExamine", value = "店铺名状态:审核中-1,审核通过-2,审核不通过-3", paramType = "query")
     })
-    public void updateStoreToExamine(@NotNull(message = "编号不能为空") Long id, @NotNull(message = "更改的状态不能为空") Integer storeToExamine,@NotNull(message = "审核类型不能为空")Integer examineType) throws BusinessException {
+    public void updateStoreToExamine(@NotNull(message = "编号不能为空") Long id, Integer phoneToExamine, Integer addressToExamine, Integer storeNameExamine) throws BusinessException {
 
-        if(id == null || storeToExamine == null || examineType == null){
+        if (id == null) {
             throw new BusinessException("参数不能为空");
         }
-        mcStoreExamienService.storeToExamine(id, storeToExamine,examineType);
-
+        mcStoreExamienService.storeToExamine(id, phoneToExamine, addressToExamine, storeNameExamine);
     }
 
 
-
     @ApiOperation(value = "获取审批详情")
-    @PostMapping("selectMcStoreExamineDetail")
+    @GetMapping("selectMcStoreExamineDetail")
     @ApiImplicitParam(name = "id", value = "审核表id", required = true, paramType = "query")
     public McStoreExamineModel selectMcStoreExamineDetail(@NotNull(message = "编号不能为空") Long id) {
 
         McStoreExamine mcStoreExamine = mcStoreExamienService.findObjectById(id);
         McStoreExamineModel mcStoreExamineModel = new McStoreExamineModel();
-        BeanUtils.copyProperties(mcStoreExamine,mcStoreExamineModel);
-        return  mcStoreExamineModel;
+        BeanUtils.copyProperties(mcStoreExamine, mcStoreExamineModel);
+        return mcStoreExamineModel;
     }
-
-
 
 
 }

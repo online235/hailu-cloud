@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author zhngmugui
  */
@@ -21,6 +23,23 @@ public class McStoreExamineListParameter {
     private Long storeId;
 
 
+    /**
+     * 店铺名
+     */
+    @ApiParam("店铺名")
+    private String storeName;
+
+
+    /**
+     * 店铺电话号码
+     */
+    @ApiParam("店铺电话号码")
+    private String shopPhone;
+
+    @ApiParam("创建时间,'%Y-%m-%d")
+    private String dateTime;
+
+
     @ApiParam(name = "phoneToExamine", value = "电话审核：审核中-1'''',''''审核通过-2'''',''''审核不通过-3")
     private String phoneToExamine;
 
@@ -31,7 +50,7 @@ public class McStoreExamineListParameter {
     /**
      * 店铺名审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')
      */
-    @ApiModelProperty("店铺名审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')")
+    @ApiParam("店铺名审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')")
     private Integer storeNameExamine;
 
 

@@ -1,4 +1,6 @@
 package com.hailu.cloud.api.admin.module.merchant.model;
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
@@ -11,6 +13,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel
+@InjectDict
 public class McStoreExamineModel {
 
     /**
@@ -48,6 +51,12 @@ public class McStoreExamineModel {
      */
     @ApiModelProperty("店铺地区选择")
     private String areaCode;
+
+
+
+    @DictName(code = "NATION", joinField = "areaCode")
+    @ApiModelProperty("店铺地区")
+    private String areaCodeDisplay;
 
     /**
      * 店铺名凭证
@@ -102,6 +111,22 @@ public class McStoreExamineModel {
      */
     @ApiModelProperty("地区审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')")
     private Integer addressToExamine;
+
+
+    @ApiModelProperty("店铺名审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')")
+    @DictName(code = "TO_EXAMINE", joinField = "storeNameExamine")
+    private String storeNameExamineDisplay;
+
+
+    @ApiModelProperty("电话审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')")
+    @DictName(code = "TO_EXAMINE", joinField = "phoneToExamine")
+    private String phoneToExamineDisplay;
+
+
+    @ApiModelProperty("地区审核表审核(''审核中-1'',''审核通过-2'',''审核不通过-3'')")
+    @DictName(code = "TO_EXAMINE", joinField = "addressToExamine")
+    private String addressToExamineDisplay;
+
 
     /**
      * 创建时间

@@ -69,12 +69,11 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
     /**
      * 更改审核状态
      * @param id
-     * @param storeToExamine
-     * @param examineType
+     * 审核中-1,审核通过-2,审核不通过-3
      * @throws BusinessException
      */
     @Override
-    public void storeToExamine(Long id, Integer storeToExamine, Integer examineType) throws BusinessException {
+    public void storeToExamine(Long id, Integer phoneToExamine,Integer addressToExamine,Integer storeNameExamine) throws BusinessException {
 
         McStoreExamine mcStoreExamine = this.findObjectById(id);
         if (mcStoreExamine == null) {
@@ -84,20 +83,22 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
         if (mcStoreInformation == null) {
             throw new BusinessException("数据异常");
         }
-        if (examineType == 1) {
-            mcStoreExamine.setPhoneToExamine(storeToExamine);
-            if (storeToExamine == 2) {
+        if (phoneToExamine != null) {
+            mcStoreExamine.setPhoneToExamine(phoneToExamine);
+            if (phoneToExamine == 2) {
                 mcStoreInformation.setPhone(mcStoreExamine.getShopPhone());
             }
-        } else if (examineType == 2) {
-            mcStoreExamine.setAddressToExamine(storeToExamine);
-            if (storeToExamine == 2) {
+        }
+        if(addressToExamine != null) {
+            mcStoreExamine.setAddressToExamine(addressToExamine);
+            if (addressToExamine == 2) {
                 mcStoreInformation.setDetailAddress(mcStoreExamine.getShopAddressDetail());
                 mcStoreInformation.setAreaCode(mcStoreExamine.getAreaCode());
             }
-        } else if (examineType == 3) {
-            mcStoreExamine.setStoreNameExamine(storeToExamine);
-            if (storeToExamine == 2) {
+        }
+        if(storeNameExamine != null){
+            mcStoreExamine.setStoreNameExamine(storeNameExamine);
+            if (storeNameExamine == 2) {
                 mcStoreInformation.setShopName(mcStoreExamine.getStoreName());
             }
         }

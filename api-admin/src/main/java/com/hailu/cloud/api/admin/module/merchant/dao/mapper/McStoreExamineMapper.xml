@@ -175,11 +175,20 @@
         <if test="storeId != null">
             and store_id = #{storeId}
         </if>
+        <if test="storeName != null and storeName != ''">
+            and  store_name like CONCAT('%',#{storeName},'%')
+        </if>
+        <if test="shopPhone != null and shopPhone != ''">
+            and  shop_phone like CONCAT('%',#{shopPhone},'%')
+        </if>
         <if test="phoneToExamine != null">
             and phone_to_examine = #{phoneToExamine}
         </if>
         <if test="addressToExamine != null">
             and address_to_examine = #{addressToExamine}
+        </if>
+        <if test="dateTime != null and dateTime != ''">
+            and date_format(date_time,'%Y-%m-%d')<![CDATA[=]]>#{dateTime}
         </if>
     </select>
 
