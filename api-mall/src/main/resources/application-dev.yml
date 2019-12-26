@@ -14,4 +14,5 @@ mybatis:
 
 redis:
   hostname: 192.168.10.243
+  password: hl@1688.+soft.redis
   port: 6379
