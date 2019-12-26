@@ -5,7 +5,6 @@
     <sql id="userInfoVoData">
         user_Id AS userId,
         user_icon AS userIcon,
-        member_true_name AS userName,
         member_name AS nickName,
         member_mobile AS userMobile,
         invite_code AS inviteCode,
@@ -15,7 +14,7 @@
         member_sex sex,
         unionid,
         open_id,
-        WX_state,
+        wx_state,
         available_predeposit as balance,
         merchant_type AS merchantType,
         superior_member AS superiorMember
@@ -25,10 +24,9 @@
 
 	member_id             		AS 	   	id                        ,
 	USER_ID        		AS 	   	userId                    ,
-	LOGIN_NAME     		AS 	   	loginName                 ,
+	login_name     		AS 	   	loginName                 ,
 	member_passwd   		AS 	   	loginPasswd               ,
 	USER_ICON      		AS 	   	userIcon                  ,
-	member_true_name      		AS 	   	userName                  ,
 	member_name      		AS 	   	nickName                  ,
 	member_mobile    		AS 	   	userMobile                ,
 	regist_time    		AS 	   	createTime                ,
@@ -75,7 +73,6 @@
           member_passwd,
           user_icon,
           member_name,
-          member_true_name,
           member_mobile,
           regist_time,
           invite_code,

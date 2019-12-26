@@ -4,8 +4,6 @@
     <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
         <id column="member_id" property="memberId"/>
         <result column="member_name" property="memberName" jdbcType="VARCHAR"/>
-        <result column="member_true_name" property="memberTrueName" jdbcType="VARCHAR"/>
-        <result column="member_avatar" property="memberAvatar" jdbcType="VARCHAR"/>
         <result column="merchant_type" property="merchantType" jdbcType="BIT"/>
         <result column="superior_member" property="superiorMember" jdbcType="VARCHAR"/>
         <result column="hl_member" property="hlMember" jdbcType="INTEGER"/>
@@ -24,21 +22,21 @@
         <result column="user_id" property="userId" jdbcType="VARCHAR"/>
         <result column="be_invite_user" property="beInviteUser" jdbcType="VARCHAR"/>
         <result column="regist_time" property="registTime" jdbcType="BIGINT"/>
-        <result column="WX_state" property="wxState" jdbcType="VARCHAR"/>
+        <result column="wx_state" property="wxState" jdbcType="VARCHAR"/>
         <result column="open_id" property="openId" jdbcType="VARCHAR"/>
         <result column="unionid" property="unionid" jdbcType="VARCHAR"/>
-        <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR"/>
+        <result column="login_name" property="loginName" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.xinan.module.app.entity.ShopMember"
                extends="BaseResultMap">
         <result column="user_icon" property="userIcon" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    member_id, member_name, member_true_name, member_avatar, merchant_type, superior_member,
+    member_id, member_name, merchant_type, superior_member,
     hl_member, total_merchants_money, member_sex, member_passwd, create_time,
     available_predeposit, freeze_predeposit, consumption_predeposit, withdraw_predeposit,
     total_predeposit, is_del, member_mobile, invite_code, user_id,
-    be_invite_user, regist_time, WX_state, open_id, unionid, LOGIN_NAME
+    be_invite_user, regist_time, wx_state, open_id, unionid, login_name
   </sql>
     <sql id="Blob_Column_List">
         <include refid="Base_Column_List"/>
@@ -67,16 +65,16 @@
   </delete>
     <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember" useGeneratedKeys="true"
             keyProperty="memberId">
-    insert into shop_member (member_name, member_true_name, member_avatar,
+    insert into shop_member (member_name,
       member_sex, member_passwd, create_time,
       available_predeposit, freeze_predeposit, 
       consumption_predeposit, withdraw_predeposit, 
       total_predeposit, is_del, member_mobile,
       invite_code, user_id,
       be_invite_user, regist_time,
-      WX_state, open_id, unionid, LOGIN_NAME
+      wx_state, open_id, unionid, login_name
       user_icon)
-    values (#{memberName,jdbcType=VARCHAR}, #{memberTrueName,jdbcType=VARCHAR}, #{memberAvatar,jdbcType=VARCHAR},
+    values (#{memberName,jdbcType=VARCHAR},
       #{memberSex,jdbcType=VARCHAR}, #{memberPasswd,jdbcType=VARCHAR},
       #{createTime,jdbcType=BIGINT}, #{availablePredeposit,jdbcType=DECIMAL}, #{freezePredeposit,jdbcType=DECIMAL},
       #{consumptionPredeposit,jdbcType=DECIMAL}, #{withdrawPredeposit,jdbcType=DECIMAL}, 
@@ -92,12 +90,6 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="memberName != null">
                 member_name,
-            </if>
-            <if test="memberTrueName != null">
-                member_true_name,
-            </if>
-            <if test="memberAvatar != null">
-                member_avatar,
             </if>
             <if test="memberSex != null">
                 member_sex,
@@ -142,7 +134,7 @@
                 regist_time,
             </if>
             <if test="wxState != null">
-                WX_state,
+                wx_state,
             </if>
             <if test="openId != null">
                 open_id,
@@ -151,7 +143,7 @@
                 unionid,
             </if>
             <if test="loginName != null">
-                LOGIN_NAME,
+                login_name,
             </if>
             <if test="userIcon != null">
                 user_icon,
@@ -160,12 +152,6 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="memberName != null">
                 #{memberName,jdbcType=VARCHAR},
-            </if>
-            <if test="memberTrueName != null">
-                #{memberTrueName,jdbcType=VARCHAR},
-            </if>
-            <if test="memberAvatar != null">
-                #{memberAvatar,jdbcType=VARCHAR},
             </if>
             <if test="memberSex != null">
                 #{memberSex,jdbcType=VARCHAR},
@@ -232,12 +218,6 @@
             <if test="memberName != null">
                 member_name = #{memberName,jdbcType=VARCHAR},
             </if>
-            <if test="memberTrueName != null">
-                member_true_name = #{memberTrueName,jdbcType=VARCHAR},
-            </if>
-            <if test="memberAvatar != null">
-                member_avatar = #{memberAvatar,jdbcType=VARCHAR},
-            </if>
             <if test="memberSex != null">
                 member_sex = #{memberSex,jdbcType=VARCHAR},
             </if>
@@ -272,7 +252,7 @@
                 be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
             </if>
             <if test="wxState != null">
-                WX_state = #{wxState,jdbcType=VARCHAR},
+                wx_state = #{wxState,jdbcType=VARCHAR},
             </if>
             <if test="openId != null">
                 open_id = #{openId,jdbcType=VARCHAR},
@@ -281,7 +261,7 @@
                 unionid = #{unionid,jdbcType=VARCHAR},
             </if>
             <if test="loginName != null">
-                LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+                login_name = #{loginName,jdbcType=VARCHAR},
             </if>
             <if test="userIcon != null">
                 user_icon = #{userIcon,jdbcType=LONGVARCHAR},
@@ -292,8 +272,6 @@
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
-      member_true_name = #{memberTrueName,jdbcType=VARCHAR},
-      member_avatar = #{memberAvatar,jdbcType=VARCHAR},
       member_sex = #{memberSex,jdbcType=VARCHAR},
       member_passwd = #{memberPasswd,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
@@ -308,18 +286,16 @@
       user_id = #{userId,jdbcType=VARCHAR},
       be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
       regist_time = #{registTime,jdbcType=DATE},
-      WX_state = #{wxState,jdbcType=VARCHAR},
+      wx_state = #{wxState,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},
       unionid = #{unionid,jdbcType=VARCHAR},
-      LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+      login_name = #{loginName,jdbcType=VARCHAR},
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
     where member_id = #{memberId}
   </update>
     <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
-      member_true_name = #{memberTrueName,jdbcType=VARCHAR},
-      member_avatar = #{memberAvatar,jdbcType=VARCHAR},
       member_sex = #{memberSex,jdbcType=VARCHAR},
       member_passwd = #{memberPasswd,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
@@ -334,10 +310,10 @@
       user_id = #{userId,jdbcType=VARCHAR},
       be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
       regist_time = #{registTime,jdbcType=DATE},
-      WX_state = #{wxState,jdbcType=VARCHAR},
+      wx_state = #{wxState,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},
       unionid = #{unionid,jdbcType=VARCHAR},
-      LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+      login_name = #{loginName,jdbcType=VARCHAR}
     where member_id = #{memberId}
   </update>
 
@@ -348,13 +324,13 @@
         from shop_member
         where 1=1
         <if test="username != null and username != ''">
-            and LOGIN_NAME = #{username}
+            and login_name = #{username}
         </if>
     </select>
     <insert id="AddLitemallUser" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     INSERT INTO `shop_member` (
         `member_id`,
-        `LOGIN_NAME`,
+        `login_name`,
         `member_name`,
         `member_mobile`,
         `regist_time`,
@@ -375,7 +351,7 @@
     <insert id="AddShopMember" parameterType="com.hailu.cloud.api.xinan.module.app.entity.ShopMember">
     INSERT INTO `shop_member` (
         `member_id`,
-        `LOGIN_NAME`,
+        `login_name`,
         `member_name`,
         `member_mobile`,
         `regist_time`,
@@ -384,7 +360,7 @@
         open_id,
         unionid,
         member_sex,
-        WX_state
+        wx_state
       )
       VALUES
         (

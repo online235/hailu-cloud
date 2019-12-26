@@ -125,16 +125,6 @@ public class ShopMember implements Serializable {
     private Long memberId;
 
     /**
-     * 真实姓名
-     */
-    private String memberTrueName;
-
-    /**
-     *
-     */
-    private String memberAvatar;
-
-    /**
      *
      */
     private String memberPasswd;

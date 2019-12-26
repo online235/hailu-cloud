@@ -22,16 +22,6 @@ public class ShopMember {
     private String memberName;
 
     /**
-     * 真实姓名
-     */
-    private String memberTrueName;
-
-    /**
-     * null
-     */
-    private String memberAvatar;
-
-    /**
      * 服务商城市
      */
     private Integer merchantCityId;
