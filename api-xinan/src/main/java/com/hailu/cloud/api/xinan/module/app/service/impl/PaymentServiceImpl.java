@@ -2,11 +2,11 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 
 
 import cn.hutool.core.util.IdUtil;
-import com.hailu.cloud.api.xinan.constant.Constant;
 import com.hailu.cloud.api.xinan.feigns.MallFeignClient;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.*;
 import com.hailu.cloud.api.xinan.module.app.service.IPaymentService;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
 import com.hailu.cloud.common.model.mall.UserInfo;

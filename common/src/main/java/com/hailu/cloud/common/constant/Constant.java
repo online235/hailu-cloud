@@ -74,6 +74,21 @@ public final class Constant {
      */
     public static final String REDIS_KEY_WECHAT_PUBLIC_TOKEN = "WECHAT_GLOBAL_TOKEN:";
 
+    /**
+     * 省市区缓存
+     */
+    public static final String REDIS_NATION_CACHE = "redis:cache:nation:";
+
+    /**
+     * 分享购买服务商key
+     */
+    public static final String REDIS_INVITATION_MEMBER_POVIDER_CACHE = "cache:invitationMember:poviderUserId:";
+
+    /**
+     * 旧省市区
+     */
+    public static final String REDIS_NATION_CACHE_OLD = "redis:cache:old:nation:";
+
     // endregion
 
     // region request header
@@ -102,13 +117,6 @@ public final class Constant {
      */
     public static final String REQUEST_ATTRIBUTE_CURRENT_USER = "CURRENT_USER";
 
-
-    /**
-     * 省市区缓存
-     */
-    public static final String REDIS_NATION_CACHE = "redis:cache:nation:";
-
-
     // endregion
 
     // region jwt const
@@ -136,7 +144,6 @@ public final class Constant {
 
     // region 版本&服务名称
 
-    public static final String API_VERSION_V1 = "/api/v1";
     public static final String API_VERSION_V2 = "/api/v2";
     public static final String API_NAME_BASIC = "/basic";
     public static final String API_NAME_ADMIN = "/admin";
@@ -148,10 +155,11 @@ public final class Constant {
 
     // endregion
 
+    // region 时分秒
 
-    /**
-     * 分享购买服务商key
-     */
-    public static final String REDIS_INVITATION_MEMBER_POVIDER_CACHE = "cache:invitationMember:poviderUserId:";
+    public static final int MINUTES = 60;
+    public static final int HOUR = MINUTES * 60;
+    public static final int DAY = HOUR * 24;
 
+    // endregion
 }

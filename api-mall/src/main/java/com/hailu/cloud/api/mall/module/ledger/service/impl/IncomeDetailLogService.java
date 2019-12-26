@@ -1,9 +1,9 @@
 package com.hailu.cloud.api.mall.module.ledger.service.impl;
 
+import cn.hutool.core.date.DatePattern;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
-import com.hailu.cloud.api.mall.constant.DateFormat;
 import com.hailu.cloud.api.mall.module.ledger.dao.IncomeDetailLogMapper;
 import com.hailu.cloud.api.mall.module.ledger.vo.IncomeDetailLog;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
@@ -107,7 +107,7 @@ public class IncomeDetailLogService {
             //来源
             js.put("froms",a.getFroms());
             //时间
-            js.put("dateTime", DateFormatUtils.format(a.getCreateDate(), DateFormat.YYYY_MM_DD_HH_MM_SS));
+            js.put("dateTime", DateFormatUtils.format(a.getCreateDate(), DatePattern.NORM_DATETIME_PATTERN));
             //使用后的余额
             js.put("afterMoney",a.getAfterMoney());
             //状态

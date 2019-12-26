@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.ledger.po;
 
+import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hailu.cloud.api.mall.constant.DateFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -66,8 +66,8 @@ public class IncomeTransferOut {
      * 提现时间
      */
     @ApiModelProperty("提现时间")
-    @JsonFormat(pattern = DateFormat.YYYY_MM_DD_HH_MM_SS, timezone = "GMT+8")
-    @DateTimeFormat(pattern = DateFormat.YYYY_MM_DD_HH_MM_SS)
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date createTime;
 
     /**

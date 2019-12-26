@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.mall.module.ledger.service.impl;
 
-import com.hailu.cloud.api.mall.constant.Constant;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
 import com.hailu.cloud.api.mall.module.goods.vo.SpecVo;
@@ -10,6 +9,7 @@ import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
 import com.hailu.cloud.api.mall.module.ledger.service.ILedgerService;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -121,7 +121,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
 
         UserInfo userInfo = userInfoMapper.byIdFindUser(userId);
         //如果购买者为服务商或者区代 则不参与分销
-        if(userInfo.getMerchantType() == 1 || userInfo.getMerchantType() ==2){
+        if (userInfo.getMerchantType() == 1 || userInfo.getMerchantType() == 2) {
             return;
         }
         //根据订单ID获取订单商品信息

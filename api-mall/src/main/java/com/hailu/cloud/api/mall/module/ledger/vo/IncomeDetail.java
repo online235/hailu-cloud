@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.ledger.vo;
 
+import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hailu.cloud.api.mall.constant.DateFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -43,7 +43,7 @@ public class IncomeDetail {
     /**
      * 收入时间
      */
-    @JsonFormat(pattern = DateFormat.YYYY_MM_DD_HH_MM_SS)
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date createTime;
 
 }

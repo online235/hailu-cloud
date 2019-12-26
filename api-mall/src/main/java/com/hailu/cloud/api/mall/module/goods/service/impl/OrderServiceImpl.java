@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.hailu.cloud.api.mall.constant.Constant;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.GoodsToMapper;
 import com.hailu.cloud.api.mall.module.goods.dao.OrderMapper;
@@ -26,9 +25,9 @@ import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
 import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
+import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -169,10 +168,10 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public List<RegionVo> regionList(int pid) throws Exception {
-        String region = redisKit.stringGet(RedisEnum.DB_2.ordinal(), Constant.REDIS_NATION_CACHE_OLD + pid);
+        String region = redisKit.stringGet(Constant.REDIS_NATION_CACHE_OLD + pid);
         if (StringUtils.isBlank(region)) {
             List<RegionVo> list = orderDao.regionList(pid);
-            redisKit.stringSet(RedisEnum.DB_2.ordinal(), Constant.REDIS_NATION_CACHE_OLD + pid, JSONArray.toJSONString(list), 0);
+            redisKit.stringSet(Constant.REDIS_NATION_CACHE_OLD + pid, JSONArray.toJSONString(list));
             return list;
         }
         return JSON.parseArray(region, RegionVo.class);

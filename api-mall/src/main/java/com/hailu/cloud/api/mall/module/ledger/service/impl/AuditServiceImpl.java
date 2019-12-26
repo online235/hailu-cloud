@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.ledger.service.impl;
 
+import cn.hutool.core.date.DatePattern;
 import com.github.pagehelper.PageHelper;
-import com.hailu.cloud.api.mall.constant.DateFormat;
 import com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper;
 import com.hailu.cloud.api.mall.module.ledger.po.IncomeTransferOut;
 import com.hailu.cloud.api.mall.module.ledger.service.IAuditService;
@@ -58,21 +58,21 @@ public class AuditServiceImpl implements IAuditService {
         String beginDate = null;
         try {
             if (StringUtils.isNotBlank(beginTime)) {
-                DateUtils.parseDate(beginTime, DateFormat.YYYY_MM_DD_HH_MM_SS);
+                DateUtils.parseDate(beginTime, DatePattern.NORM_DATETIME_PATTERN);
                 beginDate = beginTime;
             }
         } catch (ParseException e) {
-            throw new ValidationException("开始日期格式不正确：" + DateFormat.YYYY_MM_DD_HH_MM_SS);
+            throw new ValidationException("开始日期格式不正确：" + DatePattern.NORM_DATETIME_PATTERN);
         }
         // 校验结束日期
         String endDate = null;
         try {
             if (StringUtils.isNotBlank(endTime)) {
-                DateUtils.parseDate(endTime, DateFormat.YYYY_MM_DD_HH_MM_SS);
+                DateUtils.parseDate(endTime, DatePattern.NORM_DATETIME_PATTERN);
                 endDate = endTime;
             }
         } catch (ParseException e) {
-            throw new ValidationException("结束日期格式不正确：" + DateFormat.YYYY_MM_DD_HH_MM_SS);
+            throw new ValidationException("结束日期格式不正确：" + DatePattern.NORM_DATETIME_PATTERN);
         }
         return consumer.apply(beginDate, endDate);
     }
