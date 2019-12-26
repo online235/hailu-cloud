@@ -22,6 +22,11 @@ redis:
   password: hl@1688.+soft.redis
   port: 6379
 
+static:
+  # 编辑器图片、文件、视频访问前缀
+  server:
+    prefix: http://127.0.0.1/api/v2/basic
+
 notify:
   # 支付通知回调地址
   server:

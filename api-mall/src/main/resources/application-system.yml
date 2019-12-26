@@ -11,12 +11,11 @@ income:
 static:
   # 编辑器图片、文件、视频访问前缀
   server:
-    prefix: https://jphailus.utools.club/api/v1/
+    prefix: http://127.0.0.1:30000/api/v2/basic
 
 notify:
-  # 编辑器图片、文件、视频访问前缀
   server:
-    url: https://jphailus.utools.club/api/v1/
+    url: http://127.0.0.1:30000/api/v1/
 
 merchant:
   commission:
