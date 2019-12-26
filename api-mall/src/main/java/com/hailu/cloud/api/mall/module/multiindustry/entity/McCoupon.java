@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.mall.module.multiindustry.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -97,11 +98,17 @@ public class McCoupon<T> implements Serializable {
     @ApiModelProperty(value = "审核(审核中-1,审核通过-2,审核不通过-3、待确认-4)")
     private Integer toExamine;
 
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    private String toExamineDisplay;
+
     /**
      * 上架状态(未上架-1、已上架-2、已下架-3)
      */
     @ApiModelProperty(value = "上架状态(未上架-1、已上架-2、已下架-3)")
     private Integer shelfState;
+
+    @DictName(code = "SHELF_STATE", joinField = "shelfState")
+    private String shelfStateDisplay;
 
     /**
      * 创建时间

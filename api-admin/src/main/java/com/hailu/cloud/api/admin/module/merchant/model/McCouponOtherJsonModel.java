@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.merchant.model;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,6 +15,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel
+@InjectDict
 public class McCouponOtherJsonModel {
 
     /**
@@ -30,8 +33,12 @@ public class McCouponOtherJsonModel {
     /**
      * 每周不可用时间(0.1.2.3.4.5.6-星期)
      */
-    @ApiModelProperty(value = "每周不可用时间(0.1.2.3.4.5.6-星期)")
+    @ApiModelProperty(value = "每周不可用时间(1.2.3.4.5.6.7-星期)")
     private Integer UnavailableTimeDay;
+
+
+    @DictName(code = "BUSINESS_DAY" , joinField = "UnavailableTimeDay")
+    private Integer UnavailableTimeDayDisplay;
 
     /**
      * 节假日不可用时间(节假日)

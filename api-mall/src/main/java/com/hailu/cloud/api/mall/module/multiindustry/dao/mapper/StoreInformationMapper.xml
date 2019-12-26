@@ -68,7 +68,7 @@
             and shoptag.tag_id = #{tagId}
         </if>
         <if test="shopName != null">
-            and shoptag.shop_name like concat('%' ,#{shopName}, '%')
+            and store.shop_name like concat('%' ,#{shopName}, '%')
         </if>
         <if test="startingPrice != null and closingPrice != null">
             and store.per_capita_price <![CDATA[>=]]> #{startingPrice} and store.per_capita_price <![CDATA[<=]]> #{closingPrice}

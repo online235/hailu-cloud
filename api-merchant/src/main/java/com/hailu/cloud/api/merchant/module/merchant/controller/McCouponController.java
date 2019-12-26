@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/app/coupon")
 @Validated
-@Api(tags = "到店卷管理")
+@Api(tags = "到店卷-管理")
 @Slf4j
 public class McCouponController {
 
@@ -106,7 +106,7 @@ public class McCouponController {
             @ApiImplicitParam(name = "id", value = "卷编号",   paramType = "query"),
             @ApiImplicitParam(name = "shelfState", value = "上架状态(已上架-2、已下架-3)",   paramType = "query"),
     })
-    @PostMapping("/updShelfState")
+    @GetMapping("/updShelfState")
     public void updShelfStateById(
             @NotNull(message = "编号不能为空") Long id,
             @NotNull(message = "编号不能为空") Integer shelfState){

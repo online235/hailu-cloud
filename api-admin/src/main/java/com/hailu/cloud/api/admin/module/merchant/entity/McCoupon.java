@@ -1,5 +1,7 @@
 package com.hailu.cloud.api.admin.module.merchant.entity;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,6 +18,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel
+@InjectDict
 public class McCoupon<T> implements Serializable {
     /**
      *  编号
@@ -69,7 +72,7 @@ public class McCoupon<T> implements Serializable {
      * 下单后有效时间（天）
      */
     @ApiModelProperty(value = "下单后有效时间（天）")
-    private Date timeAfterOrder;
+    private Integer timeAfterOrder;
 
     /**
      * 开始时间
@@ -97,11 +100,18 @@ public class McCoupon<T> implements Serializable {
     @ApiModelProperty(value = "审核(审核中-1,审核通过-2,审核不通过-3)")
     private Integer toExamine;
 
+
+    @DictName(code = "TO_EXAMINE", joinField = "toExamine")
+    private String toExamineDisplay;
+
     /**
      * 上架状态(未上架-1、已上架-2、已下架-3)
      */
     @ApiModelProperty(value = "上架状态(未上架-1、已上架-2、已下架-3)")
     private Integer shelfState;
+
+    @DictName(code = "SHELF_STATE", joinField = "shelfState")
+    private String shelfStateDisplay;
 
     /**
      * 创建时间

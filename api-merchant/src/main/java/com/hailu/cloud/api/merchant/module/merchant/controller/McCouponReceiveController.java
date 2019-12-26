@@ -30,7 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/app/multiIndustryReceive")
 @Validated
-@Api(tags = "到店卷")
+@Api(tags = "到店卷-订单")
 @Slf4j
 public class McCouponReceiveController {
 
@@ -40,7 +40,7 @@ public class McCouponReceiveController {
 
     @ApiOperation(value = "商户查询用户到店卷列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "usageState", value = "使用状态(待使用-1、已核销-2)", required = true,  paramType = "query"),
+            @ApiImplicitParam(name = "usageState", value = "使用状态(待使用-1、已核销-2)", paramType = "query"),
             @ApiImplicitParam(name = "page", value = "第N页", required = true, defaultValue = "1", paramType = "query"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, defaultValue = "10", paramType = "query")
     })

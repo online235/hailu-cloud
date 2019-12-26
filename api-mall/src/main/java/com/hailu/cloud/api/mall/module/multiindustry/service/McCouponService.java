@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.service;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McCoupon;
+import com.hailu.cloud.api.mall.module.multiindustry.model.CouponAndPictureModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.McCouponOtherJsonModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 
@@ -25,7 +26,7 @@ public interface McCouponService {
     /**
      * 到店卷列表
      */
-    PageInfoModel<List<McCoupon>> findMcCouponList(Long mcNumberId, Integer page, Integer size);
+    PageInfoModel<List<CouponAndPictureModel>> findMcCouponList(Long mcNumberId, Integer page, Integer size);
 
 
     /**

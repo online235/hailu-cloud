@@ -15,15 +15,17 @@
     select DISTINCT
 
     mc.*,
+    sm.member_mobile as memberMobile,
     msi.id as storeId, msi.shop_name as shopName, msi.default_head as defaultHead,
     mcp.id as pictureId, mcp.picture_path as picturePath,
-    mcr.id as receiveId, mcr.usage_state as usageState, mcr.date_time as receiveDateTime mcr.award_code as awardCode
+    mcr.id as receiveId, mcr.usage_state as usageState, mcr.date_time as receiveDateTime, mcr.award_code as awardCode
 
     from mc_coupon mc
     inner join mc_coupon_picture mcp on mc.id = mcp.coupon_id
     inner join mc_coupon_receive mcr on mc.id = mcr.coupon_id
     inner join mc_store_information msi on mc.number_id = msi.mc_number_id
     inner join mc_user mu on mu.number_id = mc.number_id
+    inner join shop_member sm on mcr.member_id = sm.user_id
 
     where mcp.picture_type = 1 and mc.to_examine = 2 and mcr.usage_state != 3 and mu.number_id= #{numberId}
     <if test="usageState != null">

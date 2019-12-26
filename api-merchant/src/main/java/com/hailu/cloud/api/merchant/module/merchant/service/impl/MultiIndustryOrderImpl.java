@@ -46,19 +46,20 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
         List<MultiIndustryOrder> order = multiIndustryOrderMapper.findOrderListByStoreId(mcStoreInformation.getId(), state, secondState);
         List<MultiIndustryOrder> orders = new ArrayList<>();
 
-        //ÅÐ¶ÏÊ§Ð§Ê±¼ä
+        //åˆ¤æ–­å¤±æ•ˆæ—¶é—´
         Date date = new Date();
         Date dateSave = new Date();
         for (MultiIndustryOrder mo : order){
 
             McStoreFunction mcStoreFunction = mcStoreFunctionService.findObjectByStoreId(mo.getStoreId());
-            //ÅÐ¶ÏÊ¹ÓÃÈÕÆÚÄêÔÂÈÕ
+            //åˆ¤æ–­ä½¿ç”¨æ—¥æœŸå¹´æœˆæ—¥
             int resultDate = StoreUtil.dateCompare(mo.getUseDate(), dateSave, 1);
 
-            //ÔÚÔ­Ê±¼ä¼ÓÉÏ±£ÁôÊ±¼ä
-            dateSave.setTime(mo.getOrderTime().getTime() + mcStoreFunction.getAppointmentSaveTime()*60*1000);
+            Integer num = mcStoreFunction == null ? 50 : mcStoreFunction.getAppointmentSaveTime();
+            //åœ¨åŽŸæ—¶é—´åŠ ä¸Šä¿ç•™æ—¶é—´
+            dateSave.setTime(mo.getOrderTime().getTime() + num*60*1000);
 
-            //ÅÐ¶ÏÊ¹ÓÃÊ±¼äÊ±·ÖÃë
+            //åˆ¤æ–­ä½¿ç”¨æ—¶é—´æ—¶åˆ†ç§’
             int resultTime = StoreUtil.dateCompare(mo.getUseTime(), dateSave, 2);
             if (resultDate != -1){
                 if (resultTime != -1){
@@ -68,7 +69,7 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
             }
 
             if (mo.getState() == 1){
-                //ÔÚÔ­Ê±¼ä¼ÓÉÏÊ§Ð§Ê±¼ä
+                //åœ¨åŽŸæ—¶é—´åŠ ä¸Šå¤±æ•ˆæ—¶é—´
                 date.setTime(mo.getOrderTime().getTime() + 30*60*1000);
                 int result = DateUtil.compare(new Date(), date);
                 if (result == 0 || result > 0) {

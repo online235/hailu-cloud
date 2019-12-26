@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McCoupon;
-import com.hailu.cloud.api.mall.module.multiindustry.model.McCouponModel;
+import com.hailu.cloud.api.mall.module.multiindustry.model.CouponAndPictureModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.McCouponOtherJsonModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McCouponService;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -12,7 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -57,7 +60,7 @@ public class McCouponController {
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, defaultValue = "10", paramType = "query")
     })
     @GetMapping("/findMcCouponList")
-    public PageInfoModel<List<McCoupon>> findMcCouponList(
+    public PageInfoModel<List<CouponAndPictureModel>> findMcCouponList(
             @NotNull(message = "商家编号不能为空") Long numberId,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")

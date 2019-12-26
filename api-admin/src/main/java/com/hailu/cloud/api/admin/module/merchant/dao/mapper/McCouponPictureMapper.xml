@@ -31,7 +31,7 @@
     select
     <include refid="Base_Column_List"/>
     from mc_coupon_picture
-    where coupon_id = #{couponId}
+    where coupon_id = #{couponId} and state = 1
   </select>
 
 </mapper>

@@ -30,7 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/app/multiIndustryReceive")
 @Validated
-@Api(tags = "到店卷")
+@Api(tags = "到店卷-订单")
 @Slf4j
 public class McCouponReceiveController {
 

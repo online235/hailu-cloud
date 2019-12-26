@@ -1,6 +1,8 @@
 package com.hailu.cloud.api.merchant.module.merchant.model;
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.McCoupon;
+import com.hailu.cloud.common.fill.annotation.DictName;
+import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -16,6 +18,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel
+@InjectDict
 public class CouponAndReceiveModel extends McCoupon {
 
     /**
@@ -60,6 +63,9 @@ public class CouponAndReceiveModel extends McCoupon {
     @ApiModelProperty(value = "使用状态(待使用-1、已使用-2、已失效-3)")
     private Long usageState;
 
+    @DictName(code = "USAGE_STATE", joinField = "usageState")
+    private String usageStateDisplay;
+
     /**
      * 创建时间
      */
@@ -71,4 +77,10 @@ public class CouponAndReceiveModel extends McCoupon {
      */
     @ApiModelProperty(value = "兑奖码")
     private String awardCode;
+
+    /**
+     * 领取人手机号码
+     */
+    @ApiModelProperty(value = "领取人手机号码")
+    private String memberMobile;
 }

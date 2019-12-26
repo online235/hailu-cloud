@@ -37,7 +37,7 @@ public interface McStoreFunctionService {
      * @param storeId
      * @return
      */
-    McStoreFunction findObjectByStoreId(@Param("storeId") Long storeId);
+    McStoreFunction findObjectByStoreId(Long storeId);
 
 
     /**

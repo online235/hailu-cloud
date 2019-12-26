@@ -11,10 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -36,18 +33,18 @@ public class MultiIndustryOrderController {
             @ApiImplicitParam(name = "size", value = "页面大小",  required = true, defaultValue = "20",  paramType = "query"),
             @ApiImplicitParam(name = "state", value = "订单状态(全部-0、待确认 -1、待使用-2、已完成-3)",   paramType = "query")
     })
-    @PostMapping("/commodityQueryOrder")
+    @GetMapping("/commodityQueryOrder")
     public PageInfoModel<List<MultiIndustryOrder>> findOrderListByStoreId(
             @RequestParam(defaultValue = "1")Integer page ,
             @RequestParam(defaultValue = "20")Integer size,
-            Integer state){
+            @RequestParam(defaultValue = "0") Integer state){
 
-        return orderService.findOrderListByStoreId(page, size, state);
+        return orderService.findOrderListByStoreId(state, page, size);
     }
 
     @ApiOperation(value = "确认订单")
     @ApiImplicitParam(name = "id", value = "订单Id", required = true, paramType = "query")
-    @PostMapping("/orderState")
+    @GetMapping("/orderState")
     public void updateOrderState(
             @NotNull(message = "订单Id不能为空") Long id){
 

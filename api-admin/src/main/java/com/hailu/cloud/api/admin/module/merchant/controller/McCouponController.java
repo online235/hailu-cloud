@@ -76,7 +76,7 @@ public class McCouponController {
     @PostMapping("/updState")
     public void updMcCouponById(
             @NotNull(message = "编号不能为空") Long id,
-            @NotNull(message = "状态不能为空")Integer toExamine
+            @NotNull(message = "状态不能为空") Integer toExamine
     ){
 
         mcCouponService.updMcCouponById(id,toExamine);

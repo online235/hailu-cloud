@@ -5,11 +5,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.McCouponMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McCoupon;
+import com.hailu.cloud.api.mall.module.multiindustry.model.CouponAndPictureModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.McCouponOtherJsonModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McCouponService;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
-import com.hailu.cloud.common.utils.RequestUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,9 +41,9 @@ public class McCouponImpl implements McCouponService {
 
 
     @Override
-    public PageInfoModel<List<McCoupon>> findMcCouponList(Long mcNumberId, Integer page, Integer size) {
+    public PageInfoModel<List<CouponAndPictureModel>> findMcCouponList(Long mcNumberId, Integer page, Integer size) {
         Page pageList = PageHelper.startPage(page, size);
-        List<McCoupon> mcCouponsList = mcCouponMapper.findMcCouponList(mcNumberId);
+        List<CouponAndPictureModel> mcCouponsList = mcCouponMapper.findMcCouponList(mcNumberId);
         return new PageInfoModel<>(pageList.getPages(), pageList.getTotal(), mcCouponsList);
     }
 

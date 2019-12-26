@@ -18,13 +18,17 @@
     where id = #{id} and number_id = #{numberId}
   </select>
 
-  <select id="findMcCouponList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.McCoupon">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from mc_coupon
-    where number_id = #{mcNumberId} and shelf_state = 2 and to_examine = 2
+  <select id="findMcCouponList" resultType="com.hailu.cloud.api.mall.module.multiindustry.model.CouponAndPictureModel">
+    select DISTINCT
+
+    mc.*,
+    mcp.id as pictureId, mcp.picture_path as picturePath
+
+    from mc_coupon mc
+    inner join mc_coupon_picture mcp on mc.id = mcp.coupon_id
+
+    where mc.number_id = #{mcNumberId} and shelf_state = 2 and to_examine = 2
+	group by mc.id
   </select>
 
   <select id="findMcCouponById" resultType="int">

@@ -3,11 +3,12 @@ package com.hailu.cloud.api.mall.module.multiindustry.controller;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
-import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.entity.McSysTag;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McShopTagService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
+import com.hailu.cloud.api.mall.module.multiindustry.service.McSysTagService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
 import java.util.HashMap;
@@ -44,6 +46,9 @@ public class StoreInformationController {
 
     @Autowired
     private McStoreAlbumMallService mcStoreAlbumMallService;
+
+    @Autowired
+    private McSysTagService mcSysTagService;
 
 
     @ApiOperation(value = "店铺查询-分页")
@@ -121,6 +126,22 @@ public class StoreInformationController {
         }
         return mcStoreAlbumMallService.findListByParam(map);
 
+    }
+
+    @ApiOperation(value = "标签列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query", defaultValue = "1", dataType = "int"),
+            @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query", defaultValue = "10", dataType = "int"),
+            @ApiImplicitParam(name = "tagName", value = "标签名称",  paramType = "query"),
+    })
+    @PostMapping("/findMcSysTagList")
+    public PageInfoModel<List<McSysTag>> findMcSysTagList(
+            String tagName,
+            @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
+            @Max(value = 200, message = "每页最多显示200条数据") @Min(value = 10, message = "每页最少显示10条数据")
+            @RequestParam(value = "size", defaultValue = "20", required = false) Integer size) {
+
+        return mcSysTagService.findMcSysTagList(tagName, page, size);
     }
 
 
