@@ -11,6 +11,7 @@ import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -150,8 +151,11 @@ public class MemberDetailServiceImpl implements IMemberDetailService {
             throw new BusinessException("查询类型不合法！");
         }
         list.forEach(data->{
+
             String phone = data.getPhone();
-            data.setPhone(phone.substring(0,3)+"****"+phone.substring((phone.length()-3),phone.length()));
+            if(StringUtils.isNotBlank(phone)){
+                data.setPhone(phone.substring(0,3)+"****"+phone.substring((phone.length()-3),phone.length()));
+            }
         });
         return new PageInfoModel<>(pageDate.getPages(),pageDate.getTotal(),list);
     }

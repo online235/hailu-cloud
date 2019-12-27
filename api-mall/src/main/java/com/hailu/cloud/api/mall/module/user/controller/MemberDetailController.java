@@ -186,6 +186,27 @@ public class MemberDetailController {
             "      }\n" +
             "    ]\n" +
             "  }\n" +
+            "}-------------商家返回信息---------------{\n" +
+            "  \"code\": 200,\n" +
+            "  \"message\": \"请求成功\",\n" +
+            "  \"data\": {\n" +
+            "    \"totalPage\": 1,\n" +
+            "    \"total\": 1,\n" +
+            "    \"datas\": [\n" +
+            "      {\n" +
+            "        \"provinceId\": \"110000\",\n" +
+            "        \"provinceIdStr\": \"北京市\",        //省\n" +
+            "        \"cityId\": \"110000\",\n" +
+            "        \"cityIdStr\": \"北京市\",            //市\n" +
+            "        \"areaId\": \"110101\",\n" +
+            "        \"areaIdStr\": \"东城区\",            //区县\n" +
+            "        \"address\": \"8号巷子\",             //详细地址\n" +
+            "        \"phone\": \"138****000\",             //电话\n" +
+            "       \"name\": \"测试\",                       //姓名\n" +
+            "        \"joinTime\": \"2019-11-26 09:05:08\"      //加入时间\n" +
+            "      }\n" +
+            "    ]\n" +
+            "  }\n" +
             "}")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page", value = "页码", required = true, paramType = "query",dataType = "int"),

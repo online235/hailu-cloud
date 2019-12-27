@@ -265,7 +265,7 @@ public class PaymentServiceImpl implements IPaymentService {
 
         //如果购买类型为销售 判断邀请人是否为市公司
         if(buyType == 3){
-            UserInfo userInfo = mallFeignClient.findById(inviteNum).getData();
+            ShopMember userInfo = mallFeignClient.findById(inviteNum).getData();
             if(userInfo.getMerchantType() != 1){
                 throw new BusinessException("邀请人非市公司，无法加入销售！");
             }

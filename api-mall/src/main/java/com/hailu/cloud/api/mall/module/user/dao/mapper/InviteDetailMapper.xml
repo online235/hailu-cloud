@@ -85,7 +85,7 @@
     <select id="findMerchants" resultType="com.hailu.cloud.api.mall.module.user.vo.MemberDetailVo">
       select mu.nick_name as name,msi.date_time as join_time,mu.phone,msi.province_code as province_id,msi.city_code as city_id,msi.area_code as area_id,msi.detail_address as address
       from hl_invite_detail hid left join mc_user mu on mu.number_id = hid.be_invited_id
-      left join mc_store_information msi msi.mc_number_id = hid.be_invited_id
+      left join mc_store_information msi on msi.mc_number_id = hid.be_invited_id
       where hid.invitation_id = #{userId} and hid.type = 4
     </select>
 
