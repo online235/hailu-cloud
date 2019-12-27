@@ -13,6 +13,7 @@ import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -73,6 +74,7 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
      * @throws BusinessException
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void storeToExamine(Long id, Integer phoneToExamine,Integer addressToExamine,Integer storeNameExamine) throws BusinessException {
 
         McStoreExamine mcStoreExamine = this.findObjectById(id);

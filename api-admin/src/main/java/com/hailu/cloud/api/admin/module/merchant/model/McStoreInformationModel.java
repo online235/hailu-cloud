@@ -161,4 +161,23 @@ public class McStoreInformationModel {
     @DictName(code = "BUSINESS_DAY" , joinField = "weekDay")
     private String weekDayDisplay;
 
+    /**
+     *店铺位置经度
+     */
+    @ApiModelProperty("店铺位置经度")
+    private java.math.BigDecimal longitude;
+
+
+    /**
+     *店铺纬度
+     */
+    @ApiModelProperty("店铺纬度")
+    private java.math.BigDecimal latitude;
+
+
+
+    @DictName(code = "ACCOUNT_TYPE" , joinField = "accountType")
+    private String accountTypeDisplay;
+
+
 }

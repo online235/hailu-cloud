@@ -172,7 +172,7 @@
         phone_to_examine, address_to_examine, date_time
         FROM mc_store_examine
         WHERE 1=1
-        <if test="storeId != null">
+        <if test="storeId != null and storeId != ''">
             and store_id = #{storeId}
         </if>
         <if test="storeName != null and storeName != ''">
@@ -181,10 +181,10 @@
         <if test="shopPhone != null and shopPhone != ''">
             and  shop_phone like CONCAT('%',#{shopPhone},'%')
         </if>
-        <if test="phoneToExamine != null">
+        <if test="phoneToExamine != null and phoneToExamine != ''">
             and phone_to_examine = #{phoneToExamine}
         </if>
-        <if test="addressToExamine != null">
+        <if test="addressToExamine != null and addressToExamine != ''">
             and address_to_examine = #{addressToExamine}
         </if>
         <if test="dateTime != null and dateTime != ''">

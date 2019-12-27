@@ -1,8 +1,9 @@
 package com.hailu.cloud.api.merchant.module.merchant.model;
 
+import com.hailu.cloud.common.fill.annotation.DictName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,51 +14,51 @@ import javax.validation.constraints.NotNull;
 public class McStoreInformationModel {
 
 
-    @ApiParam(name = "id", value = "编号不能为空", required = true)
+    @ApiModelProperty(name = "id", value = "编号不能为空", required = true)
     @NotNull(message = "编号不能为空")
     private Long id;
 
 
-    @ApiParam(name = "mcNumberId", value = "商家编号")
+    @ApiModelProperty(name = "mcNumberId", value = "商家编号")
     private String mcNumberId;
 
 
-    @ApiParam(name = "shopName", value = "店铺名称")
+    @ApiModelProperty(name = "shopName", value = "店铺名称")
     private String shopName;
 
 
 
-    @ApiParam(name = "phone", value = "店铺联系电话")
+    @ApiModelProperty(name = "phone", value = "店铺联系电话")
     private String phone;
 
-    @ApiParam(name = "provinceCode", value = "省Id")
+    @ApiModelProperty(name = "provinceCode", value = "省Id")
     private String provinceCode;
 
-    @ApiParam(name = "cityCode", value = "市Id")
+    @ApiModelProperty(name = "cityCode", value = "市Id")
     private String cityCode;
 
 
-    @ApiParam(name = "areaCode", value = "区id")
+    @ApiModelProperty(name = "areaCode", value = "区id")
     private String areaCode;
 
 
-    @ApiParam(name = "detailAddress", value = "店铺详细地址")
+    @ApiModelProperty(name = "detailAddress", value = "店铺详细地址")
     private String detailAddress;
 
 
-    @ApiParam(name = "storeDetails", value = "店铺详情")
+    @ApiModelProperty(name = "storeDetails", value = "店铺详情")
     private String storeDetails;
 
 
-    @ApiParam(name = "perCapitaPrice", value = "人均价格")
+    @ApiModelProperty(name = "perCapitaPrice", value = "人均价格")
     private java.math.BigDecimal perCapitaPrice;
 
 
-    @ApiParam(name = "minPrice", value = "最低消费")
+    @ApiModelProperty(name = "minPrice", value = "最低消费")
     private java.math.BigDecimal minPrice;
 
 
-    @ApiParam(name = "businessState", value = "营业状态(1-营业中，2-休息中)")
+    @ApiModelProperty(name = "businessState", value = "营业状态(1-营业中，2-休息中)")
     private Integer businessState;
 
 
@@ -69,12 +70,34 @@ public class McStoreInformationModel {
 
 
 
-    @ApiParam(name = "toExamine", value = "审核中-1'',''审核通过-2'',''审核不通过-3")
+    @ApiModelProperty(name = "toExamine", value = "审核中-1'',''审核通过-2'',''审核不通过-3")
     private Integer toExamine;
 
 
-    @ApiParam(name = "weekDay", value = "每周营业日用（1星期日，2星期一）")
+    @ApiModelProperty(name = "weekDay", value = "每周营业日用（1星期日，2星期一）")
     private String weekDay;
+
+    /**
+     *店铺位置经度
+     */
+    @ApiModelProperty("店铺位置经度")
+    private java.math.BigDecimal longitude;
+
+
+    /**
+     *店铺纬度
+     */
+    @ApiModelProperty("店铺纬度")
+    private java.math.BigDecimal latitude;
+
+    /**
+     * '1、生活圈入驻店铺；2、百货入驻店铺'
+     */
+    private Integer accountType;
+
+
+    @DictName(code = "ACCOUNT_TYPE" , joinField = "accountType")
+    private String accountTypeDisplay;
 
 
 }

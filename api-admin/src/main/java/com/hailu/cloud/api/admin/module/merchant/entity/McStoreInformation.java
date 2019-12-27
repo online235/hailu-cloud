@@ -5,6 +5,7 @@ import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
  */
 @Data
 @InjectDict
+@ApiModel
 public class McStoreInformation {
 
 
@@ -148,6 +150,29 @@ public class McStoreInformation {
 
     @DictName(code = "BUSINESS_DAY" , joinField = "weekDay")
     private String weekDayDisplay;
+
+    /**
+     * '1、生活圈入驻店铺；2、百货入驻店铺'
+     */
+    private Integer accountType;
+
+
+    @DictName(code = "ACCOUNT_TYPE" , joinField = "accountType")
+    private String accountTypeDisplay;
+
+
+    /**
+     *店铺位置经度
+     */
+    @ApiModelProperty("店铺位置经度")
+    private java.math.BigDecimal longitude;
+
+
+    /**
+     *店铺纬度
+     */
+    @ApiModelProperty("店铺纬度")
+    private java.math.BigDecimal latitude;
 
 
 }
