@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.admin.module.merchant.dao.McSysTagMapper" >
   <sql id="Base_Column_List" >
-    id, tag_group_id, state, tag_name, create_time, update_time
+    id, tag_type, state, tag_name, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag" parameterType="java.lang.Long" >
     select 
@@ -20,8 +20,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="tagGroupId != null" >
-        tag_group_id,
+      <if test="tagType != null" >
+        tag_type,
       </if>
       <if test="state != null" >
         state,
@@ -40,8 +40,8 @@
       <if test="id != null" >
         #{id},
       </if>
-      <if test="tagGroupId != null" >
-        #{tagGroupId},
+      <if test="tagType != null" >
+        #{tagType},
       </if>
       <if test="state != null" >
         #{state},
@@ -60,8 +60,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.merchant.entity.McSysTag" >
     update mc_sys_tag
     <set >
-      <if test="tagGroupId != null" >
-        tag_group_id = #{tagGroupId},
+      <if test="tagType != null" >
+        tag_type = #{tagType},
       </if>
       <if test="state != null" >
         state = #{state},
