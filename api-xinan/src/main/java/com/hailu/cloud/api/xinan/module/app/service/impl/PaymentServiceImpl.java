@@ -4,7 +4,6 @@ package com.hailu.cloud.api.xinan.module.app.service.impl;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.hailu.cloud.api.xinan.constant.Constant;
 import com.hailu.cloud.api.xinan.feigns.MallFeignClient;
 import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.*;

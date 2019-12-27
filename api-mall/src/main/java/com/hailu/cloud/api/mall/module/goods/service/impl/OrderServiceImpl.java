@@ -28,6 +28,7 @@ import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
+import com.hailu.cloud.common.redis.enums.RedisEnum;
 import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

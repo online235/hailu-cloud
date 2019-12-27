@@ -36,12 +36,4 @@
     from mc_coupon
     where id = #{id} and shelf_state = 2 and to_examine = 2
   </select>
-
-  <select id="findMcCouponById" resultType="int">
-    select count(0)
-    from mc_coupon
-    where id = #{id} and shelf_state = 2 and to_examine = 2
-  </select>
-
-
 </mapper>

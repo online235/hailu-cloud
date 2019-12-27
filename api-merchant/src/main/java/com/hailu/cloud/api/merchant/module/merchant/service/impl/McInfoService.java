@@ -14,7 +14,9 @@ import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationSe
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
+import com.hailu.cloud.common.model.system.InvitedetailModel;
 import com.hailu.cloud.common.utils.RequestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -147,6 +149,21 @@ public class McInfoService {
                 throw new BusinessException("插入数据失败");
             }
 
+        }
+
+
+        String InvitationUserId =  mcUserParameter.getInvitationUserId();
+        if(StringUtils.isNotBlank(InvitationUserId)){
+            //添加汇总信息
+            mallFeignClient.addTotal(InvitationUserId,null,null,1,
+            null,null);
+
+            //添加邀请信息
+            InvitedetailModel invitedetailModel = new InvitedetailModel();
+            invitedetailModel.setType(4);
+            invitedetailModel.setInvitationId(InvitationUserId);
+            invitedetailModel.setBeInvitedId(numberId);
+            mallFeignClient.addInvitedetail(invitedetailModel);
         }
 
     }

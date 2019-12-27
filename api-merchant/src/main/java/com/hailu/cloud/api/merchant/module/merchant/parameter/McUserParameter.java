@@ -81,5 +81,11 @@ public class McUserParameter {
     @ApiModelProperty(name = "detailAddress", value = "门店详细地址")
     private String detailAddress;
 
+    /**
+     * 邀请人ID
+     */
+    @ApiModelProperty(name = "invitationUserId", value = "邀请人ID")
+    private String invitationUserId;
+
 
 }

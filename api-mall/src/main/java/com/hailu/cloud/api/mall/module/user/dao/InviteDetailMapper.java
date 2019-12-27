@@ -43,4 +43,13 @@ public interface InviteDetailMapper {
     List<MemberDetailVo> findDetailByType(@Param("value") String value, @Param("type") Integer type, @Param("userId") String userId);
 
     List<MemberDetailVo> findMemberDetail(@Param("value") String value, @Param("type") Integer type, @Param("userId") String userId,@Param("memberAll") Integer memberAll);
+
+    //TODO:暂时这样用，后期商家体系迁入会员体系再更改
+    /**
+     * 查询商家信息
+     * @param value
+     * @param userId
+     * @return
+     */
+    List<MemberDetailVo> findMerchants(@Param("value") String value,@Param("userId") String userId);
 }

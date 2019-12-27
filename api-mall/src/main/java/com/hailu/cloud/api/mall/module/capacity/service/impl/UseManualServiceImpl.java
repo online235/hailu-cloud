@@ -8,6 +8,7 @@ import com.hailu.cloud.api.mall.module.goods.vo.HotVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 @Service
 public class UseManualServiceImpl implements IUseManualService {
 
-    @Autowired
+    @Resource
     private UseManualMapper useManualDao;
 
     @Override

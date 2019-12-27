@@ -144,6 +144,8 @@ public class MemberDetailServiceImpl implements IMemberDetailService {
         }else if(type == 0){
             //查询会员
             list = inviteDetailMapper.findMemberDetail(value,type,userId,memberAll);
+        }else if(type == 4){
+            list = inviteDetailMapper.findMerchants(value,userId);
         }else {
             throw new BusinessException("查询类型不合法！");
         }

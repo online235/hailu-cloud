@@ -1,12 +1,18 @@
 package com.hailu.cloud.api.merchant.feigns;
 
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.model.system.InvitedetailModel;
+import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 
+/**
+ * 商城服务
+ */
 @FeignClient(name = "service-api-mall")
 public interface MallFeignClient {
 
@@ -26,4 +32,13 @@ public interface MallFeignClient {
                   @RequestParam("inviteMerchatNum") Integer inviteMerchatNum,
                   @RequestParam("invitePartnersNum") Integer invitePartnersNum,
                   @RequestParam("salesPerformance") BigDecimal salesPerformance);
+
+
+    /**
+     * 保存邀请信息
+     * @param invitedetailModel
+     * @return
+     */
+    @PostMapping(Constant.API_VERSION + Constant.API_NAME_MALL+"/invite/add")
+    ApiResponse addInvitedetail(@RequestBody InvitedetailModel invitedetailModel);
 }
