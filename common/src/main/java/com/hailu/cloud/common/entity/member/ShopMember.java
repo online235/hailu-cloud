@@ -114,12 +114,12 @@ public class ShopMember {
     private String inviteCode;
 
     /**
-     * 用户字符Id
+     * 会员表uuid
      */
     private String userId;
 
     /**
-     * null
+     * 会员头像
      */
     private String userIcon;
 
@@ -153,4 +153,13 @@ public class ShopMember {
      */
     private String loginName;
 
+    /**
+     * 会员类型 0会员, 1商户
+     */
+    private int memberType;
+
+    /**
+     * 入驻类型 1、生活圈入驻用户；2、百货入驻用户；3、供应商入驻用户
+     */
+    private int settleinType;
 }
