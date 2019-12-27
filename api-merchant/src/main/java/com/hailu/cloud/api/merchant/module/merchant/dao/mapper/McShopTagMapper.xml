@@ -14,6 +14,15 @@
     where store_id = #{storeId} and state = 1
   </select>
 
+
+  <select id="findMcShopTagModelListByStoreId" resultType="com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel" >
+    select
+     shopTag.id, shopTag.tag_id, shopTag.store_id,mst.tag_name
+    from mc_shop_tag shopTag left join mc_sys_tag mst on shopTag.tag_id = mst.id
+    where shopTag.store_id = #{storeId} and shopTag.state = 1
+  </select>
+
+
   <insert id="addMcShopTag" parameterType="java.util.ArrayList">
     insert into mc_shop_tag (id, tag_id, store_id, state, create_time, update_time)
     values

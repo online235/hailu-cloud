@@ -167,6 +167,8 @@ public class McStoreInformationResult {
     private String weekDayDisplay;
 
 
+    @ApiModelProperty("店铺所属标签")
+    private String storeTags;
 
 
 

@@ -17,10 +17,9 @@ public interface McSysTagService {
 
     /**
      * 添加一个标签
-     * @param tagName
      * @return
      */
-    McSysTag insertSelective(String tagName);
+    McSysTag insertSelective(McSysTag mcSysTag);
 
     /**
      * 根据编号查询一个标签

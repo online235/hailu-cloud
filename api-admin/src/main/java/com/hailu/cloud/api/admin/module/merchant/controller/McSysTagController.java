@@ -37,12 +37,16 @@ public class McSysTagController {
     @ApiOperation(value = "添加标签")
     @PostMapping("/addTag")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "tagName", value = "标签名称", required = true, paramType = "query")
+            @ApiImplicitParam(name = "tagName", value = "标签名称", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "tagType", value = "标签类型：1、停车信息；2、免费wifi；3、环境信息；4、其他", required = true, paramType = "query"),
     })
     public McSysTag insertSelective(
-            @NotBlank(message = "信息不能为空") String tagName) {
+            @NotBlank(message = "信息不能为空") String tagName, @NotNull Integer tagType) {
 
-        return mcSysTagService.insertSelective(tagName);
+        McSysTag mcSysTag = new McSysTag();
+        mcSysTag.setTagName(tagName);
+        mcSysTag.setTagType(tagType);
+        return mcSysTagService.insertSelective(mcSysTag);
     }
 
 
@@ -79,11 +83,12 @@ public class McSysTagController {
 
         mcSysTagService.deleteByPrimaryKey(id, deleteType);
     }
+
     @ApiOperation(value = "标签列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query", defaultValue = "1", dataType = "int"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query", defaultValue = "10", dataType = "int"),
-            @ApiImplicitParam(name = "tagName", value = "标签名称",  paramType = "query"),
+            @ApiImplicitParam(name = "tagName", value = "标签名称", paramType = "query"),
     })
     @PostMapping("/findMcSysTagList")
     public PageInfoModel<List<McSysTag>> findMcSysTagList(
@@ -94,7 +99,6 @@ public class McSysTagController {
 
         return mcSysTagService.findMcSysTagList(tagName, page, size);
     }
-
 
 
 }

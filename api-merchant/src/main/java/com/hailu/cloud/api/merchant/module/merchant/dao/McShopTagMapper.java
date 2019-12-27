@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.merchant.module.merchant.dao;
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.McShopTag;
+import com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,6 +21,15 @@ public interface McShopTagMapper {
      * @return
      */
     List<McShopTag> findMcShopTagListByStoreId(@Param("storeId") Long storeId);
+
+
+    /**
+     * 根据店铺编号查询店铺下的标签名称
+     * @param storeId
+     * @return
+     */
+    List<McShopTagModel> findMcShopTagModelListByStoreId(@Param("storeId") Long storeId);
+
 
     /**
      * 插入多条店铺数据

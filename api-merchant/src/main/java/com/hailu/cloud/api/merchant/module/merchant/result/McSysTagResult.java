@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.merchant.module.merchant.entity;
+package com.hailu.cloud.api.merchant.module.merchant.result;
 
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @ApiModel
 @InjectDict
-public class McSysTag implements Serializable {
+public class McSysTagResult{
     /**
      * 编号
      */
@@ -25,37 +25,15 @@ public class McSysTag implements Serializable {
     @ApiModelProperty(value = "标签类型：1、停车信息；2、免费wifi；3、环境信息；4、其他")
     private Integer tagType;
 
-
-    /**
-     * 状态(启用-1、禁用-0)
-     */
-    @ApiModelProperty(value = "状态(启用-1、禁用-0)")
-    private Integer state;
-
-
-    @DictName(code = "ENABLE_STATUS", joinField = "state")
-    private String stateDisplay;
-
     /**
      * 标签名称
      */
     @ApiModelProperty(value = "标签名称")
     private String tagName;
 
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(value = "创建时间")
-    private Date createTime;
 
-    /**
-     * 修改时间
-     */
-    @ApiModelProperty(value = "修改时间")
-    private Date updateTime;
+    @ApiModelProperty(value = "使用状态：1、已经使用；2、未使用")
+    private Integer storeUseState;
 
-    /**
-     * mc_sys_tag
-     */
-    private static final long serialVersionUID = 1L;
+
 }

@@ -30,7 +30,7 @@ public class McSysTagParameter {
     /**
      * 状态(正常-1、删除-2)
      */
-    @ApiModelProperty(value = "状态(正常-1、删除-2)")
+    @ApiModelProperty(value = "状态(启用-1、禁用-0)")
     private Integer state;
 
     /**

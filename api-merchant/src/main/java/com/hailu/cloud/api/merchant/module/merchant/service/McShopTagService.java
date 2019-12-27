@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.merchant.module.merchant.service;
 
 import com.hailu.cloud.api.merchant.module.merchant.entity.McShopTag;
+import com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel;
 
 import java.util.List;
 
@@ -19,6 +20,16 @@ public interface McShopTagService {
      * @return
      */
     List<McShopTag> findMcShopTagListByStoreId(Long storeId);
+
+
+    /**
+     * 根据店铺编号查询店铺下的标签名称
+     * @param storeId
+     * @return
+     */
+    List<McShopTagModel> findMcShopTagModelListByStoreId(Long storeId);
+
+
 
     /**
      * 插入多条店铺数据

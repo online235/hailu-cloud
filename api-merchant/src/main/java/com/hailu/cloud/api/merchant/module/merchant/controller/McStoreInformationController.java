@@ -2,16 +2,18 @@ package com.hailu.cloud.api.merchant.module.merchant.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
-import com.hailu.cloud.api.merchant.module.merchant.entity.McManagementType;
+import com.hailu.cloud.api.merchant.module.merchant.entity.*;
+import com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.McStoreAlbumUrlParameter;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.ShopInformationEntryParameter;
 import com.hailu.cloud.api.merchant.module.merchant.parameter.StoreAlbumParameter;
+import com.hailu.cloud.api.merchant.module.merchant.result.McSysTagResult;
 import com.hailu.cloud.api.merchant.module.merchant.result.RegisterShopInformationResult;
 import com.hailu.cloud.api.merchant.module.merchant.result.ShopExamineResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McManagementTypeService;
-import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreAlbum;
-import com.hailu.cloud.api.merchant.module.merchant.entity.McStoreInformation;
 import com.hailu.cloud.api.merchant.module.merchant.result.McStoreInformationResult;
+import com.hailu.cloud.api.merchant.module.merchant.service.McShopTagService;
+import com.hailu.cloud.api.merchant.module.merchant.service.McSysTagService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McStoreAlbumService;
 import com.hailu.cloud.api.merchant.module.merchant.service.impl.McInfoService;
 import com.hailu.cloud.api.merchant.module.merchant.service.McStoreInformationService;
@@ -22,6 +24,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
@@ -60,6 +63,12 @@ public class McStoreInformationController {
 
     @Resource
     private McInfoService mcInfoService;
+
+    @Autowired
+    private McShopTagService mcShopTagService;
+
+    @Resource
+    private McSysTagService mcSysTagService;
 
 
     @ApiOperation(value = "获取当前店铺已填资料")
@@ -110,9 +119,22 @@ public class McStoreInformationController {
             McManagementType mcManagementType1 = mcManagementTypeService.findManagementById(mcStoreInformation.getStoreSonType());
             mcStoreInformationResult.setStoreSonTypeDisPlay(mcManagementType1.getManagementName());
         }
+        List<McShopTagModel> mcShopTagModelList = mcShopTagService.findMcShopTagModelListByStoreId(id);
+        String storeTags = null;
+        if (!CollectionUtils.isEmpty(mcShopTagModelList)) {
+            for (McShopTagModel mcShopTagModel : mcShopTagModelList) {
+                if (storeTags == null) {
+                    storeTags = mcShopTagModel.getTagName();
+                } else {
+                    storeTags = storeTags + "," + mcShopTagModel.getTagName();
+                }
+            }
+        }
+        mcStoreInformationResult.setStoreTags(storeTags);
         return mcStoreInformationResult;
 
     }
+
 
 
     @ApiOperation(value = "更改店铺营业时间", notes = "<prep>" +
@@ -366,6 +388,19 @@ public class McStoreInformationController {
         }
         mcStoreAlbumService.deleteById(id);
     }
+
+
+    @ApiOperation(value = "获取标签详情")
+    @PostMapping("/findAllTagByStore")
+    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
+    public List<McSysTagResult> findAllTagByStore(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
+
+        if (id == null) {
+            throw new BusinessException("参数不能为空！");
+        }
+        return mcSysTagService.findAllTagByStore(id);
+    }
+
 
 
 }

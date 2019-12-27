@@ -2,6 +2,7 @@ package com.hailu.cloud.api.merchant.module.merchant.service.impl;
 
 import com.hailu.cloud.api.merchant.module.merchant.dao.McShopTagMapper;
 import com.hailu.cloud.api.merchant.module.merchant.entity.McShopTag;
+import com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel;
 import com.hailu.cloud.api.merchant.module.merchant.service.McShopTagService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class McShopTagImpl implements McShopTagService {
     @Override
     public List<McShopTag> findMcShopTagListByStoreId(Long storeId) {
         return mcShopTagMapper.findMcShopTagListByStoreId(storeId);
+    }
+
+    @Override
+    public List<McShopTagModel> findMcShopTagModelListByStoreId(Long storeId) {
+        return mcShopTagMapper.findMcShopTagModelListByStoreId(storeId);
     }
 
     @Override
