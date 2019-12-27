@@ -9,15 +9,12 @@
             user_icon,
             member_name,
             member_mobile,
-            invite_code,
-            be_invite_user,
             regist_time as create_time,
             is_del,
             member_sex,
             unionid,
             open_id,
             wx_state,
-            available_predeposit,
             merchant_type,
             superior_member
         FROM shop_member sm
@@ -51,7 +48,6 @@
           member_name,
           member_mobile,
           regist_time,
-          invite_code,
           is_del
         )
         VALUES
@@ -64,7 +60,6 @@
             #{userName},
             #{userMobile},
             #{createTime},
-            #{inviteCode},
             0
           )
     </insert>
@@ -78,12 +73,8 @@
             member_name,
             member_mobile,
             regist_time as create_time,
-            invite_code,
-            be_invite_user,
             merchant_type,
-            superior_member,
-            hl_member,
-            hl_member_timeout
+            superior_member
         FROM shop_member
         WHERE user_Id=#{userId}
     </select>

@@ -6,21 +6,13 @@
     <result column="member_name" property="memberName" jdbcType="VARCHAR" />
     <result column="merchant_type" property="merchantType" jdbcType="BIT" />
     <result column="superior_member" property="superiorMember" jdbcType="VARCHAR" />
-    <result column="hl_member" property="hlMember" jdbcType="INTEGER" />
     <result column="total_merchants_money" property="totalMerchantsMoney" jdbcType="DECIMAL" />
     <result column="member_sex" property="memberSex" jdbcType="VARCHAR" />
     <result column="member_passwd" property="memberPasswd" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="BIGINT" />
-    <result column="available_predeposit" property="availablePredeposit" jdbcType="DECIMAL" />
-    <result column="freeze_predeposit" property="freezePredeposit" jdbcType="DECIMAL" />
-    <result column="consumption_predeposit" property="consumptionPredeposit" jdbcType="DECIMAL" />
-    <result column="withdraw_predeposit" property="withdrawPredeposit" jdbcType="DECIMAL" />
-    <result column="total_predeposit" property="totalPredeposit" jdbcType="DECIMAL" />
     <result column="is_del" property="isDel" jdbcType="INTEGER" />
     <result column="member_mobile" property="memberMobile" jdbcType="VARCHAR" />
-    <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="be_invite_user" property="beInviteUser" jdbcType="VARCHAR" />
     <result column="regist_time" property="registTime" jdbcType="BIGINT" />
     <result column="wx_state" property="wxState" jdbcType="VARCHAR" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
@@ -32,10 +24,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     member_id, member_name, merchant_type, superior_member,
-    hl_member, total_merchants_money, member_sex, member_passwd, create_time,
-    available_predeposit, freeze_predeposit, consumption_predeposit, withdraw_predeposit,
-    total_predeposit, is_del, member_mobile, invite_code, user_id,
-    be_invite_user, regist_time, wx_state, open_id, unionid, login_name
+    total_merchants_money, member_sex, member_passwd, create_time,
+    is_del, member_mobile, user_id, regist_time, wx_state, open_id, unionid, login_name
   </sql>
   <sql id="Blob_Column_List" >
     <include refid="Base_Column_List"/>
@@ -64,18 +54,13 @@
   <insert id="insert" parameterType="com.hailu.cloud.common.entity.member.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
     insert into shop_member (member_name,
       member_sex, member_passwd, create_time,
-      available_predeposit, freeze_predeposit, 
-      consumption_predeposit, withdraw_predeposit, 
-      total_predeposit, is_del, member_mobile, invite_code, user_id,
-      be_invite_user, regist_time,
+      is_del, member_mobile, user_id, regist_time,
       wx_state, open_id, unionid, login_name)
     values (#{memberName,jdbcType=VARCHAR},
       #{memberSex,jdbcType=VARCHAR}, #{memberPasswd,jdbcType=VARCHAR},
-      #{createTime,jdbcType=BIGINT}, #{availablePredeposit,jdbcType=DECIMAL}, #{freezePredeposit,jdbcType=DECIMAL},
-      #{consumptionPredeposit,jdbcType=DECIMAL}, #{withdrawPredeposit,jdbcType=DECIMAL}, 
-      #{totalPredeposit,jdbcType=DECIMAL}, #{isDel,jdbcType=INTEGER},
-      #{memberMobile,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
-      #{beInviteUser,jdbcType=VARCHAR}, #{registTime,jdbcType=DATE},
+      #{createTime,jdbcType=BIGINT}, #{isDel,jdbcType=INTEGER},
+      #{memberMobile,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+      #{registTime,jdbcType=DATE},
       #{wxState,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, 
       #{loginName,jdbcType=VARCHAR},
       #{userIcon,jdbcType=LONGVARCHAR})
@@ -95,35 +80,14 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="availablePredeposit != null" >
-        available_predeposit,
-      </if>
-      <if test="freezePredeposit != null" >
-        freeze_predeposit,
-      </if>
-      <if test="consumptionPredeposit != null" >
-        consumption_predeposit,
-      </if>
-      <if test="withdrawPredeposit != null" >
-        withdraw_predeposit,
-      </if>
-      <if test="totalPredeposit != null" >
-        total_predeposit,
-      </if>
       <if test="isDel != null" >
         is_del,
       </if>
       <if test="memberMobile != null" >
         member_mobile,
       </if>
-      <if test="inviteCode != null" >
-        invite_code,
-      </if>
       <if test="userId != null" >
         user_id,
-      </if>
-      <if test="beInviteUser != null" >
-        be_invite_user,
       </if>
       <if test="registTime != null" >
         regist_time,
@@ -157,35 +121,14 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="availablePredeposit != null" >
-        #{availablePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="freezePredeposit != null" >
-        #{freezePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="consumptionPredeposit != null" >
-        #{consumptionPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="withdrawPredeposit != null" >
-        #{withdrawPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="totalPredeposit != null" >
-        #{totalPredeposit,jdbcType=DECIMAL},
-      </if>
       <if test="isDel != null" >
         #{isDel,jdbcType=INTEGER},
       </if>
       <if test="memberMobile != null" >
         #{memberMobile,jdbcType=VARCHAR},
       </if>
-      <if test="inviteCode != null" >
-        #{inviteCode,jdbcType=VARCHAR},
-      </if>
       <if test="userId != null" >
         #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="beInviteUser != null" >
-        #{beInviteUser,jdbcType=VARCHAR},
       </if>
       <if test="registTime != null" >
         #{registTime,jdbcType=DATE},
@@ -222,35 +165,14 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=BIGINT},
       </if>
-      <if test="availablePredeposit != null" >
-        available_predeposit = #{availablePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="freezePredeposit != null" >
-        freeze_predeposit = #{freezePredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="consumptionPredeposit != null" >
-        consumption_predeposit = #{consumptionPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="withdrawPredeposit != null" >
-        withdraw_predeposit = #{withdrawPredeposit,jdbcType=DECIMAL},
-      </if>
-      <if test="totalPredeposit != null" >
-        total_predeposit = #{totalPredeposit,jdbcType=DECIMAL},
-      </if>
       <if test="isDel != null" >
         is_del = #{isDel,jdbcType=INTEGER},
       </if>
       <if test="memberMobile != null" >
         member_mobile = #{memberMobile,jdbcType=VARCHAR},
       </if>
-      <if test="inviteCode != null" >
-        invite_code = #{inviteCode,jdbcType=VARCHAR},
-      </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="beInviteUser != null" >
-        be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
       </if>
       <if test="registTime != null" >
         regist_time = #{registTime,jdbcType=DATE},
@@ -279,16 +201,9 @@
       member_sex = #{memberSex,jdbcType=VARCHAR},
       member_passwd = #{memberPasswd,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
-      available_predeposit = #{availablePredeposit,jdbcType=DECIMAL},
-      freeze_predeposit = #{freezePredeposit,jdbcType=DECIMAL},
-      consumption_predeposit = #{consumptionPredeposit,jdbcType=DECIMAL},
-      withdraw_predeposit = #{withdrawPredeposit,jdbcType=DECIMAL},
-      total_predeposit = #{totalPredeposit,jdbcType=DECIMAL},
       is_del = #{isDel,jdbcType=INTEGER},
       member_mobile = #{memberMobile,jdbcType=VARCHAR},
-      invite_code = #{inviteCode,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},
-      be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
       regist_time = #{registTime,jdbcType=DATE},
       wx_state = #{wxState,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},
@@ -303,16 +218,9 @@
       member_sex = #{memberSex,jdbcType=VARCHAR},
       member_passwd = #{memberPasswd,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=BIGINT},
-      available_predeposit = #{availablePredeposit,jdbcType=DECIMAL},
-      freeze_predeposit = #{freezePredeposit,jdbcType=DECIMAL},
-      consumption_predeposit = #{consumptionPredeposit,jdbcType=DECIMAL},
-      withdraw_predeposit = #{withdrawPredeposit,jdbcType=DECIMAL},
-      total_predeposit = #{totalPredeposit,jdbcType=DECIMAL},
       is_del = #{isDel,jdbcType=INTEGER},
       member_mobile = #{memberMobile,jdbcType=VARCHAR},
-      invite_code = #{inviteCode,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},
-      be_invite_user = #{beInviteUser,jdbcType=VARCHAR},
       regist_time = #{registTime,jdbcType=DATE},
       wx_state = #{wxState,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},

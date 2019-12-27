@@ -66,8 +66,6 @@ public class XinAnLoginController {
             "    \"nickName\": \"134****1225\"         //登陆名称\n" +
             "    \"userMobile\": \"13411441225\"       //手机号码\n" +
             "    \"createTime\": \"null\"              //创建时间\n" +
-            "    \"inviteCode\": \"null\"              //邀请码\n" +
-            "    \"beInviteUser\": \"null\"            //被邀请码\n" +
             "    \"sex\": \"1\"                        //性别\n" +
             "    \"unionid\": \"null\"                 //unionid\n" +
             "    \"openId\": \"null\"                  //openId \n" +
