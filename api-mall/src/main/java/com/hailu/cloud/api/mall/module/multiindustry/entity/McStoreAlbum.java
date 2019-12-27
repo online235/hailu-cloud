@@ -54,5 +54,13 @@ public class McStoreAlbum {
     private Date updateTime;
 
 
+    /**
+     * 图片总数量
+     */
+    @ApiModelProperty(value = "图片总数量")
+    private Integer albumNum;
+
+
+
 
 }

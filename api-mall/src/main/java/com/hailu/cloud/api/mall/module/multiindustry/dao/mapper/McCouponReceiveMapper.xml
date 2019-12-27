@@ -16,6 +16,7 @@
     from mc_coupon_receive
     where member_id = #{memberid}
     and coupon_id = #{couponId}
+    and usage_state = 1
     and DATE_FORMAT(date_time,'YYYY-mm-dd') = DATE_FORMAT(now(),'YYYY-mm-dd')
   </select>
 

@@ -172,5 +172,19 @@ public class StoreInformationResultModel{
     private String storeTotalTypeName;
 
 
+    /**
+     * 店铺位置经度
+     */
+    @ApiModelProperty("店铺位置经度")
+    private String longitude;
+
+
+    /**
+     * 店铺纬度
+     */
+    @ApiModelProperty("店铺纬度")
+    private String latitude;
+
+
 
 }

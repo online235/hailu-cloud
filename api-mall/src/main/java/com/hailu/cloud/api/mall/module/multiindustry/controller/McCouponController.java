@@ -60,7 +60,7 @@ public class McCouponController {
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, defaultValue = "10", paramType = "query")
     })
     @GetMapping("/findMcCouponList")
-    public PageInfoModel<List<CouponAndPictureModel>> findMcCouponList(
+    public PageInfoModel<List<CouponAndPictureModel<McCouponOtherJsonModel>>> findMcCouponList(
             @NotNull(message = "商家编号不能为空") Long numberId,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")

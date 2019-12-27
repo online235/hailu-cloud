@@ -37,6 +37,12 @@
     <if test="volumeName != null">
       and volume_name like concat('%',#{volumeName},'%')
     </if>
+    <if test="toExamine != null">
+      and to_examine = #{toExamine}
+    </if>
+    <if test="shelfState != null">
+      and shelf_state = #{shelfState}
+    </if>
     ORDER BY update_date_time desc
   </select>
 

@@ -2,6 +2,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.dao;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McCoupon;
 import com.hailu.cloud.api.mall.module.multiindustry.model.CouponAndPictureModel;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McCouponOtherJsonModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,7 +25,7 @@ public interface McCouponMapper {
     /**
      * 到店卷列表
      */
-    List<CouponAndPictureModel> findMcCouponList(
+    List<CouponAndPictureModel<McCouponOtherJsonModel>> findMcCouponList(
             @Param("mcNumberId") Long mcNumberId);
 
     /**

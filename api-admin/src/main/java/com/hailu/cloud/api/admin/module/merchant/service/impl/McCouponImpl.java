@@ -43,9 +43,14 @@ public class McCouponImpl implements McCouponService {
     }
 
     @Override
-    public PageInfoModel<List<McCoupon>> findMcCouponList(Long storeTotalType, String volumeName, Integer page, Integer size) {
+    public PageInfoModel<List<McCoupon>> findMcCouponList(
+            Long storeTotalType, String volumeName,
+            Integer toExamine,
+            Integer shelfState,
+            Integer page,
+            Integer size) {
         Page pageList = PageHelper.startPage(page, size);
-        List<McCoupon> mcCouponsList = mcCouponMapper.findMcCouponList(storeTotalType,volumeName);
+        List<McCoupon> mcCouponsList = mcCouponMapper.findMcCouponList(storeTotalType,volumeName,toExamine,shelfState);
         return new PageInfoModel<>(pageList.getPages(), pageList.getTotal(), mcCouponsList);
     }
 

@@ -52,19 +52,23 @@ public class McCouponController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "storeTotalType", value = "经营类型总编号",   paramType = "query"),
             @ApiImplicitParam(name = "volumeName", value = "卷名称",   paramType = "query"),
+            @ApiImplicitParam(name = "toExamine", value = "审核(审核中-1,审核通过-2,审核不通过-3)",   paramType = "query"),
+            @ApiImplicitParam(name = "shelfState", value = "上架状态(未上架-1、已上架-2、已下架-3)",   paramType = "query"),
             @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query")
     })
     @GetMapping("/findMcCouponList")
     public PageInfoModel<List<McCoupon>> findMcCouponList(
             Long storeTotalType,
             String volumeName,
+            Integer toExamine,
+            Integer shelfState,
             @RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
             @Max(value = 200, message = "每页最多显示200条数据")
             @RequestParam(value = "size", defaultValue = "20", required = false) Integer size
     ){
 
-        return mcCouponService.findMcCouponList(storeTotalType,volumeName,page,size);
+        return mcCouponService.findMcCouponList(storeTotalType,volumeName,toExamine,shelfState,page,size);
     }
 
 

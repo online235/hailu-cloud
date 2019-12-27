@@ -29,7 +29,11 @@ public interface McCouponMapper {
     /**
      * 到店卷列表
      */
-    List<McCoupon> findMcCouponList(Long storeTotalType, String volumeName);
+    List<McCoupon> findMcCouponList(
+            @Param("storeTotalType") Long storeTotalType,
+            @Param("volumeName") String volumeName,
+            @Param("toExamine") Integer toExamine,
+            @Param("shelfState") Integer shelfState);
 
     /**
      * 更改审核状态

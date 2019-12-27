@@ -24,6 +24,8 @@
         <result property="toExamine" column="to_examine"/>
         <result property="defaultHead" column="default_head"/>
         <result property="weekDay" column="week_day"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
         <collection property="storeAlbumList"
                     ofType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum"
                     javaType="java.util.ArrayList">
@@ -32,6 +34,7 @@
             <result property="albumUrl" column="album_url"/>
             <result property="createTime" column="create_time1"/>
             <result property="updateTime" column="update_time1"/>
+            <result property="albumNum" column="albumNum"/>
         </collection>
     </resultMap>
 
@@ -47,12 +50,14 @@
         select
         store.*,
         management.management_name as storeTotalTypeName,
-        management1.management_name as storeTypeName
+        management1.management_name as storeTypeName,
+        sn.DISTRICT
         from mc_store_information store
 
         left join mc_management_type management on management.management_id = store.store_total_type
         left join mc_management_type management1 on management1.management_id = store.store_son_type
         left join mc_shop_tag shoptag on store.id = shoptag.store_id
+        left join sys_nation sn on sn.CODE = store.area_code
 
         where store.store_total_type = #{storeTotalType} And store.to_examine = 2
         <if test="storeSonType != null">
@@ -95,7 +100,8 @@
     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,  store.detail_address,
      store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
      store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
-     album.id as id1,album.store_id,album.album_url,album.create_time as create_time1,album.update_time as update_time1
+     store.longitude,store.latitude,
+     album.id as id1,album.store_id,album.album_url,album.create_time as create_time1,album.update_time as update_time1,count(album.id) as albumNum
     from mc_store_information as store left join mc_store_album as album ON album.store_id = store.id
     where store.id = #{id} and store.to_examine = 2
   </select>

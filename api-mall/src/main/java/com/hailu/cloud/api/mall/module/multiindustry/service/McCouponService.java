@@ -26,7 +26,7 @@ public interface McCouponService {
     /**
      * 到店卷列表
      */
-    PageInfoModel<List<CouponAndPictureModel>> findMcCouponList(Long mcNumberId, Integer page, Integer size);
+    PageInfoModel<List<CouponAndPictureModel<McCouponOtherJsonModel>>> findMcCouponList(Long mcNumberId, Integer page, Integer size);
 
 
     /**

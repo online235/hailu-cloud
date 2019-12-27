@@ -14,7 +14,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel
-public class CouponAndPictureModel extends McCoupon {
+public class CouponAndPictureModel<T> extends McCoupon<T> {
 
     /**
      * 图片编号

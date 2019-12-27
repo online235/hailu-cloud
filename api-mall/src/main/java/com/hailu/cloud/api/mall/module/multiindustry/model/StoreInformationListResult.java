@@ -163,4 +163,11 @@ public class StoreInformationListResult {
     private String storeTotalTypeName;
 
 
+    /**
+     * 区名称
+     */
+    @ApiModelProperty("区名称")
+    private String DISTRICT;
+
+
 }

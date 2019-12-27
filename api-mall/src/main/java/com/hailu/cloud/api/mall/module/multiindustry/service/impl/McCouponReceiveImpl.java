@@ -53,8 +53,8 @@ public class McCouponReceiveImpl implements McCouponReceiveService {
             throw new BusinessException("该卷不存在，或者已下架");
         }
         int resultReceive = findCountByMemberIdAndCouponId(recordModel.getMemberId(), recordModel.getCouponId());
-        if (resultReceive > 4 ) {
-            throw new BusinessException("当天领卷不能超过5张！");
+        if (resultReceive > 0 ) {
+            throw new BusinessException("到店卷不能重复领取哟！");
         }
         McCouponReceive mcCouponReceive = new McCouponReceive();
         //类转换

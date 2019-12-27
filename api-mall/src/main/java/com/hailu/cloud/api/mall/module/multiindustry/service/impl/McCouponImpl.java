@@ -12,6 +12,7 @@ import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,10 +42,21 @@ public class McCouponImpl implements McCouponService {
 
 
     @Override
-    public PageInfoModel<List<CouponAndPictureModel>> findMcCouponList(Long mcNumberId, Integer page, Integer size) {
+    public PageInfoModel<List<CouponAndPictureModel<McCouponOtherJsonModel>>> findMcCouponList(Long mcNumberId, Integer page, Integer size) {
         Page pageList = PageHelper.startPage(page, size);
-        List<CouponAndPictureModel> mcCouponsList = mcCouponMapper.findMcCouponList(mcNumberId);
-        return new PageInfoModel<>(pageList.getPages(), pageList.getTotal(), mcCouponsList);
+        List<CouponAndPictureModel<McCouponOtherJsonModel>> mcCouponsList = mcCouponMapper.findMcCouponList(mcNumberId);
+
+        //创建一个新的集合
+        List<CouponAndPictureModel<McCouponOtherJsonModel>> CouponOtherJsonModel = new ArrayList<>();
+
+        //遍历mcCouponsList
+        for (CouponAndPictureModel<McCouponOtherJsonModel> couponAndPictureModel : mcCouponsList){
+            //json转成实体
+            McCouponOtherJsonModel mcCouponOtherJsonModel = JSON.parseObject(couponAndPictureModel.getOtherJson(), McCouponOtherJsonModel.class);
+            couponAndPictureModel.setMcCouponOtherJsonModel(mcCouponOtherJsonModel);
+            CouponOtherJsonModel.add(couponAndPictureModel);
+        }
+        return new PageInfoModel<>(pageList.getPages(), pageList.getTotal(), CouponOtherJsonModel);
     }
 
     @Override

@@ -26,7 +26,12 @@ public interface McCouponService {
     /**
      * 到店卷列表
      */
-    PageInfoModel<List<McCoupon>> findMcCouponList(Long storeTotalType, String volumeName, Integer page, Integer size);
+    PageInfoModel<List<McCoupon>> findMcCouponList(
+            Long storeTotalType, String volumeName,
+            Integer toExamine,
+            Integer shelfState,
+            Integer page,
+            Integer size);
 
     /**
      * 更改审核状态
