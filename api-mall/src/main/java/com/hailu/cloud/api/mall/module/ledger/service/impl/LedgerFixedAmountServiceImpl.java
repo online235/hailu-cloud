@@ -6,7 +6,6 @@ import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
 import com.hailu.cloud.api.mall.module.ledger.service.ILedgerService;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
-import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.common.entity.member.ShopMember;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -78,14 +77,14 @@ public class LedgerFixedAmountServiceImpl implements ILedgerService {
 
         try {
 
-            UserInfoVo userInfo = userInfoService.userInfoQueryByUserId(userId);
+            ShopMember userInfo = userInfoService.userInfoQueryByUserId(userId);
             //校验上级ID是否为空
             String superiorMember = userInfo.getSuperiorMember();
             if (StringUtils.isBlank(superiorMember)) {
                 log.info("用户userId为：{}没有上级ID，不参与分销", userId);
                 return;
             }
-            UserInfoVo superUserInfo = userInfoService.userInfoQueryByUserId(superiorMember);
+            ShopMember superUserInfo = userInfoService.userInfoQueryByUserId(superiorMember);
             int merchantType = superUserInfo.getMerchantType();
             if (merchantType == 0) {
                 log.info("用户userId为：{},无商户类型，不参与分销", superiorMember);
@@ -119,7 +118,7 @@ public class LedgerFixedAmountServiceImpl implements ILedgerService {
             iIncomeService.addAccountByInvitation(superiorMember, money, "旗下商家购买商品分销", String.valueOf(orderId), 1);
             //给服务商的上级加提成
             if (parentFlag) {
-                UserInfoVo parentUserInfo = userInfoService.userInfoQueryByUserId(superiorMember);
+                ShopMember parentUserInfo = userInfoService.userInfoQueryByUserId(superiorMember);
                 //0代表是区域代理为海露，不参与分销，自动划入账号中
                 if (!"0".equals(parentUserInfo.getSuperiorMember())) {
                     iIncomeService.addAccountByInvitation(parentUserInfo.getSuperiorMember(), parentMoney, "旗下商家购买商品分销", String.valueOf(orderId), 1);

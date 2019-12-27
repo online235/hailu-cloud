@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.feigns;
 
-import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

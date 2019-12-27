@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.mall.module.user.service;
 
-import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.common.entity.member.ShopMember;
 
 /**
@@ -26,8 +25,9 @@ public interface IUserInfoService {
 
     /**
      * 通过userid获取用户信息
+     * @return
      */
-    UserInfoVo userInfoQueryByUserId(String userId) throws Exception;
+    ShopMember userInfoQueryByUserId(String userId) throws Exception;
 
     /**
      * 获取该城市加入服务商需要金额

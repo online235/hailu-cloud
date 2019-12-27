@@ -1,13 +1,12 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
-import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.api.xinan.module.app.service.impl.ShopMemBerService;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 @RestController

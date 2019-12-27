@@ -1,23 +1,17 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
 import com.hailu.cloud.api.xinan.feigns.AuthFeignClient;
-import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.api.xinan.module.app.service.impl.ShopMemBerService;
-import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.exception.AccessTokenExpiredException;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
-import com.hailu.cloud.common.model.auth.MerchantUserLoginInfoModel;
-import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
-import com.hailu.cloud.common.redis.enums.RedisEnum;
-import com.hailu.cloud.common.response.ApiResponse;
 import com.hailu.cloud.common.utils.RequestUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.util.RequestUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +22,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.Collections;
 
 /**
  * @Author: QiuFeng:WANG

@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.admin.module.xinan.dao;
 
-import com.hailu.cloud.api.admin.module.xinan.entity.ShopMember;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

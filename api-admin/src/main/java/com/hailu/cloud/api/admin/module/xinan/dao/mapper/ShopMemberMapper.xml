@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.admin.module.xinan.dao.ShopMemberMapper" >
-  <resultMap id="BaseResultMap" type="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" >
+  <resultMap id="BaseResultMap" type="com.hailu.cloud.common.entity.member.ShopMember" >
     <id column="member_id" property="memberId" jdbcType="INTEGER" />
     <result column="member_name" property="memberName" jdbcType="VARCHAR" />
     <result column="merchant_type" property="merchantType" jdbcType="BIT" />
@@ -27,7 +27,7 @@
     <result column="unionid" property="unionid" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.hailu.cloud.common.entity.member.ShopMember" extends="BaseResultMap" >
     <result column="user_icon" property="userIcon" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -61,7 +61,7 @@
     delete from shop_member
     where member_id = #{memberId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
+  <insert id="insert" parameterType="com.hailu.cloud.common.entity.member.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
     insert into shop_member (member_name,
       member_sex, member_passwd, create_time,
       available_predeposit, freeze_predeposit, 
@@ -80,7 +80,7 @@
       #{loginName,jdbcType=VARCHAR},
       #{userIcon,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
+  <insert id="insertSelective" parameterType="com.hailu.cloud.common.entity.member.ShopMember" useGeneratedKeys="true" keyProperty="memberId" >
     insert into shop_member
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="memberName != null" >
@@ -207,7 +207,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.hailu.cloud.common.entity.member.ShopMember" >
     update shop_member
     <set >
       <if test="memberName != null" >
@@ -273,7 +273,7 @@
     </set>
     where member_id = #{memberId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hailu.cloud.common.entity.member.ShopMember" >
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
       member_sex = #{memberSex,jdbcType=VARCHAR},
@@ -297,7 +297,7 @@
       user_icon = #{userIcon,jdbcType=LONGVARCHAR}
     where member_id = #{memberId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.admin.module.xinan.entity.ShopMember" >
+  <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.common.entity.member.ShopMember" >
     update shop_member
     set member_name = #{memberName,jdbcType=VARCHAR},
       member_sex = #{memberSex,jdbcType=VARCHAR},

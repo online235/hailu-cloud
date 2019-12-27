@@ -2,49 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper">
 
-    <sql id="userInfoVoData">
-        user_Id AS userId,
-        user_icon AS userIcon,
-        member_name AS nickName,
-        member_mobile AS userMobile,
-        invite_code AS inviteCode,
-        be_invite_user AS beInviteUser,
-        regist_time AS createTime,
-        is_del,
-        member_sex sex,
-        unionid,
-        open_id,
-        wx_state,
-        available_predeposit as balance,
-        merchant_type AS merchantType,
-        superior_member AS superiorMember
-    </sql>
-
-    <sql id="userInfoId">
-
-	member_id             		AS 	   	id                        ,
-	USER_ID        		AS 	   	userId                    ,
-	login_name     		AS 	   	loginName                 ,
-	member_passwd   		AS 	   	loginPasswd               ,
-	USER_ICON      		AS 	   	userIcon                  ,
-	member_name      		AS 	   	nickName                  ,
-	member_mobile    		AS 	   	userMobile                ,
-	regist_time    		AS 	   	createTime                ,
-	invite_code    		AS 	   	inviteCode                ,
-	be_invite_user 		AS 	   	beInviteUserA,
-	merchant_type      AS merchantType,
-	superior_member AS superiorMember,
-	hl_member AS hlMember,
-	hl_member_timeout AS hlMemberTimeout
-    </sql>
-
     <!--通过主键查询 返回结果 只有0或者1条 -->
-    <select id="userInfoQueryByUserId" parameterType="String"
-            resultType="com.hailu.cloud.api.mall.module.user.vo.UserInfoVo">
+    <select id="userInfoQueryByUserId" parameterType="String" resultType="com.hailu.cloud.common.entity.member.ShopMember">
         SELECT
-        <include refid="userInfoVoData"/>
-        FROM
-        shop_member sm
+            user_id,
+            user_icon,
+            member_name,
+            member_mobile,
+            invite_code,
+            be_invite_user,
+            regist_time as create_time,
+            is_del,
+            member_sex,
+            unionid,
+            open_id,
+            wx_state,
+            available_predeposit,
+            merchant_type,
+            superior_member
+        FROM shop_member sm
         where sm.user_id=#{userId}
     </select>
 
@@ -93,10 +69,21 @@
           )
     </insert>
 
-    <select id="byIdFindUser" parameterType="String"
-            resultType="com.hailu.cloud.common.entity.member.ShopMember">
+    <select id="byIdFindUser" parameterType="String" resultType="com.hailu.cloud.common.entity.member.ShopMember">
         SELECT
-        <include refid="userInfoId"/>
+            member_id,
+            user_id,
+            login_name,
+            user_icon,
+            member_name,
+            member_mobile,
+            regist_time as create_time,
+            invite_code,
+            be_invite_user,
+            merchant_type,
+            superior_member,
+            hl_member,
+            hl_member_timeout
         FROM shop_member
         WHERE user_Id=#{userId}
     </select>

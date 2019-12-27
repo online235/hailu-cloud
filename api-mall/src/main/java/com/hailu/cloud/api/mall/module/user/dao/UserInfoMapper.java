@@ -1,6 +1,5 @@
 package com.hailu.cloud.api.mall.module.user.dao;
 
-import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.common.entity.member.ShopMember;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,7 +32,7 @@ public interface UserInfoMapper {
     /**
      * 铜鼓userid获取用户信息
      */
-    UserInfoVo userInfoQueryByUserId(String userId) throws Exception;
+    ShopMember userInfoQueryByUserId(String userId) throws Exception;
 
     /**
      * 根据城市地址获取到该城市服务商的人数

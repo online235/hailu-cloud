@@ -3,7 +3,7 @@ package com.hailu.cloud.api.admin.module.xinan.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.xinan.dao.ShopMemberMapper;
-import com.hailu.cloud.api.admin.module.xinan.entity.ShopMember;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.stereotype.Service;
 

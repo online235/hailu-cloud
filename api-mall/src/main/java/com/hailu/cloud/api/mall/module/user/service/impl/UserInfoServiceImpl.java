@@ -2,7 +2,6 @@ package com.hailu.cloud.api.mall.module.user.service.impl;
 
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
-import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
@@ -66,7 +65,7 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
     @Override
-    public UserInfoVo userInfoQueryByUserId(String userId) throws Exception {
+    public ShopMember userInfoQueryByUserId(String userId) throws Exception {
         return userInfoDao.userInfoQueryByUserId(userId);
     }
 

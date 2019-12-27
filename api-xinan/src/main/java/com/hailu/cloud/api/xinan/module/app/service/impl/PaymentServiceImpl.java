@@ -7,6 +7,7 @@ import com.hailu.cloud.api.xinan.module.app.dao.OrderMapper;
 import com.hailu.cloud.api.xinan.module.app.entity.*;
 import com.hailu.cloud.api.xinan.module.app.service.IPaymentService;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
 import com.hailu.cloud.common.model.payment.PayRequest;

@@ -3,7 +3,6 @@ package com.hailu.cloud.api.mall.module.user.controller;
 import com.hailu.cloud.api.mall.module.user.service.IUserFeedbackService;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
 import com.hailu.cloud.api.mall.module.user.vo.UserFeedbackVO;
-import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
 import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
@@ -59,11 +58,10 @@ public class UserController {
      */
     @RequestMapping(value = "addFeedback", method = RequestMethod.POST)
     public Boolean addFeedback(@ModelAttribute UserFeedbackVO userFeedbackVO) throws Exception {
-
         if (userFeedbackVO.getUserId() != null) {
-            UserInfoVo userInfo = userInfoService.userInfoQueryByUserId(userFeedbackVO.getUserId());
+            ShopMember userInfo = userInfoService.userInfoQueryByUserId(userFeedbackVO.getUserId());
             if (userInfo != null) {
-                userFeedbackVO.setEmail(userInfo.getUserMobile());
+                userFeedbackVO.setEmail(userInfo.getMemberMobile());
             }
         }
         return userFeedbackService.addFeedback(userFeedbackVO);

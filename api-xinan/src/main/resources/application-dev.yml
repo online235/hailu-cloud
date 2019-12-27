@@ -25,7 +25,7 @@ redis:
 static:
   # 编辑器图片、文件、视频访问前缀
   server:
-    prefix: http://127.0.0.1/api/v2/basic
+    prefix: http://xuzhijie.utools.club/api/v2/basic
 
 notify:
   # 支付通知回调地址
