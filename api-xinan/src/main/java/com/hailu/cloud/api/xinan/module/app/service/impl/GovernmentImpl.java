@@ -6,6 +6,7 @@ import com.hailu.cloud.api.xinan.module.app.service.GovernmentService;
 import com.hailu.cloud.api.xinan.module.app.service.INationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,6 +25,9 @@ public class GovernmentImpl implements GovernmentService {
     @Autowired
     private INationService iNationService;
 
+    @Value("${static.server.prefix}")
+    private String serverPrefix;
+
     @Override
     public GovernmentModel findGovernmentUsersByCityCode(String cityCode) {
         //查询父code
@@ -31,6 +35,10 @@ public class GovernmentImpl implements GovernmentService {
         if (StringUtils.isBlank(code)){
             code = cityCode;
         }
-        return governmentUsersMapper.findGovernmentUsersByCityCode(code);
+        GovernmentModel result = governmentUsersMapper.findGovernmentUsersByCityCode(code);
+        if( result != null && StringUtils.isNotBlank(result.getCommonwealArticle())){
+            result.setCommonwealArticle(result.getCommonwealArticle().replaceAll("src=\"", "src=\"" + this.serverPrefix));
+        }
+        return result;
     }
 }
