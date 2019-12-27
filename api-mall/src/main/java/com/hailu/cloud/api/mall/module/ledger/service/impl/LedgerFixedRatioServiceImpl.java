@@ -8,8 +8,8 @@ import com.hailu.cloud.api.mall.module.ledger.dao.IncomeTransferOutMapper;
 import com.hailu.cloud.api.mall.module.ledger.service.IIncomeService;
 import com.hailu.cloud.api.mall.module.ledger.service.ILedgerService;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
     public void editInvitation(String parentId) {
         try {
             //获取邀请者信息
-            UserInfo invitationMember = userInfoMapper.byIdFindUser(parentId);
+            ShopMember invitationMember = userInfoMapper.byIdFindUser(parentId);
             if (invitationMember == null) {
                 log.info("分红 邀请人ID为：{}，查询不到该用户", parentId);
                 return;
@@ -87,7 +87,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
     }
 
     @Override
-    public void editInvitationProvider(UserInfo parentUserInfoVo, BigDecimal money) {
+    public void editInvitationProvider(ShopMember parentUserInfoVo, BigDecimal money) {
         try {
             //邀请奖金
             BigDecimal moneyPrice = BigDecimal.valueOf(0);
@@ -119,7 +119,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
     @Override
     public void distributionGoods(Integer orderId, String userId) {
 
-        UserInfo userInfo = userInfoMapper.byIdFindUser(userId);
+        ShopMember userInfo = userInfoMapper.byIdFindUser(userId);
         //如果购买者为服务商或者区代 则不参与分销
         if (userInfo.getMerchantType() == 1 || userInfo.getMerchantType() == 2) {
             return;
@@ -155,7 +155,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
 
                 /**处理分享人的分红**/
                 BigDecimal money = BigDecimal.valueOf(0);
-                UserInfo userInfoParent = userInfoMapper.byIdFindUser(invitaionUserId);
+                ShopMember userInfoParent = userInfoMapper.byIdFindUser(invitaionUserId);
                 //0代表是区域代理为海露，不参与分销，自动划入账号中
                 if ("0".equals(userInfoParent.getSuperiorMember())) {
                     continue;
@@ -166,7 +166,7 @@ public class LedgerFixedRatioServiceImpl implements ILedgerService {
                 } else if (userInfoParent.getMerchantType() == 2) {
                     //分享人为服务商，获取百分之85，他的上级区域代理获取百分之十五
                     money = commission.multiply(serviceAgent);
-                    UserInfo userInfoGrand = userInfoMapper.byIdFindUser(userInfoParent.getSuperiorMember());
+                    ShopMember userInfoGrand = userInfoMapper.byIdFindUser(userInfoParent.getSuperiorMember());
                     if (!"0".equals(userInfoGrand.getSuperiorMember())) {
                         iIncomeService.addAccountByInvitation(userInfoGrand.getUserId(), commission.multiply(regionalAgent), "旗下商家购买商品分销", String.valueOf(orderId), 1);
                     }

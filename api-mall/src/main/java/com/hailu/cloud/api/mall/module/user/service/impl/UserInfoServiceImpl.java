@@ -1,9 +1,9 @@
 package com.hailu.cloud.api.mall.module.user.service.impl;
 
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.utils.RedisCacheUtils;
@@ -51,13 +51,13 @@ public class UserInfoServiceImpl implements IUserInfoService {
     }
 
     @Override
-    public UserInfo saveWeChatUset(String userId) {
-        UserInfo byIdFindUser = userInfoDao.byIdFindUser(userId);
+    public ShopMember saveWeChatUset(String userId) {
+        ShopMember byIdFindUser = userInfoDao.byIdFindUser(userId);
         if (byIdFindUser != null) {
             return byIdFindUser;
 
         } else {
-            UserInfo userinfo = new UserInfo();
+            ShopMember userinfo = new ShopMember();
             userinfo.setUserId(userId);
             userinfo.setCreateTime(System.currentTimeMillis());
             userInfoDao.saveWeChatUser(userinfo);
@@ -83,8 +83,8 @@ public class UserInfoServiceImpl implements IUserInfoService {
 
 
     @Override
-    public UserInfo findById(String userId) {
-        UserInfo userInfo = userInfoDao.byIdFindUser(userId);
+    public ShopMember findById(String userId) {
+        ShopMember userInfo = userInfoDao.byIdFindUser(userId);
         if (userInfo != null) {
             return userInfo;
         }

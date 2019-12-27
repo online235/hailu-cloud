@@ -1,11 +1,9 @@
 package com.hailu.cloud.api.mall.module.user.dao;
 
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.Date;
 
 /**
  * @author 刘柱栋
@@ -28,9 +26,9 @@ public interface UserInfoMapper {
             @Param("sex") String sex,
             @Param("userId") String userId);
 
-    int saveWeChatUser(UserInfo user);
+    int saveWeChatUser(ShopMember user);
 
-    UserInfo byIdFindUser(String userId);
+    ShopMember byIdFindUser(String userId);
 
     /**
      * 铜鼓userid获取用户信息

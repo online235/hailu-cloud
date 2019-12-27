@@ -4,11 +4,12 @@ import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import lombok.Data;
 
-import java.io.Serializable;
-
+/**
+ * @author xuzhijie
+ */
 @Data
 @InjectDict
-public class McUser implements Serializable {
+public class McUser {
     /**
      * 编号
      */
@@ -60,11 +61,5 @@ public class McUser implements Serializable {
      * 更新时间
      */
     private Long updatedat;
-
-    /**
-     * mc_user
-     */
-    private static final long serialVersionUID = 1L;
-
 
 }

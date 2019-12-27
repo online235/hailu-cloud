@@ -24,8 +24,8 @@ import com.hailu.cloud.api.mall.module.goods.vo.*;
 import com.hailu.cloud.api.mall.module.payment.vo.OrderPay;
 import com.hailu.cloud.api.mall.module.payment.vo.OrderToPay;
 import com.hailu.cloud.api.mall.module.user.dao.UserInfoMapper;
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.common.constant.Constant;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.utils.RequestUtils;
@@ -317,7 +317,7 @@ public class OrderServiceImpl implements IOrderService {
         Map<String, Object> data = Maps.newHashMap();
         List<OrderAmount> listMap = new ArrayList<>();
         //用户信息
-        UserInfo userInfo = userInfoDao.byIdFindUser(userId);
+        ShopMember userInfo = userInfoDao.byIdFindUser(userId);
         BigDecimal availableRedEnvelope = BigDecimal.ZERO;
         BigDecimal availableIntegral = BigDecimal.ZERO;
         List<CartVo> shoppingCartVos = orderDao.getShoppingCartByIds(cartIds.split(","));
@@ -360,7 +360,7 @@ public class OrderServiceImpl implements IOrderService {
             Map<String, Object> calculationAmount;
 
             //判断用户是否为服务商且改商品是否参与推销
-            UserInfo userInfo = userInfoDao.byIdFindUser(orderParam.getUserId());
+            ShopMember userInfo = userInfoDao.byIdFindUser(orderParam.getUserId());
             Goods goods = goodsMapper.findById(orderParam.getGoodsId());
             if (userInfo != null && goods != null && userInfo.getMerchantType() == 2 && goods.getIsPopularize() == 1) {
                 //如果是服务商且改商品参与推销，则以供货价下单
@@ -1186,7 +1186,7 @@ public class OrderServiceImpl implements IOrderService {
             //result=countCartAmount(userId , cartIds);
             result = calculationAmount(userId, cartIds);
         } else {
-            UserInfo userInfo = userInfoDao.byIdFindUser(userId);
+            ShopMember userInfo = userInfoDao.byIdFindUser(userId);
             Goods goods = goodsMapper.findById(goodsId);
             if (userInfo != null && goods != null && userInfo.getMerchantType() == 2 && goods.getIsPopularize() == 1) {
                 //如果是服务商且改商品参与推销，则以供货价下单

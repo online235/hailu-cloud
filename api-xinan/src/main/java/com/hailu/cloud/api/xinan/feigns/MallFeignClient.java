@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.xinan.feigns;
 
+import com.hailu.cloud.api.xinan.module.app.entity.ShopMember;
 import com.hailu.cloud.common.constant.Constant;
-import com.hailu.cloud.common.model.mall.UserInfo;
 import com.hailu.cloud.common.response.ApiResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @FeignClient(name = "service-api-mall")
@@ -24,7 +22,7 @@ public interface MallFeignClient {
      * @return
      */
     @GetMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/api/user/findById")
-    ApiResponse<UserInfo> findById(@RequestParam(value = "userId") String userId);
+    ApiResponse<ShopMember> findById(@RequestParam(value = "userId") String userId);
 
     /**
      * 更改会员信息的商户状态
@@ -49,7 +47,7 @@ public interface MallFeignClient {
      * @param money
      */
     @PostMapping(Constant.API_VERSION + Constant.API_NAME_MALL + "/ledger/editInvitationProvider")
-    void editInvitationProvider(@RequestBody UserInfo userInfo,
+    void editInvitationProvider(@RequestBody ShopMember userInfo,
                                 @RequestParam(value = "money") BigDecimal money);
 
     /**

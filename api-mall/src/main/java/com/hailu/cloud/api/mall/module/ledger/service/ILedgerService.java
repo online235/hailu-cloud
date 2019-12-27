@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.mall.module.ledger.service;
 
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
+import com.hailu.cloud.common.entity.member.ShopMember;
 
 import java.math.BigDecimal;
 
@@ -17,7 +17,7 @@ public interface ILedgerService {
      */
     void editInvitation(String parentId);
 
-    void editInvitationProvider(UserInfo parentUserInfo, BigDecimal money);
+    void editInvitationProvider(ShopMember parentUserInfo, BigDecimal money);
 
     /**
      * 分销商品

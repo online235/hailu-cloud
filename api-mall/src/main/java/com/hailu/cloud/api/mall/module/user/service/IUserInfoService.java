@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.user.service;
 
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
+import com.hailu.cloud.common.entity.member.ShopMember;
 
 /**
  * @author 刘柱栋
@@ -22,7 +22,7 @@ public interface IUserInfoService {
      */
     void updateUserInfo(String userIcon, String nickName, String sex) throws Exception;
 
-    UserInfo saveWeChatUset(String userId);
+    ShopMember saveWeChatUset(String userId);
 
     /**
      * 通过userid获取用户信息
@@ -41,7 +41,7 @@ public interface IUserInfoService {
      * @param userId
      * @return
      */
-    UserInfo findById(String userId);
+    ShopMember findById(String userId);
 
     void editMerchantTypeAndSuperiorMember(String userId,int merchantType,  String superiorMember,Long cityId);
 }

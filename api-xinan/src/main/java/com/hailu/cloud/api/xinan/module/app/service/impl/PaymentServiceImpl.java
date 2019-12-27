@@ -9,7 +9,6 @@ import com.hailu.cloud.api.xinan.module.app.service.IPaymentService;
 import com.hailu.cloud.common.constant.Constant;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.PaymentFeignClient;
-import com.hailu.cloud.common.model.mall.UserInfo;
 import com.hailu.cloud.common.model.payment.PayRequest;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;
 import com.hailu.cloud.common.redis.enums.RedisEnum;
@@ -318,7 +317,7 @@ public class PaymentServiceImpl implements IPaymentService {
      * @return
      */
     public boolean isPovider(String userId) {
-        ApiResponse<UserInfo> userInfo = mallFeignClient.findById(userId);
+        ApiResponse<ShopMember> userInfo = mallFeignClient.findById(userId);
         if (userInfo.getData() != null && userInfo.getData().getMerchantType() == 2) {
             return true;
         }
@@ -382,7 +381,7 @@ public class PaymentServiceImpl implements IPaymentService {
                     //判断是否有邀请人
                     if (StringUtils.isNotBlank(order.getInvitationMember())) {
                         //校验邀请人的身份类型
-                        UserInfo parentUserInfo = mallFeignClient.findById(order.getInvitationMember()).getData();
+                        ShopMember parentUserInfo = mallFeignClient.findById(order.getInvitationMember()).getData();
                         if (parentUserInfo.getMerchantType() == 1) {
                             invitationMember = order.getInvitationMember();
                         } else {

@@ -1,7 +1,7 @@
 package com.hailu.cloud.api.mall.module.ledger.controller;
 
 import com.hailu.cloud.api.mall.module.ledger.service.impl.LedgerFixedRatioServiceImpl;
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class LedgerController {
     private LedgerFixedRatioServiceImpl ledgerFixedRatioService;
 
     @PostMapping("/editInvitationProvider")
-    public void editInvitationProvider(@RequestBody UserInfo userInfo, @RequestParam(value = "money") BigDecimal money){
+    public void editInvitationProvider(@RequestBody ShopMember userInfo, @RequestParam(value = "money") BigDecimal money){
         ledgerFixedRatioService.editInvitationProvider(userInfo,money);
     }
 

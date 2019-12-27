@@ -1,10 +1,10 @@
 package com.hailu.cloud.api.mall.module.user.controller;
 
-import com.hailu.cloud.api.mall.module.user.entity.UserInfo;
 import com.hailu.cloud.api.mall.module.user.service.IUserFeedbackService;
 import com.hailu.cloud.api.mall.module.user.service.IUserInfoService;
 import com.hailu.cloud.api.mall.module.user.vo.UserFeedbackVO;
 import com.hailu.cloud.api.mall.module.user.vo.UserInfoVo;
+import com.hailu.cloud.common.entity.member.ShopMember;
 import com.hailu.cloud.common.model.auth.MemberLoginInfoModel;
 import com.hailu.cloud.common.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +76,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "save/weChatUser", method = RequestMethod.POST)
-    public UserInfo saveWeChatUser(@RequestParam(value = "userId", required = true) String userId) {
+    public ShopMember saveWeChatUser(@RequestParam(value = "userId", required = true) String userId) {
         return userInfoService.saveWeChatUset(userId);
     }
 
@@ -87,7 +87,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/findById")
-    public UserInfo findById(@RequestParam(value = "userId") String userId) {
+    public ShopMember findById(@RequestParam(value = "userId") String userId) {
         return userInfoService.findById(userId);
     }
 
