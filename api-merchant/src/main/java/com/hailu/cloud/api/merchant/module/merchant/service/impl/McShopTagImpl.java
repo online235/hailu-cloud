@@ -8,7 +8,7 @@ import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
+import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,14 +61,13 @@ public class McShopTagImpl implements McShopTagService {
         return mcShopTagMapper.findMcShopTagByIdAndStoreId(tagId, storeId);
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
     public List<McShopTag> addOrModify(Long[] tagId, Long storeId, int num){
         updateMcShopTagByStoreId(storeId);
         List<McShopTag> mcShopTags = findMcShopTagListByStoreId(storeId);
         List<McShopTag> addMcShopTag = new ArrayList<>();
         List<McShopTag> modMcShopTag = new ArrayList<>();
         Date date = new Date();
-
         for (Long id : tagId){
             //校验添加还是修改
             if (num != 1) {
@@ -101,7 +100,7 @@ public class McShopTagImpl implements McShopTagService {
         if (!CollectionUtils.isEmpty(modMcShopTag)){
             mcShopTagMapper.updateMcShopTag(modMcShopTag);
         }
-        addMcShopTag.addAll(modMcShopTag);
+            addMcShopTag.addAll(modMcShopTag);
         return addMcShopTag;
     }
 

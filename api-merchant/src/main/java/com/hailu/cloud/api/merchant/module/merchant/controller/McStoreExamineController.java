@@ -47,7 +47,7 @@ public class McStoreExamineController {
     @ApiOperation(value = "获取店铺名地址电话是否在审核中状态,同时返回原来数据")
     @PostMapping("/getExamineResult")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "店铺id", allowMultiple = true, paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "storeId", value = "店铺id",  paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "examineType", value = "提交类型:电话-1,地址审核-2,店铺名审核-3", required = true, paramType = "query")
     })
     public ExamineResult getExamineResult(@NotNull Long storeId, @NotNull Integer examineType) throws BusinessException {

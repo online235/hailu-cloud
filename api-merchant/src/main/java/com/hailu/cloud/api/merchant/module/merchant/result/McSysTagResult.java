@@ -25,6 +25,15 @@ public class McSysTagResult{
     @ApiModelProperty(value = "标签类型：1、停车信息；2、免费wifi；3、环境信息；4、其他")
     private Integer tagType;
 
+
+    /**
+     * 标签类型：1、停车信息；2、免费wifi；3、环境信息；4、其他
+     */
+    @ApiModelProperty(value = "标签类型：1、停车信息；2、免费wifi；3、环境信息；4、其他")
+    @DictName(code = "TAG_TYPE", joinField = "tagType")
+    private String tagTypeDisplay;
+
+
     /**
      * 标签名称
      */

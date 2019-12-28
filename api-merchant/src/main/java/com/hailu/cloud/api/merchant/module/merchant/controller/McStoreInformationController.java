@@ -136,7 +136,6 @@ public class McStoreInformationController {
     }
 
 
-
     @ApiOperation(value = "更改店铺营业时间", notes = "<prep>" +
             "{\n" +
             "    'code': 200,\n" +
@@ -391,7 +390,7 @@ public class McStoreInformationController {
 
 
     @ApiOperation(value = "获取标签详情")
-    @PostMapping("/findAllTagByStore")
+    @GetMapping("/findAllTagByStore")
     @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
     public List<McSysTagResult> findAllTagByStore(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
 
@@ -401,6 +400,20 @@ public class McStoreInformationController {
         return mcSysTagService.findAllTagByStore(id);
     }
 
+
+    @ApiOperation(value = "获取标签详情")
+    @PostMapping("/saveTagByStore")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
+            @ApiImplicitParam(name = "tagIds", value = "标签id", allowMultiple = true, paramType = "query", dataType = "int")
+    })
+    public void saveTagByStore(@NotNull @RequestParam(value = "storeId") Long storeId,Long[] tagIds) throws BusinessException {
+
+        if (storeId == null || tagIds.length <= 0) {
+            throw new BusinessException("参数不能为空！");
+        }
+
+    }
 
 
 }
