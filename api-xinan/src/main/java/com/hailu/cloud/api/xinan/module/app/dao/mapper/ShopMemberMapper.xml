@@ -6,7 +6,6 @@
         <result column="member_name" property="memberName" jdbcType="VARCHAR"/>
         <result column="merchant_type" property="merchantType" jdbcType="BIT"/>
         <result column="superior_member" property="superiorMember" jdbcType="VARCHAR"/>
-        <result column="total_merchants_money" property="totalMerchantsMoney" jdbcType="DECIMAL"/>
         <result column="member_sex" property="memberSex" jdbcType="VARCHAR"/>
         <result column="member_passwd" property="memberPasswd" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="BIGINT"/>
@@ -25,7 +24,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     member_id, member_name, merchant_type, superior_member,
-    total_merchants_money, member_sex, member_passwd, create_time,
+    member_sex, member_passwd, create_time,
     is_del, member_mobile, user_id, regist_time, wx_state, open_id, unionid, login_name
   </sql>
     <sql id="Blob_Column_List">

@@ -2,9 +2,6 @@ package com.hailu.cloud.common.entity.member;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 /**
  * 会员表
  *
@@ -37,11 +34,6 @@ public class ShopMember {
      * 该会员归属于哪个区域代理商
      */
     private String superiorMember;
-
-    /**
-     * 商户总金额（针对于商户）
-     */
-    private BigDecimal totalMerchantsMoney;
 
     /**
      * 会员性别1男2女
