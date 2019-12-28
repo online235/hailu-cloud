@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.admin.module.withdrawal.service;
+package com.hailu.cloud.api.admin.module.partnermanagement.service.impl;
 
 
 import cn.hutool.core.collection.CollUtil;
@@ -7,9 +7,9 @@ import cn.hutool.poi.excel.ExcelUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.hailu.cloud.api.admin.module.withdrawal.dao.HlIncomeTransferOutMapper;
-import com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutListModel;
-import com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.dao.HlIncomeTransferOutMapper;
+import com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutListModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutModel;
 import com.hailu.cloud.common.model.auth.AdminLoginInfoModel;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.redis.client.RedisStandAloneClient;

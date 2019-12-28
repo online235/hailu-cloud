@@ -1,21 +1,25 @@
-package com.hailu.cloud.api.admin.module.withdrawal.model;
+package com.hailu.cloud.api.admin.module.partnermanagement.model;
+
+
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
-import lombok.Data;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * 提现申请表
+ * 提现申请列表数据
  *
  * @author zhijie
  */
 @Data
 @ApiModel
 @InjectDict
-public class HlIncomeTransferOutModel {
+public class HlIncomeTransferOutListModel {
+
 
     /**
      * 提现申请ID
@@ -111,8 +115,8 @@ public class HlIncomeTransferOutModel {
     private String memberName;
 
 
-    @ApiModelProperty("会员头像")
-    private String userIcon;
+//    @ApiModelProperty("会员头像")
+//    private String userIcon;
 
 
     @ApiModelProperty("用户手机号码")

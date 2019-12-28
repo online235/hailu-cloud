@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.admin.module.withdrawal.dao.HlIncomeTransferOutMapper">
+<mapper namespace="com.hailu.cloud.api.admin.module.partnermanagement.dao.HlIncomeTransferOutMapper">
 
 
     <select id="findListByParameter"
-            resultType="com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutListModel">
+            resultType="com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutListModel">
         select
         transferOut.id, transferOut.member_id, transferOut.price, transferOut.open_account_bank,
         transferOut.bank_name, transferOut.bank_card,transferOut.cardholder, transferOut.state,
@@ -43,7 +43,7 @@
     </select>
 
 
-    <select id="findById" resultType="com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutModel">
+    <select id="findById" resultType="com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutModel">
         select
         transferOut.id, transferOut.member_id, transferOut.price, transferOut.open_account_bank,
         transferOut.bank_name, transferOut.bank_card,transferOut.cardholder, transferOut.state,

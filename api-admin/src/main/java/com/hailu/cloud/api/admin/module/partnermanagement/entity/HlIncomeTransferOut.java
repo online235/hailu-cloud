@@ -1,4 +1,4 @@
-package com.hailu.cloud.api.admin.module.withdrawal.entity;
+package com.hailu.cloud.api.admin.module.partnermanagement.entity;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.util.Date;

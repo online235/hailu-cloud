@@ -1,9 +1,8 @@
-package com.hailu.cloud.api.admin.module.withdrawal.controller;
+package com.hailu.cloud.api.admin.module.partnermanagement.controller;
 
-import com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutListModel;
-import com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutModel;
-import com.hailu.cloud.api.admin.module.withdrawal.service.HlIncomeTransferOutService;
-import com.hailu.cloud.api.admin.module.xinan.model.XaHelpMemberDetailModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutListModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.service.impl.HlIncomeTransferOutService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
@@ -25,9 +24,8 @@ import java.util.Map;
 
 /**
  * @Author: zhangmugui
- * @Description: 心安-公益
+ * @Description: 合伙人后台——提现管理
  * @program: cloud
- * @create: 2019-12-24
  */
 @RestController
 @RequestMapping("/pc/withdrawal")

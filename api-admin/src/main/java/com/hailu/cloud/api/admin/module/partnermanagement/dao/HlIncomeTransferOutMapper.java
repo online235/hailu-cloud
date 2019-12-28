@@ -1,7 +1,7 @@
-package com.hailu.cloud.api.admin.module.withdrawal.dao;
+package com.hailu.cloud.api.admin.module.partnermanagement.dao;
 
-import com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutListModel;
-import com.hailu.cloud.api.admin.module.withdrawal.model.HlIncomeTransferOutModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutListModel;
+import com.hailu.cloud.api.admin.module.partnermanagement.model.HlIncomeTransferOutModel;
 import io.swagger.annotations.ApiParam;
 import org.apache.ibatis.annotations.Param;
 
