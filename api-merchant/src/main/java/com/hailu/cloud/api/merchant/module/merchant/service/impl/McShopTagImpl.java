@@ -7,9 +7,11 @@ import com.hailu.cloud.api.merchant.module.merchant.service.McShopTagService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class McShopTagImpl implements McShopTagService {
 
     public List<McShopTag> addOrModify(Long[] tagId, Long storeId, int num){
         updateMcShopTagByStoreId(storeId);
+        List<McShopTag> mcShopTags = findMcShopTagListByStoreId(storeId);
         List<McShopTag> addMcShopTag = new ArrayList<>();
         List<McShopTag> modMcShopTag = new ArrayList<>();
         Date date = new Date();
@@ -70,7 +73,11 @@ public class McShopTagImpl implements McShopTagService {
             //校验添加还是修改
             if (num != 1) {
                 //校验是否存在
-                if (findMcShopTagByIdAndStoreId(id, storeId) == 1) {
+                /*if (findMcShopTagByIdAndStoreId(id, storeId) == 1) {
+
+
+                }*/
+                if(mcShopTags.stream().allMatch(mcShopTagModel -> mcShopTagModel.getTagId().equals(id))){
                     McShopTag modShopTag = new McShopTag();
                     modShopTag.setUpdateTime(date);
                     modShopTag.setStoreId(storeId);
@@ -88,11 +95,12 @@ public class McShopTagImpl implements McShopTagService {
             addShopTag.setState(1);
             addMcShopTag.add(addShopTag);
         }
-        if (num == 1) {
+        if (!CollectionUtils.isEmpty(addMcShopTag)) {
             mcShopTagMapper.addMcShopTag(addMcShopTag);
-            return addMcShopTag;
         }
-        mcShopTagMapper.updateMcShopTag(modMcShopTag);
+        if (!CollectionUtils.isEmpty(modMcShopTag)){
+            mcShopTagMapper.updateMcShopTag(modMcShopTag);
+        }
         addMcShopTag.addAll(modMcShopTag);
         return addMcShopTag;
     }
