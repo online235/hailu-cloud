@@ -5,7 +5,7 @@
     id, store_id, album_url, create_time, update_time
   </sql>
 
-  <select id="findStoreAlbumList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum">
+  <select id="findStoreAlbumList" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum">
     select album_url
     from mc_store_album
     where store_id = #{storeId}

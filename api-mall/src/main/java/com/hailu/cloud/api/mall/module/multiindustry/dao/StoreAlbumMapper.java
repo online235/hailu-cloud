@@ -1,6 +1,6 @@
 package com.hailu.cloud.api.mall.module.multiindustry.dao;
 
-import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum;
+import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,5 +13,5 @@ public interface StoreAlbumMapper {
      * @param storeId
      * @return
      */
-    List<StoreAlbum> findStoreAlbumList(@Param("storeId") Long storeId);
+    List<McStoreAlbum> findStoreAlbumList(@Param("storeId") Long storeId);
 }

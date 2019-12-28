@@ -1,13 +1,12 @@
 package com.hailu.cloud.api.mall.module.multiindustry.model;
 
-import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum;
+import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.common.fill.annotation.DictName;
 import com.hailu.cloud.common.fill.annotation.InjectDict;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -155,7 +154,7 @@ public class StoreInformationResultModel{
 
 
     @ApiModelProperty(value = "相册列表")
-    private List<StoreAlbum>  storeAlbumList;
+    private List<McStoreAlbum>  storeAlbumList;
 
 
     /**

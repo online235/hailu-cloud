@@ -1,22 +1,17 @@
 package com.hailu.cloud.api.mall.module.multiindustry.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType;
-import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.ManagementTypeService;
-import com.hailu.cloud.api.mall.module.multiindustry.service.StoreAlbumServier;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.StoreUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,9 +24,6 @@ public class StoreInformationImpl implements StoreInformationService {
 
     @Resource
     private StoreInformationMapper storeInformationMapper;
-
-    @Autowired
-    private StoreAlbumServier storeAlbumServier;
 
     @Resource
     private ManagementTypeService managementTypeService;

@@ -19,6 +19,7 @@ mapping:
         # 支付接口
         - ${api-version}/payment
         # 基础服务接口
+        - ${api-version}/basic
         - ${api-version}/basic/ueditor
         - ${api-version}/basic/upload
         - ${api-version}/basic/sms
@@ -26,6 +27,7 @@ mapping:
         - ${api-version}/basic/nation
         - ${api-version}/basic/version/findDetail
         - ${api-version}/basic/version
+        - ${api-version}/basic/uuid/create
         # 心安接口
         - ${api-version}/xinan/app/xinan/register
         - ${api-version}/xinan/app/xinan/updatePassword
