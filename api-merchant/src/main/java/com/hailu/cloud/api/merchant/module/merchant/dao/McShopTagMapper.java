@@ -40,10 +40,10 @@ public interface McShopTagMapper {
 
     /**
      * 更新多条或者一条数据
-     * @param tag
+     * @param idList
      * @return
      */
-    int updateMcShopTag(List<McShopTag> tag);
+    int updateMcShopTag(List<Long> idList);
 
     /**
      * 停用标签

@@ -1,7 +1,9 @@
 package com.hailu.cloud.api.merchant.module.merchant.controller;
 
-import com.hailu.cloud.api.merchant.module.merchant.entity.McShopTag;
+import com.hailu.cloud.api.merchant.module.merchant.result.McSysTagResult;
 import com.hailu.cloud.api.merchant.module.merchant.service.McShopTagService;
+import com.hailu.cloud.api.merchant.module.merchant.service.McSysTagService;
+import com.hailu.cloud.common.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -30,45 +33,31 @@ public class McShopTagController {
 
     @Autowired
     private McShopTagService mcShopTagService;
+    @Resource
+    private McSysTagService mcSysTagService;
 
-    @ApiOperation(value = "根据店铺编号查询店铺下的标签" )
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
-    })
-    @GetMapping("/shopLabel")
-    public List<McShopTag> findMcShopTagListByStoreId(
-            @NotNull(message = "编号不能为空") Long storeId) {
+    @ApiOperation(value = "获取标签详情")
+    @GetMapping("/findAllTagByStore")
+    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
+    public List<McSysTagResult> findAllTagByStore(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
 
-
-        return mcShopTagService.findMcShopTagListByStoreId(storeId);
+        if (id == null) {
+            throw new BusinessException("参数不能为空！");
+        }
+        return mcSysTagService.findAllTagByStore(id);
     }
 
-    @ApiOperation(value = "根据店铺编号添加标签" )
+    @ApiOperation(value = "根据店铺编号添加标签")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "tagId", value = "标签编号", allowMultiple = true,  required = true, paramType = "query"),
+            @ApiImplicitParam(name = "tagId", value = "标签编号", allowMultiple = true, required = true, paramType = "query"),
             @ApiImplicitParam(name = " storeId", value = "店铺编号", required = true, paramType = "query")
     })
     @PostMapping("/addShopTag")
-    public List<McShopTag> addMcSHopTag(
-            @NotNull(message = "标签编号不能为空") @RequestBody Long[] tagId,
-            @NotNull(message = "店铺编号不能为空") @RequestBody Long storeId) {
+    public void addMcSHopTag(
+            @NotNull(message = "标签编号不能为空") @RequestParam Long[] tagId,
+            @NotNull(message = "店铺编号不能为空") @RequestParam Long storeId) {
 
-
-        return mcShopTagService.addMcSHopTag(tagId, storeId);
-    }
-
-    @ApiOperation(value = "根据店铺编号修改标签" )
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "tagId", value = "标签编号", allowMultiple = true,  required = true, paramType = "query"),
-            @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
-    })
-    @PostMapping("/updShopTag")
-    public List<McShopTag> updateMcShopTag(
-            @NotNull(message = "标签编号不能为空") @RequestBody Long[] tagId,
-            @NotNull(message = "店铺编号不能为空") @RequestBody Long storeId) {
-
-
-        return mcShopTagService.updateMcShopTag(tagId, storeId);
+        mcShopTagService.addOrUpdateMcSHopTag(tagId, storeId);
     }
 
 

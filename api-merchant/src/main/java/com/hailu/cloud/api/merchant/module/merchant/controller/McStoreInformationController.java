@@ -67,8 +67,6 @@ public class McStoreInformationController {
     @Autowired
     private McShopTagService mcShopTagService;
 
-    @Resource
-    private McSysTagService mcSysTagService;
 
 
     @ApiOperation(value = "获取当前店铺已填资料")
@@ -121,6 +119,7 @@ public class McStoreInformationController {
         }
         List<McShopTagModel> mcShopTagModelList = mcShopTagService.findMcShopTagModelListByStoreId(id);
         String storeTags = null;
+        //获取拼接店铺标签
         if (!CollectionUtils.isEmpty(mcShopTagModelList)) {
             for (McShopTagModel mcShopTagModel : mcShopTagModelList) {
                 if (storeTags == null) {
@@ -134,6 +133,7 @@ public class McStoreInformationController {
         return mcStoreInformationResult;
 
     }
+
 
 
     @ApiOperation(value = "更改店铺营业时间", notes = "<prep>" +
@@ -165,8 +165,8 @@ public class McStoreInformationController {
             "</prep>")
     @PostMapping("/updateState")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "店铺id", allowMultiple = true, paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "status", value = "营业状态(1-营业中，2-休息中)", allowMultiple = true, paramType = "query", dataType = "int")
+            @ApiImplicitParam(name = "id", value = "店铺id",  paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "status", value = "营业状态(1-营业中，2-休息中)", paramType = "query", dataType = "int")
     })
     public void updateState(@NotNull @RequestParam(value = "id") Long id, @NotNull @RequestParam(value = "status") Integer status) throws BusinessException {
 
@@ -386,33 +386,6 @@ public class McStoreInformationController {
             throw new BusinessException("参数不能为空！");
         }
         mcStoreAlbumService.deleteById(id);
-    }
-
-
-    @ApiOperation(value = "获取标签详情")
-    @GetMapping("/findAllTagByStore")
-    @ApiImplicitParam(name = "id", value = "店铺id", paramType = "query", dataType = "Long", required = true)
-    public List<McSysTagResult> findAllTagByStore(@NotNull @RequestParam(value = "id") Long id) throws BusinessException {
-
-        if (id == null) {
-            throw new BusinessException("参数不能为空！");
-        }
-        return mcSysTagService.findAllTagByStore(id);
-    }
-
-
-    @ApiOperation(value = "获取标签详情")
-    @PostMapping("/saveTagByStore")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "店铺id", paramType = "query", dataType = "Long", required = true),
-            @ApiImplicitParam(name = "tagIds", value = "标签id", allowMultiple = true, paramType = "query", dataType = "int")
-    })
-    public void saveTagByStore(@NotNull @RequestParam(value = "storeId") Long storeId,Long[] tagIds) throws BusinessException {
-
-        if (storeId == null || tagIds.length <= 0) {
-            throw new BusinessException("参数不能为空！");
-        }
-
     }
 
 

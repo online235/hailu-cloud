@@ -15,10 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -50,7 +47,7 @@ public class McStoreExamineController {
             @ApiImplicitParam(name = "storeId", value = "店铺id",  paramType = "query", dataType = "int"),
             @ApiImplicitParam(name = "examineType", value = "提交类型:电话-1,地址审核-2,店铺名审核-3", required = true, paramType = "query")
     })
-    public ExamineResult getExamineResult(@NotNull Long storeId, @NotNull Integer examineType) throws BusinessException {
+    public ExamineResult getExamineResult(@NotNull  @RequestParam Long storeId, @NotNull  @RequestParam Integer examineType) throws BusinessException {
 
         return mcStoreExamienService.getExamineResult(storeId,examineType);
     }

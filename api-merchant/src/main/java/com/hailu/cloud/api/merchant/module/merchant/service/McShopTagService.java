@@ -32,20 +32,20 @@ public interface McShopTagService {
 
 
     /**
-     * 插入多条店铺数据
+     * 插入或更新多条店铺数据
      * @param tagId
      * @param storeId
      * @return
      */
-    List<McShopTag> addMcSHopTag(Long[] tagId, Long storeId);
+    void addOrUpdateMcSHopTag(Long[] tagId, Long storeId);
 
-    /**
-     * 更新多条或者一条数据
-     * @param tagId
-     * @param storeId
-     * @return
-     */
-    List<McShopTag> updateMcShopTag(Long[] tagId, Long storeId);
+//    /**
+//     * 更新多条或者一条数据
+//     * @param tagId
+//     * @param storeId
+//     * @return
+//     */
+//    List<McShopTag> updateMcShopTag(Long[] tagId, Long storeId);
 
     /**
      * 停用标签

@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: QiuFeng:WANG
@@ -42,14 +41,14 @@ public class McShopTagImpl implements McShopTagService {
     }
 
     @Override
-    public List<McShopTag> addMcSHopTag(Long[] tagId, Long storeId) {
-        return addOrModify(tagId, storeId, 1);
+    public void addOrUpdateMcSHopTag(Long[] tagId, Long storeId) {
+        addOrUpdateModify(tagId, storeId);
     }
 
-    @Override
-    public List<McShopTag> updateMcShopTag(Long[] tagId, Long storeId) {
-        return addOrModify(tagId, storeId, 2);
-    }
+//    @Override
+//    public List<McShopTag> updateMcShopTag(Long[] tagId, Long storeId) {
+//        return addOrModify(tagId, storeId);
+//    }
 
     @Override
     public int updateMcShopTagByStoreId(Long storeId) {
@@ -62,46 +61,33 @@ public class McShopTagImpl implements McShopTagService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public List<McShopTag> addOrModify(Long[] tagId, Long storeId, int num){
+    public void addOrUpdateModify(Long[] tagId, Long storeId) {
         updateMcShopTagByStoreId(storeId);
         List<McShopTag> mcShopTags = findMcShopTagListByStoreId(storeId);
         List<McShopTag> addMcShopTag = new ArrayList<>();
-        List<McShopTag> modMcShopTag = new ArrayList<>();
-        Date date = new Date();
-        for (Long id : tagId){
-            //校验添加还是修改
-            if (num != 1) {
-                //校验是否存在
-                /*if (findMcShopTagByIdAndStoreId(id, storeId) == 1) {
-
-
-                }*/
-                if(mcShopTags.stream().allMatch(mcShopTagModel -> mcShopTagModel.getTagId().equals(id))){
-                    McShopTag modShopTag = new McShopTag();
-                    modShopTag.setUpdateTime(date);
-                    modShopTag.setStoreId(storeId);
-                    modShopTag.setState(1);
-                    modMcShopTag.add(modShopTag);
-                    continue;
-                }
+        List<Long> idList = new ArrayList<>();
+        //过滤不存在的数据
+        List<McShopTag> mcShopTagIds = mcShopTags.stream().filter(mcShopTag -> Arrays.asList(tagId).contains(mcShopTag.getTagId())).collect(Collectors.toList());
+        for (Long id : tagId) {
+            if (mcShopTags.stream().allMatch(mcShopTag -> !mcShopTag.getTagId().equals(id))) {
+                McShopTag addShopTag = new McShopTag();
+                addShopTag.setId(basicFeignClient.uuid().getData());
+                addShopTag.setStoreId(storeId);
+                addShopTag.setTagId(id);
+                addShopTag.setState(1);
+                addMcShopTag.add(addShopTag);
             }
-            McShopTag addShopTag = new McShopTag();
-            addShopTag.setId(basicFeignClient.uuid().getData());
-            addShopTag.setStoreId(storeId);
-            addShopTag.setTagId(id);
-            addShopTag.setCreateTime(date);
-            addShopTag.setUpdateTime(date);
-            addShopTag.setState(1);
-            addMcShopTag.add(addShopTag);
         }
         if (!CollectionUtils.isEmpty(addMcShopTag)) {
             mcShopTagMapper.addMcShopTag(addMcShopTag);
         }
-        if (!CollectionUtils.isEmpty(modMcShopTag)){
-            mcShopTagMapper.updateMcShopTag(modMcShopTag);
+        if (!CollectionUtils.isEmpty(mcShopTagIds)) {
+            for (McShopTag mcShopTag : mcShopTagIds) {
+                idList.add(mcShopTag.getId());
+            }
+            mcShopTagMapper.updateMcShopTag(idList);
         }
-            addMcShopTag.addAll(modMcShopTag);
-        return addMcShopTag;
+
     }
 
 }

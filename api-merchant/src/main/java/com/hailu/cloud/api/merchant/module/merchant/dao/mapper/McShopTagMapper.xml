@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McShopTagMapper" >
+<mapper namespace="com.hailu.cloud.api.merchant.module.merchant.dao.McShopTagMapper">
 
-  <sql id="Base_Column_List" >
-    id, tag_id, store_id, state, create_time, update_time
+    <sql id="Base_Column_List">
+          id, tag_id, store_id, state, create_time
   </sql>
 
 
-  <select id="findMcShopTagListByStoreId" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McShopTag" >
-    select
-    <include refid="Base_Column_List" />
-    from mc_shop_tag
-    where store_id = #{storeId} and state = 1
-  </select>
+    <select id="findMcShopTagListByStoreId" resultType="com.hailu.cloud.api.merchant.module.merchant.entity.McShopTag">
+        select
+        <include refid="Base_Column_List"/>
+        from mc_shop_tag
+        where store_id = #{storeId} and state = 1
+    </select>
 
 
-  <select id="findMcShopTagModelListByStoreId" resultType="com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel" >
+    <select id="findMcShopTagModelListByStoreId"
+            resultType="com.hailu.cloud.api.merchant.module.merchant.model.McShopTagModel">
     select
      shopTag.id, shopTag.tag_id, shopTag.store_id,mst.tag_name
     from mc_shop_tag shopTag left join mc_sys_tag mst on shopTag.tag_id = mst.id
@@ -23,37 +24,29 @@
   </select>
 
 
-  <insert id="addMcShopTag" parameterType="java.util.ArrayList">
-    insert into mc_shop_tag (id, tag_id, store_id, state, create_time, update_time)
-    values
-    <foreach collection="list" item="tag" index="index" separator=",">
-      (#{tag.id}, #{tag.tagId}, #{tag.memberId}, #{tag.state}, #{tag.createTime}, #{tag.updateTime})
-    </foreach>
-  </insert>
+    <insert id="addMcShopTag" parameterType="java.util.ArrayList">
+        insert into mc_shop_tag (id, tag_id, store_id, state, create_time)
+        values
+        <foreach collection="list" item="tag" index="index" separator=",">
+            (#{tag.id}, #{tag.tagId}, #{tag.storeId}, #{tag.state}, now())
+        </foreach>
+    </insert>
 
-  <update id="updateMcShopTag" parameterType="java.util.ArrayList">
-    update mc_shop_tag set
-    state = case id
-    <foreach collection="list" item="tag" index="index">
-      when #{tag.tagId} then #{tag.state}
-    </foreach>
-    end
-    where tag_id in
-    <foreach collection="list" index="index" item="tag" open="(" separator="," close=")">
-        #{tag.tagId}
-    </foreach>
-    and store_id =
-    <foreach collection="list" index="index" item="tag" open="(" separator="," close=")">
-        #{tag.storeId}
-    </foreach>
-  </update>
+    <update id="updateMcShopTag" parameterType="java.util.ArrayList">
+        update mc_shop_tag set
+        state = 1
+        where id in
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 
-  <update id="updateMcShopTagByStoreId">
+    <update id="updateMcShopTagByStoreId">
     update mc_shop_tag set state = 0
     where store_id = #{storeId}
   </update>
 
-  <select id="findMcShopTagByIdAndStoreId" resultType="int">
+    <select id="findMcShopTagByIdAndStoreId" resultType="int">
     select count(0) from mc_shop_tag
     where tag_id = #{tagId} and store_id = #{storeId}
   </select>
