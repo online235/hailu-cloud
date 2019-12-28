@@ -44,7 +44,7 @@ public interface StoreInformationMapper {
 
 
     /**
-     *店铺详细信息连相册
+     *店铺详细信息连相册轮播图
      */
     StoreInformationResultModel findStoreInformationLeftAlbum(@Param("id") Long id);
 

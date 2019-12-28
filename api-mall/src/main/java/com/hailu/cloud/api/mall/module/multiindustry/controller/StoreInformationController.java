@@ -4,6 +4,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.controller;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McSysTag;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreAlbumListModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McShopTagService;
@@ -84,7 +85,7 @@ public class StoreInformationController {
         return storeInformationService.findStoreInformationList(storeTotalType, storeSonType, cityCode, areaCode, tagId, shopName, priceRanking, startingPrice, closingPrice, size, page);
     }
 
-    @ApiOperation(value = "根据编号查询店铺详细信息" )
+    @ApiOperation(value = "根据编号查询店铺详细信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "店铺编号", required = true, paramType = "query")
     })
@@ -92,11 +93,11 @@ public class StoreInformationController {
     public StoreInformationResultModel findStoreInformation(
             @NotNull(message = "编号不能为空") Long id) throws BusinessException {
 
-
         return storeInformationService.findStoreInformationLeftAlbum(id);
     }
 
-    @ApiOperation(value = "根据店铺编号查询店铺下的标签" )
+
+    @ApiOperation(value = "根据店铺编号查询店铺下的标签")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
     })
@@ -110,29 +111,22 @@ public class StoreInformationController {
 
 
     @ApiOperation(value = "获取店铺图片接口")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query"),
-            @ApiImplicitParam(name = "albumType", value = "图片类型（环境-1、其他-2）", paramType = "query"),
-    })
+    @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
     @GetMapping("/getShopAlbum")
-    public List<McStoreAlbum> getShopAlbum(
-            @NotNull(message = "编号不能为空") Long storeId,
-            Integer albumType){
+    public StoreAlbumListModel getShopAlbum(@NotNull(message = "编号不能为空") Long storeId) {
 
-        Map<String, Object> map = new HashMap<>(4);
+        Map<String, Object> map = new HashMap<>(2);
         map.put("storeId", storeId);
-        if (albumType > 0){
-            map.put("albumType", albumType);
-        }
-        return mcStoreAlbumMallService.findListByParam(map);
+        return mcStoreAlbumMallService.findStoreAlbumListModel(storeId);
 
     }
+
 
     @ApiOperation(value = "标签列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "第N页", required = true, paramType = "query", defaultValue = "1", dataType = "int"),
             @ApiImplicitParam(name = "size", value = "页面大小", required = true, paramType = "query", defaultValue = "10", dataType = "int"),
-            @ApiImplicitParam(name = "tagName", value = "标签名称",  paramType = "query"),
+            @ApiImplicitParam(name = "tagName", value = "标签名称", paramType = "query"),
     })
     @PostMapping("/findMcSysTagList")
     public PageInfoModel<List<McSysTag>> findMcSysTagList(
@@ -143,7 +137,6 @@ public class StoreInformationController {
 
         return mcSysTagService.findMcSysTagList(tagName, page, size);
     }
-
 
 
 }

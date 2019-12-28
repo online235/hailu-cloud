@@ -4,10 +4,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType;
+import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.ManagementTypeService;
+import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
 import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationService;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StoreInformationImpl implements StoreInformationService {
@@ -27,6 +31,9 @@ public class StoreInformationImpl implements StoreInformationService {
 
     @Resource
     private ManagementTypeService managementTypeService;
+
+    @Resource
+    private McStoreAlbumMallService mcStoreAlbumMallService;
 
 
 
@@ -91,6 +98,11 @@ public class StoreInformationImpl implements StoreInformationService {
             ManagementType managementType = managementTypeService.findManagementById(storeInformationResultModelList.getStoreSonType());
             storeInformationResultModelList.setStoreTypeName(managementType.getManagementName());
         }
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("storeId", id);
+        map.put("albumTypeIsNotRotation", 1);
+        List<McStoreAlbum> mcStoreAlbums =  mcStoreAlbumMallService.findListByParam(map);
+        storeInformationResultModelList.setAlbumNum(mcStoreAlbums.size());
         return storeInformationResultModelList;
     }
 

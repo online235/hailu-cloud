@@ -2,6 +2,8 @@ package com.hailu.cloud.api.mall.module.multiindustry.service;
 
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreAlbumListModel;
+
 import java.util.*;
 
 public interface McStoreAlbumMallService {
@@ -11,32 +13,18 @@ public interface McStoreAlbumMallService {
 
     void insertSelective(McStoreAlbum mcStoreAlbum);
 
-
-    void updateByPrimaryKey(McStoreAlbum mcStoreAlbum);
-
-
+    /**
+     * 获取数据列表
+     * @param parameter
+     * @return
+     */
     List<McStoreAlbum> findListByParam(Object parameter);
 
-
-
-    McStoreAlbum findObjectById(Long id);
-
-
-    void deleteById(Long id);
-
-    void  insertStoreAlbumList(Object parameter);
-
-
     /**
-     * 根据店铺id批量删除相册数据
+     * 获取店铺相册
+     * @return
      */
-    void deleteStoreAlbumByStoreId(Long storeId);
-
-
-    /**
-     * 批量删除
-     */
-    void deleteByIds(Object parameter);
+    StoreAlbumListModel findStoreAlbumListModel(Long storeId);
 
 
 }

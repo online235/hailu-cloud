@@ -129,6 +129,9 @@
         <if test="albumType != null">
             and album_type = #{albumType}
         </if>
+        <if test="albumTypeIsNotRotation != null">
+            and album_type <![CDATA[>]]> 0
+        </if>
     </select>
 
 

@@ -3,13 +3,17 @@ package com.hailu.cloud.api.mall.module.multiindustry.service.impl;
 
 import com.hailu.cloud.api.mall.module.multiindustry.dao.McStoreAlbumMallMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
+import com.hailu.cloud.api.mall.module.multiindustry.model.StoreAlbumListModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import jodd.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,72 +38,29 @@ public class McStoreAlbumMallImpl implements McStoreAlbumMallService {
         mcStoreAlbumMallMapper.insertSelective(mcStoreAlbum);
     }
 
-
-
     @Override
-    public void updateByPrimaryKey(McStoreAlbum mcStoreAlbum){
-        mcStoreAlbumMallMapper.updateByPrimaryKey(mcStoreAlbum);
-    }
-
-
-
-    @Override
-    public List<McStoreAlbum> findListByParam(Object parameter){
+    public List<McStoreAlbum> findListByParam(Object parameter) {
         return mcStoreAlbumMallMapper.findListByParam(parameter);
     }
 
 
-
-
     @Override
-    public McStoreAlbum findObjectById(Long id){
-        return mcStoreAlbumMallMapper.findObjectById(id);
-    }
+    public StoreAlbumListModel findStoreAlbumListModel(Long storeId) {
 
-
-
-    @Override
-    public void deleteById(Long id){
-        mcStoreAlbumMallMapper.deleteById(id);
-    }
-
-
-
-    @Override
-    public void  insertStoreAlbumList(Object parameter){
-        mcStoreAlbumMallMapper.insertStoreAlbumList(parameter);
-    }
-
-
-    /**
-     * 根据店铺id批量删除相册数据
-     */
-    @Override
-    public void deleteStoreAlbumByStoreId(Long storeId){
-
-        Map map = new HashMap(1);
-        map.put("storeId",storeId);
-        List<McStoreAlbum> mcStoreAlbumList = mcStoreAlbumMallMapper.findListByParam(map);
-        if(mcStoreAlbumList.size()>0){
-            List<Long> idList = new ArrayList<>();
-            for(McStoreAlbum mcStoreAlbum:mcStoreAlbumList){
-                idList.add(mcStoreAlbum.getId());
-            }
-            map.clear();
-            map.put("idList",idList);
-            mcStoreAlbumMallMapper.deleteByIdList(map);
+        StoreAlbumListModel storeAlbumListModel = new StoreAlbumListModel();
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("storeId", storeId);
+        map.put("albumTypeIsNotRotation", 1);
+        List<McStoreAlbum> mcStoreAlbums =  mcStoreAlbumMallMapper.findListByParam(map);
+        if(!CollectionUtils.isEmpty(mcStoreAlbums)){
+            List<McStoreAlbum> environmentalStoreAlbumList = mcStoreAlbums.stream().filter(mcStoreAlbum -> mcStoreAlbum.getAlbumType() == 1).collect(Collectors.toList());
+            List<McStoreAlbum> otherStoreAlbumList = mcStoreAlbums.stream().filter(mcStoreAlbum -> mcStoreAlbum.getAlbumType() == 2).collect(Collectors.toList());
+            storeAlbumListModel.setMcStoreAlbumList(mcStoreAlbums);
+            storeAlbumListModel.setEnvironmentalStoreAlbumList(environmentalStoreAlbumList);
+            storeAlbumListModel.setOtherStoreAlbumList(otherStoreAlbumList);
         }
+        return storeAlbumListModel;
     }
-
-
-    /**
-     * 批量删除
-     */
-    @Override
-    public void deleteByIds(Object parameter){
-        mcStoreAlbumMallMapper.deleteByIdList(parameter);
-    }
-
 
 
 }

@@ -153,9 +153,6 @@ public class StoreInformationResultModel{
     private String weekDayDisplay;
 
 
-    @ApiModelProperty(value = "相册列表")
-    private List<McStoreAlbum>  storeAlbumList;
-
 
     /**
      * 经营子类类型名称
@@ -184,6 +181,16 @@ public class StoreInformationResultModel{
     @ApiModelProperty("店铺纬度")
     private String latitude;
 
+
+    @ApiModelProperty(value = "店铺轮播图")
+    private List<RotationStoreModel>  rotationStoreModelList;
+
+
+    /**
+     * 图片总数量
+     */
+    @ApiModelProperty(value = "图片总数量")
+    private Integer albumNum;
 
 
 }

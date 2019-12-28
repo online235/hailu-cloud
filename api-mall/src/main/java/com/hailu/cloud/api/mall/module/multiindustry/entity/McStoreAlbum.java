@@ -37,8 +37,8 @@ public class McStoreAlbum {
     /**
      * 图片类型（环境-1、其他-2）
      */
-    @ApiModelProperty(value = "图片类型（环境-1、其他-2）")
-    private String albumType;
+    @ApiModelProperty(value = "图片类型（首页轮播图-0 、环境-1、其他-2）")
+    private Integer albumType;
 
     /**
      * 创新时间
@@ -52,14 +52,6 @@ public class McStoreAlbum {
      */
     @ApiModelProperty(value = "更改时间")
     private Date updateTime;
-
-
-    /**
-     * 图片总数量
-     */
-    @ApiModelProperty(value = "图片总数量")
-    private Integer albumNum;
-
 
 
 
