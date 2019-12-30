@@ -97,7 +97,7 @@
      store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
      store.longitude,store.latitude,
      album.id as id1,album.album_url
-    from mc_store_information as store left join mc_store_album as album ON album.store_id = store.id
+    from mc_store_information as store ,mc_store_album as album
     where store.id = #{id} and store.to_examine = 2 and album.album_type = 0
   </select>
 

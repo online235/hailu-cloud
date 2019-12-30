@@ -16,7 +16,7 @@ import lombok.Data;
 public class ExamineResult {
 
 
-    @ApiModelProperty("审核中-1'',''审核通过-2'',''审核不通过-3")
+    @ApiModelProperty("未提交审核-0,审核中-1'',''审核通过-2'',''审核不通过-3")
     private Integer toExamine;
 
 

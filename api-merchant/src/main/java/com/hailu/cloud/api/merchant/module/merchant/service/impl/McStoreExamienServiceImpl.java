@@ -115,20 +115,21 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
             throw new BusinessException("店铺id不能为空！");
         }
         McStoreInformation mcStoreInformation = mcStoreInformationService.findMcStoreInformationById(storeId);
+        McStoreExamine mcStoreExamine = this.findObjectByStoreId(storeId);
         //电话-1 更新原来数据返回
         if (examineType == 1) {
             examineResult.setOriginalShopPhone(mcStoreInformation.getPhone());
-            McStoreExamine mcStoreExamine = this.findObjectByStoreId(storeId);
+
             if (mcStoreExamine != null) {
                 BeanUtils.copyProperties(mcStoreExamine, examineResult);
                 //还在审核中
-                if (mcStoreExamine.getPhoneToExamine() == 1) {
+                if (mcStoreExamine.getPhoneToExamine() != null && mcStoreExamine.getPhoneToExamine() == 1) {
                     examineResult.setToExamine(1);
                     return examineResult;
-                } else if (mcStoreExamine.getPhoneToExamine() == 2) {
+                } else if (mcStoreExamine.getPhoneToExamine() != null && mcStoreExamine.getPhoneToExamine() == 2) {
                     examineResult.setToExamine(2);
                     return examineResult;
-                } else if (mcStoreExamine.getPhoneToExamine() == 3) {
+                } else if (mcStoreExamine.getPhoneToExamine() != null && mcStoreExamine.getPhoneToExamine() == 3) {
                     examineResult.setToExamine(3);
                     return examineResult;
                 }
@@ -138,39 +139,38 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
             examineResult.setOriginalCityCode(mcStoreInformation.getCityCode());
             examineResult.setOriginalAreaCode(mcStoreInformation.getAreaCode());
             examineResult.setOriginalShopAddressDetail(mcStoreInformation.getDetailAddress());
-            McStoreExamine mcStoreExamine = this.findObjectByStoreId(storeId);
             if (mcStoreExamine != null) {
                 BeanUtils.copyProperties(mcStoreExamine, examineResult);
                 //还在审核中
-                if (mcStoreExamine.getAddressToExamine() == 1) {
+                if (mcStoreExamine.getAddressToExamine() != null && mcStoreExamine.getAddressToExamine() == 1) {
                     examineResult.setToExamine(1);
                     return examineResult;
-                } else if (mcStoreExamine.getAddressToExamine() == 2) {
+                } else if (mcStoreExamine.getAddressToExamine() != null && mcStoreExamine.getAddressToExamine() == 2) {
                     examineResult.setToExamine(2);
                     return examineResult;
-                } else if (mcStoreExamine.getAddressToExamine() == 3) {
+                } else if (mcStoreExamine.getAddressToExamine() != null && mcStoreExamine.getAddressToExamine() == 3) {
                     examineResult.setToExamine(3);
                     return examineResult;
                 }
             }
         } else if (examineType == 3) {
             examineResult.setOriginalShopName(mcStoreInformation.getShopName());
-            McStoreExamine mcStoreExamine = this.findObjectByStoreId(storeId);
             if (mcStoreExamine != null) {
                 BeanUtils.copyProperties(mcStoreExamine, examineResult);
                 //还在审核中
-                if (mcStoreExamine.getStoreNameExamine() == 1) {
+                if (mcStoreExamine.getStoreNameExamine() != null && mcStoreExamine.getStoreNameExamine() == 1) {
                     examineResult.setToExamine(1);
                     return examineResult;
-                } else if (mcStoreExamine.getStoreNameExamine() == 2) {
+                } else if (mcStoreExamine.getStoreNameExamine() != null && mcStoreExamine.getStoreNameExamine() == 2) {
                     examineResult.setToExamine(2);
                     return examineResult;
-                } else if (mcStoreExamine.getStoreNameExamine() == 3) {
+                } else if (mcStoreExamine.getStoreNameExamine() != null && mcStoreExamine.getStoreNameExamine() == 3) {
                     examineResult.setToExamine(3);
                     return examineResult;
                 }
             }
         }
+        examineResult.setToExamine(0);
         return examineResult;
     }
 
