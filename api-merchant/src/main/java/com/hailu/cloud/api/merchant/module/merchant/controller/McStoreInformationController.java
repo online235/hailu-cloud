@@ -148,7 +148,7 @@ public class McStoreInformationController {
             @ApiImplicitParam(name = "businessTime", value = "经营时间，多段“,”拼接;例如“08:00-12:00,14:00-16:00”", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "wee", value = "每周营业日用（1星期日，2星期一）", allowMultiple = true, paramType = "query", dataType = "int")
     })
-    public void updateByOperatingTime(@NotNull Long storeId, String businessTime, int[] wee, BindingResult result) throws BusinessException {
+    public void updateByOperatingTime(@NotNull Long storeId, String businessTime, int[] wee) throws BusinessException {
 
         if (storeId == null) {
             throw new BusinessException("参数异常！");

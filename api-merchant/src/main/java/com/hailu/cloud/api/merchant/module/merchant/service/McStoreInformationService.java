@@ -106,6 +106,7 @@ public class McStoreInformationService {
     public void updateByOperatingTime(Long storeId,String businessTime, int[] weekDay){
 
         McStoreInformation mcStoreInformation = new McStoreInformation();
+        mcStoreInformation.setId(storeId);
         String week = "";
         if (weekDay != null) {
             int t = 0;
