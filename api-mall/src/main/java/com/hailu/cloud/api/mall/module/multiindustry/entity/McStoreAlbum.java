@@ -40,6 +40,21 @@ public class McStoreAlbum {
     @ApiModelProperty(value = "图片类型（首页轮播图-0 、环境-1、其他-2）")
     private Integer albumType;
 
+
+    /**
+     * 图片标题
+     */
+    @ApiModelProperty(value = "图片标题")
+    private String title;
+
+
+    /**
+     * 图片副标题
+     */
+    @ApiModelProperty(value = "图片副标题")
+    private String subheading;
+
+
     /**
      * 创新时间
      */

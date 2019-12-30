@@ -116,6 +116,8 @@
         store_id,
         album_url,
         album_type,
+        title,
+        subheading,
         create_time,
         update_time
         FROM mc_store_album
