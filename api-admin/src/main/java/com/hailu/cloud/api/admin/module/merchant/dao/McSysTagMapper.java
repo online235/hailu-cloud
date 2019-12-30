@@ -36,4 +36,11 @@ public interface McSysTagMapper {
      * @return
      */
     List<McSysTag> findMcSysTagList(@Param("tagName") String tagName);
+
+    /**
+     * 查询改标签是否存在
+     * @param tagName
+     * @return
+     */
+    int findMcSysTagByTagName(@Param("tagName") String tagName, @Param("tagType") Integer tagType);
 }

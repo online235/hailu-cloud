@@ -2,6 +2,7 @@ package com.hailu.cloud.api.admin.module.merchant.service;
 
 import com.hailu.cloud.api.admin.module.merchant.entity.McSysTag;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McSysTagParameter;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface McSysTagService {
      * 添加一个标签
      * @return
      */
-    McSysTag insertSelective(McSysTag mcSysTag);
+    McSysTag insertSelective(McSysTag mcSysTag) throws BusinessException;
 
     /**
      * 根据编号查询一个标签
@@ -47,4 +48,11 @@ public interface McSysTagService {
      * @return
      */
     PageInfoModel<List<McSysTag>> findMcSysTagList(String tagName, Integer page, Integer size);
+
+    /**
+     * 查询改标签是否存在
+     * @param tagName
+     * @return
+     */
+    int findMcSysTagByTagName(String tagName, Integer tagType);
 }

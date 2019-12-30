@@ -6,6 +6,7 @@ import com.hailu.cloud.api.admin.module.merchant.dao.McSysTagMapper;
 import com.hailu.cloud.api.admin.module.merchant.entity.McSysTag;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McSysTagParameter;
 import com.hailu.cloud.api.admin.module.merchant.service.McSysTagService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.beans.BeanUtils;
@@ -33,7 +34,11 @@ public class McSysTagImpl implements McSysTagService {
     private BasicFeignClient basicFeignClient;
 
     @Override
-    public McSysTag insertSelective(McSysTag mcSysTag) {
+    public McSysTag insertSelective(McSysTag mcSysTag) throws BusinessException {
+
+        if (findMcSysTagByTagName(mcSysTag.getTagName(), mcSysTag.getTagType()) > 0){
+            throw new BusinessException("该组标签重名啦！");
+        }
 
         return addOrChange(mcSysTag);
     }
@@ -44,14 +49,14 @@ public class McSysTagImpl implements McSysTagService {
     }
 
     @Override
-    public McSysTag updateByPrimaryKeySelective(McSysTagParameter record) {
+    public McSysTag updateByPrimaryKeySelective(McSysTagParameter record){
         McSysTag mcSysTag = new McSysTag();
         BeanUtils.copyProperties(record, mcSysTag);
         return addOrChange(mcSysTag);
     }
 
     @Override
-    public void deleteByPrimaryKey(Long id, Integer deleteType) {
+    public void deleteByPrimaryKey(Long id, Integer deleteType){
         if (deleteType == 1){
             McSysTag record = new McSysTag();
             record.setId(id);
@@ -67,6 +72,11 @@ public class McSysTagImpl implements McSysTagService {
         Page pageData = PageHelper.startPage(page, size);
         List<McSysTag> mcSysTags = mcSysTagMapper.findMcSysTagList(tagName);
         return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), mcSysTags);
+    }
+
+    @Override
+    public int findMcSysTagByTagName(String tagName, Integer tagType) {
+        return mcSysTagMapper.findMcSysTagByTagName(tagName, tagType);
     }
 
 

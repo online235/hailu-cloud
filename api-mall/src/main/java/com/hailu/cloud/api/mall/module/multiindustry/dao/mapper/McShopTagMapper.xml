@@ -78,10 +78,10 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="findMcShopTagListByStoreId" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag" >
+  <select id="findMcShopTagListByStoreId" resultType="com.hailu.cloud.api.mall.module.multiindustry.model.McShopTagModel" >
     select
-    <include refid="Base_Column_List" />
-    from mc_shop_tag
-    where store_id = #{storeId}
+     shopTag.id, shopTag.tag_id, shopTag.store_id,mst.tag_name
+    from mc_shop_tag shopTag left join mc_sys_tag mst on shopTag.tag_id = mst.id
+    where shopTag.store_id = #{storeId} and shopTag.state = 1
   </select>
 </mapper>

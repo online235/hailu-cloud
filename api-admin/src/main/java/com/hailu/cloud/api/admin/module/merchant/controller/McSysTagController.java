@@ -3,6 +3,7 @@ package com.hailu.cloud.api.admin.module.merchant.controller;
 import com.hailu.cloud.api.admin.module.merchant.entity.McSysTag;
 import com.hailu.cloud.api.admin.module.merchant.parmeter.McSysTagParameter;
 import com.hailu.cloud.api.admin.module.merchant.service.McSysTagService;
+import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -41,7 +42,7 @@ public class McSysTagController {
             @ApiImplicitParam(name = "tagType", value = "标签类型：1、停车信息；2、免费wifi；3、环境信息；4、其他", required = true, paramType = "query"),
     })
     public McSysTag insertSelective(
-            @NotBlank(message = "信息不能为空") String tagName, @NotNull Integer tagType) {
+            @NotBlank(message = "信息不能为空") String tagName, @NotNull Integer tagType) throws BusinessException {
 
         McSysTag mcSysTag = new McSysTag();
         mcSysTag.setTagName(tagName);
@@ -65,7 +66,7 @@ public class McSysTagController {
     @PostMapping("/modifyTag")
     public McSysTag updateByPrimaryKeySelective(
             @NotNull(message = "信息不能为空")
-            @RequestBody McSysTagParameter mcSysTag) {
+            @RequestBody McSysTagParameter mcSysTag){
 
         return mcSysTagService.updateByPrimaryKeySelective(mcSysTag);
     }
@@ -79,7 +80,7 @@ public class McSysTagController {
     public void deleteByPrimaryKey(
             @NotNull(message = "编号不能为空") Long id,
             @NotNull(message = "删除状态不能为空")
-            @RequestParam(defaultValue = "1") Integer deleteType) {
+            @RequestParam(defaultValue = "1") Integer deleteType){
 
         mcSysTagService.deleteByPrimaryKey(id, deleteType);
     }

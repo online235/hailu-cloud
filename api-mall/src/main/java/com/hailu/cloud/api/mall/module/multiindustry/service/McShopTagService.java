@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.service;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McShopTagModel;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface McShopTagService {
      * @param storeId
      * @return
      */
-    List<McShopTag> findMcShopTagListByStoreId(Long storeId);
+    List<McShopTagModel> findMcShopTagListByStoreId(Long storeId);
 }

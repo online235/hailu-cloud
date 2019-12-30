@@ -85,4 +85,11 @@
       and tag_name like concat('%',#{tagName},'%')
     </if>
   </select>
+
+  <select id="findMcSysTagByTagName" resultType="int">
+    select
+    count(0)
+    from mc_sys_tag
+    where tag_name = #{tagName} and tag_type = #{tagType}
+  </select>
 </mapper>

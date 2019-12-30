@@ -1,6 +1,7 @@
 package com.hailu.cloud.api.mall.module.multiindustry.dao;
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McShopTagModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -54,5 +55,5 @@ public interface McShopTagMapper {
      * @param storeId
      * @return
      */
-    List<McShopTag> findMcShopTagListByStoreId(@Param("storeId") Long storeId);
+    List<McShopTagModel> findMcShopTagListByStoreId(@Param("storeId") Long storeId);
 }

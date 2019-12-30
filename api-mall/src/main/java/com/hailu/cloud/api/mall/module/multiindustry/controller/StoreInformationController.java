@@ -4,6 +4,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.controller;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McShopTag;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McSysTag;
+import com.hailu.cloud.api.mall.module.multiindustry.model.McShopTagModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreAlbumListModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
@@ -102,7 +103,7 @@ public class StoreInformationController {
             @ApiImplicitParam(name = "storeId", value = "店铺编号", required = true, paramType = "query")
     })
     @GetMapping("/shopLabel")
-    public List<McShopTag> findMcShopTagListByStoreId(
+    public List<McShopTagModel> findMcShopTagListByStoreId(
             @NotNull(message = "编号不能为空") Long storeId) {
 
         return mcShopTagService.findMcShopTagListByStoreId(storeId);

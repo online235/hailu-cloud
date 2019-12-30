@@ -108,8 +108,8 @@ public class MultiIndustryOrderImpl implements MultiIndustryOrderService {
 
             //判断使用时间时分秒
             int resultTime = StoreUtil.dateCompare(mo.getUseTime(), dateSave, 2);
-            if (resultDate != -1){
-                if (resultTime != -1){
+            if ( resultDate == 0 || resultDate == -1){
+                if (resultTime == 0 || resultTime == -1 || resultDate == -1){
                     multiIndustryOrderMapper.updateOrderState(mo.getId(), 3);
                     mo.setState(3);
                 }
