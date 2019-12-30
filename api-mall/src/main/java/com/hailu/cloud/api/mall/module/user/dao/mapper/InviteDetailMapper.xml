@@ -42,7 +42,7 @@
   </update>
 
   <select id="findDetailByType" resultType="com.hailu.cloud.api.mall.module.user.vo.MemberDetailVo">
-    select smd.name,smd.phone,smd.province_id,smd.city_id,smd.area_id,smd.address,hid.create_time as join_time,smd.total_consumption,smd.invite_merchat_num
+    select smd.name,smd.phone,smd.province_code,smd.city_code,smd.area_code,smd.address,hid.create_time as join_time,smd.total_consumption,smd.invite_merchat_num
     ,smd.invite_partners_num,smd.invite_member_num,hid.be_invited_id as user_id,smd.sales_performance
     from hl_invite_detail hid left join shop_member_detail smd on hid.be_invited_id = smd.user_id
     where hid.type = #{type} and smd.status = 1 and hid.invitation_id = #{userId}

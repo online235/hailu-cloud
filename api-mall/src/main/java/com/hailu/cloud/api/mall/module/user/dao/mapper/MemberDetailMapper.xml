@@ -4,7 +4,7 @@
 
   <sql id="Base_Column_List" >
     id, user_id, total_consumption, invite_member_num, invite_merchat_num, invite_partners_num, 
-    sales_performance, province_id, city_id, area_id, address, status,want_buy_type,name,phone,join_time
+    sales_performance, province_Code, city_code, area_code, address, status,want_buy_type,name,phone,join_time
   </sql>
   <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail" parameterType="java.lang.Long" >
     select 
@@ -19,11 +19,11 @@
   <insert id="insert" parameterType="com.hailu.cloud.api.mall.module.user.entity.MemberDetail" useGeneratedKeys="true" keyProperty="id" >
     insert into shop_member_detail (id,user_id, total_consumption, invite_member_num,
       invite_merchat_num, invite_partners_num, sales_performance, 
-      province_id, city_id, area_id, 
+      province_Code, city_code, area_code, 
       address, status,want_buy_type,name,phone,join_time)
     values (#{id,jdbcType=BIGINT},#{userId,jdbcType=VARCHAR}, #{totalConsumption,jdbcType=DECIMAL}, #{inviteMemberNum,jdbcType=INTEGER},
       #{inviteMerchatNum,jdbcType=INTEGER}, #{invitePartnersNum,jdbcType=INTEGER}, #{salesPerformance,jdbcType=DECIMAL}, 
-      #{provinceId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, 
+      #{provinceCode,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},#{wantBuyType,jdbcType=INTEGER}
       , #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},#{joinTime,jdbcType=TIMESTAMP})
   </insert>
@@ -57,14 +57,14 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="provinceId != null" >
-        province_id,
+      <if test="provinceCode != null" >
+        province_Code,
       </if>
-      <if test="cityId != null" >
-        city_id,
+      <if test="cityCode != null" >
+        city_code,
       </if>
-      <if test="areaId != null" >
-        area_id,
+      <if test="areaCode != null" >
+        area_code,
       </if>
       <if test="address != null" >
         address,
@@ -107,14 +107,14 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="provinceId != null" >
-        #{provinceId,jdbcType=VARCHAR},
+      <if test="provinceCode != null" >
+        #{provinceCode,jdbcType=VARCHAR},
       </if>
-      <if test="cityId != null" >
-        #{cityId,jdbcType=VARCHAR},
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
       </if>
-      <if test="areaId != null" >
-        #{areaId,jdbcType=VARCHAR},
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
       </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
@@ -151,14 +151,14 @@
       <if test="salesPerformance != null" >
         sales_performance = #{salesPerformance,jdbcType=DECIMAL},
       </if>
-      <if test="provinceId != null" >
-        province_id = #{provinceId,jdbcType=VARCHAR},
+      <if test="provinceCode != null" >
+        province_Code = #{provinceCode,jdbcType=VARCHAR},
       </if>
-      <if test="cityId != null" >
-        city_id = #{cityId,jdbcType=VARCHAR},
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
       </if>
-      <if test="areaId != null" >
-        area_id = #{areaId,jdbcType=VARCHAR},
+      <if test="areaCode != null" >
+        area_code = #{areaCode,jdbcType=VARCHAR},
       </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
@@ -189,7 +189,7 @@
   </select>
   <select id="findServiceProvidersList" resultType="com.hailu.cloud.api.mall.module.user.vo.MemberDetailVo">
     select smd.sales_performance,smd.invite_partners_num,smd.invite_member_num,smd.name,smd.phone,
-    smd.province_id,smd.city_id,smd.area_id,smd.address,smd.join_time,sm.user_id
+    smd.province_Code,smd.city_code,smd.area_code,smd.address,smd.join_time,sm.user_id
     from shop_member_detail smd left join shop_member sm on smd.user_id = sm.user_id
     where sm.merchant_type = #{merchantType} and  smd.status = 1 and sm.superior_member = #{userId}
     order by smd.join_time desc

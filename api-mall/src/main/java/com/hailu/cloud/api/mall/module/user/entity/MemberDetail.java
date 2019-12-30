@@ -51,17 +51,17 @@ public class MemberDetail implements Serializable {
     /**
      * 省Code
      */
-    private String provinceId;
+    private String provinceCode;
 
     /**
      * 市code
      */
-    private String cityId;
+    private String cityCode;
 
     /**
      * 区县code
      */
-    private String areaId;
+    private String areaCode;
 
     /**
      * 详细地址

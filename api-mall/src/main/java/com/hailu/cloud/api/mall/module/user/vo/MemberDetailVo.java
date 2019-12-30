@@ -48,24 +48,24 @@ public class MemberDetailVo {
     /**
      * 省Code
      */
-    private String provinceId;
-    @DictName(code = "NATION", joinField = "provinceId")
+    private String provinceCode;
+    @DictName(code = "NATION", joinField = "provinceCode")
     private String provinceIdStr;
 
     /**
      * 市code
      */
-    private String cityId;
+    private String cityCode;
 
-    @DictName(code = "NATION", joinField = "cityId")
+    @DictName(code = "NATION", joinField = "cityCode")
     private String cityIdStr;
 
     /**
      * 区县code
      */
-    private String areaId;
+    private String areaCode;
 
-    @DictName(code = "NATION", joinField = "areaId")
+    @DictName(code = "NATION", joinField = "areaCode")
     private String areaIdStr;
 
     /**

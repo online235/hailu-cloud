@@ -38,10 +38,10 @@ public class MemberDetailServiceImpl implements IMemberDetailService {
     public Long addAddress(String userId, String provinceId, String cityId, String areaId, String address,Integer wantBuyType,String name,String phone){
         MemberDetail memberDetail = getByUserId(userId);
 
-        memberDetail.setProvinceId(provinceId);
-        memberDetail.setCityId(cityId);
+        memberDetail.setProvinceCode(provinceId);
+        memberDetail.setCityCode(cityId);
         memberDetail.setAddress(address);
-        memberDetail.setAreaId(areaId);
+        memberDetail.setAreaCode(areaId);
         memberDetail.setWantBuyType(wantBuyType);
         memberDetail.setName(name);
         memberDetail.setPhone(phone);
