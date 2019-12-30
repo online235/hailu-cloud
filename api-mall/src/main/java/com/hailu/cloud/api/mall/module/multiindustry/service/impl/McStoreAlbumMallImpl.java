@@ -3,6 +3,7 @@ package com.hailu.cloud.api.mall.module.multiindustry.service.impl;
 
 import com.hailu.cloud.api.mall.module.multiindustry.dao.McStoreAlbumMallMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
+import com.hailu.cloud.api.mall.module.multiindustry.model.RotationStoreModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreAlbumListModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.McStoreAlbumMallService;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
@@ -60,6 +61,11 @@ public class McStoreAlbumMallImpl implements McStoreAlbumMallService {
             storeAlbumListModel.setOtherStoreAlbumList(otherStoreAlbumList);
         }
         return storeAlbumListModel;
+    }
+
+    @Override
+    public List<RotationStoreModel> findStoreAlbumList(Long storeId, Integer albumType) {
+        return mcStoreAlbumMallMapper.findStoreAlbumList(storeId,albumType);
     }
 
 

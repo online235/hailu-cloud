@@ -26,12 +26,6 @@
         <result property="weekDay" column="week_day"/>
         <result property="longitude" column="longitude"/>
         <result property="latitude" column="latitude"/>
-        <collection property="rotationStoreModelList"
-                    ofType="com.hailu.cloud.api.mall.module.multiindustry.model.RotationStoreModel"
-                    javaType="java.util.ArrayList">
-            <result property="id" column="id1"/>
-            <result property="albumUrl" column="album_url"/>
-        </collection>
     </resultMap>
 
 
@@ -95,10 +89,9 @@
      store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,  store.detail_address,
      store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
      store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
-     store.longitude,store.latitude,
-     album.id as id1,album.album_url
-    from mc_store_information as store ,mc_store_album as album
-    where store.id = #{id} and store.to_examine = 2 and album.album_type = 0
+     store.longitude,store.latitude
+    from mc_store_information as store
+    where store.id = #{id} and store.to_examine = 2
   </select>
 
 

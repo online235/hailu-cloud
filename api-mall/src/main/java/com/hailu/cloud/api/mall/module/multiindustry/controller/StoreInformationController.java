@@ -105,7 +105,6 @@ public class StoreInformationController {
     public List<McShopTag> findMcShopTagListByStoreId(
             @NotNull(message = "编号不能为空") Long storeId) {
 
-
         return mcShopTagService.findMcShopTagListByStoreId(storeId);
     }
 

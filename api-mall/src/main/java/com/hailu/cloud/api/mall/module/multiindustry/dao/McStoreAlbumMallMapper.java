@@ -2,6 +2,8 @@ package com.hailu.cloud.api.mall.module.multiindustry.dao;
 
 
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
+import com.hailu.cloud.api.mall.module.multiindustry.model.RotationStoreModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -41,7 +43,17 @@ public interface McStoreAlbumMallMapper {
     List<McStoreAlbum> findListByParam(Object parameter);
 
 
+    /**
+     * 根据店铺编号类型查询店铺的相册
+     * @param storeId
+     * @return
+     */
+    List<RotationStoreModel> findStoreAlbumList(@Param("storeId") Long storeId,@Param("albumType") Integer albumType);
+
+
+
     McStoreAlbum findObjectById(Long id);
+
 
 
     int deleteById(Long id);

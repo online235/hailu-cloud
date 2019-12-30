@@ -6,6 +6,7 @@ import com.hailu.cloud.api.mall.module.multiindustry.dao.StoreInformationMapper;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.ManagementType;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum;
 import com.hailu.cloud.api.mall.module.multiindustry.entity.StoreInformation;
+import com.hailu.cloud.api.mall.module.multiindustry.model.RotationStoreModel;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationListResult;
 import com.hailu.cloud.api.mall.module.multiindustry.model.StoreInformationResultModel;
 import com.hailu.cloud.api.mall.module.multiindustry.service.ManagementTypeService;
@@ -14,7 +15,9 @@ import com.hailu.cloud.api.mall.module.multiindustry.service.StoreInformationSer
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.model.page.PageInfoModel;
 import com.hailu.cloud.common.utils.StoreUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -102,7 +105,9 @@ public class StoreInformationImpl implements StoreInformationService {
         map.put("storeId", id);
         map.put("albumTypeIsNotRotation", 1);
         List<McStoreAlbum> mcStoreAlbums =  mcStoreAlbumMallService.findListByParam(map);
+        List<RotationStoreModel> mcStoreAlbumList =  mcStoreAlbumMallService.findStoreAlbumList(id,0);
         storeInformationResultModelList.setAlbumNum(mcStoreAlbums.size());
+        storeInformationResultModelList.setRotationStoreModelList(mcStoreAlbumList);
         return storeInformationResultModelList;
     }
 

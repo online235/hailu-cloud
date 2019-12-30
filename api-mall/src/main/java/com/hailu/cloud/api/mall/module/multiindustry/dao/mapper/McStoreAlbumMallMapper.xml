@@ -135,6 +135,20 @@
     </select>
 
 
+    <select id="findStoreAlbumList" resultType="com.hailu.cloud.api.mall.module.multiindustry.model.RotationStoreModel">
+        select id,album_url
+        from mc_store_album
+        where 1=1
+        <if test="storeId != null and storeId != ''">
+            and store_id = #{storeId}
+        </if>
+        <if test="albumType != null and albumType != ''">
+            and album_type = #{albumType}
+        </if>
+    </select>
+
+
+
     <select id="findObjectById" resultType="com.hailu.cloud.api.mall.module.multiindustry.entity.McStoreAlbum">
         SELECT
         id,
