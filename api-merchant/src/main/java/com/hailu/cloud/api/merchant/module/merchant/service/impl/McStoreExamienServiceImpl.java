@@ -86,6 +86,8 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
                 mcStoreExamine.setPhoneToExamine(1);
             } else if (mcStoreExamineParameter.getShopAddressDetail() != null) {
                 mcStoreExamine.setAddressToExamine(1);
+            }else if (mcStoreExamineParameter.getStoreName() != null) {
+                mcStoreExamine.setStoreNameExamine(1);
             }
             this.updateByPrimaryKey(mcStoreExamine);
         } else {
@@ -95,6 +97,8 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
                 mcStoreExamine.setPhoneToExamine(1);
             } else if (mcStoreExamineParameter.getShopAddressDetail() != null) {
                 mcStoreExamine.setAddressToExamine(1);
+            }else if (mcStoreExamineParameter.getStoreName() != null) {
+                mcStoreExamine.setStoreNameExamine(1);
             }
             this.insertSelective(mcStoreExamine);
         }
