@@ -64,16 +64,8 @@ public class ApplicationListenReadyEvent implements ApplicationListener<Applicat
         String dictKey = Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION;
         String dictKeyDesc = Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION_DESC;
         nationService.findAll().forEach(nation -> {
-            String value = null;
-            if(StringUtils.isNotBlank(nation.getProvince())){
-                value = nation.getProvince();
-            }else if(StringUtils.isNotBlank(nation.getCity())){
-                value = nation.getCity();
-            }else if(StringUtils.isNotBlank(nation.getDistrict())){
-                value = nation.getDistrict();
-            }
-            redisClient.hashSet(dictKey, nation.getCode(), value);
-            redisClient.hashSet(dictKeyDesc, value,nation.getCode());
+            redisClient.hashSet(dictKey, nation.getCode(), nation.getAreaName());
+            redisClient.hashSet(dictKeyDesc, nation.getAreaName(),nation.getCode());
         });
         log.debug("省市区字典注入耗时：" + timer.interval() + " ms");
         log.info("所有字典数据已缓存到Redis");

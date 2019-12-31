@@ -4,19 +4,15 @@
     <resultMap id="BaseResultMap" type="com.hailu.cloud.api.xinan.module.app.entity.Nation">
         <id column="ID" property="id" jdbcType="BIGINT"/>
         <result column="CODE" property="code" jdbcType="VARCHAR"/>
-        <result column="PROVINCE" property="province" jdbcType="VARCHAR"/>
-        <result column="CITY" property="city" jdbcType="VARCHAR"/>
-        <result column="PARENT_ID" property="parentId" jdbcType="BIGINT"/>
+        <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR"/>
         <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="DISTRICT" property="district" jdbcType="VARCHAR"/>
-        <result column="LAST_UPDATE_TIME" property="lastUpdateTime" jdbcType="TIMESTAMP"/>
-        <result column="OPERATOR" property="operator" jdbcType="BIGINT"/>
-        <result column="OPERATOR_IP" property="operatorIp" jdbcType="VARCHAR"/>
+        <result column="LAT" property="lat" jdbcType="VARCHAR"/>
+        <result column="LNG" property="lng" jdbcType="VARCHAR"/>
+        <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    ID, CODE, PROVINCE, CITY, PARENT_ID, CREATE_TIME, DISTRICT, LAST_UPDATE_TIME, OPERATOR, 
-    OPERATOR_IP
-  </sql>
+         ID, CODE, PARENT_CODE, AREA_NAME, LNG, LAT, CREATE_TIME
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
@@ -29,14 +25,8 @@
   </delete>
     <insert id="insert" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation" useGeneratedKeys="true"
             keyProperty="id">
-    insert into sys_nation (CODE, PROVINCE, CITY, 
-      PARENT_ID, CREATE_TIME, DISTRICT, 
-      LAST_UPDATE_TIME, OPERATOR, OPERATOR_IP
-      )
-    values (#{code,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{district,jdbcType=VARCHAR}, 
-      #{lastUpdateTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=BIGINT}, #{operatorIp,jdbcType=VARCHAR}
-      )
+    insert into sys_nation ( CODE, PARENT_CODE, AREA_NAME, LNG, LAT, CREATE_TIME )
+    values (#{code}, #{parentCode}, #{areaName}, #{lat}, #{lng}, #{createTime})
   </insert>
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation"
             useGeneratedKeys="true" keyProperty="id">
@@ -45,58 +35,40 @@
             <if test="code != null">
                 CODE,
             </if>
-            <if test="province != null">
-                PROVINCE,
+            <if test="parentCode != null">
+                PARENT_CODE,
             </if>
-            <if test="city != null">
-                CITY,
+            <if test="areaName != null">
+                AREA_NAME,
             </if>
-            <if test="parentId != null">
-                PARENT_ID,
+            <if test="lat != null">
+                lat,
+            </if>
+            <if test="lng != null">
+                lng,
             </if>
             <if test="createTime != null">
                 CREATE_TIME,
             </if>
-            <if test="district != null">
-                DISTRICT,
-            </if>
-            <if test="lastUpdateTime != null">
-                LAST_UPDATE_TIME,
-            </if>
-            <if test="operator != null">
-                OPERATOR,
-            </if>
-            <if test="operatorIp != null">
-                OPERATOR_IP,
-            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="code != null">
-                #{code,jdbcType=VARCHAR},
+                #{code},
             </if>
-            <if test="province != null">
-                #{province,jdbcType=VARCHAR},
+            <if test="parentCode != null">
+                #{parentCode},
             </if>
-            <if test="city != null">
-                #{city,jdbcType=VARCHAR},
+            <if test="areaName != null">
+                #{areaName},
             </if>
-            <if test="parentId != null">
-                #{parentId,jdbcType=BIGINT},
+            <if test="lat != null">
+                #{lat},
+            </if>
+            <if test="lng != null">
+                #{lng},
             </if>
             <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="district != null">
-                #{district,jdbcType=VARCHAR},
-            </if>
-            <if test="lastUpdateTime != null">
-                #{lastUpdateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="operator != null">
-                #{operator,jdbcType=BIGINT},
-            </if>
-            <if test="operatorIp != null">
-                #{operatorIp,jdbcType=VARCHAR},
+                #{createTime},
             </if>
         </trim>
     </insert>
@@ -104,31 +76,22 @@
         update sys_nation
         <set>
             <if test="code != null">
-                CODE = #{code,jdbcType=VARCHAR},
+                CODE=#{code},
             </if>
-            <if test="province != null">
-                PROVINCE = #{province,jdbcType=VARCHAR},
+            <if test="parentCode != null">
+                PARENT_CODE=#{parentCode},
             </if>
-            <if test="city != null">
-                CITY = #{city,jdbcType=VARCHAR},
+            <if test="areaName != null">
+                AREA_NAME=#{areaName},
             </if>
-            <if test="parentId != null">
-                PARENT_ID = #{parentId,jdbcType=BIGINT},
+            <if test="lat != null">
+                lat=#{lat},
+            </if>
+            <if test="lng != null">
+                lng=#{lng},
             </if>
             <if test="createTime != null">
-                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="district != null">
-                DISTRICT = #{district,jdbcType=VARCHAR},
-            </if>
-            <if test="lastUpdateTime != null">
-                LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="operator != null">
-                OPERATOR = #{operator,jdbcType=BIGINT},
-            </if>
-            <if test="operatorIp != null">
-                OPERATOR_IP = #{operatorIp,jdbcType=VARCHAR},
+                CREATE_TIME=#{createTime},
             </if>
         </set>
         where ID = #{id,jdbcType=BIGINT}
@@ -136,14 +99,11 @@
     <update id="updateByPrimaryKey" parameterType="com.hailu.cloud.api.xinan.module.app.entity.Nation">
     update sys_nation
     set CODE = #{code,jdbcType=VARCHAR},
-      PROVINCE = #{province,jdbcType=VARCHAR},
-      CITY = #{city,jdbcType=VARCHAR},
-      PARENT_ID = #{parentId,jdbcType=BIGINT},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      DISTRICT = #{district,jdbcType=VARCHAR},
-      LAST_UPDATE_TIME = #{lastUpdateTime,jdbcType=TIMESTAMP},
-      OPERATOR = #{operator,jdbcType=BIGINT},
-      OPERATOR_IP = #{operatorIp,jdbcType=VARCHAR}
+      PARENT_CODE = #{parentCode},
+      AREA_NAME = #{areaName},
+      lat = #{lat},
+      lng = #{lng},
+      CREATE_TIME = #{createTime}
     where ID = #{id,jdbcType=BIGINT}
   </update>
 
@@ -151,47 +111,27 @@
         select
         <include refid="Base_Column_List"/>
         from sys_nation
-        where
-        <if test="parentId != null">
-            PARENT_ID = #{parentId,jdbcType=BIGINT}
+        <where> 1=1
+        <if test="parentCode != null and parentCode != 1">
+            and PARENT_CODE = #{parentCode}
         </if>
-        <if test="parentId == null">
-            PARENT_ID = 1
+        <if test="parentCode == 1 or parentCode == null ">
+            and PARENT_CODE is null
         </if>
+        </where>
     </select>
 
 
-    <select id="findNationByProvince" resultMap="BaseResultMap">
+    <select id="findNationByAreaName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from sys_nation
         where 1=1
-        <if test="provinceName != null">
-            AND procedure = #{provinceName}
+        <if test="areaName != null">
+            AND AREA_NAME = #{areaName}
         </if>
     </select>
 
-
-    <select id="findNationByCityName" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_nation
-        where 1=1
-        <if test="cityName != null">
-            AND city = #{cityName}
-        </if>
-    </select>
-
-
-    <select id="findNationByDistrict" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_nation
-        where 1=1
-        <if test="district != null">
-            AND district = #{district}
-        </if>
-    </select>
 
 
     <select id="findListByCodeArray" resultMap="BaseResultMap">
@@ -209,14 +149,13 @@
     </select>
 
     <select id="findCodeBySonCode" resultType="java.lang.String">
-        select CODE from sys_nation
-        where ID = (
-            select PARENT_ID from sys_nation
-            where CODE = #{Code}  and DISTRICT != ''
-        )
+        select PARENT_CODE AS code from sys_nation
+        where CODE = #{Code}
     </select>
+
+
     <select id="findCityNameByCode" resultType="java.lang.String">
-        select CITY from sys_nation
+        select AREA_NAME from sys_nation
         where CODE = #{code}
     </select>
 

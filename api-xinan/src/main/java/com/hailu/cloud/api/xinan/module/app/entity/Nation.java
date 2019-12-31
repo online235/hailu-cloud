@@ -18,44 +18,33 @@ public class Nation implements Serializable {
     private String code;
 
     /**
-     * 省份
+     * 地区名称
      */
-    private String province;
+    private String areaName;
 
-    /**
-     * 城市
-     */
-    private String city;
 
     /**
      * 父级行政区划ID
      */
-    private Long parentId;
+    private String parentCode;
 
     /**
      * 创建时间
      */
     private Date createTime;
 
-    /**
-     * 县/区
-     */
-    private String district;
 
     /**
-     * 最后修改时间
+     * 经度
      */
-    private Date lastUpdateTime;
+    private String lng;
+
 
     /**
-     * 操作人
+     * 纬度
      */
-    private Long operator;
+    private String lat;
 
-    /**
-     * 操作人IP
-     */
-    private String operatorIp;
 
     /**
      * sys_nation

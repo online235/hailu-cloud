@@ -11,11 +11,10 @@ public class Nation {
     private Long id;
 
     //省
-    private String province;
-    //市
-    private String city;
-    //区县
-    private String district;
+    private String areaName;
+
     //code
     private String code;
+
+
 }

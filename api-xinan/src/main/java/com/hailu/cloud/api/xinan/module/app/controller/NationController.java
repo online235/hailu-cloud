@@ -61,10 +61,10 @@ public class NationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "parentId", value = "父级ID(查询省信息父类ID为1)",required = true, dataType = "Long", paramType = "query"),
     })
-    public Object findListByParentId(@NotNull(message = "父级ID不能为空") Long parentId) {
+    public Object findListByParentId(@NotNull(message = "父级ID不能为空") String parentId) {
 
         log.info("查询城市地址ID为：{}",parentId);
-        return nationService.findListByParentId(parentId);
+        return nationService.findListByParentCode(parentId);
     }
 
 

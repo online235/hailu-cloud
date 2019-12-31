@@ -24,23 +24,16 @@ public class NatiovServiceImpl implements INationService {
     private RedisStandAloneClient redisStandAloneClient;
 
     @Override
-    @Cacheable(value = "area", key = "#parentId")
-    public Object findListByParentId(Long parentId) {
-        List<Nation> nationList = nationMapper.findByParentId(parentId);
+    @Cacheable(value = "area", key = "#parentCode")
+    public Object findListByParentCode(String parentCode) {
+
+        List<Nation> nationList = nationMapper.findByParentId(parentCode);
         JSONArray jsonArray = new JSONArray();
         for (Nation n : nationList) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("id", n.getId());
-            String name = null;
-            if (StringUtils.isNotBlank(n.getProvince())) {
-                name = n.getProvince();
-            } else if (StringUtils.isNotBlank(n.getCity())) {
-                name = n.getCity();
-            } else if (StringUtils.isNotBlank(n.getDistrict())) {
-                name = n.getDistrict();
-            }
-            jsonObject.put("name", name);
-            jsonObject.put("parentId", n.getParentId());
+            jsonObject.put("name", n.getAreaName());
+            jsonObject.put("parentId", n.getParentCode());
             jsonObject.put("adCode", n.getCode());
             jsonArray.add(jsonObject);
         }
@@ -58,21 +51,11 @@ public class NatiovServiceImpl implements INationService {
     }
 
     @Override
-    public Nation findNationByProvince(String provinceName) {
-        return nationMapper.findNationByProvince(provinceName);
+    public Nation findNationByAreaName(String areaName) {
+        return nationMapper.findNationByAreaName(areaName);
     }
 
 
-    @Override
-    public Nation findNationByCityName(String cityName) {
-        return nationMapper.findNationByCityName(cityName);
-    }
-
-
-    @Override
-    public Nation findNationByDistrict(String district) {
-        return nationMapper.findNationByDistrict(district);
-    }
 
     @Override
     public List<Nation> findListByCodeArray(Object parameter) {

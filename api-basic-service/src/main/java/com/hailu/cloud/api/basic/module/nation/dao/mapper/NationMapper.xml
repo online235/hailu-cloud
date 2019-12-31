@@ -6,11 +6,7 @@
 	<!-- 返回所有字典 -->
 	<select id="findAll" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
 		select
-			id,
-			CODE,
-			PROVINCE,
-			CITY,
-			DISTRICT
+			id, code, parent_code, area_name, lng, lat, create_time
 		from sys_nation
 	</select>
 

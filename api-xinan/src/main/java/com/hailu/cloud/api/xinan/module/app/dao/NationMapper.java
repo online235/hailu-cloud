@@ -47,29 +47,17 @@ public interface NationMapper {
 
     /**
      * 根据父级ID查询下面的地区，如果不传则查询省信息
-     * @param parentId
+     * @param parentCode
      * @return
      */
-    List<Nation> findByParentId(@Param("parentId") Long parentId);
+    List<Nation> findByParentId(@Param("parentCode") String parentCode);
 
     /**
-     * 根据省名称查找该数据
-     * @param provinceName
+     * 根据名称查找该数据
+     * @param areaName
      */
-    Nation findNationByProvince(String provinceName);
+    Nation findNationByAreaName(String areaName);
 
-    /**
-     * 根据市名称查找该数据
-     * @param cityName
-     */
-    Nation findNationByCityName(String cityName);
-
-
-    /**
-     * 根据区名称查找该数据
-     * @param district
-     */
-    Nation findNationByDistrict(String district);
 
 
     /**

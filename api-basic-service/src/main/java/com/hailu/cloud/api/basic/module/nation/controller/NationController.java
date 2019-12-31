@@ -58,16 +58,8 @@ public class NationController {
         String dictKey = Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION;
         String dictKeyDesc = Constant.REDIS_KEY_DICT_CACHE + Constant.REDIS_KEY_DICT_CACHE_NATION_DESC;
         nationService.findAll().forEach(nation -> {
-            String value = null;
-            if(StringUtils.isNotBlank(nation.getProvince())){
-                value = nation.getProvince();
-            }else if(StringUtils.isNotBlank(nation.getCity())){
-                value = nation.getCity();
-            }else if(StringUtils.isNotBlank(nation.getDistrict())){
-                value = nation.getDistrict();
-            }
-            redisClient.hashSet(dictKey, nation.getCode(), value);
-            redisClient.hashSet(dictKeyDesc, value,nation.getCode());
+            redisClient.hashSet(dictKey, nation.getCode(), nation.getAreaName());
+            redisClient.hashSet(dictKeyDesc,nation.getAreaName(),nation.getCode());
         });
     }
 }

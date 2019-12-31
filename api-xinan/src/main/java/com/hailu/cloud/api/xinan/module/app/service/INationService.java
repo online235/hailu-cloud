@@ -16,10 +16,10 @@ public interface INationService {
 
     /**
      * 根据ID获取省市区地址，不传默认查询省
-     * @param parentId
+     * @param parentCode
      * @return
      */
-    Object findListByParentId(Long parentId);
+    Object findListByParentCode(String parentCode);
 
     /**
      * 根据区code查询父code
@@ -37,23 +37,11 @@ public interface INationService {
 
     /**
      * 根据省名称查找该数据
-     * @param provinceName
+     * @param areaName
      */
-    Nation findNationByProvince(String provinceName);
+    Nation findNationByAreaName(String areaName);
 
 
-    /**
-     * 根据市名称查找该数据
-     * @param cityName
-     */
-    Nation findNationByCityName(String cityName);
-
-
-    /**
-     * 根据区名称查找该数据
-     * @param district
-     */
-    Nation findNationByDistrict(String district);
 
 
     /**

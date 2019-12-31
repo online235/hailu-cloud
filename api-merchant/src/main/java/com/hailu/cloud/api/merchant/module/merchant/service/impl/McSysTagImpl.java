@@ -53,7 +53,7 @@ public class McSysTagImpl implements McSysTagService {
                 McSysTagResult mcSysTagResult = (McSysTagResult)iterator.next();
                 mcSysTagResult.setStoreUseState(2);
                 if(!CollectionUtils.isEmpty(mcShopTagModelList)){
-                    if(mcShopTagModelList.stream().allMatch(mcShopTagModel -> mcShopTagModel.getTagId().equals(mcSysTagResult.getId()))){
+                    if(mcShopTagModelList.stream().anyMatch(mcShopTagModel -> mcShopTagModel.getTagId().equals(mcSysTagResult.getId()))){
                         mcSysTagResult.setStoreUseState(1);
                     }
                 }
