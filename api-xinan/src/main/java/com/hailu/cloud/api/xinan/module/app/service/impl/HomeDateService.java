@@ -52,7 +52,7 @@ public class HomeDateService {
         if (!CollectionUtils.isEmpty(xaStatistics)) {
             xaStatisticsModel = xaStatistics.get(0);
             map.put("periodsNumber", xaStatisticsModel.getPeriodsNumber());
-            map.put("timeDate", DateUtil.format(xaStatisticsModel.getTimeDate(), "YYYY-MM"));
+            map.put("timeDate", DateUtil.format(xaStatisticsModel.getTimeDate(), "yyyy-MM"));
             //本期历史案例
             xaHelpMemberModelList = xaHelpMenberService.findListByParameter(map);
         }
@@ -65,7 +65,7 @@ public class HomeDateService {
         //轮播图
         map.clear();
         map.put("bannerSpace", 1);
-        map.put("nowTime", DateUtil.format(new Date(), "YYYY-MM-dd"));
+        map.put("nowTime", DateUtil.format(new Date(), "yyyy-MM-dd"));
         List<BannerResult> bannerResultList = sysBannerService.findListByParameter(map);
         homeDataListModel.setBannerResultList(bannerResultList);
         homeDataListModel.setXaHelpMemberModels(xaHelpMemberModels);
