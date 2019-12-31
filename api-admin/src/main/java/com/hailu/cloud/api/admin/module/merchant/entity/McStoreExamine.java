@@ -40,6 +40,12 @@ public class McStoreExamine {
      */
     private String areaCode;
 
+
+    /**
+     * 店铺街道code
+     */
+    private String streetCode;
+
     /**
      * 店铺名凭证
      */

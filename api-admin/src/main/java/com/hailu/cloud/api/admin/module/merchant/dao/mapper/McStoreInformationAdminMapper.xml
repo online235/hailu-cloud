@@ -4,13 +4,13 @@
 
 
     <sql id="Base_Column_List">
-        id,mc_number_id,shop_name,phone,province_code,city_code,area_code,detail_address,store_details,
+        id,mc_number_id,shop_name,phone,province_code,city_code,area_code,street_code,detail_address,store_details,
         per_capita_price,store_son_type,store_total_type,business_state,business_time,date_time,
         update_date_time,to_examine,week_day,default_head,account_type,longitude,latitude,min_price
   </sql>
 
     <sql id="Base_where_List">
-     #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{detailAddress},
+     #{id},#{mcNumberId},#{shopName},#{phone},#{provinceCode},#{cityCode},#{areaCode},#{streetCode},#{detailAddress},
      #{storeDetails},#{perCapitaPrice},#{storeSonType},
      #{storeTotalType},#{businessState},#{businessTime},#{dateTime},#{updateDateTime},#{toExamine},#{weekDay},#{defaultHead},#{accountType},#{longitude},#{latitude},#{minPrice}
   </sql>
@@ -36,6 +36,9 @@
         </if>
         <if test="areaCode != null">
             area_code,
+        </if>
+        <if test="streetCode != null">
+            street_code,
         </if>
         <if test="detailAddress != null">
             detail_address,
@@ -117,6 +120,9 @@
         <if test="areaCode != null">
             #{areaCode},
         </if>
+        <if test="streetCode != null">
+            #{streetCode},
+        </if>
         <if test="detailAddress != null">
             #{detailAddress},
         </if>
@@ -185,6 +191,9 @@
         </if>
         <if test="areaCode != null">
             area_code = #{areaCode},
+        </if>
+        <if test="streetCode != null">
+            street_code = #{streetCode},
         </if>
         <if test="detailAddress != null">
             detail_address = #{detailAddress},

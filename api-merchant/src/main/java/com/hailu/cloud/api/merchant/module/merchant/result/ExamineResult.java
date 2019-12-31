@@ -25,24 +25,28 @@ public class ExamineResult {
     private String toExamineDisplay;
 
 
-    @ApiModelProperty("原来店铺名称")
+    @ApiModelProperty("通过的店铺名称")
     private String originalShopName;
 
 
-    @ApiModelProperty("原来店铺电话号码")
+    @ApiModelProperty("通过的店铺电话号码")
     private String originalShopPhone;
 
-    @ApiModelProperty("原来店铺省区Code")
+    @ApiModelProperty("通过的店铺省区Code")
     private String originalProvinceCode;
 
-    @ApiModelProperty("原来店铺市区Code")
+    @ApiModelProperty("通过的店铺市区Code")
     private String originalCityCode;
 
-    @ApiModelProperty("原来店铺区Code")
+    @ApiModelProperty("通过的店铺区Code")
     private String originalAreaCode;
 
 
-    @ApiModelProperty("原来店铺详细地址")
+    @ApiModelProperty("通过的店铺街道Code")
+    private String originalStreetCode;
+
+
+    @ApiModelProperty("通过的店铺详细地址")
     private String originalShopAddressDetail;
 
 
@@ -61,6 +65,11 @@ public class ExamineResult {
 
     @ApiModelProperty("店铺地区选择")
     private String areaCode;
+
+
+    @ApiModelProperty("店铺地区街道选择")
+    private String streetCode;
+
 
     @ApiModelProperty("店铺名凭证")
     private String storeNameVoucher;

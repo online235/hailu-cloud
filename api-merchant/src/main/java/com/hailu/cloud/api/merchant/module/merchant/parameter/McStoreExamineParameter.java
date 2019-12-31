@@ -46,6 +46,14 @@ public class McStoreExamineParameter {
     @ApiModelProperty("店铺区选择")
     private String areaCode;
 
+
+    /**
+     * 店铺街道code
+     */
+    @ApiModelProperty("店铺街道code")
+    private String streetCode;
+
+
     /**
      * 店铺名凭证
      */

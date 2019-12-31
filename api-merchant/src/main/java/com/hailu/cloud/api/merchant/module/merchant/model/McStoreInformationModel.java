@@ -31,15 +31,18 @@ public class McStoreInformationModel {
     @ApiModelProperty(name = "phone", value = "店铺联系电话")
     private String phone;
 
-    @ApiModelProperty(name = "provinceCode", value = "省Id")
+    @ApiModelProperty(name = "provinceCode", value = "省code")
     private String provinceCode;
 
-    @ApiModelProperty(name = "cityCode", value = "市Id")
+    @ApiModelProperty(name = "cityCode", value = "市code")
     private String cityCode;
 
 
-    @ApiModelProperty(name = "areaCode", value = "区id")
+    @ApiModelProperty(name = "areaCode", value = "区code")
     private String areaCode;
+
+    @ApiModelProperty(name = "streetCode", value = "街道code")
+    private String streetCode;
 
 
     @ApiModelProperty(name = "detailAddress", value = "店铺详细地址")
@@ -81,14 +84,14 @@ public class McStoreInformationModel {
      *店铺位置经度
      */
     @ApiModelProperty("店铺位置经度")
-    private java.math.BigDecimal longitude;
+    private String longitude;
 
 
     /**
      *店铺纬度
      */
     @ApiModelProperty("店铺纬度")
-    private java.math.BigDecimal latitude;
+    private String latitude;
 
     /**
      * '1、生活圈入驻店铺；2、百货入驻店铺'

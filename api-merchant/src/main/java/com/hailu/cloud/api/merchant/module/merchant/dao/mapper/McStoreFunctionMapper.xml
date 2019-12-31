@@ -88,7 +88,7 @@
 
     <insert id="insertSelective" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction"
             useGeneratedKeys="true" keyProperty="id">
-        insert into mc_store_information
+        insert into mc_store_function
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <include refid="set_column"/>
         </trim>
@@ -98,7 +98,7 @@
     </insert>
 
     <update id="updateByObject" parameterType="com.hailu.cloud.api.merchant.module.merchant.entity.McStoreFunction">
-        update mc_store_album
+        update mc_store_function
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <include refid="update_where_column"/>
         </trim>

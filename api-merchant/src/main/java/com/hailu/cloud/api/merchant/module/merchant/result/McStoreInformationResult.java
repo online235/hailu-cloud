@@ -71,6 +71,12 @@ public class McStoreInformationResult {
     @ApiModelProperty(value="区id")
     private String areaCode;
 
+
+    @ApiModelProperty(value="街道code")
+    private String streetCode;
+
+
+
     /**
      *店铺详细地址
      */

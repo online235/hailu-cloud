@@ -12,6 +12,7 @@
         <result property="provinceCode" column="province_code"/>
         <result property="cityCode" column="city_code"/>
         <result property="areaCode" column="area_code"/>
+        <result property="streetCode" column="street_code"/>
         <result property="detailAddress" column="detail_address"/>
         <result property="storeDetails" column="store_details"/>
         <result property="perCapitaPrice" column="per_capita_price"/>
@@ -30,7 +31,7 @@
 
 
     <sql id="Base_Column_List">
-    id, mc_number_id, shop_name, phone, province_code, city_code, area_code, detail_address,
+    id, mc_number_id, shop_name, phone, province_code, city_code, area_code,street_code,detail_address,
     store_details, per_capita_price, store_son_type, store_total_type, business_state,
     business_time, date_time, update_date_time, to_examine, default_head, week_day
   </sql>
@@ -86,7 +87,7 @@
 
     <select id="findStoreInformationLeftAlbum" resultMap="McStoreInformationAlbumResultMap">
     select
-     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,  store.detail_address,
+     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,store.street_code  store.detail_address,
      store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
      store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
      store.longitude,store.latitude

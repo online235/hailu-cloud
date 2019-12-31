@@ -123,7 +123,6 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
         //电话-1 更新原来数据返回
         if (examineType == 1) {
             examineResult.setOriginalShopPhone(mcStoreInformation.getPhone());
-
             if (mcStoreExamine != null) {
                 BeanUtils.copyProperties(mcStoreExamine, examineResult);
                 //还在审核中
@@ -138,8 +137,10 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
                     return examineResult;
                 }
             }
+            //地址审核-2
         } else if (examineType == 2) {
             examineResult.setOriginalProvinceCode(mcStoreInformation.getProvinceCode());
+            examineResult.setOriginalStreetCode(mcStoreInformation.getStreetCode());
             examineResult.setOriginalCityCode(mcStoreInformation.getCityCode());
             examineResult.setOriginalAreaCode(mcStoreInformation.getAreaCode());
             examineResult.setOriginalShopAddressDetail(mcStoreInformation.getDetailAddress());
@@ -157,6 +158,7 @@ public class McStoreExamienServiceImpl implements McStoreExamienService {
                     return examineResult;
                 }
             }
+            //店铺名审核-3
         } else if (examineType == 3) {
             examineResult.setOriginalShopName(mcStoreInformation.getShopName());
             if (mcStoreExamine != null) {

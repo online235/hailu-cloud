@@ -50,21 +50,28 @@ public class McStoreInformation {
 
 
     /**
-     *省Id
+     *code
      */
     private String provinceCode;
 
 
     /**
-     *市Id
+     *市code
      */
     private String cityCode;
 
 
     /**
-     *区id
+     *code
      */
     private String areaCode;
+
+
+    /**
+     *街道code
+     */
+    private String streetCode;
+
 
     /**
      *店铺详细地址
@@ -165,14 +172,14 @@ public class McStoreInformation {
      *店铺位置经度
      */
     @ApiModelProperty("店铺位置经度")
-    private java.math.BigDecimal longitude;
+    private String longitude;
 
 
     /**
      *店铺纬度
      */
     @ApiModelProperty("店铺纬度")
-    private java.math.BigDecimal latitude;
+    private String latitude;
 
 
 }

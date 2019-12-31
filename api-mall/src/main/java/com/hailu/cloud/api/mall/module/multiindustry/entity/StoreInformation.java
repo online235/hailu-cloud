@@ -39,22 +39,30 @@ public class StoreInformation implements Serializable {
     private String phone;
 
     /**
-     * 省Id
+     * 省code
      */
-    @ApiModelProperty("省Id")
+    @ApiModelProperty("省code")
     private String provinceCode;
 
     /**
-     * 市Id
+     * 市Code
      */
-    @ApiModelProperty("市Id")
+    @ApiModelProperty("市Code")
     private String cityCode;
 
     /**
-     * 区id
+     * 区Code
      */
-    @ApiModelProperty("区id")
+    @ApiModelProperty("区Code")
     private String areaCode;
+
+
+    /**
+     * 街道Code
+     */
+    @ApiModelProperty("街道Code")
+    private String streetCode;
+
 
     /**
      * 店铺详细地址

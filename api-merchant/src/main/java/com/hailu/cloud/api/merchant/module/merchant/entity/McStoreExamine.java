@@ -36,9 +36,15 @@ public class McStoreExamine {
     private String shopAddressDetail;
 
     /**
-     * 店铺地区选择
+     * 店铺地区code
      */
     private String areaCode;
+
+
+    /**
+     * 店铺街道code
+     */
+    private String streetCode;
 
     /**
      * 店铺名凭证

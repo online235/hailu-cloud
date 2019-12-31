@@ -19,6 +19,9 @@
         <if test="areaCode != null">
             area_code,
         </if>
+        <if test="streetCode != null">
+            street_code,
+        </if>
         <if test="phoneVoucher != null">
             phone_voucher,
         </if>
@@ -71,6 +74,9 @@
         <if test="areaCode != null">
             #{areaCode},
         </if>
+        <if test="streetCode != null">
+            #{streetCode},
+        </if>
         <if test="phoneVoucher != null">
             #{phoneVoucher},
         </if>
@@ -118,6 +124,9 @@
         </if>
         <if test="areaCode != null">
             area_code= #{areaCode},
+        </if>
+        <if test="streetCode != null">
+            street_code = #{streetCode},
         </if>
         <if test="phoneVoucher != null">
             phone_voucher= #{phoneVoucher},
@@ -167,7 +176,7 @@
     <select id="findListByParam" resultType="com.hailu.cloud.api.admin.module.merchant.model.McStoreExamineModel">
         SELECT
         id, store_id, store_name, shop_phone, shop_address_detail,
-        area_code, store_name_voucher, phone_voucher, address_voucher,
+        area_code,street_code, store_name_voucher, phone_voucher, address_voucher,
         address_remarks, store_name_remarks, phone_remarks, store_name_examine,
         phone_to_examine, address_to_examine, date_time
         FROM mc_store_examine
@@ -196,7 +205,7 @@
     <select id="findObjectById" resultType="com.hailu.cloud.api.admin.module.merchant.entity.McStoreExamine">
         SELECT
         id, store_id, store_name, shop_phone, shop_address_detail,
-        area_code, store_name_voucher, phone_voucher, address_voucher,
+        area_code,street_code, store_name_voucher, phone_voucher, address_voucher,
         address_remarks, store_name_remarks, phone_remarks, store_name_examine,
         phone_to_examine, address_to_examine, date_time
         FROM mc_store_examine

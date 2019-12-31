@@ -52,6 +52,12 @@ public class McStoreExamineModel {
     @ApiModelProperty("店铺地区选择")
     private String areaCode;
 
+    /**
+     * 店铺街道code
+     */
+    @ApiModelProperty("店铺街道code")
+    private String streetCode;
+
 
 
     @DictName(code = "NATION", joinField = "areaCode")

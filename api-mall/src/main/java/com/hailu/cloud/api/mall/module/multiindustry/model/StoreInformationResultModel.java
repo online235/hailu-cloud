@@ -42,23 +42,21 @@ public class StoreInformationResultModel{
     @ApiModelProperty("店铺联系电话")
     private String phone;
 
-    /**
-     * 省Id
-     */
-    @ApiModelProperty("省Id")
+
+    @ApiModelProperty("省code")
     private String provinceCode;
 
-    /**
-     * 市Id
-     */
-    @ApiModelProperty("市Id")
+
+    @ApiModelProperty("市code")
     private String cityCode;
 
-    /**
-     * 区id
-     */
-    @ApiModelProperty("区id")
+
+    @ApiModelProperty("区code")
     private String areaCode;
+
+
+    @ApiModelProperty("街道code")
+    private String streetCode;
 
     /**
      * 店铺详细地址
