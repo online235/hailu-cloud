@@ -3,18 +3,17 @@
 <mapper namespace="com.hailu.cloud.api.admin.module.partnermanagement.dao.UserManagementMapper">
 
 
-    <select id="findListByParameter">
-        select
-        member_id, member_name, member_mobile, member_account,
-        merchant_city_id, merchant_type, superior_member, member_type,
-        settlein_type, total_merchants_money, member_sex, member_passwd,
-        create_time, is_del, user_id, user_icon, regist_time, wx_state,
-        open_id, unionid, login_name
-        from shop_member
-        where 1=1
-        <if test="">
-
-    </select>
+<!--    <select id="findListByParameter">-->
+<!--        select-->
+<!--        member_id, member_name, member_mobile, member_account,-->
+<!--        merchant_city_id, merchant_type, superior_member, member_type,-->
+<!--        settlein_type, total_merchants_money, member_sex, member_passwd,-->
+<!--        create_time, is_del, user_id, user_icon, regist_time, wx_state,-->
+<!--        open_id, unionid, login_name-->
+<!--        from shop_member-->
+<!--        where 1=1-->
+<!--        <if test=""></if>-->
+<!--    </select>-->
 
 
 </mapper>

@@ -12,6 +12,7 @@
         <result property="pictureCode" column="picture_code"/>
         <result property="sort" column="sort"/>
         <result property="remarks" column="remarks"/>
+        <result property="mcLevel" column="mc_level"/>
         <collection property="mcManagementTypeList"
                     ofType="com.hailu.cloud.api.merchant.module.merchant.model.ManagementChildrenVo"
                     javaType="java.util.ArrayList">
@@ -21,6 +22,7 @@
             <result property="pictureCode" column="picture_code1"/>
             <result property="sort" column="sort1"/>
             <result property="remarks" column="remarks1"/>
+            <result property="mcLevel" column="mc_level1"/>
             <result property="managementName" column="management_name_a"/>
         </collection>
     </resultMap>
@@ -35,7 +37,8 @@
         sort,
         picture_colour,
         picture_code,
-        remarks
+        remarks,
+        mc_level
         FROM mc_management_type
         WHERE 1=1
         <if test="managementName != null" >
@@ -63,7 +66,8 @@
         sort,
         picture_colour,
         picture_code,
-        remarks
+        remarks,
+        mc_level
         FROM mc_management_type
         WHERE 1=1
         <if test="parentName != null" >
@@ -83,7 +87,8 @@
         sort,
         picture_colour,
         picture_code,
-        remarks
+        remarks,
+        mc_level
         FROM mc_management_type
         WHERE 1=1
         <if test="managementId != null" >
@@ -101,6 +106,7 @@
         management.picture_colour,
         management.picture_code,
         management.remarks,
+        management.mc_level,
         management1.management_id as management_id_a,
         management1.parent_id as parent_id_a,
         management1.management_name as management_name_a,
@@ -108,6 +114,7 @@
         management1.picture_colour as picture_colour1,
         management1.picture_code as picture_code1,
         management1.remarks as remarks1
+        management1.mc_level as mc_level1
         FROM mc_management_type management  left join mc_management_type management1 on management1.parent_id = management.management_id
         WHERE 1=1 and management1.parent_id = management.management_id
         <if test="managementName != null" >

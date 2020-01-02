@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.hailu.cloud.api.admin.module.mall.dao.ManagementTypeMapper" >
   <sql id="Base_Column_List" >
-    management_id, parent_id, picture_code, picture_Colour, management_name,sort,url,remarks,management_type
+    management_id, parent_id, picture_code, picture_Colour, management_name,sort,url,remarks,management_type,mc_level
   </sql>
   <insert id="insertSelective" parameterType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType" useGeneratedKeys="true" keyProperty="managementId" >
     insert into mc_management_type
@@ -34,6 +34,9 @@
       <if test="managementType != null" >
         management_type,
       </if>
+      <if test="mcLevel != null" >
+        mc_level,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="managementId != null" >
@@ -63,6 +66,9 @@
       <if test="managementType != null" >
         #{managementType},
       </if>
+      <if test="mcLevel != null" >
+        #{mcLevel},
+      </if>
     </trim>
   </insert>
   <select id="findManagementType" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
@@ -72,7 +78,7 @@
     where management_name = #{managementName}
   </select>
 
-  <select id="findManagementTypeByManagementId" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
+  <select id="findManagementTypeByManagementId" resultType="com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel">
     select
     <include refid="Base_Column_List"/>
     from mc_management_type
@@ -86,15 +92,19 @@
     where parent_id = #{parentId} And management_name = #{managementName}
   </select>
 
-  <select id="findManagementTypeList" resultType="com.hailu.cloud.api.admin.module.mall.entity.ManagementType">
+  <select id="findManagementTypeList" resultType="com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel">
     select
     <include refid="Base_Column_List"/>
     from mc_management_type
+    where 1=1
     <if test="parentId != null">
-        where parent_id = #{parentId}
-    </if>
+        and parent_id = #{parentId}
+
+      <if test="mcLevel != null">
+        and mc_level = #{mcLevel}
+      </if></if>
     <if test="parentId == null">
-        where parent_id = 0
+        and parent_id = 0
     </if>
         ORDER BY sort
   </select>

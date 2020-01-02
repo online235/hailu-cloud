@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: QiuFeng:WANG
@@ -33,7 +34,7 @@ public interface ManagementTypeMapper {
      * @param managementId
      * @return
      */
-    ManagementType findManagementTypeByManagementId(@Param("managementId") Long managementId);
+    ManagementTypeModel findManagementTypeByManagementId(@Param("managementId") Long managementId);
 
     /**
      * 查询子类型是否重复
@@ -44,11 +45,10 @@ public interface ManagementTypeMapper {
     ManagementType findManagementTypeByparentId(@Param("parentId") long parentId, @Param("managementName") String managementName);
 
     /**
-     * 根据父级Id查询经营类型
-     * @param parentId
+     * @param parameter
      * @return
      */
-    List<ManagementType> findManagementTypeList(@Param("parentId") long parentId);
+    List<ManagementTypeModel> findManagementTypeList(Map<String, Object> parameter);
 
     /**
      * 更改经验类型

@@ -65,4 +65,11 @@ public class McManagementType implements Serializable {
     private String remarks;
 
 
+    /**
+     * 层级
+     */
+    @ApiModelProperty("层级")
+    private Integer mcLevel;
+
+
 }

@@ -63,12 +63,18 @@ public class McManagementTypeVo {
     private String remarks;
 
 
+    /**
+     * 层级
+     */
+    @ApiModelProperty("层级")
+    private Integer mcLevel;
+
 
     /**
      * 子类列表
      */
     @ApiModelProperty(value = "子类列表",dataType = "list")
-    private List<McManagementType> mcManagementTypeList;
+    private List<ManagementChildrenVo> mcManagementTypeList;
 
 
 }

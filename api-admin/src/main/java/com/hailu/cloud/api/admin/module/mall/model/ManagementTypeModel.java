@@ -72,6 +72,12 @@ public class ManagementTypeModel {
     @ApiModelProperty(value = "备注")
     private String remarks;
 
+    /**
+     * 层级
+     */
+    @ApiModelProperty(value = "层级:1、2、3")
+    private Integer mcLevel;
+
 
     /**
      * 经营项目类型

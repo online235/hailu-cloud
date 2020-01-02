@@ -1,19 +1,25 @@
 package com.hailu.cloud.api.admin.module.mall.controller;
 
+import com.hailu.cloud.api.admin.module.mall.entity.ManagementType;
 import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
 import com.hailu.cloud.api.admin.module.mall.service.ManagementTypeService;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Validated
@@ -99,10 +105,19 @@ public class ManagementTypeController {
             "</pre>")
     @PostMapping("/find/queryBusinessType")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "parentId", value = "父ID（）", paramType = "query", dataType = "long",defaultValue = "0")
+            @ApiImplicitParam(name = "pageNum", value = "当前页", defaultValue = "1", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "pageSize", value = "每页显示数量", defaultValue = "10", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "parentId", value = "父ID（）", paramType = "query", dataType = "long",defaultValue = "0"),
+            @ApiImplicitParam(name = "mcLevel", value = "层级", paramType = "query", dataType = "int",defaultValue = "1")
     })
-    public Object find(@RequestParam long parentId) {
-        return managementTypeService.findManagementTypeList(parentId);
+    public PageInfoModel<List<ManagementTypeModel>> findList(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+                                                        @Range(min = 10, max = 200, message = "每页显示数量只能在10~200之间")
+                            @RequestParam(name = "pageSize", defaultValue = "10", required = false) Integer pageSize, @RequestParam Long parentId,@RequestParam Integer mcLevel) {
+
+        Map map = new HashMap(5);
+        map.put("parentId",parentId);
+        map.put("mcLevel",mcLevel);
+        return managementTypeService.findManagementTypeList(map,pageNum,pageSize);
     }
 
 
@@ -115,7 +130,7 @@ public class ManagementTypeController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "managementI", value = "编号", paramType = "query")
     })
-    public Object find(@NotNull(message = "编号不能为空") Long managementI) {
+    public ManagementTypeModel find(@NotNull(message = "编号不能为空") Long managementI) {
         return managementTypeService.findManagementTypeByManagementId(managementI);
     }
 

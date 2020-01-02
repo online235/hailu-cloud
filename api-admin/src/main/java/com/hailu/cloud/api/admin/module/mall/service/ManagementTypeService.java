@@ -3,8 +3,10 @@ package com.hailu.cloud.api.admin.module.mall.service;
 import com.hailu.cloud.api.admin.module.mall.entity.ManagementType;
 import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
 import com.hailu.cloud.common.exception.BusinessException;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ManagementTypeService {
 
@@ -26,7 +28,7 @@ public interface ManagementTypeService {
      * @param managementId
      * @return
      */
-    ManagementType findManagementTypeByManagementId(Long managementId);
+    ManagementTypeModel findManagementTypeByManagementId(Long managementId);
 
     /**
      * 查询子类型是否重复
@@ -38,10 +40,10 @@ public interface ManagementTypeService {
 
     /**
      * 查询经营类型
-     * @param parentId
+     * @param parameter
      * @return
      */
-    List<ManagementType> findManagementTypeList(long parentId);
+    PageInfoModel<List<ManagementTypeModel>> findManagementTypeList(Map<String, Object> parameter,Integer pageNum,Integer pageSize);
 
     /**
      * 更改经验类型

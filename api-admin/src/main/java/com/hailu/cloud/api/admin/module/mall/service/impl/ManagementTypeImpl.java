@@ -1,16 +1,22 @@
 package com.hailu.cloud.api.admin.module.mall.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.hailu.cloud.api.admin.module.mall.dao.ManagementTypeMapper;
 import com.hailu.cloud.api.admin.module.mall.entity.ManagementType;
 import com.hailu.cloud.api.admin.module.mall.model.ManagementTypeModel;
 import com.hailu.cloud.api.admin.module.mall.service.ManagementTypeService;
+import com.hailu.cloud.api.admin.module.merchant.model.McStoreInformationModel;
+import com.hailu.cloud.api.admin.module.merchant.parmeter.McStoreInformationListParameter;
 import com.hailu.cloud.common.exception.BusinessException;
 import com.hailu.cloud.common.feigns.BasicFeignClient;
+import com.hailu.cloud.common.model.page.PageInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManagementTypeImpl implements ManagementTypeService {
@@ -27,7 +33,7 @@ public class ManagementTypeImpl implements ManagementTypeService {
     }
 
     @Override
-    public ManagementType findManagementTypeByManagementId(Long managementId) {
+    public ManagementTypeModel findManagementTypeByManagementId(Long managementId) {
         return managementTypeMapper.findManagementTypeByManagementId(managementId);
     }
 
@@ -37,9 +43,13 @@ public class ManagementTypeImpl implements ManagementTypeService {
     }
 
     @Override
-    public List<ManagementType> findManagementTypeList(long parentId) {
-        return managementTypeMapper.findManagementTypeList(parentId);
+    public PageInfoModel<List<ManagementTypeModel>>  findManagementTypeList(Map<String, Object> parameter,Integer pageNum,Integer pageSize) {
+        Page pageData = PageHelper.startPage(pageNum,pageSize);
+        List<ManagementTypeModel> result =  managementTypeMapper.findManagementTypeList(parameter);
+        return new PageInfoModel<>(pageData.getPages(), pageData.getTotal(), result);
     }
+
+
 
     @Override
     public ManagementTypeModel updeteManagementTypeModel(ManagementTypeModel managementTypeModel) {
