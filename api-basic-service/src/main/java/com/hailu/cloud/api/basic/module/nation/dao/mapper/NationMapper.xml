@@ -10,36 +10,11 @@
 		from sys_nation
 	</select>
 	<select id="findListByCode" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
-		select id,
-			CODE,
-			PROVINCE,
-			CITY,
-			DISTRICT
-		from sys_nation where parent_id = (select id from sys_nation where code = #{code})
+		select id, code, parent_code, area_name, lng, lat, create_time
+		from sys_nation where PARENT_CODE = #{code}
 	</select>
 	<select id="findListById" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
-		select id,
-			CODE,
-			PROVINCE,
-			CITY,
-			DISTRICT
-		from sys_nation where parent_id = #{id}
+		select id, code, parent_code, area_name, lng, lat, create_time
+		from sys_nation where PARENT_CODE = (select CODE from sys_nation where ID = #{id})
 	</select>
-	<select id="findListByCode" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
-		select id,
-			CODE,
-			PROVINCE,
-			CITY,
-			DISTRICT
-		from sys_nation where parent_id = (select id from sys_nation where code = #{code})
-	</select>
-	<select id="findListById" resultType="com.hailu.cloud.api.basic.module.nation.entity.Nation">
-		select id,
-			CODE,
-			PROVINCE,
-			CITY,
-			DISTRICT
-		from sys_nation where parent_id = #{id}
-	</select>
-
 </mapper>
