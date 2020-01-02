@@ -19,7 +19,7 @@ public interface INationService {
      * @param parentCode
      * @return
      */
-    Object findListByParentCode(String parentCode);
+    List<Nation> findListByParentCode(String parentCode);
 
     /**
      * 根据区code查询父code
@@ -38,7 +38,6 @@ public interface INationService {
 
 
 
-
     /**
      * 根据code的集合查找list数据
      * @param parameter
@@ -48,5 +47,5 @@ public interface INationService {
 
 
 
-    Object findParentListByCode(String code);
+    List<Nation> findParentListByCode(String code);
 }

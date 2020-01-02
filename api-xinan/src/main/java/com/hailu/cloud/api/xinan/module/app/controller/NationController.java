@@ -1,5 +1,6 @@
 package com.hailu.cloud.api.xinan.module.app.controller;
 
+import com.hailu.cloud.api.xinan.module.app.entity.Nation;
 import com.hailu.cloud.api.xinan.module.app.service.INationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @BelongsProject: shopping-mall
@@ -34,42 +36,20 @@ public class NationController {
     private INationService nationService;
 
 
-    @GetMapping("/findListByParentId")
-    @ApiOperation(value = "获取省市区信息", notes = "<pre>{\n" +
-            "  \"code\": 0,\n" +
-            "  \"msg\": \"成功\",\n" +
-            "  \"data\": [\n" +
-            "    {\n" +
-            "      \"name\": \"河北省\",\n" +
-            "      \"id\": 36,\n" +
-            "      \"parentId\": 1\n" +
-            "      \"adCode\": 110115\n" +
-            "    },\n</pre>" +
-            "    <pre>{\n" +
-            "      \"name\": \"山西省\",\n" +
-            "      \"id\": 230,\n" +
-            "      \"parentId\": 1\n" +
-            "      \"adCode\": 110115\n" +
-            "    },\n</pre>" +
-            "    <pre>{\n" +
-            "      \"name\": \"内蒙古自治区\",\n" +
-            "      \"id\": 372,\n" +
-            "      \"parentId\": 1\n" +
-            "      \"adCode\": 110115\n" +
-            "     }],</pre>" +
-            "\"serverTime\": 1572426443079}")
+    @GetMapping("/findListByParentCode")
+    @ApiOperation(value = "获取省市区信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "parentId", value = "父级ID(查询省信息父类ID为1)",required = true, dataType = "Long", paramType = "query"),
+            @ApiImplicitParam(name = "parentCode", value = "父级ID(查询省信息父类ID为1)",required = true, dataType = "Long", paramType = "query"),
     })
-    public Object findListByParentId(@NotNull(message = "父级ID不能为空") String parentId) {
+    public List<Nation> findListByParentId(@NotNull(message = "父级ID不能为空") String parentCode) {
 
-        log.info("查询城市地址ID为：{}",parentId);
-        return nationService.findListByParentCode(parentId);
+        log.info("查询城市地址ID为：{}",parentCode);
+        return nationService.findListByParentCode(parentCode);
     }
 
     @ApiImplicitParam(name = "code", value = "城市代码(如果不传默认查询省)", required = false, paramType = "query", dataType = "String")
     @GetMapping("/findParentListByCode")
-    public Object findParentListByCode( String code){
+    public List<Nation> findParentListByCode( String code){
         log.info("查询城市地址Code为：{}",code);
         return nationService.findParentListByCode(code);
     }

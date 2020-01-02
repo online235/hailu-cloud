@@ -50,7 +50,7 @@ public interface NationMapper {
      * @param parentCode
      * @return
      */
-    List<Nation> findByParentId(@Param("parentCode") String parentCode);
+    List<Nation> findByParentCode(@Param("parentCode") String parentCode);
 
     /**
      * 根据名称查找该数据

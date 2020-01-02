@@ -25,20 +25,11 @@ public class NatiovServiceImpl implements INationService {
 
     @Override
     @Cacheable(value = "area", key = "#parentCode")
-    public Object findListByParentCode(String parentCode) {
-
-        List<Nation> nationList = nationMapper.findByParentId(parentCode);
-        JSONArray jsonArray = new JSONArray();
-        for (Nation n : nationList) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", n.getId());
-            jsonObject.put("name", n.getAreaName());
-            jsonObject.put("parentId", n.getParentCode());
-            jsonObject.put("adCode", n.getCode());
-            jsonArray.add(jsonObject);
-        }
-        return jsonArray;
+    public List<Nation> findListByParentCode(String parentCode) {
+        List<Nation> nationList = nationMapper.findByParentCode(parentCode);
+        return nationList;
     }
+
 
     @Override
     public String findCodeBySonCode(String Code) {
@@ -51,7 +42,6 @@ public class NatiovServiceImpl implements INationService {
     }
 
 
-
     @Override
     public List<Nation> findListByCodeArray(Object parameter) {
         return nationMapper.findListByCodeArray(parameter);
@@ -59,76 +49,10 @@ public class NatiovServiceImpl implements INationService {
 
     @Cacheable(value = "areaCode", key = "#code")
     @Override
-    public Object findParentListByCode(String code) {
-            List<Nation> nationList = null;
-            if(StringUtils.equals(code,"1")){
-                nationList = nationMapper.findByParentId(1L);
-            }else {
-                nationList = nationMapper.findListByCode(code);
-            }
-        return nationToJSOn(nationList);
-    }
+    public List<Nation> findParentListByCode(String code) {
 
-    /**
-     * 城市集合转JSON
-     * @param nationList
-     * @return
-     */
-    private JSONArray nationToJSOn(List<Nation> nationList){
-        JSONArray jsonArray = new JSONArray();
-        for (Nation n : nationList) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", n.getId());
-            String name = null;
-            if (StringUtils.isNotBlank(n.getProvince())) {
-                name = n.getProvince();
-            } else if (StringUtils.isNotBlank(n.getCity())) {
-                name = n.getCity();
-            } else if (StringUtils.isNotBlank(n.getDistrict())) {
-                name = n.getDistrict();
-            }
-            jsonObject.put("name", name);
-            jsonObject.put("adCode", n.getCode());
-            jsonArray.add(jsonObject);
-        }
-        return jsonArray;
-    }
-
-    @Cacheable(value = "areaCode", key = "#code")
-    @Override
-    public Object findParentListByCode(String code) {
-            List<Nation> nationList = null;
-            if(StringUtils.equals(code,"1")){
-                nationList = nationMapper.findByParentId(1L);
-            }else {
-                nationList = nationMapper.findListByCode(code);
-            }
-        return nationToJSOn(nationList);
-    }
-
-    /**
-     * 城市集合转JSON
-     * @param nationList
-     * @return
-     */
-    private JSONArray nationToJSOn(List<Nation> nationList){
-        JSONArray jsonArray = new JSONArray();
-        for (Nation n : nationList) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", n.getId());
-            String name = null;
-            if (StringUtils.isNotBlank(n.getProvince())) {
-                name = n.getProvince();
-            } else if (StringUtils.isNotBlank(n.getCity())) {
-                name = n.getCity();
-            } else if (StringUtils.isNotBlank(n.getDistrict())) {
-                name = n.getDistrict();
-            }
-            jsonObject.put("name", name);
-            jsonObject.put("adCode", n.getCode());
-            jsonArray.add(jsonObject);
-        }
-        return jsonArray;
+        List<Nation> nationList = nationMapper.findByParentCode(code);
+        return nationList;
     }
 
 }
