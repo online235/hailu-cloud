@@ -25,6 +25,11 @@ merchant:
       regional-agent: 0.15
       # 服务商提成
 
+# 宅急送
+homedelivery:
+  # 密钥
+  key: aafc04a1bacb487fa8d03f2a7bfdb555
+
 
 chinaums:
   key: fcAmtnx7MwismjWNhNKdHC44mNXtnEQeJkRrhKJwyrW2ysRR

@@ -54,6 +54,14 @@
             <artifactId>common</artifactId>
             <version>v1.0.0</version>
         </dependency>
+
+        <!--工具-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
         <!-- 缓存 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

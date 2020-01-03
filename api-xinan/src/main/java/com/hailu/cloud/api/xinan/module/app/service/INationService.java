@@ -22,6 +22,13 @@ public interface INationService {
     List<Nation> findListByParentCode(String parentCode);
 
     /**
+     * 根据code查询城市名称
+     * @param code
+     * @return
+     */
+    String findCityNameByCode(String code);
+
+    /**
      * 根据区code查询父code
      * @param Code
      * @return

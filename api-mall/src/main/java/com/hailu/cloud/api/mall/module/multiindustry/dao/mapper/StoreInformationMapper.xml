@@ -42,7 +42,7 @@
         store.*,
         management.management_name as storeTotalTypeName,
         management1.management_name as storeTypeName,
-        sn.DISTRICT
+        sn.AREA_NAME
         from mc_store_information store
         left join mc_management_type management on management.management_id = store.store_total_type
         left join mc_management_type management1 on management1.management_id = store.store_son_type
@@ -87,7 +87,7 @@
 
     <select id="findStoreInformationLeftAlbum" resultMap="McStoreInformationAlbumResultMap">
     select
-     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,store.street_code  store.detail_address,
+     store.id,  store.mc_number_id,  store.shop_name,  store.phone,  store.province_code,  store.city_code,  store.area_code,store.street_code ,store.detail_address,
      store.store_details,  store.per_capita_price,  store.store_son_type,  store.store_total_type,  store.business_state,
      store.business_time, store.date_time,  store.update_date_time,  store.to_examine,  store.default_head,  store.week_day,
      store.longitude,store.latitude

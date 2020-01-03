@@ -30,6 +30,11 @@ public class NatiovServiceImpl implements INationService {
         return nationList;
     }
 
+    @Override
+    public String findCityNameByCode(String code) {
+        return nationMapper.findCityNameByCode(code);
+    }
+
 
     @Override
     public String findCodeBySonCode(String Code) {

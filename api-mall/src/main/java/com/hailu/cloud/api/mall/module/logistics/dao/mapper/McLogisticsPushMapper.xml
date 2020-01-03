@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hailu.cloud.api.mall.module.logistics.dao.McLogisticsPushMapper" >
+
+  <sql id="Base_Column_List" >
+    id, client_flag, mail_no, order_no, contacter, contact_phone, time, desc, action, 
+    city, facility_type, facility_no, facility_name, tz, next_city, next_node_type, next_node_code, 
+    nex_node_name, country, next_mail_no, next_source_name, signer, exception_code, exception_desc, 
+    date_time
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    extended_field, remark
+  </sql>
+
+  <select id="selectByPrimaryKey" resultType="com.hailu.cloud.api.mall.module.logistics.entity.McLogisticsPush" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mc_logistics_push
+    where id = #{id}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mc_logistics_push
+    where id = #{id}
+  </delete>
+
+  <insert id="insertSelective" parameterType="com.hailu.cloud.api.mall.module.logistics.entity.McLogisticsPush" useGeneratedKeys="true" keyProperty="id" >
+    insert into mc_logistics_push
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clientFlag != null" >
+        client_flag,
+      </if>
+      <if test="mailNo != null" >
+        mail_no,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="contacter != null" >
+        contacter,
+      </if>
+      <if test="contactPhone != null" >
+        contact_phone,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="desc != null" >
+        desc,
+      </if>
+      <if test="action != null" >
+        action,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="facilityType != null" >
+        facility_type,
+      </if>
+      <if test="facilityNo != null" >
+        facility_no,
+      </if>
+      <if test="facilityName != null" >
+        facility_name,
+      </if>
+      <if test="tz != null" >
+        tz,
+      </if>
+      <if test="nextCity != null" >
+        next_city,
+      </if>
+      <if test="nextNodeType != null" >
+        next_node_type,
+      </if>
+      <if test="nextNodeCode != null" >
+        next_node_code,
+      </if>
+      <if test="nexNodeName != null" >
+        nex_node_name,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="nextMailNo != null" >
+        next_mail_no,
+      </if>
+      <if test="nextSourceName != null" >
+        next_source_name,
+      </if>
+      <if test="signer != null" >
+        signer,
+      </if>
+      <if test="exceptionCode != null" >
+        exception_code,
+      </if>
+      <if test="exceptionDesc != null" >
+        exception_desc,
+      </if>
+      <if test="dateTime != null" >
+        date_time,
+      </if>
+      <if test="extendedField != null" >
+        extended_field,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clientFlag != null" >
+        #{clientFlag},
+      </if>
+      <if test="mailNo != null" >
+        #{mailNo},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo},
+      </if>
+      <if test="contacter != null" >
+        #{contacter},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone},
+      </if>
+      <if test="time != null" >
+        #{time},
+      </if>
+      <if test="desc != null" >
+        #{desc},
+      </if>
+      <if test="action != null" >
+        #{action},
+      </if>
+      <if test="city != null" >
+        #{city},
+      </if>
+      <if test="facilityType != null" >
+        #{facilityType},
+      </if>
+      <if test="facilityNo != null" >
+        #{facilityNo},
+      </if>
+      <if test="facilityName != null" >
+        #{facilityName},
+      </if>
+      <if test="tz != null" >
+        #{tz},
+      </if>
+      <if test="nextCity != null" >
+        #{nextCity},
+      </if>
+      <if test="nextNodeType != null" >
+        #{nextNodeType},
+      </if>
+      <if test="nextNodeCode != null" >
+        #{nextNodeCode},
+      </if>
+      <if test="nexNodeName != null" >
+        #{nexNodeName},
+      </if>
+      <if test="country != null" >
+        #{country},
+      </if>
+      <if test="nextMailNo != null" >
+        #{nextMailNo},
+      </if>
+      <if test="nextSourceName != null" >
+        #{nextSourceName},
+      </if>
+      <if test="signer != null" >
+        #{signer},
+      </if>
+      <if test="exceptionCode != null" >
+        #{exceptionCode},
+      </if>
+      <if test="exceptionDesc != null" >
+        #{exceptionDesc},
+      </if>
+      <if test="dateTime != null" >
+        #{dateTime},
+      </if>
+      <if test="extendedField != null" >
+        #{extendedField},
+      </if>
+      <if test="remark != null" >
+        #{remark},
+      </if>
+    </trim>
+  </insert>
+</mapper>
